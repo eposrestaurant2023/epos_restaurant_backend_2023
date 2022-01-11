@@ -28,6 +28,8 @@
         <PageBody>
             @if (business_branch.outlets.Any())
             {
+
+
                 <MudTabs PanelClass="pa-6">
                     @foreach (var o in business_branch.outlets)
                     {
@@ -95,41 +97,52 @@
                                                         <ThAuto>@lang["Table​ Name"]</ThAuto>
                                                         <ThCenter>@lang["Width"]</ThCenter>
                                                         <ThCenter>@lang["Height"]</ThCenter>
-                                                        <th>@lang["Shape"]</th>
                                                         <th>@lang["Sale Type"]</th>
                                                         <ThCenter>@lang["Sort Order"]</ThCenter>
                                                         <th>@lang["Price Rule"]</th>
 
                                                     </tr>
-                                                    @foreach (var s in d.tables.OrderBy(r => r.sort_order))
+                                                    @if (d.tables.Any())
                                                     {
-                                                        <tr>
-                                                            <td>
-                                                                @if (!string.IsNullOrEmpty(s.shape))
-                                                                {
-                                                                    @if (s.shape == "Circle")
-                                                                    {
-                                                                        <div class="tbl_circle">
-                                                                            @s.table_name
-                                                                        </div>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <div class="tbl_rectangle">
-                                                                            @s.table_name
-                                                                        </div>
-                                                                    }
+                                                        @foreach (var s in d.tables.OrderBy(r => r.sort_order))
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                        @if (s.shape == "Circle")
+                                                                        {
+                                                                            <div class="tbl_circle uk-flex-center uk-flex uk-flex-middle">
+                                                                                <div class="tex_over" uk-tooltip="@s.table_name">
+                                                                                    @s.table_name
+                                                                                </div>
+                                                                            </div>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <div class="tbl_rectangle uk-flex-center uk-flex uk-flex-middle">
+                                                                                <div class="tex_over" uk-tooltip="@s.table_name">
+                                                                                    @s.table_name
+                                                                                </div>
+                                                                            </div>
+                                                                        }
+                                                             
 
-                                                                }
-                                                            </td>
-                                                            <TdCenter>@s.width</TdCenter>
-                                                            <TdCenter>@s.height</TdCenter>
-                                                            <td>@s.sale_type</td>
-                                                            <TdCenter>
-                                                                @s.sort_order
-                                                            </TdCenter>
-                                                            <td>@s.price_rule?.price_name</td>
-                                                        </tr>
+                                                                </td>
+                                                                <TdCenter>@s.width</TdCenter>
+                                                                <TdCenter>@s.height</TdCenter>
+                                                                <td>
+                                                                    @if (!string.IsNullOrEmpty(s.sale_type))
+                                                                    {
+                                                                        @lang[s.sale_type]
+                                                                    }
+                                                                </td>
+                                                                <TdCenter>
+                                                                    @s.sort_order
+                                                                </TdCenter>
+                                                                <td>
+                                                                        @s?.price_rule?.price_name
+                                                                </td>
+                                                            </tr>
+                                                        }
                                                     }
                                                 </table>
                                             </div>

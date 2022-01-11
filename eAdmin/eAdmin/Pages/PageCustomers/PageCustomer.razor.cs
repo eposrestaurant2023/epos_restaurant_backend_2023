@@ -29,7 +29,6 @@ namespace eAdmin.Pages.PageCustomers
         }
 
         DateTime date = DateTime.Now;
-
         public string ControllerApi
         {
             get
@@ -243,7 +242,6 @@ namespace eAdmin.Pages.PageCustomers
             {
                 RemoveFilter(state, f.state_property_name);
             }
-
             state.filters.RemoveAll(r => r.is_clear_all == true);
             state.pager.current_page = 1;
             await LoadData();

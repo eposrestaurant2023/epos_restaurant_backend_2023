@@ -524,8 +524,27 @@ input[type="text"] {
    overflow:auto;
 
 }
+
 .uk-offcanvas-bar .uk-form-label {
     color: #525252; 
+}
+.tbl_circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 5px solid #28dddd;
+    text-align: center;
+}
+.tex_over {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tbl_rectangle {
+    width: 50px;
+    height: 35px;
+    border: 5px solid #ffd6b2;
+    text-align: center;
 }
 .uk-offcanvas-bar .uk-close {
     color: rgb(0 0 0) !important;

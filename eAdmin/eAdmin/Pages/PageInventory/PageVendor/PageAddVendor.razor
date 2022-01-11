@@ -1,5 +1,6 @@
 ﻿@page "/vendor/new"
 @page "/vendor/edit/{id:int}"
+@page "/vendor/clone/{clone_id:int}"
 @inherits PageCore
 
 <Loading is_loading="@is_loading" />
@@ -21,7 +22,7 @@
                             <div>@lang["Add New Vendor"]</div>
                         }
                     </HeaderTemplate>
-                  
+
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
@@ -64,21 +65,21 @@
 
                     </UIContainerBox>
                     <UIContainerBox Title="@lang["Address & Note"]">
-                     <MudTabs PanelClass="pa-6">
-                         <MudTabPanel Text="@lang["Address"]">
-                             <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Address"]" @bind="model.address" rows="2">@model.address</textarea>
-                         </MudTabPanel>
-                         <MudTabPanel Text="@lang["Note"]">
-                             <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Note"]" @bind="model.note" rows="2">@model.note</textarea>
-                         </MudTabPanel>
-                     </MudTabs>
-                   
+                        <MudTabs PanelClass="pa-6">
+                            <MudTabPanel Text="@lang["Address"]">
+                                <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Address"]" @bind="model.address" rows="2">@model.address</textarea>
+                            </MudTabPanel>
+                            <MudTabPanel Text="@lang["Note"]">
+                                <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Note"]" @bind="model.note" rows="2">@model.note</textarea>
+                            </MudTabPanel>
+                        </MudTabs>
+
                     </UIContainerBox>
                 </UIGridCenter>
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <ComSavingFormButton is_loading="@is_saving" is_show_cancel_back="true" OnCancel="@OnCancel" is_show_save_new="true" OnSaveNew="@(()=>is_save_and_new = true)"/>
+                    <ComSavingFormButton is_loading="@is_saving" is_show_cancel_back="true" OnCancel="@OnCancel" is_show_save_new="true" OnSaveNew="@(()=>is_save_and_new = true)" />
                 </FooterCenter>
             </PageFooter>
         </EditForm>
@@ -90,7 +91,7 @@
     [Parameter] public bool is_save_and_new { get; set; }
     VendorModel model = new VendorModel();
     List<VendorGroupModel> vendor_group = new List<VendorGroupModel>();
-    string controller_api = "Vendor"; 
+    string controller_api = "Vendor";
     public string ControllerApi
     {
         get
@@ -110,8 +111,18 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        await LoadData("");
-        await LoadVendorGroup();
+        @if(clone_id > 0)
+        {
+            await CloneVendor();
+            await LoadVendorGroup();
+        }
+        else
+        {
+            await LoadData("");
+            await LoadVendorGroup();
+        }
+
+
         is_loading = false;
     }
 
@@ -155,9 +166,34 @@
 
     }
 
+
+    public async Task CloneVendor()
+    {
+        is_loading = true;
+
+
+        var resp = await http.ApiPost($"Vendor/Clone/{clone_id}");
+        if (resp.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<VendorModel>(resp.Content.ToString());
+        }
+
+
+        is_loading = false;
+
+    }
+
+
+    public void Clone_Click(int id)
+    {
+        is_loading_data = true;
+        nav.NavigateTo($"vendor/clone/{id}");
+        is_loading_data = false;
+    }
+
     async Task Save_Click(EditContext editContext)
     {
-       
+
         model.vendor_group = null;
         VendorModel d = model;
         if (!is_saving)
@@ -166,12 +202,13 @@
 
             Object obj = new Object();
             VendorModel save_outlet = JsonSerializer.Deserialize<VendorModel>(JsonSerializer.Serialize(d));
+            save_outlet.province = null;
 
             var res = await http.ApiPost($"{controller_api}/save", save_outlet);
             if (res.IsSuccess)
             {
                 var v = JsonSerializer.Deserialize<VendorModel>(res.Content.ToString());
-
+                
                 toast.Add(lang["Saving successfully"], MudBlazor.Severity.Success);
                 if (is_save_and_new)
                 {
@@ -183,7 +220,7 @@
                 {
                     nav.NavigateTo($"vendor/{v.id}");
                 }
-                
+
             }
             else
             {
