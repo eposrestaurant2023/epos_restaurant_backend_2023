@@ -118,7 +118,7 @@
                                             <SelectShape @bind-selected_value="@s.shape" />
                                         </td>
                                         <td>
-                                            <SelectPriceRule selected_value="@s.price_rule_id" outlet="@model.outlet" is_inline="true" show_empty="true" width="100px" />
+                                            <SelectPriceRule @bind-selected_value="@s.price_rule_id" outlet="@model.outlet" is_inline="true" show_empty="true" width="100px" />
                                         </td>
                                         <td>
                                             <SelectSaleType @bind-selected_value="@s.sale_type" is_horizontal="false" width="50px" is_inline="true" show_empty="true"/>
@@ -272,7 +272,6 @@
             
           
             save_table_group.outlet = null;
-            save_table_group.tables.ForEach(r => r.price_rule_id = null);
             var res = await http.ApiPost($"{ControllerApi}/save", save_table_group);
             if (res.IsSuccess)
             {

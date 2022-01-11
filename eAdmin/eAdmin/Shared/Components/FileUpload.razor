@@ -5,85 +5,85 @@
 @using Microsoft.Extensions.Configuration;
 @inject IConfiguration config
 @inject IJSRuntime js
-<InputImage image_url="@($"{config["BaseUrl"]}upload/{ImageUrl}")" class_name="@class_name">
-    <label style="position: absolute; top: 0px; right: 0px;">
-        <Icon icon="edit" className="edit_profile_image" title="Upload Image"></Icon>
-        <div class="uk-hidden">
-              <MatFileUpload OnChange="HandleSelection" Style="display: none;" />
-        </div>
-    </label>
-    <Com is_visible="ShowUploadCamara">
-        <label @onclick="@(() => { showCamera = true; })" class="upload-by-cam">
-            <span class="upload-profile-icon upload-profile-icon-cam">
-                <Icon icon="photo_camera" title="From Camera" />
-            </span>
+@inject ISnackbar toast
+
+@if (is_square == true)
+{
+    <div class="spuare_class">
+        <InputImage image_url="@($"{config["BaseUrl"]}upload/{ImageUrl}")" class_name="@class_name">
+            <label>
+                <MudItem Class="mud-theme-primary darken-4">
+                    <Icon icon="edit" className="edit_profile_image black-text" title="Upload Image" />
+                </MudItem>
+                <InputFile OnChange="UploadFiles" style="display: none;" />
+            </label>
+        </InputImage>
+    </div>
+}
+else
+{
+    <InputImage image_url="@($"{config["BaseUrl"]}upload/{ImageUrl}")" class_name="@class_name">
+        <label style="position: absolute; top: 0px; right: 0px;">
+            <MudItem Class="mud-theme-primary darken-4">
+                <Icon icon="edit" className="edit_profile_image black-text" title="Upload Image" />
+            </MudItem>
+            <InputFile OnChange="UploadFiles" style="display: none;" />
         </label>
-    </Com>
-</InputImage>
-<Com is_visible="showCamera">
-    <CaptureCamera guid="@guid" SaveCapturedImage="SaveCapturedImage" @bind-ShowCamara="showCamera" />
-</Com>
+    </InputImage>
+}
+
+
 @code {
     public bool showCamera { get; set; } = false;
-    
+
     [Parameter] public string ImageUrl { get; set; } = "";
+    [Parameter] public bool is_square { get; set; }
     [Parameter] public bool ShowUploadCamara { get; set; } = true;
-    [Parameter] public InputFileData SelectedFiles { get; set; } = new InputFileData();
     [Parameter] public EventCallback<string> ImageUrlChanged { get; set; }
     [Parameter] public Dictionary<string, object> CustomAttributes { get; set; }
     [Parameter] public string SaveFolderName { get; set; } = "";
     [Parameter] public string class_name { get; set; } = "";
     [Parameter] public string guid { get; set; } = "";
-    InputFileData _data_form = new InputFileData();
-
+    InputFileData form_data = new InputFileData();
+    IBrowserFile file { get; set; }
 
 
     protected override void OnParametersSet()
     {
-        SelectedFiles.SaveFolderPath = SaveFolderName;
         if (string.IsNullOrEmpty(ImageUrl))
         {
             ImageUrl = "placeholder.png";
         }
     }
 
-
-    async Task HandleSelection(IMatFileUploadEntry[] files)
+    async Task UploadFiles(InputFileChangeEventArgs e)
     {
-        var file = files.FirstOrDefault();
+        var file = e.GetMultipleFiles().FirstOrDefault();
+        form_data = new InputFileData();
+        long maxFileSize = 1024 * 1024 * 2;
         if (file != null)
         {
-            var ms = new MemoryStream();
-            await file.WriteToStreamAsync(ms);
+            if (file.Size > maxFileSize)
+            {
+                toast.Add("Maximum file size 2MB", Severity.Error);
+                return;
+            }
 
-            string _new_image = (Guid.NewGuid()).ToString() + file.Name;
-
-            var bytecontent = new ByteArrayContent(ms.GetBuffer());
-            bytecontent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
-            var content = new MultipartFormDataContent { { bytecontent, "\"upload\"", _new_image } };
+            var fileContent = new StreamContent(file.OpenReadStream(maxFileSize));
+            string _new_image = string.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + file.Name;
 
 
-            _data_form.multipartForm = content;
-            _data_form.ImageUrl = _new_image;
+            form_data.ImageUrl = _new_image;
+            form_data.multipartForm.Add(
+                        content: fileContent,
+                        name: "\"upload\"",
+                        fileName: _new_image);
 
             await Save_Click();
         }
     }
 
-    async Task Save_Click()
-    {
-        var client = new HttpClient();
 
-        var url = $"{config["apiBaseUrl"]}upload?folder={_data_form.SaveFolderPath}";
-        var resp = await client.PostAsync(url, _data_form.multipartForm);
-
-        if (resp.IsSuccessStatusCode)
-        {
-            ImageUrl = $"{_data_form.ImageUrl}";
-            await ImageUrlChanged.InvokeAsync(ImageUrl);
-        }
-
-    }
     public async Task SaveCapturedImage(string CapturedImageUrl)
     {
         string _new_image = string.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + "_capture.jpeg";
@@ -94,10 +94,25 @@
         var content = new MultipartFormDataContent { { bytecontent, "\"upload\"", _new_image } };
 
 
-        _data_form.multipartForm = content;
-        _data_form.ImageUrl = _new_image;
+        form_data.multipartForm = content;
+        form_data.ImageUrl = _new_image;
 
         await Save_Click();
+    }
+
+    async Task Save_Click()
+    {
+        var client = new HttpClient();
+
+        var url = $"{config["apiBaseUrl"]}upload?folder={SaveFolderName}";
+        var resp = await client.PostAsync(url, form_data.multipartForm);
+
+        if (resp.IsSuccessStatusCode)
+        {
+            ImageUrl = $"{form_data.ImageUrl}";
+            await ImageUrlChanged.InvokeAsync(ImageUrl);
+        }
+
     }
 
 

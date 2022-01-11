@@ -38,6 +38,8 @@
 
                         <MoreButtonItem roles="@gv.GetRole("vendor_edit")" icon="edit" is_visible="@(!model.is_deleted)" OnClick="@(()=>OnEdit(model.id))">@lang["Edit"]</MoreButtonItem>
                     </MudHidden>
+
+                        <MoreButtonItem roles="@gv.GetRole("vendor_add")" icon="file_copy" is_visible="@(model.status && !model.is_deleted)" OnClick="@(()=>Clone_Click(model.id))">@lang["Clone"]</MoreButtonItem>
                         <MoreButtonItem roles="@gv.GetRole("vendor_edit")" icon="highlight_off" is_visible="@(model.status && !model.is_deleted)" OnClick="@(()=>OnToogleStatus(model))">@lang["Inactive"]</MoreButtonItem>
                         <MoreButtonItem roles="@gv.GetRole("vendor_edit")" icon="check" is_visible="@(!model.status && !model.is_deleted)" OnClick="@(() => OnToogleStatus(model))">@lang["Active"]</MoreButtonItem>
                         <MoreButtonItem roles="@gv.GetRole("vendor_delete")" icon="delete" is_visible="@(!model.is_deleted)" OnClick="@(() => OnDelete(model))">@lang["Delete"]</MoreButtonItem>
@@ -84,11 +86,14 @@
                                             <th>@lang["Vendor Group"]</th>
                                             <td>@model.vendor_group?.vendor_group_name_en</td>
                                         </tr>
-
                                     </table>
                                 </ContentLeft>
                                 <ContentRight>
                                     <table>
+                                        <tr>
+                                            <th>@lang["Province"]</th>
+                                            <td>@model?.province?.province_name</td>
+                                        </tr>
                                         <tr>
                                             <th>@lang["Mobile Phone"]</th>
                                             <td>@model.mobile_phone</td>
@@ -106,14 +111,11 @@
                                 </ContentRight>
                             </UISummaryBox>
                         }
-
                         <UIContainerBox Title="@lang["Social Media Information"]">
                             <ListTable>
                                 <ListTableItem ItemTitle="@lang["Email"]">@model.email_address</ListTableItem>
-
                             </ListTable>
-                        </UIContainerBox>
-
+                        </UIContainerBox> 
                         <UIContainerBox Title="@lang["Note"]" is_visible="@(!string.IsNullOrEmpty(model.note))">
                             @model.note
                         </UIContainerBox>
@@ -121,7 +123,6 @@
                             @model.address
                         </UIContainerBox>
                     </UIGridCenter>
-
                     <div class="invoice_footer_description">
                         <div>
                             @lang["Created by"] @model.created_by @lang["on"] @model.created_date.ToString(gv.date_time_format)
@@ -167,10 +168,6 @@
             </MudTabs>
         </PageBody>
     </PageContainer>
-
-   
-
-    
 }
 @if (is_error)
 {

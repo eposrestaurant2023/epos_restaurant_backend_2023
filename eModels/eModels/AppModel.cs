@@ -39,7 +39,7 @@ namespace eModels
         public string document_name { get; set; }
         public string prefix { get; set; }
         public string format { get; set; }
-        public int counter { get; set; }
+        public int counter { get; set; } 
         public string counter_digit { get; set; }
     }
 
