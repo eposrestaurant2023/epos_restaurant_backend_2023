@@ -534,7 +534,7 @@
                 <Value>=First(Fields!company_name_en.Value, "Setting")</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
-                  <FontFamily>Khmer OS Battambang</FontFamily>
+                  <FontFamily>kh system</FontFamily>
                   <FontSize>14pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -563,7 +563,7 @@
                 <Value>លេខទូរស័ព្ទ</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
-                  <FontFamily>Khmer OS Battambang</FontFamily>
+                  <FontFamily>kh system</FontFamily>
                   <FontSize>8pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -571,21 +571,10 @@
                 </Style>
               </TextRun>
               <TextRun>
-                <Value>: </Value>
+                <Value>:</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
-                  <FontFamily />
-                  <FontSize>8.5pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
-                  <TextDecoration>None</TextDecoration>
-                  <Color>#000000</Color>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>=First(Fields!phone_1.Value, "Setting")</Value>
-                <Style>
-                  <FontStyle>Normal</FontStyle>
-                  <FontFamily />
+                  <FontFamily>kh system</FontFamily>
                   <FontSize>8.5pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -604,10 +593,32 @@
                 </Style>
               </TextRun>
               <TextRun>
+                <Value>=First(Fields!phone_1.Value, "Setting")</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>kh system</FontFamily>
+                  <FontSize>8.5pt</FontSize>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                  <Color>#000000</Color>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value xml:space="preserve"> </Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>kh system</FontFamily>
+                  <FontSize>8.5pt</FontSize>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                  <Color>#000000</Color>
+                </Style>
+              </TextRun>
+              <TextRun>
                 <Value>=iif(First(Fields!phone_2.Value, "Setting")="","","/" +First(Fields!phone_2.Value, "Setting"))</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
-                  <FontFamily />
+                  <FontFamily>kh system</FontFamily>
                   <FontSize>8.5pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -660,7 +671,7 @@
                             <TextRun>
                               <Value>បង្កាន់ដៃ</Value>
                               <Style>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>

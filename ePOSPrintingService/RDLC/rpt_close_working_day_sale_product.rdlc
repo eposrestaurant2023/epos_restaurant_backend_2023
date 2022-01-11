@@ -12,6 +12,7 @@
                 <Value>=First(Fields!company_name_en.Value, "Setting")</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
+                  <FontFamily>kh system</FontFamily>
                   <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -30,6 +31,7 @@
 </Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
+                  <FontFamily>kh system</FontFamily>
                   <FontSize>7pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -40,6 +42,7 @@
                 <Value>=First(Fields!address_en.Value, "Setting")</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
+                  <FontFamily>kh system</FontFamily>
                   <FontSize>8.5pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -50,6 +53,7 @@
                 <Value xml:space="preserve"> </Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
+                  <FontFamily>kh system</FontFamily>
                   <FontSize>8.5pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -67,6 +71,7 @@
                 <Value>Tel : </Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
+                  <FontFamily>kh system</FontFamily>
                   <FontSize>8.5pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -77,6 +82,7 @@
                 <Value>=First(Fields!phone_1.Value, "Setting")</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
+                  <FontFamily>kh system</FontFamily>
                   <FontSize>8.5pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -87,6 +93,7 @@
                 <Value xml:space="preserve"> </Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
+                  <FontFamily>kh system</FontFamily>
                   <FontSize>8.5pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -97,6 +104,7 @@
                 <Value>=iif(First(Fields!phone_2.Value, "Setting")="","","/" +First(Fields!phone_2.Value, "Setting"))</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
+                  <FontFamily>kh system</FontFamily>
                   <FontSize>8.5pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -231,7 +239,7 @@
                             <TextRun>
                               <Value>=Fields!working_day_number.Value</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -311,7 +319,7 @@
                             <TextRun>
                               <Value>=Fields!business_branch_name_en.Value</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -391,7 +399,7 @@
                             <TextRun>
                               <Value>=Fields!outlet_name_en.Value</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -471,7 +479,7 @@
                             <TextRun>
                               <Value>=Fields!cash_drawer_name.Value</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -551,7 +559,7 @@
                             <TextRun>
                               <Value>=format(Fields!created_date.Value, "dd/MM/yyyy hh:mm tt")</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -631,7 +639,7 @@
                             <TextRun>
                               <Value>=Fields!created_by.Value</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -711,7 +719,7 @@
                             <TextRun>
                               <Value>=iif(Fields!is_closed.Value = True, "Closed", "Opened")</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -791,7 +799,7 @@
                             <TextRun>
                               <Value>=format(Fields!closed_date.Value, "dd/MM/yyyy hh:mm tt")</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -871,7 +879,7 @@
                             <TextRun>
                               <Value>=Fields!closed_by.Value</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -925,7 +933,6 @@
         </TablixRowHierarchy>
         <DataSetName>WorkingDay</DataSetName>
         <Top>0.99973in</Top>
-        <Left>0in</Left>
         <Height>2.20932in</Height>
         <Width>2.77708in</Width>
         <ZIndex>1</ZIndex>
@@ -981,7 +988,6 @@
         </Paragraphs>
         <rd:DefaultName>Textbox25</rd:DefaultName>
         <Top>10.20226in</Top>
-        <Left>0in</Left>
         <Height>0.25in</Height>
         <Width>2.77707in</Width>
         <ZIndex>2</ZIndex>
@@ -1016,7 +1022,6 @@
         </Paragraphs>
         <rd:DefaultName>Textbox26</rd:DefaultName>
         <Top>0.69834in</Top>
-        <Left>0in</Left>
         <Height>0.25in</Height>
         <Width>2.77707in</Width>
         <ZIndex>3</ZIndex>
