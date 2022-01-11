@@ -52,13 +52,33 @@ namespace eAPIClient
             watcher.Created += sync.OnCreatedAsync;
 
 
-            watcher.Filter = "*.*";
+            watcher.Filter = "*.txt";
             watcher.IncludeSubdirectories = true;
             watcher.EnableRaisingEvents = true;
 
 
+            //watch for sync remote data
 
-             
+            var watcherRemoteData = new FileSystemWatcher(path);
+
+            watcherRemoteData.NotifyFilter = NotifyFilters.Attributes
+                                 | NotifyFilters.CreationTime
+                                 | NotifyFilters.DirectoryName
+                                 | NotifyFilters.FileName
+                                 | NotifyFilters.LastAccess
+                                 | NotifyFilters.LastWrite
+                                 | NotifyFilters.Security
+                                 | NotifyFilters.Size;
+
+
+            watcherRemoteData.Created += sync.OnSyncFromRemoteServerAsync;
+
+
+            watcherRemoteData.Filter = "*.bat";
+            watcherRemoteData.IncludeSubdirectories = true;
+            watcherRemoteData.EnableRaisingEvents = true;
+
+
 
             host.Run();
              

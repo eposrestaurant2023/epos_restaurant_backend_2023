@@ -63,16 +63,19 @@ namespace eAPI.Controllers
             {
                 db.Histories.Add(model);
             }
-            
+            try
+            {
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)), hub);
 
 
-            
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
 
-
-             
-            return Ok(model);
-
+                return Ok(model);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+      
 
         }
 

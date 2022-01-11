@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220111023430_change_data_type_datetime_to_datetime2_1")]
+    partial class change_data_type_datetime_to_datetime2_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,7 +96,8 @@ namespace eAPIClient.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("datetime");
 
                     b.Property<int>("multiplier_value")
                         .HasColumnType("int");
@@ -200,7 +203,8 @@ namespace eAPIClient.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("datetime");
 
                     b.Property<decimal?>("open_amount")
                         .HasColumnType("decimal(19,8)");
@@ -312,7 +316,7 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid?>("business_branch_id")
+                    b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("created_by")
@@ -376,7 +380,8 @@ namespace eAPIClient.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("datetime");
 
                     b.Property<Guid?>("last_update_business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -553,7 +558,8 @@ namespace eAPIClient.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("datetime");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
@@ -1115,7 +1121,8 @@ namespace eAPIClient.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("datetime");
 
                     b.Property<string>("old_table_name")
                         .HasColumnType("nvarchar(max)")
@@ -1371,7 +1378,8 @@ namespace eAPIClient.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("datetime");
 
                     b.Property<Guid>("outlet_id")
                         .HasColumnType("uniqueidentifier");
@@ -1501,7 +1509,8 @@ namespace eAPIClient.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("datetime");
 
                     b.Property<decimal>("multiplier")
                         .HasColumnType("decimal(19,8)");
@@ -1725,7 +1734,8 @@ namespace eAPIClient.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("datetime");
 
                     b.Property<Guid?>("modifier_id")
                         .HasColumnType("uniqueidentifier");
@@ -2058,7 +2068,8 @@ namespace eAPIClient.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("datetime");
 
                     b.Property<string>("open_note")
                         .HasColumnType("nvarchar(max)")

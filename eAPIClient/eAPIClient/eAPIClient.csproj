@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="log\**" />
     <Compile Remove="Upload\**" />
+    <Content Remove="log\**" />
     <Content Remove="Upload\**" />
+    <EmbeddedResource Remove="log\**" />
     <EmbeddedResource Remove="Upload\**" />
+    <None Remove="log\**" />
     <None Remove="Upload\**" />
   </ItemGroup>
 	<ItemGroup>
@@ -34,7 +38,6 @@
 	  <ProjectReference Include="..\..\eShareModel\eShareModel\eShareModel.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="log\" />
 	  <Folder Include="BackgroundServices\" />
 	  <Folder Include="uploads\telegram_images\" />
 	</ItemGroup>

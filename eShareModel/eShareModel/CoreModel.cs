@@ -28,6 +28,7 @@ namespace eShareModel
         public int id { get; set; }
         [MaxLength(100)]
         public string created_by { get; set; }
+        [Column(TypeName = "datetime")]
         public DateTime created_date { get; set; } = DateTime.Now;
 
         [NotMapped]
@@ -40,16 +41,20 @@ namespace eShareModel
     {
         [MaxLength(100)]
         public string created_by { get; set; }
+        [Column(TypeName = "datetime")]
         public DateTime created_date { get; set; } = DateTime.Now;
 
         [MaxLength(100)]
         public string last_modified_by { get; set; }
+       
+        [Column(TypeName = "datetime")]
         public DateTime last_modified_date { get; set; } = DateTime.Now;
 
         public bool is_deleted { get; set; } = false;
 
         [MaxLength(100)]
         public string deleted_by { get; set; }
+        [Column(TypeName = "datetime")]
         public DateTime? deleted_date { get; set; } = DateTime.Now;
 
         public bool status { get; set; } = true;

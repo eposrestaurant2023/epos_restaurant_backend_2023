@@ -40,7 +40,8 @@ namespace eAPIClient.Controllers
 
 
         [HttpGet("isClientAPIWork")]
-        [EnableQuery(MaxExpansionDepth = 0)]             
+        [EnableQuery(MaxExpansionDepth = 
+            0)]             
         public ActionResult<bool> IsAPIWorking()
         {
             return Ok();
@@ -51,7 +52,8 @@ namespace eAPIClient.Controllers
         [Route("GetData")]
         public ActionResult<string> GetData([FromBody] FilterModel f)
         {
-            var d = db.StoreProcedureResults.FromSqlRaw(string.Format("exec {0} {1}", f.procedure_name, f.procedure_parameter)).ToList().FirstOrDefault();
+            string sql = string.Format("exec {0} {1}", f.procedure_name, f.procedure_parameter);
+            var d = db.StoreProcedureResults.FromSqlRaw(sql).ToList().FirstOrDefault();
             if (d != null)
             {
                 string r = d.result.Replace("\\", "").Replace("\"[", "[").Replace("]\"", "]").ToString();
