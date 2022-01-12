@@ -77,12 +77,10 @@ namespace eAPI.Controllers
             var modelCheck = db.Customers.Where(r => r.id == p.id).AsNoTracking().Include(r => r.customer_business_branchs).AsNoTracking();
             var old_customer = modelCheck.FirstOrDefault();
 
-            if ((p.customer_code??"").ToLower() == "new" || p.customer_code == "")
-            {
                 string document_number = await app.GetDocumentNumber(19);
                 p.customer_code = document_number;
                 is_new = true;
-            }
+           
 
             if (old_customer == null)
             {
