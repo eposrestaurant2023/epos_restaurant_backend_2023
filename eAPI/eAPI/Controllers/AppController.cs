@@ -398,6 +398,14 @@ namespace eAPI.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Route("UpdateDataToClient")]
+        public ActionResult<string> UpdateDataToClient()
+        {
+            hub.Clients.All.SendAsync("Sync", "all");
+            return Ok();
+        }
+
 
     }
 }

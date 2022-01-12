@@ -19,6 +19,7 @@ namespace eAPIClient.Services
     {
 
         Task<bool> SyncSetting();
+        Task<bool> SyncAllData();
    
         void sendSyncRequest();
         void sendSyncRemoteDataRequest();
@@ -35,6 +36,7 @@ namespace eAPIClient.Services
 
         string path = "";
         string business_branch_name = "";
+        string business_branch_id = "";
 
         private readonly IWebHostEnvironment environment;
         public SyncService(ApplicationDbContext _db, IConfiguration _config, IHttpService _http, IWebHostEnvironment environment)
@@ -46,6 +48,7 @@ namespace eAPIClient.Services
             this.environment = environment;
            path  = environment.ContentRootPath + "\\logs";
             business_branch_name = _config.GetValue<string>("business_branch_name");
+            business_branch_id = _config.GetValue<string>("business_branch_id");
         }
 
 
@@ -444,7 +447,15 @@ namespace eAPIClient.Services
             }
             return false;
         }
+        public async Task<bool> SyncAllData()
+        {
+            await SyncSetting();
 
+            await SyncNote();
+
+            return true;
+            
+        }
         public async Task<bool> SyncSetting()
         {
 
@@ -501,6 +512,79 @@ namespace eAPIClient.Services
             return false;
 
         }
+
+
+        async Task<bool> SyncNote()
+        {
+
+            string _query = $"CategoryNote?$select=id,category_note_name_en,category_note_name_kh,is_multiple_select&$expand=notes($filter=is_deleted eq false and business_branch_id eq {business_branch_id})";
+            var resp = await http.ApiGetOData(_query);
+            if (resp.IsSuccess)
+            {
+
+                List<CategoryNoteModel> _tempNewCategoryNotes = new List<CategoryNoteModel>();
+                List<CategoryNoteModel> _tempAppendCategoryNotes = new List<CategoryNoteModel>();
+                List<NoteModel> _tempNewNotes = new List<NoteModel>();
+
+                List<CategoryNoteModel> _LocalCategoryNotes = new List<CategoryNoteModel>();
+
+
+                List<NoteModel> _LocalNotes = new List<NoteModel>();
+                _LocalNotes = db.Notes.AsNoTracking().ToList();
+
+                List<NoteCategory> data = new List<NoteCategory>();
+                data = JsonSerializer.Deserialize<List<NoteCategory>>(resp.Content.ToString());
+                //Get Category 
+                data.ForEach(c =>
+                {
+                    CategoryNoteModel _categoryNote = new CategoryNoteModel()
+                    {
+                        category_note_id = c.id,
+                        category_note_name_en = c.category_note_name_en,
+                        category_note_name_kh = c.category_note_name_kh,
+                        is_multiple_select = c.is_multiple_select
+                    };
+
+                    var _c = _LocalCategoryNotes.Where(r => r.category_note_id == c.id);
+                    if (_c.Count() > 0)
+                    {
+                        _categoryNote.id = _c.FirstOrDefault().id;
+                        _tempAppendCategoryNotes.Add(_categoryNote);
+                    }
+                    else
+                    {
+                        _categoryNote.id = Guid.NewGuid();
+                        _tempNewCategoryNotes.Add(_categoryNote);
+                    }
+                });
+
+
+                //
+
+                if (_tempNewCategoryNotes.Count() > 0)
+                {
+                    db.CategoryNotes.AddRange(_tempNewCategoryNotes);
+                }
+                if (_tempAppendCategoryNotes.Count() > 0)
+                {
+                    db.CategoryNotes.UpdateRange(_tempAppendCategoryNotes);
+                }
+
+                //clear local note
+                db.Database.ExecuteSqlRaw("exec sp_clear_data_before_sync_remote_database");
+
+                var remote_note = JsonSerializer.Deserialize<List<NoteModel>>(JsonSerializer.Serialize(data.SelectMany(r => r.notes).ToList()));
+                remote_note.ForEach(r => r.is_predefine_note = true);
+                db.Notes.AddRange(remote_note);
+
+                await db.SaveChangesAsync();
+                return true;
+            }else
+            {
+                return false;
+            }
+        }
+
 
         public void sendHistoryAlertTelegram(HistoryModel model)
         {

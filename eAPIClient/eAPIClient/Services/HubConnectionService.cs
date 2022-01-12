@@ -51,6 +51,7 @@ namespace eAPIClient.Services
             {
                 await connection.StartAsync();
             }catch{
+                
                 Log.Information("Connect to hub fail");
             }
         }
@@ -63,6 +64,9 @@ namespace eAPIClient.Services
             connection.On<string>("Sync", async data => {
                 switch (data)
                 {
+                    case "all": //sync all data
+                        await sync.SyncAllData();
+                        break;
                     case "setting":
                         await sync.SyncSetting();
                         break;

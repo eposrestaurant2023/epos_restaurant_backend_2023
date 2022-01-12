@@ -158,6 +158,7 @@ namespace eAPIClient.Controllers
                         List<SaleProductModel> temp_sale_products = model.sale_products;
                         model.sale_products = null;
                         db.Sales.Add(model);
+
                         await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                         model.sale_products = temp_sale_products;
                     }
