@@ -15,9 +15,9 @@
 
             @if (current_menu_id > 0)
             {
-                <div class="uk-width-1-4" style="position: relative;">
+                <div class="uk-width-1-4@l uk-width-1-4@m uk-width-1-4@s uk-width-1-2" style="position: relative;">
                     <div class="box cp" style="background: #ececec;text-align:center;" @onclick="@(()=>OnBack())">
-                        <div class="pos_icon_back">
+                        <div class="uk-position-center">
                             <Icon icon="reply " icon_color="#333333" size="43px" />
                             <div>@lang["Back"]</div>
                         </div>
@@ -28,7 +28,7 @@
 
             @foreach (var m in GetMenus)
             {
-                <div style="position:relative;" class="uk-width-1-4">
+                <div style="position:relative;" class="uk-width-1-4@l uk-width-1-4@m uk-width-1-4@s uk-width-1-2">
                     <div class="icon_edit">
                         <Icon icon="edit" icon_color="@m.text_color" @onclick="@(() => EditMenu(m))" />
                         @if (!IsMenuSelected(m))
@@ -44,19 +44,20 @@
                             </button>
                         }
                     </div>
+                    
                    @if (!IsMenuSelected(m))
                    {
 
                    
                         <div @onclick="@(() => MenuClick(m))" class="box cp" style="background:@m.background_color;color:@m.text_color;">
-                            <div>
-                                <div style="text-align: center; align-items: center; padding-top: 47px;">@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00"))</div>
+                            <div class="uk-position-center uk-text-center">
+                                <div>@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00"))</div>
                             </div>
                         </div>
                   }else { 
                         <div @onclick="@(() => MenuClick(m))" class="box cp" style="background:@m.background_color;color:@m.text_color; border:1px solid #cf564d;">
-                            <div>
-                                <div style="text-align: center; align-items: center; padding-top: 47px;">@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00"))</div>
+                            <div class="uk-position-center uk-text-center">
+                                <div>@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00"))</div>
                             </div>
                         </div>
                  }
@@ -67,9 +68,9 @@
             {
 
 
-                <div class="uk-width-1-4" style="position: relative;">
+                <div class="uk-width-1-4@l uk-width-1-4@m uk-width-1-4@s uk-width-1-2" style="position: relative;">
                     <div class="box cp" style="background: #ececec;text-align:center;" @onclick="@(()=>AddSubMenu())">
-                        <div class="pos_icon_back">
+                        <div class="uk-position-center">
                             <Icon icon="add" icon_color="#333333" size="43px" />
                             <div>@lang["Add"]</div>
                         </div>
