@@ -27,7 +27,8 @@ namespace eAPI.Controllers
         private readonly IHubContext<ConnectionHub> hub;
         public SaleController(ApplicationDbContext _db, AppService _app, IHubContext<ConnectionHub> _hub)
         {
-            db = _db;hub = _hub;
+            db = _db;
+            hub = _hub;
             app = _app;
         }
 

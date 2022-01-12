@@ -66,7 +66,7 @@ namespace eAPI.Controllers
             catch (Exception ex)
             {
                 var _ex = ex;
-                return BadRequest();
+                return BadRequest(ex.InnerException.Message);
             }
         }
 

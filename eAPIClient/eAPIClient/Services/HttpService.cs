@@ -43,7 +43,8 @@ namespace eAPIClient.Services
 
         public async Task<GetResponse> ApiGet(string url)
         {
-            HttpStatusCode StatusCode = new HttpStatusCode();       
+            HttpStatusCode StatusCode = new HttpStatusCode();
+            http.DefaultRequestHeaders.Remove("ContentType");
             http.DefaultRequestHeaders.Add("ContentType", "application/json"); 
             string val = _configuration.GetValue<string>("autherize_key");
             http.DefaultRequestHeaders.Remove("Authorization");
@@ -63,7 +64,8 @@ namespace eAPIClient.Services
         }
 
         public async Task<GetOdataResponse> ApiGetOData(string url)
-        {     
+        {
+            http.DefaultRequestHeaders.Remove("ContentType");
             http.DefaultRequestHeaders.Add("ContentType", "application/json");
             string val = _configuration.GetValue<string>("autherize_key");
             http.DefaultRequestHeaders.Remove("Authorization");
@@ -83,12 +85,13 @@ namespace eAPIClient.Services
 
         public async Task<PostReponse> ApiPost(string url, object obj = null)
         {
-            HttpStatusCode StatusCode = new HttpStatusCode();      
+            HttpStatusCode StatusCode = new HttpStatusCode();
+
+            http.DefaultRequestHeaders.Remove("ContentType");
             http.DefaultRequestHeaders.Add("ContentType", "application/json"); 
+            
             string val = _configuration.GetValue<string>("autherize_key");    
             http.DefaultRequestHeaders.Remove("Authorization");
-
-
             http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
 
             HttpRequestMessage requestMessage = new HttpRequestMessage();
@@ -147,6 +150,7 @@ namespace eAPIClient.Services
         public async Task<GetResponse> SendTelegram(string message)
         {
             HttpStatusCode StatusCode = new HttpStatusCode();
+            http.DefaultRequestHeaders.Remove("ContentType");
             http.DefaultRequestHeaders.Add("ContentType", "application/json");
 
             string url = $"{_configuration.GetValue<string>("telegram_alert_url")}bot{_configuration.GetValue<string>("telegram_alert_token")}/sendMessage?chat_id={_configuration.GetValue<string>("telegram_chat_id")}&text={message.Replace("#","")}";
@@ -166,6 +170,8 @@ namespace eAPIClient.Services
         public async Task<GetResponse> SendBackendTelegram(string message)
         {
             HttpStatusCode StatusCode = new HttpStatusCode();
+            http.DefaultRequestHeaders.Remove("ContentType");
+
             http.DefaultRequestHeaders.Add("ContentType", "application/json");
 
             string token = _configuration.GetValue<string>("backEndTelegramConfig:access_token");
