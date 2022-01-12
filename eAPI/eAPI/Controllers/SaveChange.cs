@@ -26,10 +26,13 @@ namespace eAPI.Controllers
                 {
                     var entidad = item.Entity as Core;
                     entidad.created_date = DateTime.Now;
-                    entidad.created_by = user.full_name;
+                    if (string.IsNullOrEmpty(entidad.created_by))
+                    {
+                        entidad.created_by = user.username;
+                    }
 
                     entidad.last_modified_date = DateTime.Now;
-                    entidad.last_modified_by = user.full_name;
+                    entidad.last_modified_by = user.username;
                 }
 
 
@@ -40,7 +43,11 @@ namespace eAPI.Controllers
                     if (entidad.is_deleted == true)
                     {
                         entidad.deleted_date = DateTime.Now;
-                        entidad.deleted_by = user.full_name;
+                        if( string.IsNullOrEmpty(entidad.deleted_by))
+                        {
+                            entidad.deleted_by = user.username;
+                        } 
+                        
                     }
 
                     entidad.last_modified_date = DateTime.Now;
@@ -67,7 +74,11 @@ namespace eAPI.Controllers
                 {
                     var entidad = item.Entity as CoreModel;
                     entidad.created_date = DateTime.Now;
-                    entidad.created_by = user.full_name;
+                    if (string.IsNullOrEmpty(entidad.created_by))
+                    {
+                        entidad.created_by = user.username;
+                    }
+                   
                 }
 
                 foreach (var item in db.ChangeTracker.Entries()
@@ -77,11 +88,15 @@ namespace eAPI.Controllers
                     if (entidad.is_deleted == true)
                     {
                         entidad.deleted_date = DateTime.Now;
-                        entidad.deleted_by = user.full_name;
+                        if (string.IsNullOrEmpty(entidad.deleted_by))
+                        {
+                            entidad.deleted_by = user.username;
+                        }
+                       
                     }
 
                     entidad.last_modified_date = DateTime.Now;
-                    entidad.last_modified_by = user.full_name;
+                    entidad.last_modified_by = user.username;
                 }
             }
             db.SaveChanges();

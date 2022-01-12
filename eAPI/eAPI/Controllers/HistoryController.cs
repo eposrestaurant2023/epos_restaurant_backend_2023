@@ -80,6 +80,35 @@ namespace eAPI.Controllers
         }
 
 
+        [HttpPost("Sync")]
+        public async Task<ActionResult<string>> Sync([FromBody] HistoryModel model)
+        {
+
+
+            var data = db.Histories.Where(r => r.id == model.id).AsNoTracking();
+            if (data.Any())
+            {
+                db.Histories.Update(model);
+            }
+            else
+            {
+                db.Histories.Add(model);
+            }
+            try
+            {
+               await db.SaveChangesAsync();
+
+
+
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+
+
+        }
 
 
         [HttpPost]

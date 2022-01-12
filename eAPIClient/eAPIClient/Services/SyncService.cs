@@ -336,7 +336,7 @@ namespace eAPIClient.Services
                     var _model = _modelData.FirstOrDefault();
 
                     _model.is_synced = true;
-                    var _syncResp = await http.ApiPost("History/Save", _model);
+                    var _syncResp = await http.ApiPost("History/Sync", _model);
                     if (!_syncResp.IsSuccess)
                     {
                         string _data = JsonSerializer.Serialize(_model);
@@ -540,10 +540,10 @@ namespace eAPIClient.Services
 
                
             http.SendBackendTelegram($"{business_branch_name}%0aStart sync data");
-            SyncDataToAdminDatabase();
+            await SyncDataToAdminDatabase();
 
             //run second time for sync some unsync data
-            SyncDataToAdminDatabase();
+            await SyncDataToAdminDatabase();
 
             DeleteOldLogFile();
 
