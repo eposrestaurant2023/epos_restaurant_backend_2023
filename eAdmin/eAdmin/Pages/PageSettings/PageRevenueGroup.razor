@@ -3,7 +3,6 @@
 <Loading is_loading="@(is_loading || is_saving)" />
 @if (!is_loading)
 {
-   
     <Title Value="@lang["Revenue Group"]"></Title>
     <PageContainer roles="@gv.GetRole("revenue_group_management")">
         <PageHeader>
@@ -18,7 +17,6 @@
                <RefreshButton OnClick="@OnInitializedAsync"/>
             </HeaderRight>
         </PageHeader>
-
         <PageBody>
             <UIGridCenter>
                 <UIContainerBox Title="@lang["Revenue Group"]">
