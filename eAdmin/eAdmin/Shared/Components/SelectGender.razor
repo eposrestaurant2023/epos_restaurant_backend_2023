@@ -13,16 +13,8 @@
     [Parameter] public string selected_value { get; set; } = "Male";
     [Parameter] public string Width { get; set; } = "100%";
     [Parameter] public string label { get; set; } = "Gender";
-
-
-    [Parameter]
-    public EventCallback<string> selected_valueChanged { get; set; }
-
-
+    [Parameter] public EventCallback<string> selected_valueChanged { get; set; }
     Guid id = Guid.NewGuid();
-
-
-
     private async Task SelectedValueChange(string n)
     {
         selected_value = n;

@@ -14,7 +14,7 @@
                     {
                         <li @onclick="@OnDeleteMenu"> <Icon icon="delete" />@lang["Delete"]</li>
                     }
-                <li @onclick="@OnMoveMenu"> <Icon icon="arrow_back" />@lang["Move to"]</li>
+                        <li @onclick="@OnMoveMenu"> <Icon icon="arrow_back" />@lang["Move to"]</li>
                 </ul>
             </div>
         </div>
@@ -24,7 +24,7 @@
         <div @onclick="@OnClick" class="box_menu cp" style="background-image:url(@http.ImageUrl(menu.photo)); background-size:cover;">
             <div class="uk-position-center uk-text-center">
                 <div style="background-color: #ffffffc7; color: #000; padding: 0px 3px; border-radius: 2px;">
-                    @ChildContent
+                    @ChildContent 
                 </div>
             </div>
         </div>
@@ -77,10 +77,6 @@
     }
 
     void OnSelectMenu() { }
-
-
-
-
     bool IsMenuSelected()
     {
         return true;
