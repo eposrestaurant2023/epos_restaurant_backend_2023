@@ -1,16 +1,31 @@
 ﻿using Microsoft.EntityFrameworkCore;    
 using System.Linq;             
-using eAPIClient.Models;             
+using eAPIClient.Models;
+using Microsoft.Extensions.Configuration;
+
 namespace eAPIClient
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+         IConfiguration config { get; }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration config) : base(options)
         {
-            
+            this.config = config;
 
         }
-    
+        public ApplicationDbContext(IConfiguration config )
+        {
+            this.config = config;
+
+        }
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            string connection_string = config.GetValue<string>("ConnectionStrings:DefaultConnection");
+            optionsBuilder.UseSqlServer(connection_string);
+        }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

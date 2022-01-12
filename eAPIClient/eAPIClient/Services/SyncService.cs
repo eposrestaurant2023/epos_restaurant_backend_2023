@@ -31,7 +31,7 @@ namespace eAPIClient.Services
         public class SyncService :ISyncService
     {
         public IConfiguration config { get; }
-        private readonly ApplicationDbContext db;
+        
         private readonly IHttpService http;
 
         string path = "";
@@ -39,9 +39,9 @@ namespace eAPIClient.Services
         string business_branch_id = "";
 
         private readonly IWebHostEnvironment environment;
-        public SyncService(ApplicationDbContext _db, IConfiguration _config, IHttpService _http, IWebHostEnvironment environment)
+        public SyncService(  IConfiguration _config, IHttpService _http, IWebHostEnvironment environment)
         {
-            db = _db;
+          
             config = _config;
             http = _http;
           
@@ -136,15 +136,18 @@ namespace eAPIClient.Services
 
             try
             {
-                var d = db.StoreProcedureResults.FromSqlRaw("exec sp_get_data_for_synchronize 'json'").ToList().FirstOrDefault();
-
-                if (d != null)
+                using (var db = new ApplicationDbContext(config))
                 {
-                    string r = d.result.Replace("\\", "").Replace("\"[", "[").Replace("]\"", "]").ToString();  
-                    List<DataForSyncModel> datas = JsonSerializer.Deserialize<List<DataForSyncModel>>(r);
-                    return datas;   
-                }      
-                return new List<DataForSyncModel>();   
+                    var d = db.StoreProcedureResults.FromSqlRaw("exec sp_get_data_for_synchronize 'json'").ToList().FirstOrDefault();
+
+                    if (d != null)
+                    {
+                        string r = d.result.Replace("\\", "").Replace("\"[", "[").Replace("]\"", "]").ToString();
+                        List<DataForSyncModel> datas = JsonSerializer.Deserialize<List<DataForSyncModel>>(r);
+                        return datas;
+                    }
+                    return new List<DataForSyncModel>();
+                }
             }
             catch (Exception ex)
             {
@@ -158,22 +161,25 @@ namespace eAPIClient.Services
         {
             try
             {
-                model.business_branch_id = model.business_branch_id == Guid.Empty ? null : model.business_branch_id;
-                model.last_update_business_branch_id= model.last_update_business_branch_id == Guid.Empty ? null : model.last_update_business_branch_id;
-
-                var _modelCheck = db.Customers.Where(r => r.id == model.id).AsNoTracking();
-                if (_modelCheck.Count() > 0)
+                using (var db = new ApplicationDbContext(config))
                 {
-                    db.Customers.Update(model);
-                }
-                else
-                {
-                    db.Customers.Add(model);
-                }
+                    model.business_branch_id = model.business_branch_id == Guid.Empty ? null : model.business_branch_id;
+                    model.last_update_business_branch_id = model.last_update_business_branch_id == Guid.Empty ? null : model.last_update_business_branch_id;
 
-                db.SaveChanges();
+                    var _modelCheck = db.Customers.Where(r => r.id == model.id).AsNoTracking();
+                    if (_modelCheck.Count() > 0)
+                    {
+                        db.Customers.Update(model);
+                    }
+                    else
+                    {
+                        db.Customers.Add(model);
+                    }
 
-                return true;
+                    db.SaveChanges();
+
+                    return true;
+                }
 
             }
             catch (Exception ex)
@@ -190,26 +196,29 @@ namespace eAPIClient.Services
         {
             try
             {
-                var _workingDayData = db.WorkingDays.Where(r => r.id == workingDayId)
-                     .AsNoTracking();
-                if (_workingDayData.Count() > 0)
+                using (var db = new ApplicationDbContext(config))
                 {
-                    var _workingDay = _workingDayData.FirstOrDefault();
-                    _workingDay.is_synced = true;
-                    var _syncResp = await http.ApiPost("WorkingDay/Save", _workingDay);
-                    if (!_syncResp.IsSuccess)
+                    var _workingDayData = db.WorkingDays.Where(r => r.id == workingDayId)
+                     .AsNoTracking();
+                    if (_workingDayData.Count() > 0)
                     {
-                        http.SendBackendTelegram($"{business_branch_name}%0aSync working fail.%0a Error Detail:{_syncResp.Content.ToString()}.%0aData: { JsonSerializer.Serialize(_workingDay)}");
-                        Log.Error($"Sync working fail. Data: {JsonSerializer.Serialize(_workingDay)}");
+                        var _workingDay = _workingDayData.FirstOrDefault();
+                        _workingDay.is_synced = true;
+                        var _syncResp = await http.ApiPost("WorkingDay/Save", _workingDay);
+                        if (!_syncResp.IsSuccess)
+                        {
+                            http.SendBackendTelegram($"{business_branch_name}%0aSync working fail.%0a Error Detail:{_syncResp.Content.ToString()}.%0aData: { JsonSerializer.Serialize(_workingDay)}");
+                            Log.Error($"Sync working fail. Data: {JsonSerializer.Serialize(_workingDay)}");
+                            return false;
+                        }
+                        db.WorkingDays.Update(_workingDay);
+                        db.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
                         return false;
                     }
-                    db.WorkingDays.Update(_workingDay);
-                    db.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    return false;
                 }
 
             }
@@ -218,33 +227,38 @@ namespace eAPIClient.Services
                 Log.Error($"Sync working fail.Exception: {ex.ToString()}.");
             }
             return false;
+
         }
 
         public async Task<bool> SyncCashDrawerAmountGet(Guid id)
         {
             try
             {
-                var _modelData = db.CashDrawerAmounts.Where(r => r.id == id)
-                     .AsNoTrackingWithIdentityResolution();
-                if (_modelData.Count() > 0)
+                using (var db = new ApplicationDbContext(config))
                 {
-                    var _model = _modelData.FirstOrDefault();
-                    _model.is_synced = true;
-                    var _syncResp = await http.ApiPost("CashDrawerAmount/Save", _model);
-                    if (!_syncResp.IsSuccess)
+                    var _modelData = db.CashDrawerAmounts.Where(r => r.id == id)
+                     .AsNoTrackingWithIdentityResolution();
+                    if (_modelData.Count() > 0)
                     {
-                        http.SendBackendTelegram($"{business_branch_name}%0aSync cash drawer fail. Data: { JsonSerializer.Serialize(_model)}");
-                        Log.Error($"Sync cash drawer fail. Data: {JsonSerializer.Serialize(_model)}");
+                        var _model = _modelData.FirstOrDefault();
+                        _model.is_synced = true;
+                        var _syncResp = await http.ApiPost("CashDrawerAmount/Save", _model);
+                        if (!_syncResp.IsSuccess)
+                        {
+                            http.SendBackendTelegram($"{business_branch_name}%0aSync cash drawer fail. Data: { JsonSerializer.Serialize(_model)}");
+                            Log.Error($"Sync cash drawer fail. Data: {JsonSerializer.Serialize(_model)}");
+                            return false;
+                        }
+                        db.CashDrawerAmounts.Update(_model);
+                        db.SaveChanges();
+                        return true;
+                    }
+
+                    else
+                    {
+                        Log.Error($"Cash drawer Data  not exists. {id.ToString()}");
                         return false;
                     }
-                    db.CashDrawerAmounts.Update(_model);
-                    db.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    Log.Error($"Cash drawer Data  not exists. {id.ToString()}");
-                    return false;
                 }
 
             }
@@ -259,27 +273,31 @@ namespace eAPIClient.Services
         {
             try
             {
-                var _modelData = db.CashierShifts.Where(r => r.id == id)
-                     .AsNoTrackingWithIdentityResolution();
-                if (_modelData.Count() > 0)
+                using (var db = new ApplicationDbContext(config))
                 {
-                    var _model = _modelData.FirstOrDefault();
-                    _model.is_synced = true;
-                    var _syncResp = await http.ApiPost("CashierShift/Save", _model);
-                    if (!_syncResp.IsSuccess)
+                    var _modelData = db.CashierShifts.Where(r => r.id == id)
+                     .AsNoTrackingWithIdentityResolution();
+                    if (_modelData.Count() > 0)
                     {
-                        http.SendBackendTelegram($"{business_branch_name}%0aSync cashier shift fail. Data: { JsonSerializer.Serialize(_model)}");
-                        Log.Error($"Sync cashier shift fail. Data: {JsonSerializer.Serialize(_model)}");
+                        var _model = _modelData.FirstOrDefault();
+                        _model.is_synced = true;
+                        var _syncResp = await http.ApiPost("CashierShift/Save", _model);
+                        if (!_syncResp.IsSuccess)
+                        {
+                            http.SendBackendTelegram($"{business_branch_name}%0aSync cashier shift fail. Data: { JsonSerializer.Serialize(_model)}");
+                            Log.Error($"Sync cashier shift fail. Data: {JsonSerializer.Serialize(_model)}");
+                            return false;
+                        }
+                        db.CashierShifts.Update(_model);
+                        db.SaveChanges();
+                        return true;
+                    }
+
+                    else
+                    {
+                        Log.Error($"Cash shift  Data  not exists. {id.ToString()}");
                         return false;
                     }
-                    db.CashierShifts.Update(_model);
-                    db.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    Log.Error($"Cash shift  Data  not exists. {id.ToString()}");
-                    return false;
                 }
 
             }
@@ -294,30 +312,34 @@ namespace eAPIClient.Services
         {
             try
             {
-                var _saleData = db.Sales.Where(r => r.id == saleId)
+                using (var db = new ApplicationDbContext(config))
+                {
+                    var _saleData = db.Sales.Where(r => r.id == saleId)
                      .Include(r => r.sale_payments)
                      .Include(r => r.sale_products).ThenInclude(r => r.sale_product_modifiers)
                      .AsNoTrackingWithIdentityResolution();
-                if (_saleData.Count() > 0)
-                {
-                    var _sale = _saleData.FirstOrDefault();
-                    _sale.is_synced = true;
-
-                    var _syncResp = await http.ApiPost("Sale/Save", _sale);
-                    if (!_syncResp.IsSuccess)
+                    if (_saleData.Count() > 0)
                     {
-                        http.SendBackendTelegram($"{business_branch_name}%0aSync sale fail. Data: { JsonSerializer.Serialize(_sale)}");
-                        Log.Error($"Sync sale fail. Data: {JsonSerializer.Serialize(_sale)}");
+                        var _sale = _saleData.FirstOrDefault();
+                        _sale.is_synced = true;
+
+                        var _syncResp = await http.ApiPost("Sale/Save", _sale);
+                        if (!_syncResp.IsSuccess)
+                        {
+                            http.SendBackendTelegram($"{business_branch_name}%0aSync sale fail. Data: { JsonSerializer.Serialize(_sale)}");
+                            Log.Error($"Sync sale fail. Data: {JsonSerializer.Serialize(_sale)}");
+                            return false;
+                        }
+                        db.Sales.Update(_sale);
+                        db.SaveChanges();
+                        return true;
+                    }
+
+                    else
+                    {
+                        Log.Error($"Sale data not exists. {saleId.ToString()}");
                         return false;
                     }
-                    db.Sales.Update(_sale);
-                    db.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    Log.Error($"Sale data not exists. {saleId.ToString()}");
-                    return false;
                 }
 
             }
@@ -332,30 +354,34 @@ namespace eAPIClient.Services
         {
             try
             {
-                var _modelData = db.Histories.Where(r => r.id == id)
-                     .AsNoTrackingWithIdentityResolution();
-                if (_modelData.Count() > 0)
+                using (var db = new ApplicationDbContext(config))
                 {
-                    var _model = _modelData.FirstOrDefault();
-
-                    _model.is_synced = true;
-                    var _syncResp = await http.ApiPost("History/Sync", _model);
-                    if (!_syncResp.IsSuccess)
+                    var _modelData = db.Histories.Where(r => r.id == id)
+                     .AsNoTrackingWithIdentityResolution();
+                    if (_modelData.Count() > 0)
                     {
-                        string _data = JsonSerializer.Serialize(_model);
-                        http.SendBackendTelegram($"{business_branch_name}%0aSync history fail. Data: { _data}");
-                        Log.Error($"Sync history fail. Data: {_data}");  
+                        var _model = _modelData.FirstOrDefault();
+
+                        _model.is_synced = true;
+                        var _syncResp = await http.ApiPost("History/Sync", _model);
+                        if (!_syncResp.IsSuccess)
+                        {
+                            string _data = JsonSerializer.Serialize(_model);
+                            http.SendBackendTelegram($"{business_branch_name}%0aSync history fail. Data: { _data}");
+                            Log.Error($"Sync history fail. Data: {_data}");
+                            return false;
+                        }
+                        db.Histories.Update(_model);
+                        db.SaveChanges();
+                        sendHistoryAlertTelegram(_model);
+                        return true;
+                    }
+
+                    else
+                    {
+                        Log.Error($"History data not exists. {id.ToString()}");
                         return false;
                     }
-                    db.Histories.Update(_model);
-                    db.SaveChanges();
-                    sendHistoryAlertTelegram(_model);
-                    return true;
-                }
-                else
-                {
-                    Log.Error($"History data not exists. {id.ToString()}");
-                    return false;
                 }
 
             }
@@ -370,38 +396,42 @@ namespace eAPIClient.Services
         {
             try
             {
-                var _modelData = db.Customers.Where(r => r.id == id)
-                     .AsNoTrackingWithIdentityResolution();
-                if (_modelData.Count() > 0)
+                using (var db = new ApplicationDbContext(config))
                 {
-                    var _model = _modelData.FirstOrDefault();
-                    _model.is_synced = true;
-                    _model.business_branch_id = _model.business_branch_id == Guid.Empty ? null : _model.business_branch_id;
-                    _model.last_update_business_branch_id = _model.last_update_business_branch_id == Guid.Empty ? null : _model.last_update_business_branch_id;
-                    var _syncResp = await http.ApiPost("Customer/Save?is_synch_from_client=true", _model);
-                    if (!_syncResp.IsSuccess)
+                    var _modelData = db.Customers.Where(r => r.id == id)
+                     .AsNoTrackingWithIdentityResolution();
+                    if (_modelData.Count() > 0)
                     {
+                        var _model = _modelData.FirstOrDefault();
+                        _model.is_synced = true;
+                        _model.business_branch_id = _model.business_branch_id == Guid.Empty ? null : _model.business_branch_id;
+                        _model.last_update_business_branch_id = _model.last_update_business_branch_id == Guid.Empty ? null : _model.last_update_business_branch_id;
+                        var _syncResp = await http.ApiPost("Customer/Save?is_synch_from_client=true", _model);
+                        if (!_syncResp.IsSuccess)
+                        {
 
-                        http.SendBackendTelegram($"{business_branch_name}%0aSync customer fail. Data: { JsonSerializer.Serialize(_model)}");
-                        Log.Error($"Sync customer fail. Data: {JsonSerializer.Serialize(_model)}");
+                            http.SendBackendTelegram($"{business_branch_name}%0aSync customer fail. Data: { JsonSerializer.Serialize(_model)}");
+                            Log.Error($"Sync customer fail. Data: {JsonSerializer.Serialize(_model)}");
 
-                        return false;
+                            return false;
 
+                        }
+
+                        CustomerModel resp_customer = JsonSerializer.Deserialize<CustomerModel>(_syncResp.Content);
+                        _model.customer_code = resp_customer.customer_code;
+
+                        db.Customers.Update(_model);
+                        db.SaveChanges();
+                        return true;
                     }
 
-                    CustomerModel resp_customer = JsonSerializer.Deserialize<CustomerModel>(_syncResp.Content);
-                    _model.customer_code = resp_customer.customer_code;
-
-                    db.Customers.Update(_model);
-                    db.SaveChanges();
-                    return true;
-                }
+                 
                 else
                 {
                     Log.Error($"Customer data not exists. {id.ToString()}");
                     return false;
                 }
-
+            }
             }
             catch (Exception ex)
             {
@@ -415,31 +445,34 @@ namespace eAPIClient.Services
         {
             try
             {
-                var _modelData = db.Expenses.Where(r => r.id == id)
-                     .AsNoTrackingWithIdentityResolution();
-                if (_modelData.Count() > 0)
+                using (var db = new ApplicationDbContext(config))
                 {
-                    var _model = _modelData.FirstOrDefault();
-                    _model.is_synced = true;
-                    var _syncResp = await http.ApiPost("Expense/SyncSave", _model);
-                    if (!_syncResp.IsSuccess)
+                    var _modelData = db.Expenses.Where(r => r.id == id)
+                     .AsNoTrackingWithIdentityResolution();
+                    if (_modelData.Count() > 0)
                     {
+                        var _model = _modelData.FirstOrDefault();
+                        _model.is_synced = true;
+                        var _syncResp = await http.ApiPost("Expense/SyncSave", _model);
+                        if (!_syncResp.IsSuccess)
+                        {
 
-                        http.SendBackendTelegram($"{business_branch_name}%0aSync expense fail. Data: { JsonSerializer.Serialize(_model)}");
-                        Log.Error($"Sync expense  fail. Data: {JsonSerializer.Serialize(_model)}");
+                            http.SendBackendTelegram($"{business_branch_name}%0aSync expense fail. Data: { JsonSerializer.Serialize(_model)}");
+                            Log.Error($"Sync expense  fail. Data: {JsonSerializer.Serialize(_model)}");
 
+                            return false;
+                        }
+                        db.Expenses.Update(_model);
+                        db.SaveChanges();
+                        return true;
+                    }
+
+                    else
+                    {
+                        Log.Error($"Expense data not exists. {id.ToString()}");
                         return false;
                     }
-                    db.Expenses.Update(_model);
-                    db.SaveChanges();
-                    return true;
                 }
-                else
-                {
-                    Log.Error($"Expense data not exists. {id.ToString()}");
-                    return false;
-                }
-
             }
             catch (Exception ex)
             {
@@ -447,20 +480,41 @@ namespace eAPIClient.Services
             }
             return false;
         }
+        bool is_sync_all_busy = false;
         public async Task<bool> SyncAllData()
         {
-            await SyncSetting();
+            bool sync_success = false;
+            if (is_sync_all_busy)
+            {
+                http.SendBackendTelegram($"{business_branch_name}%0aSync Auto update data from admin db is busy.");
 
-            await SyncNote();
+            }
+            else
+            {
+                is_sync_all_busy = true;
+                http.SendBackendTelegram($"{business_branch_name}%0aStart Auto update data from admin db.");
+                await SyncSetting();
 
-            return true;
-            
+                 await SyncNote();
+
+                 await SyncMenuAndProduct();
+
+                await SyncTranslateText();
+                is_sync_all_busy = false;
+                http.SendBackendTelegram($"{business_branch_name}%0aAuto update data from admin db complete.");
+                
+            }
+
+
+            return sync_success;
+
         }
         public async Task<bool> SyncSetting()
         {
+           
 
-
-            string business_branch_id = config.GetValue<string>("business_branch_id");
+                http.SendBackendTelegram($"{business_branch_name}%0aStart Auto update config data.");
+           
             var prepare_sync_response = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data", procedure_parameter = $"'{business_branch_id}'" });
             if (prepare_sync_response.IsSuccess)
             {
@@ -478,16 +532,17 @@ namespace eAPIClient.Services
                         var b = JsonSerializer.Deserialize<List<BusinessBranchModel>>(config_datas.Where(r => r.config_type == "business_branch").FirstOrDefault().data).FirstOrDefault();
                         try
                         {
-                            await Task.Factory.StartNew(()=>{
+                            using (var db = new ApplicationDbContext(config))
+                            {
                                 var old_config_data = db.ConfigDatas.Where(r => r.is_local_setting == false);
                                 db.ConfigDatas.RemoveRange(old_config_data);
-                                db.SaveChanges(); 
+                                db.SaveChanges();
                                 db.ConfigDatas.AddRange(config_datas.Where(r => r.is_local_setting == false));
-                                db.SaveChanges(); 
-                                
-                                http.SendBackendTelegram($"{b.business_branch_name_en}%0aAuto update config data successfully");
-                            })   ;
-                           
+                                db.SaveChanges();
+
+                                http.SendBackendTelegram($"{business_branch_name}%0aAuto update config data successfully");
+
+                            }
 
 
                         }
@@ -497,7 +552,7 @@ namespace eAPIClient.Services
                             await Task.Factory.StartNew(() =>
                             {
                                 string message = ex.ToString();
-                                http.SendBackendTelegram($"{b.business_branch_name_en}%0aAuto update config data successfully%0a{ex}");
+                                http.SendBackendTelegram($"{business_branch_name}%0aAuto update config data fail%0a{ex}");
                             } );
                         }
 
@@ -513,78 +568,265 @@ namespace eAPIClient.Services
 
         }
 
-
-        async Task<bool> SyncNote()
+        async Task<bool> SyncMenuAndProduct()
         {
+            try
+            {
+                using (var db = new ApplicationDbContext(config))
+                {
 
-            string _query = $"CategoryNote?$select=id,category_note_name_en,category_note_name_kh,is_multiple_select&$expand=notes($filter=is_deleted eq false and business_branch_id eq {business_branch_id})";
-            var resp = await http.ApiGetOData(_query);
+
+                    http.SendBackendTelegram($"{business_branch_name}%0aAuto update Menu and Product Start.");
+
+                    
+
+                    db.Database.ExecuteSqlRaw("exec [sp_delete_menu_and_product]");
+
+                    List<MenuModel> menu_datas = await GetRemoteMenu();
+                    db.Menus.AddRange(menu_datas);
+                    List<ProductModel> product_datas = await GetRemoteProduct();
+                    db.Products.AddRange(product_datas);
+                    await db.SaveChangesAsync();
+
+
+                    List<ProductMenuModel> product_menu_datas = await GetRemoteProductMenu();
+                    //get product price 
+                    List<ProductPriceModel> product_price_datas = await GetRemoteProductPrice();
+
+
+                    db.ProductMenus.AddRange(product_menu_datas);
+                    db.ProductPrices.AddRange(product_price_datas);
+                    await db.SaveChangesAsync();
+
+                    db.Database.ExecuteSqlRaw("exec sp_update_product_portion_price");
+
+
+                    http.SendBackendTelegram($"{business_branch_name}%0aAuto update Menu and Product successfully.");
+
+                    return true;
+                }
+            }catch(Exception ex)
+            {
+
+                http.SendBackendTelegram($"{business_branch_name}%0aAuto update Menu and Product Fail.{ex.ToString()}");
+            }
+            return false;
+        }
+
+        async Task<List<ProductPriceModel>> GetRemoteProductPrice()
+        {
+            
+            string url = "BusinessBranchProductPrice?";
+            url = url + $"&$filter=business_branch_id eq {business_branch_id}";
+            var resp = await http.ApiGetOData(url);
+            if (resp.IsSuccess)
+            {
+              
+                return JsonSerializer.Deserialize<List<ProductPriceModel>>(resp.Content.ToString());
+            }
+            return new List<ProductPriceModel>();
+        }
+
+        async Task<List<ProductMenuModel>> GetRemoteProductMenu()
+        {
+           
+            string url = "ProductMenu?$select=id,product_id,menu_id";
+            url = url + "&$filter=is_deleted eq false and  ";
+            url = url + "menu/is_deleted eq false  and ";
+            url = url + "menu/status eq true ";
+            url = url + "and product/is_deleted eq false and ";
+            url = url + "product/status eq true and product/is_menu_product eq true and ";
+            url = url + $"menu/business_branch_id eq {business_branch_id}";
+
+            var resp = await http.ApiGetOData(url);
+            if (resp.IsSuccess)
+            {
+           
+                return JsonSerializer.Deserialize<List<ProductMenuModel>>(resp.Content.ToString());
+            }
+            return new List<ProductMenuModel>();
+        }
+
+
+        async Task<List<MenuModel>> GetRemoteMenu()
+        {
+         
+            var resp = await http.ApiGetOData($"Menu?$select=id,parent_id,menu_name_en,menu_name_kh,text_color,background_color,root_menu_id,is_shortcut_menu&$filter=business_branch_id eq {business_branch_id} and is_deleted eq false and status eq true");
+            if (resp.IsSuccess)
+            {
+              
+                return JsonSerializer.Deserialize<List<MenuModel>>(resp.Content.ToString());
+            }
+            return new List<MenuModel>();
+        }
+
+        async Task<List<ProductModel>> GetRemoteProduct()
+        {
+            List<ProductModel> _products = new List<ProductModel>();
+
+          
+            string _select_product_modifier = "$select=id,parent_id,product_id,modifier_name,price,section_name,is_required,is_multiple_select,is_section,sort_order,modifier_id";
+
+            string url = $"product?$select=revenue_group_name,product_group_id,product_tax_value,product_category_id,product_category_en,product_category_kh,id,is_open_product,";
+            url += "product_code,product_name_en,product_name_kh,photo,note,is_allow_discount,is_allow_change_price,is_allow_free,is_open_product,is_inventory_product,kitchen_group_name,kitchen_group_sort_order";
+            url += $"&$expand=product_printers($select=id,product_id,printer_name,ip_address,port,group_item_type_id;$filter=is_deleted eq false and printer/business_branch_id eq {business_branch_id}),";
+            url += $"product_modifiers({_select_product_modifier};$expand=children({_select_product_modifier};$filter=is_deleted eq false);$filter=is_deleted eq false),";
+            url += $"product_portions($select=id,product_id, portion_name,cost,multiplier,unit_id;$filter=is_deleted eq false)";
+            url += "&$filter=is_deleted eq false and status eq true and is_menu_product eq true";
+            var resp = await http.ApiGetOData(url);
             if (resp.IsSuccess)
             {
 
-                List<CategoryNoteModel> _tempNewCategoryNotes = new List<CategoryNoteModel>();
-                List<CategoryNoteModel> _tempAppendCategoryNotes = new List<CategoryNoteModel>();
-                List<NoteModel> _tempNewNotes = new List<NoteModel>();
-
-                List<CategoryNoteModel> _LocalCategoryNotes = new List<CategoryNoteModel>();
-
-
-                List<NoteModel> _LocalNotes = new List<NoteModel>();
-                _LocalNotes = db.Notes.AsNoTracking().ToList();
-
-                List<NoteCategory> data = new List<NoteCategory>();
-                data = JsonSerializer.Deserialize<List<NoteCategory>>(resp.Content.ToString());
-                //Get Category 
-                data.ForEach(c =>
+             
+                _products = JsonSerializer.Deserialize<List<ProductModel>>(resp.Content.ToString());
+                _products.ForEach((p) =>
                 {
-                    CategoryNoteModel _categoryNote = new CategoryNoteModel()
+                    //Get Product Tax Config
+                    p.product_tax_value = string.IsNullOrEmpty(p.product_tax_value) ? "[]" : p.product_tax_value;
+                    List<BusinessBranchProductTaxConfigModel> _productTaxs = new List<BusinessBranchProductTaxConfigModel>();
+                    _productTaxs = JsonSerializer.Deserialize<List<BusinessBranchProductTaxConfigModel>>(p.product_tax_value);
+                    var _productTaxData = _productTaxs.Where(r => r.business_branch_id.ToLower() == business_branch_id.ToLower());
+                    if (_productTaxData.Count() > 0)
                     {
-                        category_note_id = c.id,
-                        category_note_name_en = c.category_note_name_en,
-                        category_note_name_kh = c.category_note_name_kh,
-                        is_multiple_select = c.is_multiple_select
-                    };
-
-                    var _c = _LocalCategoryNotes.Where(r => r.category_note_id == c.id);
-                    if (_c.Count() > 0)
-                    {
-                        _categoryNote.id = _c.FirstOrDefault().id;
-                        _tempAppendCategoryNotes.Add(_categoryNote);
+                        var _t = _productTaxData.FirstOrDefault();
+                        ProductTaxConfigModel _tax = new ProductTaxConfigModel()
+                        {
+                            tax_1_rate = _t.tax_1_rate,
+                            tax_2_rate = _t.tax_2_rate,
+                            tax_3_rate = _t.tax_3_rate
+                        };
+                        p.product_tax_value = JsonSerializer.Serialize(_tax);
                     }
                     else
                     {
-                        _categoryNote.id = Guid.NewGuid();
-                        _tempNewCategoryNotes.Add(_categoryNote);
+                        p.product_tax_value = JsonSerializer.Serialize(new ProductTaxConfigModel());
                     }
                 });
 
-
-                //
-
-                if (_tempNewCategoryNotes.Count() > 0)
-                {
-                    db.CategoryNotes.AddRange(_tempNewCategoryNotes);
-                }
-                if (_tempAppendCategoryNotes.Count() > 0)
-                {
-                    db.CategoryNotes.UpdateRange(_tempAppendCategoryNotes);
-                }
-
-                //clear local note
-                db.Database.ExecuteSqlRaw("exec sp_clear_data_before_sync_remote_database");
-
-                var remote_note = JsonSerializer.Deserialize<List<NoteModel>>(JsonSerializer.Serialize(data.SelectMany(r => r.notes).ToList()));
-                remote_note.ForEach(r => r.is_predefine_note = true);
-                db.Notes.AddRange(remote_note);
-
-                await db.SaveChangesAsync();
-                return true;
-            }else
-            {
-                return false;
+                return _products;
             }
+            return _products;
+        }
+        async Task<bool> SyncNote()
+        {
+            http.SendBackendTelegram($"{business_branch_name}%0aStart Auto update note from admin db");
+            try
+            {
+                using (var db = new ApplicationDbContext(config))
+                {
+
+                    string _query = $"CategoryNote?$select=id,category_note_name_en,category_note_name_kh,is_multiple_select&$expand=notes($filter=is_deleted eq false and business_branch_id eq {business_branch_id})";
+                    var resp = await http.ApiGetOData(_query);
+                    if (resp.IsSuccess)
+                    {
+
+                        List<CategoryNoteModel> _tempNewCategoryNotes = new List<CategoryNoteModel>();
+                        List<CategoryNoteModel> _tempAppendCategoryNotes = new List<CategoryNoteModel>();
+                        List<NoteModel> _tempNewNotes = new List<NoteModel>();
+
+                        List<CategoryNoteModel> _LocalCategoryNotes = new List<CategoryNoteModel>();
+
+
+                        List<NoteModel> _LocalNotes = new List<NoteModel>();
+                        _LocalNotes = db.Notes.AsNoTracking().ToList();
+
+                        List<NoteCategory> data = new List<NoteCategory>();
+                        data = JsonSerializer.Deserialize<List<NoteCategory>>(resp.Content.ToString());
+                        //Get Category 
+                        data.ForEach(c =>
+                        {
+                            CategoryNoteModel _categoryNote = new CategoryNoteModel()
+                            {
+                                category_note_id = c.id,
+                                category_note_name_en = c.category_note_name_en,
+                                category_note_name_kh = c.category_note_name_kh,
+                                is_multiple_select = c.is_multiple_select
+                            };
+
+                            var _c = _LocalCategoryNotes.Where(r => r.category_note_id == c.id);
+                            if (_c.Count() > 0)
+                            {
+                                _categoryNote.id = _c.FirstOrDefault().id;
+                                _tempAppendCategoryNotes.Add(_categoryNote);
+                            }
+                            else
+                            {
+                                _categoryNote.id = Guid.NewGuid();
+                                _tempNewCategoryNotes.Add(_categoryNote);
+                            }
+                        });
+
+
+                        db.CategoryNotes.RemoveRange(db.CategoryNotes);
+                        await db.SaveChangesAsync();
+
+                        if (_tempNewCategoryNotes.Count() > 0)
+                        {
+                            db.CategoryNotes.AddRange(_tempNewCategoryNotes);
+                        }
+                        if (_tempAppendCategoryNotes.Count() > 0)
+                        {
+                            db.CategoryNotes.UpdateRange(_tempAppendCategoryNotes);
+                        }
+                        await db.SaveChangesAsync();
+
+
+                        var remote_note = JsonSerializer.Deserialize<List<NoteModel>>(JsonSerializer.Serialize(data.SelectMany(r => r.notes).ToList()));
+
+                        //clear old note 
+                        db.Notes.RemoveRange(db.Notes.Where(r => r.is_predefine_note == true));
+                        await db.SaveChangesAsync();
+                        remote_note.ForEach(r => r.is_predefine_note = true);
+                        db.Notes.AddRange(remote_note);
+
+                        await db.SaveChangesAsync();
+                        http.SendBackendTelegram($"{business_branch_name}%0aAuto update note from admin db successfully");
+                        return true;
+                    }
+                }
+            }catch(Exception ex)
+            {
+                http.SendBackendTelegram($"{business_branch_name}%0aAuto update note from admin db fail. {ex.ToString()}");
+            }
+            return false;
+        }
+        async Task<bool> SyncTranslateText()
+        {
+            try
+            {
+                using (var db = new ApplicationDbContext(config))
+                {
+
+                    List<eShareModel.TranslateTextModel> translate_texts = await GetTranslateText();
+                    if (translate_texts.Any())
+                    {
+                        db.Database.ExecuteSqlRaw("delete tbl_translate_text");
+                        db.TranslateTexts.AddRange(translate_texts);
+                        db.SaveChanges();
+                        http.SendBackendTelegram($"{business_branch_name}%0aAuto update translate text complete");
+                    }
+                }
+                return true;
+            }
+            catch(Exception ex)
+            {
+                http.SendBackendTelegram($"{business_branch_name}%0aAuto update translate text. {ex.ToString()}");
+            }
+           
+            return false;
         }
 
+        async Task<List<eShareModel.TranslateTextModel>> GetTranslateText()
+        {
+          
+            var resp = await http.ApiGet("GetTranslateText");
+            if (resp.IsSuccess)
+            {
+                
+                return JsonSerializer.Deserialize<List<eShareModel.TranslateTextModel>>(resp.Content.ToString());
+            }
+            return new List<eShareModel.TranslateTextModel>();
+        }
 
         public void sendHistoryAlertTelegram(HistoryModel model)
         {
