@@ -80,7 +80,20 @@ namespace eAPIClient.Controllers
                             await app.UpdateDocument(_waitingNumber);
                         }
                     }
+                    //update reset sale_number 
 
+                    var setting_value_reset_number = app.GetSettinValue(76);
+                    if (setting_value_reset_number != null)
+                    {
+                        if (app.GetSettinValue(76) == "Close working day")
+                        {
+                            DocumentNumberModel _waitingNumber = new DocumentNumberModel();
+
+                            _waitingNumber = app.GetDocument("SaleNum", u.cash_drawer_id.ToString());
+                            _waitingNumber.counter = 0;
+                            await app.UpdateDocument(_waitingNumber);
+                        }
+                    }
 
                 }
 
