@@ -11,7 +11,7 @@ using eAdmin.JSHelpers;
 
 namespace eAdmin.Pages.PageReceipt
 {
-    public class ComParkItemBase : PageCore
+    public class ComRedeemBase : PageCore
     {
         public List<SaleProductModel> models = new();
         public SaleProductModel model = new();
@@ -22,7 +22,7 @@ namespace eAdmin.Pages.PageReceipt
             get
             {
 
-                return "0ZzmqRxXlP293nLKTwgoZhToVFJscPE0" + gv.current_login_user.id; //Storage and Session Key  
+                return "RedeemxXlP293nLKTwgoZhToVFJscPE0" + gv.current_login_user.id; //Storage and Session Key  
             }
         }
         public string ControllerApi
@@ -49,7 +49,7 @@ namespace eAdmin.Pages.PageReceipt
             state = await GetState(StateKey);
             if (string.IsNullOrEmpty(state.page_title))
             {
-                state.page_title = "Park Item";
+                state.page_title = "Redeem List";
             }
             await LoadData();
             is_loading = false;
@@ -61,7 +61,7 @@ namespace eAdmin.Pages.PageReceipt
             //Business Branch Filter
             state.filters.Add(new FilterModel()
             {
-                key = "is_park",
+                key = "is_redeem_park",
                 value1 = "true",
                 is_clear_all = true,
                 will_remove = true,
@@ -141,7 +141,7 @@ namespace eAdmin.Pages.PageReceipt
                     {
                         key = "sale/created_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                        filter_title = lang["Park Date"],
+                        filter_title = lang["Redeem Date"],
                         filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " + state.date_range.end_date.ToString(gv.date_format),
                         filter_operator = "Ge",
                         is_clear_all = true,

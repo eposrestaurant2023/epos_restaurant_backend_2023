@@ -1,5 +1,5 @@
-﻿@page "/parkitem"
-@inherits ComParkItemBase
+﻿@page "/redeem"
+@inherits ComRedeemBase
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
@@ -10,13 +10,13 @@
 
 @if (!is_loading)
 {
-    <Title Value="@lang["Park Item"]"></Title>
-    <PageContainer roles="@gv.GetRole("park_item_management")">
+    <Title Value="@lang["Redeem List"]"></Title>
+    <PageContainer roles="@gv.GetRole("redeem_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @lang["Park Item"]
+                        @lang["Redeem List"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -56,7 +56,7 @@
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
                        ScrollClass="uk-overflow-auto">
                     <TableHeader>
-                        @HeaderTemplate("sale/created_date", lang["Park Date"], "uk-text-center")
+                        @HeaderTemplate("sale/created_date", lang["Redeem Date"], "uk-text-center")
                         @HeaderTemplate("sale/document_number", lang["Document #"], "uk-text-left")
                         <ThCenter>
                             <div>@lang["Working Day #"]</div>
@@ -73,8 +73,6 @@
                             <div class="sub-header-table">@lang["Outlet"]</div>
                             <div class="sub-header-table">@lang["Station"]</div>
                         </ThAuto>
-                        <ThCenter>@lang["Park expire"]</ThCenter>
-                        <ThAuto>@lang["Park note"]</ThAuto>
                         <ThCenter>@lang["Quantity"]</ThCenter>
                         <ThRight>@lang["Amount"]</ThRight>
                         <th></th>
@@ -130,10 +128,6 @@
                             <div class="sub-info-row-table">
                                 @(gv.current_language?.language_id == "km-KH" ?p.station_name_kh : p.station_name_en)
                             </div>
-                        </td>
-                        <TdCenter>@p.park_expired_date.Value.ToString(gv.date_format)</TdCenter>
-                        <td>
-                            <TextOverflow Text="@p.park_note" />
                         </td>
                         <TdCenter>
                             @p.quantity.ToString(gv.quantity_format)

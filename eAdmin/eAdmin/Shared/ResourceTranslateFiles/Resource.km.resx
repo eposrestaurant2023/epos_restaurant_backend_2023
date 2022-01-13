@@ -2850,6 +2850,15 @@
   <data name="Order station" xml:space="preserve">
     <value>កុំព្យូទ័រកុម្មង់</value>
   </data>
+	<data name="Park Item" xml:space="preserve">
+    <value>ផ្ញើរទំនិញ</value>
+  </data>
+	<data name="Redeem Date" xml:space="preserve">
+    <value>ថ្ងៃយកទំនិញ</value>
+  </data>
+	<data name="Redeem List" xml:space="preserve">
+    <value>យកទំនិញ</value>
+  </data>
 	<data name="Park Date" xml:space="preserve">
     <value>ថ្ងៃផ្ញើរ</value>
   </data>

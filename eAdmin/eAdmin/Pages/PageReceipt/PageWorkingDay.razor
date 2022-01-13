@@ -14,7 +14,7 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @lang["Working Day"]
+                        @lang["Park Item"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -55,10 +55,8 @@
                         <TableHeader>
                             @HeaderTemplate("working_date", lang["Working Date"], "uk-text-center")
                             @HeaderTemplate("working_day_number", lang["Working Day Number"], "uk-text-center")
-
                             @HeaderTemplate("cash_drawer_name", lang["Cash Drawer"])
                             @HeaderTemplate("outlet_name_en", lang["Outlet"])
-
                             <Th>
                                 @lang["Opened Station"]
                                 <br />
@@ -113,7 +111,7 @@
                                     }
                                     else
                                     {
-                                    <Label Text="@lang["Opened"]" />
+                                    <eAdmin.Shared.Components.Label Text="@lang["Opened"]" />
                                     }
                             </TdCenter>
                             <TdCenter>
