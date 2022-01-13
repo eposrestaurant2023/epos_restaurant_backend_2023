@@ -680,8 +680,9 @@ namespace ePOSPrintingService
                 WriteToFile(ex.Message + ex.ToString());
                 IsPrintSuccess = false;
             };
-        }  
-        public static void PrintWifiPassword()
+        }
+
+       public static void PrintWifiPassword()
         {
             try
             {
@@ -826,6 +827,75 @@ namespace ePOSPrintingService
                 IsPrintSuccess = false;
             };
         }
+
+        public static void PrintParkItemReceipt(string sale_id, ReceiptListModel receipt, string printer_name, bool is_reprint = false)
+        {
+            try
+            {
+                DynamicDataModel receipt_data = new DynamicDataModel();
+                var data = GetApiData($"sp_get_sale_data_for_print_bill", $"'{sale_id}','json'");
+                if (data.Any())
+                {
+                    receipt_data = data.FirstOrDefault();
+                }
+                else
+                {
+                    return;
+                }
+                LocalReport report = new LocalReport();
+                report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
+
+                //sale data
+                DataTable sale_data = new DataTable();
+                List<SaleModel> sales = new List<SaleModel>();
+                sales = JsonConvert.DeserializeObject<List<SaleModel>>(receipt_data.sale_data);
+                sales.ForEach(r => r.is_reprint_receipt = is_reprint);
+                sale_data = CreateDataTable(sales);
+                //sale_product_data
+                DataTable sale_product_data = new DataTable();
+                List<SaleProductModel> sale_products = new List<SaleProductModel>();
+                sale_products = JsonConvert.DeserializeObject<List<SaleProductModel>>(receipt_data.sale_product_data);
+                sale_product_data = CreateDataTable(sale_products.Where(r=>r.is_park==true));
+
+ 
+
+             
+
+                //Setting data
+                DataTable setting_data = new DataTable();
+                List<SettingModel> settings = new List<SettingModel>();
+                settings = JsonConvert.DeserializeObject<List<SettingModel>>(receipt_data.setting_data);
+                setting_data = CreateDataTable(settings);
+
+
+                report.DataSources.Add(new ReportDataSource("Sale", sale_data));
+                report.DataSources.Add(new ReportDataSource("SaleProduct", sale_product_data));
+                report.DataSources.Add(new ReportDataSource("Setting", setting_data));
+
+        
+                Export(report,
+                     receipt.PageWidth,
+                     receipt.PageHeight,
+                     receipt.MarginTop,
+                     receipt.MarginLeft,
+                     receipt.MarginRight,
+                     receipt.MarginBottom
+                     );
+                Print(printer_name, Convert.ToInt16(receipt.number_invoice_copies));
+
+
+                Thread t = ThreadStart(() => SendTelegramAlert(report, is_reprint ? "Re Print Park Item Receipt" : "Print Park Item Receipt"));
+
+
+                IsPrintSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                WriteToFile(ex.Message + ex.ToString());
+                IsPrintSuccess = false;
+            };
+        }
+
 
         public static void PrintDeletedOrder(string sale_id, ReceiptListModel receipt, string printer_name)
         {
