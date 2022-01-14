@@ -103,13 +103,13 @@ namespace ePOSPrintingService.Properties {
             " \"PageWidth\": 2.85,\r\n        \"PageHeight\": 11,\r\n        \"MarginTop\": 0,\r\n       " +
             " \"MarginRight\": 0,\r\n        \"MarginBottom\": 0,\r\n        \"MarginLeft\": 0\r\n    }\r\n" +
             ",\r\n {\r\n        \"ReceiptName\": \"Park Item Receipt\",\r\n\t\"ReceiptFileName\": \"rpt_par" +
-            "k_item_receipt\",\r\n        \"number_receipt_copies\": 2,\r\n        \"PageWidth\": 2.85" +
+            "k_item_receipt\",\r\n        \"number_receipt_copies\": 1,\r\n        \"PageWidth\": 2.85" +
             ",\r\n        \"PageHeight\": 11,\r\n        \"MarginTop\": 0,\r\n        \"MarginRight\": 0," +
             "\r\n        \"MarginBottom\": 0,\r\n        \"MarginLeft\": 0\r\n    }\r\n,\r\n{\r\n        \"Rec" +
             "eiptName\": \"Waiting Order\",\r\n        \"InvoiceFileName\": \"rpt_waiting_order\",\r\n  " +
             "      \"PageWidth\": 2.85,\r\n        \"PageHeight\": 11,\r\n        \"MarginTop\": 0,\r\n  " +
             "      \"MarginRight\": 0,\r\n        \"MarginBottom\": 0,\r\n        \"MarginLeft\": 0\r\n  " +
-            "  }\r\n\r\n]")]
+            "  }\r\n]")]
         public string ReceiptSettings {
             get {
                 return ((string)(this["ReceiptSettings"]));

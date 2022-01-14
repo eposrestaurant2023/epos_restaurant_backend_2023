@@ -130,7 +130,7 @@
  {
         "ReceiptName": "Park Item Receipt",
 	"ReceiptFileName": "rpt_park_item_receipt",
-        "number_receipt_copies": 2,
+        "number_receipt_copies": 1,
         "PageWidth": 2.85,
         "PageHeight": 11,
         "MarginTop": 0,
@@ -149,7 +149,6 @@
         "MarginBottom": 0,
         "MarginLeft": 0
     }
-
 ]</Value>
     </Setting>
     <Setting Name="CashierPrinter" Type="System.String" Scope="User">
