@@ -181,6 +181,8 @@ namespace eAPIClient.Models
         public string printed_by { get; set; }
         public string language { get; set; }
 
+        public bool is_reprint { get; set; }
+
     }
 
     public class SystemFeatureModel
@@ -288,6 +290,21 @@ namespace eAPIClient.Models
         public string printed_by { get; set; }
         public string printed_on { get; set; }
 
+
+        //new translate
+
+        public string sale_products { get; set; }
+        public string sale_product { get; set; }
+        public string amount { get; set; }
+        public string total { get; set; }
+        public string grand_total { get; set; }
+        public string product_name { get; set; }
+        public string summary_by_revenue_group { get; set; }
+        public string revenue_group { get; set; }
+        public string foc_sale_product { get; set; }
+        public string free_sale_product { get; set; }
+
+        
     }
 
 

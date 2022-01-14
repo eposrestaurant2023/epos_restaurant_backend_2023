@@ -140,6 +140,8 @@ namespace eShareModel
         public Guid? park_sale_product_id { get; set; }
         public Guid? redeem_sale_product_id { get; set; }
         public string park_note { get; set; }
+
+        [Column(TypeName = "date")]
         public DateTime? park_expired_date { get; set; }
 
     }
