@@ -275,7 +275,7 @@ namespace eAPIClient.Models
         public string time { get; set; }
         public string qty { get; set; }
         public string amt { get; set; }
-        public string ny { get; set; }
+        public string by { get; set; }
 
         public string close_working_day_summary_report { get; set; }
         public string working_day_information { get; set; }
