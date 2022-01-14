@@ -252,7 +252,7 @@
   <data name="Invoice" xml:space="preserve">
     <value>វិក្កយបត្រ</value>
   </data>
-	<data name="Payment Empty" xml:space="preserve">
+  <data name="Payment Empty" xml:space="preserve">
     <value>មិនទាន់មានការទូទាត់</value>
   </data>
   <data name="Payment" xml:space="preserve">
@@ -399,8 +399,8 @@
   <data name="Cashier Station " xml:space="preserve">
     <value>ម៉ាស៊ីនគិតលុយ</value>
   </data>
-	<data name="is expired" xml:space="preserve">
-    <value>បានផុតកំណត់ថ្ងៃនេះ</value>
+  <data name="is expired" xml:space="preserve">
+    <value>និងផុតកំណត់</value>
   </data>
   <data name="is expired today." xml:space="preserve">
     <value>និងផុតកំណត់ថ្ងៃនេះ</value>
@@ -410,9 +410,6 @@
   </data>
   <data name="Check System License" xml:space="preserve">
     <value>ពិនិត្យអាជ្ញាប័ណ្ណប្រព័ន្ធ</value>
-  </data>
-  <data name="is expired" xml:space="preserve">
-    <value>និងផុតកំណត់</value>
   </data>
   <data name="Opened Station" xml:space="preserve">
     <value>កន្លែងលក់ដែលបានបើក</value>
@@ -2751,7 +2748,7 @@
   <data name="New Expenses" xml:space="preserve">
     <value>បង្កើតចំណាយថ្មី</value>
   </data>
-	<data name="Add New Expenses Category" xml:space="preserve">
+  <data name="Add New Expenses Category" xml:space="preserve">
     <value>បង្កើតប្រភេទចំណាយថ្មី</value>
   </data>
   <data name="New Expenses Category" xml:space="preserve">
@@ -2852,5 +2849,26 @@
   </data>
   <data name="Order station" xml:space="preserve">
     <value>កុំព្យូទ័រកុម្មង់</value>
+  </data>
+	<data name="Park Item" xml:space="preserve">
+    <value>ផ្ញើរទំនិញ</value>
+  </data>
+	<data name="Redeem Date" xml:space="preserve">
+    <value>ថ្ងៃយកទំនិញ</value>
+  </data>
+	<data name="Redeem List" xml:space="preserve">
+    <value>យកទំនិញ</value>
+  </data>
+	<data name="Park Date" xml:space="preserve">
+    <value>ថ្ងៃផ្ញើរ</value>
+  </data>
+	<data name="Park expire" xml:space="preserve">
+    <value>ផុតកំណត់ថ្ងៃផ្ញើរ</value>
+  </data>
+  <data name="Park expire on" xml:space="preserve">
+    <value>ផុតកំណត់ថ្ងៃផ្ញើរ</value>
+  </data>
+  <data name="Park note" xml:space="preserve">
+    <value>ផ្ញើរ</value>
   </data>
 </root>

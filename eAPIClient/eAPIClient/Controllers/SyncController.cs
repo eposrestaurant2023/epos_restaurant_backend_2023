@@ -438,6 +438,8 @@ namespace eAPIClient.Controllers
             if (!is_get_remote_data_success)
                 return BadRequest();
 
+
+
             List<ProductMenuModel> product_menu_datas = await GetRemoteProductMenu(business_branch_id);
             if (!is_get_remote_data_success)
                 return BadRequest();
@@ -453,6 +455,7 @@ namespace eAPIClient.Controllers
             List<ConfigDataModel> config_datas = await GetConfigData(business_branch_id);
             if (!is_get_remote_data_success)
                 return BadRequest();
+
             List<SaleStatusModel> sale_statuses = await GetSaleStatus();
             if (!is_get_remote_data_success)
                 return BadRequest();
@@ -502,6 +505,17 @@ namespace eAPIClient.Controllers
                         db.SaleProductStatuses.Update(a);
                     }
                 }
+
+                //get remote translate text 
+
+                List<eShareModel.TranslateTextModel> translate_texts = await GetTranslateText();
+                if (translate_texts.Any())
+                {
+                    db.Database.ExecuteSqlRaw("delete tbl_translate_text");
+                    db.TranslateTexts.AddRange(translate_texts);
+                }
+
+
             }
 
 
@@ -510,15 +524,7 @@ namespace eAPIClient.Controllers
             db.ConfigDatas.AddRange(config_datas.Where(r=>r.is_local_setting==false));
 
 
-            //get remote translate text 
-
-            List<eShareModel.TranslateTextModel> translate_texts = await GetTranslateText();
-            if (translate_texts.Any())
-            {
-                db.Database.ExecuteSqlRaw("delete tbl_translate_text");
-                db.TranslateTexts.AddRange(translate_texts);
-            }
-
+           
 
 
             await db.SaveChangesAsync();

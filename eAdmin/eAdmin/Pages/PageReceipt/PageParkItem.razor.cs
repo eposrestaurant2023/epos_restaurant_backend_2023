@@ -9,37 +9,37 @@ using System;
 using MatBlazor;
 using eAdmin.JSHelpers;
 
-namespace eAdmin.Pages.PageCustomers.CustomerDetails
+namespace eAdmin.Pages.PageReceipt
 {
-    public class ComCustomerSaleProductHistoryBase : PageCore
-    { 
-        [Parameter] public Guid customer_id { get; set; }
-        public List<SaleProductModel> models = new List<SaleProductModel>();
+    public class ComParkItemBase : PageCore
+    {
+        public List<SaleProductModel> models = new();
+        public SaleProductModel model = new();
         public int TotalRecord = 0;
         string controller_api = "saleproduct";
-
         public string StateKey
         {
             get
             {
 
-                return "STOMERPRODUCTsaledmRGrRwdzVOID20154coN" + gv.current_login_user.id + customer_id.ToString(); //Storage and Session Key  
+                return "0ZzmqRxXlP293nLKTwgoZhToVFJscPE0" + gv.current_login_user.id; //Storage and Session Key  
             }
         }
         public string ControllerApi
         {
             get
             {
-                if (state.pager.order_by == "id")
+                if (string.IsNullOrEmpty(state.pager.order_by) || state.pager.order_by == "id")
                 {
-                    state.pager.order_by = "created_date";
+                    state.pager.order_by = "sale/created_date";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}?$select=id,product_id,sale_id,quantity,price,sale_product_discount_amount,total_tax_amount,total_amount,created_date,created_by,portion_name,&";
-                url += $"$expand=sale($select=id,customer_id,business_branch_id,outlet_id,working_date,working_day_number,document_number,cashier_shift_number;$expand=sale_status,outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)),product($select=id,product_name_en,product_name_kh,product_code,photo)";
-                url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                string url = $"{controller_api}?";
+                url += $"$select=id,sale_id,total_amount,station_name_en,station_name_kh,station_id,quantity,price,seat_number,is_park,park_note,park_expired_date";
+                url += $"&$expand=product($select=id,product_code,product_name_en,product_name_kh,photo),sale($select=id,customer_id,document_number,working_day_number,cashier_shift_number,sale_number,sale_type;$expand=sale_status,customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh))";
+                url += $"&keyword={GetFilterValue2(state.filters, "keyword", "")}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
-                return url + GetFilter(state.filters);  
+                return url + GetFilter(state.filters);
             }
         }
 
@@ -47,29 +47,40 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
         {
             is_loading = true;
             state = await GetState(StateKey);
-
-            var default_view = gv.GetDefaultModuleView("page_sale_product");
-            if (default_view != null)
+            if (string.IsNullOrEmpty(state.page_title))
             {
-                state.page_title = lang[default_view.title];
-            }
-
-            if (state.filters.Where(r => r.key == "sale/customer_id").Count() == 0)
-            {
-                state.filters.Add(new FilterModel()
-                {
-                    key = "sale/customer_id",
-                    value1 = customer_id.ToString()
-                });
+                state.page_title = "Park Item";
             }
             await LoadData();
-            //await LoadSaleProductModifier();
-        }   
+            is_loading = false;
+        }
 
-        public async Task LoadData(string api_url="")
+        public async Task LoadData(string api_url = "")
         {
             is_loading = true;
-            if (state.filters.Where(r => r.key == "sale/business_branch_id").Count() == 0)
+            //Business Branch Filter
+            state.filters.Add(new FilterModel()
+            {
+                key = "is_park",
+                value1 = "true",
+                is_clear_all = true,
+                will_remove = true,
+                is_show_on_infor = false
+            });
+
+            if (state.filters.Where(r => r.key == "is_deleted").Count() == 0)
+            {
+                //Business Branch Filter
+                state.filters.Add(new FilterModel()
+                {
+                    key = "is_deleted",
+                    value1 = "false",
+                    is_clear_all = true,
+                    will_remove = true,
+                    is_show_on_infor = false
+                });
+            }
+            if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
             {
                 //Business Branch Filter
                 state.filters.Add(new FilterModel()
@@ -85,7 +96,8 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                     is_show_on_infor = false
                 });
             }
-            if (state.filters.Where(r => r.key == "sale/outlet_id").Count() == 0)
+
+            if (state.filters.Where(r => r.key == "outlet_id").Count() == 0)
             {
                 //Outlet Filter
                 state.filters.Add(new FilterModel()
@@ -101,8 +113,6 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                     is_show_on_infor = false
                 });
             }
-
-            //
 
             if (string.IsNullOrEmpty(api_url))
             {
@@ -120,14 +130,6 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             is_loading = false;
         }
 
-        async Task LoadSaleProductModifier()
-        {
-            var res = await http.ApiGetOData("SaleProductModifier");
-            if (res.IsSuccess)
-            {
-
-            }
-        }
         public async Task FilterClick()
         {
             state.filters.RemoveAll(r => r.filter_info_text != "");
@@ -137,10 +139,10 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                 state.filters.Add(
                     new FilterModel()
                     {
-                        key = "sale/working_date",
+                        key = "sale/created_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                        filter_title = lang["Sale Date"],
-                        filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " +state.date_range.end_date.ToString(gv.date_format),
+                        filter_title = lang["Park Date"],
+                        filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " + state.date_range.end_date.ToString(gv.date_format),
                         filter_operator = "Ge",
                         is_clear_all = true,
                         will_remove = true,
@@ -151,44 +153,12 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                 //end date
                 state.filters.Add(new FilterModel()
                 {
-                    key = "sale/working_date",
+                    key = "sale/created_date",
                     value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.end_date),
                     is_clear_all = true,
                     filter_operator = "Le",
                     will_remove = true,
                     state_property_name = "date_range"
-                });  
-            }
-            if (state.product_group.id > 0)
-            {
-
-                state.filters.Add(new FilterModel()
-                {
-                    key = "product/product_category/product_group/product_group_en",
-                    value1 = state.product_group.id.ToString(),
-                    is_clear_all = true,
-                    filter_title = lang["Product Group"],
-                    state_property_name = "product_group",
-                    filter_info_text = state.product_group.product_group_en,
-                    filter_operator = "eq",
-                    will_remove = true
-                });
-            }
-
-
-            if (state.product_category.id > 0)
-            {
-                //product category
-                state.filters.Add(new FilterModel()
-                {
-                    key = "product/product_category_id",
-                    value1 = state.product_category.id.ToString(),
-                    is_clear_all = true,
-                    filter_title = lang["Product Category"],
-                    state_property_name = "product_category",
-                    filter_info_text = state.product_category.product_category_en,
-                    filter_operator = "eq",
-                    will_remove = true
                 });
             }
 
@@ -274,8 +244,32 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                     is_show_on_infor = false
                 });
             }
-
             state.pager.current_page = 1;
+            await LoadData();
+        }
+
+        public async Task SelectChange(int perpage)
+        {
+            state.pager.per_page = perpage;
+            state.pager.current_page = 1;
+            await LoadData();
+        }
+        public async Task ChangePager(int _page)
+        {
+            state.pager.current_page = _page;
+            await LoadData();
+        }
+
+        public async Task OnSearch(string keyword)
+        {
+            state.pager = new PagerModel();
+            SetFilterValue2(state.filters, "keyword", keyword);
+            await LoadData();
+        }
+        public async Task OrderBy(string col_name = "")
+        {
+            state.pager.order_by = col_name;
+            state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
             await LoadData();
         }
 
@@ -298,6 +292,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                     state.multi_select_id_2.Clear();
                     state.multi_select_value_2.Clear();
                 }
+
                 state.filters.RemoveAll(r => r.key == k);
             }
 
@@ -307,6 +302,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             await LoadData();
             is_loading = false;
         }
+
         public async Task RemoveAllFilter()
         {
             is_loading = true;
@@ -335,32 +331,6 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             state.pager.current_page = 1;
             await LoadData();
             is_loading = false;
-        }
-
-
-        public async Task SelectChange(int perpage)
-        {
-            state.pager.per_page = perpage;
-            state.pager.current_page = 1;
-            await LoadData();
-        }
-        public async Task ChangePager(int _page)
-        {
-            state.pager.current_page = _page;
-            await LoadData();
-        }
-
-        public async Task OnSearch(string keyword)
-        {
-            state.pager = new PagerModel();
-            SetFilterValue2(state.filters, "keyword", keyword);
-            await LoadData();
-        }
-        public async Task OrderBy(string col_name = "")
-        {
-            state.pager.order_by = col_name;
-            state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
-            await LoadData();
         }
 
     }

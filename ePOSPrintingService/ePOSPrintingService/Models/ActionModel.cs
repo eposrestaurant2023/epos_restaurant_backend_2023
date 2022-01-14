@@ -17,5 +17,7 @@ namespace ePOSPrintingService.Models
         public int copies { get; set; } = 1;
         public string language { get; set; } = "en";
 
+        public bool is_reprint { get; set; } = false;
+
     }
 }

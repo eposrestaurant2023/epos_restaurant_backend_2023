@@ -10,7 +10,7 @@
         </TdCenter>
         <td class="cust_wirth_space">
             <ComAuthorize roles="@gv.GetRole("product_management")" OnClick="@(()=>nav.NavigateTo($"product/{sp.product_id}"))">
-                <div>@sp.product_display_name @if (sp.product_display_name == sp.product_category_kh)
+                <div>@sp.product_display_name @if (sp.product_name_en != sp.product_name_kh)
                                 {<br /> @sp.product_name_kh} </div>
             </ComAuthorize>
             <ComSaleDetail_SaleProductMoreInformation sale_product="@sp"/>
