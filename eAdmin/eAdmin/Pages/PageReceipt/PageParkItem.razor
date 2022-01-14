@@ -56,7 +56,7 @@
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
                        ScrollClass="uk-overflow-auto">
                     <TableHeader>
-                        @HeaderTemplate("sale/created_date", lang["Park Date"], "uk-text-center")
+                        @HeaderTemplate("sale/working_date", lang["Park Date"], "uk-text-center")
                         @HeaderTemplate("sale/document_number", lang["Document #"], "uk-text-left")
                         <ThCenter>
                             <div>@lang["Working Day #"]</div>
@@ -81,7 +81,7 @@
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>
-                            @p.sale?.created_date.ToString(gv.date_format)
+                            @p.sale?.working_date.ToString(gv.date_format)
                         </TdCenter>
                         <td>
                             <div>

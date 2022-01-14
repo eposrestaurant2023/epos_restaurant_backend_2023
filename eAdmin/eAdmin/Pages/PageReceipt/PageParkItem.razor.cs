@@ -31,12 +31,12 @@ namespace eAdmin.Pages.PageReceipt
             {
                 if (string.IsNullOrEmpty(state.pager.order_by) || state.pager.order_by == "id")
                 {
-                    state.pager.order_by = "sale/created_date";
+                    state.pager.order_by = "sale/working_date";
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
                 url += $"$select=id,sale_id,total_amount,station_name_en,station_name_kh,station_id,quantity,price,seat_number,is_park,park_note,park_expired_date";
-                url += $"&$expand=product($select=id,product_code,product_name_en,product_name_kh,photo),sale($select=id,customer_id,document_number,working_day_number,cashier_shift_number,sale_number,sale_type;$expand=sale_status,customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh))";
+                url += $"&$expand=product($select=id,product_code,product_name_en,product_name_kh,photo),sale($select=id,customer_id,document_number,working_day_number,working_date,cashier_shift_number,sale_number,sale_type;$expand=sale_status,customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh))";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "")}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);
@@ -51,6 +51,18 @@ namespace eAdmin.Pages.PageReceipt
             {
                 state.page_title = "Park Item";
             }
+            //Business Branch Filter
+            if (state.filters.Where(r => r.key == "is_park").Count() == 0)
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "is_park",
+                    value1 = "true",
+                    is_clear_all = true,
+                    will_remove = true,
+                    is_show_on_infor = false
+                });
+            }
             await LoadData();
             is_loading = false;
         }
@@ -58,16 +70,6 @@ namespace eAdmin.Pages.PageReceipt
         public async Task LoadData(string api_url = "")
         {
             is_loading = true;
-            //Business Branch Filter
-            state.filters.Add(new FilterModel()
-            {
-                key = "is_park",
-                value1 = "true",
-                is_clear_all = true,
-                will_remove = true,
-                is_show_on_infor = false
-            });
-
             if (state.filters.Where(r => r.key == "is_deleted").Count() == 0)
             {
                 //Business Branch Filter
@@ -80,9 +82,15 @@ namespace eAdmin.Pages.PageReceipt
                     is_show_on_infor = false
                 });
             }
+            if (state.filters.Where(r => r.key == "sale/business_branch_id").Any())
+            {
+                state.filters.RemoveAll(r => r.key == "sale/business_branch_id");
+            }
+
             if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
             {
                 //Business Branch Filter
+                
                 state.filters.Add(new FilterModel()
                 {
                     key = "sale/business_branch_id",
@@ -96,10 +104,14 @@ namespace eAdmin.Pages.PageReceipt
                     is_show_on_infor = false
                 });
             }
-
+            if (state.filters.Where(r => r.key == "sale/outlet_id").Any())
+            {
+                state.filters.RemoveAll(r => r.key == "sale/outlet_id");
+            }
             if (state.filters.Where(r => r.key == "outlet_id").Count() == 0)
             {
                 //Outlet Filter
+                
                 state.filters.Add(new FilterModel()
                 {
                     key = "sale/outlet_id",
@@ -139,7 +151,7 @@ namespace eAdmin.Pages.PageReceipt
                 state.filters.Add(
                     new FilterModel()
                     {
-                        key = "sale/created_date",
+                        key = "sale/working_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
                         filter_title = lang["Park Date"],
                         filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " + state.date_range.end_date.ToString(gv.date_format),
@@ -153,7 +165,7 @@ namespace eAdmin.Pages.PageReceipt
                 //end date
                 state.filters.Add(new FilterModel()
                 {
-                    key = "sale/created_date",
+                    key = "sale/working_date",
                     value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.end_date),
                     is_clear_all = true,
                     filter_operator = "Le",
@@ -175,7 +187,10 @@ namespace eAdmin.Pages.PageReceipt
                 {
                     business_branch_ids = business_branch_ids.Substring(0, business_branch_ids.Length - 1);
                 }
-
+                if (state.filters.Where(r => r.key == "sale/business_branch_id").Any())
+                {
+                    state.filters.RemoveAll(r => r.key == "sale/business_branch_id");
+                }
                 state.filters.Add(new FilterModel()
                 {
                     key = "sale/business_branch_id",
@@ -190,6 +205,10 @@ namespace eAdmin.Pages.PageReceipt
             }
             else
             {
+                if (state.filters.Where(r => r.key == "sale/business_branch_id").Any())
+                {
+                    state.filters.RemoveAll(r => r.key == "sale/business_branch_id");
+                }
                 state.filters.Add(new FilterModel()
                 {
                     key = "sale/business_branch_id",

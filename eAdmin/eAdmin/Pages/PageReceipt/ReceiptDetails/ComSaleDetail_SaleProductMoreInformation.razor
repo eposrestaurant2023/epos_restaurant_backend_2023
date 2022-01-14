@@ -14,15 +14,20 @@
     <Column ClassName="font-xs text-pre-wrap" is_visible="@(!string.IsNullOrEmpty(sale_product.created_by))"><Icon icon="person" icon_color="#585858" size="12px" title="@lang["Order by"]" /> @sale_product.created_by @lang["On_Hour"] @sale_product.created_date.ToString(gv.date_time_format)</Column>
     @if (sale_product.is_park == true)
     {
-<Column ClassName="font-xs text-pre-wrap" is_visible="@(!string.IsNullOrEmpty(sale_product.park_note))">
-    <Icon icon="note" icon_color="#585858" size="12px" title="@lang["Park note"]" /> @lang["Park note"]: @sale_product.park_note
-</Column>
+        <Column ClassName="font-xs text-pre-wrap" is_visible="@(!string.IsNullOrEmpty(sale_product.park_note))">
+            <Icon icon="note" icon_color="#585858" size="12px" title="@lang["Park note"]" /> @lang["Park note"]: @sale_product.park_note
+        </Column>
         <Column ClassName="font-xs text-pre-wrap">
             @lang["Park expire on"] @sale_product?.park_expired_date.Value.ToString(gv.date_format)
         </Column>
     }
 
-
+    @if (sale_product.is_redeem_park == true)
+    {
+        <Column ClassName="font-xs text-pre-wrap">
+            @lang["Redeem on"] @working_date.ToString(gv.date_format)
+        </Column>
+    }
 
 }
 
@@ -30,4 +35,5 @@
 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public SaleProductModel sale_product { get; set; }
+    [Parameter] public DateTime working_date { get; set; }
 }

@@ -214,7 +214,7 @@ namespace eAdmin.Pages.PageReceipt
             }
 
             // filter outlet
-            if (state.multi_select_value_2 != null)
+            if (state.multi_select_value_2 != null && state.multi_select_id_2.Any())
             { 
                 string value = "";
                 foreach(var x in state.multi_select_value_2)
