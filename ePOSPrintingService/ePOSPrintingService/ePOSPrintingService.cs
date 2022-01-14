@@ -141,6 +141,10 @@ namespace ePOSPrintingService
                         case "print_waiting_order":
                             ReceiptListModel waiting_order = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
                             Program.PrintWaitingOrder(action.sale_id, waiting_order, Program.CashierPrinter, action.copies);
+                            break;  
+                        case "print_park":
+                            ReceiptListModel park = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintParkItemReceipt(action.sale_id, park, Program.CashierPrinter,action.is_reprint);
                             break; 
                         case "print_wifi_password":
                            

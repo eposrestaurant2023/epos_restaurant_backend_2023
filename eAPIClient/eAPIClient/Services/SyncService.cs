@@ -20,7 +20,7 @@ namespace eAPIClient.Services
 
         Task<bool> SyncSetting();
         Task<bool> SyncAllData();
-   
+
         void sendSyncRequest();
         void sendSyncRemoteDataRequest();
 
@@ -28,10 +28,10 @@ namespace eAPIClient.Services
         void OnSyncFromRemoteServerAsync(object sender, FileSystemEventArgs e);
 
     }
-        public class SyncService :ISyncService
+    public class SyncService : ISyncService
     {
         public IConfiguration config { get; }
-        
+
         private readonly IHttpService http;
 
         string path = "";
@@ -39,14 +39,14 @@ namespace eAPIClient.Services
         string business_branch_id = "";
 
         private readonly IWebHostEnvironment environment;
-        public SyncService(  IConfiguration _config, IHttpService _http, IWebHostEnvironment environment)
+        public SyncService(IConfiguration _config, IHttpService _http, IWebHostEnvironment environment)
         {
-          
+
             config = _config;
             http = _http;
-          
+
             this.environment = environment;
-           path  = environment.ContentRootPath + "\\logs";
+            path = environment.ContentRootPath + "\\logs";
             business_branch_name = _config.GetValue<string>("business_branch_name");
             business_branch_id = _config.GetValue<string>("business_branch_id");
         }
@@ -55,7 +55,7 @@ namespace eAPIClient.Services
         public void sendSyncRequest()
         {
 
-              path = environment.ContentRootPath + "\\logs";
+            path = environment.ContentRootPath + "\\logs";
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -64,12 +64,12 @@ namespace eAPIClient.Services
             using (FileStream fs = File.Create(Path.Combine(path, $"{Guid.NewGuid()}.txt")))
             {
                 //fs.Write(item.File, 0, item.File.Length);
-            }                                                                          
+            }
         }
         public void sendSyncRemoteDataRequest()
         {
 
-             path = environment.ContentRootPath + "\\logs";
+            path = environment.ContentRootPath + "\\logs";
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -78,7 +78,7 @@ namespace eAPIClient.Services
             using (FileStream fs = File.Create(Path.Combine(path, $"{Guid.NewGuid()}.bat")))
             {
                 //fs.Write(item.File, 0, item.File.Length);
-            }                                                                        
+            }
         }
 
 
@@ -111,7 +111,7 @@ namespace eAPIClient.Services
                             {
                                 b.customer = null;
                                 b.is_synced = true;
-                               var save_to_server_resp =  await http.ApiPost("CustomerBusinessBranch/Save", b);
+                                var save_to_server_resp = await http.ApiPost("CustomerBusinessBranch/Save", b);
                                 if (!save_to_server_resp.IsSuccess)
                                 {
                                     http.SendBackendTelegram($"{business_branch_name}%0aSync Customer to admin database fail. Data:{JsonSerializer.Serialize(b)}. Error: {save_to_server_resp.Content}");
@@ -122,9 +122,10 @@ namespace eAPIClient.Services
                 }
                 http.SendBackendTelegram($"{business_branch_name}%0aSync Customer complete");
                 DeleteOldLogFile();
-               
+
             }
-            catch(Exception ex) {
+            catch (Exception ex)
+            {
                 http.SendBackendTelegram($"{business_branch_name}%0aSync Customer fail. error message: {ex.Message}");
             }
             is_sync_customer_busy = false;
@@ -152,7 +153,7 @@ namespace eAPIClient.Services
             catch (Exception ex)
             {
                 Log.Error(ex.ToString());
-                return new List<DataForSyncModel>();   
+                return new List<DataForSyncModel>();
             }
         }
 
@@ -425,13 +426,13 @@ namespace eAPIClient.Services
                         return true;
                     }
 
-                 
-                else
-                {
-                    Log.Error($"Customer data not exists. {id.ToString()}");
-                    return false;
+
+                    else
+                    {
+                        Log.Error($"Customer data not exists. {id.ToString()}");
+                        return false;
+                    }
                 }
-            }
             }
             catch (Exception ex)
             {
@@ -495,14 +496,14 @@ namespace eAPIClient.Services
                 http.SendBackendTelegram($"{business_branch_name}%0aStart Auto update data from admin db.");
                 await SyncSetting();
 
-                 await SyncNote();
+                await SyncNote();
 
-                 await SyncMenuAndProduct();
+                await SyncMenuAndProduct();
 
                 await SyncTranslateText();
                 is_sync_all_busy = false;
                 http.SendBackendTelegram($"{business_branch_name}%0aAuto update data from admin db complete.");
-                
+
             }
 
 
@@ -511,10 +512,10 @@ namespace eAPIClient.Services
         }
         public async Task<bool> SyncSetting()
         {
-           
 
-                http.SendBackendTelegram($"{business_branch_name}%0aStart Auto update config data.");
-           
+
+            http.SendBackendTelegram($"{business_branch_name}%0aStart Auto update config data.");
+
             var prepare_sync_response = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data", procedure_parameter = $"'{business_branch_id}'" });
             if (prepare_sync_response.IsSuccess)
             {
@@ -553,7 +554,7 @@ namespace eAPIClient.Services
                             {
                                 string message = ex.ToString();
                                 http.SendBackendTelegram($"{business_branch_name}%0aAuto update config data fail%0a{ex}");
-                            } );
+                            });
                         }
 
                     }
@@ -578,7 +579,7 @@ namespace eAPIClient.Services
 
                     http.SendBackendTelegram($"{business_branch_name}%0aAuto update Menu and Product Start.");
 
-                    
+
 
                     db.Database.ExecuteSqlRaw("exec [sp_delete_menu_and_product]");
 
@@ -605,7 +606,8 @@ namespace eAPIClient.Services
 
                     return true;
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
 
                 http.SendBackendTelegram($"{business_branch_name}%0aAuto update Menu and Product Fail.{ex.ToString()}");
@@ -615,13 +617,13 @@ namespace eAPIClient.Services
 
         async Task<List<ProductPriceModel>> GetRemoteProductPrice()
         {
-            
+
             string url = "BusinessBranchProductPrice?";
             url = url + $"&$filter=business_branch_id eq {business_branch_id}";
             var resp = await http.ApiGetOData(url);
             if (resp.IsSuccess)
             {
-              
+
                 return JsonSerializer.Deserialize<List<ProductPriceModel>>(resp.Content.ToString());
             }
             return new List<ProductPriceModel>();
@@ -629,7 +631,7 @@ namespace eAPIClient.Services
 
         async Task<List<ProductMenuModel>> GetRemoteProductMenu()
         {
-           
+
             string url = "ProductMenu?$select=id,product_id,menu_id";
             url = url + "&$filter=is_deleted eq false and  ";
             url = url + "menu/is_deleted eq false  and ";
@@ -641,7 +643,7 @@ namespace eAPIClient.Services
             var resp = await http.ApiGetOData(url);
             if (resp.IsSuccess)
             {
-           
+
                 return JsonSerializer.Deserialize<List<ProductMenuModel>>(resp.Content.ToString());
             }
             return new List<ProductMenuModel>();
@@ -650,11 +652,11 @@ namespace eAPIClient.Services
 
         async Task<List<MenuModel>> GetRemoteMenu()
         {
-         
+
             var resp = await http.ApiGetOData($"Menu?$select=id,parent_id,menu_name_en,menu_name_kh,text_color,background_color,root_menu_id,is_shortcut_menu&$filter=business_branch_id eq {business_branch_id} and is_deleted eq false and status eq true");
             if (resp.IsSuccess)
             {
-              
+
                 return JsonSerializer.Deserialize<List<MenuModel>>(resp.Content.ToString());
             }
             return new List<MenuModel>();
@@ -664,7 +666,7 @@ namespace eAPIClient.Services
         {
             List<ProductModel> _products = new List<ProductModel>();
 
-          
+
             string _select_product_modifier = "$select=id,parent_id,product_id,modifier_name,price,section_name,is_required,is_multiple_select,is_section,sort_order,modifier_id";
 
             string url = $"product?$select=revenue_group_name,product_group_id,product_tax_value,product_category_id,product_category_en,product_category_kh,id,is_open_product,";
@@ -677,7 +679,7 @@ namespace eAPIClient.Services
             if (resp.IsSuccess)
             {
 
-             
+
                 _products = JsonSerializer.Deserialize<List<ProductModel>>(resp.Content.ToString());
                 _products.ForEach((p) =>
                 {
@@ -784,7 +786,8 @@ namespace eAPIClient.Services
                         return true;
                     }
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 http.SendBackendTelegram($"{business_branch_name}%0aAuto update note from admin db fail. {ex.ToString()}");
             }
@@ -808,21 +811,21 @@ namespace eAPIClient.Services
                 }
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 http.SendBackendTelegram($"{business_branch_name}%0aAuto update translate text. {ex.ToString()}");
             }
-           
+
             return false;
         }
 
         async Task<List<eShareModel.TranslateTextModel>> GetTranslateText()
         {
-          
+
             var resp = await http.ApiGet("GetTranslateText");
             if (resp.IsSuccess)
             {
-                
+
                 return JsonSerializer.Deserialize<List<eShareModel.TranslateTextModel>>(resp.Content.ToString());
             }
             return new List<eShareModel.TranslateTextModel>();
@@ -851,20 +854,20 @@ namespace eAPIClient.Services
         }
 
         bool is_sync_busy = false;
-        async void  ISyncService.OnCreatedAsync(object sender, FileSystemEventArgs e)
+        async void ISyncService.OnCreatedAsync(object sender, FileSystemEventArgs e)
         {
 
             if (is_sync_busy)
             {
                 http.SendBackendTelegram($"{business_branch_name}%0aSync process  is busy.");
 
-               
+
                 return;
             }
 
             is_sync_busy = true;
 
-               
+
             http.SendBackendTelegram($"{business_branch_name}%0aStart sync data");
             await SyncDataToAdminDatabase();
 
@@ -874,8 +877,8 @@ namespace eAPIClient.Services
             DeleteOldLogFile();
 
             is_sync_busy = false;
-             
-            
+
+
         }
 
 
@@ -922,7 +925,7 @@ namespace eAPIClient.Services
 
 
                 http.SendBackendTelegram($"{ business_branch_name}%0aSync completed");
-          
+
 
 
 
@@ -943,10 +946,10 @@ namespace eAPIClient.Services
 
             DirectoryInfo dinfo = new DirectoryInfo(path);
             FileInfo[] Files = dinfo.GetFiles("*.*");
-            
-            foreach(FileInfo f in Files)
+
+            foreach (FileInfo f in Files)
             {
-                if(f.CreationTime < DateTime.Now.AddMinutes(-1))
+                if (f.CreationTime < DateTime.Now.AddMinutes(-1))
                 {
                     try
                     {

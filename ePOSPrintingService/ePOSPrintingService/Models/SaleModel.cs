@@ -117,7 +117,14 @@ namespace ePOSPrintingServiceReportModel
         public string deleted_note { get; set; }
 
         public bool status { get; set; } = true;
+        
         public bool is_reprint_receipt { get; set; } = false;
+
+
+        public bool is_park { get; set; }
+        public bool is_redeem_park { get; set; }
+        public Guid? park_sale_id { get; set; }
+        public Guid? redeem_park_sale_id { get; set; }
 
 
 
