@@ -75,13 +75,22 @@
                         <div><span uk-tooltip="@lang["Working day number"]">@p.sale.working_day_number</span> <span uk-tooltip="Cashier shift number">@p.sale.cashier_shift_number</span></div>
                     </td>
                     <td>
-                        <ComProfileInfo url="@($"product/{p.product_id}")" photo="@p.product?.photo" role="product_management">@p.product?.product_display_name</ComProfileInfo>
-                        <div>
-                            @p.portion_name
-                            @foreach (var pp in p.sale_product_modifiers.Where(r=>r.is_deleted == false && r.status == true))
+                        <ComProfileInfo url="@($"product/{p.product_id}")" photo="@p.product?.photo" role="product_management">
+                        @p.product?.product_display_name
+                            @if(p.product.product_name_en != p.product.product_name_kh)
                             {
-                                @pp.modifier_name
+                                <div>@p.product.product_name_kh</div>
                             }
+                        </ComProfileInfo>
+                        <div>
+                            @if (p.portion_name != "Normal")
+                            {
+                            @p.portion_name
+                            }
+                            @foreach (var pp in p.sale_product_modifiers.Where(r => r.is_deleted == false && r.status == true))
+                                {
+                                @pp.modifier_name
+                                }
                         </div>
                     </td>
                     <td>
