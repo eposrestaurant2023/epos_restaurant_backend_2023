@@ -205,7 +205,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>RECEIPT COPY</Value>
+                              <Value>PRINT COPY</Value>
                               <Style>
                                 <FontFamily>kh system</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -418,7 +418,7 @@
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="Textbox4">
-                      <CanShrink>true</CanShrink>
+                      <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
@@ -504,39 +504,6 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox6">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>kh system</FontFamily>
-                                <FontSize>9pt</FontSize>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox6</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Width>0.25pt</Width>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>1pt</PaddingTop>
-                        <PaddingBottom>1pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
                     <Textbox Name="closed_by">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -559,7 +526,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -575,8 +542,10 @@
                         <PaddingBottom>1pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>
+                <TablixCell />
               </TablixCells>
             </TablixRow>
           </TablixRows>
@@ -917,7 +886,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!note.Value</Value>
+                              <Value>=Fields!park_note.Value</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontFamily>Kh System</FontFamily>
@@ -935,7 +904,7 @@
                           <Width>0.25pt</Width>
                         </Border>
                         <BottomBorder>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                         </BottomBorder>
                         <PaddingLeft>10pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -947,6 +916,85 @@
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.04167in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox15">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox15</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>10pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox17">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox17</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>10pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
               </TablixCells>
             </TablixRow>
           </TablixRows>
@@ -974,9 +1022,10 @@
                 <TablixMember />
                 <TablixMember>
                   <Visibility>
-                    <Hidden>=Fields!note.Value = ""</Hidden>
+                    <Hidden>=Fields!park_note.Value=""</Hidden>
                   </Visibility>
                 </TablixMember>
+                <TablixMember />
               </TablixMembers>
             </TablixMember>
           </TablixMembers>
@@ -984,7 +1033,7 @@
         <DataSetName>SaleProduct</DataSetName>
         <Top>2.18102in</Top>
         <Left>0.00626in</Left>
-        <Height>1.1389in</Height>
+        <Height>1.18057in</Height>
         <Width>2.77082in</Width>
         <ZIndex>2</ZIndex>
         <Style>
@@ -1006,11 +1055,13 @@
                 </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox3</rd:DefaultName>
-        <Top>3.73833in</Top>
+        <Top>3.86333in</Top>
         <Left>0.01249in</Left>
         <Height>0.25in</Height>
         <Width>2.77085in</Width>
@@ -1030,7 +1081,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>3.98833in</Height>
+    <Height>4.11333in</Height>
     <Style />
   </Body>
   <Width>2.78334in</Width>

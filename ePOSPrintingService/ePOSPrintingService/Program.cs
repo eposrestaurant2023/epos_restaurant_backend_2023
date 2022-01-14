@@ -599,22 +599,12 @@ namespace ePOSPrintingService
         }
        
 
-       public static  Thread ThreadStart(Action action)
-        {
-            Thread thread = new Thread(() => { action(); });
-            thread.Start();
-            return thread;
-        }
-
+      
 
         public static void PrintWaitingOrder(string sale_id, ReceiptListModel receipt, string printer_name, int copies)
         {
             try
-            {
-
-
-                 
-
+            { 
                 DynamicDataModel receipt_data = new DynamicDataModel();
 
                 var data = GetApiData($"sp_get_sale_data_for_print_bill", $"'{sale_id}','json'");
@@ -625,11 +615,7 @@ namespace ePOSPrintingService
                 else
                 {
                     return;
-                }
-
-
-
-
+                } 
                 LocalReport report = new LocalReport();
 
                 report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.InvoiceFileName);
@@ -671,6 +657,7 @@ namespace ePOSPrintingService
                      receipt.MarginRight,
                      receipt.MarginBottom
                      );
+
                 Print(printer_name, Convert.ToInt16(copies));
 
                 IsPrintSuccess = true;
@@ -687,12 +674,8 @@ namespace ePOSPrintingService
             try
             {
 
-                ReceiptListModel receipt = ReceiptLists.FirstOrDefault();
-
-               
-
-                DynamicDataModel receipt_data = new DynamicDataModel();
-
+                ReceiptListModel receipt = ReceiptLists.FirstOrDefault(); 
+                DynamicDataModel receipt_data = new DynamicDataModel(); 
                 var data = GetApiData($"sp_get_setting_data", $"'json'");
                 if (data.Any())
                 {
@@ -706,10 +689,7 @@ namespace ePOSPrintingService
 
                 LocalReport report = new LocalReport();
 
-                report.ReportPath = string.Format(@"{0}\RDLC\rpt_wifi_password.rdlc", AppDomain.CurrentDomain.BaseDirectory);
-
-
-
+                report.ReportPath = string.Format(@"{0}\RDLC\rpt_wifi_password.rdlc", AppDomain.CurrentDomain.BaseDirectory); 
                 //Setting data
                 DataTable setting_data = new DataTable();
                 List<SettingModel> settings = new List<SettingModel>();
@@ -881,7 +861,7 @@ namespace ePOSPrintingService
                      receipt.MarginRight,
                      receipt.MarginBottom
                      );
-                Print(printer_name, Convert.ToInt16(receipt.number_invoice_copies));
+                Print(printer_name, Convert.ToInt16(receipt.number_receipt_copies));
 
 
                 Thread t = ThreadStart(() => SendTelegramAlert(report, is_reprint ? "Re Print Park Item Receipt" : "Print Park Item Receipt"));
@@ -962,7 +942,7 @@ namespace ePOSPrintingService
                      );
                 Print(printer_name,1);
 
-                Thread t = new Thread(() => SendTelegramAlert(report, "Print Deleted Order"));
+                Thread t = ThreadStart(() => SendTelegramAlert(report, "Print Deleted Order"));
 
                
                 IsPrintSuccess = true;
@@ -1024,11 +1004,6 @@ namespace ePOSPrintingService
         {
             try
             {
-
-
-              
-
-
                 DynamicDataModel report_data = new DynamicDataModel();
 
                 var data = GetApiData($"sp_get_close_working_data_for_print", $"'{working_day_id}','json','{language}'");
@@ -1091,11 +1066,10 @@ namespace ePOSPrintingService
                      receipt.MarginRight,
                      receipt.MarginBottom
                      );
-                Print(printer_name,1);
+                Print(printer_name,1); 
 
-                Thread t = new Thread(() => SendTelegramAlert(report, $"Close working day report {working_day.FirstOrDefault().working_day_number}"));
-                
-
+                Thread t = ThreadStart(() => SendTelegramAlert(report, $"Close working day report {working_day.FirstOrDefault().working_day_number}"));
+  
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -1104,9 +1078,15 @@ namespace ePOSPrintingService
                 IsPrintSuccess = false;
             };
         }
+        private static Thread ThreadStart(Action action)
+        {
+            Thread thread = new Thread(() => { action(); });
+            thread.Start();
+            return thread;
+        }
 
 
-        public static void PrintCloseWorkingDaySaleProduct(string working_day_id, ReceiptListModel receipt, string printer_name, string printed_by = "")
+        public static void PrintCloseWorkingDaySaleProduct(string working_day_id, ReceiptListModel receipt, string printer_name, string printed_by = "",string language="en")
         {
             try
             {
@@ -1115,7 +1095,7 @@ namespace ePOSPrintingService
 
                 DynamicDataModel report_data = new DynamicDataModel();
 
-                var data = GetApiData($"sp_get_close_working_sale_product_data_for_print", $"'{working_day_id}','json'");
+                var data = GetApiData($"sp_get_close_working_sale_product_data_for_print", $"'{working_day_id}','{language}','json'");
                 if (data.Any())
                 {
                     report_data = data.FirstOrDefault();
@@ -1166,7 +1146,8 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
                 report.DataSources.Add(new ReportDataSource("SaleProductData", sale_product_data));
                 report.DataSources.Add(new ReportDataSource("FOCSaleProductData", foc_sale_product_data));
-                 
+                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(GetTranslateText(language))));
+
                 Export(report,
                      receipt.PageWidth,
                      receipt.PageHeight,
@@ -1176,7 +1157,8 @@ namespace ePOSPrintingService
                      receipt.MarginBottom
                      );
                 Print(printer_name, 1);
-                Thread t = new Thread(() => SendTelegramAlert(report, $"Close working day - Sale Product Report  {working_day.FirstOrDefault().working_day_number}"));
+
+                Thread t = ThreadStart(() => SendTelegramAlert(report, $"Close working day - Sale Product Report  {working_day.FirstOrDefault().working_day_number}"));
 
                 
                 IsPrintSuccess = true;
@@ -1188,7 +1170,7 @@ namespace ePOSPrintingService
             };
         }
 
-        public static void PrintCloseWorkingDaySaleTransaction(string working_day_id, ReceiptListModel receipt, string printer_name, string printed_by = "")
+        public static void PrintCloseWorkingDaySaleTransaction(string working_day_id, ReceiptListModel receipt, string printer_name, string printed_by = "",string language="")
         {
             try
             {
@@ -1198,7 +1180,7 @@ namespace ePOSPrintingService
 
                 DynamicDataModel report_data = new DynamicDataModel();
 
-                var data = GetApiData($"sp_get_close_working_data_sale_transaction_for_print", $"'{working_day_id}','json'");
+                var data = GetApiData($"sp_get_close_working_data_sale_transaction_for_print", $"'{working_day_id}','{language}','json'");
                 if (data.Any())
                 {
                     report_data = data.FirstOrDefault();
@@ -1244,6 +1226,7 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("WorkingDay", working_day_data));
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
                 report.DataSources.Add(new ReportDataSource("CloseSaleData", close_sale_data));
+                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(GetTranslateText(language))));
 
                 Export(report,
                      receipt.PageWidth,
@@ -1255,8 +1238,8 @@ namespace ePOSPrintingService
                      );
                 Print(printer_name, 1);
 
-                
-                Thread t = new Thread(() => SendTelegramAlert(report, $"Close working day - Sale Transaction Report  {working_day.FirstOrDefault().working_day_number}"));
+
+                Thread t = ThreadStart(() => SendTelegramAlert(report, $"Close working day - Sale Transaction Report  {working_day.FirstOrDefault().working_day_number}"));
 
                 IsPrintSuccess = true;
             }
@@ -1360,18 +1343,18 @@ namespace ePOSPrintingService
 
 
 
-        public static void PrintCloseCashierShiftSaleTransaction(string cashier_shift_id, ReceiptListModel receipt, string printer_name, string printed_by = "")
+        public static void PrintCloseCashierShiftSaleTransaction(string cashier_shift_id, ReceiptListModel receipt, string printer_name, string printed_by = "",string language="en")
         {
             try
             {
 
-
+                    
                
 
 
                 DynamicDataModel report_data = new DynamicDataModel();
 
-                var data = GetApiData($"sp_get_close_cashier_shift_sale_transaction_for_print", $"'{cashier_shift_id}','json'");
+                var data = GetApiData($"sp_get_close_cashier_shift_sale_transaction_for_print", $"'{cashier_shift_id}','{language}','json'");
                 if (data.Any())
                 {
                     report_data = data.FirstOrDefault();
@@ -1415,7 +1398,7 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("CashierShiftData", cashier_shift_data));
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
                 report.DataSources.Add(new ReportDataSource("CloseSaleData", close_sale_data));
-
+                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(GetTranslateText(language))));
                 Export(report,
                      receipt.PageWidth,
                      receipt.PageHeight,
@@ -1437,7 +1420,7 @@ namespace ePOSPrintingService
 
 
 
-        public static void PrintCloseCashierShiftSaleProduct(string cashier_shift_id, ReceiptListModel receipt, string printer_name, string printed_by = "")
+        public static void PrintCloseCashierShiftSaleProduct(string cashier_shift_id, ReceiptListModel receipt, string printer_name, string printed_by = "",string language="en")
         {
             try
             {
@@ -1447,7 +1430,7 @@ namespace ePOSPrintingService
 
                 DynamicDataModel report_data = new DynamicDataModel();
 
-                var data = GetApiData($"sp_get_close_cashier_shift_sale_product_data_for_print", $"'{cashier_shift_id}','json'");
+                var data = GetApiData($"sp_get_close_cashier_shift_sale_product_data_for_print", $"'{cashier_shift_id}','{language}','json'");
                 if (data.Any())
                 {
                     report_data = data.FirstOrDefault();
@@ -1500,8 +1483,9 @@ namespace ePOSPrintingService
          
                 report.DataSources.Add(new ReportDataSource("SaleProductData", sale_product_data));
                 report.DataSources.Add(new ReportDataSource("FOCSaleProductData", foc_sale_product_data));
+                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(GetTranslateText(language))));
 
-             
+
                 Export(report,
                      receipt.PageWidth,
                      receipt.PageHeight,
@@ -1636,7 +1620,7 @@ namespace ePOSPrintingService
 
                     var request = new RestRequest("Printing/GetPrintData");
                     request.AddParameter("procedure_name", "sp_get_translate_text");
-                    request.AddParameter("parameters", $"'{language_code}','close_cashier_shift_summary_report,shift_information,working_day_no,shift_no,sale_transaction,receipt_no,tbl_no,Time,QTY,Amt,By,branch,outlet,status,close_working_day_summary_report,working_day_information,cash_drawer_name,opened_date,opened_by,closed_date,closed_by,printed_by,printed_on','json'");
+                    request.AddParameter("parameters", $"'{language_code}','close_cashier_shift_summary_report,shift_information,working_day_no,shift_no,sale_transaction,receipt_no,tbl_no,time,qty,amt,by,branch,outlet,status,close_working_day_summary_report,working_day_information,cash_drawer_name,opened_date,opened_by,closed_date,closed_by,printed_by,printed_on,sale_products,sale_product,amount,total,grand_total,product_name,summary_by_revenue_group,revenue_group,foc_sale_product,free_sale_product,close_cashier_shift_report','json'");
                     var response = client.Get(request);
                     if (response.Content.ToString() != "")
                     {

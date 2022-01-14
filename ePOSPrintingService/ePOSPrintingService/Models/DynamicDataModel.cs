@@ -41,8 +41,8 @@ namespace ePOSPrintingServiceReportModel
         public string time{ get; set; }
         public string qty{ get; set; }
         public string amt{ get; set; }
-        public string by{ get; set; }
-        
+        public string by { get; set; }
+
         public string close_working_day_summary_report { get; set; }
         public string working_day_information { get; set; }
         public string branch { get; set; }
@@ -55,6 +55,19 @@ namespace ePOSPrintingServiceReportModel
         public string closed_by { get; set; }
         public string printed_by { get; set; }
         public string printed_on { get; set; }
+
+        //new translate
+        public string sale_products { get; set; }
+        public string sale_product { get; set; }
+        public string amount { get; set; }
+        public string total { get; set; }
+        public string grand_total { get; set; }
+        public string product_name { get; set; }
+        public string summary_by_revenue_group{ get; set; }
+        public string revenue_group{ get; set; }
+        public string foc_sale_product{ get; set; }
+        public string free_sale_product{ get; set; }
+
 
 
     }
