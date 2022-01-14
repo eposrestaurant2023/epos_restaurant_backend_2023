@@ -38,8 +38,8 @@ namespace eAPIClient.Controllers
         {
             return (from r in db.SaleProducts
                     where EF.Functions.Like(
-                              ((r.sale.document_number ?? " ") + (r.sale.customer.customer_name_en ?? " ") + (r.sale.sale_number ?? " ") +
-                               (r.sale.customer.customer_name_kh ?? " ") + (r.sale.sale_note ?? " ") + (r.product_code ?? " ") + (r.product_name_en ?? " ") + (r.product_name_kh ?? " ")
+                              ((r.sale.document_number ?? " ") + (r.sale.customer_code ?? " ") + (r.sale.sale_number ?? " ") +
+                               (r.sale.customer_name ?? " ") + (r.sale.phone_number ?? " ")
                               ).ToLower().Trim(), $"%{(keyword ?? "")}%".ToLower().Trim())
 
                     select r);

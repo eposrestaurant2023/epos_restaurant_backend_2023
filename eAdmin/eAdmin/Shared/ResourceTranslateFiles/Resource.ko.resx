@@ -386,7 +386,7 @@
 	<data name="Setting" xml:space="preserve"><value>환경</value></data>
 	<data name="Settings" xml:space="preserve"><value>설정</value></data>
 	<data name="Summary Invoice" xml:space="preserve"><value>요약 송장</value></data>
-	<data name="Table Name" xml:space="preserve"><value>좌석 번호</value></data>
+	
 	<data name="Table" xml:space="preserve"><value>테이블</value></data>
 	<data name="Table #" xml:space="preserve"><value>테이블 #</value></data>
 	<data name="Add Table" xml:space="preserve"><value>표를 추가하십시오</value></data>

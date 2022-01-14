@@ -1,0 +1,154 @@
+﻿@page "/parkitem"
+@inherits ComParkItemBase
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
+
+@if (!is_loading)
+{
+    <Title Value="@lang["Park Item"]"></Title>
+    <PageContainer roles="@gv.GetRole("park_item_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["Park Item"]
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                        <FilterDateRange @bind-dates="@state.date_range" />
+                        <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
+                        <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
+                    </ComSearch>
+                </MudHidden>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick" is_fullwidth="true">
+                    <FilterDateRange @bind-dates="@state.date_range" />
+                    <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
+                    <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
+
+                </ComSearch>
+                <Spacing Number="4" />
+            </MudHidden>
+
+            <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+            <Com is_visible="@(models != null)">
+                <Table Items="@models"
+                       PerPage="@state.pager.per_page"
+                       TotalItem="@TotalRecord"
+                       CurrentPage="@state.pager.current_page"
+                       OnPagerChange="@SelectChange"
+                       OnPageChange="@ChangePager"
+                       isLoading="@is_loading_data"
+                       ShowPager="true"
+                       ShowCounter="true"
+                       ClassName="uk-table-small uk-table-striped uk-table-hover"
+                       ScrollClass="uk-overflow-auto">
+                    <TableHeader>
+                        @HeaderTemplate("sale/created_date", lang["Park Date"], "uk-text-center")
+                        @HeaderTemplate("sale/document_number", lang["Document #"], "uk-text-left")
+                        <ThCenter>
+                            <div>@lang["Working Day #"]</div>
+                            <div class="sub-header-table">@lang["Shift #"]</div>
+                        </ThCenter>
+                        <ThAuto>
+                            @lang["Customer"]
+                        </ThAuto>
+                        <ThAuto>
+                            @lang["Product"]
+                        </ThAuto>
+                        <ThAuto>
+                            <div>@lang["Business Branch"]</div>
+                            <div class="sub-header-table">@lang["Outlet"]</div>
+                            <div class="sub-header-table">@lang["Station"]</div>
+                        </ThAuto>
+                        <ThCenter>@lang["Park expire"]</ThCenter>
+                        <ThAuto>@lang["Park note"]</ThAuto>
+                        <ThCenter>@lang["Quantity"]</ThCenter>
+                        <ThRight>@lang["Amount"]</ThRight>
+                        <th></th>
+                    </TableHeader>
+                    <RowTemplate Context="p">
+                        <TdCenter>
+                            @p.sale?.created_date.ToString(gv.date_format)
+                        </TdCenter>
+                        <td>
+                            <div>
+                                <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/sale/{p.sale.id}")">
+                                    <span>
+                                        @p.sale?.document_number
+                                    </span>
+                                    <br />
+                                    <span>
+                                        @p.sale?.sale_number
+                                    </span>
+                                </ComAuthorize>
+                            </div>
+                            <ComSaleStatus sale="@p.sale" />
+                        </td>
+                        <TdCenter>
+                            <a href="@($"workingday/{p.sale?.working_day_id}")">@p.sale?.working_day_number</a><br />
+                            <a href="@($"cashiershift/{p.sale?.cashier_shift_id}")">@p.sale?.cashier_shift_number</a><br />
+
+                        </TdCenter>
+                        <td>
+                            <ComProfileInfo url="@($"customer/{p.sale?.customer_id}")" photo="@p.sale?.customer?.photo" role="@gv.GetRole("customer_management")" is_null="@(p.sale.customer == null)" default_profile="General Customer">
+
+                                @p.sale?.customer?.customer_code_name
+                                @if (p.sale?.customer?.customer_name_en != p.sale?.customer?.customer_name_kh)
+                                    {
+                                    <div>@p.sale?.customer?.customer_name_kh</div>
+                                    }
+                            </ComProfileInfo>
+                            <LabelSaleType Text="@p.sale?.sale_type" />
+                        </td>
+                        <td>
+                            <ComProfileInfo url="@($"product/{p.product_id}")" photo="@p.product?.photo" role="@gv.GetRole("product_management")">
+                                @p.product?.product_display_name
+                                @if (p.product?.product_name_en != p.product?.product_name_kh)
+                                    {<br /> @p.product?.product_name_kh}
+                            </ComProfileInfo>
+                        </td>
+                        <td>
+                            <div>
+                                @(gv.current_language?.language_id == "km-KH" ?p.sale.business_branch?.business_branch_name_kh : p.sale.business_branch?.business_branch_name_en)
+                            </div>
+                            <div class="sub-info-row-table">
+                                @(gv.current_language?.language_id == "km-KH" ?p.sale.outlet?.outlet_name_kh : p.sale.outlet?.outlet_name_en)
+                            </div>
+                            <div class="sub-info-row-table">
+                                @(gv.current_language?.language_id == "km-KH" ?p.station_name_kh : p.station_name_en)
+                            </div>
+                        </td>
+                        <TdCenter>@p.park_expired_date.Value.ToString(gv.date_format)</TdCenter>
+                        <td>
+                            <TextOverflow Text="@p.park_note" />
+                        </td>
+                        <TdCenter>
+                            @p.quantity.ToString(gv.quantity_format)
+                        </TdCenter>
+                        <TdRight>
+                            @p.total_amount.ToString(gv.currency_format)
+                        </TdRight>
+                        <TdCenter>
+                            <a href="@($"receiptlist/sale/{p.sale_id}")">
+                                <Icon icon="visibility" />
+                            </a>
+                        </TdCenter>
+                    </RowTemplate>
+                </Table>
+            </Com>
+        </PageBody>
+    </PageContainer>
+}
