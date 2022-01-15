@@ -63,7 +63,6 @@
                     <ThRight>@lang["Amount"]</ThRight>
                     <ThCenter>@lang["Created Date"]</ThCenter>
                     <th>@lang["Created by"]</th>
-                    <th>@lang["Status"]</th>
                     <th class="uk-width-auto"></th>
                 </TableHeader>
                 <RowTemplate Context="p">
@@ -72,7 +71,23 @@
                     </TdCenter>
                     <td>
                         <div><a href="receiptlist/sale/@p.sale_id">@p.sale?.document_number</a></div>
-                        <div><span uk-tooltip="@lang["Working day number"]">@p.sale.working_day_number</span> <span uk-tooltip="Cashier shift number">@p.sale.cashier_shift_number</span></div>
+                        <div>
+                            <span uk-tooltip="@lang["Working Day Number"]">
+                                <a href="@($"workingday/{p.sale.working_day_id}")">
+                                    @p.sale.working_day_number
+                                </a>
+                            </span> 
+                            <span uk-tooltip="@lang["Cashier Shift Number"]">
+                                <a href="@($"cashiershift/{p.sale.cashier_shift_id}")">
+                                    @p.sale.cashier_shift_number
+                                </a>
+                            </span>
+                        </div>
+                        <div>
+                            <ComSaleStatus sale="@p.sale" />
+                            <LabelParkItem is_visible="@p.sale.is_park" />
+                            <LabelRedeem is_visible="@p.sale.is_redeem_park" />
+                        </div>
                     </td>
                     <td>
                         <ComProfileInfo url="@($"product/{p.product_id}")" photo="@p.product?.photo" role="product_management">
@@ -114,10 +129,6 @@
                     </TdRight>
                     <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
                     <td>@p.created_by</td>
-                    <td>
-                        <ComSaleStatus sale="@p.sale" />
-                    </td>
-
                     <TdCenter>
                         <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.sale_id}"))" />
                     </TdCenter>

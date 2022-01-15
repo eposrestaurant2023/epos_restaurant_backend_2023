@@ -52,6 +52,10 @@
                     <TableHeader>
                         @HeaderTemplate("sale/working_date", lang["Date"], "uk-text-center")
                         @HeaderTemplate("sale/document_number", lang["Document #"])
+                        <ThCenter>
+                            <div>@lang["Working Day #"]</div>
+                            <div class="sub-header-table">@lang["Shift #"]</div>
+                        </ThCenter>
                         @HeaderTemplate("sale/customer/customer_name", lang["Customer"], "col-auto")
                         <ThAuto>
                             <div>@lang["Business Branch"]</div>
@@ -72,22 +76,38 @@
                         </TdCenter>
                         <td>
                             <div>
-                            ​​​     <a href="@($"receiptlist/sale/{p.sale_id}")">
-                                        @if (p.sale.document_number == "New")
+                                ​​​     <a href="@($"receiptlist/sale/{p.sale_id}")">
+                                    @if (p.sale.document_number == "New")
                                         {
-                                           @p.sale.sale_number
+                                        @p.sale.sale_number
                                         }
                                         else
                                         {
-                                            @p.sale?.document_number
+                                        @p.sale?.document_number
+                                        <div>
+                                            @p.sale.sale_number
+                                        </div>
                                         }
-                                 </a>
+                                </a>
                             </div>
-                            <ComSaleStatus sale="@p.sale"/>
-                            <LabelSaleType Text="@p.sale?.sale_type"/>
+                            <ComSaleStatus sale="@p.sale" />
+                            <LabelSaleType Text="@p.sale?.sale_type" />
+                            <LabelParkItem is_visible="@p.sale.is_park" />
+                            <LabelRedeem is_visible="@p.sale.is_redeem_park" />
                         </td>
+                        <TdCenter>
+                            <a href="@($"workingday/{p.sale.working_day_id}")">@p.sale.working_day_number</a><br />
+                            <a href="@($"cashiershift/{p.sale.cashier_shift_id}")">@p.sale.cashier_shift_number</a><br />
+
+                        </TdCenter>
                         <td>
-                            <ComProfileInfo url="@($"customer/{p.sale.customer_id}")" photo="@p.sale.customer?.photo" role="customer_management">@p.sale?.customer?.customer_code_name</ComProfileInfo>
+                            <ComProfileInfo url="@($"customer/{p.sale.customer_id}")" photo="@p.sale.customer?.photo" role="@gv.GetRole("customer_management")" is_null="@(p.sale.customer == null)" default_profile="General Customer">
+                                @p.sale.customer?.customer_code_name
+                                @if (p.sale.customer.customer_name_en != p.sale.customer.customer_name_kh)
+                                    {
+                                    <div>@p.sale.customer.customer_name_kh</div>
+                                    }
+                            </ComProfileInfo>
                         </td>
                         <td>
                             <div>@p.sale?.business_branch?.business_branch_name_en</div>

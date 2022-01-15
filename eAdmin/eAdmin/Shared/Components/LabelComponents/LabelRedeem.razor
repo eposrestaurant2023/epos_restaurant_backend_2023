@@ -1,0 +1,9 @@
+﻿@inject IStringLocalizer<Resource> lang
+@if (is_visible)
+{
+    <span class="uk-label redeem">@lang["Redeem"]</span>
+}
+
+@code{
+    [Parameter] public bool is_visible { get; set; }
+}

@@ -35,8 +35,8 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                     state.pager.order_by = "created_date";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}?$select=id,sale_id,quantity,unit,price,total_modifier_amount,sale_product_discount_value,sale_product_discount_type,sale_product_discount_value,sale_product_discount_amount,sub_total,sale_product_discount_amount&";
-                url += $"$expand=sale($select=id,sale_number,document_number,working_date,station_name_en,station_name_kh,last_modified_date,last_modified_by,total_tax_amount,total_discount_amount,paid_amount,total_amount;$expand=sale_status, customer($select=id,customer_code,customer_name_en,customer_name_kh),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh,id))";
+                string url = $"{controller_api}?$select=id,total_tax_amount,total_discount_amount,total_amount,sale_id,quantity,unit,price,total_modifier_amount,sale_product_discount_value,sale_product_discount_type,sale_product_discount_value,sale_product_discount_amount,sub_total,sale_product_discount_amount&";
+                url += $"$expand=sale($select=id,is_park,is_redeem_park,sale_type,working_day_number,customer_id,working_day_id,cashier_shift_id,cashier_shift_number,sale_number,table_name,document_number,working_date,station_name_en,station_name_kh,last_modified_date,last_modified_by,total_tax_amount,total_discount_amount,paid_amount,total_amount;$expand=sale_status,customer($select=id,customer_code,customer_name_en,customer_name_kh),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh,id))";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  

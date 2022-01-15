@@ -1370,25 +1370,25 @@ a, a:hover {
 }
 
     .bg_kpi.bg_today_Order_mtd {
-        background: #651fd6;
+        background: #dfaa66;
     }
     .bg_kpi.bg_today_order {
-        background: #27bbc2;
+        background: #7bb288;
     }
     .bg_kpi.bg_today_amount {
-        background: #f79743;
+        background: #4cc0b7;
     }
 
     .bg_kpi.bg_today_mtd {
-        background: #4693cd;
+        background: #e4888b;
     }
 
     .bg_kpi.bg_today_quantity {
-        background: #9dbd59;
+        background: #4873aa;
     }
 
     .bg_kpi.bg_today_quantity_mtd {
-        background: #8165a3;
+        background: #5fc6e4;
     }
 
 .ttle_number {
@@ -3255,16 +3255,21 @@ button.issue_invoice {
     .ribbon .overdue {
         background: #db8400;
     }
-
+    
     .uk-label.paid,
     .ribbon .paid {
         background: #26a507;
     }
-
-    .uk-label.partially-paid,
-    .ribbon .partially-paid {
-        background: #6091db;
+    .uk-label.park_item {
+        background: #4873aa;
     }
+.uk-label.redeem {
+    background: #5fc6e4;
+}
+.uk-label.partially-paid,
+.ribbon .partially-paid {
+    background: #6091db;
+}
 
 .uk-label.unpaid,
 .ribbon .unpaid {

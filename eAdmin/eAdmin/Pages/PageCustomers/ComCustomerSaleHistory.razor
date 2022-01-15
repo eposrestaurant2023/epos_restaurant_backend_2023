@@ -78,16 +78,25 @@
                         <td>
                             <div>
                                 <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/sale/{p.id}")">
-                                    <span>
-                                        @p.document_number
-                                    </span>
-                                    <br />
-                                    <span>
-                                        @p.sale_number
-                                    </span>
+                                    @if (p.document_number == "New")
+                                        {
+                                        <span> @p.sale_number</span>
+                                        }
+                                        else
+                                        {
+                                        <span>
+                                            @p.document_number
+                                        </span>
+                                        <br />
+                                        <span>
+                                            @p.sale_number
+                                        </span>
+                                        }
                                 </ComAuthorize>
                             </div>
                             <ComSaleStatus sale="@p" />
+                            <LabelParkItem is_visible="@p.is_park"/>
+                            <LabelRedeem is_visible="@p.is_redeem_park"/>
                         </td>
                         <TdCenter>
                             <a href="@($"workingday/{p.working_day_id}")">@p.working_day_number</a><br />

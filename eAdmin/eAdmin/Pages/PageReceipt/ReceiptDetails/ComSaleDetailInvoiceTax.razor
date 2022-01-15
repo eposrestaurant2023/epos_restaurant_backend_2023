@@ -1,6 +1,6 @@
 @inject IStringLocalizer<Resource> lang
 
-@if (sale.tax_1_rate > 0 || sale.tax_1_amount > 0)
+@if (sale.tax_1_amount > 0)
 {
     <tr>
         <td colspan="7" class="uk-text-right">@lang[tax_rule.tax_1_name] (@sale.tax_1_rate.ToString(gv.percentage_format))</td>
@@ -10,7 +10,7 @@
     </tr>
 }
 
-@if (sale.tax_2_rate > 0 || sale.tax_2_amount > 0)
+@if (sale.tax_2_amount > 0)
 {
     <tr>
         <td colspan="7" class="uk-text-right">@lang[tax_rule.tax_2_name] (@sale.tax_2_rate.ToString(gv.percentage_format))</td>
@@ -20,7 +20,7 @@
     </tr>
 }
 
-@if (sale.tax_3_rate > 0 || sale.tax_3_amount > 0)
+@if (sale.tax_3_amount > 0)
 {
     <tr>
         <td colspan="7" class="uk-text-right">@lang[tax_rule.tax_3_name] (@sale.tax_3_rate.ToString(gv.percentage_format))</td>

@@ -12,22 +12,25 @@
                 <SelectedTemplate>
                     @(gv.current_language.language_id == "km-KH"? context.product_name_kh: context.product_name_en)
                 </SelectedTemplate>
+                
                 <ResultTemplate>
-                    @if (!context.is_new)
+                    @if (context.is_new == false)
                     {
-                    <div>
-                        <span> @(gv.current_language.language_id == "km-KH"? context.product_name_kh: context.product_name_en)</span>
-                        <LabelIngredient is_visible="@context.is_ingredient_product" />
-                        <LabelMenuProduct is_visible="@context.is_menu_product" />
-                    </div>
-                        
-                      
+                        <div>
+                            <span> @(gv.current_language.language_id == "km-KH"? context.product_name_kh: context.product_name_en)</span>
+                            <LabelIngredient is_visible="@context.is_ingredient_product" />
+                            <LabelMenuProduct is_visible="@context.is_menu_product" />
+                        </div>
+
+
                     }
-                    else
+                    @if (context.is_new == true)
                     {
-                        if (!is_search_all_product)
+                        @if (!is_search_all_product)
                         {
-                        <span>@lang["Add"] @context.product_name_en</span>
+                            <span>@lang["Add"]</span>
+
+                            <span>@context.product_name_en</span>
                         }
                     }
                 </ResultTemplate>
@@ -38,49 +41,48 @@
 </div>
 @code{
 
-        [Parameter] public string label { get; set; } = "Product";
-        [Parameter] public string placeholder { get; set; } = "Select Product";
-        [Parameter] public ProductModel product { get; set; } = null;
-        [Parameter] public EventCallback<ProductModel> productChanged { get; set; }
-        [Parameter] public int? product_id { get; set; }
-        [Parameter] public bool is_search_all_product { get; set; } = false;
-        [Parameter] public EventCallback<int> product_idChanged { get; set; }
+    [Parameter] public string label { get; set; } = "Product";
+    [Parameter] public string placeholder { get; set; } = "Select Product";
+    [Parameter] public ProductModel product { get; set; } = null;
+    [Parameter] public EventCallback<ProductModel> productChanged { get; set; }
+    [Parameter] public int? product_id { get; set; }
+    [Parameter] public bool is_search_all_product { get; set; } = false;
+    [Parameter] public EventCallback<int> product_idChanged { get; set; }
+    [Parameter] public string key { get; set; }
+    List<ProductModel> result = new List<ProductModel>();
+    public async Task<IEnumerable<ProductModel>> SearchModifier(string searchText)
+    {
 
-        List<ProductModel> result = new List<ProductModel>();
-        public async Task<IEnumerable<ProductModel>> SearchModifier(string searchText)
+
+        string api_url = $"product?$expand=unit,product_portions($select=id,unit_id,portion_name;$filter=is_deleted eq false)&keyword={searchText??""}&$orderby=product_name_en asc&$top=20";
+
+        state.filters.Clear();
+
+        state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
+
+        state.filters.Add(new FilterModel() { key = "status", value1 = "true" });
+        if (!is_search_all_product)
         {
-
-
-            string api_url = $"product?$expand=unit,product_portions($select=id,unit_id,portion_name;$filter=is_deleted eq false)&keyword={searchText??""}&$orderby=product_name_en asc&$top=20";
-
-            state.filters.Clear();
-
-            state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
-
-            state.filters.Add(new FilterModel() { key = "status", value1 = "true" });
-            if (!is_search_all_product)
-            {
-                state.filters.Add(new FilterModel() { key = "is_ingredient_product", value1 = "true" });
-            }
-
-
-            state.filters.Add(new FilterModel() { key="" });
-
-            api_url = api_url + GetFilter(state.filters);
-            var res = await http.ApiGetOData(api_url);
-            if (res.IsSuccess)
-            {
-                result = JsonSerializer.Deserialize<List<ProductModel>>(res.Content.ToString());
-                if (!result.Any() || result.Where(r => r.product_name_en.ToLower() != searchText.ToLower()).Any())
-                {
-                    result.Add(new ProductModel() { product_name_en = searchText, is_new = true });
-                }
-                return result;
-
-            }
-
-            return new List<ProductModel>();
+            state.filters.Add(new FilterModel() { key = "is_ingredient_product", value1 = "true" });
         }
+
+
+        state.filters.Add(new FilterModel() { key="" });
+
+        api_url = api_url + GetFilter(state.filters);
+        var res = await http.ApiGetOData(api_url);
+        if (res.IsSuccess)
+        {
+            result = JsonSerializer.Deserialize<List<ProductModel>>(res.Content.ToString());
+            if (!result.Any() || result.Where(r=>r.product_name_en != "").Any() || result.Where(r => r.product_name_en.ToLower() != searchText.ToLower()).Any())
+            {
+                result.Add(new ProductModel() { product_name_en = searchText, is_new = true });
+            }
+            return result;
+
+        }
+        return new List<ProductModel>();
+    }
 
     protected override async Task OnInitializedAsync()
     {

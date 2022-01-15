@@ -36,7 +36,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                     state.pager.order_by = "sale_number";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}?$select=working_day_number,table_name,station_name_kh,station_name_en,cashier_shift_id,working_day_id,cashier_shift_number,sale_number,id,working_date,document_number,total_amount,business_branch_id,outlet_id,paid_amount,balance&";
+                string url = $"{controller_api}?$select=working_day_number,is_redeem_park,is_park,table_name,station_name_kh,station_name_en,cashier_shift_id,working_day_id,cashier_shift_number,sale_number,id,working_date,document_number,total_amount,business_branch_id,outlet_id,paid_amount,balance&";
                 url += $"$expand=sale_status,outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 

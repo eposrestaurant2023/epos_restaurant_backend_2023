@@ -2853,6 +2853,9 @@
 	<data name="Park Item" xml:space="preserve">
     <value>ផ្ញើរទំនិញ</value>
   </data>
+	<data name="Redeem" xml:space="preserve">
+    <value>យកទំនិញ</value>
+  </data>
 	<data name="Redeem on" xml:space="preserve">
     <value>ថ្ងៃយកទំនិញ</value>
   </data>

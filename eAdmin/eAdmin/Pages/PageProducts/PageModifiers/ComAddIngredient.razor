@@ -77,7 +77,7 @@
     [Parameter] public EventCallback<bool> is_openChanged { get; set; }
 
     public ProductModel product { get; set; }
-     
+
     void OnSelected(ProductModel value)
     {
         var data = model.modifier_ingredients.Where(r => r.ingredient_id == value.id && r.ingredient.product_name_en == value.product_name_en && r.is_deleted == false);

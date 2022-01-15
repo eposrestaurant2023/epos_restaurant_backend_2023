@@ -1,62 +1,65 @@
-﻿ @inject IStringLocalizer<Resource> lang
+﻿@inject IStringLocalizer<Resource> lang
+<tr>
+    <td colspan="7" class="uk-text-right">@lang["Total Quantity"]</td>
+    <td class="uk-text-right bg_hightlight">
+        @sale.active_sale_products.Sum(r => r.quantity).ToString(gv.quantity_format)
+    </td>
+</tr>
+<tr>
+    <td colspan="7" class="uk-text-right">@lang["Sub Total"]</td>
+    <td class="uk-text-right bg_hightlight">
+        @sale.sub_total.ToString(gv.currency_format)
+    </td>
+</tr>
+
+@if (sale.sale_product_discount_amount > 0)
+{
     <tr>
-        <td colspan="7" class="uk-text-right">@lang["Total Quantity"]</td>
+        <td colspan="7" class="uk-text-right">@lang["Total Item Discount"]</td>
+        <td class="uk-text-right bg_hightlight">@sale.sale_product_discount_amount.ToString(gv.currency_format)</td>
+    </tr>
+}
+@if (sale.sale_discount_value > 0)
+{
+    <tr>
+        <td colspan="7" class="uk-text-right">@lang["Sale Discount"] @(sale.sale_discount_type == "Percent" ? ("(" + (sale.sale_discount_value).ToString("0.####")) + "%" + ")" : "")</td>
         <td class="uk-text-right bg_hightlight">
-            @sale.active_sale_products.Sum(r => r.quantity).ToString(gv.quantity_format)
+
+            <span>
+                @sale.sale_discount_amount.ToString(gv.currency_format)
+            </span>
+
         </td>
     </tr>
-    <tr>
-        <td colspan="7" class="uk-text-right">@lang["Sub Total"]</td>
-        <td class="uk-text-right bg_hightlight">
-            @sale.sub_total.ToString(gv.currency_format)
-        </td>
-    </tr>
+}
 
-    @if (sale.sale_product_discount_amount > 0)
-    {
-        <tr>
-            <td colspan="7" class="uk-text-right">@lang["Total Item Discount"]</td>
-            <td class="uk-text-right bg_hightlight">@sale.sale_product_discount_amount.ToString(gv.currency_format)</td>
-        </tr>
-    }
-    @if (sale.sale_discount_value > 0 )
-    {
-        <tr>
-            <td colspan="7" class="uk-text-right">@lang["Sale Discount"] @(sale.sale_discount_type == "Percent" ? ("(" + (sale.sale_discount_value).ToString("0.####")) + "%" + ")" : "")</td>
-            <td class="uk-text-right bg_hightlight">
-
-                <span>
-                    @sale.sale_discount_amount.ToString(gv.currency_format)
-                </span>
-
-            </td>
-        </tr>
-    }
-
+@if (gv.enable_tax_feature)
+{
     <ComSaleDetailInvoiceTax sale="@sale" />
-    @if (sale.total_amount > 0)
-    {
-        <tr>
-            <td colspan="7" class="uk-text-right">@lang["Grand Total"]</td>
-            <td class="uk-text-right bg_hightlight">
-                @sale.total_amount.ToString(gv.currency_format)
-            </td>
-        </tr>
-    }
+}
+@if (sale.total_amount > 0)
+{
+    <tr>
+        <td colspan="7" class="uk-text-right">@lang["Grand Total"]</td>
+        <td class="uk-text-right bg_hightlight">
+            @sale.total_amount.ToString(gv.currency_format)
+        </td>
+    </tr>
+}
 
-    @if (sale.paid_amount > 0)
-    {
-        <tr>
-            <td colspan="7" class="uk-text-right">@lang["Total Paid"]</td>
-            <td class="uk-text-right bg_hightlight">
-                <div class="uk-inline">
-                    <a> @sale.paid_amount.ToString(gv.currency_format)</a>
-                    <ComSaleDetail_PaymentInformation payments="@sale.sale_payments" />
-                </div>
-            </td>
-        </tr>
-    }
-    
+@if (sale.paid_amount > 0)
+{
+    <tr>
+        <td colspan="7" class="uk-text-right">@lang["Total Paid"]</td>
+        <td class="uk-text-right bg_hightlight">
+            <div class="uk-inline">
+                <a> @sale.paid_amount.ToString(gv.currency_format)</a>
+                <ComSaleDetail_PaymentInformation payments="@sale.sale_payments" />
+            </div>
+        </td>
+    </tr>
+}
+
 @code{
     [Parameter] public SaleModel sale { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }

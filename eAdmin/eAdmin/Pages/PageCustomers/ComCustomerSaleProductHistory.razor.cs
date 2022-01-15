@@ -36,7 +36,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?$select=id,product_id,sale_id,quantity,price,sale_product_discount_amount,total_tax_amount,total_amount,created_date,created_by,portion_name,&";
-                url += $"$expand=sale($select=id,customer_id,business_branch_id,outlet_id,working_date,working_day_number,document_number,cashier_shift_number;$expand=sale_status,outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)),product($select=id,product_name_en,product_name_kh,product_code,photo)";
+                url += $"$expand=sale($select=id,working_day_id,cashier_shift_id,is_redeem_park,is_park,customer_id,business_branch_id,outlet_id,working_date,working_day_number,document_number,cashier_shift_number;$expand=sale_status,outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)),product($select=id,product_name_en,product_name_kh,product_code,photo)";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  

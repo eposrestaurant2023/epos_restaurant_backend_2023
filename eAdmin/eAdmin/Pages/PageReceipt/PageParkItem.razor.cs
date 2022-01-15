@@ -35,7 +35,7 @@ namespace eAdmin.Pages.PageReceipt
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
-                url += $"$select=id,sale_id,total_amount,station_name_en,station_name_kh,station_id,quantity,price,seat_number,is_park,park_note,park_expired_date";
+                url += $"$select=id,sale_id,product_id,total_amount,station_name_en,station_name_kh,station_id,quantity,price,seat_number,is_park,park_note,park_expired_date";
                 url += $"&$expand=product($select=id,product_code,product_name_en,product_name_kh,photo),sale($select=id,customer_id,document_number,working_day_number,working_date,cashier_shift_number,sale_number,sale_type;$expand=sale_status,customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh))";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "")}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 

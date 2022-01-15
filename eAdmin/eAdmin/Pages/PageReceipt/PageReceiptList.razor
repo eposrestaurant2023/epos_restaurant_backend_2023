@@ -56,7 +56,6 @@
                 </ComSearch>
                 <Spacing Number="4"/>
             </MudHidden>
-
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
             <Com is_visible="@(models != null)">
                 <Table Items="@models"
@@ -115,7 +114,13 @@
 
                         </TdCenter>
                         <td>
-                            <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="@gv.GetRole("customer_management")" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
+                            <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="@gv.GetRole("customer_management")" is_null="@(p.customer == null)" default_profile="General Customer">
+                                @p.customer?.customer_code_name
+                                @if (p.customer.customer_name_en != p.customer.customer_name_kh)
+                                    {
+                                    <div>@p.customer.customer_name_kh</div>
+                                    }
+                            </ComProfileInfo>
                             <LabelSaleType Text="@p.sale_type" />
                         </td>
                         <td>

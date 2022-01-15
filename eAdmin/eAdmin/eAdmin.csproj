@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Content Remove="Pages\PageSettings\PageCurrencyExchangeRates\ComStatusCurrency.razor" />
+    <Content Remove="Shared\Components\LabelComponents\LabelParkItem.razor" />
   </ItemGroup>
  
 	<ItemGroup>
@@ -58,6 +59,10 @@
  
 	<ItemGroup>
 	  <_ContentIncludedByDefault Remove="Pages\PageSettings\PageCurrencyExchangeRates\ComStatusCurrency.razor" />
+	</ItemGroup>
+ 
+	<ItemGroup>
+	  <None Include="Shared\Components\LabelComponents\LabelParkItem.razor" />
 	</ItemGroup>
 
 </Project>

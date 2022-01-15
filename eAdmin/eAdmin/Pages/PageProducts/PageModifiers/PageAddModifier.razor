@@ -8,15 +8,11 @@
 
 @if (!is_loading && !is_error)
 {
-    <Microsoft.AspNetCore.Components.Web.Extensions.Head.Title Value="@lang[title]"></Microsoft.AspNetCore.Components.Web.Extensions.Head.Title>
+    
     <PageContainer roles="@gv.GetRole($"{(!string.IsNullOrEmpty(id) ? "modifier_edit" : "modifier_add")}")">
         <PageHeader>
             <HeaderLeft>
-                <PageTitle ShowFilter="false">
-                    <HeaderTemplate>
-                        @lang[title]
-                    </HeaderTemplate>
-                </PageTitle>
+               
             </HeaderLeft>
             <HeaderRight ShowBackButton="true" />
         </PageHeader>
