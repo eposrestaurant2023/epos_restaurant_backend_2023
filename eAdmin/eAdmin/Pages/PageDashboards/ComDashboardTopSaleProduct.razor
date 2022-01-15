@@ -25,7 +25,11 @@
         <RowTemplate Context="p">
             <td>
                 <ComProfileInfo url="@($"product/{p.id}")" photo="@p.photo" role="@("product_management")">
-                @p.product_name_en @if (!string.IsNullOrEmpty(p.product_code)) { <span>(@p.product_code)</span> } 
+                    <span>@p.product_code @if (!string.IsNullOrEmpty(p.product_code)) {<span>-</span>} @p.product_name_en </span>
+                    @if (p.product_name_en != p.product_name_kh)
+                    {
+                        <div>@p.product_name_kh</div>
+                    }
                 </ComProfileInfo>
             </td>
             <TdCenter>

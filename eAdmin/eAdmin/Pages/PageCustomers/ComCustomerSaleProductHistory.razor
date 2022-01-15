@@ -76,7 +76,7 @@
                     </td>
                     <td>
                         <ComProfileInfo url="@($"product/{p.product_id}")" photo="@p.product?.photo" role="product_management">
-                        @p.product?.product_display_name
+                           @p.product?.product_display_name
                             @if(p.product.product_name_en != p.product.product_name_kh)
                             {
                                 <div>@p.product.product_name_kh</div>

@@ -1,4 +1,5 @@
 ﻿@inject IStringLocalizer<Resource> lang
+@inject ILocalStorageService storageService
 @if (is_inline)
 {
     @if (is_loading)
@@ -15,6 +16,7 @@ else
     <MudGrid>
         <MudItem xs="12" md="3">
             <MudHidden Breakpoint="Breakpoint.SmAndDown">
+
                 <MudPaper Elevation="4" Class="pa-2">
 
                     <MudList Clickable="true">
@@ -95,7 +97,7 @@ else
         </MudItem>
 
     </MudGrid>
- 
+
 
 }
 
@@ -121,19 +123,25 @@ else
     [Parameter] public int report_id { get; set; } = 0;
     [Parameter] public bool is_print { get; set; } = false;
 
-    bool is_loading = false, IsMenuReportOpened=false;
+    bool is_loading = false, IsMenuReportOpened = false;
     string url = "";
     int old_report_id = 0;
+    string current_lang_code = "";
 
-    
-    public string current_lang_code { get{
-            return (gv.current_language.language_id.Split('-')[1]).ToLower();
-    }}
+
+    async Task CurrenLanguage()
+    {
+
+        var code = await storageService.GetItemAsStringAsync("current_language");
+        current_lang_code = code.Split('-')[1].ToLower();
+
+    }
 
 
 
     protected override async Task OnParametersSetAsync()
     {
+        await CurrenLanguage();
         if (report_id > 0)
         {
             if (old_report_id != report_id)
@@ -149,7 +157,7 @@ else
 
     }
 
-    
+
 
     async Task PreviewReport_Click(PermissionOptionModel report)
     {
