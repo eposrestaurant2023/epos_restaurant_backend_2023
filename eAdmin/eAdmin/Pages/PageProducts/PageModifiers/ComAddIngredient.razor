@@ -2,7 +2,7 @@
 @inject ISnackbar toast
 @inject IStringLocalizer<Resource> lang
 
-<IngredientProductTypeahead product="@product" productChanged="@OnSelected" placeholder="Select Ingredient" />
+<IngredientProductTypeahead product="@product" productChanged="@OnSelected" placeholder="@lang["Select Ingredient"]" />
 <hr />
 <div class="uk-overflow-auto table-scroll">
     <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
@@ -76,7 +76,17 @@
     [Parameter] public bool is_open { get; set; }
     [Parameter] public EventCallback<bool> is_openChanged { get; set; }
 
-    public ProductModel product { get; set; }
+    private ProductModel _product;
+
+    public ProductModel product
+    {
+        get { return _product; }
+        set
+        {
+
+            _product = value;
+        }
+    }
 
     void OnSelected(ProductModel value)
     {

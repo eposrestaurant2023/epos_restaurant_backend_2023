@@ -161,7 +161,7 @@ namespace eModels
 
 
         [NotMapped, JsonIgnore]
-        public bool is_new { get; set; }
+        public bool is_new { get; set; } = false;
     }
 
 

@@ -86,92 +86,94 @@ else
     @code{
         [Parameter] public ProductModel model { get; set; }
         [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
-private ModifierModel _modifier;
+        private ModifierModel _modifier;
 
-List<ProductModifierModel> product_modifiers = new List<ProductModifierModel>();
-
-
-bool is_loading;
-
-protected override async Task OnInitializedAsync()
-{
-await LoadData();
-}
+        List<ProductModifierModel> product_modifiers = new List<ProductModifierModel>();
 
 
-public ModifierModel modifier
-{
-get { return _modifier; }
-set
-{
+        bool is_loading;
 
-    _modifier = value;
-}
-}
-
-void OnSelectModifer(ProductModifierModel parent, ModifierModel child)
-{
-
-if (!parent.children.Where(r => r.is_deleted == false && r.modifier.modifier_name.Trim().ToLower() == child.modifier_name.ToLower().Trim()).Any())
-{
-    parent.children.Add(new ProductModifierModel() { modifier = child, modifier_id = child.id });
-}
-modifier = null;
-}
+        protected override async Task OnInitializedAsync()
+        {
+            await LoadData();
+        }
 
 
-void DeleteModifier(List<ProductModifierModel> child_pm, ProductModifierModel pm)
-{
-if (pm.id != Guid.Empty)
-{
-    pm.is_deleted = true;
-}
-else
-{
-    //model.product_modifiers.Remove(pm);
-    child_pm.Remove(pm);
-}
-}
+        public ModifierModel modifier
+        {
+            get { return _modifier; }
+            set
+            {
 
-void AddSection()
-{
-model.product_modifiers.Add(new ProductModifierModel()
-{
-    section_name = lang["Section Name"],
-    is_section = true
+                _modifier = value;
+            }
+        }
 
-});
-}
+        void OnSelectModifer(ProductModifierModel parent, ModifierModel child)
+        {
+            if (!parent.children.Where(r => r.is_deleted == false && r.modifier.modifier_name.Trim().ToLower() == child.modifier_name.ToLower().Trim()).Any())
+            {
+                parent.children.Add(new ProductModifierModel() { modifier = child, modifier_id = child.id });
+            }
+            else
+            {
+               
+            }
+            modifier = null;
+        }
 
-void DeleteSection(ProductModifierModel pm)
-{
-if (pm.id != Guid.Empty)
-{
-    pm.is_deleted = true;
-}
-else
-{
-    model.product_modifiers.Remove(pm);
-}
-}
 
-async Task LoadData()
-{
+        void DeleteModifier(List<ProductModifierModel> child_pm, ProductModifierModel pm)
+        {
+            if (pm.id != Guid.Empty)
+            {
+                pm.is_deleted = true;
+            }
+            else
+            {
+                //model.product_modifiers.Remove(pm);
+                child_pm.Remove(pm);
+            }
+        }
 
-if (model.id > 0)
-{
-    is_loading = true;
-    string api_url = $"ProductModifier?$expand=children($expand=modifier;$filter=is_deleted eq false;$orderby=sort_order desc)&$filter=is_deleted eq false and product_id eq {model.id}";
-    var resp = await http.ApiGetOData(api_url);
-    if (resp.IsSuccess)
-    {
-        product_modifiers = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());
-        model.product_modifiers = product_modifiers;
+        void AddSection()
+        {
+            model.product_modifiers.Add(new ProductModifierModel()
+            {
+                section_name = lang["Section Name"],
+                is_section = true
 
-        await modelChanged.InvokeAsync(model);
-    }
-    is_loading = false;
-}
-}
+            });
+        }
+
+        void DeleteSection(ProductModifierModel pm)
+        {
+            if (pm.id != Guid.Empty)
+            {
+                pm.is_deleted = true;
+            }
+            else
+            {
+                model.product_modifiers.Remove(pm);
+            }
+        }
+
+        async Task LoadData()
+        {
+            if (model.id > 0)
+            {
+                is_loading = true;
+                string api_url = $"ProductModifier?$expand=children($expand=modifier;$filter=is_deleted eq false;$orderby=sort_order desc)&$filter=is_deleted eq false and product_id eq {model.id}";
+                var resp = await http.ApiGetOData(api_url);
+                if (resp.IsSuccess)
+                {
+                    product_modifiers = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());
+                    model.product_modifiers = product_modifiers;
+
+                    await modelChanged.InvokeAsync(model);
+                }
+                is_loading = false;
+            }
+        }
 
     }

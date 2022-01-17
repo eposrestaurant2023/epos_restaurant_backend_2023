@@ -39,7 +39,7 @@
     List<ModifierModel> result = new List<ModifierModel>();
     public async Task<IEnumerable<ModifierModel>> SearchModifier(string searchText)
     {
-        if (!string.IsNullOrWhiteSpace(searchText) && searchText != "") {
+        
 
             string api_url = $"Modifier?keyword={searchText}&$orderby=modifier_name asc&$top=20";
 
@@ -68,7 +68,7 @@
                 return result;
 
             }
-        }
+       
         return new List<ModifierModel>();
     }
 
@@ -99,7 +99,6 @@
         set
         {
             _selected = value;
-
             modifierChanged.InvokeAsync(value);
             if (value != null)
             {
