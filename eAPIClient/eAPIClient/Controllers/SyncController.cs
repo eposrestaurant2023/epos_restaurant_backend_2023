@@ -392,8 +392,10 @@ namespace eAPIClient.Controllers
             try
             {
                 var _modelCheck = db.Customers.Where(r => r.id == model.id).AsNoTracking();
+                model.is_synced = true;
                 if (_modelCheck.Count() > 0)
                 {
+
                     db.Customers.Update(model);
                 }
                 else

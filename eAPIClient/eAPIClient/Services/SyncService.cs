@@ -19,6 +19,7 @@ namespace eAPIClient.Services
     {
 
         Task<bool> SyncSetting();
+        Task SyncRemoteCustomer();
         Task<bool> SyncAllData();
 
         void sendSyncRequest();
@@ -83,8 +84,14 @@ namespace eAPIClient.Services
 
 
 
-        bool is_sync_customer_busy = false;
+      
         public async void OnSyncFromRemoteServerAsync(object sender, FileSystemEventArgs e)
+        {
+            await SyncRemoteCustomer();
+        }
+
+  bool is_sync_customer_busy = false;
+        public async Task SyncRemoteCustomer()
         {
             if (is_sync_customer_busy)
             {
@@ -96,7 +103,7 @@ namespace eAPIClient.Services
             {
 
                 http.SendBackendTelegram($"{business_branch_name}%0aStart Sync Customer");
-                string value = e.Name.Replace(".txt", "").Split(',')[0];
+          
                 List<CustomerBusinessBranchModel> data = new List<CustomerBusinessBranchModel>();
                 string query = $"CustomerBusinessBranch?$expand=customer&$filter=is_synced eq false and business_branch_id eq {config.GetValue<string>("business_branch_id")}";
                 var resp = await http.ApiGetOData(query);
@@ -132,7 +139,10 @@ namespace eAPIClient.Services
         }
 
 
-        List<DataForSyncModel> GetDataforSync()
+
+
+
+            List<DataForSyncModel> GetDataforSync()
         {
 
             try
@@ -166,10 +176,13 @@ namespace eAPIClient.Services
                 {
                     model.business_branch_id = model.business_branch_id == Guid.Empty ? null : model.business_branch_id;
                     model.last_update_business_branch_id = model.last_update_business_branch_id == Guid.Empty ? null : model.last_update_business_branch_id;
-
+                    model.is_synced = true;
                     var _modelCheck = db.Customers.Where(r => r.id == model.id).AsNoTracking();
+
+                    
                     if (_modelCheck.Count() > 0)
                     {
+
                         db.Customers.Update(model);
                     }
                     else

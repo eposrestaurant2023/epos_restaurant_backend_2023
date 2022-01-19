@@ -69,6 +69,9 @@ namespace eAPIClient.Services
                         break;
                     case "setting":
                         await sync.SyncSetting();
+                        break; 
+                    case "customer":
+                        await sync.SyncRemoteCustomer();
                         break;
                     default:
                         break;

@@ -52,5 +52,6 @@ namespace eAPIClient.Models
         public string old_sale_type { get; set; }
 
         public Guid session_id { get; set; }
+        public int sort_order { get; set; } = 0;
     }
 }

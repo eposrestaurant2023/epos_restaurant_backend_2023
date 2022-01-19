@@ -200,6 +200,7 @@ namespace eAPIClient.Services
             {
                 Directory.CreateDirectory(path);
             }
+
             // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
             System.IO.File.WriteAllText(Path.Combine(path, $"{Guid.NewGuid()}.json"),JsonSerializer.Serialize(model));
         }

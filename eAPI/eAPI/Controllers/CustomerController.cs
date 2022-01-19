@@ -77,8 +77,12 @@ namespace eAPI.Controllers
             var modelCheck = db.Customers.Where(r => r.id == p.id).AsNoTracking().Include(r => r.customer_business_branchs).AsNoTracking();
             var old_customer = modelCheck.FirstOrDefault();
 
+            if (string.IsNullOrEmpty(p.customer_code) || p.customer_code == "New" || p.customer_code == "Auto")
+            {
                 string document_number = await app.GetDocumentNumber(19);
                 p.customer_code = document_number;
+            }
+
                 is_new = true;
            
 
@@ -146,6 +150,9 @@ namespace eAPI.Controllers
                     await app.SaveDocumentNumber(19);
                 }
 
+
+                hub.Clients.All.SendAsync("Sync", "customer");
+
                 return Ok(p);
             }
             catch (Exception e)
@@ -163,6 +170,7 @@ namespace eAPI.Controllers
             d.status = !d.status;
             db.Customers.Update(d);
             await db.SaveChangesAsync();
+            hub.Clients.All.SendAsync("Sync", "customer");
             return Ok(d);
         }
 
@@ -179,6 +187,7 @@ namespace eAPI.Controllers
             db.Database.ExecuteSqlRaw($"exec sp_update_customer_information_after_delete '{id}'");
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
+            hub.Clients.All.SendAsync("Sync", "customer");
             return Ok(u);
         }
     }
