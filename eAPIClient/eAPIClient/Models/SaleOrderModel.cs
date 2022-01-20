@@ -6,5 +6,6 @@ namespace eAPIClient.Models
     [Table("tbl_sale_order")]
     public class SaleOrderModel    : SaleOrderShareModel
     {
+
     }
 }
