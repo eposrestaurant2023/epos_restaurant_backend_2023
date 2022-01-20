@@ -95,14 +95,14 @@ namespace eAPIClient.Services
         {
             if (is_sync_customer_busy)
             {
-                http.SendBackendTelegram($"{business_branch_name}%0aSync Customer busy");
+                http.SendBackendTelegram($"{business_branch_name}\nSync Customer busy");
                 return;
             }
             is_sync_customer_busy = true;
             try
             {
 
-                http.SendBackendTelegram($"{business_branch_name}%0aStart Sync Customer");
+                http.SendBackendTelegram($"{business_branch_name}\nStart Sync Customer");
           
                 List<CustomerBusinessBranchModel> data = new List<CustomerBusinessBranchModel>();
                 string query = $"CustomerBusinessBranch?$expand=customer&$filter=is_synced eq false and business_branch_id eq {config.GetValue<string>("business_branch_id")}";
@@ -121,19 +121,19 @@ namespace eAPIClient.Services
                                 var save_to_server_resp = await http.ApiPost("CustomerBusinessBranch/Save", b);
                                 if (!save_to_server_resp.IsSuccess)
                                 {
-                                    http.SendBackendTelegram($"{business_branch_name}%0aSync Customer to admin database fail. Data:{JsonSerializer.Serialize(b)}. Error: {save_to_server_resp.Content}");
+                                    http.SendBackendTelegram($"{business_branch_name}\nSync Customer to admin database fail. Data:{JsonSerializer.Serialize(b)}. Error: {save_to_server_resp.Content}");
                                 }
                             }
                         }
                     }
                 }
-                http.SendBackendTelegram($"{business_branch_name}%0aSync Customer complete");
+                http.SendBackendTelegram($"{business_branch_name}\nSync Customer complete");
                 DeleteOldLogFile();
 
             }
             catch (Exception ex)
             {
-                http.SendBackendTelegram($"{business_branch_name}%0aSync Customer fail. error message: {ex.Message}");
+                http.SendBackendTelegram($"{business_branch_name}\nSync Customer fail. error message: {ex.Message}");
             }
             is_sync_customer_busy = false;
         }
@@ -199,7 +199,7 @@ namespace eAPIClient.Services
             catch (Exception ex)
             {
                 Log.Error(ex.ToString() + "=====" + JsonSerializer.Serialize(model));
-                http.SendBackendTelegram($"{business_branch_name}%0aSave sync customer fail. Data:{JsonSerializer.Serialize(model)}. error message: {ex.Message}");
+                http.SendBackendTelegram($"{business_branch_name}\nSave sync customer fail. Data:{JsonSerializer.Serialize(model)}. error message: {ex.Message}");
 
             }
             return false;
@@ -221,7 +221,7 @@ namespace eAPIClient.Services
                         var _syncResp = await http.ApiPost("WorkingDay/Save", _workingDay);
                         if (!_syncResp.IsSuccess)
                         {
-                            http.SendBackendTelegram($"{business_branch_name}%0aSync working fail.%0a Error Detail:{_syncResp.Content.ToString()}.%0aData: { JsonSerializer.Serialize(_workingDay)}");
+                            http.SendBackendTelegram($"{business_branch_name}\nSync working fail.\n Error Detail:{_syncResp.Content.ToString()}.\nData: { JsonSerializer.Serialize(_workingDay)}");
                             Log.Error($"Sync working fail. Data: {JsonSerializer.Serialize(_workingDay)}");
                             return false;
                         }
@@ -259,7 +259,7 @@ namespace eAPIClient.Services
                         var _syncResp = await http.ApiPost("CashDrawerAmount/Save", _model);
                         if (!_syncResp.IsSuccess)
                         {
-                            http.SendBackendTelegram($"{business_branch_name}%0aSync cash drawer fail. Data: { JsonSerializer.Serialize(_model)}");
+                            http.SendBackendTelegram($"{business_branch_name}\nSync cash drawer fail. Data: { JsonSerializer.Serialize(_model)}");
                             Log.Error($"Sync cash drawer fail. Data: {JsonSerializer.Serialize(_model)}");
                             return false;
                         }
@@ -298,7 +298,7 @@ namespace eAPIClient.Services
                         var _syncResp = await http.ApiPost("CashierShift/Save", _model);
                         if (!_syncResp.IsSuccess)
                         {
-                            http.SendBackendTelegram($"{business_branch_name}%0aSync cashier shift fail. Data: { JsonSerializer.Serialize(_model)}");
+                            http.SendBackendTelegram($"{business_branch_name}\nSync cashier shift fail. Data: { JsonSerializer.Serialize(_model)}");
                             Log.Error($"Sync cashier shift fail. Data: {JsonSerializer.Serialize(_model)}");
                             return false;
                         }
@@ -340,7 +340,7 @@ namespace eAPIClient.Services
                         var _syncResp = await http.ApiPost("Sale/Save", _sale);
                         if (!_syncResp.IsSuccess)
                         {
-                            http.SendBackendTelegram($"{business_branch_name}%0aSync sale fail. Data: { JsonSerializer.Serialize(_sale)}");
+                            http.SendBackendTelegram($"{business_branch_name}\nSync sale fail. Data: { JsonSerializer.Serialize(_sale)}");
                             Log.Error($"Sync sale fail. Data: {JsonSerializer.Serialize(_sale)}");
                             return false;
                         }
@@ -381,7 +381,7 @@ namespace eAPIClient.Services
                         if (!_syncResp.IsSuccess)
                         {
                             string _data = JsonSerializer.Serialize(_model);
-                            http.SendBackendTelegram($"{business_branch_name}%0aSync history fail. Data: { _data}");
+                            http.SendBackendTelegram($"{business_branch_name}\nSync history fail. Data: { _data}");
                             Log.Error($"Sync history fail. Data: {_data}");
                             return false;
                         }
@@ -424,7 +424,7 @@ namespace eAPIClient.Services
                         if (!_syncResp.IsSuccess)
                         {
 
-                            http.SendBackendTelegram($"{business_branch_name}%0aSync customer fail. Data: { JsonSerializer.Serialize(_model)}");
+                            http.SendBackendTelegram($"{business_branch_name}\nSync customer fail. Data: { JsonSerializer.Serialize(_model)}");
                             Log.Error($"Sync customer fail. Data: {JsonSerializer.Serialize(_model)}");
 
                             return false;
@@ -471,7 +471,7 @@ namespace eAPIClient.Services
                         if (!_syncResp.IsSuccess)
                         {
 
-                            http.SendBackendTelegram($"{business_branch_name}%0aSync expense fail. Data: { JsonSerializer.Serialize(_model)}");
+                            http.SendBackendTelegram($"{business_branch_name}\nSync expense fail. Data: { JsonSerializer.Serialize(_model)}");
                             Log.Error($"Sync expense  fail. Data: {JsonSerializer.Serialize(_model)}");
 
                             return false;
@@ -500,13 +500,13 @@ namespace eAPIClient.Services
             bool sync_success = false;
             if (is_sync_all_busy)
             {
-                http.SendBackendTelegram($"{business_branch_name}%0aSync Auto update data from admin db is busy.");
+                http.SendBackendTelegram($"{business_branch_name}\nSync Auto update data from admin db is busy.");
 
             }
             else
             {
                 is_sync_all_busy = true;
-                http.SendBackendTelegram($"{business_branch_name}%0aStart Auto update data from admin db.");
+                http.SendBackendTelegram($"{business_branch_name}\nStart Auto update data from admin db.");
                 await SyncSetting();
 
                 await SyncNote();
@@ -515,7 +515,7 @@ namespace eAPIClient.Services
 
                 await SyncTranslateText();
                 is_sync_all_busy = false;
-                http.SendBackendTelegram($"{business_branch_name}%0aAuto update data from admin db complete.");
+                http.SendBackendTelegram($"{business_branch_name}\nAuto update data from admin db complete.");
 
             }
 
@@ -527,7 +527,7 @@ namespace eAPIClient.Services
         {
 
 
-            http.SendBackendTelegram($"{business_branch_name}%0aStart Auto update config data.");
+            http.SendBackendTelegram($"{business_branch_name}\nStart Auto update config data.");
 
             var prepare_sync_response = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data", procedure_parameter = $"'{business_branch_id}'" });
             if (prepare_sync_response.IsSuccess)
@@ -554,7 +554,7 @@ namespace eAPIClient.Services
                                 db.ConfigDatas.AddRange(config_datas.Where(r => r.is_local_setting == false));
                                 db.SaveChanges();
 
-                                http.SendBackendTelegram($"{business_branch_name}%0aAuto update config data successfully");
+                                http.SendBackendTelegram($"{business_branch_name}\nAuto update config data successfully");
 
                             }
 
@@ -566,7 +566,7 @@ namespace eAPIClient.Services
                             await Task.Factory.StartNew(() =>
                             {
                                 string message = ex.ToString();
-                                http.SendBackendTelegram($"{business_branch_name}%0aAuto update config data fail%0a{ex}");
+                                http.SendBackendTelegram($"{business_branch_name}\nAuto update config data fail\n{ex}");
                             });
                         }
 
@@ -590,7 +590,7 @@ namespace eAPIClient.Services
                 {
 
 
-                    http.SendBackendTelegram($"{business_branch_name}%0aAuto update Menu and Product Start.");
+                    http.SendBackendTelegram($"{business_branch_name}\nAuto update Menu and Product Start.");
 
 
 
@@ -615,7 +615,7 @@ namespace eAPIClient.Services
                     db.Database.ExecuteSqlRaw("exec sp_update_product_portion_price");
 
 
-                    http.SendBackendTelegram($"{business_branch_name}%0aAuto update Menu and Product successfully.");
+                    http.SendBackendTelegram($"{business_branch_name}\nAuto update Menu and Product successfully.");
 
                     return true;
                 }
@@ -623,7 +623,7 @@ namespace eAPIClient.Services
             catch (Exception ex)
             {
 
-                http.SendBackendTelegram($"{business_branch_name}%0aAuto update Menu and Product Fail.{ex.ToString()}");
+                http.SendBackendTelegram($"{business_branch_name}\nAuto update Menu and Product Fail.{ex.ToString()}");
             }
             return false;
         }
@@ -724,7 +724,7 @@ namespace eAPIClient.Services
         }
         async Task<bool> SyncNote()
         {
-            http.SendBackendTelegram($"{business_branch_name}%0aStart Auto update note from admin db");
+            http.SendBackendTelegram($"{business_branch_name}\nStart Auto update note from admin db");
             try
             {
                 using (var db = new ApplicationDbContext(config))
@@ -795,14 +795,14 @@ namespace eAPIClient.Services
                         db.Notes.AddRange(remote_note);
 
                         await db.SaveChangesAsync();
-                        http.SendBackendTelegram($"{business_branch_name}%0aAuto update note from admin db successfully");
+                        http.SendBackendTelegram($"{business_branch_name}\nAuto update note from admin db successfully");
                         return true;
                     }
                 }
             }
             catch (Exception ex)
             {
-                http.SendBackendTelegram($"{business_branch_name}%0aAuto update note from admin db fail. {ex.ToString()}");
+                http.SendBackendTelegram($"{business_branch_name}\nAuto update note from admin db fail. {ex.ToString()}");
             }
             return false;
         }
@@ -819,14 +819,14 @@ namespace eAPIClient.Services
                         db.Database.ExecuteSqlRaw("delete tbl_translate_text");
                         db.TranslateTexts.AddRange(translate_texts);
                         db.SaveChanges();
-                        http.SendBackendTelegram($"{business_branch_name}%0aAuto update translate text complete");
+                        http.SendBackendTelegram($"{business_branch_name}\nAuto update translate text complete");
                     }
                 }
                 return true;
             }
             catch (Exception ex)
             {
-                http.SendBackendTelegram($"{business_branch_name}%0aAuto update translate text. {ex.ToString()}");
+                http.SendBackendTelegram($"{business_branch_name}\nAuto update translate text. {ex.ToString()}");
             }
 
             return false;
@@ -847,13 +847,13 @@ namespace eAPIClient.Services
         public void sendHistoryAlertTelegram(HistoryModel model)
         {
 
-            string messaage = $"{model.title}%0a{model.description}";
+            string messaage = $"{model.title}\n{model.description}";
             if (!string.IsNullOrEmpty(model.note))
             {
-                messaage = messaage + $"%0aNote: {model.note}";
+                messaage = messaage + $"\nNote: {model.note}";
             }
-            messaage = messaage + $"%0a-------------------------";
-            messaage = messaage + $"%0aBy: {model.created_by} on {model.created_date.ToString("dd/MM/yyyy hh:mm:ss tt")} ";
+            messaage = messaage + $"\n-------------------------";
+            messaage = messaage + $"\nBy: {model.created_by} on {model.created_date.ToString("dd/MM/yyyy hh:mm:ss tt")} ";
 
 
             http.SendTelegram(messaage);
@@ -872,7 +872,7 @@ namespace eAPIClient.Services
 
             if (is_sync_busy)
             {
-                http.SendBackendTelegram($"{business_branch_name}%0aSync process  is busy.");
+                http.SendBackendTelegram($"{business_branch_name}\nSync process  is busy.");
 
 
                 return;
@@ -881,7 +881,7 @@ namespace eAPIClient.Services
             is_sync_busy = true;
 
 
-            http.SendBackendTelegram($"{business_branch_name}%0aStart sync data");
+            http.SendBackendTelegram($"{business_branch_name}\nStart sync data");
             await SyncDataToAdminDatabase();
 
             //run second time for sync some unsync data
@@ -937,7 +937,7 @@ namespace eAPIClient.Services
                 }
 
 
-                http.SendBackendTelegram($"{ business_branch_name}%0aSync completed");
+                http.SendBackendTelegram($"{ business_branch_name}\nSync completed");
 
 
 
@@ -947,7 +947,7 @@ namespace eAPIClient.Services
             {
                 await Task.Factory.StartNew(() => {
                     Log.Error(ex.ToString());
-                    http.SendBackendTelegram($"{business_branch_name}%0async data {ex.Message}");
+                    http.SendBackendTelegram($"{business_branch_name}\nsync data {ex.Message}");
                 });
             }
 

@@ -46,9 +46,6 @@ namespace eAPIClient.Controllers
             if (d != null)
             {
                 string r = d.result;
-
-                 
-
                 var data = JsonSerializer.Deserialize<List<DynamicModel>>(r) ;
 
                 return Ok(data);

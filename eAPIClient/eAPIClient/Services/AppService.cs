@@ -207,13 +207,13 @@ namespace eAPIClient.Services
         public void sendHistoryAlertTelegram(HistoryModel model)
         {
 
-            string messaage =$"{model.title}%0a{model.description}";
+            string messaage =$"{model.title}\n{model.description}";
             if(!string.IsNullOrEmpty(model.note))
             {
-                messaage = messaage + $"%0aNote: {model.note}";
+                messaage = messaage + $"\nNote: {model.note}";
             }
-            messaage = messaage + $"%0a-------------------------";
-            messaage = messaage + $"%0aBy: {model.created_by} on {model.created_date.ToString("dd/MM/yyyy hh:mm:ss tt")} ";
+            messaage = messaage + $"\n-------------------------";
+            messaage = messaage + $"\nBy: {model.created_by} on {model.created_date.ToString("dd/MM/yyyy hh:mm:ss tt")} ";
 
 
             http.SendTelegram(messaage);

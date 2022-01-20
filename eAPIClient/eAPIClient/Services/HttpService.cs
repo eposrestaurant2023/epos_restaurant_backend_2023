@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using eAPIClient.Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
+using Telegram.Bot;
+using System.Threading;
 
 namespace eAPIClient.Services
 {
@@ -13,8 +17,8 @@ namespace eAPIClient.Services
     {
         Task<GetOdataResponse> ApiGetOData(string url);
         Task<GetResponse> ApiGet(string url);
-        Task<GetResponse> SendTelegram (string message); 
-        Task<GetResponse> SendBackendTelegram (string message); 
+        Task SendTelegram (string message); 
+        Task SendBackendTelegram (string message); 
         
         Task<PostReponse> ApiPost(string url, object obj = null);
 
@@ -147,46 +151,23 @@ namespace eAPIClient.Services
             }
         }
 
-        public async Task<GetResponse> SendTelegram(string message)
+        public async Task SendTelegram(string message)
         {
-            HttpStatusCode StatusCode = new HttpStatusCode();
-            http.DefaultRequestHeaders.Remove("ContentType");
-            http.DefaultRequestHeaders.Add("ContentType", "application/json");
-
-            string url = $"{_configuration.GetValue<string>("telegram_alert_url")}bot{_configuration.GetValue<string>("telegram_alert_token")}/sendMessage?chat_id={_configuration.GetValue<string>("telegram_chat_id")}&text={message.Replace("#","")}";
-
-            var resp = await http.GetAsync(url);
-
-            StatusCode = resp.StatusCode;
-            if (resp.IsSuccessStatusCode)
-            {
-                var jsonString = await resp.Content.ReadAsStringAsync();
-                return new GetResponse(true, jsonString);
-            }
-            return new GetResponse(false, StatusCode);
+            string token = _configuration.GetValue<string>("telegram_alert_token");
+            string chatId = _configuration.GetValue<string>("telegram_chat_id");
+            var botClient = new TelegramBotClient(token);
+            using var cancellationToken = new CancellationTokenSource();
+            Message _message = await botClient.SendTextMessageAsync(chatId: chatId,text: message);
 
         }
 
-        public async Task<GetResponse> SendBackendTelegram(string message)
+        public async Task SendBackendTelegram(string message)
         {
-            HttpStatusCode StatusCode = new HttpStatusCode();
-            http.DefaultRequestHeaders.Remove("ContentType");
-
-            http.DefaultRequestHeaders.Add("ContentType", "application/json");
-
             string token = _configuration.GetValue<string>("backEndTelegramConfig:access_token");
-            string chat_id = _configuration.GetValue<string>("backEndTelegramConfig:chat_id");
-            string url = $"{"https://api.telegram.org/bot"}{token}/sendMessage?chat_id={chat_id}&text={message.Replace("#", "")}";
-
-            var resp = await http.GetAsync(url);
-
-            StatusCode = resp.StatusCode;
-            if (resp.IsSuccessStatusCode)
-            {
-                var jsonString = await resp.Content.ReadAsStringAsync();
-                return new GetResponse(true, jsonString);
-            }
-            return new GetResponse(false, StatusCode);
+            string chatId = _configuration.GetValue<string>("backEndTelegramConfig:chat_id"); 
+            var botClient = new TelegramBotClient(token);
+            using var cancellationToken = new CancellationTokenSource();
+            Message _message = await botClient.SendTextMessageAsync(chatId: chatId, text: message);  
 
         }
 
