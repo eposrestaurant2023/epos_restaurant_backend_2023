@@ -114,6 +114,7 @@ namespace eAPIClient.Services
                     {
                         foreach (var b in data)
                         {
+                            
                             if (SaveRemoteCustomerToLocalCustomer(b.customer))
                             {
                                 b.customer = null;
@@ -133,7 +134,7 @@ namespace eAPIClient.Services
             }
             catch (Exception ex)
             {
-                http.SendBackendTelegram($"{business_branch_name}\nSync Customer fail. error message: {ex.Message}");
+                http.SendBackendTelegram($"{business_branch_name}\nSync Customer fail. error message: {ex.Message} \n {ex.ToString()}");
             }
             is_sync_customer_busy = false;
         }
@@ -174,12 +175,12 @@ namespace eAPIClient.Services
             {
                 using (var db = new ApplicationDbContext(config))
                 {
-                    model.business_branch_id = model.business_branch_id == Guid.Empty ? null : model.business_branch_id;
-                    model.last_update_business_branch_id = model.last_update_business_branch_id == Guid.Empty ? null : model.last_update_business_branch_id;
+                    Guid _business_branch_id = Guid.Parse(config.GetValue<string>("business_branch_id"));  
+                    model.business_branch_id = _business_branch_id;
+                    model.last_update_business_branch_id = _business_branch_id;
                     model.is_synced = true;
-                    var _modelCheck = db.Customers.Where(r => r.id == model.id).AsNoTracking();
+                    var _modelCheck = db.Customers.Where(r => r.id == model.id).AsNoTracking();  
 
-                    
                     if (_modelCheck.Count() > 0)
                     {
 
@@ -199,7 +200,7 @@ namespace eAPIClient.Services
             catch (Exception ex)
             {
                 Log.Error(ex.ToString() + "=====" + JsonSerializer.Serialize(model));
-                http.SendBackendTelegram($"{business_branch_name}\nSave sync customer fail. Data:{JsonSerializer.Serialize(model)}. error message: {ex.Message}");
+                http.SendBackendTelegram($"{business_branch_name}\nSave sync customer fail. Data:{JsonSerializer.Serialize(model)}. error message: {ex.Message}\n{ex.ToString()}");
 
             }
             return false;
