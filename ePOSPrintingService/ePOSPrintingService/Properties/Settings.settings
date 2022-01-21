@@ -163,7 +163,7 @@
 }</Value>
     </Setting>
     <Setting Name="api_url" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://customer.esoftix.com:9597/restaurant_client_api/api/</Value>
+      <Value Profile="(Default)">http://customer.esoftix.com:9697/restaurant_client_api/api/</Value>
     </Setting>
   </Settings>
 </SettingsFile>

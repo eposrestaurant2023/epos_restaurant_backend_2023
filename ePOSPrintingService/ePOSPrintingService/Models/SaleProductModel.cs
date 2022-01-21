@@ -37,6 +37,7 @@ namespace ePOSPrintingServiceReportModel
         public Guid? redeem_sale_product_id { get; set; }
         public string park_note { get; set; }
         public DateTime? park_expired_date { get; set; }
+        public int sort_order { get; set; }
 
     }
 }

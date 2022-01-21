@@ -406,7 +406,6 @@ namespace ePOSPrintingService
                   ex);
 
             }
-            return "";
         }
 
         // ============End Print Receipt ==========================
@@ -415,9 +414,6 @@ namespace ePOSPrintingService
         {
             try
             {
-                
-             
-
                 DynamicDataModel print_data = new DynamicDataModel();
 
                 var data = GetApiData($"sp_get_sale_product_for_print_to_kitchen", $"'{sale_id}','json'");

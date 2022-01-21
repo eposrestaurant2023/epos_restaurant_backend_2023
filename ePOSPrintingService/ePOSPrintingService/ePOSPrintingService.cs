@@ -75,7 +75,7 @@ namespace ePOSPrintingService
         {
             try
             {
-                System.Threading.Thread.Sleep(250);
+                Thread.Sleep(250);
 
                 string file_path = e.FullPath;
                 ActionModel action = new ActionModel();

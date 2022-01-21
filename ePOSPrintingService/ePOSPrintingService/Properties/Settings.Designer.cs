@@ -150,7 +150,7 @@ namespace ePOSPrintingService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://customer.esoftix.com:9597/restaurant_client_api/api/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://customer.esoftix.com:9697/restaurant_client_api/api/")]
         public string api_url {
             get {
                 return ((string)(this["api_url"]));

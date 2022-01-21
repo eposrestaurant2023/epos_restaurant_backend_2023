@@ -32,6 +32,7 @@ namespace ePOSPrintingServiceReportModel
         public string table_name { get; set; }
         public string old_table_name{ get; set; }
         public int group_item_type_id { get; set; }
+        public int sort_order { get; set; }
         public bool is_free { get; set; }
     }
 }
