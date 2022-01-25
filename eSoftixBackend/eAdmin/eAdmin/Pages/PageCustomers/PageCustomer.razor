@@ -116,6 +116,7 @@
                 </TdCenter>
                 <TdActions>
                         <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("customer_view")" is_visible="@(!p.is_deleted)" url="@($"customer/{p.id}")">View</TableActionItem>
+                        <TableActionItem icon="@Icons.Material.Filled.Edit" roles="@gv.GetRole("customer_view")" is_visible="@(!p.is_deleted)" url="@($"customer/edit/{p.id}")">Edit</TableActionItem>
                         <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("customer_add")" url="@($"customer/clone/{p.id}")">Clone</TableActionItem>
                 </TdActions>
 
