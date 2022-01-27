@@ -8,9 +8,9 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>epos_haiven_report</TargetReportFolder>
-    <TargetDatasetFolder>epos_haiven_report/epos_haiven_reportDatasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>epos_haiven_report/epos_haiven_reportDataSource</TargetDatasourceFolder>
+    <TargetReportFolder>ePOSBeatNik/ePOSRestaurantReports</TargetReportFolder>
+    <TargetDatasetFolder>ePOSBeatNik/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>ePOSBeatNik/DataSource</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://webmonitor.inccloudserver.com:3344/reportserver</TargetServerURL>
   </PropertyGroup>
