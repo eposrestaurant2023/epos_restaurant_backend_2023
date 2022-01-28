@@ -33,35 +33,35 @@
                     {
                         @foreach (var d in list_summaries.Select(r => r.group).Distinct())
                         {
-                <UIGridCenter>
-                    @if (!string.IsNullOrEmpty(d.ToString()))
-                    {
-                        <UIContainerBox Title="@lang[d.ToString()]">
-                            <ListTable ClassWidth="uk-width-1-1">
-                                @foreach (var t in list_summaries.Where(r => r.group == d.ToString()))
+                            <UIGridCenter>
+                                @if (!string.IsNullOrEmpty(d.ToString()))
                                 {
-                                    if (t.title == "separator")
-                                    {
-                                        <td colspan="3">
-                                            <hr />
-                                        </td>
+                                    <UIContainerBox Title="@lang[d.ToString()]">
+                                        <ListTable ClassWidth="uk-width-1-1">
+                                            @foreach (var t in list_summaries.Where(r => r.group == d.ToString()))
+                                            {
+                                                if (t.title == "separator")
+                                                {
+                                                    <td colspan="3">
+                                                        <hr />
+                                                    </td>
 
-                                    }
-                                    else
-                                    {
-                                        @if (!string.IsNullOrEmpty(t.title))
-                                        {
-                                            <ListTableItem ItemTitle="@lang[t.title]" IsBetweenValue="true">@t.value</ListTableItem>
-                                        }
+                                                }
+                                                else
+                                                {
+                                                    @if (!string.IsNullOrEmpty(t.title))
+                                                    {
+                                                        <ListTableItem ItemTitle="@lang[t.title]" IsBetweenValue="true">@t.value</ListTableItem>
+                                                    }
 
-                                    }
+                                                }
 
+                                            }
+                                        </ListTable>
+                                    </UIContainerBox>
                                 }
-                            </ListTable>
-                        </UIContainerBox>
-                    }
 
-                </UIGridCenter>
+                            </UIGridCenter>
                         }
                     }
                     <div class="invoice_footer_description">
@@ -74,7 +74,7 @@
                                 @lang["Deleted by"] @model.deleted_by @lang["on"] @(model.deleted_date != null? model.deleted_date.Value.ToString(gv.date_time_format):"")
                             </div>
                         }
-                        <div>@lang["Last modified by"] @model.last_modified_by @lang["on"] @model.last_modified_date</div>
+                        <div>@lang["Last modified by"] @model.last_modified_by @lang["on"] @model.last_modified_date.ToString(gv.date_time_format)</div>
                     </div>
                 </MudTabPanel>
                 <MudTabPanel OnClick="@(()=>receipt_tab_click = true)" Text="@lang["Sale Receipt"]">
