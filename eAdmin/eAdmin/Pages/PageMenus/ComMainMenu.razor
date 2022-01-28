@@ -172,13 +172,16 @@
     }
 
 
-
-
     public MenuModel current_menu
     {
         get
         {
-            return menus.Where(r => r.id == current_menu_id).FirstOrDefault();
+            var menu = menus.Where(r => r.id == current_menu_id).FirstOrDefault();
+            if (menu.product_menus==null)
+            {
+                menu.product_menus = new List<ProductMenuModel>();
+            }
+            return menu;
         }
     }
 

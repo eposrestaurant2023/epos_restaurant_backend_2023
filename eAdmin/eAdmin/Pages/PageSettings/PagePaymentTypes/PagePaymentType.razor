@@ -45,7 +45,7 @@
                                     <ThCenter>@lang["Status"]</ThCenter>
                                     <Th></Th>
                                 </tr>
-                                    @foreach (var s in payment_types)
+                                    @foreach (var s in payment_types.OrderBy(r=>r.sort_order))
                                     {
                                 <tr>
                                     <td>
