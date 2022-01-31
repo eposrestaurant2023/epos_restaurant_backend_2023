@@ -7,9 +7,9 @@
 
     @if (model.is_deleted)
     {
-        <div>@lang["Deleted by"] @model.deleted_by @lang["on"] @model.deleted_date</div>
+        <div>@lang["Deleted by"] @model.deleted_by @lang["on"] @Convert.ToDateTime(model.deleted_date).ToString(gv.date_time_format)</div>
     }
-    <div>@lang["Last modified by"] @model.last_modified_by @lang["on"] @model.last_modified_date</div>
+    <div>@lang["Last modified by"] @model.last_modified_by @lang["on"] @model.last_modified_date.ToString(gv.date_time_format)</div>
 </div>
 @code {
     [Parameter] public StockTransferModel model { get; set; }

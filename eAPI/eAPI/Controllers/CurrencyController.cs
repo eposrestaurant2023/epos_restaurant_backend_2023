@@ -98,7 +98,6 @@ namespace eAPI.Controllers
             {
                 CurrencyModel old_currency = old_main_currency.FirstOrDefault();
                 old_currency.is_main = false;
-                old_currency.is_base_exchange_currency = false;
             }
             var data = db.Currencies.Where(r => r.id == id).Include(r => r.business_branch_currencies).ToList(); ;
 
@@ -108,9 +107,33 @@ namespace eAPI.Controllers
                 c.is_main=true;
                 c.default_change_exchange_rate = 1;
                 c.default_exchange_rate = 1;
-                c.is_base_exchange_currency = true;
 
                 c.business_branch_currencies.ForEach(r => { r.exchange_rate = 1; r.change_exchange_rate = 1; r.change_exchange_rate_input = 1;r.exchange_rate_input = 1; });
+                db.Currencies.Update(c);
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [Route("MarkAsBaseExchangeCurrency/{id}")]
+        public async Task<ActionResult<bool>> MarkAsBaseExchangeCurrency(int id) //Delete
+        {
+
+            var old_base_exchange_currency = db.Currencies.Where(r => r.is_base_exchange_currency == true);
+            if (old_base_exchange_currency.Any())
+            {
+                CurrencyModel old_currency = old_base_exchange_currency.FirstOrDefault();
+                old_currency.is_base_exchange_currency = false;
+            }
+            var data = db.Currencies.Where(r => r.id == id).Include(r => r.business_branch_currencies).ToList(); ;
+
+            if (data.Any())
+            {
+                CurrencyModel c = data.FirstOrDefault();
+                c.is_base_exchange_currency = true;
                 db.Currencies.Update(c);
                 await db.SaveChangesAsync();
                 return Ok();
@@ -144,8 +167,6 @@ namespace eAPI.Controllers
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
  
                     db.Database.ExecuteSqlRaw("exec sp_update_exchange_base_currency_exchange_rate " + u.id);
-                
-
                 
 
                 return Ok(u);

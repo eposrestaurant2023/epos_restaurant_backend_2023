@@ -26,12 +26,12 @@
         <DataField>mobile_phone</DataField>
         <rd:TypeName>System.String</rd:TypeName>
       </Field>
-      <Field Name="office_phone">
-        <DataField>office_phone</DataField>
-        <rd:TypeName>System.String</rd:TypeName>
-      </Field>
       <Field Name="email">
         <DataField>email</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="office_phone">
+        <DataField>office_phone</DataField>
         <rd:TypeName>System.String</rd:TypeName>
       </Field>
       <Field Name="contact_name">

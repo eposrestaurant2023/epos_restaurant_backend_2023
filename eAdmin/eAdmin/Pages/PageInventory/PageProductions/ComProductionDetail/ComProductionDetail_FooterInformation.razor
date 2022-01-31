@@ -9,7 +9,7 @@
     {
 <div>@lang["Deleted by"] @model.deleted_by @lang["On_Date"]  @model.deleted_date</div>
     }
-    <div>@lang["Last modified by"] @model.last_modified_by @lang["On_Date"] @model.last_modified_date</div>
+    <div>@lang["Last modified by"] @model.last_modified_by @lang["On_Date"] @model.last_modified_date.ToString(gv.date_time_format)</div>
 </div>
 @code {
     [Parameter] public ProductionModel model { get; set; }

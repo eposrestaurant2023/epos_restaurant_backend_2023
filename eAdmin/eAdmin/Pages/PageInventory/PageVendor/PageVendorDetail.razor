@@ -133,7 +133,7 @@
                                 @lang["Deleted by"] @model.deleted_by @lang["on"] @(model.deleted_date != null? model.deleted_date.Value.ToString(gv.date_time_format):"")
                             </div>
                         }
-                        <div>@lang["Last modified by"] @model.last_modified_by @lang["on"] @model.last_modified_date</div>
+                        <div>@lang["Last modified by"] @model.last_modified_by @lang["on"] @model.last_modified_date.ToString(gv.date_time_format)</div>
                     </div>
                 </MudTabPanel>
                 <MudTabPanel OnClick="@(()=>purchase_history_tab_click=true)" Text="@lang["Purchase History"]">

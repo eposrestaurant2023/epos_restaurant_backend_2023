@@ -65,7 +65,9 @@
                                     <tr>
                                         <td>
                                             @bp.currency_name_en <br /> 
-                                            <Label is_visible="@bp.is_main" Text="@lang["Main Currency"]" Background="orange" /></td>
+                                            <Label is_visible="@bp.is_main" Text="@lang["Main Currency"]" Background="orange" />
+                                            <Label is_visible="@bp.is_base_exchange_currency" Text="@lang["Base Exchange Currency"]" Background="purple" />
+                                        </td>
                                         <td>@bp.currency_name_kh</td>
                                         <td>
                                            @bp.currency_format 
@@ -82,6 +84,7 @@
                                          
                                             <TableActionItem icon="attach_money" url="currencyexchangerate">@lang["Update Exchange Rate"]</TableActionItem>
                                             <TableActionItem  roles="@gv.GetRole("currency_edit")" icon="check"  OnClick="@(() => MarkAsMainCurrency(bp))">@lang["Mark as Main Currency"]</TableActionItem>
+                                            <TableActionItem  roles="@gv.GetRole("currency_edit")" icon="check"  OnClick="@(() => MarkAsBaseExchagneCurrency(bp))">@lang["Mark as Base Exchange Currency"]</TableActionItem>
                                             <TableActionItem roles="@gv.GetRole("currency_edit")" icon="edit"  OnClick="@(() => OnEdit(bp.id))">@lang["Edit"]</TableActionItem>
                                             <TableActionItem is_visible="@(!bp.is_build_in)" roles="@gv.GetRole("currency_delete")" icon="delete" OnClick="@(() => OnDelete(bp))">@lang["Delete"]</TableActionItem>
                                              
@@ -177,6 +180,32 @@
 
     }
 
+    async Task MarkAsBaseExchagneCurrency(CurrencyModel c)
+    {
+        if (await js.Confirm(lang["Update currency"], lang["Are you sure you want to mark this currency as base exchange currency?"]))
+        {
+
+            //do delete
+            is_loading_data = true;
+            c.is_deleting = true;
+            var resp = await http.ApiPost("Currency/MarkAsBaseExchangeCurrency/" + c.id);
+            if (resp.IsSuccess)
+            {
+                toast.Add(lang["Mark as main currency successfully"], MudBlazor.Severity.Success);
+
+                await LoadData();
+
+            }
+            else
+            {
+                toast.Add(lang["Mark as main currency fail"], MudBlazor.Severity.Warning);
+            }
+            is_loading_data = false;
+            c.is_deleting = false;
+        }
+
+
+    }
 
 
 }
