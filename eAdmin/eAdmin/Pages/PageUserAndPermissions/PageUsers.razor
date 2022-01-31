@@ -59,7 +59,6 @@
                        ShowCounter="true">
                     <TableHeader>
                         <ThCenter>@lang["Image"]</ThCenter>
-                        @HeaderTemplate("user_code", lang["Code"], "uk-text-center")
                         @HeaderTemplate("full_name", lang["Full Name"], "uk-width-auto uk-text-left")
                         <Th OnClick="@(async () => await OrderBy("username"))" OrderBy="@(state.pager.order_by == "username")" OrderByType="@state.pager.order_by_type">@lang["User Name"]</Th>
                         @HeaderTemplate("role/role_name", lang["User Type"], "uk-width-auto uk-text-left")
@@ -73,7 +72,6 @@
                         <TdCenter>
                             <Image ImageUrl="@http.ImageUrl(user.photo)" PopupImageUrl="@http.ImageUrl(user.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
                         </TdCenter>
-                        <TdCenter>@user.user_code</TdCenter>
                         <td>@user.full_name</td>
                         <td>
                             @if (!user.is_deleted && !user.is_buildin)
