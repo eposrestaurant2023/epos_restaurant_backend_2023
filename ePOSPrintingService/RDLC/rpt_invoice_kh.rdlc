@@ -27,7 +27,7 @@
                             <TextRun>
                               <Value>សរុបរង</Value>
                               <Style>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
@@ -62,7 +62,7 @@
                             <TextRun>
                               <Value>=format(Fields!sub_total.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -103,21 +103,21 @@
                             <TextRun>
                               <Value>បញ្ចុះតម្លៃ</Value>
                               <Style>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value xml:space="preserve"> </Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>14pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=iif(Fields!sale_discount_type.Value = "Amount" , ""," " &amp; format((Fields!sale_discount_value.Value/100),"0 %"))</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -152,7 +152,7 @@
                             <TextRun>
                               <Value>=format(Fields!total_discount_amount.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -193,28 +193,28 @@
                             <TextRun>
                               <Value>=First(Fields!tax_1_name.Value, "Setting")</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>(</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=format(Fields!tax_1_rate.Value,"0.##%")</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>)</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -250,7 +250,7 @@
                             <TextRun>
                               <Value>=format(Fields!tax_1_amount.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -293,28 +293,28 @@
                             <TextRun>
                               <Value>=First(Fields!tax_2_name.Value, "Setting")</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>(</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=format(Fields!tax_2_rate.Value,"0.##%")</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>)</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -350,7 +350,7 @@
                             <TextRun>
                               <Value>=format(Fields!tax_2_amount.Value, First(Fields!currency_format.Value, "Setting"))</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -393,28 +393,28 @@
                             <TextRun>
                               <Value>=First(Fields!tax_3_name.Value, "Setting")</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>(</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=format(Fields!tax_3_rate.Value,"0.##%")</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>)</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -450,7 +450,7 @@
                             <TextRun>
                               <Value>=format(Fields!tax_3_amount.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -561,7 +561,7 @@
                 <Value>លេខទូរស័ព្ទ</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
-                  <FontFamily>Khmer OS Battambang</FontFamily>
+                  <FontFamily>Kh System</FontFamily>
                   <FontSize>9pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -572,6 +572,7 @@
                 <Value> : </Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
+                  <FontFamily>Kh System</FontFamily>
                   <FontSize>8.5pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -582,6 +583,7 @@
                 <Value>=First(Fields!phone_1.Value, "Setting")</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
+                  <FontFamily>Kh System</FontFamily>
                   <FontSize>8.5pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -592,6 +594,7 @@
                 <Value xml:space="preserve"> </Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
+                  <FontFamily>Kh System</FontFamily>
                   <FontSize>8.5pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -602,6 +605,7 @@
                 <Value>=iif(First(Fields!phone_2.Value, "Setting")="","","/" +First(Fields!phone_2.Value, "Setting"))</Value>
                 <Style>
                   <FontStyle>Normal</FontStyle>
+                  <FontFamily>Kh System</FontFamily>
                   <FontSize>8.5pt</FontSize>
                   <FontWeight>Normal</FontWeight>
                   <TextDecoration>None</TextDecoration>
@@ -655,7 +659,7 @@
                             <TextRun>
                               <Value>វិក្កយបត្រ</Value>
                               <Style>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -698,7 +702,7 @@
                             <TextRun>
                               <Value>No : </Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -739,21 +743,21 @@
                             <TextRun>
                               <Value>លេខតុ</Value>
                               <Style>
-                                <FontFamily>khmer os Battambang</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value xml:space="preserve"> </Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>11pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>: </Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -801,14 +805,14 @@
                             <TextRun>
                               <Value>កាលបរិច្ឆេទ</Value>
                               <Style>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value> : </Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -848,14 +852,14 @@
                             <TextRun>
                               <Value>ម៉ោងចូល</Value>
                               <Style>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value> : </Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -902,7 +906,7 @@
                             <TextRun>
                               <Value>អតិថិជ</Value>
                               <Style>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
@@ -942,14 +946,14 @@
                             <TextRun>
                               <Value>អ្នកលក់</Value>
                               <Style>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value> : </Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -1045,7 +1049,7 @@
                             <TextRun>
                               <Value>ទំនិញ</Value>
                               <Style>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
@@ -1084,7 +1088,7 @@
                             <TextRun>
                               <Value>ចំនួន</Value>
                               <Style>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
                               </Style>
                             </TextRun>
@@ -1121,7 +1125,7 @@
                             <TextRun>
                               <Value>តម្លៃ</Value>
                               <Style>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
@@ -1158,7 +1162,7 @@
                             <TextRun>
                               <Value>សរុប</Value>
                               <Style>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
@@ -1526,7 +1530,7 @@
                             <TextRun>
                               <Value>បញ្ចុះតម្លៃ</Value>
                               <Style>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Normal</FontWeight>
                               </Style>
@@ -1627,15 +1631,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>ចំណាំ</Value>
-                              <Style>
-                                <FontStyle>Italic</FontStyle>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
-                                <FontSize>8pt</FontSize>
-                              </Style>
-                            </TextRun>
-                            <TextRun>
-                              <Value>: </Value>
+                              <Value>ចំណាំ: </Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontFamily>Kh System</FontFamily>
@@ -1776,7 +1772,7 @@
                             <TextRun>
                               <Value>តម្លៃសរុប</Value>
                               <Style>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -1784,18 +1780,21 @@
                             <TextRun>
                               <Value> (</Value>
                               <Style>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=Fields!name_en.Value</Value>
                               <Style>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>)</Value>
                               <Style>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -1831,6 +1830,7 @@
                             <TextRun>
                               <Value>=format(Fields!total_amount.Value,Fields!format.Value)</Value>
                               <Style>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -1956,7 +1956,7 @@
                               <Value>សូមអគុណ ដែលជួយគាំទ្រ </Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontFamily>Khmer OS Battambang</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Normal</FontWeight>
                                 <TextDecoration>None</TextDecoration>
@@ -1980,6 +1980,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -1993,7 +1994,11 @@
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=Fields!wifi_password.Value=""</Hidden>
+              </Visibility>
+            </TablixMember>
             <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
