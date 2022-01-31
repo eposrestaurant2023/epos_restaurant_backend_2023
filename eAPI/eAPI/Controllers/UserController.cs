@@ -56,7 +56,7 @@ namespace eAPI.Controllers
         {
             var pass_encr = EncryptProvider.Base64Encrypt(u.Password);
 
-            var data = await Task.Factory.StartNew(() => db.Users.Where(r => r.username == u.Username && r.password == pass_encr && !r.is_deleted && r.status).Include(r => r.role).AsQueryable());
+            var data = await Task.Factory.StartNew(() => db.Users.Where(r => r.username == u.Username && r.password == pass_encr && !r.is_deleted && r.status && r.is_allow_backend_login).Include(r => r.role).AsQueryable());
             if (data == null || data.Count() <= 0)
             {
                 return NotFound();
