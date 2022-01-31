@@ -57,15 +57,15 @@
         <div class="uk-text-right">
             <Button OnClick="@AddSection">@lang["Add Section"]</Button>
         </div>
-        }
-        else
-        {
+    }
+    else
+    {
         <ComEmptyTemplate empty="@lang["Please click button below to add section."]" icon="create_new_folder">
             <div class="uk-text-center">
                 <Button OnClick="@AddSection">@lang["Add Section"]</Button>
             </div>
         </ComEmptyTemplate>
-        }
+    }
         </UIContainerBox>
 
     @code{

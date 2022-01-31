@@ -29,7 +29,6 @@
                     {
                         if (gv.business_branch_has_feature(b.id.ToString(), "KOT"))
                         {
-
                             <MudExpansionPanels MultiExpansion="true">
                                 <MudExpansionPanel Class="mb-2" Text="@b.business_branch_name_en">
                                     <ComPrinters printers="@b.printers" />
@@ -39,15 +38,19 @@
                                     </div>
                                 </MudExpansionPanel>
                             </MudExpansionPanels>
-                                }
+                        }
+                        else
+                        {
+                            @("no printer")
+                        }
 
-                                }
-                                }
-                                else
-                                {
-                                <ComAlert type="warning">@lang["There is no business branch. Please enter business branch first."]</ComAlert>
-                                }
-                        </UIGridCenter>
+                    }
+                }
+                else
+                {
+                    <ComAlert type="warning">@lang["There is no business branch. Please enter business branch first."]</ComAlert>
+                }
+            </UIGridCenter>
         </PageBody>
         <PageFooter>
             <FooterCenter>
