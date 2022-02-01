@@ -94,14 +94,12 @@ namespace eAPIClient
             app.UseAuthentication();
             app.UseAuthorization();
 
-
             //app.UseStaticFiles(new StaticFileOptions
             //{
             //    FileProvider = new PhysicalFileProvider(
-            //  Path.Combine(env.ContentRootPath, "uploads")),
+            //Path.Combine(env.ContentRootPath, "uploads")),
             //    RequestPath = "/uploads"
             //});
-
 
             app.UseEndpoints(endpoints =>
             {
