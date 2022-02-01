@@ -78,6 +78,16 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> Save([FromQuery] string password, [FromBody] UserModel u)
         {
             //check if user duplicate
+
+            //if (u.)
+            //{
+
+            //}
+            //else
+            //{
+
+            //}
+
             if (u.id == 0)
             {
                 var user = db.Users.Where(r => r.username.ToLower().Trim() == u.username.ToLower().Trim() && r.is_deleted == false);

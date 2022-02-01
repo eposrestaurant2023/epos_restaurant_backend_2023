@@ -289,6 +289,12 @@
             }
         }
 
+
+        if(!user.is_allow_backend_login && user.is_allow_front_end_login)
+        {
+            user.password = user.user_code + user.pin_code;
+        }
+
         if (!string.IsNullOrEmpty(user.password))
         {
             password_uri = $"?password={user.password}";
