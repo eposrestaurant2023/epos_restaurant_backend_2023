@@ -808,14 +808,6 @@ order by
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
-                                <TextRun>
-                                  <Value>l</Value>
-                                  <Style>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
                               </TextRuns>
                               <Style>
                                 <TextAlign>Right</TextAlign>
