@@ -72,26 +72,9 @@ namespace eAPIClient.Controllers
 
                 List<SaleModel> sales = new List<SaleModel>();
                 if (model.id != Guid.Empty)
-                {
-                    bool _is_have_sale_product_moved=false;
-                    sales = db.Sales.Where(r => r.id == model.id).Include(x=>x.sale_products).AsNoTracking().ToList();
-                    if(sales.Any())
-                    {
-                        foreach(var _sp in model.sale_products.ToList())
-                        {
-                            var _sale_products = sales.SelectMany(s => s.sale_products.Where(x => x.sale_id == _sp.sale_id && x.id == _sp.id).ToList()).ToList();
-                            if (!_sale_products.Any())
-                            {
-                                _is_have_sale_product_moved = true;
-                                break;
-                            }
-                        }  
-                    }
-                    if (_is_have_sale_product_moved)
-                    {
-                        return BadRequest(new BadRequestModel { message = "the_bill_was_modified_by_other_device" });
-                    }
-                    
+                {                                               
+                    sales = db.Sales.Where(r => r.id == model.id).Include(x=>x.sale_products).AsNoTracking().ToList();  
+                    ///the_bill_was_modified_by_other_device     
                 }
 
 
