@@ -78,15 +78,7 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> Save([FromQuery] string password, [FromBody] UserModel u)
         {
             //check if user duplicate
-
-            //if (u.)
-            //{
-
-            //}
-            //else
-            //{
-
-            //}
+            
 
             if (u.id == 0)
             {
@@ -103,7 +95,6 @@ namespace eAPI.Controllers
                 {
                     return StatusCode(301, $"Username {u.username} is already exists.");
                 }
-
             }
             if (!string.IsNullOrEmpty(password))
             {
@@ -113,16 +104,16 @@ namespace eAPI.Controllers
 
             if (u.id == 0)
             {
-                //var user = db.Users.Where(r => r.user_code == u.user_code && r.is_deleted == false);
-                //if (user.Count() > 0)
-                //{
-                //    return StatusCode(301, $"User Code {u.user_code} is already exists.");
-                //}
+                var user = db.Users.Where(r => r.user_code + r.pin_code == u.user_code + u.pin_code && r.is_deleted == false);
+                if (user.Count() > 0)
+                {
+                    return StatusCode(301, $"User Code {u.user_code} is already exists.");
+                }
                 db.Users.Add(u);
             }
             else
             {
-                var user = db.Users.Where(r => r.user_code == u.user_code && r.id != u.id && r.is_deleted == false);
+                var user = db.Users.Where(r => r.user_code + u.pin_code == u.user_code + u.pin_code && r.id != u.id && r.is_deleted == false);
                 if (user.Count() > 0)
                 {
                     return StatusCode(301, $"User Code {u.user_code} is already exists.");

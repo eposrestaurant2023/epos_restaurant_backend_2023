@@ -124,7 +124,7 @@ select
 	a.closed_date,
 	a.open_amount,
 	a.close_amount,
-	iif(a.is_closed=0,'Opended','Closed') as [status],
+	iif(a.is_closed=0,'Opened','Closed') as [status],
 	0 as total_sale_order,
 	cast(0 as decimal(16,4)) as difference_amount,
 	cast(0 as decimal(16,4)) as sub_total,
@@ -2341,7 +2341,7 @@ from #tbl </CommandText>
             <DataSetName>CashiftShiftData</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
-            <Width>11.08in</Width>
+            <Width>11.07999in</Width>
             <Style>
               <Border>
                 <Style>None</Style>

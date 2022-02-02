@@ -28,9 +28,12 @@
         <TextInput label="@lang["Code"]" @bind-text="@(user.user_code)">
             <ValidationMessage For="@(()=>user.user_code)" />
         </TextInput>
-       
-        <TextInput label="@lang["Pin Code"]" @bind-text="@user.pin_code" />
-        
+
+        @if (user.is_allow_front_end_login)
+        {
+            <TextInput label="@lang["Pin Code"]" @bind-text="@user.pin_code" />
+        }
+
         <SelectRole label="@lang["Role Name"]" show_empty="true" @bind-selected_value="@user.role_id">
             <ValidationMessage For="@(()=>user.role_id)" />
         </SelectRole>
@@ -61,6 +64,7 @@
             toast.Add(lang["Please enter username"], MudBlazor.Severity.Warning);
             return;
         }
+
         if (user.is_allow_backend_login && user.is_allow_front_end_login)
         {
 
@@ -74,9 +78,9 @@
                 toast.Add(lang["Password is too short"], MudBlazor.Severity.Warning);
                 return;
             }
-            if (string.IsNullOrEmpty(user.pin_code))
+            if (string.IsNullOrEmpty(user.user_code))
             {
-                toast.Add(lang["Please enter pin code"], MudBlazor.Severity.Warning);
+                toast.Add(lang["Please enter user code"], MudBlazor.Severity.Warning);
                 return;
             }
         }
@@ -84,10 +88,13 @@
         {
             if (user.is_allow_front_end_login && !user.is_allow_backend_login)
             {
-                toast.Add(lang["Please enter pin code"], MudBlazor.Severity.Warning);
-                return;
+                if (string.IsNullOrEmpty(user.user_code))
+                {
+                    toast.Add(lang["Please enter user code"], MudBlazor.Severity.Warning);
+                    return;
+                }
             }
-            if (user.is_allow_backend_login && !user.is_allow_front_end_login)
+            else if(!user.is_allow_front_end_login && user.is_allow_backend_login)
             {
                 if (string.IsNullOrEmpty(user.password))
                 {
@@ -99,8 +106,11 @@
                     toast.Add(lang["Password is too short"], MudBlazor.Severity.Warning);
                     return;
                 }
+            }else
+            {
+                toast.Add(lang["Please check allow login"], MudBlazor.Severity.Warning);
+                return;
             }
-
         }
 
         await Save_User_click.InvokeAsync(user);

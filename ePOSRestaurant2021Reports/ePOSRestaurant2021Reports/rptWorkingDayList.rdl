@@ -118,7 +118,7 @@ select
 	a.created_date,
 	a.closed_by,
 	a.closed_date,
-	iif(a.is_closed=0,'Opended','Closed') as [status],
+	iif(a.is_closed=0,'Opened','Closed') as [status],
 	0 as total_shift,
 	0 as total_sale_order,
 	cast(0 as decimal(16,4)) as sub_total,
