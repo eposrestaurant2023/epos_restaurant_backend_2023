@@ -14,7 +14,15 @@ namespace eModels
         {
             filters = new List<FilterModel>();
             pager = new PagerModel();
-
+            
+            multi_select_id_1=  new HashSet<string>();
+            multi_select_value_1 = new List<string>();
+            multi_select_id_2 = new HashSet<string>();
+            multi_select_value_2 = new List<string>();
+            multi_select_id_3 = new HashSet<string>();
+            multi_select_value_3 = new List<string>();
+            multi_select_id_4 = new HashSet<string>();
+            multi_select_value_4 = new List<string>();
         }
         public PagerModel pager { get; set; }
         public string api_url { get; set; }
@@ -74,13 +82,13 @@ namespace eModels
         public OutletModel outlet { get; set; } = new OutletModel();
         public StationModel station { get; set; } = new StationModel();
         public ProductGroupModel product_group { get; set; } = new ProductGroupModel();
-        public HashSet<string> multi_select_id_1 { get; set; } = new HashSet<string>();
-        public List<string> multi_select_value_1 { get; set; } = new List<string>();
+        public HashSet<string> multi_select_id_1 { get; set; }
+        public List<string> multi_select_value_1 { get; set; }
 
-        public HashSet<string> multi_select_id_2 { get; set; } = new HashSet<string>();
-        public List<string> multi_select_value_2 { get; set; } = new List<string>();
-        public HashSet<string> multi_select_id_3 { get; set; } = new HashSet<string>();
-        public List<string> multi_select_value_3 { get; set; } = new List<string>();
+        public HashSet<string> multi_select_id_2 { get; set; }
+        public List<string> multi_select_value_2 { get; set; }
+        public HashSet<string> multi_select_id_3 { get; set; }
+        public List<string> multi_select_value_3 { get; set; }
 
         public HashSet<string> multi_select_id_4 { get; set; }= new HashSet<string>();
         public List<string> multi_select_value_4 { get; set; } = new List<string>();

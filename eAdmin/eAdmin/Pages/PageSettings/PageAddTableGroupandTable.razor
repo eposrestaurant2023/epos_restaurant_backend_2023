@@ -156,12 +156,12 @@
     string prefix = "T";
     string number_format = "00";
     int min = 1;
- 
+
     int max = 10;
     Guid outlet_id = Guid.Empty;
 
     string ControllerApi = "TableGroup";
-     
+
 
     private double _height = 60;
     public double height
@@ -204,7 +204,10 @@
         set
         {
             _sale_type = value;
-            model.tables.ForEach(r => r.sale_type = _sale_type);
+            
+                model.tables.ForEach(r => r.sale_type = _sale_type);
+            
+
         }
     }
 
