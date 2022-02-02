@@ -73,7 +73,25 @@ namespace eAPIClient.Controllers
                 List<SaleModel> sales = new List<SaleModel>();
                 if (model.id != Guid.Empty)
                 {
-                    sales = db.Sales.Where(r => r.id == model.id).AsNoTracking().ToList();
+                    bool _is_have_sale_product_moved=false;
+                    sales = db.Sales.Where(r => r.id == model.id).Include(x=>x.sale_products).AsNoTracking().ToList();
+                    if(sales.Any())
+                    {
+                        foreach(var _sp in model.sale_products.ToList())
+                        {
+                            var _sale_products = sales.SelectMany(s => s.sale_products.Where(x => x.sale_id == _sp.sale_id && x.id == _sp.id).ToList()).ToList();
+                            if (!_sale_products.Any())
+                            {
+                                _is_have_sale_product_moved = true;
+                                break;
+                            }
+                        }  
+                    }
+                    if (_is_have_sale_product_moved)
+                    {
+                        return BadRequest(new BadRequestModel { message = "the_bill_was_modified_by_other_device" });
+                    }
+                    
                 }
 
 
@@ -134,14 +152,14 @@ namespace eAPIClient.Controllers
                     //check sale product and change entry state 
 
                     model.sale_products.ForEach(_sp =>
-                    {
+                    {     
                         if (_sp.sale_product_print_queues != null)
                         {
                             _sp.sale_product_print_queues.ForEach(_spq =>
                             {
                                 _spq.sale_number = model.sale_number;
                             });
-                        }   
+                        }  
                     });  
 
                     if (model.sale_products.Where(r => r.id != Guid.Empty && r.is_deleted == false ).Any())
@@ -169,19 +187,12 @@ namespace eAPIClient.Controllers
 
                     model.sale_products.ForEach(sp =>
                     {
-                        //check if sale product moved to other bill
-                        var _sale_products = sales.FirstOrDefault().sale_products.Where(r => r.sale_id == model.id).ToList();
-                        if (!_sale_products.Any() && sp.id!=Guid.Empty)
-                        {
-                            model.sale_products.Remove(sp);
-                        }
-                        else
-                        {
+                        
                             if (sp.sale_product_print_queues != null)
                             {
                                 sp.sale_product_print_queues.ForEach(_spq => { _spq.sale_number = model.sale_number; });
                             }
-                        }
+                     
                     });
 
                     db.Sales.Update(model);
@@ -214,7 +225,8 @@ namespace eAPIClient.Controllers
             }
             catch (Exception _ex)
             {
-                return BadRequest(new BadRequestModel() { message = "save_data_fail_please_try_again." }) ;
+                
+                return BadRequest(new BadRequestModel() { message = "save_data_fail_please_try_again" }) ;
             }
         }
 
