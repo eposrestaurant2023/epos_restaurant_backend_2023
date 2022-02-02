@@ -24,13 +24,10 @@
                 <ValidationMessage For="@(()=>user.password)" />
             </TextInput>
         }
-
-        <TextInput label="@lang["Code"]" @bind-text="@(user.user_code)">
-            <ValidationMessage For="@(()=>user.user_code)" />
-        </TextInput>
-
+        <TextInput label="@lang["Code"]" @bind-text="@(user.user_code)" />
         @if (user.is_allow_front_end_login)
         {
+
             <TextInput label="@lang["Pin Code"]" @bind-text="@user.pin_code" />
         }
 
