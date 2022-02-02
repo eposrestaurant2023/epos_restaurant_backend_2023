@@ -619,152 +619,6 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.25in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox3">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontStyle>Italic</FontStyle>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox3</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>None</Style>
-                          <Width>0.25pt</Width>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="old_table_name">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>**ប្ដូរតុ</Value>
-                              <Style>
-                                <FontStyle>Italic</FontStyle>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
-                              </Style>
-                            </TextRun>
-                            <TextRun>
-                              <Value>=Fields!old_table_name.Value</Value>
-                              <Style>
-                                <FontStyle>Italic</FontStyle>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
-                              </Style>
-                            </TextRun>
-                            <TextRun>
-                              <Value> ទៅ </Value>
-                              <Style>
-                                <FontStyle>Italic</FontStyle>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
-                              </Style>
-                            </TextRun>
-                            <TextRun>
-                              <Value>=Fields!table_name.Value</Value>
-                              <Style>
-                                <FontStyle>Italic</FontStyle>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
-                              </Style>
-                            </TextRun>
-                            <TextRun>
-                              <Value>***</Value>
-                              <Style>
-                                <FontStyle>Italic</FontStyle>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>old_table_name</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>None</Style>
-                          <Width>0.25pt</Width>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox5">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontStyle>Italic</FontStyle>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox5</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>None</Style>
-                          <Width>0.25pt</Width>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-              </TablixCells>
-            </TablixRow>
-            <TablixRow>
               <Height>0.22222in</Height>
               <TablixCells>
                 <TablixCell>
@@ -825,6 +679,117 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>modifier_items</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.21875in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox3">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>***ប្ដូរតុ </Value>
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!old_table_name.Value</Value>
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>  ទៅ  </Value>
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!table_name.Value</Value>
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>***</Value>
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox3</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1035,12 +1000,12 @@
                 <TablixMember />
                 <TablixMember>
                   <Visibility>
-                    <Hidden>=Fields!old_table_name.Value=Fields!table_name.Value</Hidden>
+                    <Hidden>=Fields!modifier_items.Value=""</Hidden>
                   </Visibility>
                 </TablixMember>
                 <TablixMember>
                   <Visibility>
-                    <Hidden>=Fields!modifier_items.Value=""</Hidden>
+                    <Hidden>=Fields!old_table_name.Value=Fields!table_name.Value</Hidden>
                   </Visibility>
                 </TablixMember>
                 <TablixMember>
@@ -1058,7 +1023,7 @@
         <DataSetName>SaleProduct</DataSetName>
         <Top>1.01333in</Top>
         <Left>0.04042in</Left>
-        <Height>1.44097in</Height>
+        <Height>1.40972in</Height>
         <Width>2.69791in</Width>
         <ZIndex>1</ZIndex>
         <Style>
@@ -1068,7 +1033,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>2.47166in</Height>
+    <Height>2.4543in</Height>
     <Style />
   </Body>
   <Width>2.74875in</Width>
