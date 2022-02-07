@@ -114,7 +114,7 @@
             <Value>=Parameters!outlet_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>select
+        <CommandText> select
 	sp.id,
 	s.working_date,
 	s.customer_name,
@@ -151,12 +151,12 @@ where
 	coalesce(cast(s.customer_id as nvarchar(50)),'') = iif(@customer_id = '',coalesce(cast(s.customer_id as nvarchar(50)),'') ,@customer_id) and 
 	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id) and 
 	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and 
-	sp.product_group_id  = iif(@product_group_id = 0, sp.product_group_id,@product_group_id) and 
-	cast(s.outlet_id as nvarchar(50))= iif(@outlet_id = '0', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
-	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and 
-	sp.product_group_id = iif(@product_group_id =0,sp.product_group_id ,@product_group_id ) 
+	sp.product_group_id  = iif(@product_group_id = 0, sp.product_group_id,@product_group_id) and
+	cast(s.outlet_id as nvarchar(50))= iif(@outlet_id = '', cast(s.outlet_id as nvarchar(50)),@outlet_id)  and
+	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and
+	sp.product_group_id = iif(@product_group_id=0,sp.product_group_id ,@product_group_id) 
 	
-order by 
+order by
 	sp.created_date</CommandText>
       </Query>
       <Fields>
@@ -591,7 +591,7 @@ order by
                   <Width>0.91143in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.70309in</Width>
+                  <Width>0.59892in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.78885in</Width>
@@ -615,10 +615,10 @@ order by
                   <Width>0.6406in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.35934in</Width>
+                  <Width>0.54684in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.37127in</Width>
+                  <Width>0.3921in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.8296in</Width>
@@ -627,7 +627,7 @@ order by
                   <Width>0.87127in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.09829in</Width>
+                  <Width>0.88996in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.1in</Width>
@@ -649,7 +649,7 @@ order by
                                   <Value>=First(Fields!No.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -689,7 +689,7 @@ order by
                                   <Value>=First(Fields!Doc___.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -729,7 +729,7 @@ order by
                                   <Value>=First(Fields!Date.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -769,7 +769,7 @@ order by
                                   <Value>=First(Fields!Branch.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -784,7 +784,7 @@ order by
                                   <Value>=First(Fields!Outlet.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -824,7 +824,7 @@ order by
                                   <Value>=First(Fields!Customer.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -862,7 +862,7 @@ order by
                                   <Value>=First(Fields!Category.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -902,7 +902,7 @@ order by
                                   <Value>=First(Fields!Product.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -942,7 +942,7 @@ order by
                                   <Value>=First(Fields!QTY.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -982,7 +982,7 @@ order by
                                   <Value>=First(Fields!Sub_Total.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1022,7 +1022,7 @@ order by
                                   <Value>=First(Fields!Dis_.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1062,7 +1062,7 @@ order by
                                   <Value>=First(Fields!Tax.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1102,7 +1102,7 @@ order by
                                   <Value>=First(Fields!Cost.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1142,7 +1142,7 @@ order by
                                   <Value>=First(Fields!Total_Amount.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1182,7 +1182,7 @@ order by
                                   <Value>=First(Fields!Profit.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1222,7 +1222,7 @@ order by
                                   <Value>=First(Fields!User.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1262,7 +1262,7 @@ order by
                                   <Value>=First(Fields!Created_Date.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1306,7 +1306,7 @@ order by
                                 <TextRun>
                                   <Value>=format(rownumber(nothing),"00")</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1341,7 +1341,7 @@ order by
                                   <Value>=Fields!document_number.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1375,7 +1375,7 @@ order by
                                 <TextRun>
                                   <Value>=format(Fields!working_date.Value,"dd/MM/yyyy")</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1410,7 +1410,7 @@ order by
                                   <Value>=Fields!business_branch_name_en.Value</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1424,7 +1424,7 @@ order by
                                   <Value>=Fields!outlet_name_en.Value</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1459,7 +1459,7 @@ order by
                                   <Value>=Fields!customer_name.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1492,7 +1492,7 @@ order by
                                   <Value>=Fields!product_category_en.Value</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1527,49 +1527,49 @@ order by
                                   <Value>=Fields!product_name_en.Value</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
                                   <Value xml:space="preserve"> </Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
                                   <Value>=iif(Fields!portion_name.Value="Normal",""," - " &amp; Fields!portion_name.Value)</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
                                   <Value xml:space="preserve"> </Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
                                   <Value>=iif(Fields!sale_product_modifier_name.Value="","","-" &amp; Fields!sale_product_modifier_name.Value)</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
                                   <Value xml:space="preserve"> </Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
                                   <Value>=iif(Fields!is_free.Value=true,"-FREE","")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1604,7 +1604,7 @@ order by
                                   <Value>=format(Fields!quantity.Value,First(Fields!quantity_format.Value, "Setting"))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1639,7 +1639,7 @@ order by
                                   <Value>=format(Fields!sub_total.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1674,7 +1674,7 @@ order by
                                   <Value>=format(Fields!total_discount_amount.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1709,7 +1709,7 @@ order by
                                   <Value>=format(Fields!total_tax_amount.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1744,7 +1744,7 @@ order by
                                   <Value>=format(Fields!cost.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1779,7 +1779,7 @@ order by
                                   <Value>=format(Fields!total_amount.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1814,7 +1814,7 @@ order by
                                   <Value>=format(Fields!profit.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1849,7 +1849,7 @@ order by
                                   <Value>=Fields!created_by.Value</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1884,7 +1884,7 @@ order by
                                   <Value>=format(Fields!created_date.Value,"dd/MM/yyyy HH:mm")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2593,7 +2593,7 @@ order by
             <DataSetName>SaleProduct</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
-            <Width>11.08in</Width>
+            <Width>10.97583in</Width>
             <Style>
               <Border>
                 <Style>None</Style>

@@ -8,11 +8,11 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>ePOSBeatNik/ePOSRestaurantReports</TargetReportFolder>
-    <TargetDatasetFolder>ePOSBeatNik/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>ePOSBeatNik/DataSource</TargetDatasourceFolder>
+    <TargetReportFolder>ePOSPhteahbayBongthom/ePOSRestaurantReports</TargetReportFolder>
+    <TargetDatasetFolder>ePOSPhteahbayBongthom/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>ePOSPhteahbayBongthom/DataSource</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
-    <TargetServerURL>http://webmonitor.inccloudserver.com:3344/reportserver</TargetServerURL>
+    <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
     <FullPath>DebugLocal</FullPath>

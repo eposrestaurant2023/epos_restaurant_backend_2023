@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 
 namespace eModels
 {
@@ -400,6 +401,7 @@ namespace eModels
                     if (d.Any())
                     {
                         id = d.FirstOrDefault().id;
+                    Console.WriteLine(id);
                     }
                 }
 

@@ -23,12 +23,16 @@
 
         <PageBody>
             <UIGridCenter>
+
                 @if (branches.Any())
                 {
                     @foreach (var b in branches)
                     {
+                        @b.id
+                        @gv.business_branch_has_feature(b.id.ToString(), "KOT")
                         if (gv.business_branch_has_feature(b.id.ToString(), "KOT"))
                         {
+
                             <MudExpansionPanels MultiExpansion="true">
                                 <MudExpansionPanel Class="mb-2" Text="@b.business_branch_name_en">
                                     <ComPrinters printers="@b.printers" />
