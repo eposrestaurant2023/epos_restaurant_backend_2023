@@ -1,0 +1,55 @@
+﻿@inject ISnackbar toast
+@inject IHttpService http
+
+<Modal>
+    <ModalContent>  
+         <FileUpload @bind-ImageUrl="model.image"></FileUpload>
+          <MudTextField @bind-Value="@model.title" Label="Title Image">
+
+            </MudTextField>
+            <MudTextField @bind-Value="@model.description" Lines="3" Label="Note"></MudTextField>
+    </ModalContent>
+  
+    <ActionButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="OnSave_Click" Variant="Variant.Filled">Save</MudButton>
+    </ActionButton>
+</Modal>
+
+
+@code{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public ImageModel model { get; set; } = new ImageModel();
+    [Parameter] public Guid id {get;set;}
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(id == Guid.Empty){
+            var res = await http.ApiGet($"Image({id})");
+            if(res.IsSuccess){
+                model = JsonSerializer.Deserialize<ImageModel>(res.Content.ToString());
+            }
+        
+        }else{
+            await Task.Delay(100);
+            model = new ImageModel();
+        }
+    }
+    
+
+    async Task OnSave_Click()
+    {
+        if(string.IsNullOrWhiteSpace(model.title)){
+            toast.Add("Please image title.",Severity.Warning);
+            return;
+        }
+         var res = await http.ApiPost("image/save",model);
+        if(res.IsSuccess)
+        {
+            toast.Add("Save Successfull",Severity.Success);
+            MudDialog.Close(DialogResult.Ok(model));
+        }else{
+            toast.Add(res.Content.ToString(),Severity.Warning);
+        }
+    }
+
+}

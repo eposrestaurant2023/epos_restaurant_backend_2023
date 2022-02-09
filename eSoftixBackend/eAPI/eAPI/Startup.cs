@@ -115,6 +115,7 @@ namespace eAPI
             odataBuilder.EntitySet<GlobalVariableModel>("GlobalVariable");
             odataBuilder.EntitySet<CustomerGroupModel>("CustomerGroup");
             odataBuilder.EntitySet<CustomerModel>("Customer");
+            odataBuilder.EntitySet<ImageModel>("Image");
 
             odataBuilder.EntitySet<AttachFilesModel>("AttachFiles");
             odataBuilder.EntitySet<ContactModel>("Contact");
