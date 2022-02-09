@@ -275,6 +275,7 @@
             
           
             save_table_group.outlet = null;
+            Console.WriteLine(JsonSerializer.Serialize(save_table_group));
             var res = await http.ApiPost($"{ControllerApi}/save", save_table_group);
             if (res.IsSuccess)
             {
@@ -286,6 +287,7 @@
             else
             {
                 is_saving = false;
+                Console.WriteLine(res.Content.ToString());
                 toast.Add(res.Content.ToString(), MudBlazor.Severity.Warning);
             }
             is_saving = false;

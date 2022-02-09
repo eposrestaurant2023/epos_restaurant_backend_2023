@@ -269,9 +269,9 @@ namespace eAPI.Controllers
                 deviceId == "OHHzxvomyr_YzGuY6ysKkYwyDWk9ueuz5VmPHF3exAk" ||
                 deviceId == "8T1jIfz9R-YqK2W1DQyFdVMI2XFEcZzJ3I8pGOc5Kdw" ||
                 deviceId == "E4_eXtdxdL3OwNp0XTTy-emrisT5XI8_rg8dXHS8AJo" ||
-                deviceId == "0edRjKQ3SahFZoGDiyHT6DXez-x7L2Z2_3kOuZHQF1U"   ||
+                deviceId == "0edRjKQ3SahFZoGDiyHT6DXez-x7L2Z2_3kOuZHQF1U" ||
                 deviceId == "Vilbvq65BAldEO27ZPGN-SzS-vIguKfSjjEt3E5v9qg" ||
-                deviceId == "ONRxV2e8zoYUdTtIY-zf0Nlt9GROAdYpPjmXT4W4nhY"||
+                deviceId == "ONRxV2e8zoYUdTtIY-zf0Nlt9GROAdYpPjmXT4W4nhY" ||
                 deviceId == "84mCv3v_sF0X4CPXbUdxEQ9UvdMZuvCkaezApIG6K5Y" ||
                 deviceId == "R-WsoGUbh9gjl4HOkj2LCeeSJcyMbLXJOxR-OwjNShM" ||
                 deviceId == "fNqPfLuN8aHbB2BVj82vJjh_Fe-nXjUBhw3Rl7KD-Dc" ||
@@ -285,6 +285,7 @@ namespace eAPI.Controllers
                 deviceId == "TlFv1IKgyj3JJf75n7_Yy9gR0dqktTCgLBxiRfH_jcg" ||
                 deviceId == "2jiw9Z5jOWQBKT-pjmInMSrayVo_iRYHD638lW9gIVU" ||
                 deviceId == "3c3cxn3pzCyzSWnulIm72uR9NR7g2c3Z63JPyvSUzLk" ||
+                deviceId == "WAn0dZQ4kWPFVL-e-F-4NoeO0ae2kfeW150IXjM_KHY" ||
                 deviceId == "XJHGOXQ1QzMVlFTYrz2Cv7coEkEUmvHE-6hz9FFf8uk"
 
 
