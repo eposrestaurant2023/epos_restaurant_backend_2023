@@ -24,13 +24,13 @@
                                     </MudItem>
                                     <MudItem xs="10">
                                          <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true">
-                                            <MudTabPanel Text="Title En">
-                                               <MudTextField @bind-Value="@model.title_en" Label="Title En" Variant="Variant.Text"/>
-                                               <MudTextField @bind-Value="@model.description_en" Label="Description En" Variant="Variant.Text" Lines="3"/>
-                                            </MudTabPanel>
-                                            <MudTabPanel Text="Title Kh">
+                                           <MudTabPanel Text="Title Kh">
                                               <MudTextField @bind-Value="@model.title_kh" Label="Title Kh" Variant="Variant.Text"/>
                                               <MudTextField @bind-Value="@model.description_kh" Label="Description Kh" Variant="Variant.Text" Lines="3"/>
+                                            </MudTabPanel>
+                                             <MudTabPanel Text="Title En">
+                                               <MudTextField @bind-Value="@model.title_en" Label="Title En" Variant="Variant.Text"/>
+                                               <MudTextField @bind-Value="@model.description_en" Label="Description En" Variant="Variant.Text" Lines="3"/>
                                             </MudTabPanel>
                                         </MudTabs>
                                         <Spacing Number="20"/>
