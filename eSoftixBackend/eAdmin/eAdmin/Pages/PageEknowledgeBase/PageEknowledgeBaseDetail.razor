@@ -1,0 +1,27 @@
+﻿@page "/eknowledgebasedetail/{id}"
+@inherits PageEknowledgeBaseDetailBase
+<Loading is_loading="@(is_loading || is_loading_data)"/>
+<PageContainer is_loading="@is_loading">
+    @if (model != null)
+    {
+       <PageHeader title="EknowledgeBase Detail">
+           <Left>
+
+           </Left>
+           <Right>
+
+           </Right>
+       </PageHeader>
+       <PageBody>
+           <MudText Typo="Typo.h6" Color="MudBlazor.Color.Primary"><MudIcon Icon="@Icons.Filled.BubbleChart"/>  @model.title_en</MudText>
+            @foreach(var c in model.children)
+            {
+                <div>
+                    @c.title_en
+                </div>
+            }
+        </PageBody>
+    }
+</PageContainer> 
+
+

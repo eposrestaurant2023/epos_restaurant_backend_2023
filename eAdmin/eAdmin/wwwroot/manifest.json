@@ -7,8 +7,8 @@
   "theme_color": "#03173d",
   "icons": [
     {
-      "src": "monifast.png",
-      "type": "image/png",
+      "src": "hnet.com-image.ico",
+      "type": "image/ico",
       "sizes": "512x512"
     }
   ]

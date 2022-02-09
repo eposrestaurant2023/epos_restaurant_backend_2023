@@ -38,13 +38,24 @@
 
             <MudList Clickable="true" @bind-SelectedItem="selectedItem">
                 
-                @foreach (var p in eknowledgebase)
+                @foreach (var p in eknowledgebase.OrderBy(r=>r.short_order))
                 {
                         @if (p.children.Any())
                         {
+                             
                             <MudListItem Text="@(p.title_en)">
                                <NestedList>
-                                    @foreach (var sp in p.children.Where(r=>r.parent_id == p.id)){
+                                   <MudListItem OnClick="@AddNewEknowledgeParent">
+                                       <div class="d-flex justify-space-between align-center">
+                                            <div>
+                                                Add Sub Menu
+                                            </div>
+                                            <div>
+                                                <MudIcon Icon="@Icons.Material.Filled.Add"/>
+                                            </div>
+                                        </div>
+                                   </MudListItem>
+                                    @foreach (var sp in p.children.Where(r=>r.parent_id == p.id).OrderBy(r=>r.short_order)){
 
                                          <MudListItem>
                                             <div class="d-flex justify-space-between align-center">
@@ -100,13 +111,23 @@
 <MudDrawer @bind-Open="@open" Anchor="@Anchor.Left" Elevation="1" Variant="@DrawerVariant.Temporary">
                 <MudList Clickable="true" @bind-SelectedItem="selectedItem">
                 
-                @foreach (var p in eknowledgebase)
+                @foreach (var p in eknowledgebase.OrderBy(r=>r.short_order))
                 {
                         @if (p.children.Any())
                         {
                             <MudListItem Text="@(p.title_en)">
                                <NestedList>
-                                    @foreach (var sp in p.children.Where(r=>r.parent_id == p.id)){
+                                     <MudListItem OnClick="@AddNewEknowledgeParent">
+                                       <div class="d-flex justify-space-between align-center">
+                                            <div>
+                                                Add Sub Menu
+                                            </div>
+                                            <div>
+                                                <MudIcon Icon="@Icons.Material.Filled.Add"/>
+                                            </div>
+                                        </div>
+                                   </MudListItem>
+                                    @foreach (var sp in p.children.Where(r=>r.parent_id == p.id).OrderBy(r=>r.short_order)){
 
                                          <MudListItem>
                                             <div class="d-flex justify-space-between align-center">
@@ -175,7 +196,7 @@
 
         async Task LoadData(string url=""){
             if(string.IsNullOrEmpty(url)){
-                url = "eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &$expand=children($filter=is_deleted eq false) &top={50}&$orderby=title_en";
+                url = "eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &$expand=children($filter=is_deleted eq false) &top={50}&$orderby=sort_order";
             }
             
             var resp = await http.ApiGetOData(url);
@@ -189,7 +210,7 @@
         async Task OnSearch(string debouncedText)
         {
 
-           var url = $"eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &keyword={debouncedText}&$expand=children &top={50}&$orderby=title_en";
+           var url = $"eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &keyword={debouncedText}&$expand=children &top={50}&$orderby=sort_order";
             await LoadData(url);
 
         }

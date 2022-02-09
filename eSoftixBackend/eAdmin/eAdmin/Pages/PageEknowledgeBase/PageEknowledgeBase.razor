@@ -33,7 +33,9 @@
                      </TableHeader>
                       <RowTemplate Context="e">
                           <td> 
-                              @e.title_en
+                              <a href="@($"eknowledgebasedetail/{e.id}")">
+                                  @e.title_en
+                              </a>
                           </td>
                           <TdCenter>
                            <LabelDeleted is_visible="@e.is_deleted"/> 

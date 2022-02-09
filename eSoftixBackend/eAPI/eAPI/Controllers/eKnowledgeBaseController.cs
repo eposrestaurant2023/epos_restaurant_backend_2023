@@ -115,6 +115,7 @@ namespace eAPI.Controllers
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
+        [AllowAnonymous]
         public SingleResult<eKnowledgeBaseModel> Get([FromODataUri] Guid key)
         {
             var s = db.eKnowledgeBases.Where(r => r.id == key).AsQueryable();
