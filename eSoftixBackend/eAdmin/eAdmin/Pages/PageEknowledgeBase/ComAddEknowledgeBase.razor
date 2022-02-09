@@ -28,6 +28,7 @@
                  <MudCheckBox @bind-Checked="@model.is_public" Label="Is Public"></MudCheckBox>
             </Right>
         </UI2Columns>
+           <MudTextField @bind-Value="@model.youtube_url" Label="YouTube URL"/>
         <MudTextField T="string" @bind-Value="@model.description_en" Label="Description En" Lines="3" />
         <MudTextField T="string" @bind-Value="@model.description_kh" Label="Description Kh" Lines="3" />
          
