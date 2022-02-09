@@ -5,6 +5,8 @@
  <EditForm Model="@model" OnSubmit="@Save_Click">
 <Modal>
     <ModalContent>
+        <FileUpload @bind-ImageUrl="model.photo"></FileUpload>
+
         <MudSwitch @bind-Checked="@model.is_select_parent" Color="MudBlazor.Color.Tertiary">Select Parent</MudSwitch>
         @if(model.is_select_parent == true)
             {
@@ -16,6 +18,14 @@
             </Left>
             <Right>
                 <MudTextField T="string" @bind-Value="@model.title_kh" Label="Title Kh"/>
+            </Right>
+        </UI2Columns>
+        <UI2Columns>
+            <Left>
+                   <MudTextField T="int" @bind-Value="@model.short_order" Label="Short Order"/>
+            </Left>
+            <Right>
+                 <MudCheckBox @bind-Checked="@model.is_public" Label="Is Public"></MudCheckBox>
             </Right>
         </UI2Columns>
         <MudTextField T="string" @bind-Value="@model.description_en" Label="Description En" Lines="3" />

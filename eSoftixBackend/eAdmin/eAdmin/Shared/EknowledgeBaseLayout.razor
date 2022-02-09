@@ -38,7 +38,7 @@
 
             <MudList Clickable="true" @bind-SelectedItem="selectedItem">
                 
-                @foreach (var p in eknowledgebase)
+                @foreach (var p in eknowledgebase.OrderBy(r=>r.short_order))
                 {
                         @if (p.children.Any())
                         {
@@ -175,7 +175,7 @@
 
         async Task LoadData(string url=""){
             if(string.IsNullOrEmpty(url)){
-                url = "eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &$expand=children($filter=is_deleted eq false) &top={50}&$orderby=title_en";
+                url = "eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &$expand=children($filter=is_deleted eq false) &top={50}&$orderby=sort_order";
             }
             
             var resp = await http.ApiGetOData(url);
@@ -189,7 +189,7 @@
         async Task OnSearch(string debouncedText)
         {
 
-           var url = $"eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &keyword={debouncedText}&$expand=children &top={50}&$orderby=title_en";
+           var url = $"eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &keyword={debouncedText}&$expand=children &top={50}&$orderby=sort_order";
             await LoadData(url);
 
         }
