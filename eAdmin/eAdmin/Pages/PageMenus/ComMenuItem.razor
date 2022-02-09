@@ -10,11 +10,15 @@
             <Icon icon="more_vert" />
             <div uk-drop="mode: click;pos:top-left" class="tbl_actions_group">
                 <ul class="uk-nav uk-dropdown-nav">
-                    @if (!menu.product_menus.Where(r => r.is_deleted == false).Any())
+                    @if (menu.product_menus != null)
                     {
-                        <li @onclick="@OnDeleteMenu"> <Icon icon="delete" />@lang["Delete"]</li>
-                    }
+                        @if (!menu.product_menus.Where(r => r.is_deleted == false).Any())
+                        {
+                            <li @onclick="@OnDeleteMenu"> <Icon icon="delete" />@lang["Delete"]</li>
+                        }
                         <li @onclick="@OnMoveMenu"> <Icon icon="arrow_back" />@lang["Move to"]</li>
+                    }
+
                 </ul>
             </div>
         </div>

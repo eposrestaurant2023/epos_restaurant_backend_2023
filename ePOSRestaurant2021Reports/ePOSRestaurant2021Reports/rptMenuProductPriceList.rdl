@@ -586,9 +586,6 @@ order by
                 <TablixColumn>
                   <Width>0.92625in</Width>
                 </TablixColumn>
-                <TablixColumn>
-                  <Width>0.98425in</Width>
-                </TablixColumn>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
@@ -597,41 +594,6 @@ order by
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="price_name1">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!price_name.Value</Value>
-                                  <Style>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>price_name1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="price">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -650,7 +612,7 @@ order by
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>price</rd:DefaultName>
+                          <rd:DefaultName>price_name1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -718,7 +680,6 @@ order by
                     </CellContents>
                   </TablixHeader>
                   <TablixMembers>
-                    <TablixMember />
                     <TablixMember />
                   </TablixMembers>
                 </TablixMember>
@@ -861,7 +822,7 @@ order by
             <Top>0.06944in</Top>
             <Left>0.00083in</Left>
             <Height>0.5in</Height>
-            <Width>5.42092in</Width>
+            <Width>4.43667in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
