@@ -18,17 +18,21 @@ namespace eAPIClient
     {
         public static async Task Main(string[] args)
         {
+            
+
             var builder = CreateHostBuilder(args);
             var host = builder.Build();
 
 
-            var scope = host.Services.CreateScope();
-
-            var services = scope.ServiceProvider;
-
-
+            var scope = host.Services.CreateScope();  
+            var services = scope.ServiceProvider;  
             var sync = services.GetRequiredService<ISyncService>();
             var env = services.GetRequiredService<IWebHostEnvironment>();
+            //string upload = env.ContentRootPath + "\\uploads";  
+            //if (!Directory.Exists(upload))
+            //{
+            //    Directory.CreateDirectory(upload);
+            //}
 
             string path = env.ContentRootPath + "\\logs";
           
@@ -36,6 +40,7 @@ namespace eAPIClient
             {
                 Directory.CreateDirectory(path);
             }
+
             var watcher = new FileSystemWatcher(path);
 
 

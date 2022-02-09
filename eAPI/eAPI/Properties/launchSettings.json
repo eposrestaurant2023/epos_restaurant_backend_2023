@@ -13,12 +13,11 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "launchUrl": "api",
-      "applicationUrl": "http://localhost:5000",
-      "dotnetRunMessages": "true",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-
+      },
+      "dotnetRunMessages": "true",
+      "applicationUrl": "http://localhost:5000"
     },
     "eAPI": {
       "commandName": "Project",
@@ -29,6 +28,12 @@
       },
       "dotnetRunMessages": "true",
       "applicationUrl": "http://localhost:7073,"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api",
+      "publishAllPorts": true
     }
   }
 }

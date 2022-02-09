@@ -83,7 +83,6 @@
     {
         is_loading = true;
         var resp = await http.ApiGet("ServerConfig");
-        Console.WriteLine(resp.Content);
         if (resp.IsSuccess)
         {
             server_config = JsonSerializer.Deserialize<ServerConfigModel>(resp.Content.ToString());

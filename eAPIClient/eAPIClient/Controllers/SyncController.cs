@@ -523,22 +523,21 @@ namespace eAPIClient.Controllers
 
             string _deleteQuery = string.Format("delete tbl_config_data where is_local_setting=0; ");
             db.Database.ExecuteSqlRaw(_deleteQuery);
-            db.ConfigDatas.AddRange(config_datas.Where(r=>r.is_local_setting==false));
+            db.ConfigDatas.AddRange(config_datas.Where(r=>r.is_local_setting==false)); 
 
-
+            await db.SaveChangesAsync();   
+            var _resp = await http.ApiGet($"BusinessBranch({business_branch_id})");
+            if (!_resp.IsSuccess)
+            {
+             return   BadRequest();
            
-
-
-            await db.SaveChangesAsync();
-            //
-
-
-            return Ok( business_branch_id ); 
-
+            }
+            BusinessBranchModel business_branch = JsonSerializer.Deserialize<BusinessBranchModel>(_resp.Content.ToString());
+            return Ok(business_branch);
         }
 
 
-      
+
         async Task<List<MenuModel>> GetRemoteMenu(string business_branch_id)
         {      
             is_get_remote_data_success = false;

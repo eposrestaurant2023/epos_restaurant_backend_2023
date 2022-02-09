@@ -107,7 +107,7 @@ namespace eAPI.Controllers
             u.status = !u.status;
             db.Roles.Update(u);
             await db.SaveChangesAsync();
-            db.Database.ExecuteSqlRaw("exec sp_update_permission_option_role 0,''");
+            db.Database.ExecuteSqlRaw($"exec sp_update_permission_option_role {id},''");
             return Ok(u);
         }
 

@@ -143,7 +143,7 @@ where
 	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id) and 
 	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and 
 	sp.product_group_id  = iif(@product_group_id = 0, sp.product_group_id,@product_group_id) and 
-	cast(s.outlet_id as nvarchar(50))= iif(@outlet_id = '0', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
+	cast(s.outlet_id as nvarchar(50))= iif(@outlet_id = '', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
 	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and 
 	sp.product_group_id = iif(@product_group_id =0,sp.product_group_id ,@product_group_id ) 
 group by

@@ -125,6 +125,28 @@
 
                         }
 
+                        @if (sale.sale_type != null)
+                        {
+                            <tr>
+                                <td>@lang["Sale Type"]:</td>
+                                <td>
+                                        @sale.sale_type
+                                </td>
+                            </tr>
+
+                        }
+
+                        @if (sale.table_name != null)
+                        {
+                            <tr>
+                                <td>@lang["Table"]:</td>
+                                <td>
+                                    @sale.table_name
+                                </td>
+                            </tr>
+
+                        }
+
                     }
                 </table>
             </div>

@@ -213,46 +213,51 @@ namespace eAdmin.Pages.PageReceipt
                 });
             }
 
+            Console.WriteLine(JsonSerializer.Serialize(state.multi_select_id_2));
             // filter outlet
-            if (state.multi_select_value_2 != null && state.multi_select_id_2.Any())
-            { 
-                string value = "";
-                foreach(var x in state.multi_select_value_2)
-                {
-                    value += x + ",";
-                }
-                if (!string.IsNullOrEmpty(value))
-                {
-                    value = value.Substring(0, value.Length - 1);
-                } 
-
-                state.filters.Add(new FilterModel()
-                {
-                    key = "outlet_id",
-                    value1 = value,
-                    filter_title = lang["Outlet"],
-                    filter_operator = "multiple",
-                    state_property_name = "list_selected_values",
-                    filter_info_text = value,
-                    is_clear_all = true,
-                    will_remove = true
-                });
-            }
-            else
+            if (state.multi_select_value_2 != null)
             {
-                state.filters.Add(new FilterModel()
+                if (state.multi_select_id_2.Any())
                 {
-                    key = "outlet_id",
-                    value1 = gv.outlet_ids_filter(business_branch_ids),
-                    filter_title = lang["Outlet"],
-                    filter_operator = "multiple",
-                    state_property_name = "list_selected_values",
-                    filter_info_text = gv.outlet_ids_filter(business_branch_ids),
-                    is_clear_all = true,
-                    will_remove = true,
-                    is_show_on_infor = false
-                });
+                    string value = "";
+                    foreach (var x in state.multi_select_value_2)
+                    {
+                        value += x + ",";
+                    }
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        value = value.Substring(0, value.Length - 1);
+                    }
+
+                    state.filters.Add(new FilterModel()
+                    {
+                        key = "outlet_id",
+                        value1 = value,
+                        filter_title = lang["Outlet"],
+                        filter_operator = "multiple",
+                        state_property_name = "list_selected_values",
+                        filter_info_text = value,
+                        is_clear_all = true,
+                        will_remove = true
+                    });
+                }
+                else
+                {
+                    state.filters.Add(new FilterModel()
+                    {
+                        key = "outlet_id",
+                        value1 = gv.outlet_ids_filter(business_branch_ids),
+                        filter_title = lang["Outlet"],
+                        filter_operator = "multiple",
+                        state_property_name = "list_selected_values",
+                        filter_info_text = gv.outlet_ids_filter(business_branch_ids),
+                        is_clear_all = true,
+                        will_remove = true,
+                        is_show_on_infor = false
+                    });
+                }
             }
+           
             // customer
             if (state.customer != null)
             {

@@ -47,6 +47,13 @@ namespace eAPIClient.Controllers
             return Ok();
         }
 
+        [HttpGet("GetServerAPIURL")]   
+        public ActionResult<string> GetServerAPIURL()
+        {
+            string _url = config.GetValue<string>("server_api_url");
+            return Ok(_url);
+        }
+
 
         [HttpPost]
         [Route("GetData")]
@@ -61,6 +68,53 @@ namespace eAPIClient.Controllers
             }
             return BadRequest();
 
+        }
+
+
+        [HttpGet("GetSystemMachineLicense")]
+        [AllowAnonymous]
+        public async Task<ActionResult> GetSystemLicense(string station_id)
+        {
+            if (!string.IsNullOrEmpty(station_id))
+            {
+                var _resp = await http.ApiGet($"station({station_id})");      
+                if (_resp.IsSuccess)
+                {
+                    StationLicenseModel _station = System.Text.Json.JsonSerializer.Deserialize<StationLicenseModel>(_resp.Content.ToString());
+                    //
+                    return Ok(_station);
+                }
+                return BadRequest();
+            }
+            return NotFound();
+        }
+
+        [HttpPost("UpdateStationIsConfig")]
+        [AllowAnonymous]
+        public async Task<ActionResult> UpdateStationIsConfig(string station_id,bool is_already_config)
+        {
+            if (!string.IsNullOrEmpty(station_id))
+            {
+                var _resp = await http.ApiPost($"Station/Update?id={station_id}&is_already_config={is_already_config}");
+                if (_resp.IsSuccess)
+                {      
+                    return Ok();
+                }
+                return BadRequest();
+            }
+            return NotFound();
+        }
+
+        [HttpPost("UpdateTable")]
+        [AllowAnonymous]
+        public async Task<ActionResult> UpdateTable([FromBody] List<TableGroupModel> models)
+        {    
+            var _resp = await http.ApiPost("TableGroup/SaveAll", models);
+            if (_resp.IsSuccess)
+            {
+                return Ok();
+            }      
+            return BadRequest();
         }
 
 
@@ -156,12 +210,13 @@ namespace eAPIClient.Controllers
 
             return Ok(model);
         }
+ 
+    }
 
-
-        
-
-
-
+    class StationLicenseModel
+    {
+       public DateTime expired_date { get; set; }
+       public bool is_full_license { get; set; }
 
     }
 

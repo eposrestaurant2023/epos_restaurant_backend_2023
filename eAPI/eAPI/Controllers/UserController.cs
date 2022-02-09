@@ -56,7 +56,7 @@ namespace eAPI.Controllers
         {
             var pass_encr = EncryptProvider.Base64Encrypt(u.Password);
 
-            var data = await Task.Factory.StartNew(() => db.Users.Where(r => r.username == u.Username && r.password == pass_encr && !r.is_deleted && r.status).Include(r => r.role).AsQueryable());
+            var data = await Task.Factory.StartNew(() => db.Users.Where(r => r.username == u.Username && r.password == pass_encr && !r.is_deleted && r.status && r.is_allow_backend_login).Include(r => r.role).AsQueryable());
             if (data == null || data.Count() <= 0)
             {
                 return NotFound();
@@ -78,6 +78,8 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> Save([FromQuery] string password, [FromBody] UserModel u)
         {
             //check if user duplicate
+            
+
             if (u.id == 0)
             {
                 var user = db.Users.Where(r => r.username.ToLower().Trim() == u.username.ToLower().Trim() && r.is_deleted == false);
@@ -93,7 +95,6 @@ namespace eAPI.Controllers
                 {
                     return StatusCode(301, $"Username {u.username} is already exists.");
                 }
-
             }
             if (!string.IsNullOrEmpty(password))
             {
@@ -103,16 +104,16 @@ namespace eAPI.Controllers
 
             if (u.id == 0)
             {
-                //var user = db.Users.Where(r => r.user_code == u.user_code && r.is_deleted == false);
-                //if (user.Count() > 0)
-                //{
-                //    return StatusCode(301, $"User Code {u.user_code} is already exists.");
-                //}
+                var user = db.Users.Where(r => r.user_code + r.pin_code == u.user_code + u.pin_code && r.is_deleted == false);
+                if (user.Count() > 0)
+                {
+                    return StatusCode(301, $"User Code {u.user_code} is already exists.");
+                }
                 db.Users.Add(u);
             }
             else
             {
-                var user = db.Users.Where(r => r.user_code == u.user_code && r.id != u.id && r.is_deleted == false);
+                var user = db.Users.Where(r => r.user_code + u.pin_code == u.user_code + u.pin_code && r.id != u.id && r.is_deleted == false);
                 if (user.Count() > 0)
                 {
                     return StatusCode(301, $"User Code {u.user_code} is already exists.");

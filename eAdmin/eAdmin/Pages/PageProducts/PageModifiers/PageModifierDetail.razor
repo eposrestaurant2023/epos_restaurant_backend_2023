@@ -85,7 +85,7 @@
                         {
                             <div>@lang["Deleted by"] @modifier.deleted_by @lang["on"] @modifier.deleted_date</div>
                         }
-                        <div>@lang["Last modified by"] @modifier.last_modified_by @lang["on"] @modifier.last_modified_date</div>
+                        <div>@lang["Last modified by"] @modifier.last_modified_by @lang["on"] @modifier.last_modified_date.ToString(gv.date_time_format)</div>
                     </div>
                 </MudTabPanel>
                 <MudTabPanel OnClick="@(()=>show_associate_product=true)" Text="@lang["Associate Product"]">

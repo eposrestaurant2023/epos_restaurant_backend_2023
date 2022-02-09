@@ -69,39 +69,39 @@ namespace eAPIClient.Controllers
                 {
                     return BadRequest(new BadRequestModel { message = "please_start_cashier_shift" });
                 }
+
+                List<SaleModel> sales = new List<SaleModel>();
+                if (model.id != Guid.Empty)
+                {                                               
+                    sales = db.Sales.Where(r => r.id == model.id).Include(x=>x.sale_products).AsNoTracking().ToList();  
+                    ///the_bill_was_modified_by_other_device     
+                }
+
+
                 if (!is_edit)
-                {
-
-                   
-                    var check_sale_closed = db.Sales.Where(r => r.id == model.id).AsNoTracking();
-
-                  
-
+                {                                                                                  
                     if (model.id != Guid.Empty)
                     {
-                        if (check_sale_closed.Any())
+                        if (sales.Any())
                         {
                             //check if bill is already print
 
-                            if ((model.is_closed ?? false) == false && (check_sale_closed.FirstOrDefault().is_print_invoice) == true)
+                            if ((model.is_closed ?? false) == false && (sales.FirstOrDefault().is_print_invoice) == true)
                             {
                                 return BadRequest(new BadRequestModel { message = "this_order_is_print" });
                             }
 
                             //check bill alredy print
-                            //user payment with new item order
-
-                            if ((model.is_closed ?? false) == true && (check_sale_closed.FirstOrDefault().is_print_invoice) == true)
+                            //user payment with new item order  
+                            if ((model.is_closed ?? false) == true && (sales.FirstOrDefault().is_print_invoice) == true)
                             {
-                                if (model.sale_products.Where(r => r.id == Guid.Empty).Any() || check_sale_closed.FirstOrDefault().total_amount != model.total_amount || check_sale_closed.FirstOrDefault().total_quantity != model.total_quantity)
+                                if (model.sale_products.Where(r => r.id == Guid.Empty).Any() || sales.FirstOrDefault().total_amount != model.total_amount || sales.FirstOrDefault().total_quantity != model.total_quantity)
                                 {
                                     return BadRequest(new BadRequestModel { message = "this_order_is_print" });
                                 }
                             }
-
-
-                                //check if bill is already close
-                                if ((check_sale_closed.FirstOrDefault().is_closed ?? false) == true)
+                            //check if bill is already close
+                            if ((sales.FirstOrDefault().is_closed ?? false) == true)
                             {
                                 return BadRequest(new BadRequestModel { message = "this_order_is_closed" });
                             }
@@ -109,9 +109,6 @@ namespace eAPIClient.Controllers
                     }
                 }
                
-
-
-
 
                 model.is_synced = false;
                 DocumentNumberModel _saleNumber = new DocumentNumberModel();
@@ -135,23 +132,18 @@ namespace eAPIClient.Controllers
                     await app.UpdateDocument(_waitingNumber);
                     model.waiting_number = _waitingNumber.id > 0 ? app.GetDocumentFormat(_waitingNumber) : "New";
 
-                    
-                    
                     //check sale product and change entry state 
 
                     model.sale_products.ForEach(_sp =>
-                    {
-                       
+                    {     
                         if (_sp.sale_product_print_queues != null)
                         {
                             _sp.sale_product_print_queues.ForEach(_spq =>
                             {
                                 _spq.sale_number = model.sale_number;
                             });
-                        }
-
-                    });
-
+                        }  
+                    });  
 
                     if (model.sale_products.Where(r => r.id != Guid.Empty && r.is_deleted == false ).Any())
                     {
@@ -174,13 +166,18 @@ namespace eAPIClient.Controllers
                 else
                 {
                     is_new = false;
+
+
                     model.sale_products.ForEach(sp =>
                     {
-                        if (sp.sale_product_print_queues != null)
-                        {
-                            sp.sale_product_print_queues.ForEach(_spq => { _spq.sale_number = model.sale_number; });
-                        }
+                        
+                            if (sp.sale_product_print_queues != null)
+                            {
+                                sp.sale_product_print_queues.ForEach(_spq => { _spq.sale_number = model.sale_number; });
+                            }
+                     
                     });
+
                     db.Sales.Update(model);
                 }
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
@@ -211,7 +208,8 @@ namespace eAPIClient.Controllers
             }
             catch (Exception _ex)
             {
-                return BadRequest(new BadRequestModel() { message = "save_data_fail_please_try_again." }) ;
+                
+                return BadRequest(new BadRequestModel() { message = "save_data_fail_please_try_again" }) ;
             }
         }
 

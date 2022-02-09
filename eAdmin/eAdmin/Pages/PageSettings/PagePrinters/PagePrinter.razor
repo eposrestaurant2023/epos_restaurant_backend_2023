@@ -23,10 +23,13 @@
 
         <PageBody>
             <UIGridCenter>
+
                 @if (branches.Any())
                 {
                     @foreach (var b in branches)
                     {
+                        @b.id
+                        @gv.business_branch_has_feature(b.id.ToString(), "KOT")
                         if (gv.business_branch_has_feature(b.id.ToString(), "KOT"))
                         {
 
@@ -39,15 +42,19 @@
                                     </div>
                                 </MudExpansionPanel>
                             </MudExpansionPanels>
-                                }
+                        }
+                        else
+                        {
+                            @("no printer")
+                        }
 
-                                }
-                                }
-                                else
-                                {
-                                <ComAlert type="warning">@lang["There is no business branch. Please enter business branch first."]</ComAlert>
-                                }
-                        </UIGridCenter>
+                    }
+                }
+                else
+                {
+                    <ComAlert type="warning">@lang["There is no business branch. Please enter business branch first."]</ComAlert>
+                }
+            </UIGridCenter>
         </PageBody>
         <PageFooter>
             <FooterCenter>

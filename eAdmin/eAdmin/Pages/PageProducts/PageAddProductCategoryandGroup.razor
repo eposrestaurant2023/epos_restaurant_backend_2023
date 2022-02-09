@@ -28,7 +28,7 @@
                         <TextInput @bind-text="@model.product_group_en" label="@lang["Product Group En"]" is_read_only="@model.is_built_in">
                             <ValidationMessage For="@(() => model.product_group_en )" />
                         </TextInput>
-                        <TextInput @bind-text="@model.product_group_en" label="@lang["Product Group Kh"]" is_read_only="@model.is_built_in" />
+                        <TextInput @bind-text="@model.product_group_kh" label="@lang["Product Group Kh"]" is_read_only="@model.is_built_in" />
                         <SelectStatus @bind-selected_value="@model.status" />
 
                     </UIContainerBox>
