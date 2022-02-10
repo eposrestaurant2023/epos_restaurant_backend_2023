@@ -3,7 +3,8 @@
 @layout EknowledgeBaseLayout
 @inherits PageAddEknowledgeBases
 <PageContainer>
-    <EditForm Model="@model" OnValidSubmit="@Save_Click">
+     
+
         <PageBody>
             <UICenter>
                
@@ -26,11 +27,13 @@
                                          <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true">
                                            <MudTabPanel Text="Title Kh">
                                               <MudTextField @bind-Value="@model.title_kh" Label="Title Kh" Variant="Variant.Text"/>
-                                              <MudTextField @bind-Value="@model.description_kh" Label="Description Kh" Variant="Variant.Text" Lines="3"/>
+                                              <Editor ApiKey="6bgc211uq2mw31fki1i1dmssvyxp93n3gaulsa02uzcfksyy" Conf="@editorConf" @bind-Value="@model.description_kh"/>
+                                               
+
                                             </MudTabPanel>
                                              <MudTabPanel Text="Title En">
                                                <MudTextField @bind-Value="@model.title_en" Label="Title En" Variant="Variant.Text"/>
-                                               <MudTextField @bind-Value="@model.description_en" Label="Description En" Variant="Variant.Text" Lines="3"/>
+                                               <Editor ApiKey="6bgc211uq2mw31fki1i1dmssvyxp93n3gaulsa02uzcfksyy"  Conf="@editorConf" @bind-Value="@model.description_en"/>
                                             </MudTabPanel>
                                         </MudTabs>
                                         <Spacing Number="20"/>
@@ -58,6 +61,11 @@
                                                                 </MudTabPanel>
                                                                 <MudTabPanel Text="Title Kh">
                                                                   <MudTextField @bind-Value="@c.title_kh" Label="Title Kh" Variant="Variant.Text"/>
+                                                                
+
+ 
+ 
+ 
                                                                   <MudTextField @bind-Value="@c.description_kh" Label="Description Kh" Variant="Variant.Text" Lines="3"/>
                                                                 </MudTabPanel>
                                                             </MudTabs>
@@ -72,7 +80,7 @@
 
                 <Spacing Number="20"/>
                 <div class="d-flex justify-end">
-                     <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" Class="mx-2">Save
+                     <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" OnClick="@Save_Click" Class="mx-2">Save
                         @if(is_saving){
                             <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true"/>    
                         }
@@ -83,5 +91,5 @@
             </UICenter>
         </PageBody>
          
-    </EditForm>
+   
 </PageContainer>
