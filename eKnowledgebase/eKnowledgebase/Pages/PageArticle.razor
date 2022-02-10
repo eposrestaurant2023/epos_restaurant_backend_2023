@@ -12,7 +12,7 @@
     {
         if (model?.parent_id != null)
         {
-            <NavSection id="@model.parent_id" />
+            <NavSection url_name="article" id="@model.parent_id" OnItemClick="@OnItemClick" />
         }
     }
 </MudDrawer>
@@ -83,12 +83,22 @@
     }
 
 
-    protected override async Task OnParametersSetAsync()
+
+    protected override async Task OnInitializedAsync()
     {
         is_first_load = false;
         is_loading = true;
         model = await s.GetByID(id);
         models = await s.GetDataByParentID(id);
+        is_loading = false;
+    }
+
+    async Task OnItemClick(eKnowledgebaseModel m)
+    {
+        is_loading = true;
+        model = m;
+        id = m.id;
+        models = await s.GetDataByParentID(m.id);
         is_loading = false;
     }
 
