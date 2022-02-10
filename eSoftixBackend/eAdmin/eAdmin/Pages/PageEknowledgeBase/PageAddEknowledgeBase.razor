@@ -3,7 +3,8 @@
 @layout EknowledgeBaseLayout
 @inherits PageAddEknowledgeBases
 <PageContainer>
-    <EditForm Model="@model" OnValidSubmit="@Save_Click">
+     
+
         <PageBody>
             <UICenter>
                
@@ -96,7 +97,7 @@
 
                 <Spacing Number="20"/>
                 <div class="d-flex justify-end">
-                     <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" Class="mx-2">Save
+                     <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" OnClick="@Save_Click" Class="mx-2">Save
                         @if(is_saving){
                             <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true"/>    
                         }
@@ -107,5 +108,5 @@
             </UICenter>
         </PageBody>
          
-    </EditForm>
+   
 </PageContainer>
