@@ -6,6 +6,9 @@
  <PageContainer>
      <PageHeader title="Image">
          <Right>
+              <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false">
+                
+            </ComSearch>
              <AddButton OnClick="@OnAddNew_Click"/>
          </Right>
      </PageHeader>
