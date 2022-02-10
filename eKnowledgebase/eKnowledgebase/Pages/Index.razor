@@ -1,0 +1,33 @@
+﻿@page "/"
+@inject NavigationManager nav;
+@inject eKnowledgebase.Services.eKnowledgebaseService s;
+
+<PageTitle>Index</PageTitle>
+<MudContainer MaxWidth="MaxWidth.Medium">
+    @if (is_loading)
+{
+    <div>loading...</div>
+}else
+{
+    @foreach(var d in models.OrderBy(r=>r.sort_order)){ 
+    <MudPaper @onclick="@(()=> nav.NavigateTo($"app/{d.id}"))" Class="ma-4 pa-4">
+          <MudText Typo="Typo.h3">@d.title_en</MudText>
+    </MudPaper>
+    }
+  
+}
+</MudContainer>
+
+
+
+@code{
+    List<eKnowledgebaseModel> models = new();
+    bool is_loading;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        models = await s.GetModulesAsync();
+        is_loading = false;
+    }
+    
+}

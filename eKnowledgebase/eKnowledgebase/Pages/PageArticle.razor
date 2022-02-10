@@ -1,0 +1,64 @@
+﻿@page "/article/{id:guid}"
+
+@inject NavigationManager nav;
+@inject eKnowledgebase.Services.eKnowledgebaseService s;
+<MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+    @if (is_loading && is_first_load)
+    {
+        <div>loading...</div>
+    }
+    else
+    {
+         if(model?.parent_id!=null){ 
+        <NavSection id="@model.parent_id" />
+         }
+    }
+</MudDrawer>
+
+<MudContainer MaxWidth="MaxWidth.Medium">
+    @if (is_loading)
+    {
+        <div>loading...</div>
+    }
+    else
+    {
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <PageTitle>@model.title_en</PageTitle>
+        <h3>@model.title_en</h3>
+        @foreach (var d in models.OrderBy(r => r.sort_order))
+        {
+            <MudPaper   Class="ma-4 pa-4">
+                <MudText Typo="Typo.h3">@d.title_en</MudText>
+            </MudPaper>
+        }
+
+    }
+</MudContainer>
+
+
+
+@code {
+    [Parameter]
+    public Guid id { get; set; }
+    List<eKnowledgebaseModel> models = new();
+    eKnowledgebaseModel model = new();
+    bool is_loading;
+    bool _drawerOpen = true;
+    bool is_first_load = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        is_first_load = false;
+        is_loading = true;
+        model = await s.GetByID(id);
+        models = await s.GetDataByParentID(id);
+        is_loading = false;
+    }
+
+}
