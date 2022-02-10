@@ -92,6 +92,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
         }
         public async Task Save_Click()
         {
+            is_loading = true;
             is_saving = true;
             var res = await http.ApiPost($"eKnowledgeBase/savesingle", model);
             if (res.IsSuccess)
@@ -104,7 +105,9 @@ namespace eAdmin.Pages.PageEknowledgeBase
             {
                 toast.Add(res.Content.ToString(), Severity.Warning);
             }
+            await LoadData();
             is_saving = false;
+            is_loading = false;
         }
 
         public void Click_add()
