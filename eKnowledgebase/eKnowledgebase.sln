@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32113.165
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eKnowledgebase", "eKnowledgebase\eKnowledgebase.csproj", "{73635F00-FB41-48BC-A5DE-9D098EED5A11}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73635F00-FB41-48BC-A5DE-9D098EED5A11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73635F00-FB41-48BC-A5DE-9D098EED5A11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73635F00-FB41-48BC-A5DE-9D098EED5A11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73635F00-FB41-48BC-A5DE-9D098EED5A11}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DD38CA2C-F661-4503-B231-542EBF66DD18}
+	EndGlobalSection
+EndGlobal

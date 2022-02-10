@@ -1,0 +1,43 @@
+﻿@page  "/app/{id:guid}"
+
+ 
+@inject NavigationManager nav;
+@inject eKnowledgebase.Services.eKnowledgebaseService s;
+
+
+<MudContainer MaxWidth="MaxWidth.Medium">
+    @if (is_loading)
+{
+    <div>loading...</div>
+}else
+{
+    
+    <PageTitle>@model.title_en</PageTitle>
+    <h3>@model.title_en</h3>
+
+    @foreach(var d in models.OrderBy(r=>r.sort_order)){ 
+    <MudPaper @onclick="@(()=> nav.NavigateTo($"section/{d.id}"))" Class="ma-4 pa-4">
+          <MudText Typo="Typo.h3">@d.title_en</MudText>
+    </MudPaper>
+    }
+  
+}
+</MudContainer>
+
+
+
+@code{
+[Parameter]
+public Guid id { get; set; }
+    List<eKnowledgebaseModel> models = new();
+    eKnowledgebaseModel model = new();
+    bool is_loading;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        model = await s.GetByID(id);
+        models = await s.GetDataByParentID(id);
+        is_loading = false;
+    }
+    
+}

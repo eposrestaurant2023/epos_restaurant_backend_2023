@@ -1,0 +1,38 @@
+﻿@inject NavigationManager nav;
+@inject eKnowledgebase.Services.eKnowledgebaseService s;
+
+
+<MudContainer MaxWidth="MaxWidth.Medium">
+    @if (is_loading)
+    {
+        <div>loading...</div>
+    }
+    else
+    {
+
+        <MudNavMenu>
+            @foreach (var d in models.OrderBy(r => r.sort_order))
+            {
+                <MudNavLink Href="@($"section/{d.id}")">@d.title_en</MudNavLink>
+
+            }
+        </MudNavMenu>
+
+    }
+</MudContainer>
+
+
+
+@code {
+    [Parameter]
+    public Guid? id { get; set; }
+    List<eKnowledgebaseModel> models = new();
+    bool is_loading;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        models = await s.GetDataByParentID(id);
+        is_loading = false;
+    }
+
+}
