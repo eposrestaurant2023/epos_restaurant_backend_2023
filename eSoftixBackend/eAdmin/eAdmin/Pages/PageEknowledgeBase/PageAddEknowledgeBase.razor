@@ -33,6 +33,7 @@
                                                <MudTextField @bind-Value="@model.description_en" Label="Description En" Variant="Variant.Text" Lines="3"/>
                                             </MudTabPanel>
                                         </MudTabs>
+                                          <MudTextField @bind-Value="@model.youtube_url" Label="YouTube URL" Variant="Variant.Text"/>
                                         <Spacing Number="20"/>
                                         <div class="d-flex justify-end">
                                                <MudButton OnClick="AddChild_Click"
@@ -46,6 +47,9 @@
                               </MudGrid>
                                 @foreach(var c in model.children){
                                              <MudPaper Class="pa-4 ma-2" Square="true">
+                                                    <div class="d-flex justify-end">
+                                                        <MudIconButton Icon="@Icons.Filled.Delete" Color="MudBlazor.Color.Error" OnClick="@(()=>DeleteChil_Click(c))"></MudIconButton>
+                                                    </div>
                                                  <MudGrid Class="d-flex align-center">
                                                      <MudItem xs="2">
                                                           <FileUpload @bind-ImageUrl="c.photo" is_square="true"></FileUpload>
@@ -60,10 +64,12 @@
                                                                   <MudTextField @bind-Value="@c.title_kh" Label="Title Kh" Variant="Variant.Text"/>
                                                                   <MudTextField @bind-Value="@c.description_kh" Label="Description Kh" Variant="Variant.Text" Lines="3"/>
                                                                 </MudTabPanel>
+                                                                <MudTextField @bind-Value="@c.youtube_url" Label="YouTube URL" Variant="Variant.Text"/>
                                                             </MudTabs>
                                                      </MudItem>
                                                  </MudGrid>
                                              </MudPaper>
+                                              
                                         }
                          </MudPaper>
                         

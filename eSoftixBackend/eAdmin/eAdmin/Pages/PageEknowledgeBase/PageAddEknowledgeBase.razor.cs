@@ -112,6 +112,10 @@ namespace eAdmin.Pages.PageEknowledgeBase
             models.Add(new eKnowledgeBaseModel(Guid.Parse(parent_id)));
         }
 
+        public void DeleteChil_Click(eKnowledgeBaseModel d)
+        {
+            model.children.Remove(d);
+        }
       public void AddChild_Click()
         {
             model.children.Add(new eKnowledgeBaseModel());
