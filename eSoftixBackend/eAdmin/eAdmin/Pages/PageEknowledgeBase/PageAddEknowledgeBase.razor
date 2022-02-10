@@ -18,19 +18,30 @@
                 }
                 <MudCardContent>
                           <MudPaper Class="pa-4 ma-2" Square="true">
-                              <MudGrid Class="d-flex align-center">
-                                   <MudItem xs="2">
-                                      <FileUpload @bind-ImageUrl="model.photo" is_square="true"></FileUpload>
-                                    </MudItem>
-                                    <MudItem xs="10">
                                          <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true">
                                            <MudTabPanel Text="Title Kh">
-                                              <MudTextField @bind-Value="@model.title_kh" Label="Title Kh" Variant="Variant.Text"/>
-                                              <MudTextField @bind-Value="@model.description_kh" Label="Description Kh" Variant="Variant.Text" Lines="3"/>
+                                                 <MudGrid Class="d-flex align-center">
+                                                        <MudItem xs="2">
+                                                              <FileUpload @bind-ImageUrl="model.photo_kh" is_square="true"></FileUpload>
+                                                         </MudItem>
+                                                       <MudItem xs="10">
+                                                            <MudTextField @bind-Value="@model.title_kh" Label="Title Kh" Variant="Variant.Text"/>
+                                                            <MudTextField @bind-Value="@model.description_kh" Label="Description Kh" Variant="Variant.Text" Lines="3"/>
+                                                        </MudItem>
+                                                </MudGrid>
+                                             
                                             </MudTabPanel>
                                              <MudTabPanel Text="Title En">
-                                               <MudTextField @bind-Value="@model.title_en" Label="Title En" Variant="Variant.Text"/>
-                                               <MudTextField @bind-Value="@model.description_en" Label="Description En" Variant="Variant.Text" Lines="3"/>
+                                              <MudGrid Class="d-flex align-center">
+                                                        <MudItem xs="2">
+                                                              <FileUpload @bind-ImageUrl="model.photo_en" is_square="true"></FileUpload>
+                                                         </MudItem>
+                                                       <MudItem xs="10">
+                                                        <MudTextField @bind-Value="@model.title_en" Label="Title En" Variant="Variant.Text"/>
+                                                        <MudTextField @bind-Value="@model.description_en" Label="Description En" Variant="Variant.Text" Lines="3"/>
+                                                        </MudItem>
+                                                </MudGrid>
+                                              
                                             </MudTabPanel>
                                         </MudTabs>
                                           <MudTextField @bind-Value="@model.youtube_url" Label="YouTube URL" Variant="Variant.Text"/>
@@ -43,31 +54,38 @@
                                                    Add
                                                </MudButton>
                                         </div>
-                                    </MudItem>
-                              </MudGrid>
                                 @foreach(var c in model.children){
                                              <MudPaper Class="pa-4 ma-2" Square="true">
                                                     <div class="d-flex justify-end">
                                                         <MudIconButton Icon="@Icons.Filled.Delete" Color="MudBlazor.Color.Error" OnClick="@(()=>DeleteChil_Click(c))"></MudIconButton>
                                                     </div>
+                                                       <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true">
+                                           <MudTabPanel Text="Title Kh">
                                                  <MudGrid Class="d-flex align-center">
-                                                     <MudItem xs="2">
-                                                          <FileUpload @bind-ImageUrl="c.photo" is_square="true"></FileUpload>
-                                                     </MudItem>
-                                                     <MudItem xs="10">
-                                                             <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true">
-                                                                <MudTabPanel Text="Title En">
-                                                                   <MudTextField @bind-Value="@c.title_en" Label="Title En" Variant="Variant.Text"/>
-                                                                   <MudTextField @bind-Value="@c.description_en" Label="Description En" Variant="Variant.Text" Lines="3"/>
-                                                                </MudTabPanel>
-                                                                <MudTabPanel Text="Title Kh">
-                                                                  <MudTextField @bind-Value="@c.title_kh" Label="Title Kh" Variant="Variant.Text"/>
-                                                                  <MudTextField @bind-Value="@c.description_kh" Label="Description Kh" Variant="Variant.Text" Lines="3"/>
-                                                                </MudTabPanel>
-                                                                <MudTextField @bind-Value="@c.youtube_url" Label="YouTube URL" Variant="Variant.Text"/>
-                                                            </MudTabs>
-                                                     </MudItem>
-                                                 </MudGrid>
+                                                        <MudItem xs="2">
+                                                              <FileUpload @bind-ImageUrl="model.photo_kh" is_square="true"></FileUpload>
+                                                         </MudItem>
+                                                       <MudItem xs="10">
+                                                            <MudTextField @bind-Value="@model.title_kh" Label="Title Kh" Variant="Variant.Text"/>
+                                                            <MudTextField @bind-Value="@model.description_kh" Label="Description Kh" Variant="Variant.Text" Lines="3"/>
+                                                        </MudItem>
+                                                </MudGrid>
+                                             
+                                            </MudTabPanel>
+                                             <MudTabPanel Text="Title En">
+                                              <MudGrid Class="d-flex align-center">
+                                                        <MudItem xs="2">
+                                                              <FileUpload @bind-ImageUrl="model.photo_en" is_square="true"></FileUpload>
+                                                         </MudItem>
+                                                       <MudItem xs="10">
+                                                        <MudTextField @bind-Value="@model.title_en" Label="Title En" Variant="Variant.Text"/>
+                                                        <MudTextField @bind-Value="@model.description_en" Label="Description En" Variant="Variant.Text" Lines="3"/>
+                                                        </MudItem>
+                                                </MudGrid>
+                                              
+                                            </MudTabPanel>
+                                        </MudTabs>
+                                          <MudTextField @bind-Value="@model.youtube_url" Label="YouTube URL" Variant="Variant.Text"/>
                                              </MudPaper>
                                               
                                         }

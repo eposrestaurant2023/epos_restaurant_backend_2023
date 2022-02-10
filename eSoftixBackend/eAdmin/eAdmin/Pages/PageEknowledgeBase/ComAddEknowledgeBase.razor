@@ -5,7 +5,7 @@
  <EditForm Model="@model" OnSubmit="@Save_Click">
 <Modal>
     <ModalContent>
-        <FileUpload @bind-ImageUrl="model.photo"></FileUpload>
+        <FileUpload @bind-ImageUrl="model.photo_kh"></FileUpload>
 
         <MudSwitch @bind-Checked="@model.is_select_parent" Color="MudBlazor.Color.Tertiary">Select Parent</MudSwitch>
         @if(model.is_select_parent == true)
