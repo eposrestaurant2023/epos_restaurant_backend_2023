@@ -724,6 +724,7 @@
                           <Color>LightGrey</Color>
                           <Width>0.25pt</Width>
                         </Border>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>1pt</PaddingTop>
@@ -741,24 +742,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>លេខតុ</Value>
+                              <Value>ទីតាំងអតិថិជន :</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
-                              </Style>
-                            </TextRun>
-                            <TextRun>
-                              <Value xml:space="preserve"> </Value>
-                              <Style>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>11pt</FontSize>
-                              </Style>
-                            </TextRun>
-                            <TextRun>
-                              <Value>: </Value>
-                              <Style>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
@@ -781,6 +768,7 @@
                           <Color>LightGrey</Color>
                           <Width>0.25pt</Width>
                         </Border>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>1pt</PaddingTop>
@@ -833,6 +821,7 @@
                           <Color>LightGrey</Color>
                           <Width>0.25pt</Width>
                         </Border>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>1pt</PaddingTop>
@@ -882,6 +871,7 @@
                           <Color>LightGrey</Color>
                           <Width>0.25pt</Width>
                         </Border>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>1pt</PaddingTop>
@@ -898,13 +888,13 @@
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="Textbox4">
-                      <CanShrink>true</CanShrink>
+                      <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>អតិថិជ</Value>
+                              <Value>អតិថិជន : </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -927,6 +917,7 @@
                           <Color>LightGrey</Color>
                           <Width>0.25pt</Width>
                         </Border>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>1pt</PaddingTop>
@@ -976,6 +967,7 @@
                           <Color>LightGrey</Color>
                           <Width>0.25pt</Width>
                         </Border>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>1pt</PaddingTop>
@@ -1980,7 +1972,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
