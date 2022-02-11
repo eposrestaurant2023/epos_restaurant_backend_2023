@@ -2,10 +2,10 @@
 <MudThemeProvider />
 
 <MudLayout>
-    <MudAppBar Elevation="1">
+    <MudAppBar Elevation="0" Class="bg_appbar">
         <MudText Typo="Typo.h5" Class="ml-3">eKnowledgebase @state.current_language</MudText>
         <MudSpacer />
-        <MudMenu StartIcon="@Icons.Filled.Translate" EndIcon="@Icons.Filled.KeyboardArrowDown" Color="Color.Primary" Variant="Variant.Filled">
+        <MudMenu StartIcon="@Icons.Filled.Translate" EndIcon="@Icons.Filled.KeyboardArrowDown" Color="Color.Dark" Variant="Variant.Filled">
     <MudMenuItem OnClick="@(()=>state.SetCurrentLanguage("en"))">English</MudMenuItem>
     <MudMenuItem OnClick="@(()=>state.SetCurrentLanguage("kh"))">Khmer</MudMenuItem>
 </MudMenu>

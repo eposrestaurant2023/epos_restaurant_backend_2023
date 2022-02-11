@@ -1,23 +1,37 @@
 ﻿@page "/"
 @inject NavigationManager nav;
 @inject eKnowledgebase.Services.eKnowledgebaseService s;
+<PageTitle>Home Page</PageTitle>
 
-<PageTitle>Index</PageTitle>
-<MudContainer MaxWidth="MaxWidth.Medium">
- @state.current_language
-
-    @if (is_loading)
+@if (is_loading)
 {
     <div>loading...</div>
 }else
 {
-    @foreach(var d in models.OrderBy(r=>r.sort_order)){ 
-    <MudPaper @onclick="@(()=> nav.NavigateTo($"app/{d.id}"))" Class="ma-4 pa-4">
-          <MudText Typo="Typo.h3">@d.title_en</MudText>
-    </MudPaper>
-    }
+    <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge"  Class="d-flex align-center justify-center" Style="background:#0093d9;height:150px;">
+        <div class="cus_search">
+            <MudText Typo="Typo.h6" Class="main_title">ePOS Resturant Help Center</MudText>
+            <MudContainer MaxWidth="MaxWidth.Small">
+                   <MudTextField FullWidth="true" T="string" Margin="Margin.Dense" Placeholder="Search" Class="cus_search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Filled.Search"/>
+            </MudContainer>
+        </div>
+    </MudContainer>
+    <MudContainer MaxWidth="MaxWidth.Medium">
+     <MudGrid Spacing="3">
+        @foreach(var d in models.OrderBy(r=>r.sort_order)){ 
+          <MudItem xs="12" md="6" lg="4">
+              <MudCard @onclick="@(()=> nav.NavigateTo($"app/{d.id}"))" Class="pc mud-width-full mud-height-full">
+                <MudAvatar Style="height:70px; width:70px; font-size:2rem;" Image="images/cashier.png"></MudAvatar>
+                <MudCardContent>
+                    <MudText Typo="Typo.h4">@d.title_en</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        }
+    </MudGrid>
+    </MudContainer>
 }
-</MudContainer>
+
 
 
 
@@ -27,12 +41,14 @@
 
     [CascadingParameter]
     public AppState state { get; set; }
-     
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
         models = await s.GetModulesAsync();
         is_loading = false;
     }
+
+}
+
     
 }

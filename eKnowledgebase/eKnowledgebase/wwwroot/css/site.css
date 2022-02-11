@@ -1,7 +1,9 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,400&display=swap');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Roboto', sans-serif !important;
+    overflow-x:hidden;
 }
 
 h1:focus {
@@ -59,6 +61,50 @@ a, .btn-link {
     color: white;
 }
 
-    .blazor-error-boundary::after {
-        content: "An error has occurred."
-    }
+.blazor-error-boundary::after {
+    content: "An error has occurred."
+}
+
+.pc {
+    cursor: pointer;
+}
+.bg_appbar {
+    color: inherit !important;
+    background-color: white !important;
+}
+.main_title {
+    font-size: 34px !important;
+    margin: 0;
+    padding: 0;
+    text-shadow: none;
+    color: white;
+    text-align: center;
+}
+
+.mud-input.mud-input-outlined .mud-input-outlined-border {
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    text-align: start;
+    pointer-events: none;
+    border-radius: var(--mud-default-borderradius);
+    /* border-color: var(--mud-palette-lines-inputs); */
+    border-width: 1px;
+    border-style: solid;
+    transition: border-width,border-color 200ms cubic-bezier(.4,0,.2,1) 0ms;
+    border-color: transparent !important;
+    background: #fff !important;
+    color: #000 !important;
+}
+.mud-input-adornment {
+    z-index:9;
+}
+.mud-input-slot{
+    z-index:9;
+}
