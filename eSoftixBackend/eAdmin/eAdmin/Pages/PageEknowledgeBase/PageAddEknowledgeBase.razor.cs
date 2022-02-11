@@ -3,23 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using System.Net.Http;
-using System.Net.Http.Json;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.Web.Virtualization;
-using Microsoft.AspNetCore.Components.WebAssembly.Http;
-using Microsoft.JSInterop;
-using eAdmin;
-using eAdmin.Shared;
 using MudBlazor;
 using eModels;
-using eAdmin.Shared.Users;
-using eAdmin.Shared.Components;
-using eAdmin.Shared.ComLayout;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Authorization;
 using System.Text.Json;
 
 namespace eAdmin.Pages.PageEknowledgeBase
@@ -28,6 +13,11 @@ namespace eAdmin.Pages.PageEknowledgeBase
     {
         [Parameter] public string id { get; set; }
         [Parameter] public string parent_id { get; set; }
+        public Dictionary<string, object> editorConf = new Dictionary<string, object>{
+    {"menubar", false},
+
+  };
+
         public eKnowledgeBaseModel model { get; set; } = new eKnowledgeBaseModel();
         public List<eKnowledgeBaseModel> models = new List<eKnowledgeBaseModel>();
         public string page_title { get; set; }
@@ -38,7 +28,6 @@ namespace eAdmin.Pages.PageEknowledgeBase
                 return $"eKnowledgeBase({id})?$expand=children";
             }
         }
-
 
         protected override async Task OnInitializedAsync()
         {
@@ -92,6 +81,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
         }
         public async Task Save_Click()
         {
+            is_loading = true;
             is_saving = true;
             var res = await http.ApiPost($"eKnowledgeBase/savesingle", model);
             if (res.IsSuccess)
@@ -104,7 +94,9 @@ namespace eAdmin.Pages.PageEknowledgeBase
             {
                 toast.Add(res.Content.ToString(), Severity.Warning);
             }
+            await LoadData();
             is_saving = false;
+            is_loading = false;
         }
 
         public void Click_add()
@@ -112,9 +104,21 @@ namespace eAdmin.Pages.PageEknowledgeBase
             models.Add(new eKnowledgeBaseModel(Guid.Parse(parent_id)));
         }
 
+        public void DeleteChil_Click(eKnowledgeBaseModel d)
+        {
+            if (d.id == Guid.Empty)
+            {
+                model.children.Remove(d);
+            }else
+            {
+                d.is_deleted = true;
+            }
+        }
       public void AddChild_Click()
         {
-            model.children.Add(new eKnowledgeBaseModel());
+            eKnowledgeBaseModel m = new eKnowledgeBaseModel();
+            m.sort_order = model.children.Where(r=>r.is_deleted==false).Count()+1;
+            model.children.Add(m);
         }
 
     }

@@ -4,6 +4,8 @@
 
 <PageTitle>Index</PageTitle>
 <MudContainer MaxWidth="MaxWidth.Medium">
+ @state.current_language
+
     @if (is_loading)
 {
     <div>loading...</div>
@@ -14,7 +16,6 @@
           <MudText Typo="Typo.h3">@d.title_en</MudText>
     </MudPaper>
     }
-  
 }
 </MudContainer>
 
@@ -23,6 +24,10 @@
 @code{
     List<eKnowledgebaseModel> models = new();
     bool is_loading;
+
+    [CascadingParameter]
+    public AppState state { get; set; }
+     
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;

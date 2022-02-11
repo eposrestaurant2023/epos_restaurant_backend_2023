@@ -1,6 +1,7 @@
 ﻿@page "/article/{id:guid}"
 
 @inject NavigationManager nav;
+@inject IConfiguration config;
 @inject eKnowledgebase.Services.eKnowledgebaseService s;
 <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
     @if (is_loading && is_first_load)
@@ -9,9 +10,10 @@
     }
     else
     {
-         if(model?.parent_id!=null){ 
-        <NavSection id="@model.parent_id" />
-         }
+        if (model?.parent_id != null)
+        {
+            <NavSection url_name="article" id="@model.parent_id" OnItemClick="@OnItemClick" />
+        }
     }
 </MudDrawer>
 
@@ -22,13 +24,52 @@
     }
     else
     {
+
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <PageTitle>@model.title_en</PageTitle>
-        <h3>@model.title_en</h3>
+        <PageTitle>@state.GetTitleText(model)</PageTitle>
+        <h3>@state.GetTitleText(model)</h3>
+
+
+        @if (!string.IsNullOrEmpty(model.youtube_url))
+        {
+            <MudPaper Class="ma-4 pa-4" Elevation="1" Height="450">
+                <iframe width="560" height="430" src="@model.youtube_url" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </MudPaper>
+        }
+   
+        <MudPaper Class="ma-4 pa-4" Elevation="1">
+
+            @if (state.GetImageUrl(model) != "")
+            {
+                <img src="@state.GetImageUrl(model)" style="width:100%" />
+            }
+
+            @if (state.GetDescriptText(model) != "")
+            {
+                <div> @((MarkupString)state.GetDescriptText(model))</div>
+            }
+
+        </MudPaper>
         @foreach (var d in models.OrderBy(r => r.sort_order))
         {
-            <MudPaper   Class="ma-4 pa-4">
-                <MudText Typo="Typo.h3">@d.title_en</MudText>
+            <MudPaper Class="ma-4 pa-4" Elevation="1">
+                @if (state.GetTitleText(d) != "")
+                {
+                    <MudText Typo="Typo.h6">@state.GetTitleText(d)</MudText>
+                }
+
+                @if (state.GetImageUrl(d) != "")
+                {
+                    <img src="@state.GetImageUrl(d)" style="width:100%" />
+                }
+
+                @if (state.GetDescriptText(d) != "")
+                {
+                    <div>
+                        @((MarkupString)state.GetDescriptText(d))
+                    </div>
+                }
+
             </MudPaper>
         }
 
@@ -38,10 +79,15 @@
 
 
 @code {
+
+    [CascadingParameter]
+    public AppState state { get; set; }
+
     [Parameter]
     public Guid id { get; set; }
     List<eKnowledgebaseModel> models = new();
     eKnowledgebaseModel model = new();
+
     bool is_loading;
     bool _drawerOpen = true;
     bool is_first_load = true;
@@ -52,12 +98,22 @@
     }
 
 
-    protected override async Task OnParametersSetAsync()
+
+    protected override async Task OnInitializedAsync()
     {
         is_first_load = false;
         is_loading = true;
         model = await s.GetByID(id);
         models = await s.GetDataByParentID(id);
+        is_loading = false;
+    }
+
+    async Task OnItemClick(eKnowledgebaseModel m)
+    {
+        is_loading = true;
+        model = m;
+        id = m.id;
+        models = await s.GetDataByParentID(m.id);
         is_loading = false;
     }
 

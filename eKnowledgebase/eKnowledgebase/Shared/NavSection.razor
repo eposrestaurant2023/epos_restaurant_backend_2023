@@ -13,7 +13,7 @@
         <MudNavMenu>
             @foreach (var d in models.OrderBy(r => r.sort_order))
             {
-                <MudNavLink Href="@($"section/{d.id}")">@d.title_en</MudNavLink>
+                <MudNavLink  @onclick="@(()=>OnItem_Click(d))">@d.title_en</MudNavLink>
 
             }
         </MudNavMenu>
@@ -27,12 +27,26 @@
     [Parameter]
     public Guid? id { get; set; }
     List<eKnowledgebaseModel> models = new();
+
+    [Parameter]
+    public EventCallback<eKnowledgebaseModel> OnItemClick { get; set; }
+
     bool is_loading;
+
+    [Parameter]
+    public string url_name { get; set; } = "section";
+
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
         models = await s.GetDataByParentID(id);
         is_loading = false;
+    }
+
+    async Task OnItem_Click(eKnowledgebaseModel? m)
+    {
+        nav.NavigateTo($"{url_name}/{m?.id}");
+        await OnItemClick.InvokeAsync(m);
     }
 
 }

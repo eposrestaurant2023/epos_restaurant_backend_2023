@@ -21,14 +21,16 @@ namespace eKnowledgebase.Models
           
             public Guid id { get; set; }
 
-            public string? icon { get; set; }
+        public string youtube_url { get; set; }
+        public string? icon { get; set; }
 
             public string? title_en { get; set; }
 
             public string? title_kh { get; set; }
             public string? description_en { get; set; }
             public string? description_kh { get; set; }
-            public string? photo { get; set; }
+            public string? photo_en { get; set; }
+            public string? photo_kh { get; set; }
 
             public bool is_deleted { get; set; } = false;
 

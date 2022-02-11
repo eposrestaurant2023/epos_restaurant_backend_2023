@@ -59,6 +59,14 @@ namespace eAPI.Controllers
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
         }
+        [HttpPost("delete")]
+        public ActionResult Delete([FromBody] ImageModel u)
+        {
+            db.Images.Remove(u);
+            db.SaveChanges();
+            return Ok();
+        }
+
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 0)]
         [Route("find")]
