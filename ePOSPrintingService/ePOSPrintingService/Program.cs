@@ -1074,7 +1074,7 @@ namespace ePOSPrintingService
                 IsPrintSuccess = false;
             };
         }
-        private static Thread ThreadStart(Action action)
+        public static Thread ThreadStart(Action action)
         {
             Thread thread = new Thread(() => { action(); });
             thread.Start();
@@ -1675,23 +1675,26 @@ namespace ePOSPrintingService
             }
 
 
-
-            string filepath = string.Format(@"{0}\Logs\{1:yyyyMMdd}_ServiceLog.txt", AppDomain.CurrentDomain.BaseDirectory, DateTime.Now);
-            if (!File.Exists(filepath))
+            try
             {
-                // Create a file to write to.   
-                using (StreamWriter sw = File.CreateText(filepath))
+                string filepath = string.Format(@"{0}\Logs\{1:yyyyMMdd}_ServiceLog.txt", AppDomain.CurrentDomain.BaseDirectory, DateTime.Now);
+                if (!File.Exists(filepath))
                 {
-                    sw.WriteLine(Message);
+                    // Create a file to write to.   
+                    using (StreamWriter sw = File.CreateText(filepath))
+                    {
+                        sw.WriteLine(Message);
+                    }
+                }
+                else
+                {
+                    using (StreamWriter sw = File.AppendText(filepath))
+                    {
+                        sw.WriteLine(Message);
+                    }
                 }
             }
-            else
-            {
-                using (StreamWriter sw = File.AppendText(filepath))
-                {
-                    sw.WriteLine(Message);
-                }
-            }
+            catch { };
         }
     }
 }

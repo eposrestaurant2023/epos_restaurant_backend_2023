@@ -46,7 +46,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
                     state.pager.order_by = "id";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}?$filter= is_deleted eq false";
+                string url = $"{controller_api}?$filter= is_deleted eq false&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
                 return url;
             }
         }
@@ -148,6 +148,13 @@ namespace eAdmin.Pages.PageEknowledgeBase
             is_loading = false;
 
 
+        }
+
+        public async Task OnSearch(string keyword)
+        {
+            state.pager = new PagerModel();
+            SetFilterValue2(state.filters, "keyword", keyword);
+            await LoadData();
         }
 
     }

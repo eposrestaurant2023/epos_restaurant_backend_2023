@@ -38,7 +38,7 @@
 
             <MudList Clickable="true" @bind-SelectedItem="selectedItem">
                 
-                @foreach (var p in eknowledgebase.OrderBy(r=>r.short_order))
+                @foreach (var p in eknowledgebase.OrderBy(r=>r.sort_order))
                 {
                         @if (p.children.Any())
                         {
@@ -55,7 +55,7 @@
                                             </div>
                                         </div>
                                    </MudListItem>
-                                    @foreach (var sp in p.children.Where(r=>r.parent_id == p.id).OrderBy(r=>r.short_order)){
+                                    @foreach (var sp in p.children.Where(r=>r.parent_id == p.id).OrderBy(r=>r.sort_order)){
 
                                          <MudListItem>
                                             <div class="d-flex justify-space-between align-center">
@@ -111,7 +111,7 @@
 <MudDrawer @bind-Open="@open" Anchor="@Anchor.Left" Elevation="1" Variant="@DrawerVariant.Temporary">
                 <MudList Clickable="true" @bind-SelectedItem="selectedItem">
                 
-                @foreach (var p in eknowledgebase.OrderBy(r=>r.short_order))
+                @foreach (var p in eknowledgebase.OrderBy(r=>r.sort_order))
                 {
                         @if (p.children.Any())
                         {
@@ -127,7 +127,7 @@
                                             </div>
                                         </div>
                                    </MudListItem>
-                                    @foreach (var sp in p.children.Where(r=>r.parent_id == p.id).OrderBy(r=>r.short_order)){
+                                    @foreach (var sp in p.children.Where(r=>r.parent_id == p.id).OrderBy(r=>r.sort_order)){
 
                                          <MudListItem>
                                             <div class="d-flex justify-space-between align-center">

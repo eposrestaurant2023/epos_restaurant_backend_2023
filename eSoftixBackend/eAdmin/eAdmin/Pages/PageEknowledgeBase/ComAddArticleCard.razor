@@ -1,0 +1,62 @@
+﻿  <MudPaper Class="mt-4 mb-4 pa-4">
+                    <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" >
+                        <MudTabPanel Text="Title Kh">
+                            <MudGrid Class="d-flex align-center">
+                                <MudItem xs="2">
+                                    <FileUpload @bind-ImageUrl="model.photo_kh" is_square="true"></FileUpload>
+                                </MudItem>
+                                <MudItem xs="10">
+                                    <MudTextField @bind-Value="@model.title_kh" Label="Title Kh" Variant="Variant.Text" Class="mb-2" />
+                                    <Editor @bind-Value="@model.description_kh" Conf="@editorConf" ApiKey="6bgc211uq2mw31fki1i1dmssvyxp93n3gaulsa02uzcfksyy" />
+                                </MudItem>
+                            </MudGrid>
+
+                        </MudTabPanel>
+                        <MudTabPanel Text="Title En">
+                            <MudGrid Class="d-flex align-center">
+                                <MudItem xs="2">
+                                    <FileUpload @bind-ImageUrl="model.photo_en" is_square="true"></FileUpload>
+                                </MudItem>
+                                <MudItem xs="10">
+                                    <MudTextField @bind-Value="@model.title_en" Label="Title En" Variant="Variant.Text" Class="mb-2" />
+
+                                    <Editor @bind-Value="@model.description_en" Conf="@editorConf" ApiKey="6bgc211uq2mw31fki1i1dmssvyxp93n3gaulsa02uzcfksyy" />
+                                </MudItem>
+                            </MudGrid>
+
+                        </MudTabPanel>
+                    </MudTabs>
+                    <MudGrid Class="d-flex align-center">
+                                <MudItem xs="2"></MudItem>
+                                <MudItem xs="10">
+                                     <MudTextField T="int" @bind-Value="@model.sort_order" Label="Sort Order" Variant="Variant.Text" Class="mt-2"  />
+
+            @if (show_remove)
+            {
+                <MudButton Color="MudBlazor.Color.Warning" OnClick="@OnDelete">Delete</MudButton>
+            }
+        </MudItem>
+                            </MudGrid>
+                    </MudPaper>
+@code {
+    [Parameter]
+    public eKnowledgeBaseModel model { get; set; }
+    [Parameter]
+    public EventCallback<eKnowledgeBaseModel> modelChanged { get; set; }
+
+    [Parameter] 
+    public bool show_remove { get; set; } 
+
+    [Parameter] 
+    public EventCallback<eKnowledgeBaseModel> OnRemove { get; set; }
+    public Dictionary<string, object> editorConf = new Dictionary<string, object>{
+    {"menubar", false},
+
+  };
+
+    async Task OnDelete()
+    {
+        await OnRemove.InvokeAsync(model);
+
+    }
+}
