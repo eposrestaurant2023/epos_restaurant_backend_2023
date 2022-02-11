@@ -55,7 +55,7 @@ namespace eKnowledgebase
                 return "";
             }else
             {
-                return current_language == "en" ? model.photo_en : model.photo_kh;
+                return $"{base_url}upload/"+ (current_language == "en" ? model?.photo_en : model?.photo_kh);
             } 
             
 

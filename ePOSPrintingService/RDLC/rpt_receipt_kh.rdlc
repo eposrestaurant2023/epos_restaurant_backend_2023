@@ -782,6 +782,7 @@
                           <Color>LightGrey</Color>
                           <Width>0.25pt</Width>
                         </Border>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>1pt</PaddingTop>
@@ -799,7 +800,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>លេខតុ</Value>
+                              <Value>ទីតាំងអតិថិជន :</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -832,6 +833,7 @@
                           <Color>LightGrey</Color>
                           <Width>0.25pt</Width>
                         </Border>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>1pt</PaddingTop>
@@ -884,6 +886,7 @@
                           <Color>LightGrey</Color>
                           <Width>0.25pt</Width>
                         </Border>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>1pt</PaddingTop>
@@ -901,7 +904,14 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>ម៉ោងចូល: </Value>
+                              <Value>ម៉ោងចូល</Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>: </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -926,6 +936,7 @@
                           <Color>LightGrey</Color>
                           <Width>0.25pt</Width>
                         </Border>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>1pt</PaddingTop>
@@ -941,36 +952,46 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox4">
-                      <CanShrink>true</CanShrink>
+                    <Textbox Name="closed_by">
+                      <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>អតិថិជ</Value>
+                              <Value>អ្នកលក់</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!customer_name.Value</Value>
+                              <Value>: </Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!closed_by.Value</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox4</rd:DefaultName>
+                      <rd:DefaultName>closed_by</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Width>0.25pt</Width>
                         </Border>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>1pt</PaddingTop>
@@ -1020,6 +1041,7 @@
                           <Color>LightGrey</Color>
                           <Width>0.25pt</Width>
                         </Border>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>1pt</PaddingTop>
@@ -1035,16 +1057,23 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox6">
-                      <CanGrow>true</CanGrow>
+                    <Textbox Name="Textbox4">
+                      <CanShrink>true</CanShrink>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>អអតិថិជន : </Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!customer_name.Value</Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -1052,69 +1081,23 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox6</rd:DefaultName>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Width>0.25pt</Width>
                         </Border>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>1pt</PaddingTop>
                         <PaddingBottom>1pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="closed_by">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>អ្នកលក់</Value>
-                              <Style>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>8pt</FontSize>
-                              </Style>
-                            </TextRun>
-                            <TextRun>
-                              <Value>: </Value>
-                              <Style>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>9pt</FontSize>
-                              </Style>
-                            </TextRun>
-                            <TextRun>
-                              <Value>=Fields!closed_by.Value</Value>
-                              <Style>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>9pt</FontSize>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>closed_by</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Width>0.25pt</Width>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>1pt</PaddingTop>
-                        <PaddingBottom>1pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
+                <TablixCell />
               </TablixCells>
             </TablixRow>
           </TablixRows>

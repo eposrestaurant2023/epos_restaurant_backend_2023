@@ -21,7 +21,8 @@ namespace eKnowledgebase.Models
           
             public Guid id { get; set; }
 
-            public string? icon { get; set; }
+        public string youtube_url { get; set; }
+        public string? icon { get; set; }
 
             public string? title_en { get; set; }
 
