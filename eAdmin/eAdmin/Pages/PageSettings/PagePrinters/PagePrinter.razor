@@ -1,4 +1,5 @@
-﻿@page "/setting/printer"
+﻿
+@page "/setting/printer"
 @inject IHttpService http;
 @inject ISnackbar toast;
 @inject IStringLocalizer<Resource> lang
@@ -28,8 +29,6 @@
                 {
                     @foreach (var b in branches)
                     {
-                        @b.id
-                        @gv.business_branch_has_feature(b.id.ToString(), "KOT")
                         if (gv.business_branch_has_feature(b.id.ToString(), "KOT"))
                         {
 
