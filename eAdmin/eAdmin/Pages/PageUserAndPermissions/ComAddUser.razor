@@ -20,9 +20,8 @@
         </TextInput>
         @if (user.is_allow_backend_login)
         {
-            <TextInput label="@lang["Password"]" type="password" @bind-text="@user.password">
-                <ValidationMessage For="@(()=>user.password)" />
-            </TextInput>
+            <TextInput label="@lang["Password"]" type="password" @bind-text="@user.password"/>
+                
         }
         <TextInput label="@lang["Code"]" @bind-text="@(user.user_code)" />
         @if (user.is_allow_front_end_login)

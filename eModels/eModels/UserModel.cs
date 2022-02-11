@@ -24,8 +24,6 @@ namespace eModels
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string full_name { get; set; }
 
-        [StringLength(20, ErrorMessage = "Password is too long.")]
-        [Required(ErrorMessage = "Field cannot be blank.")]
         public string password { get; set; } = "";
       
         public string user_code { get; set; }
