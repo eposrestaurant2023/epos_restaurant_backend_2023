@@ -8,14 +8,16 @@
     <div>loading...</div>
 }else
 {
-    <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge"  Class="d-flex align-center justify-center" Style="background:#0093d9;height:150px;">
-        <div class="cus_search">
-            <MudText Typo="Typo.h6" Class="main_title">ePOS Resturant Help Center</MudText>
-            <MudContainer MaxWidth="MaxWidth.Small">
-                   <MudTextField FullWidth="true" T="string" Margin="Margin.Dense" Placeholder="Search" Class="cus_search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Filled.Search"/>
-            </MudContainer>
-        </div>
+    <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Style="background:#0093d9;height:150px;" Class="d-flex align-center justify-center" >
+      
+         <MudContainer MaxWidth="MaxWidth.Small" >
+             <div>
+                   <MudText Typo="Typo.h6" Class="main_title">ePOS Resturant Help Center</MudText>
+                  <MudTextField FullWidth="true" T="string" Margin="Margin.Dense" Placeholder="Search" Class="cus_search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Filled.Search"/>
+             </div>
+      </MudContainer>
     </MudContainer>
+    
     <MudContainer MaxWidth="MaxWidth.Medium">
      <MudGrid Spacing="3">
         @foreach(var d in models.OrderBy(r=>r.sort_order)){ 
