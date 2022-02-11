@@ -1074,7 +1074,7 @@ namespace ePOSPrintingService
                 IsPrintSuccess = false;
             };
         }
-        private static Thread ThreadStart(Action action)
+        public static Thread ThreadStart(Action action)
         {
             Thread thread = new Thread(() => { action(); });
             thread.Start();
