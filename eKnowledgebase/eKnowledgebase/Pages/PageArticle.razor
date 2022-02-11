@@ -24,35 +24,50 @@
     }
     else
     {
+
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <PageTitle>@state.GetTitleText(model)</PageTitle>
         <h3>@state.GetTitleText(model)</h3>
-        
+
+
+        @if (!string.IsNullOrEmpty(model.youtube_url))
+        {
+            <MudPaper Class="ma-4 pa-4" Elevation="1" Height="450">
+                <iframe width="560" height="430" src="@model.youtube_url" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </MudPaper>
+        }
+   
+        <MudPaper Class="ma-4 pa-4" Elevation="1">
+
             @if (state.GetImageUrl(model) != "")
             {
-                <img src="@state.GetImageUrl(model)"/>
+                <img src="@state.GetImageUrl(model)" style="width:100%" />
             }
 
-        @if (state.GetDescriptText(model) != "")
-        {
-            <div>@state.GetDescriptText(model)</div>
-        }
+            @if (state.GetDescriptText(model) != "")
+            {
+                <div> @((MarkupString)state.GetDescriptText(model))</div>
+            }
+
+        </MudPaper>
         @foreach (var d in models.OrderBy(r => r.sort_order))
         {
-            <MudPaper Class="ma-4 pa-4">
+            <MudPaper Class="ma-4 pa-4" Elevation="1">
                 @if (state.GetTitleText(d) != "")
                 {
-                    <MudText Typo="Typo.h3">@state.GetTitleText(d)</MudText>
+                    <MudText Typo="Typo.h6">@state.GetTitleText(d)</MudText>
                 }
 
                 @if (state.GetImageUrl(d) != "")
                 {
-                    <img src="@state.GetImageUrl(d)"/>
+                    <img src="@state.GetImageUrl(d)" style="width:100%" />
                 }
 
                 @if (state.GetDescriptText(d) != "")
                 {
-                    <div>@state.GetDescriptText(d)</div>
+                    <div>
+                        @((MarkupString)state.GetDescriptText(d))
+                    </div>
                 }
 
             </MudPaper>
