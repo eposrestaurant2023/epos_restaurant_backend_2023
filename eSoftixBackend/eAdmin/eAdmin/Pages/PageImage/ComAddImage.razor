@@ -7,7 +7,7 @@
           <MudTextField @bind-Value="@model.title" Label="Title Image">
 
             </MudTextField>
-            <MudTextField @bind-Value="@model.description" Lines="3" Label="Note"></MudTextField>
+           
     </ModalContent>
   
     <ActionButton>
@@ -17,7 +17,7 @@
 
 
 @code{
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] MudDialogInstance  MudDialog { get; set; }
     [Parameter] public ImageModel model { get; set; } = new ImageModel();
     [Parameter] public Guid id {get;set;}
 

@@ -4,14 +4,14 @@
 @if (!is_loading)
 {
  <PageContainer>
-     <PageHeader title="Image">
+     <PageHeader title="Image" OnRefresh="@(()=>LoadData())">
          <Right>
               <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false">
                 
             </ComSearch>
              <AddButton OnClick="@OnAddNew_Click"/>
          </Right>
-     </PageHeader>
+     </PageHeader >
      <PageBody>
                <Table Items="@images"
                 PerPage="@state.pager.per_page"
@@ -24,26 +24,25 @@
                 ShowCounter="true"
                 EmptyText="There is no customer record.">
             <TableHeader>
-                <Th Width="188px">
+                <Th>
                     Title
                 </Th>
                  <ThCenter width="150px">
                    Image
                 </ThCenter>
-                <ThAuto>
-                    Description
-                </ThAuto>
+             <Th></Th>
             </TableHeader>
             <RowTemplate Context="p">
              <td>
-            @p.title
+                 <MudTextField Value="@p.title" T="string" ValueChanged="@((e)=>UpdateTitle(p,e))" /> 
+            
              </td>
              <TdCenter>
                 <MudAvatar Image="@http.ImageUrl(p.image)" Size="Size.Large" Square="true"/>
              </TdCenter>
-             <td>
-                @p.description
-             </td>
+            <TdCenter>
+                <MudButton OnClick="@(()=>DeleteImage(p))">Delete</MudButton>
+            </TdCenter>
             </RowTemplate>
         </Table>
      </PageBody>
@@ -51,85 +50,92 @@
 }
 
 @code {
-        public List<ImageModel> images = new List<ImageModel>();
-        public ImageModel model = new ImageModel();
+    public List<ImageModel> images = new List<ImageModel>();
+    public ImageModel model = new ImageModel();
 
-        public string StateKey = "2Iamgessss84567Gs25245KJHGytkjhTonB3PCz2Ts"; //Storage and Session Key
+    public string StateKey = "2Iamgessss84567Gs25245KJHGytkjhTonB3PCz2Ts"; //Storage and Session Key
 
-        public int TotalRecord = 0;
-        public bool ShowModal = false;
-        public string ModalTitle = "";
+    public int TotalRecord = 0;
+    public bool ShowModal = false;
+    public string ModalTitle = "";
 
-        string controller_api = "Image";
+    string controller_api = "Image";
 
-         public string ControllerApi
+    public string ControllerApi
+    {
+        get
         {
-            get
+            if (string.IsNullOrEmpty(state.pager.order_by))
             {
-                if (string.IsNullOrEmpty(state.pager.order_by))
-                {
-                    state.pager.order_by = "id";
-                    state.pager.order_by_type = "desc";
-                }
-                string url = $"{controller_api}?&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
-                return url + GetFilter(state.filters);
+                state.pager.order_by = "id";
+                state.pager.order_by_type = "desc";
             }
+            string url = $"{controller_api}?&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+            return url + GetFilter(state.filters);
         }
-         protected override async Task OnInitializedAsync()
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task UpdateTitle(ImageModel img, string title)
+    {
+        img.title = title;
+        await http.ApiPost("Image/save", img);
+        toast.Add("Title updated", Severity.Success);
+    }
+
+    public async Task LoadData(string api_url = "")
+    {
+        is_loading = true;
+        if (string.IsNullOrEmpty(api_url))
         {
-            is_loading = true;
-            await LoadData();
-            is_loading = false;
+            api_url = $"{ControllerApi}";
+            state.api_url = api_url;
+            await SetState(StateKey, state);
         }
 
-
-           public async Task LoadData(string api_url = "")
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
         {
-            is_loading = true;
-            if (string.IsNullOrEmpty(api_url))
-            {
-                api_url = $"{ControllerApi}";
-                state.api_url = api_url;
-                await SetState(StateKey, state);
-            }
-
-            var resp = await http.ApiGetOData(api_url);
-            if (resp.IsSuccess)
-            {
-                images = JsonSerializer.Deserialize<List<ImageModel>>(resp.Content.ToString());
-                TotalRecord = resp.Count;
-            }
-            is_loading = false;
+            images = JsonSerializer.Deserialize<List<ImageModel>>(resp.Content.ToString());
+            TotalRecord = resp.Count;
         }
+        is_loading = false;
+    }
 
-          public async Task OrderBy(string col_name = "")
-        {
+    public async Task OrderBy(string col_name = "")
+    {
 
-            state.pager.order_by = col_name;
-            state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
+        state.pager.order_by = col_name;
+        state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
 
-            await LoadData();
-        }
+        await LoadData();
+    }
 
-        public async Task SelectChange(int perpage)
-        {
-            state.pager.per_page = perpage;
-            state.pager.current_page = 1;
-            await LoadData();
-        }
+    public async Task SelectChange(int perpage)
+    {
+        state.pager.per_page = perpage;
+        state.pager.current_page = 1;
+        await LoadData();
+    }
 
-        public async Task ChangePager(int _page)
-        {
-            state.pager.current_page = _page;
-            await LoadData();
-        }
+    public async Task ChangePager(int _page)
+    {
+        state.pager.current_page = _page;
+        await LoadData();
+    }
 
-        public async Task OnSearch(string keyword)
-        {
-            state.pager = new PagerModel();
-            SetFilterValue2(state.filters, "keyword", keyword);
-            await LoadData();
-        }
+    public async Task OnSearch(string keyword)
+    {
+        state.pager = new PagerModel();
+        SetFilterValue2(state.filters, "keyword", keyword);
+        await LoadData();
+    }
 
     async Task OnAddNew_Click()
     {
@@ -138,12 +144,19 @@
         var group = (ImageModel)result.Data;
         if (!result.Cancelled)
         {
-            is_loading_data=true;
-            StateHasChanged();
-            await Task.Delay(100);
-            is_loading_data=false;
+            await LoadData();
         }
 
+    }
+
+
+    async Task  DeleteImage(ImageModel p)
+    {
+        
+       
+        await http.ApiPost("Image/delete", p);
+        toast.Add("Delete updated", Severity.Success);
+         await LoadData();
     }
 
 

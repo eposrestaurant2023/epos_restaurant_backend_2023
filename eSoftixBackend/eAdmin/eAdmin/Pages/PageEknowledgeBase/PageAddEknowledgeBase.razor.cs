@@ -39,11 +39,8 @@ namespace eAdmin.Pages.PageEknowledgeBase
             }
         }
 
-        public Dictionary<string, object> editorConf = new Dictionary<string, object>{
-    {"menubar", false},
-     
-  };
-
+      
+         
         protected override async Task OnInitializedAsync()
         {
             if (!string.IsNullOrEmpty(id))
