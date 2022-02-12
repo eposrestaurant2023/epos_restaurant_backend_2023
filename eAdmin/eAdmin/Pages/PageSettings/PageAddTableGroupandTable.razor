@@ -121,7 +121,7 @@
                                             <SelectPriceRule @bind-selected_value="@s.price_rule_id" outlet="@model.outlet" is_inline="true" show_empty="true" width="100px" />
                                         </td>
                                         <td>
-                                            <SelectSaleType @bind-selected_value="@s.sale_type" is_horizontal="false" width="50px" is_inline="true" show_empty="true"/>
+                                            <SelectSaleType @bind-selected_value="@s.sale_type" is_horizontal="false" width="50px" is_inline="true" show_empty="true" />
                                         </td>
                                         <TdCenter>
                                             <NumberInputInt @bind-text="@s.sort_order"/>
@@ -204,10 +204,7 @@
         set
         {
             _sale_type = value;
-            
-                model.tables.ForEach(r => r.sale_type = _sale_type);
-            
-
+            model.tables.ForEach(r => r.sale_type = _sale_type);
         }
     }
 
@@ -245,13 +242,14 @@
         string api_url = ControllerApi;
         api_url = api_url + $"({id})?";
         api_url = api_url + "$expand=outlet($select=id,outlet_name_en,outlet_name_kh,business_branch_id;$expand=business_branch($select=id,business_branch_name_en,business_branch_name_kh);$filter= is_deleted  eq false),";
-        api_url = api_url + "tables($select = id,sort_order,table_name,height,width,position_x_percent,shape,position_y_percent,price_rule_id;$filter= is_deleted  eq false;$orderby=sort_order desc)";
+        api_url = api_url + "tables($select = id,sort_order,table_name,height,width,position_x_percent,sale_type,shape,position_y_percent,price_rule_id;$filter= is_deleted  eq false;$orderby=sort_order desc)";
 
 
         var resp = await http.ApiGet(api_url);
         if (resp.IsSuccess)
         {
             model = JsonSerializer.Deserialize<TableGroupModel>(resp.Content.ToString());
+            Console.WriteLine(JsonSerializer.Serialize(model.tables));
             business_branch = model.outlet.business_branch;
 
         }

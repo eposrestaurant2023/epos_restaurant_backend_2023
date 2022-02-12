@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -102,9 +102,6 @@ namespace eAPI.Controllers
             db.Database.ExecuteSqlRaw("exec sp_update_menu_path");
             return Ok();
         }
-
-
-
 
 
         [HttpPost]
