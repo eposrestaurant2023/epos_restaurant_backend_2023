@@ -1,8 +1,9 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <UIContainerBox Title="@lang["Modifier Section"]">
+    @modifer_group.modifier_group_items.Count()
     @if (modifer_group.modifier_group_items.Where(r => r.is_section == true && r.is_deleted == false).Any())
     {
-        foreach (var s in modifer_group.modifier_group_items.Where(r => r.is_section == true && r.is_deleted == false && r.modifier_group_id == null))
+        foreach (var s in modifer_group.modifier_group_items.Where(r => r.is_section == true && r.is_deleted == false && r.modifier_group_id != null))
         {
             <MudExpansionPanels MultiExpansion="true">
                 <MudExpansionPanel Class="mb-4" Text="@s.section_name">
@@ -66,7 +67,7 @@
             </div>
         </ComEmptyTemplate>
     }
-        </UIContainerBox>
+</UIContainerBox>
 
     @code{
         [Parameter] public ModifierGroupModel modifer_group { get; set; }
