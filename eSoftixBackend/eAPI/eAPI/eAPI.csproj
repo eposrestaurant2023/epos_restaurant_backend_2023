@@ -29,6 +29,7 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\eShareModel\eShareModel\eShareModel.csproj" />
     <ProjectReference Include="..\..\eModels\eModels\eModels.csproj" />
   </ItemGroup>
 
