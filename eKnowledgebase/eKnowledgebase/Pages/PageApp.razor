@@ -4,7 +4,7 @@
 @inject NavigationManager nav;
 @inject eKnowledgebase.Services.eKnowledgebaseService s;
 
-
+<PageTitle>@model.title_en</PageTitle>
 <MudContainer MaxWidth="MaxWidth.Medium">
     @if (is_loading)
 {
@@ -12,14 +12,30 @@
 }else
 {
     
-    <PageTitle>@model.title_en</PageTitle>
-    <h3>@model.title_en</h3>
-
-    @foreach(var d in models.OrderBy(r=>r.sort_order)){ 
-    <MudPaper @onclick="@(()=> nav.NavigateTo($"section/{d.id}"))" Class="ma-4 pa-4">
-          <MudText Typo="Typo.h3">@d.title_en</MudText>
-    </MudPaper>
-    }
+  <div class="view_header">
+    <h3>Choose Your Topic</h3>
+ </div>
+<div class="view_content">
+     <MudGrid Spacing="2">
+   
+             @foreach(var d in models.OrderBy(r=>r.sort_order)){ 
+                <MudItem md="3" xs="6">
+                      <MudPaper @onclick="@(()=> nav.NavigateTo($"section/{d.id}"))" Class="pa-4 d-flex align-center justify-center" Outlined="true" Square="true" Style="box-shadow: 0 0 4px rgb(0 0 0 / 19%);">
+                          <div style="text-align:center">
+                              <MudIcon Icon="@Icons.Filled.Workspaces" Style="font-size:85px"/>
+                              <Spacing Number="5"/>
+                              <MudText Typo="Typo.body2" Style="text-transform: capitalize;">@d.title_en</MudText>
+                          </div>
+                     
+                    </MudPaper>
+                 </MudItem>
+   
+       
+  
+        }
+     </MudGrid>
+   </div>
+  
   
 }
 </MudContainer>

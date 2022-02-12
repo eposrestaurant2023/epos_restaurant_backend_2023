@@ -2,7 +2,68 @@
 
 @inject NavigationManager nav;
 @inject eKnowledgebase.Services.eKnowledgebaseService s;
-<MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+<MudContainer MaxWidth="MaxWidth.Large">
+    @if (is_loading)
+    {
+        <div>loading...</div>
+    }
+    else
+    {
+        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+          <div class="d-flex flex-row align-center">
+            <div> <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" /></div>
+            <div><div class="view_header_app">
+             <h3>@model.title_en</h3>
+            </div>
+           </div>
+        </div>
+          <Spacing Number="10"/>
+           @foreach (var d in models.OrderBy(r => r.sort_order))
+            {
+                <div @onclick="@(()=> nav.NavigateTo($"article/{d.id}"))" class="title_aticle">
+                    @d.title_en
+                </div>
+            }
+        </MudHidden>
+        <MudHidden Breakpoint="Breakpoint.SmAndDown">
+            <MudGrid Spacing="5">
+                <MudItem md="3">
+                      <MudPaper>
+                <MudList Clickable="true">
+                    <MudListSubheader Class="title_main_topic">
+                       Topics
+                    </MudListSubheader>
+                    @if (model?.parent_id != null)
+                    {
+                        <NavSectionList id="@model.parent_id"/>
+                    }
+                </MudList>
+            </MudPaper>
+                </MudItem>
+                <MudItem md="9">
+                     <MudText Typo="Typo.h3">
+                         @model.title_en
+                     </MudText>
+                     <Spacing Number="10"/>
+                      @foreach (var d in models.OrderBy(r => r.sort_order))
+                        {
+                            <div @onclick="@(()=> nav.NavigateTo($"article/{d.id}"))" class="title_aticle">
+                                 @d.title_en
+                            </div>
+                        }
+                </MudItem>
+            </MudGrid>
+          
+        </MudHidden>
+
+      
+
+    }
+
+
+
+    <MudDrawer @bind-Open="_drawerOpen" DisableOverlay="false" Variant="@DrawerVariant.Temporary" Elevation="1" ClipMode="DrawerClipMode.Always">
+     <PageTitle>@model.title_en</PageTitle>
     @if (is_loading && is_first_load)
     {
         <div>loading...</div>
@@ -14,25 +75,6 @@
          }
     }
 </MudDrawer>
-
-<MudContainer MaxWidth="MaxWidth.Medium">
-    @if (is_loading)
-    {
-        <div>loading...</div>
-    }
-    else
-    {
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <PageTitle>@model.title_en</PageTitle>
-        <h3>@model.title_en</h3>
-        @foreach (var d in models.OrderBy(r => r.sort_order))
-        {
-            <MudPaper @onclick="@(()=> nav.NavigateTo($"article/{d.id}"))" Class="ma-4 pa-4">
-                <MudText Typo="Typo.h3">@d.title_en</MudText>
-            </MudPaper>
-        }
-
-    }
 </MudContainer>
 
 
@@ -43,7 +85,7 @@
     List<eKnowledgebaseModel> models = new();
     eKnowledgebaseModel model = new();
     bool is_loading;
-    bool _drawerOpen = true;
+    bool _drawerOpen = false;
     bool is_first_load = true;
 
     void DrawerToggle()

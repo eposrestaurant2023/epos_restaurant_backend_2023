@@ -1,0 +1,34 @@
+﻿@inject NavigationManager nav;
+@inject eKnowledgebase.Services.eKnowledgebaseService s;
+@if (!is_loading)
+{
+ <MudCard Elevation="0" Square="true">
+        <MudCardHeader>
+            <CardHeaderAvatar>
+                <MudAvatar Image="images/cashier.png" />
+            </CardHeaderAvatar>
+            <CardHeaderContent>
+                <MudText Typo="Typo.body2">eKnowledgebase</MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+    </MudCard>
+<MudDivider Class="mb-4" />
+<MudNavMenu>
+        @foreach(var m1 in models.OrderBy(r=>r.sort_order))
+         { 
+           <MudNavLink OnClick="@(()=> nav.NavigateTo($"app/{m1.id}"))" Match="NavLinkMatch.All" Icon="@m1.icon">@m1.title_en</MudNavLink>   
+        }
+        
+</MudNavMenu>
+}
+
+@code {
+    List<eKnowledgebaseModel> models = new();
+    bool is_loading;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        models = await s.GetModulesAsync();
+        is_loading = false;
+    }
+}
