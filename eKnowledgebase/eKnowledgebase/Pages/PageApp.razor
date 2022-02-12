@@ -19,7 +19,7 @@
      <MudGrid Spacing="2">
    
              @foreach(var d in models.OrderBy(r=>r.sort_order)){ 
-                <MudItem md="3" xs="6">
+                <MudItem md="3" xs="4">
                       <MudPaper @onclick="@(()=> nav.NavigateTo($"section/{d.id}"))" Class="pa-4 d-flex align-center justify-center" Outlined="true" Square="true" Style="box-shadow: 0 0 4px rgb(0 0 0 / 19%);">
                           <div style="text-align:center">
                               <MudIcon Icon="@Icons.Filled.Workspaces" Style="font-size:85px"/>
