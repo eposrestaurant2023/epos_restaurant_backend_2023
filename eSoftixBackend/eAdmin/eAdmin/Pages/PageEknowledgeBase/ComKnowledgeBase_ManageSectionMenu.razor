@@ -1,0 +1,34 @@
+﻿<table>
+    <tr>
+        <td>Title En</td>
+        <td>Title Kh</td>
+        <td>Sort Order</td>
+        <td></td>
+    </tr>
+    @foreach(var d in models)
+    {
+        <tr>
+             <td>
+                 <MudTextField Value="@d.title_en" />
+             </td>
+                <td>
+                    <MudTextField Value="@d.title_kh" />
+                </td>
+                <td>
+                    <MudTextField Value="@d.sort_order" />
+                </td>
+                <td>
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit"/>
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete"/>
+                </td>
+        </tr>
+    }
+
+</table>
+
+@code {
+    [Parameter] 
+    public List<eKnowledgeBaseModel> models { get; set; }
+
+
+}
