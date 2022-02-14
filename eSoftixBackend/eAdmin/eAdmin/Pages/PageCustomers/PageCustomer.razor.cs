@@ -114,7 +114,6 @@ namespace eAdmin.Pages.PageCustomers
                 state.api_url = api_url;
                 await SetState(StateKey, state);
             }
-
             var resp = await http.ApiGetOData(api_url);
             if (resp.IsSuccess)
             {
@@ -129,7 +128,6 @@ namespace eAdmin.Pages.PageCustomers
 
             state.pager.order_by = col_name;
             state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
-
             await LoadData();
         }
 

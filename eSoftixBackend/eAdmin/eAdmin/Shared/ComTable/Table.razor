@@ -62,12 +62,11 @@
       <MudGrid>
           <MudItem xs="12" md="12">
               <div class="d-flex justify-end">
-                  
               <div class="pt-2 mx-2 cus_class_select">
                   <div class="d-flex align-center">
                       @if (ShowPager){
                           <div style="margin-right: 10px;">Rows per page</div>
-                        <div>
+                        <div class="cus_class_change_pager">
                             <ComPagerPerPage OnChange="@PagerChange" PerPage="@PerPage" />
                         </div>
                       }
@@ -79,9 +78,6 @@
                             }
                       </div>
                   </div>
-                  
-                    
-                  
               </div>
                <div class="pt-2">
                          @if (ShowPagination)

@@ -3,7 +3,8 @@
 @inject NavigationManager nav;
 @inject IConfiguration config;
 @inject eKnowledgebase.Services.eKnowledgebaseService s;
-<MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+<PageTitle>@state.GetTitleText(model)</PageTitle>
+<MudDrawer @bind-Open="_drawerOpen"  DisableOverlay="false" Variant="@DrawerVariant.Temporary" ClipMode="DrawerClipMode.Always" Elevation="2">
     @if (is_loading && is_first_load)
     {
         <div>loading...</div>
@@ -17,27 +18,33 @@
     }
 </MudDrawer>
 
-<MudContainer MaxWidth="MaxWidth.Medium">
+<MudContainer MaxWidth="MaxWidth.Large">
     @if (is_loading)
     {
         <div>loading...</div>
     }
     else
     {
-
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <PageTitle>@state.GetTitleText(model)</PageTitle>
-        <h3>@state.GetTitleText(model)</h3>
-
-
-        @if (!string.IsNullOrEmpty(model.youtube_url))
+         <MudHidden Breakpoint="Breakpoint.MdAndUp">
+             <div class="d-flex flex-row align-center">
+            <div> <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" /></div>
+            <div><div class="view_header_app">
+             <h3>@state.GetTitleText(model)</h3>
+            </div>
+           </div>
+        </div>
+          <Spacing Number="10"/>
+          <div style="font-size: 16px;">
+                @if (!string.IsNullOrEmpty(model.youtube_url))
         {
-            <MudPaper Class="ma-4 pa-4" Elevation="1" Height="450">
-                <iframe width="560" height="430" src="@model.youtube_url" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </MudPaper>
+         
+               <MudPaper Height="400px">
+                  <iframe width="560" height="500px" src="@model.youtube_url" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+           </MudPaper>
+     
         }
-   
-        <MudPaper Class="ma-4 pa-4" Elevation="1">
+      <Spacing Number="10"/>
+      
 
             @if (state.GetImageUrl(model) != "")
             {
@@ -46,16 +53,24 @@
 
             @if (state.GetDescriptText(model) != "")
             {
+                <Spacing Number="5"/>
                 <div> @((MarkupString)state.GetDescriptText(model))</div>
             }
 
-        </MudPaper>
-        @foreach (var d in models.OrderBy(r => r.sort_order))
+           @foreach (var d in models.OrderBy(r => r.sort_order))
+            {
+                <div @onclick="@(()=> nav.NavigateTo($"article/{d.id}"))" class="title_aticle">
+                    @d.title_en
+                </div>
+            }
+
+                      @foreach (var d in models.OrderBy(r => r.sort_order))
         {
-            <MudPaper Class="ma-4 pa-4" Elevation="1">
+            
                 @if (state.GetTitleText(d) != "")
                 {
-                    <MudText Typo="Typo.h6">@state.GetTitleText(d)</MudText>
+                    <MudText Typo="Typo.h4">@state.GetTitleText(d)</MudText>
+                    <Spacing Number="5"/>
                 }
 
                 @if (state.GetImageUrl(d) != "")
@@ -65,14 +80,100 @@
 
                 @if (state.GetDescriptText(d) != "")
                 {
+                    <Spacing Number="5"/>
                     <div>
                         @((MarkupString)state.GetDescriptText(d))
                     </div>
                 }
 
-            </MudPaper>
+           
         }
 
+          </div>
+        </MudHidden>
+
+         <MudHidden Breakpoint="Breakpoint.SmAndDown">
+
+                <MudGrid Spacing="5">
+                <MudItem md="3">
+                      <MudPaper>
+                <MudList Clickable="true">
+                    <MudListSubheader Class="title_main_topic">
+                       Topics
+                    </MudListSubheader>
+                    @if (model?.parent_id != null)
+                    {
+                        <NavSectionList url_name="article" OnItemClick="@OnItemClick" id="@model.parent_id"/>
+                    }
+                </MudList>
+            </MudPaper>
+                </MudItem>
+                <MudItem md="9" Style="font-size: 16px;">
+                     <MudText Typo="Typo.h3">
+                        @state.GetTitleText(model)
+                     </MudText>
+                     <Spacing Number="10"/>
+                                @if (!string.IsNullOrEmpty(model.youtube_url))
+        {
+           <MudPaper Height="400px">
+                  <iframe width="560" height="500px" src="@model.youtube_url" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+           </MudPaper>
+             
+       
+        }
+      <Spacing Number="10"/>
+      
+
+            @if (state.GetImageUrl(model) != "")
+            {
+                <img src="@state.GetImageUrl(model)" style="width:100%" />
+            }
+            <Spacing Number="10"/>
+            @if (state.GetDescriptText(model) != "")
+            {
+                <div> @((MarkupString)state.GetDescriptText(model))</div>
+            }
+
+           @foreach (var d in models.OrderBy(r => r.sort_order))
+            {
+                <div @onclick="@(()=> nav.NavigateTo($"article/{d.id}"))" class="title_aticle">
+                    @d.title_en
+                </div>
+            }
+
+                      @foreach (var d in models.OrderBy(r => r.sort_order))
+        {
+           
+                @if (state.GetTitleText(d) != "")
+                {
+                    <MudText Typo="Typo.h4">@state.GetTitleText(d)</MudText>
+                    <Spacing Number="5"/>
+                }
+
+                @if (state.GetImageUrl(d) != "")
+                {
+                    <img src="@state.GetImageUrl(d)" style="width:100%" />
+                }
+                <Spacing Number="10"/>
+                @if (state.GetDescriptText(d) != "")
+                {
+                    <div>
+                        @((MarkupString)state.GetDescriptText(d))
+                    </div>
+                }
+
+           
+        }
+
+
+                </MudItem>
+            </MudGrid>
+
+
+
+
+
+        </MudHidden>
     }
 </MudContainer>
 
@@ -89,7 +190,7 @@
     eKnowledgebaseModel model = new();
 
     bool is_loading;
-    bool _drawerOpen = true;
+    bool _drawerOpen = false;
     bool is_first_load = true;
 
     void DrawerToggle()
