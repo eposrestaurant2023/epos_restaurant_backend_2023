@@ -6,11 +6,10 @@
 @if (!is_loading)
 {
     <PageContainer>
-         <PageHeader title="@state.page_title" show_refresh_button="false">
+         <PageHeader title="@state.page_title" OnRefresh="OnRefresh">
             <Right>
                 <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" show_advance_filter="false">
-                   
-                </ComSearch>
+                         </ComSearch>
                  <AddButton OnClick="@(()=>nav.NavigateTo($"eknowledgebase/new/{id}"))"/>
             </Right>
         </PageHeader>
@@ -27,8 +26,8 @@
                         ShowCounter="true"
                         EmptyText="There is no customer record.">
                      <TableHeader>
-                         <ThAuto>Title </ThAuto>
-                         <ThCenter>Status</ThCenter>
+                         <ThAuto>Title @state.pager.current_page</ThAuto>
+                         <ThCenter>Statussss</ThCenter>
                          <ThCenter></ThCenter>
                      </TableHeader>
                       <RowTemplate Context="e">

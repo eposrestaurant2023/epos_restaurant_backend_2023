@@ -35,9 +35,9 @@ namespace eAdmin.Pages.PageEknowledgeBase
         string controller_api = "eKnowledgeBase";
         public int TotalRecord = 0;
         public string TextValue { get; set; }
-         public  MudListItem selectedItem;
+        public  MudListItem selectedItem;
 
-        public string ControllerApi
+    public string ControllerApi
         {
             get
             {
@@ -46,17 +46,13 @@ namespace eAdmin.Pages.PageEknowledgeBase
                     state.pager.order_by = "id";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}?$filter= is_deleted eq false&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
-                return url;
+                string url = $"{controller_api}?&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                return url + GetFilter(state.filters) + $"and parent_id eq {id}";
             }
         }
-
-
-
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            is_loading_data = true;
             state = await GetState(StateKey);
                 if (state.page_title == "")
                 {
@@ -78,7 +74,6 @@ namespace eAdmin.Pages.PageEknowledgeBase
                 }
             await LoadData();
 
-            is_loading_data = false;
             is_loading = false;
         }
 
@@ -105,19 +100,21 @@ namespace eAdmin.Pages.PageEknowledgeBase
         public async Task LoadData(string api_url = "")
         {
             is_loading = true;
-            if (string.IsNullOrEmpty(api_url))
-            {
-                api_url = $"{ControllerApi}";
-                state.api_url = api_url;
-                await SetState(StateKey, state);
-            }
+                if (string.IsNullOrEmpty(api_url))
+                {
+                    api_url = $"{ControllerApi}";
+                    state.api_url = api_url;
+                    await SetState(StateKey, state);
+                }
 
-            var resp = await http.ApiGetOData(api_url);
-            if (resp.IsSuccess)
-            {
-                eknowledgebase = JsonSerializer.Deserialize<List<eKnowledgeBaseModel>>(resp.Content.ToString());
-                TotalRecord = resp.Count;
-            }
+                var resp = await http.ApiGetOData(api_url);
+                if (resp.IsSuccess)
+                {
+               
+                    eknowledgebase = JsonSerializer.Deserialize<List<eKnowledgeBaseModel>>(resp.Content.ToString());
+                    Console.WriteLine(resp.Content);
+                    TotalRecord = resp.Count;
+                }
             is_loading = false;
         }
 

@@ -99,6 +99,26 @@ namespace eAdmin.Pages.PageEknowledgeBase
             is_loading = false;
         }
 
+        public async Task Save_Close_Click()
+        {
+            is_loading = true;
+            is_saving = true;
+            var res = await http.ApiPost($"eKnowledgeBase/savesingle", model);
+            if (res.IsSuccess)
+            {
+                toast.Add("Save Successfull.", Severity.Success);
+                var c = JsonSerializer.Deserialize<eKnowledgeBaseModel>(res.Content.ToString());
+            }
+            else
+            {
+                toast.Add(res.Content.ToString(), Severity.Warning);
+            }
+            await LoadData();
+            is_saving = false;
+            is_loading = false;
+        }
+
+
         public void Click_add()
         {  
             models.Add(new eKnowledgeBaseModel(Guid.Parse(parent_id)));
@@ -114,7 +134,18 @@ namespace eAdmin.Pages.PageEknowledgeBase
                 d.is_deleted = true;
             }
         }
-      public void AddChild_Click()
+
+        public void Deleteimage_Click(eKnowledgeBaseModel d)
+        {
+            d.photo_kh = null;
+       }
+
+        public void Deleteimageen_Click(eKnowledgeBaseModel d)
+        {
+            d.photo_en = null;
+        }
+
+        public void AddChild_Click()
         {
             eKnowledgeBaseModel m = new eKnowledgeBaseModel();
             m.sort_order = model.children.Where(r=>r.is_deleted==false).Count()+1;
