@@ -20,19 +20,15 @@
    
              @foreach(var d in models.OrderBy(r=>r.sort_order)){ 
                 <MudItem md="3" xs="4">
-                      <MudPaper @onclick="@(()=> nav.NavigateTo($"section/{d.id}"))" Class="pa-4 d-flex align-center justify-center" Outlined="true" Square="true" Style="box-shadow: 0 0 4px rgb(0 0 0 / 19%);">
+                      <MudPaper @onclick="@(()=> nav.NavigateTo($"section/{d.id}"))" Class="pc pa-4 d-flex align-center justify-center" Outlined="true" Square="true" Style="box-shadow: 0 0 4px rgb(0 0 0 / 19%);">
                           <div style="text-align:center">
-                              <MudIcon Icon="@Icons.Filled.Workspaces" Style="font-size:85px"/>
+                              <MudIcon Icon="@d.icon" Style="font-size:85px"/>
                               <Spacing Number="5"/>
                               <MudText Typo="Typo.body2" Style="text-transform: capitalize;">@d.title_en</MudText>
                           </div>
-                     
                     </MudPaper>
                  </MudItem>
-   
-       
-  
-        }
+                }
      </MudGrid>
    </div>
   
