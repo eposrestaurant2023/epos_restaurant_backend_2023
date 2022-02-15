@@ -41,7 +41,7 @@ namespace eKnowledgebase.Services
         }
         public async Task<List<eKnowledgebaseModel>> GetDataByParentID(Guid? parent_id)
         {
-            string url = $"{config.GetValue<string>("api_url")}eKnowledgeBase?$filter=parent_id eq {parent_id}";
+            string url = $"{config.GetValue<string>("api_url")}eKnowledgeBase?$filter=parent_id eq {parent_id} and is_deleted eq false";
             var data = await http.GetFromJsonAsync<OdataResponse>(url);
             if (data == null)
             {

@@ -14,15 +14,19 @@
     </MudCard>
 <MudDivider Class="mb-4" />
 <MudNavMenu>
-        @foreach(var m1 in models.OrderBy(r=>r.sort_order))
+     <MudNavLink Href="/eknowledgebase" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">@(state.current_language == "en" ? "Home": "ទំព័រដើម")</MudNavLink>   
+
+        @foreach(var m1 in models.Where(r=>r.is_public == true).OrderBy(r=>r.sort_order))
          { 
-           <MudNavLink OnClick="@(()=> nav.NavigateTo($"app/{m1.id}"))" Match="NavLinkMatch.All" Icon="@m1.icon">@m1.title_en</MudNavLink>   
+           <MudNavLink OnClick="@(()=> nav.NavigateTo($"app/{m1.id}",true))" Match="NavLinkMatch.All" Icon="@m1.icon">@state.GetTitleText(m1)</MudNavLink>   
         }
         
 </MudNavMenu>
 }
 
 @code {
+    [CascadingParameter]
+    public AppState state { get; set; }
     List<eKnowledgebaseModel> models = new();
     bool is_loading;
     protected override async Task OnInitializedAsync()

@@ -44,9 +44,9 @@ namespace eKnowledgebase.Models
             public List<eKnowledgebaseModel> children { get; set; }
 
             public int sort_order { get; set; }
+        public bool is_public { get; set; }
 
 
 
-        
     }
 }
