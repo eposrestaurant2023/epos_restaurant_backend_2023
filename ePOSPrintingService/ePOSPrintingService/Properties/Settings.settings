@@ -165,5 +165,8 @@
     <Setting Name="api_url" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://customer.esoftix.com:9697/restaurant_client_api/api/</Value>
     </Setting>
+    <Setting Name="USBCashDrawer" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{"is_usb":false,"port":"COM1"}</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -27,7 +27,7 @@
                         EmptyText="There is no customer record.">
                      <TableHeader>
                          <ThAuto>Title @state.pager.current_page</ThAuto>
-                         <ThCenter>Statussss</ThCenter>
+                         <ThCenter>Status</ThCenter>
                          <ThCenter></ThCenter>
                      </TableHeader>
                       <RowTemplate Context="e">
@@ -44,12 +44,27 @@
                                 <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@(!e.is_deleted)">Delete</TableActionItem>
                                 <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@e.is_deleted">Restore</TableActionItem>
 
-                            </TdActions>
-                      </RowTemplate>
-              </Table>
-          
-        }
-        </PageBody>
-  
-    </PageContainer>
+@if (is_loading)
+{
+    <Spinner/>
+}
+else { 
+    <ComKnowledgeBase parent_id="@id" />    
+}
+
+
+@code{
+    [Parameter] public Guid id { get; set; }
+
+
+    bool is_loading;
+
+    async Task OnMenuClick(eKnowledgeBaseModel m)
+    {
+        nav.NavigateTo($"eknowledgebase/{m.id}");
+        
+        is_loading = true;
+        await Task.Delay(100);
+        is_loading = false;
+    }
 }

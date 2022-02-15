@@ -155,6 +155,10 @@ namespace ePOSPrintingService
 
                                 Program.PrintWifiPassword();
                                 break;
+                            case "open_cashdrawer":
+
+                                Program.OpenCashDrawer();
+                                break;
 
 
                             default:

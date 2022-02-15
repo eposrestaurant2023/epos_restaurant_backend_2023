@@ -1,0 +1,149 @@
+﻿
+@inherits PageCore;
+
+<h3>ComKnowledgeBase</h3>
+<MudButton OnClick="@OnAddNew" >Add New</MudButton>
+ 
+@if (is_loading)
+{
+    <Spinner/>
+}else{
+   <Table Items="@models"
+                        PerPage="@state.pager.per_page"
+                        TotalItem="@total_record"
+                        CurrentPage="@state.pager.current_page"
+                        OnPagerChange="@SelectChange"
+                        OnPageChange="@ChangePager"
+                        isLoading="@is_loading_data"
+                        ShowPager="true"
+                        ShowCounter="true"
+                        EmptyText="There is no customer record.">
+                     <TableHeader>
+                         <ThAuto>Title </ThAuto>
+                         <ThCenter>Status</ThCenter>
+                         <ThCenter></ThCenter>
+                     </TableHeader>
+                      <RowTemplate Context="e">
+                          <td> 
+                              <a href="@($"eknowledgebase/edit/{e.id}")">
+                                  @e.title_kh
+                              </a>
+                          </td>
+                          <TdCenter>
+                           <LabelDeleted is_visible="@e.is_deleted"/> 
+                          </TdCenter>
+                            <TdActions>
+                                <TableActionItem icon="@Icons.Material.Filled.Edit" url="@($"eknowledgebase/edit/{e.id}")">Edit</TableActionItem>
+                                <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@(!e.is_deleted)">Delete</TableActionItem>
+                                <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@e.is_deleted">Restore</TableActionItem>
+
+                            </TdActions>
+                      </RowTemplate>
+              </Table>
+}
+
+ 
+@code {
+    [Parameter] 
+    public Guid parent_id { get; set; }
+
+
+    int total_record = 0;
+
+    List<eKnowledgeBaseModel> models = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task LoadData()
+    {
+        string url = $"eKnowledgeBase?$filter=parent_id eq {parent_id} and is_deleted eq false&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby=sort_order";
+
+        var resp = await http.ApiGetOData(url);
+        if (resp.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize < List<eKnowledgeBaseModel>>(resp.Content.ToString());
+            total_record = resp.Count;
+        }
+
+    }
+
+    public async Task OnRefresh()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+    public async Task SelectChange(int perpage)
+    {
+        state.pager.per_page = perpage;
+        state.pager.current_page = 1;
+        await LoadData();
+    }
+
+    public async Task ChangePager(int _page)
+    {
+        state.pager.current_page = _page;
+        await LoadData();
+    }
+
+    public async Task Delete_Click(Guid _id)
+    {
+
+        string state = "Are You sure your want to delete?";
+
+        bool? result = await alert.ShowMessageBox(
+        "Delete",
+        state,
+        yesText: "Ok", cancelText: "Cancel");
+
+        if ((bool)result)
+        {
+            is_loading = true;
+            var res = await http.ApiPost($"eKnowledgeBase/delete/{_id}");
+            if (res.IsSuccess)
+            {
+                toast.Add("Delete successfuly.", Severity.Success);
+                await LoadData();
+            }
+
+        }
+        is_loading = false;
+
+
+    }
+
+    public async Task OnSearch(string keyword)
+    {
+        state.pager = new PagerModel();
+        SetFilterValue2(state.filters, "keyword", keyword);
+        await LoadData();
+    }
+
+
+    async Task OnAddNew()
+    {
+
+        var options = new DialogOptions() { CloseButton = true , MaxWidth=MaxWidth.Medium,FullWidth = true , FullScreen=true };
+        var parameters = new DialogParameters { ["parent_id"]=parent_id};
+        var dialog = alert.Show<PageAddEknowledgeBase>("Add New Knowledgebase",parameters,options);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            state.pager.current_page = 0;
+            await LoadData();
+        }
+
+       
+    }
+
+
+
+
+}

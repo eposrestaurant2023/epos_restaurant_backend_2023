@@ -11,12 +11,14 @@ namespace eAdmin.Pages.PageEknowledgeBase
 {
     public class PageAddEknowledgeBases:PageCore
     {
-        [Parameter] public string id { get; set; }
-        [Parameter] public string parent_id { get; set; }
+        [Parameter] public Guid id { get; set; }
+        [Parameter] public Guid parent_id { get; set; }
         public Dictionary<string, object> editorConf = new Dictionary<string, object>{
     {"menubar", false},
 
   };
+        [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
 
         public eKnowledgeBaseModel model { get; set; } = new eKnowledgeBaseModel();
         public List<eKnowledgeBaseModel> models = new List<eKnowledgeBaseModel>();
@@ -31,15 +33,15 @@ namespace eAdmin.Pages.PageEknowledgeBase
 
         protected override async Task OnInitializedAsync()
         {
-            if (!string.IsNullOrEmpty(id))
+            if (id!=Guid.Empty)
             {
                 await LoadData();
             }
             else
             {
-                if (!string.IsNullOrEmpty(parent_id))
+                if (parent_id!=Guid.Empty)
                 {
-                    model = new eKnowledgeBaseModel(Guid.Parse(parent_id));
+                    model = new eKnowledgeBaseModel(parent_id);
                 }
                 
             }
@@ -51,7 +53,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
             {
                 is_loading = true;
 
-                if (!string.IsNullOrEmpty(id))
+                if (id != Guid.Empty)
                 {
                     var res = await http.ApiGet(api_url);
                     if (res.IsSuccess)
@@ -69,10 +71,9 @@ namespace eAdmin.Pages.PageEknowledgeBase
                 else
                 {
                     page_title = "New eKnowledge Base";
-                    if (parent_id != null)
-                    {
-                        models.Add(new eKnowledgeBaseModel(Guid.Parse(parent_id)));
-                    }
+                    
+                        models.Add(new eKnowledgeBaseModel(parent_id));
+                    
                    
                 }
 
@@ -88,13 +89,16 @@ namespace eAdmin.Pages.PageEknowledgeBase
             {
                 toast.Add("Save Successfull.", Severity.Success);
                 var c = JsonSerializer.Deserialize<eKnowledgeBaseModel>(res.Content.ToString());
-                nav.NavigateTo($"eknowledgebase/{c.parent_id}");
+                
+                MudDialog.Close(DialogResult.Ok(c));
+
             }
             else
             {
                 toast.Add(res.Content.ToString(), Severity.Warning);
             }
-            await LoadData();
+             
+            
             is_saving = false;
             is_loading = false;
         }

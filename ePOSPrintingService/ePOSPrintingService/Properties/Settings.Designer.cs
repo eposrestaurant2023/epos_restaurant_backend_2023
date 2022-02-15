@@ -159,5 +159,17 @@ namespace ePOSPrintingService.Properties {
                 this["api_url"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{\"is_usb\":false,\"port\":\"COM1\"}")]
+        public string USBCashDrawer {
+            get {
+                return ((string)(this["USBCashDrawer"]));
+            }
+            set {
+                this["USBCashDrawer"] = value;
+            }
+        }
     }
 }
