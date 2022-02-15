@@ -21,7 +21,7 @@
         </PageHeader>
         <PageBody>
 
-            <MudTabs Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+            <MudTabs Rounded="true"  ApplyEffectsToContainer="true" PanelClass="pa-2">
                 @foreach (var branch in models.Select(r => new { r.business_branch_id, r.business_branch_name_en }).Distinct())
                 {
                     <MudTabPanel Text="@branch.business_branch_name_en" OnClick="@(()=>OnBussinessBranch_Click(branch.business_branch_id))">
@@ -34,13 +34,12 @@
 
                             }
                         </MudChipSet>
-                        <MudTabs Outlined="true" Position="@Position.Bottom" Rounded="true" Border="true"
-                                 ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6">
+                        <MudTabs Outlined="true" Position="@Position.Bottom" Rounded="true" Border="true" ApplyEffectsToContainer="true" Class="mt-4" PanelClass="pa-6">
                             @foreach (var table_group in models.Where(r => r.outlet_id == current_outlet_id).Select(r => new { r.table_group_id, r.table_group_name_en }).Distinct().OrderBy(r=>r.table_group_id))
                             {
                             <MudTabPanel Text="@table_group.table_group_name_en">
                                
-                                <MudGrid Spacing="2" Justify="Justify.FlexStart" Style="max-height: calc(70vh - (60px+60px+48px+64px)); overflow: auto ">
+                                <MudGrid Spacing="2" Justify="Justify.FlexStart" Style="max-height: calc(70vh - (60px+60px+64px)); overflow: auto ">
                                     @foreach (var table in models.Where(r=>r.table_group_id == table_group.table_group_id))
                                     {
                                         <MudItem>

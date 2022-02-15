@@ -15,6 +15,9 @@ namespace eAdmin.Pages.PageProducts
         [Parameter] public int id { get; set; }
         [Parameter] public int clone_id { get; set; }
         public ProductModel model { get; set; } = new ProductModel();
+        public ImageModel image { get; set; } = new ImageModel();
+        public bool is_open { get; set; }
+        public bool is_show_image { get; set; }
         ApiResponseModel error_saving_info = new ApiResponseModel();
        
         public string PageTitle
@@ -301,6 +304,21 @@ namespace eAdmin.Pages.PageProducts
         {
             model.revenue_group_id = v.id;
             model.revenue_group_name = v.revenue_group_name_en;
+        }
+
+        public void ShowImageClick()
+        {
+            is_open = true;
+        }
+
+        public void onCancelClick()
+        {
+            is_open = false;
+        }
+
+        public void onImageChanged(ImageModel imagechange)
+        {
+            toast.Add(imagechange.image, MudBlazor.Severity.Success);
         }
     }
 }
