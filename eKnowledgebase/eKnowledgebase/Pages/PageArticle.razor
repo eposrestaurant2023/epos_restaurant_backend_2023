@@ -5,7 +5,7 @@
 @inject eKnowledgebase.Services.eKnowledgebaseService s;
 <PageTitle>@state.GetTitleText(model)</PageTitle>
 <MudDrawer @bind-Open="_drawerOpen"  DisableOverlay="false" Variant="@DrawerVariant.Temporary" ClipMode="DrawerClipMode.Always" Elevation="2">
-    @if (is_loading && is_first_load)
+    @if (is_first_load)
     {
         <div>loading...</div>
     }
@@ -60,7 +60,7 @@
            @foreach (var d in models.OrderBy(r => r.sort_order))
             {
                 <div @onclick="@(()=> nav.NavigateTo($"article/{d.id}"))" class="title_aticle">
-                    @d.title_en
+                    @state.GetTitleText(d)
                 </div>
             }
 
@@ -103,7 +103,7 @@
                     </MudListSubheader>
                     @if (model?.parent_id != null)
                     {
-                        <NavSectionList url_name="article" OnItemClick="@OnItemClick" id="@model.parent_id"/>
+                        <NavSectionList ClassName="seleted_class" url_name="article" OnItemClick="@OnItemClick" id="@model.parent_id"/>
                     }
                 </MudList>
             </MudPaper>
@@ -137,7 +137,7 @@
            @foreach (var d in models.OrderBy(r => r.sort_order))
             {
                 <div @onclick="@(()=> nav.NavigateTo($"article/{d.id}"))" class="title_aticle">
-                    @d.title_en
+                    @state.GetTitleText(d)
                 </div>
             }
 
@@ -211,11 +211,11 @@
 
     async Task OnItemClick(eKnowledgebaseModel m)
     {
-        is_loading = true;
+
         model = m;
         id = m.id;
         models = await s.GetDataByParentID(m.id);
-        is_loading = false;
+        _drawerOpen = false;
     }
 
 }

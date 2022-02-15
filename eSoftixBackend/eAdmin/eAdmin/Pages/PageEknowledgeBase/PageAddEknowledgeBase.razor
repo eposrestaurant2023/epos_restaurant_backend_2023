@@ -9,7 +9,7 @@
         <UICenter>
 
             <MudCard Elevation="0">
-                @if (string.IsNullOrEmpty(id))
+                @if (id == Guid.Empty)
                 {
                     <MudCardHeader>
                         <CardHeaderContent>

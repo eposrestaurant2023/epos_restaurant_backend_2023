@@ -10,7 +10,9 @@
         <MudList Clickable="true">
             @foreach (var d in models.OrderBy(r => r.sort_order))
             {
-                <MudListItem @onclick="@(()=>OnItem_Click(d))">@d.title_en</MudListItem>
+                <MudListItem Icon="@d.icon" @onclick="@(()=>OnItem_Click(d))">
+                    @state.GetTitleText(d)
+                </MudListItem>
 
             }
         </MudList>
@@ -20,6 +22,8 @@
 
 
 @code {
+    [CascadingParameter] 
+    public AppState state { get; set; }
     [Parameter]
     public Guid? id { get; set; }
     List<eKnowledgebaseModel> models = new();
