@@ -19,7 +19,21 @@
                        <MudCardContent>
                         <MudText Typo="Typo.h6">@state.GetTitleText(d)</MudText>
                      </MudCardContent>
-                     <MudImage Src="images/cashier.png" Width="100" Height="75" Class="rounded-lg"/>
+                        @if((d.photo_en.Split('.')[d.photo_en.Split('.').Length-1]) == "jpg" || (d.photo_en.Split('.')[d.photo_en.Split('.').Length-1]) == "jpg")
+                        {
+                                @if (state.GetImageUrl(d) != "")
+                                {
+                                    <img src="@state.GetImageUrl(d)"/>
+                                }
+                        }
+                        else
+                        {
+                                 @if (state.GetImageUrl(d) != "")
+                                {
+                                    <img src="@state.GetImageUrl(d)" style="width:100%;"/>
+                                }
+                        }
+                        
                     </div>
             </MudCard>
         </MudItem>
@@ -44,7 +58,4 @@
         is_loading = false;
     }
 
-}
-
-    
 }

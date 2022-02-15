@@ -148,3 +148,8 @@ a, .btn-link {
     font-weight: 400 !important;
     color: #212121 !important;
 }
+
+.mud-list-item-clickable:focus:not(.mud-selected-item .seleted_class) {
+    background-color: var(--mud-palette-action-default-hover);
+    color: #f07f31;
+}
