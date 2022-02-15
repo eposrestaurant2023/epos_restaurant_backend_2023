@@ -9,7 +9,6 @@
                     <MudMenuItem OnClick="@(()=>state.SetCurrentLanguage("en"))">English</MudMenuItem>
                     <MudMenuItem OnClick="@(()=>state.SetCurrentLanguage("kh"))">Khmer</MudMenuItem>
                 </MudMenu>
-                <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
             </MudAppBar>
             <MudDrawer @bind-Open="@open" DisableOverlay="false" Variant="@DrawerVariant.Temporary" Elevation="1" PreserveOpenState="@preserveOpenState">
                 <NavMenu/>
@@ -19,7 +18,7 @@
         <MudHidden Breakpoint="Breakpoint.SmAndDown">
                    <MudContainer MaxWidth="MaxWidth.Small" >
              <div>
-                   <MudText Typo="Typo.h6" Class="main_title">ePOS Resturant Help Center</MudText>
+                   <MudText Typo="Typo.h6" Class="main_title">eSTC Help Center</MudText>
                   <MudTextField FullWidth="true" T="string" Margin="Margin.Dense" Placeholder="Search" Class="cus_search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Filled.Search"/>
              </div>
       </MudContainer>
@@ -27,7 +26,7 @@
         <MudHidden Breakpoint="Breakpoint.MdAndUp">
                    <MudContainer MaxWidth="MaxWidth.Large" >
              <div style="">
-                   <MudText Typo="Typo.h6" Class="main_title">ePOS Resturant Help Center</MudText>
+                   <MudText Typo="Typo.h6" Class="main_title">eSTC Help Center</MudText>
                   <MudTextField FullWidth="true" T="string" Margin="Margin.Dense" Placeholder="Search" Class="cus_search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Filled.Search"/>
              </div>
       </MudContainer>

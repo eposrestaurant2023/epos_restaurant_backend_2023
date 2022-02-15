@@ -103,7 +103,7 @@
                     </MudListSubheader>
                     @if (model?.parent_id != null)
                     {
-                        <NavSectionList url_name="article" OnItemClick="@OnItemClick" id="@model.parent_id"/>
+                        <NavSectionList ClassName="seleted_class" url_name="article" OnItemClick="@OnItemClick" id="@model.parent_id"/>
                     }
                 </MudList>
             </MudPaper>

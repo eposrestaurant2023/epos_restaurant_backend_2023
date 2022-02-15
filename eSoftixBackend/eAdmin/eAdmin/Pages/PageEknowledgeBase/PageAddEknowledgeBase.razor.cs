@@ -123,10 +123,10 @@ namespace eAdmin.Pages.PageEknowledgeBase
         }
 
 
-        public void Click_add()
-        {  
-            models.Add(new eKnowledgeBaseModel(Guid.Parse(parent_id)));
-        }
+        //public void Click_add()
+        //{  
+        //    models.Add(new eKnowledgeBaseModel(Guid.Parse(parent_id)));
+        //}
 
         public void DeleteChil_Click(eKnowledgeBaseModel d)
         {

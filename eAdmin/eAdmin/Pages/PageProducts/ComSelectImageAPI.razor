@@ -1,0 +1,106 @@
+﻿@inherits PageCore
+@inject IConfiguration _configuration;
+<Loading is_loading="is_loading"/>
+<Modal IsSimpleMode="false" Title="@title" IsOpened="@is_opened" IsOpenedChanged="onCloseClick" ModalWidth="@modal_width">
+    <ModalBody>
+        <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false">
+           
+        </ComSearch>
+        <MudGrid Spacing="2" Justify="Justify.Center">
+            @foreach (var i in images)
+            {
+                <MudItem>
+                    <MudPaper Height="140px" Width="140px" @onclick="@(()=>ImageClick(i))">
+                        <Image ImageUrl="@(base_image_url + i.image)" />
+                    </MudPaper>
+                </MudItem>
+
+            }
+
+
+        </MudGrid>
+        <Column ClassName="uk-width-expand@xl uk-width-expand@l uk-width-expand@m uk-width-1-1@s uk-text-center@s wrp-pagging-info">
+
+            <ComTotalPager TotalRecord="@TotalItem" PerPage="@state.pager.per_page" CurrentPage="@state.pager.current_page" SelectedPage="@PageChange" IsVisible="@(totalPage > 1)" />
+
+        </Column>
+    </ModalBody>
+   
+</Modal>
+
+
+@code {
+    [Parameter] public EventCallback onCancel { get; set; }
+    [Parameter] public string modal_width { get; set; } = "1200px";
+    [Parameter] public bool is_opened { get; set; }
+    [Parameter] public EventCallback<bool> is_openedChanged { get; set; }
+    [Parameter] public EventCallback<ImageModel> imageChanged { get; set; }
+    [Parameter] public ImageModel image { get; set; }
+    int TotalItem = 0, totalPage=1;
+
+    List<ImageModel> images = new List<ImageModel>();
+    string controller_api = "image";
+    string base_image_url = "";
+
+    public string ControllerApi
+    {
+        get
+        {
+            string url = $"{controller_api}?";
+
+            url += $"&keyword={GetFilterValue2(state.filters, "keyword", "")}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+
+            return url + GetFilter(state.filters);
+        }
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        base_image_url = _configuration.GetValue<string>("apieSoftixUrl").Replace("/api/", "/upload/");
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task LoadData()
+    {
+        var res = await http.ApiGetOData(ControllerApi, true);
+        if (res.IsSuccess)
+        {
+            images = JsonSerializer.Deserialize<List<ImageModel>>(res.Content.ToString());
+            TotalItem = res.Count;
+            if (state.pager.per_page > 0)
+            {
+                totalPage = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(TotalItem) / Convert.ToDecimal(state.pager.per_page)));
+            }
+        }
+    }
+
+    void onCloseClick()
+    {
+
+        is_opened = false;
+        is_openedChanged.InvokeAsync(is_opened);
+    }
+
+    async Task PageChange(int page)
+    {
+        is_loading = true;
+        state.pager.current_page = page;
+        await LoadData();
+        is_loading = false;
+    }
+    void ImageClick(ImageModel image)
+    {
+        imageChanged.InvokeAsync(image);
+    }
+    async Task OnSearch(string keyword)
+    {
+        is_loading = true;
+        state.pager = new PagerModel();
+        SetFilterValue2(state.filters, "keyword", keyword);
+        await LoadData();
+        is_loading = false;
+    }
+}

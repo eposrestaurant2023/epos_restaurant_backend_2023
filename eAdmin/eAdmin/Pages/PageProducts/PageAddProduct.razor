@@ -31,7 +31,7 @@
                             <UIGridCenter>
                                 <UIContainerBox Title="@lang["Photo"]" ClassName="uk-text-center">
                                     <UIFlexCenter>
-                                        <FileUpload @bind-ImageUrl="@model.photo" />
+                                        <FileUpload @bind-ImageUrl="@model.photo" show_search_image="true" onSearchImage="ShowImageClick" />
                                     </UIFlexCenter>
                                 </UIContainerBox>
                                 <UIContainerBox>
@@ -71,7 +71,7 @@
                                 {
                                     <ComAddInventoryProduct @bind-model="@model" />
                                 }
-                                <ComAddProduct_Portion @bind-model="@model"/>
+                                <ComAddProduct_Portion @bind-model="@model" />
                                 @if (gv.system_feature_status("KOT"))
                                 {
                                     <ComAddProduct_Printer @bind-model="@model" />
@@ -91,7 +91,7 @@
                         {
                             <MudTabPanel Text="@lang["Product Tax"]">
                                 <UIGridCenter>
-                                  <ComAddProduct_ProductTax model="@model" />
+                                    <ComAddProduct_ProductTax model="@model" />
                                 </UIGridCenter>
                             </MudTabPanel>
                         }
@@ -104,11 +104,17 @@
                     </FooterCenter>
                 </PageFooter>
             </EditForm>
+
         </PageContainer>
+        @if (is_open)
+        { 
+            <ComSelectImageAPI @bind-is_opened="is_open" onCancel="@onCancelClick" imageChanged="onImageChanged" image="image"/>
+        }
     }
     else
     {
         <Error title="@lang["Product"]">@error_text</Error>
     }
+
 
 }

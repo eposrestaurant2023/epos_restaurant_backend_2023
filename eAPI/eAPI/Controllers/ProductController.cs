@@ -369,7 +369,7 @@ namespace eAPI.Controllers
             h.module = "product";
             h.document_number = s.product_code;
             h.product_id = s.id;
-            h.description = $"{title} Product Code #: {s.product_code}.";
+            h.description = $"{title} Product Code #: {s.product_code} - {s.product_name_en}.";
 
             s.histories.Add(h);
         }

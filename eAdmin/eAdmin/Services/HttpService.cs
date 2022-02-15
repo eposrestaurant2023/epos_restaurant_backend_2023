@@ -13,7 +13,7 @@ namespace eAdmin.Services
 {
     public interface IHttpService
     {
-        Task<GetOdataResponse> ApiGetOData(string url);
+        Task<GetOdataResponse> ApiGetOData(string url, bool use_est_api = false);
         Task<GetResponse> ApiGet(string url);
         Task<PostReponse> ApiPost(string url, object obj = null);
         
@@ -134,7 +134,7 @@ namespace eAdmin.Services
             return new GetResponse(false, StatusCode);
         }
 
-        public async Task<GetOdataResponse> ApiGetOData(string url)
+        public async Task<GetOdataResponse> ApiGetOData(string url,bool use_est_api=false)
         {
 
             string user = await _localStorageService.GetItemAsync<string>("_Authorization");
@@ -158,7 +158,13 @@ namespace eAdmin.Services
 
             try
             {
-                var resp = await http.GetAsync($"{_configuration.GetValue<string>("apiBaseUrl")}{url}");
+                string base_url = _configuration.GetValue<string>("apiBaseUrl");
+                if (use_est_api)
+                {
+                    base_url = _configuration.GetValue<string>("apieSoftixUrl");
+                }
+                
+                var resp = await http.GetAsync($"{base_url}{url}");
 
                 if (resp.IsSuccessStatusCode)
                 {

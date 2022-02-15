@@ -9,7 +9,7 @@
     {
             @foreach (var d in models.OrderBy(r => r.sort_order))
             {
-                <MudListItem Icon="@d.icon" @onclick="@(()=>OnItem_Click(d))">
+                <MudListItem Class="@ClassName"  Icon="@d.icon" @onclick="@(()=>OnItem_Click(d))">
                     @state.GetTitleText(d)
                 </MudListItem>
 
@@ -24,8 +24,8 @@
     public AppState state { get; set; }
     [Parameter]
     public Guid? id { get; set; }
+   [Parameter] public string ClassName { get; set; }
     List<eKnowledgebaseModel> models = new();
-
     [Parameter]
     public EventCallback<eKnowledgebaseModel> OnItemClick { get; set; }
 
