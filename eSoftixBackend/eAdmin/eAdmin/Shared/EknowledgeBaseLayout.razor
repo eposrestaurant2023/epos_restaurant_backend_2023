@@ -34,8 +34,6 @@
                <div><MudIconButton Icon="@Icons.Material.Filled.Add" Class="d-flex ml-auto" OnClick="@AddNewEknowledgeParent"/></div>
            </div>
            <MudDivider />
-
-
             <MudList Clickable="true" @bind-SelectedItem="selectedItem">
                 
                 @foreach (var p in eknowledgebase.OrderBy(r=>r.sort_order))
@@ -56,7 +54,6 @@
                                         </div>
                                    </MudListItem>
                                     @foreach (var sp in p.children.Where(r=>r.parent_id == p.id).OrderBy(r=>r.sort_order)){
-
                                          <MudListItem>
                                             <div class="d-flex justify-space-between align-center">
                                                 <div>

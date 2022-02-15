@@ -6,11 +6,10 @@
 @if (!is_loading)
 {
     <PageContainer>
-         <PageHeader title="@state.page_title" show_refresh_button="false">
+         <PageHeader title="@state.page_title" OnRefresh="OnRefresh">
             <Right>
                 <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" show_advance_filter="false">
-                   
-                </ComSearch>
+                         </ComSearch>
                  <AddButton OnClick="@(()=>nav.NavigateTo($"eknowledgebase/new/{id}"))"/>
             </Right>
         </PageHeader>
@@ -27,7 +26,7 @@
                         ShowCounter="true"
                         EmptyText="There is no customer record.">
                      <TableHeader>
-                         <ThAuto>Title </ThAuto>
+                         <ThAuto>Title @state.pager.current_page</ThAuto>
                          <ThCenter>Status</ThCenter>
                          <ThCenter></ThCenter>
                      </TableHeader>
@@ -45,12 +44,27 @@
                                 <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@(!e.is_deleted)">Delete</TableActionItem>
                                 <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@e.is_deleted">Restore</TableActionItem>
 
-                            </TdActions>
-                      </RowTemplate>
-              </Table>
-          
-        }
-        </PageBody>
-  
-    </PageContainer>
+@if (is_loading)
+{
+    <Spinner/>
+}
+else { 
+    <ComKnowledgeBase parent_id="@id" />    
+}
+
+
+@code{
+    [Parameter] public Guid id { get; set; }
+
+
+    bool is_loading;
+
+    async Task OnMenuClick(eKnowledgeBaseModel m)
+    {
+        nav.NavigateTo($"eknowledgebase/{m.id}");
+        
+        is_loading = true;
+        await Task.Delay(100);
+        is_loading = false;
+    }
 }

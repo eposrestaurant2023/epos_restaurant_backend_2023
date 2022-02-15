@@ -1,0 +1,16 @@
+﻿<MudTextField Label="Search" T="string" ValueChanged="@((e)=>OnValueChange(e))" />
+@code{
+    [Parameter] 
+    public string keyword { get; set; }
+
+    [Parameter] 
+    public EventCallback< string> keywordChanged { get; set; }
+
+    async Task OnValueChange(string d )
+    {
+        await keywordChanged.InvokeAsync(d);
+    }
+
+
+     }
+

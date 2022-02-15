@@ -37,10 +37,14 @@
                             <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true">
                                 <MudTabPanel Text="Title Kh">
                                     <MudGrid Class="d-flex align-center">
-                                        <MudItem xs="2">
+                                        <MudItem xs="3" Class="text-center"> 
                                             <FileUpload @bind-ImageUrl="c.photo_kh" is_square="true"></FileUpload>
+                                            @if (!string.IsNullOrEmpty(c.photo_kh))
+                                            {
+                                                <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Warning" OnClick="@(()=>Deleteimage_Click(c))" Class="mt-2 mb-2">Remove​​ Photo</MudButton>
+                                            }
                                         </MudItem>
-                                        <MudItem xs="10">
+                                        <MudItem xs="9">
                                             <MudTextField @bind-Value="@c.title_kh" Label="Title Kh" Variant="Variant.Text" Class="mb-2" />
                                             <Editor @bind-Value="@c.description_kh" Conf="@editorConf" ApiKey="6bgc211uq2mw31fki1i1dmssvyxp93n3gaulsa02uzcfksyy" />
                                         </MudItem>
@@ -49,10 +53,14 @@
                                 </MudTabPanel>
                                 <MudTabPanel Text="Title En">
                                     <MudGrid Class="d-flex align-center">
-                                        <MudItem xs="2">
+                                        <MudItem xs="3" Class="text-center">
                                             <FileUpload @bind-ImageUrl="c.photo_en" is_square="true"></FileUpload>
+                                            @if (!string.IsNullOrEmpty(c.photo_en))
+                                            {
+                                                <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Warning" OnClick="@(()=>Deleteimageen_Click(c))" Class="mt-2 mb-2">Remove​​ Photo</MudButton>
+                                            }
                                         </MudItem>
-                                        <MudItem xs="10">
+                                        <MudItem xs="9">
                                             <MudTextField @bind-Value="@c.title_en" Label="Title En" Variant="Variant.Text" Class="mb-2" />
 
                                             <Editor @bind-Value="@c.description_en" Conf="@editorConf" ApiKey="6bgc211uq2mw31fki1i1dmssvyxp93n3gaulsa02uzcfksyy" />
@@ -62,8 +70,8 @@
                                 </MudTabPanel>
                             </MudTabs>
                             <MudGrid Class="d-flex align-center">
-                                <MudItem xs="2"></MudItem>
-                                <MudItem xs="10">
+                                <MudItem xs="3"></MudItem>
+                                <MudItem xs="9">
                                     <MudTextField T="int" @bind-Value="@c.sort_order" Label="Sort Order" Variant="Variant.Text" Class="mt-2" />
  
                                         <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Warning" OnClick="@(()=>DeleteChil_Click(c))" Class="mt-2 mb-2">Delete</MudButton>
@@ -90,13 +98,34 @@
 
             <Spacing Number="20" />
             <div class="d-flex justify-end">
-                <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" OnClick="@Save_Click" Class="mx-2">
-                    Save
-                    @if (is_saving)
-                    {
-                        <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true" />
-                    }
-                </MudButton>
+                @if(model.id != Guid.Empty)
+                {
+                         <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" OnClick="@Save_Click" Class="mx-2">
+                            Save Close
+                            @if (is_saving)
+                            {
+                                <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true" />
+                            }
+                        </MudButton>
+                        <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" OnClick="@Save_Close_Click" Class="mx-2">
+                            Save
+                            @if (is_saving)
+                            {
+                                <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true" />
+                            }
+                        </MudButton>
+                }
+                else{
+
+                        <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" OnClick="@Save_Click" Class="mx-2">
+                            Save
+                            @if (is_saving)
+                            {
+                                <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true" />
+                            }
+                        </MudButton>
+
+                }
                 <MudButton Color="MudBlazor.Color.Default" Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="@(()=>nav.NavigateTo($"eknowledgebase/{model.parent_id}"))">Cancel</MudButton>
             </div>
 

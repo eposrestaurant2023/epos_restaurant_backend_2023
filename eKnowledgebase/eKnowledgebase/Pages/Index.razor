@@ -8,25 +8,19 @@
     <div>loading...</div>
 }else
 {
-    <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Style="background:#0093d9;height:150px;" Class="d-flex align-center justify-center" >
-      
-         <MudContainer MaxWidth="MaxWidth.Small" >
-             <div>
-                   <MudText Typo="Typo.h6" Class="main_title">ePOS Resturant Help Center</MudText>
-                  <MudTextField FullWidth="true" T="string" Margin="Margin.Dense" Placeholder="Search" Class="cus_search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Filled.Search"/>
-             </div>
-      </MudContainer>
-    </MudContainer>
     
     <MudContainer MaxWidth="MaxWidth.Medium">
      <MudGrid Spacing="3">
         @foreach(var d in models.OrderBy(r=>r.sort_order)){ 
-          <MudItem xs="12" md="6" lg="4">
-              <MudCard @onclick="@(()=> nav.NavigateTo($"app/{d.id}"))" Class="pc mud-width-full mud-height-full">
-                <MudAvatar Style="height:70px; width:70px; font-size:2rem;" Image="images/cashier.png"></MudAvatar>
-                <MudCardContent>
-                    <MudText Typo="Typo.h4">@d.title_en</MudText>
-                </MudCardContent>
+          <MudItem xs="12" md="6" lg="4" Class="cus_homepage">
+              <MudCard @onclick="@(()=> nav.NavigateTo($"app/{d.id}"))" Style="text-align: center;min-height:200px;" Class="d-flex align-center justify-center pc pa-2 mud-width-full mud-height-full">
+
+                    <div>
+                       <MudCardContent>
+                        <MudText Typo="Typo.h6">@d.title_en</MudText>
+                     </MudCardContent>
+                     <MudImage Src="images/cashier.png" Width="100" Height="75" Class="rounded-lg"/>
+                    </div>
             </MudCard>
         </MudItem>
         }

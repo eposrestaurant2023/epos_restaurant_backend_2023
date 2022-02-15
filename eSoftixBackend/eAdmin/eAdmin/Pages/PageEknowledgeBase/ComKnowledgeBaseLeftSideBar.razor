@@ -1,0 +1,39 @@
+﻿ 
+<ComSearchKnowledgeBase keywordChanged="OnSearch" />
+<ComKnowledgeBaeNavMenu @bind-keyword="@keyword" OnMenuItemClick="@OnMenu_click" />
+
+
+
+@code {
+    [Parameter]
+    public string keyword { get; set; } = "";
+
+    [Parameter]
+    public EventCallback<string> keywordChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<eKnowledgeBaseModel> OnMenuItemClick { get; set; }
+
+
+    [Parameter]
+    public eKnowledgeBaseModel selected_model { get; set; }
+    [Parameter]
+    public EventCallback<eKnowledgeBaseModel> selected_modelChanged { get; set; }
+
+
+    void OnSearch(string d)
+    {
+        keyword = d;
+    }
+
+    async Task OnMenu_click(eKnowledgeBaseModel m)
+    {
+        await selected_modelChanged.InvokeAsync(m);
+    }
+
+
+    
+
+}
+
+

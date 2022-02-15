@@ -1,23 +1,50 @@
 ﻿@inherits LayoutComponentBase
-<MudThemeProvider />
+        <MudThemeProvider />
+        <MudLayout>
+            <MudAppBar Elevation="0" Class="bg_appbar">
+                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+                <MudText Typo="Typo.h5" Class="ml-3">eKnowledgebase</MudText>
+                <MudSpacer />
+                <MudMenu StartIcon="@Icons.Filled.Translate" EndIcon="@Icons.Filled.KeyboardArrowDown" Color="Color.Dark" Variant="Variant.Filled">
+                    <MudMenuItem OnClick="@(()=>state.SetCurrentLanguage("en"))">English</MudMenuItem>
+                    <MudMenuItem OnClick="@(()=>state.SetCurrentLanguage("kh"))">Khmer</MudMenuItem>
+                </MudMenu>
+                <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+            </MudAppBar>
+            <MudDrawer @bind-Open="@open" DisableOverlay="false" Variant="@DrawerVariant.Temporary" Elevation="1" PreserveOpenState="@preserveOpenState">
+                <NavMenu/>
+            </MudDrawer>
+            <MudMainContent>
+                <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Style="background:#0093d9;height:150px;padding:10px;" Class="d-flex align-center justify-center" >
+        <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                   <MudContainer MaxWidth="MaxWidth.Small" >
+             <div>
+                   <MudText Typo="Typo.h6" Class="main_title">ePOS Resturant Help Center</MudText>
+                  <MudTextField FullWidth="true" T="string" Margin="Margin.Dense" Placeholder="Search" Class="cus_search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Filled.Search"/>
+             </div>
+      </MudContainer>
+        </MudHidden>
+        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                   <MudContainer MaxWidth="MaxWidth.Large" >
+             <div style="">
+                   <MudText Typo="Typo.h6" Class="main_title">ePOS Resturant Help Center</MudText>
+                  <MudTextField FullWidth="true" T="string" Margin="Margin.Dense" Placeholder="Search" Class="cus_search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Filled.Search"/>
+             </div>
+      </MudContainer>
+        </MudHidden>
+  
+    </MudContainer>
+    <Spacing Number="30"/>
+                @Body
+            </MudMainContent>
+        </MudLayout>
 
-<MudLayout>
-    <MudAppBar Elevation="0" Class="bg_appbar">
-        <MudText Typo="Typo.h5" Class="ml-3">eKnowledgebase @state.current_language</MudText>
-        <MudSpacer />
-        <MudMenu StartIcon="@Icons.Filled.Translate" EndIcon="@Icons.Filled.KeyboardArrowDown" Color="Color.Dark" Variant="Variant.Filled">
-    <MudMenuItem OnClick="@(()=>state.SetCurrentLanguage("en"))">English</MudMenuItem>
-    <MudMenuItem OnClick="@(()=>state.SetCurrentLanguage("kh"))">Khmer</MudMenuItem>
-</MudMenu>
-        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
-    </MudAppBar>
-    <MudMainContent>
-        
-       @Body
-    </MudMainContent>
-</MudLayout>
-
-@code{
-    [CascadingParameter] 
+    @code{
     public AppState state { get; set; }
+    bool open = false;
+    bool preserveOpenState = false;
+    void ToggleDrawer()
+    {
+        open = !open;
+    }
 }

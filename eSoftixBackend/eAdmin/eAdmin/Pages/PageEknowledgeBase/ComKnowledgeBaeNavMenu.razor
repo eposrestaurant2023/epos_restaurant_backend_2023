@@ -1,0 +1,124 @@
+﻿@inject IHttpService http;
+@inject NavigationManager nav;
+@inject IDialogService alert;
+<MudPaper Width="250px" Class="py-3" Elevation="0">
+
+    <MudButtonGroup Color="MudBlazor.Color.Success" Variant="Variant.Filled">
+     <MudButton  FullWidth="true" StartIcon="@Icons.Material.Filled.Add" OnClick="@AddNewEknowledgeParent">
+        Add New Section
+    </MudButton>
+    <MudMenu Icon="@Icons.Material.Filled.MoreVert" Direction="Direction.Bottom" OffsetY="true">
+        <MudMenuItem OnClick="@OnManage">Manage</MudMenuItem>
+    </MudMenu>
+</MudButtonGroup>
+
+   
+    <MudNavMenu>
+        @if (!is_loading)
+        {
+            @foreach (var p in eknowledgebase.Where(r => r.title_en.Contains(keyword)).OrderBy(r => r.sort_order))
+            {
+                @if (!p.children.Any())
+                {
+                    <MudNavLink OnClick="@(()=>OnMenuClick(p))">
+                        <MudText Typo="Typo.subtitle2">@p.title_en</MudText>
+                        
+                    </MudNavLink>
+                }
+                else
+                {
+                    <MudNavGroup Title="@p.title_en">
+                        @foreach (var c in p.children)
+                        {
+                            <MudNavLink OnClick="@(()=>OnMenuClick(c))">@c.title_en</MudNavLink>
+                        }
+                    </MudNavGroup>
+                }
+
+
+            }
+        }
+
+    </MudNavMenu>
+</MudPaper>
+
+
+
+
+@code{
+     [Parameter] 
+    public string keyword { get; set; }
+
+    [Parameter] 
+    public EventCallback< string> keywordChanged { get; set; }
+
+      [Parameter] 
+    public eKnowledgeBaseModel selected_model { get; set; }
+    [Parameter] 
+    public EventCallback< eKnowledgeBaseModel> selected_modelChanged { get; set; }
+
+       [Parameter]
+    public EventCallback<eKnowledgeBaseModel> OnMenuItemClick { get; set; }
+
+
+    bool is_loading;
+
+    public List<eKnowledgeBaseModel> eknowledgebase = new List<eKnowledgeBaseModel>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+
+
+        is_loading = false;
+    }
+
+    async Task OnMenuClick(eKnowledgeBaseModel m)
+    {
+        await OnMenuItemClick.InvokeAsync(m);
+    }
+
+
+    async Task LoadData(string url = "")
+    {
+        if (string.IsNullOrEmpty(url))
+        {
+            url = "eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &$expand=children($filter=is_deleted eq false) &top={50}&$orderby=sort_order";
+        }
+
+        var resp = await http.ApiGetOData(url);
+        if (resp.IsSuccess)
+        {
+            eknowledgebase = JsonSerializer.Deserialize<List<eKnowledgeBaseModel>>(resp.Content.ToString());
+
+        }
+
+    }
+
+     
+      async Task AddNewEknowledgeParent()
+       {
+           
+            var parameters = new DialogParameters { ["model"]= new eKnowledgeBaseModel()};
+            var dialog = alert.Show<ComAddEknowledgeBase>("Add New Eknowledge Base",parameters);
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                eknowledgebase.Add((eKnowledgeBaseModel)result.Data);
+            }
+
+       }
+      async Task OnManage()
+       {
+             var options = new DialogOptions() { CloseButton = true  };
+            var parameters = new DialogParameters { ["models"]= eknowledgebase};
+            var dialog = alert.Show<ComKnowledgeBase_ManageSectionMenu>("Manage Section",parameters,options);
+            var result = await dialog.Result;
+            await LoadData();
+
+       }
+
+
+}

@@ -7,7 +7,7 @@
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
             @if (show_empty)
             {
-                <option value="0">@lang[empty_text]</option>
+                <option value="">@lang[empty_text]</option>
             }
             @foreach (var p in gv.price_rules)
             {
@@ -25,7 +25,7 @@
                     <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
                         @if (show_empty)
                         {
-                            <option value="0">@lang[empty_text]</option>
+                            <option value="">@lang[empty_text]</option>
                         }
                         @foreach (var p in gv.price_rules)
                         {
@@ -65,13 +65,14 @@
 
     private async Task SelectedValueChange(string n)
     {
-        selected_value = Int32.Parse(n);
-        if (selected_value != 0)
+        if (!string.IsNullOrEmpty(n))
         {
+            selected_value = Int32.Parse(n);
             await selected_valueChanged.InvokeAsync(selected_value);
         }
         else
         {
+            Console.WriteLine("else");
             await selected_valueChanged.InvokeAsync(null);
         }
 

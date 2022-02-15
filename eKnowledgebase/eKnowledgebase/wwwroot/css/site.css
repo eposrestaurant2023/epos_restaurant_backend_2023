@@ -3,7 +3,6 @@
 
 html, body {
     font-family: 'Roboto', sans-serif !important;
-    overflow-x:hidden;
 }
 
 h1:focus {
@@ -107,4 +106,45 @@ a, .btn-link {
 }
 .mud-input-slot{
     z-index:9;
+}
+.cus_homepage .mud-paper:hover {
+    border: 1px solid #0093d9;
+    color: #0093d9;
+}
+.view_header h3 {
+    text-align: center;
+    padding: 0;
+    font-size: 28px;
+    margin: 32px 0 12px;
+    font-weight: 400;
+    color: #000;
+}
+.view_content .mud-paper:hover {
+    border: 1px solid #0093d9;
+    color: #0093d9 !important;
+}
+
+.view_header_app h3 {
+    text-align: center;
+    padding: 0;
+    font-size: 28px;
+    font-weight: 400;
+    color: #000;
+}
+.title_aticle {
+    font-size: 20px !important;
+    color: #0092d9;
+    padding: 8px 0;
+    font-weight: 400;
+    cursor: pointer;
+}
+.title_aticle:hover {
+    color: #f07f31 !important;
+}
+.title_main_topic {
+    padding: 20px 16px 8px !important;
+    margin: 0 !important;
+    font-size: 28px !important;
+    font-weight: 400 !important;
+    color: #212121 !important;
 }

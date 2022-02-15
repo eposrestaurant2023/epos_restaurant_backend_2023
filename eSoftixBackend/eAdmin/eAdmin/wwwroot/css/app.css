@@ -237,7 +237,12 @@ a.disabled, a.disabled:hover {
 }
 
 .docs-search-bar.mud-input-control {
-    background-color: rgba(255,255,255,.15);
+   
+    
+    
+    
+    
+    ;
     margin-bottom: 5px;
     height: 42px;
     border-radius: var(--mud-default-borderradius);
@@ -387,6 +392,12 @@ a.disabled, a.disabled:hover {
     position: fixed !important;
     z-index: calc(var(--mud-zindex-popover) + 1);
 }
+.cus_class_change_pager{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    text-align: center;
+}
+
 
 @media only screen and (min-width: 960px) {
     .width_medui {

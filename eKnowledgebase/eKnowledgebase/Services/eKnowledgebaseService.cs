@@ -30,7 +30,7 @@ namespace eKnowledgebase.Services
 
            
         {
-            string url = $"{config.GetValue<string>("api_url")}eKnowledgeBase?$filter=parent_id eq null";
+            string url = $"{config.GetValue<string>("api_url")}eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false";
             var data  = await http.GetFromJsonAsync<OdataResponse>(url);
            if (data == null)
             {
