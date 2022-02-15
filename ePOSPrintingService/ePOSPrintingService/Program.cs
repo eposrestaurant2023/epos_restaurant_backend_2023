@@ -19,6 +19,7 @@ using ePOSPrintingServiceReportModel;
 using System.ComponentModel;
 using RestSharp;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace ePOSPrintingService
 {
@@ -1696,5 +1697,129 @@ namespace ePOSPrintingService
             }
             catch { };
         }
+
+        public static void OpenCashDrawer()
+        {
+            try
+            {
+                var _usb_cashdrawer_data = JsonConvert.DeserializeObject<dynamic>(Properties.Settings.Default.USBCashDrawer); 
+                string path = AppDomain.CurrentDomain.BaseDirectory + "\\Logs";
+                if (_usb_cashdrawer_data["is_usb"])
+                {
+                    try
+                    { 
+                        FileSystem.FileOpen(1, path, OpenMode.Output);
+                        FileSystem.PrintLine(1, Strings.Chr(27) + "p" + Strings.Chr(0) + Strings.Chr(25) + Strings.Chr(250));
+                        Interaction.Shell("print /d:" + _usb_cashdrawer_data["port"] + " " + path, AppWinStyle.MinimizedNoFocus);
+                        FileSystem.FileClose(1);
+                    }
+                    catch (Exception ex)
+                    {
+                        WriteToFile(ex.Message);
+                        return;
+                    }
+                }
+                else
+                {
+                    string DrawerCode = Strings.Chr(27).ToString() + Strings.Chr(112).ToString() + Strings.Chr(48).ToString() + Strings.Chr(64).ToString() + Strings.Chr(64).ToString();
+                    string PrinterName = CashierPrinter;
+                    PrintRaw(PrinterName, DrawerCode);
+                }
+            }
+            catch (Exception ex)
+            {
+               WriteToFile(ex.Message);  
+            }
+        }
+
+        //open cach drawer
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct DOCINFO
+        {
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pDocName;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pOutputFile;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pDataType;
+        }
+
+        // ----- Define interfaces to the functions supplied in the DLL.
+        [DllImport("winspool.drv", EntryPoint = "OpenPrinterW", SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
+        public static extern bool OpenPrinter(string printerName, ref IntPtr hPrinter, int printerDefaults);
+
+        [DllImport("winspool.drv", EntryPoint = "ClosePrinter", SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
+        public static extern bool ClosePrinter(IntPtr hPrinter);
+
+        [DllImport("winspool.drv", EntryPoint = "StartDocPrinterW", SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
+        public static extern bool StartDocPrinter(IntPtr hPrinter, int level, ref DOCINFO documentInfo);
+
+        [DllImport("winspool.drv", EntryPoint = "EndDocPrinter", SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
+        public static extern bool EndDocPrinter(IntPtr hPrinter);
+
+        [DllImport("winspool.drv", EntryPoint = "StartPagePrinter", SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
+        public static extern bool StartPagePrinter(IntPtr hPrinter);
+
+        [DllImport("winspool.drv", EntryPoint = "EndPagePrinter", SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
+        public static extern bool EndPagePrinter(IntPtr hPrinter);
+
+        [DllImport("winspool.drv", EntryPoint = "WritePrinter", SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
+        public static extern bool WritePrinter(IntPtr hPrinter, IntPtr buffer, int bufferLength, ref int bytesWritten);
+
+
+        public static bool PrintRaw(string printerName, string origString)
+        {
+            bool functionReturnValue = false;
+            // ----- Send a string of  raw data to  the printer.
+            IntPtr hPrinter = default(IntPtr);
+            DOCINFO spoolData = new DOCINFO();
+            IntPtr dataToSend = default(IntPtr);
+            int dataSize = 0;
+            int bytesWritten = 0;
+
+            // ----- The internal format of a .NET String is just
+            //       different enough from what the printer expects
+            //       that there will be a problem if we send it
+            //       directly. Convert it to ANSI format before
+            //       sending.
+            dataSize = origString.Length;
+            dataToSend = Marshal.StringToCoTaskMemAnsi(origString);
+
+            // ----- Prepare information for the spooler.
+            spoolData.pDocName = "OpenDrawer";
+            // class='highlight'
+            spoolData.pDataType = "RAW";
+
+            try
+            {
+                // ----- Open a channel to  the printer or spooler.
+                OpenPrinter(printerName, ref hPrinter, 0);
+
+                // ----- Start a new document and Section 1.1.
+                StartDocPrinter(hPrinter, 1, ref spoolData);
+                StartPagePrinter(hPrinter);
+
+                // ----- Send the data to the printer.
+                WritePrinter(hPrinter, dataToSend, dataSize, ref bytesWritten);
+
+                // ----- Close everything that we opened.
+                EndPagePrinter(hPrinter);
+                EndDocPrinter(hPrinter);
+                ClosePrinter(hPrinter);
+                functionReturnValue = true;
+            }
+            catch (Exception ex)
+            {
+            
+                functionReturnValue = false;
+            }
+            finally
+            {
+                // ----- Get rid of the special ANSI version.
+                Marshal.FreeCoTaskMem(dataToSend);
+            }
+            return functionReturnValue;
+        }
+
     }
 }
