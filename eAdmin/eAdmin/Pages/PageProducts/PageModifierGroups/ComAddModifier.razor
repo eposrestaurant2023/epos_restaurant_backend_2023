@@ -1,6 +1,5 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <UIContainerBox Title="@lang["Modifier Section"]">
-    @modifer_group.modifier_group_items.Count()
     @if (modifer_group.modifier_group_items.Where(r => r.is_section == true && r.is_deleted == false).Any())
     {
         foreach (var s in modifer_group.modifier_group_items.Where(r => r.is_section == true && r.is_deleted == false && r.modifier_group_id != null))
