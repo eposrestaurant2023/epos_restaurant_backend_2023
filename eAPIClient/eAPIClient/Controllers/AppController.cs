@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using eAPIClient.Models;
 using eAPIClient.Services;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,14 +30,17 @@ namespace eAPIClient.Controllers
         private readonly AppService app;
         private readonly IHttpService http;
         private readonly ISyncService sync;
-     
 
-        public AppController(ApplicationDbContext _db, AppService _app, IConfiguration configuration, IHttpService _http, ISyncService sync)
+        private readonly IWebHostEnvironment environment;
+       
+
+        public AppController(ApplicationDbContext _db, AppService _app, IConfiguration configuration, IHttpService _http, ISyncService sync, IWebHostEnvironment environment)
         {
             db = _db;
             app = _app;
             config = configuration;
             http = _http;
+            this.environment = environment;
             this.sync = sync;
         }
 
@@ -210,7 +218,52 @@ namespace eAPIClient.Controllers
 
             return Ok(model);
         }
- 
+
+
+        [Route("image/{image_name}")]
+        [AllowAnonymous]
+        public ActionResult GetImage(string image_name)
+        {
+            string img_path = this.environment.ContentRootPath + "\\upload\\" + image_name;
+            if (!System.IO.File.Exists(img_path))
+            {
+                //check server
+                if (!SaveImageFromUrl(image_name)){
+                    img_path = this.environment.ContentRootPath + "\\upload\\placeholder.png";
+                }
+                
+            }
+            var image = System.IO.File.OpenRead(img_path);
+            return File(image, "image/jpeg");
+
+        }
+
+        public bool SaveImageFromUrl(string filename)
+        {
+            
+            string server_url = config.GetValue<string>("server_api_url");
+            server_url = server_url.Replace("/api/", "/");
+            try
+            {
+                using (WebClient webClient = new WebClient())
+                {
+                    string url = server_url + "upload/" + filename;
+                    byte[] dataArr = webClient.DownloadData(url);
+
+                    string img_path = this.environment.ContentRootPath + "\\upload\\" + filename;
+                    System.IO.File.WriteAllBytes(img_path, dataArr);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+
+
     }
 
     class StationLicenseModel

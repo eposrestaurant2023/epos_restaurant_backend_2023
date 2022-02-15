@@ -8,13 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="log\**" />
-    <Compile Remove="Upload\**" />
+    <Compile Remove="uploads\**" />
     <Content Remove="log\**" />
-    <Content Remove="Upload\**" />
+    <Content Remove="uploads\**" />
     <EmbeddedResource Remove="log\**" />
-    <EmbeddedResource Remove="Upload\**" />
+    <EmbeddedResource Remove="uploads\**" />
     <None Remove="log\**" />
-    <None Remove="Upload\**" />
+    <None Remove="uploads\**" />
   </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
@@ -33,6 +33,7 @@
 		<PackageReference Include="NETCore.Encrypt" Version="2.0.9" />
 		<PackageReference Include="Polly" Version="7.2.2" />
 		<PackageReference Include="Serilog" Version="2.10.0" />
+		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
 		<PackageReference Include="Telegram.Bot" Version="17.0.0" />
 	</ItemGroup>
 	<ItemGroup>
@@ -40,7 +41,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="BackgroundServices\" />
-	  <Folder Include="uploads\telegram_images\" />
+	  <Folder Include="upload\" />
 	</ItemGroup>
 
 </Project>
