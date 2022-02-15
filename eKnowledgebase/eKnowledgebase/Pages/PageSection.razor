@@ -13,7 +13,7 @@
           <div class="d-flex flex-row align-center">
             <div> <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" /></div>
             <div><div class="view_header_app">
-             <h3>@model.title_en</h3>
+             <h3>@state.GetTitleText(model)</h3>
             </div>
            </div>
         </div>
@@ -21,7 +21,7 @@
            @foreach (var d in models.OrderBy(r => r.sort_order))
             {
                 <div @onclick="@(()=> nav.NavigateTo($"article/{d.id}"))" class="title_aticle">
-                    @d.title_en
+                    @state.GetTitleText(d)
                 </div>
             }
         </MudHidden>
@@ -35,20 +35,21 @@
                     </MudListSubheader>
                     @if (model?.parent_id != null)
                     {
-                        <NavSectionList id="@model.parent_id"/>
+                        <NavSectionList id="@model.parent_id" OnItemClick="@OnItemClick" />
                     }
                 </MudList>
             </MudPaper>
                 </MudItem>
-                <MudItem md="9">
-                     <MudText Typo="Typo.h3">
-                         @model.title_en
+                <MudItem xl="6"  md="4" lg="3">
+                     <MudText Typo="Typo.h3"> 
+                         @state.GetTitleText(model)
+                         
                      </MudText>
                      <Spacing Number="10"/>
                       @foreach (var d in models.OrderBy(r => r.sort_order))
                         {
                             <div @onclick="@(()=> nav.NavigateTo($"article/{d.id}"))" class="title_aticle">
-                                 @d.title_en
+                                @state.GetTitleText(d)
                             </div>
                         }
                 </MudItem>
@@ -63,15 +64,15 @@
 
 
     <MudDrawer @bind-Open="_drawerOpen" DisableOverlay="false" Variant="@DrawerVariant.Temporary" Elevation="1" ClipMode="DrawerClipMode.Always">
-     <PageTitle>@model.title_en</PageTitle>
-    @if (is_loading && is_first_load)
+     <PageTitle>@state.GetTitleText(model)</PageTitle>
+    @if (is_first_load)
     {
         <div>loading...</div>
     }
     else
     {
          if(model?.parent_id!=null){ 
-        <NavSection id="@model.parent_id" />
+        <NavSection id="@model.parent_id" OnItemClick="OnItemClick" />
          }
     }
 </MudDrawer>
@@ -80,6 +81,8 @@
 
 
 @code {
+    [CascadingParameter] 
+    public AppState state { get; set; }
     [Parameter]
     public Guid id { get; set; }
     List<eKnowledgebaseModel> models = new();
@@ -94,7 +97,8 @@
     }
 
 
-    protected override async Task OnParametersSetAsync()
+
+    protected override async Task OnInitializedAsync()
     {
         is_first_load = false;
         is_loading = true;
@@ -102,5 +106,17 @@
         models = await s.GetDataByParentID(id);
         is_loading = false;
     }
+
+
+    async Task OnItemClick(eKnowledgebaseModel m)
+    {
+       
+        model = m;
+        id = m.id;
+        models = await s.GetDataByParentID(m.id);
+        _drawerOpen = false;
+        
+    }
+
 
 }

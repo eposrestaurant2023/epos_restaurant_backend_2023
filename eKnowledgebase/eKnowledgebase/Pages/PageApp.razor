@@ -4,7 +4,7 @@
 @inject NavigationManager nav;
 @inject eKnowledgebase.Services.eKnowledgebaseService s;
 
-<PageTitle>@model.title_en</PageTitle>
+<PageTitle>@state.GetTitleText(model)</PageTitle>
 <MudContainer MaxWidth="MaxWidth.Medium">
     @if (is_loading)
 {
@@ -19,12 +19,12 @@
      <MudGrid Spacing="2">
    
              @foreach(var d in models.OrderBy(r=>r.sort_order)){ 
-                <MudItem md="3" xs="4">
+                <MudItem md="3" xs="6">
                       <MudPaper @onclick="@(()=> nav.NavigateTo($"section/{d.id}"))" Class="pc pa-4 d-flex align-center justify-center" Outlined="true" Square="true" Style="box-shadow: 0 0 4px rgb(0 0 0 / 19%);">
                           <div style="text-align:center">
                               <MudIcon Icon="@d.icon" Style="font-size:85px"/>
                               <Spacing Number="5"/>
-                              <MudText Typo="Typo.body2" Style="text-transform: capitalize;">@d.title_en</MudText>
+                              <MudText Typo="Typo.body2" Style="text-transform: capitalize;">@state.GetTitleText(d)</MudText>
                           </div>
                     </MudPaper>
                  </MudItem>
@@ -39,6 +39,8 @@
 
 
 @code{
+    [CascadingParameter] 
+    public AppState state { get; set; }
 [Parameter]
 public Guid id { get; set; }
     List<eKnowledgebaseModel> models = new();

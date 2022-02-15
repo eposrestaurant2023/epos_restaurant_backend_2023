@@ -37,121 +37,121 @@
                         {
                             @foreach (var d in models.Where(r => r.outlet_id == o.id && r.is_deleted == false).ToList())
                             {
-                    <MudTabPanel Text="@d.table_group_name_en">
-                        <UIGridCenter>
-                            <div class="container-layout">
-                                <div class="title-header">
-                                    <div class="uk-panel">
-                                        <div class="uk-float-left">
-                                            <span>
-                                                @d.table_group_name_en
-                                            </span>
-                                            <span>
-                                                <label class="uk-label activ"><Icon icon="home" />@d.outlet?.outlet_name_en</label>
-                                            </span>
-                                        </div>
-                                        <div class="uk-float-right">
-                                            <div class="uk-flex uk-flex-middle">
-                                                <div>
-                                                    <LabelActive OnClick="@(() => Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                                    <LabelInActive OnClick="@(() => Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-                                                </div>
-                                                <div>
-                                                    <div class="uk-flex uk-flex-inline">
-                                                        <div style="margin-right:5px;">
-                                                            <Icon icon="delete" OnClick="@(() => click_delete(d))" />
-                                                        </div>
-                                                        <div>
-                                                            <a href="@($"tablegroupandtable/edit/{d.id}")">
-                                                                <Icon icon="edit" />
-                                                            </a>
+                                <MudTabPanel Text="@d.table_group_name_en">
+                                    <UIGridCenter>
+                                        <div class="container-layout">
+                                            <div class="title-header">
+                                                <div class="uk-panel">
+                                                    <div class="uk-float-left">
+                                                        <span>
+                                                            @d.table_group_name_en
+                                                        </span>
+                                                        <span>
+                                                            <label class="uk-label activ"><Icon icon="home" />@d.outlet?.outlet_name_en</label>
+                                                        </span>
+                                                    </div>
+                                                    <div class="uk-float-right">
+                                                        <div class="uk-flex uk-flex-middle">
+                                                            <div>
+                                                                <LabelActive OnClick="@(() => Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
+                                                                <LabelInActive OnClick="@(() => Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                                            </div>
+                                                            <div>
+                                                                <div class="uk-flex uk-flex-inline">
+                                                                    <div style="margin-right:5px;">
+                                                                        <Icon icon="delete" OnClick="@(() => click_delete(d))" />
+                                                                    </div>
+                                                                    <div>
+                                                                        <a href="@($"tablegroupandtable/edit/{d.id}")">
+                                                                            <Icon icon="edit" />
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr />
-                                <div>
-                                    <UISummaryBox ImageUrl="@d.photo">
-                                        <ContentLeft>
-                                            <table>
-                                                <tr>
-                                                    <th>@lang["Table Group Name"]</th>
-                                                    <td>@d.table_group_name_en</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>@lang["Outlet"]</th>
-                                                    <td>@d.outlet?.outlet_name_en</td>
-                                                </tr>
-                                            </table>
-                                        </ContentLeft>
-                                    </UISummaryBox>
-                                    <hr />
-                                    <MudExpansionPanels MultiExpansion="true">
-                                        <MudExpansionPanel Class="mb-2" Text="@lang["Table"]">
-                                            <div class="uk-overflow-auto table-scroll">
-                                                <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                                                    <tr>
-                                                        <ThAuto>@lang["Table​ Name"]</ThAuto>
-                                                        <ThCenter>@lang["Width"]</ThCenter>
-                                                        <ThCenter>@lang["Height"]</ThCenter>
-                                                        <th>@lang["Sale Type"]</th>
-                                                        <ThCenter>@lang["Sort Order"]</ThCenter>
-                                                        <th>@lang["Price Rule"]</th>
-
-                                                    </tr>
-                                                    @if (d.tables.Any())
-                                                    {
-                                                        @foreach (var s in d.tables.OrderBy(r => r.sort_order))
-                                                        {
+                                            <hr />
+                                            <div>
+                                                <UISummaryBox ImageUrl="@d.photo">
+                                                    <ContentLeft>
+                                                        <table>
                                                             <tr>
-                                                                <td>
-                                                                        @if (s.shape == "Circle")
-                                                                        {
-                                                                            <div class="tbl_circle uk-flex-center uk-flex uk-flex-middle">
-                                                                                <div class="tex_over" uk-tooltip="@s.table_name">
-                                                                                    @s.table_name
-                                                                                </div>
-                                                                            </div>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <div class="tbl_rectangle uk-flex-center uk-flex uk-flex-middle">
-                                                                                <div class="tex_over" uk-tooltip="@s.table_name">
-                                                                                    @s.table_name
-                                                                                </div>
-                                                                            </div>
-                                                                        }
+                                                                <th>@lang["Table Group Name"]</th>
+                                                                <td>@d.table_group_name_en</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>@lang["Outlet"]</th>
+                                                                <td>@d.outlet?.outlet_name_en</td>
+                                                            </tr>
+                                                        </table>
+                                                    </ContentLeft>
+                                                </UISummaryBox>
+                                                <hr />
+                                                <MudExpansionPanels MultiExpansion="true">
+                                                    <MudExpansionPanel Class="mb-2" Text="@lang["Table"]">
+                                                        <div class="uk-overflow-auto table-scroll">
+                                                            <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                                                <tr>
+                                                                    <ThAuto>@lang["Table​ Name"]</ThAuto>
+                                                                    <ThCenter>@lang["Width"]</ThCenter>
+                                                                    <ThCenter>@lang["Height"]</ThCenter>
+                                                                    <th>@lang["Sale Type"]</th>
+                                                                    <ThCenter>@lang["Sort Order"]</ThCenter>
+                                                                    <th>@lang["Price Rule"]</th>
+
+                                                                </tr>
+                                                                @if (d.tables.Any())
+                                                                {
+                                                                    @foreach (var s in d.tables.OrderBy(r => r.sort_order))
+                                                                    {
+                                                                        <tr>
+                                                                            <td>
+                                                                                    @if (s.shape == "Circle")
+                                                                                    {
+                                                                                        <div class="tbl_circle uk-flex-center uk-flex uk-flex-middle">
+                                                                                            <div class="tex_over" uk-tooltip="@s.table_name">
+                                                                                                @s.table_name
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <div class="tbl_rectangle uk-flex-center uk-flex uk-flex-middle">
+                                                                                            <div class="tex_over" uk-tooltip="@s.table_name">
+                                                                                                @s.table_name
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    }
                                                              
 
-                                                                </td>
-                                                                <TdCenter>@s.width</TdCenter>
-                                                                <TdCenter>@s.height</TdCenter>
-                                                                <td>
-                                                                    @if (!string.IsNullOrEmpty(s.sale_type))
-                                                                    {
-                                                                        @lang[s.sale_type]
+                                                                            </td>
+                                                                            <TdCenter>@s.width</TdCenter>
+                                                                            <TdCenter>@s.height</TdCenter>
+                                                                            <td>
+                                                                                @if (!string.IsNullOrEmpty(s.sale_type))
+                                                                                {
+                                                                                    @lang[s.sale_type]
+                                                                                }
+                                                                            </td>
+                                                                            <TdCenter>
+                                                                                @s.sort_order
+                                                                            </TdCenter>
+                                                                            <td>
+                                                                                    @s?.price_rule?.price_name
+                                                                            </td>
+                                                                        </tr>
                                                                     }
-                                                                </td>
-                                                                <TdCenter>
-                                                                    @s.sort_order
-                                                                </TdCenter>
-                                                                <td>
-                                                                        @s?.price_rule?.price_name
-                                                                </td>
-                                                            </tr>
-                                                        }
-                                                    }
-                                                </table>
+                                                                }
+                                                            </table>
+                                                        </div>
+                                                    </MudExpansionPanel>
+                                                </MudExpansionPanels>
                                             </div>
-                                        </MudExpansionPanel>
-                                    </MudExpansionPanels>
-                                </div>
-                            </div>
-                        </UIGridCenter>
-                    </MudTabPanel>
+                                        </div>
+                                    </UIGridCenter>
+                                </MudTabPanel>
                             }
                         }
                     }

@@ -39,6 +39,7 @@ namespace eKnowledgebase
 
         public async Task SetCurrentLanguage(string lang_code)
         {
+            current_language = lang_code;
             await localStorage.SetItemAsStringAsync("lang", lang_code);
         }
 
