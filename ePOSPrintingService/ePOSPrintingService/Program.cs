@@ -1704,13 +1704,16 @@ namespace ePOSPrintingService
             {
                 var _usb_cashdrawer_data = JsonConvert.DeserializeObject<dynamic>(Properties.Settings.Default.USBCashDrawer); 
                 string path = AppDomain.CurrentDomain.BaseDirectory + "\\Logs";
-                if (_usb_cashdrawer_data["is_usb"])
+
+                bool _usb = _usb_cashdrawer_data["is_usb"].Value;
+                string _port = _usb_cashdrawer_data["port"].Value; 
+                if (_usb)
                 {
                     try
                     { 
                         FileSystem.FileOpen(1, path, OpenMode.Output);
                         FileSystem.PrintLine(1, Strings.Chr(27) + "p" + Strings.Chr(0) + Strings.Chr(25) + Strings.Chr(250));
-                        Interaction.Shell("print /d:" + _usb_cashdrawer_data["port"] + " " + path, AppWinStyle.MinimizedNoFocus);
+                        Interaction.Shell("print /d:" + _port + " " + path, AppWinStyle.MinimizedNoFocus);
                         FileSystem.FileClose(1);
                     }
                     catch (Exception ex)
