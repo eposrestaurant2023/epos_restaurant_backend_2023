@@ -29,6 +29,7 @@ namespace eAPI.Controllers
 
         [HttpGet]
         [EnableQuery]
+        [AllowAnonymous]
         public IQueryable<ImageModel> Get(string keyword="")
         {
             if (!string.IsNullOrEmpty(keyword))
