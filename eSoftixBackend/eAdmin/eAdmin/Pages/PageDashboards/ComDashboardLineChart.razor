@@ -1,6 +1,6 @@
 ﻿@inject IHttpService http             
 <MudItem sm="12" xs="12" md="12" lg="12" xl="8">
-    <MudPaper Elevation="25" Class="pa-4" Style="height:600px;">
+    <MudPaper Elevation="25" Class="mud-height-full pa-4">
         <ApexChart TItem="DashboardChart"  Height="@("100%")" Width="@("100%")" ChartType="ApexCharts.ChartType.Area">
             <ApexSeries TItem="DashboardChart"
                 Items="@models.AsEnumerable()"

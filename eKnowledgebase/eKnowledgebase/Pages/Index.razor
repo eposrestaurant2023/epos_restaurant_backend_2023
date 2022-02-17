@@ -12,9 +12,8 @@
     <MudContainer MaxWidth="MaxWidth.Medium">
      <MudGrid Spacing="3">
         @foreach(var d in models.Where(r=>r.is_public==true).OrderBy(r=>r.sort_order)){ 
-          <MudItem xs="12" md="6" lg="4" Class="cus_homepage">
+          <MudItem xs="6" md="6" lg="4" Class="cus_homepage">
               <MudCard @onclick="@(()=> nav.NavigateTo($"app/{d.id}"))" Style="text-align: center;min-height:200px;" Class="d-flex align-center justify-center pc pa-2 mud-width-full mud-height-full">
-
                     <div>
                        <MudCardContent>
                         <MudText Typo="Typo.h6">@state.GetTitleText(d)</MudText>
@@ -28,10 +27,19 @@
                         }
                         else
                         {
+                            <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                                @if (state.GetImageUrl(d) != "")
+                                {
+                                    <img src="@state.GetImageUrl(d)" style="width:200px;"/>
+                                }
+                            </MudHidden>
+                            <MudHidden Breakpoint="Breakpoint.MdAndUp">
                                  @if (state.GetImageUrl(d) != "")
                                 {
-                                    <img src="@state.GetImageUrl(d)" style="width:100%;"/>
+                                    <img src="@state.GetImageUrl(d)" style="width:150px;"/>
                                 }
+                            </MudHidden>
+                           
                         }
                         
                     </div>
