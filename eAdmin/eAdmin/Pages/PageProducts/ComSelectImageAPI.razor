@@ -3,9 +3,12 @@
 <Loading is_loading="is_loading"/>
 <Modal IsSimpleMode="false" Title="@title" IsOpened="@is_opened" IsOpenedChanged="onCloseClick" ModalWidth="@modal_width">
     <ModalBody>
-        <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false">
-           
-        </ComSearch>
+        <MudItem Class="mb-2">
+            <ComSearch is_fullwidth="true" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false">
+
+            </ComSearch>
+        </MudItem>
+        
         <MudGrid Spacing="2" Justify="Justify.Center">
             @foreach (var i in images)
             {
@@ -16,7 +19,6 @@
                 </MudItem>
 
             }
-
 
         </MudGrid>
         <Column ClassName="uk-width-expand@xl uk-width-expand@l uk-width-expand@m uk-width-1-1@s uk-text-center@s wrp-pagging-info">
@@ -59,6 +61,7 @@
     {
         is_loading = true;
         base_image_url = _configuration.GetValue<string>("apieSoftixUrl").Replace("/api/", "/upload/");
+        title = "Photo";
         await LoadData();
         is_loading = false;
     }
