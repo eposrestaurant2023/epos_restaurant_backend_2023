@@ -17,7 +17,6 @@
  </div>
 <div class="view_content">
      <MudGrid Spacing="2">
-   
              @foreach(var d in models.OrderBy(r=>r.sort_order)){ 
                 <MudItem md="3" xs="6">
                       <MudPaper @onclick="@(()=> nav.NavigateTo($"section/{d.id}"))" Class="pc pa-4 d-flex align-center justify-center" Outlined="true" Square="true" Style="box-shadow: 0 0 4px rgb(0 0 0 / 19%);">
@@ -30,7 +29,7 @@
                  </MudItem>
                 }
      </MudGrid>
-   </div>
+</div>
   
   
 }
