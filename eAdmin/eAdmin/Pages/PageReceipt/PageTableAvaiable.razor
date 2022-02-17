@@ -42,11 +42,21 @@
                                 <MudGrid Spacing="2" Justify="Justify.FlexStart" Style="max-height: calc(70vh - (60px+60px+64px)); overflow: auto ">
                                     @foreach (var table in models.Where(r=>r.table_group_id == table_group.table_group_id))
                                     {
-                                        <MudItem>
-                                            <MudPaper Class="d-flex align-center justify-center" Style="@($"background:{GetTableColor(table.is_occupy)};color:#424242")" Height="140px" Width="140px">
-                                                @table.table_name
-                                            </MudPaper>
-                                        </MudItem>
+                                    <MudItem>
+                                        <MudPaper Style="@($"background:{GetTableColor(table.is_occupy)};color:#424242")" Height="140px" Width="140px">
+                                            <div class=" justify-center">
+                                                <div class="d-flex align-center justify-center">
+
+                                                    @table.table_name
+
+                                                </div>
+                                                <div class="ma-4 uk-text-bold align-center ">
+                                                    @table.total_amount.ToString(gv.main_currency_format)
+                                                </div>
+                                            </div>
+                                        </MudPaper>
+                                        
+                                    </MudItem>
                                     }
                                 </MudGrid>
                                 
@@ -190,5 +200,6 @@
         public string outlet_name_en { get; set; }
         public Guid outlet_id { get; set; }
         public bool is_occupy { get; set; }
+        public decimal total_amount { get; set; }
     }
 }

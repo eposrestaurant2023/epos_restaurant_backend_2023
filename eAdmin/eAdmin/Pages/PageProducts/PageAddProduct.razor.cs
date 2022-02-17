@@ -316,9 +316,22 @@ namespace eAdmin.Pages.PageProducts
             is_open = false;
         }
 
-        public void onImageChanged(ImageModel imagechange)
+        public async Task onImageChanged(ImageModel imagechange)
         {
-            toast.Add(imagechange.image, MudBlazor.Severity.Success);
+            is_open = false;
+            is_loading = true;
+            var res = await http.ApiGet($"SaveImage/SaveImageFromUrl?filename={imagechange.image}");
+            if (res.Content.ToString() == "true")
+            {
+                toast.Add(lang["Save Success"], MudBlazor.Severity.Success);
+                model.photo = imagechange.image;
+                
+            }
+            else
+            {
+                toast.Add(lang["Save failed"], MudBlazor.Severity.Warning);
+            }
+            is_loading = false;
         }
     }
 }
