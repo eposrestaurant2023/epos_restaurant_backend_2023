@@ -74,72 +74,61 @@ namespace eAPI.Controllers
         {
             try
             {
-                var saleCheck = db.Sales.Where(r => r.id == model.id).AsNoTracking()
-                                  
-                                    .Include(r=>r.sale_payments).AsNoTracking();
-                if (saleCheck.Count() > 0)
+                var saleCheck = db.Sales.Where(r => r.id == model.id).AsNoTracking();
+                foreach (var _sp in model.sale_products)
                 {
-                    var _sale = saleCheck.FirstOrDefault();
-                    foreach (var _sp in model.sale_products)
+                    db.Entry(_sp).State = EntityState.Added;
+                    if (_sp.id != Guid.Empty)
                     {
-                        db.Entry(_sp).State = EntityState.Added;
-                        if (_sp.id != Guid.Empty)
+                        var _old_sale_product = db.SaleProducts.Where(r => r.id == _sp.id).AsNoTracking();
+                        if (_old_sale_product.Any())
                         {
-                            var _old_sale_product = db.SaleProducts.Where(r => r.id == _sp.id).AsNoTracking();
-                            if (_old_sale_product.Any())
-                            {
-                                db.Entry(_sp).State = EntityState.Modified;
-                            } 
-                        } 
-
-                        if (_sp.sale_product_modifiers.Count() > 0)
-                        {
-                            
-                            foreach(var _spm in _sp.sale_product_modifiers)
-                            {
-                                
-                                    db.Entry(_spm).State = EntityState.Added;
-                                if (_spm.id != Guid.Empty)
-                                {
-                                    var _old_spm= db.SaleProductModifiers.Where(r => r.id == _spm.id).AsNoTracking();
-                                    if (_old_spm.Any())
-                                    {
-                                        db.Entry(_spm).State = EntityState.Modified;
-                                    }
-                                }
-
-                            }
+                            db.Entry(_sp).State = EntityState.Modified;
                         }
                     }
 
+                    if (_sp.sale_product_modifiers.Count() > 0)
+                    {
 
-
-                    model.sale_payments.ForEach(_spay =>
-                    { 
-                        if (_sale.sale_payments.Where(r => r.id == _spay.id).Count() <= 0)
+                        foreach (var _spm in _sp.sale_product_modifiers)
                         {
-                            _spay.sale = null;
-                            db.Entry(_spay).State = EntityState.Added;
-                        }
-                    });
 
+                            db.Entry(_spm).State = EntityState.Added;
+                            if (_spm.id != Guid.Empty)
+                            {
+                                var _old_spm = db.SaleProductModifiers.Where(r => r.id == _spm.id).AsNoTracking();
+                                if (_old_spm.Any())
+                                {
+                                    db.Entry(_spm).State = EntityState.Modified;
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+                //check payment
+                foreach (var p in model.sale_payments)
+                {
+
+                    db.Entry(p).State = EntityState.Added;
+                    if (p.id != Guid.Empty)
+                    {
+                        var _old_payment = db.SalePayments.Where(r => r.id == p.id).AsNoTracking();
+                        if (_old_payment.Any())
+                        {
+                            db.Entry(p).State = EntityState.Modified;
+                        }
+                    }
+
+                }
+
+                if (saleCheck.Count() > 0)
+                {
                     db.Sales.Update(model);
                 }
                 else
                 {
-
-                  foreach(var sp in   model.sale_products.Where(r=>r.id != Guid.Empty))
-                    {
-                        db.Entry(sp).State = EntityState.Added;
-                        var _old_sale_product = db.SaleProducts.Where(r => r.id == sp.id).AsNoTracking();
-                        if (_old_sale_product.Any())
-                        {
-                            db.Entry(sp).State = EntityState.Modified;
-                        }
-
-                       
-                    }
-
                     db.Sales.Add(model);
                 }
                 

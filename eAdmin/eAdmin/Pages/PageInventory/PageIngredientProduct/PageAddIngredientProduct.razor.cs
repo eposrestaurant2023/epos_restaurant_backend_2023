@@ -184,8 +184,10 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             save_model.is_ingredient_product = true;
             save_model.is_menu_product = false;
             save_model.vendor = null;
-            // remove defualt stock location
-            save_model.default_stock_location_products = null; 
+            save_model.default_stock_location_products.ForEach(r => { r.station = null;
+                r.stock_location = null;
+               
+            });
 
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)

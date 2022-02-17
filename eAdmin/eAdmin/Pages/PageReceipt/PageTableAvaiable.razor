@@ -43,17 +43,18 @@
                                     @foreach (var table in models.Where(r=>r.table_group_id == table_group.table_group_id))
                                     {
                                     <MudItem>
-                                        <MudPaper Style="@($"background:{GetTableColor(table.is_occupy)};color:#424242")" Height="140px" Width="140px">
-                                            <div class=" justify-center">
-                                                <div class="d-flex align-center justify-center">
-
-                                                    @table.table_name
-
+                                        <MudPaper Style="@($"background:{GetTableColor(table.is_occupy)};color:#424242")" Class="d-flex align-content-center flex-wrap justify-center" Height="140px" Width="140px">
+                                           
+                                            
+                                                <div style="text-align:center">
+                                                    <div> @table.table_name</div>
+                                                    @if (table.total_amount != 0)
+                                                    {
+                                                        <MudText Typo="Typo.h6">@table.total_amount.ToString(gv.currency_format)</MudText>
+                                                    }
+                                                    
                                                 </div>
-                                                <div class="ma-4 uk-text-bold align-center ">
-                                                    @table.total_amount.ToString(gv.main_currency_format)
-                                                </div>
-                                            </div>
+                                           
                                         </MudPaper>
                                         
                                     </MudItem>
