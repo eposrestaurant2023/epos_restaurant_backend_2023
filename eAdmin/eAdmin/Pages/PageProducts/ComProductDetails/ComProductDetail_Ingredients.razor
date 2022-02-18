@@ -39,6 +39,7 @@
         <LabelInventory is_visible="@pi.ingredient.is_inventory_product"/>
         <LabelIngredient is_visible="@pi.ingredient.is_ingredient_product" />
         <LabelMenuProduct is_visible="@pi.ingredient.is_menu_product" />
+        <Label Text="@pi.product_portion.portion_name" Background="#4873aa"/>
     </td>
                         <TdCenter>
                             @pi.quantity.ToString(gv.quantity_format)

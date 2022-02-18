@@ -178,20 +178,20 @@ namespace eAPIClient.Controllers
          
 
         [HttpPost]
-        [Route("SaveWifiPassword/{password}")]
-        public ActionResult<bool> SaveWifiPassword(string password)
+        [Route("SaveWifiPassword")]
+        public ActionResult<bool> SaveWifiPassword(string value)
         {
             var data = db.ConfigDatas.Where(r => r.config_type == "wifi");
             ConfigDataModel d = new ConfigDataModel();
             if (data.Any())
             {
                 d = data.FirstOrDefault();
-                d.data = password;
+                d.data = value;
                 db.ConfigDatas.Update(d);
             }else
             {
                 d.config_type = "wifi";
-                d.data = password;
+                d.data = value;
                 d.id = Guid.NewGuid();
                 d.is_local_setting = true;
                 db.ConfigDatas.Add(d);

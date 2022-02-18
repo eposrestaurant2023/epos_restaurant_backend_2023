@@ -36,7 +36,7 @@
 
         if (product_id > 0)
         {
-            var resp = await http.ApiGetOData($"ProductPortion?$expand=product_ingredients($expand=ingredient($select=id,is_inventory_product,product_code,product_name_en,product_name_kh,is_ingredient_product,is_menu_product),unit($select=id,unit_name,unit_category_id))&$filter=product_id eq {product_id}");
+            var resp = await http.ApiGetOData($"ProductPortion?$expand=product_ingredients($expand=product_portion($select=id,portion_name),ingredient($select=id,is_inventory_product,product_code,product_name_en,product_name_kh,is_ingredient_product,is_menu_product),unit($select=id,unit_name,unit_category_id))&$filter=product_id eq {product_id}");
             if (resp.IsSuccess)
             {
                 product_potions = JsonSerializer.Deserialize<List<ProductPortionModel>>(resp.Content.ToString());
