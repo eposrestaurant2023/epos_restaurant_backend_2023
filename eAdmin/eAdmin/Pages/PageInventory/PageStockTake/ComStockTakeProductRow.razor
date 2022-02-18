@@ -4,7 +4,7 @@
     <Image ImageUrl="@http.ImageUrl(stock_take_product?.product?.photo)" PopupImageUrl="@http.ImageUrl(stock_take_product?.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
 </TdCenter>
 <TdCenter>
-    <ComAuthorize roles="@gv.GetRole("stock_take_product_view")" url="@($"stock_take_product/{stock_take_product.product_id}")" target="true">
+    <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"stock_take_product/{stock_take_product.product_id}")" target="true">
         @stock_take_product?.product?.product_code
     </ComAuthorize>
 </TdCenter>
@@ -12,7 +12,7 @@
     <div>
         <div>
             <span>
-                <ComAuthorize roles="@gv.GetRole("stock_take_product_view")" url="@($"stock_take_product/{stock_take_product.product_id}")" target="true">
+                <ComAuthorize roles="@gv.GetRole("produt_view")" url="@($"stock_take_product/{stock_take_product.product_id}")" target="true">
                     @stock_take_product?.product?.product_display_name
                 </ComAuthorize> 
             </span>

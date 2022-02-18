@@ -23,7 +23,7 @@
                 <ThRight>@lang["Price"]</ThRight>
                 <ThRight>@lang["Amount"]</ThRight>
                 <th></th>
-</TableHeader>
+            </TableHeader>
             <RowTemplate Context="p">
                 <ComStockTakeProductRow model="@model" stock_take_product="@p" stock_take_productChanged="ProductChanged" OnRemove="@(()=>RemoveProduct(p))" OnClone="@(()=>CloneProduct(p))" />
             </RowTemplate>
