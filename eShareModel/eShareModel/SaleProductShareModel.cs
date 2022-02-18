@@ -144,7 +144,7 @@ namespace eShareModel
         [Column(TypeName = "date")]
         public DateTime? park_expired_date { get; set; }
 
-        public int sort_order { get; set; } = 0;
+        public int sort_order { get; set; } = 0;              
 
     }
 
