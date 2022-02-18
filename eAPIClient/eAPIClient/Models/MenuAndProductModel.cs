@@ -23,7 +23,8 @@ namespace eAPIClient.Models
         public string menu_name_en { get; set; }
         public string menu_name_kh { get; set; }
         public string text_color { get; set; }
-        public string background_color { get; set; }    
+        public string background_color { get; set; }
+        public string photo { get; set; }
         public int root_menu_id { get; set; }
         public bool is_shortcut_menu { get; set; } = false;
 
