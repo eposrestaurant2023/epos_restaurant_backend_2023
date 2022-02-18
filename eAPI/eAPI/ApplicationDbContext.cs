@@ -174,6 +174,7 @@ namespace eAPI
         public DbSet<ExpenseItemModel> ExpenseItems{ get; set; }
         public DbSet<ExpenseModel> Expenses{ get; set; }
         public DbSet<TranslateTextModel> TranslateTexts{ get; set; }
+        public DbSet<DefaultStockLocationProductModel> defaultStockLocationProducts{ get; set; }
        
     }
 

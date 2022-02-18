@@ -10,7 +10,7 @@
         <CurrentLoginUserCard />
         <MudDivider Class="mb-2" />
         <MudMenuItem Icon="@Icons.Material.Outlined.Person" OnClick="@(()=>is_view_profile=true)">@lang["Manage your account"]</MudMenuItem>
-        <MudMenuItem Icon="@Icons.Material.Outlined.HelpOutline" Href="@gv.settings.Where(r => r.id == 7).Select(r => r.setting_title).FirstOrDefault()">@lang["help_and_support"]</MudMenuItem>
+        <MudMenuItem Icon="@Icons.Material.Outlined.HelpOutline" Href="@gv.settings.Where(r => r.id == 32).Select(r => r.setting_value).FirstOrDefault()">@lang["help_and_support"]</MudMenuItem>
         <MudMenuItem Icon="@Icons.Material.Filled.RemoveFromQueue" OnClick="@(()=>nav.NavigateTo("systemlicense"))">@lang["System License"]</MudMenuItem>
         <MudMenuItem Icon="@Icons.Material.Filled.PartyMode" OnClick="@OnBackupClick">@lang["Backup Database"]</MudMenuItem>
         <MudMenuItem Icon="@Icons.Material.Filled.DriveFileMoveOutline" OnClick="@OnUpdateClick">@lang["Update Data To Client"]</MudMenuItem>

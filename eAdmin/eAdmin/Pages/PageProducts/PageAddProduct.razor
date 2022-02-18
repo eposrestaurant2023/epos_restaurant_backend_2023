@@ -29,9 +29,11 @@
                     <MudTabs PanelClass="pa-6">
                         <MudTabPanel Text="@lang["Product Information"]">
                             <UIGridCenter>
-                                <UIContainerBox Title="@lang["Photo"]" ClassName="uk-text-center">
+                                <UIContainerBox  Title="@lang["Photo"]" ClassName="uk-text-center">
                                     <UIFlexCenter>
-                                        <FileUpload @bind-ImageUrl="@model.photo" show_search_image="true" onSearchImage="ShowImageClick" />
+                                        <div>
+                                            <FileUpload @bind-ImageUrl="@model.photo" show_search_image="true" onSearchImage="ShowImageClick" />
+                                        </div>
                                     </UIFlexCenter>
                                 </UIContainerBox>
                                 <UIContainerBox>
