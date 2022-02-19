@@ -762,7 +762,7 @@
   <data name="Category" xml:space="preserve">
     <value>ប្រភេទ</value>
   </data>
-  <data name="Quality" xml:space="preserve">
+  <data name="Quantity" xml:space="preserve">
     <value>ចំនួន</value>
   </data>
   <data name="Edit Ingredient Category" xml:space="preserve">

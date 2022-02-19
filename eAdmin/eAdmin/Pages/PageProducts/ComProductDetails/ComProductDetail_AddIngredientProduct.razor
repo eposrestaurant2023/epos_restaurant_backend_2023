@@ -11,90 +11,102 @@
         <tr>
             <ThAuto>@lang["Name"]</ThAuto>
             <ThCenter>@lang["Quantity"]</ThCenter>
-            @if (is_search_all_product) {  
-            <ThCenter>@lang["Portion"]</ThCenter>
+            @if (is_search_all_product)
+            {
+                <ThCenter>@lang["Portion"]</ThCenter>
             }
             <ThCenter>@lang["Unit"]</ThCenter>
             <ThRight>@lang["Cost"]</ThRight>
             <ThRight>@lang["Total Cost"]</ThRight>
             <ThCenter></ThCenter>
         </tr>
-        @if (product_portion.product_ingredients.Where(r => r.is_deleted == false).Any()) {
-            foreach (var p in product_portion.product_ingredients.Where(r => r.is_deleted == false))
-            {
-    <tr>
-        <td>
-            <span>@p.ingredient?.product_display_name</span>
-            <br />
-            <LabelInventory is_visible="@p.ingredient.is_inventory_product" />
-            <LabelIngredient is_visible="@p.ingredient.is_ingredient_product" />
-            <LabelMenuProduct is_visible="@p.ingredient.is_menu_product" />
-            <Label Text="@p.product_portion.portion_name" Background="#4873aa" />
-        </td>
-
-        <TdCenter>
-            <NumberInput @bind-text="@p.quantity" class_name="uk-text-center" />
-        </TdCenter>
-        @if (is_search_all_product)
+        @if (product_portion != null)
         {
-            <TdCenter>
-                <select value="@p.ingredient_portion_id" @onchange="@((ui) => OnPortionChanged(p, (string)ui.Value))" class="uk-select uk-form-small" style="min-width:80px;">
-                    <option value="0">@lang["Select Portion"]</option>
-                    @foreach (var pt in p.ingredient.product_portions)
-                    {
-                        <option value="@pt.id">@pt.portion_name</option>
-                    }
-                </select>
-            
-            </TdCenter>
-        }
-            <TdCenter>
-                <ComProductIngredientSelectUnit product_ingredient="@p" @bind-selected_value="@p.unit_id" is_ready_only="@(p.ingredient_portion_id>0 || p.ingredient.is_inventory_product==false)" />
-            </TdCenter>
-            <TdRight>
-                <NumberInput @bind-text="@p.cost" class_name="uk-text-right" width="90px" />
-            </TdRight>
-            <TdRight>
-                @p.total_cost.ToString(gv.currency_format)
-            </TdRight>
-            <TdRight>
-                <Icon icon="delete" OnClick="@(() => OnDeleteClick(p))" />
-            </TdRight>
-        </tr> 
-            }
-    <tfoot>
-        <tr>
-            <td>
-                @lang["Total"]
-            </td>
-            <TdCenter>
-                @product_portion.product_ingredients.Where(r => r.is_deleted == false).Sum(r => r.quantity).ToString(gv.quantity_format)
-            </TdCenter>
-            @if (is_search_all_product)
+            @if (product_portion.product_ingredients.Where(r => r.is_deleted == false).Any())
             {
-                <TdCenter></TdCenter>
-            }
-           
-            <TdCenter></TdCenter>
-            <TdRight>
-            </TdRight>
-            <TdRight>
-                @product_portion.product_ingredients.Where(r => r.is_deleted == false).Sum(r => r.total_cost).ToString(gv.currency_format)
-            </TdRight>
-            <TdRight>
+                foreach (var p in product_portion.product_ingredients.Where(r => r.is_deleted == false))
+                {
+                    <tr>
+                        <td>
+                            <span>@p?.ingredient?.product_display_name</span>
+                            <br />
+                            <LabelInventory is_visible="@(p.ingredient?.is_inventory_product==true)" />
+                            <LabelIngredient is_visible="@(p.ingredient?.is_ingredient_product==true)" />
+                            <LabelMenuProduct is_visible="@(p.ingredient?.is_menu_product==true)" />
+                            @if (p.product_portion != null)
+                            {
+                                <Label Text="@p?.product_portion?.portion_name" Background="#4873aa" />
+                            }
+                            
+                        </td>
 
-            </TdRight>
-        </tr>
-    </tfoot>
+                        <TdCenter>
+                            <NumberInput @bind-text="@p.quantity" class_name="uk-text-center" />
+                        </TdCenter>
+                        @if (is_search_all_product)
+                        {
+                            <TdCenter>
+                                <select value="@p.ingredient_portion_id" @onchange="@((ui) => OnPortionChanged(p, (string)ui.Value))" class="uk-select uk-form-small" style="min-width:80px;">
+                                    <option value="0">@lang["Select Portion"]</option>
+                                    @foreach (var pt in p.ingredient.product_portions)
+                                    {
+                                        <option value="@pt.id">@pt.portion_name</option>
+                                    }
+                                </select>
+
+                            </TdCenter>
+                        }
+                        <TdCenter>
+                            <ComProductIngredientSelectUnit product_ingredient="@p" @bind-selected_value="@p.unit_id" is_ready_only="@(p.ingredient_portion_id>0 || p.ingredient.is_inventory_product==false)" />
+                        </TdCenter>
+                        <TdRight>
+                            <NumberInput @bind-text="@p.cost" class_name="uk-text-right" width="90px" />
+                        </TdRight>
+                        <TdRight>
+                            @p.total_cost.ToString(gv.currency_format)
+                        </TdRight>
+                        <TdRight>
+                            <Icon icon="delete" OnClick="@(() => OnDeleteClick(p))" />
+                        </TdRight>
+                    </tr>
+
+                }
+                <tfoot>
+                    <tr>
+                        <td>
+                            @lang["Total"]
+                        </td>
+                        <TdCenter>
+                            @product_portion.product_ingredients.Where(r => r.is_deleted == false).Sum(r => r.quantity).ToString(gv.quantity_format)
+                        </TdCenter>
+                        @if (is_search_all_product)
+                        {
+                            <TdCenter></TdCenter>
+                        }
+
+                        <TdCenter></TdCenter>
+                        <TdRight>
+                        </TdRight>
+                        <TdRight>
+                            @product_portion.product_ingredients.Where(r => r.is_deleted == false).Sum(r => r.total_cost).ToString(gv.currency_format)
+                        </TdRight>
+                        <TdRight>
+
+                        </TdRight>
+                    </tr>
+                </tfoot>
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <ComEmptyTemplate padding_top_bottom="25px" />
+                    </td>
+                </tr>
+            }
         }
-        else
-        {
-            <tr>
-                <td colspan="6">
-                <ComEmptyTemplate padding_top_bottom="25px"/>
-                </td>
-            </tr>
-        }
+
+
     </table>
 </EditFormContext>
 }
@@ -125,7 +137,7 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        var resp = await http.ApiGet($"ProductPortion({product_portion_id})?$expand=product_ingredients($expand=ingredient($select=id,product_code,product_name_en,product_name_kh,is_ingredient_product,is_menu_product,is_inventory_product;$expand=product_portions($select=id,unit_id,portion_name,cost;$filter=is_deleted eq false)),unit($select=id,unit_name,unit_category_id);$filter=is_deleted eq false)");
+        var resp = await http.ApiGet($"ProductPortion({product_portion_id})?$expand=product_ingredients($expand=product_portion($select=portion_name),ingredient($select=id,product_code,product_name_en,product_name_kh,is_ingredient_product,is_menu_product,is_inventory_product;$expand=product_portions($select=id,unit_id,portion_name,cost;$filter=is_deleted eq false)),unit($select=id,unit_name,unit_category_id);$filter=is_deleted eq false)");
         if (resp.IsSuccess)
         {
             product_portion = JsonSerializer.Deserialize<ProductPortionModel>(resp.Content.ToString());
