@@ -92,7 +92,7 @@
         </div>
 
         }
-
+        <Spacing Number="10"/>
         <div class="defualt-stock-location">
             <div class="uk-text-bold uk-margin-small-bottom">@lang["Defualt Stock Location"]</div>
 
@@ -242,6 +242,7 @@
                 {
                     foreach (var s in o.stations)
                     {
+                        Console.WriteLine($"outlet_id {o.business_branch_id}");
                         var st = gv.stock_locations.Where(r => r.business_branch_id == o.business_branch_id);
                         if (st.Count() > 0)
                         {
@@ -259,14 +260,18 @@
                             DefaultStockLocationProductModel d = new DefaultStockLocationProductModel();
                             d.station_id = s.id;
                             d.station = s;
+                            d.station.outlet = o;
+
                             d.business_branch_id = o.business_branch_id;
                             if (model.id > 0)
                             {
                                 var existing_default_stock_location = default_stock_location_products.Where(r => r.station_id == d.station_id && r.business_branch_id == d.business_branch_id);
-                                if (existing_default_stock_location.Any()) {
+                                if (existing_default_stock_location.Any())
+                                {
                                     d.id = existing_default_stock_location.FirstOrDefault().id;
                                     d.stock_location_id = existing_default_stock_location.FirstOrDefault().stock_location_id;
-                                }else
+                                }
+                                else
                                 {
                                     d.stock_location_id = default_st.id;
                                 }
@@ -275,12 +280,24 @@
                             {
                                 d.stock_location_id = default_st.id;
                             }
-
-
                             model.default_stock_location_products.Add(d);
+
+
                         }
                     }
                 }
+
+            }
+            else
+            {
+                foreach (var o in gv.outlets)
+                {
+                    foreach (var s in o.stations)
+                    {
+                        model.default_stock_location_products.Where(r => r.business_branch_id == o.business_branch_id).Select(r=> { r.station.outlet = o;return r; });
+                    }
+                }
+
             }
         }
         else
@@ -329,8 +346,7 @@
             {
                 default_stock_location_products = JsonSerializer.Deserialize<List<DefaultStockLocationProductModel>>(resp.Content.ToString());
 
-
-
+                Console.WriteLine("loaddefauklt");
             }
             await GenerateDefaultStockLocation(model.is_inventory_product);
 
