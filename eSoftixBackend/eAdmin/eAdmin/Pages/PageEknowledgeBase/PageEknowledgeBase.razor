@@ -1,6 +1,6 @@
-﻿@*@page "/eknowledgebase"
+﻿@page "/eknowledgebase"
 @page "/eknowledgebase/{id}"
-@inherits PageCore
+@inherits PageEknowledgeBaseBase
 @layout EknowledgeBaseLayout
 <Loading is_loading="@(is_loading || is_loading_data)" />
 @if (!is_loading)
@@ -42,8 +42,8 @@
                         </TdCenter>
                         <TdActions>
                             <TableActionItem icon="@Icons.Material.Filled.Edit" url="@($"eknowledgebase/edit/{e.id}")">Edit</TableActionItem>
-                            <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@(!e.is_deleted)">Delete</TableActionItem>
-                            <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@e.is_deleted">Restore</TableActionItem>
+                          @*  <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@(!e.is_deleted)">Delete</TableActionItem>
+                            <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@e.is_deleted">Restore</TableActionItem>*@
                         </TdActions>
                     </RowTemplate>
                 </Table>
@@ -52,25 +52,3 @@
     </PageContainer>
 
 }
-
-@if (is_loading)
-{
-    <Spinner/>
-}
-else { 
-    <ComKnowledgeBase parent_id="@id" />    
-}
-
-
-@code{
-    [Parameter] public Guid id { get; set; }
-
-    async Task OnMenuClick(eKnowledgeBaseModel m)
-    {
-        nav.NavigateTo($"eknowledgebase/{m.id}");
-        
-        is_loading = true;
-        await Task.Delay(100);
-        is_loading = false;
-    }
-}*@

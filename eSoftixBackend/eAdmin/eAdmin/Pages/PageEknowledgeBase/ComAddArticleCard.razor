@@ -20,7 +20,7 @@
                                 <MudItem xs="10">
                                     <MudTextField @bind-Value="@model.title_en" Label="Title En" Variant="Variant.Text" Class="mb-2" />
 
-                                    <Editor @bind-Value="@model.description_en" Conf="@editorConf" ApiKey="6bgc211uq2mw31fki1i1dmssvyxp93n3gaulsa02uzcfksyy" />
+                                    <Editor @bind-Value="@model.description_en" Conf="@editorConf" ApiKey="6bgc211uq2mw31fki1i1dmssvyxp93n3gaulsa02uzcfksyy" sele/>
                                 </MudItem>
                             </MudGrid>
 
@@ -51,6 +51,8 @@
     public EventCallback<eKnowledgeBaseModel> OnRemove { get; set; }
     public Dictionary<string, object> editorConf = new Dictionary<string, object>{
     {"menubar", false},
+    { "plugins", "link image code advlist" },
+    {"toolbar", "undo redo | styleselect | forecolor | bold italic | alignleft aligncenter alignright alignjustify | default" }
 
   };
 

@@ -9,7 +9,7 @@
         <UICenter>
 
             <MudCard Elevation="0">
-                @if (id == Guid.Empty)
+                @if (!string.IsNullOrEmpty(id))
                 {
                     <MudCardHeader>
                         <CardHeaderContent>
@@ -46,7 +46,7 @@
                                         </MudItem>
                                         <MudItem xs="9">
                                             <MudTextField @bind-Value="@c.title_kh" Label="Title Kh" Variant="Variant.Text" Class="mb-2" />
-                                            <Editor @bind-Value="@c.description_kh" Conf="@editorConf" ApiKey="6bgc211uq2mw31fki1i1dmssvyxp93n3gaulsa02uzcfksyy" />
+                                            <Editor  @bind-Value="@c.description_kh" Conf="@editorConf" ApiKey="6bgc211uq2mw31fki1i1dmssvyxp93n3gaulsa02uzcfksyy" />
                                         </MudItem>
                                     </MudGrid>
 
@@ -98,34 +98,22 @@
 
             <Spacing Number="20" />
             <div class="d-flex justify-end">
-                @if(model.id != Guid.Empty)
-                {
                          <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" OnClick="@Save_Click" Class="mx-2">
-                            Save Close
+                          Save
                             @if (is_saving)
                             {
                                 <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true" />
                             }
                         </MudButton>
                         <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" OnClick="@Save_Close_Click" Class="mx-2">
-                            Save
+                            
+                             Save Close
                             @if (is_saving)
                             {
                                 <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true" />
                             }
                         </MudButton>
-                }
-                else{
-
-                        <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" OnClick="@Save_Click" Class="mx-2">
-                            Save
-                            @if (is_saving)
-                            {
-                                <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true" />
-                            }
-                        </MudButton>
-
-                }
+              
                 <MudButton Color="MudBlazor.Color.Default" Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="@(()=>nav.NavigateTo($"eknowledgebase/{model.parent_id}"))">Cancel</MudButton>
             </div>
 
