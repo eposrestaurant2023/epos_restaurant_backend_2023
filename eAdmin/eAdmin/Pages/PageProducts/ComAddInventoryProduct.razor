@@ -103,8 +103,6 @@
                     {
                         <MudTabPanel Text="@b.business_branch_name_en">
                             <div class="uk-overflow-auto">
-
-
                                 <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                     <tr>
                                         <ThAuto>@lang["Station"]</ThAuto>
@@ -117,7 +115,12 @@
                                             @if (d.station != null)
                                             {
                                                 <tr>
-                                                    <td>@d.station?.station_name_en</td>
+                                                    <td>
+                                                        @d.station?.station_name_en 
+                                                        <span uk-tooltip="Outlet">
+                                                            (@d.station?.outlet?.outlet_name_en)
+                                                        </span>
+                                                    </td>
                                                     <td>
                                                         <SelectStockLocation label="" show_empty="true" @bind-selected_value="@d.stock_location_id" business_branch_id="@b.id" empty_text="@lang["Select Defualt Stock Location"]" width="260px" />
                                                     </td>

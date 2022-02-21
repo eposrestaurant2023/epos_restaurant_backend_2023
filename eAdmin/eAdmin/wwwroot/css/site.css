@@ -605,7 +605,6 @@ input[type="text"] {
     text-transform: uppercase;
 }
 .uk-form-horizontal .uk-form-label {
-    width: 200px;
     margin-top:0px !important;
 }
 .wrp-sale-invoice-header div ul li .section-form{
@@ -7507,4 +7506,14 @@ z-index:999999!important;
     background: transparent!important;
     color: #404040!important;
     border: 1px solid #404040!important;
+}
+
+@media (min-width: 960px) {
+    .uk-form-horizontal .uk-form-label {
+        width: initial !important;
+        margin-top: 7px;
+        float: left;
+        margin-right: 5px;
+    }
+ 
 }
