@@ -132,21 +132,30 @@ namespace eAPI.Services
 
         public async Task<GetResponse> SendTelegram(string message)
         {
+
             HttpStatusCode StatusCode = new HttpStatusCode();
             http.DefaultRequestHeaders.Add("ContentType", "application/json");
 
             string token = _configuration.GetValue<string>("backEndTelegramConfig:access_token");
             string chat_id = _configuration.GetValue<string>("backEndTelegramConfig:chat_id");
             string url = $"{"https://api.telegram.org/bot"}{token}/sendMessage?chat_id={chat_id}&text={message.Replace("#", "")}";
-
-            var resp = await http.GetAsync(url);
-
-            StatusCode = resp.StatusCode;
-            if (resp.IsSuccessStatusCode)
+            try
             {
-                var jsonString = await resp.Content.ReadAsStringAsync();
-                return new GetResponse(true, jsonString);
+                var resp = await http.GetAsync(url);
+
+                StatusCode = resp.StatusCode;
+                if (resp.IsSuccessStatusCode)
+                {
+                    var jsonString = await resp.Content.ReadAsStringAsync();
+                    return new GetResponse(true, jsonString);
+                }
             }
+            catch (Exception)
+            {
+                return new GetResponse(false, StatusCode);
+                throw;
+            }
+           
             return new GetResponse(false, StatusCode);
 
         }
