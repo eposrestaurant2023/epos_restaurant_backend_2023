@@ -522,7 +522,13 @@ namespace eAPI.Services
         //check customer update 
         void CheckCustomer()
         {
-            BusinessInformationModel biz = db.BusinessInformations.FirstOrDefault();
+            var data = db.BusinessInformations;
+            BusinessInformationModel biz = new BusinessInformationModel();
+            if (data.Any())
+            {
+                biz = data.FirstOrDefault();
+            }
+            
             biz.id = esoftix_customer.id;
             biz.company_name = (esoftix_customer.company_name ?? "");
             biz.company_name_kh = (esoftix_customer.company_name ?? "");
@@ -532,7 +538,16 @@ namespace eAPI.Services
             biz.address = (esoftix_customer.address ?? "");
             biz.email = (esoftix_customer.email ?? "");
 
-            db.BusinessInformations.Update(biz);
+            if (data.Any())
+            {
+                db.BusinessInformations.Update(biz);
+            }
+            else
+            {
+                db.BusinessInformations.Add(biz);
+            }
+
+            
             db.SaveChanges();
         }
 

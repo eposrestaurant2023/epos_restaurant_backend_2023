@@ -21,7 +21,7 @@ namespace eAPI.Controllers
             environment = env;
         }
         [HttpGet("SaveImageFromUrl")]
-        public bool SaveImageFromUrl([FromQuery]string filename)
+        public ActionResult SaveImageFromUrl([FromQuery]string filename)
         {
             string server_url = config.GetValue<string>("apieSoftixUrl");
             server_url = server_url.Replace("/api/", "/");
@@ -35,11 +35,11 @@ namespace eAPI.Controllers
                     string img_path = environment.ContentRootPath + "\\Upload\\" + filename;
                     System.IO.File.WriteAllBytes(img_path, dataArr);
                 }
-                return true;
+                return Ok(true);
             }
             catch (Exception e)
             {
-                return false;
+                return Ok(e.InnerException.Message);
             }
 
         }
