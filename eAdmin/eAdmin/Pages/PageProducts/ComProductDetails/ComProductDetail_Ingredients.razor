@@ -41,7 +41,7 @@
                                     <LabelInventory is_visible="@(pi.ingredient?.is_inventory_product==true)" />
                                     <LabelIngredient is_visible="@(pi.ingredient?.is_ingredient_product==true)" />
                                     <LabelMenuProduct is_visible="@(pi.ingredient?.is_menu_product==true)" />
-                                    @if (pi.product_portion != null)
+                                    @if (pi.product_portion != null && pi.product_portion.portion_name != "Normal")
                                     {
                                         <Label Text="@pi.product_portion?.portion_name" Background="#4873aa" />
                                     }
