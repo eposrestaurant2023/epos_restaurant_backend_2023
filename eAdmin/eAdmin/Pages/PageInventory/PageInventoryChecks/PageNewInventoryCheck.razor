@@ -49,8 +49,8 @@
                         </div>
                     }
                 </UIContainerBox>
-                <UIContainerBox Title="@lang["Product Category"]" is_visible="@(model.inventory_check_type=="Full")">
-                    <MudTreeView Items="product_category_tree" CanSelect="true" @bind-SelectedValues="SelectedProductCategory" CanActivate="true">
+                <UIContainerBox Title="@lang["Product Category"]" is_visible="@(model.inventory_check_type=="Partial")">
+                    <MudTreeView Items="product_category_tree" CanSelect="true" SelectedValues="@SelectedProductCategory" SelectedValuesChanged="@onSelectedValueChange" T="TreeViewModel" CanActivate="true">
                         <ItemTemplate>
                             <MudTreeViewItem @bind-Expanded="@context.is_expand" Items="@context.tree_items" Value="@context" @bind-Selected="@context.is_selected"
                                              Text="@context.title" />

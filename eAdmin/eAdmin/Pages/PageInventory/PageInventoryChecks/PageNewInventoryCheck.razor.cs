@@ -46,12 +46,22 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
             is_loading = false;
 
         }
+        string GetGuid()
+        {
+            if (id != Guid.Empty)
+            {
+                return id.ToString();
+            }
+            return "";
+        }
        
         async Task BuildCategoryTreeAsync()
         {
-            var resp = await http.ApiGetDataFromStoreProcedure("sp_get_product_group_category_tree", $"{id}");
+            var resp = await http.ApiGetDataFromStoreProcedure("sp_get_product_group_category_tree", $"'{GetGuid()}'");
             if (resp.IsSuccess)
             {
+
+                Console.WriteLine(resp.Content.ToString());
                 var data = JsonSerializer.Deserialize<List<TreeViewModel>>(resp.Content.ToString());
 
                 foreach (var g in data.Where(r=>r.parent_id==null))
@@ -86,7 +96,7 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
             if (id !=Guid.Empty)
             {
                 string url = $"InventoryCheck({id})?";
-                url += $"$expand=inventory_check_products($expand=product($expand=unit);$filter=is_deleted eq false)";
+                url += $"$expand=inventory_check_products&$filter=is_deleted eq false)";
                 var resp = await http.ApiGet(url);
                 if (resp.IsSuccess)
                 {
@@ -146,6 +156,13 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
             await Task.Delay(500);
             model.business_branch_id = _id;
             is_selecting_business_branch = false;
+        }
+
+        public void onSelectedValueChange(HashSet<TreeViewModel> value)
+        {
+            SelectedProductCategory = value;
+            model.product_categories = string.Join(",", SelectedProductCategory.Select(r=>r.id));
+            
         }
     }
 }
