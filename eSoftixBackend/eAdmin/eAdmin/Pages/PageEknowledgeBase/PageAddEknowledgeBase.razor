@@ -75,7 +75,6 @@
                                     <MudTextField T="int" @bind-Value="@c.sort_order" Label="Sort Order" Variant="Variant.Text" Class="mt-2" />
  
                                         <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Warning" OnClick="@(()=>DeleteChil_Click(c))" Class="mt-2 mb-2">Delete</MudButton>
-                                    
                                 </MudItem>
                             </MudGrid>
                         </MudPaper>
@@ -89,6 +88,10 @@
                                    Color="MudBlazor.Color.Primary" Class="mt-2 mb-2">
                                 Add New Sub Content
                             </MudButton>
+                            <div style="margin-left:3px;">
+                                  <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Tertiary" OnClick="@(()=>copy_content(model))" Class="mt-2 mb-2" EndIcon="@Icons.Filled.FileCopy">Copy Kh to En</MudButton>
+                            </div>
+                         
                         </div>
                     }
 
