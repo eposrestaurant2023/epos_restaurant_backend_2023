@@ -68,7 +68,12 @@ namespace eModels
         public decimal diference_amount { get; set; }
         public string note { get; set; }
 
-      
+        public string product_group_name { get; set; }
+        public string product_category_name { get; set; }
+        public string product_name { get; set; }
+        public string unit_name { get; set; }
+
+
 
     }
 
