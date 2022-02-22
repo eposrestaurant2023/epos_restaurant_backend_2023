@@ -27,9 +27,10 @@
                 <UIContainerBox Title="@lang["Inventory Check Information"]">
                     <TextInput label="@lang["Document #"]" text="@model.document_number" is_read_only="true" />
                     <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance #"]" label="@lang["Referance #"]" />
-                    <SelectInventoryCheckType @bind-selected_value="@model.inventory_check_type" label="@lang["Inventory Check Type"]" />
+                    <SelectInventoryCheckType selected_value="@model.inventory_check_type" selected_valueChanged="InVentoryCheckTypeChanged" label="@lang["Inventory Check Type"]" />
                 </UIContainerBox>
                 <UIContainerBox Title="@lang["Warehouse"]">
+
                     <SelectBusinessBranchByRole show_empty="true" label="@lang["Business Branch"]" selected_valueChanged="@OnBusinessBranchSeletedChange" selected_value="model.business_branch_id" />
                     @if (!is_selecting_business_branch)
                     {
@@ -50,6 +51,7 @@
                     }
                 </UIContainerBox>
                 <UIContainerBox Title="@lang["Product Category"]" is_visible="@(model.inventory_check_type=="Partial")">
+
                     <MudTreeView Items="product_category_tree" CanSelect="true" SelectedValues="@SelectedProductCategory" SelectedValuesChanged="@onSelectedValueChange" T="TreeViewModel" CanActivate="true">
                         <ItemTemplate>
                             <MudTreeViewItem @bind-Expanded="@context.is_expand" Items="@context.tree_items" Value="@context" @bind-Selected="@context.is_selected"
