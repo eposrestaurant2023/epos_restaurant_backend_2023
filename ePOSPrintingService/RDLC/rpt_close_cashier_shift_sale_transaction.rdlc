@@ -2050,6 +2050,14 @@
           <DataField>email</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="footer_en">
+          <DataField>footer_en</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="footer_kh">
+          <DataField>footer_kh</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="phone_1">
           <DataField>phone_1</DataField>
           <rd:TypeName>System.String</rd:TypeName>
