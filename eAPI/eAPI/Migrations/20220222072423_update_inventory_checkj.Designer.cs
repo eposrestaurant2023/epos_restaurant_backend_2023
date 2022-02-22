@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220222072423_update_inventory_checkj")]
+    partial class update_inventory_checkj
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1559,6 +1561,9 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("InventoryCheckModelid")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("actual_quantity")
                         .HasColumnType("decimal(19,8)");
 
@@ -1567,6 +1572,22 @@ namespace eAPI.Migrations
 
                     b.Property<decimal>("cost")
                         .HasColumnType("decimal(19,8)");
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime");
 
                     b.Property<decimal>("diference_amount")
                         .HasColumnType("decimal(19,8)");
@@ -1580,14 +1601,19 @@ namespace eAPI.Migrations
                     b.Property<decimal>("initial_quantity")
                         .HasColumnType("decimal(19,8)");
 
-                    b.Property<Guid>("inventory_check_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
 
-                    b.Property<DateTime?>("last_inventory_date")
+                    b.Property<DateTime>("last_inventory_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("multiplier")
-                        .HasColumnType("decimal(19,8)");
+                    b.Property<string>("last_modified_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("last_modified_date")
+                        .HasColumnType("datetime");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
@@ -1599,12 +1625,16 @@ namespace eAPI.Migrations
                     b.Property<decimal>("receive_quantity")
                         .HasColumnType("decimal(19,8)");
 
-                    b.Property<int>("unit_id")
-                        .HasColumnType("int");
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("unit")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
 
-                    b.HasIndex("inventory_check_id");
+                    b.HasIndex("InventoryCheckModelid");
 
                     b.HasIndex("product_id");
 
@@ -6642,19 +6672,15 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.InventoryCheckProductModel", b =>
                 {
-                    b.HasOne("eModels.InventoryCheckModel", "inventory_check")
+                    b.HasOne("eModels.InventoryCheckModel", null)
                         .WithMany("inventory_check_products")
-                        .HasForeignKey("inventory_check_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("InventoryCheckModelid");
 
                     b.HasOne("eModels.ProductModel", "product")
                         .WithMany()
                         .HasForeignKey("product_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("inventory_check");
 
                     b.Navigation("product");
                 });

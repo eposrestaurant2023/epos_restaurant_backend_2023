@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ using eShareModel;
 namespace eModels
 {
     [Table("tbl_inventory_check")]
-public    class InventoryCheckModel: CoreGUIDModel
+    public class InventoryCheckModel : CoreGUIDModel
     {
         public InventoryCheckModel()
         {
@@ -27,9 +28,9 @@ public    class InventoryCheckModel: CoreGUIDModel
         public BusinessBranchModel business_branch { get; set; }
         public Guid stock_location_id { get; set; }
         [ForeignKey("stock_location_id")]
-        public StockLocationModel stock_location{ get; set; }
+        public StockLocationModel stock_location { get; set; }
         public string inventory_check_type { get; set; } = "Full"; //Full, Partial
-        public decimal total_cost{ get; set; }
+        public decimal total_cost { get; set; }
 
         public bool is_fulfilled { get; set; }
 
@@ -38,16 +39,26 @@ public    class InventoryCheckModel: CoreGUIDModel
         public string product_categories { get; set; }
 
         public List<HistoryModel> histories { get; set; }
-        public List<InventoryCheckProductModel> inventory_check_products{ get; set; }
+        public List<InventoryCheckProductModel> inventory_check_products { get; set; }
 
 
     }
     [Table("tbl_inventory_check_product")]
-    public class InventoryCheckProductModel : CoreGUIDModel
+    public class InventoryCheckProductModel 
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        public Guid id { get; set; }
+        public Guid inventory_check_id { get; set; }
+        [ForeignKey("inventory_check_id")]
+        public InventoryCheckModel inventory_check { get; set; }
         public int product_id { get; set; }
-        public string unit { get; set; }
-        public decimal cost{ get; set; }
+        [ForeignKey("product_id")]
+        public ProductModel product { get; set; }
+        public int unit_id { get; set; }
+        public decimal multiplier { get; set; }
+        public decimal cost { get; set; }
+        public DateTime? last_inventory_date { get; set; }
         public decimal initial_quantity { get; set; }
         public decimal receive_quantity { get; set; }
         public decimal consume_quantity { get; set; }
@@ -57,6 +68,8 @@ public    class InventoryCheckModel: CoreGUIDModel
         public decimal diference_amount { get; set; }
         public string note { get; set; }
 
-    }
+      
 
     }
+
+}
