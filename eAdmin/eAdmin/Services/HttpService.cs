@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using NETCore.Encrypt;
- 
+
 using System.Linq;
 using eModels;
 using System.Text.Json;
@@ -16,11 +16,12 @@ namespace eAdmin.Services
         Task<GetOdataResponse> ApiGetOData(string url, bool use_est_api = false);
         Task<GetResponse> ApiGet(string url);
         Task<PostReponse> ApiPost(string url, object obj = null);
-        
+
+        Task<PostReponse> ApiGetDataFromStoreProcedure(string name, string parameters);
 
         string ImageUrl(string image_path);
 
-  Task<GetResponse> eSoftixApiGet(string url);
+        Task<GetResponse> eSoftixApiGet(string url);
         Task<PostReponse> eSoftixApiPost(string url, object obj = null);
     }
     public class HttpService : IHttpService
@@ -30,7 +31,7 @@ namespace eAdmin.Services
         private ILocalStorageService _localStorageService;
 
         private IConfiguration _configuration;
-       
+
         public HttpService(
             HttpClient httpClient,
             ILocalStorageService localStorageService,
@@ -65,7 +66,7 @@ namespace eAdmin.Services
             UserModel current_login_user = new UserModel();
             if (!string.IsNullOrEmpty(user))
             {
-                current_login_user =  JsonSerializer.Deserialize<UserModel>(EncryptProvider.Base64Decrypt(user));
+                current_login_user = JsonSerializer.Deserialize<UserModel>(EncryptProvider.Base64Decrypt(user));
             }
 
             if (current_login_user.id != 0 && current_login_user != null)
@@ -77,7 +78,7 @@ namespace eAdmin.Services
                 string val = System.Convert.ToBase64String(plainTextBytes);
                 http.DefaultRequestHeaders.Remove("Authorization");
                 http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
-              
+
 
             }
 
@@ -107,7 +108,7 @@ namespace eAdmin.Services
         {
             HttpStatusCode StatusCode = new HttpStatusCode();
 
-         
+
 
 
             http.DefaultRequestHeaders.Add("ContentType", "application/json");
@@ -128,13 +129,13 @@ namespace eAdmin.Services
             }
             catch
             {
-                
+
                 return new GetResponse(false, null, 500);
             }
             return new GetResponse(false, StatusCode);
         }
 
-        public async Task<GetOdataResponse> ApiGetOData(string url,bool use_est_api=false)
+        public async Task<GetOdataResponse> ApiGetOData(string url, bool use_est_api = false)
         {
 
             string user = await _localStorageService.GetItemAsync<string>("_Authorization");
@@ -153,7 +154,7 @@ namespace eAdmin.Services
                 string val = System.Convert.ToBase64String(plainTextBytes);
                 http.DefaultRequestHeaders.Remove("Authorization");
                 http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
-               
+
             }
 
             try
@@ -163,7 +164,7 @@ namespace eAdmin.Services
                 {
                     base_url = _configuration.GetValue<string>("apieSoftixUrl");
                 }
-                
+
                 var resp = await http.GetAsync($"{base_url}{url}");
 
                 if (resp.IsSuccessStatusCode)
@@ -178,8 +179,8 @@ namespace eAdmin.Services
             {
 
             }
-                
-         
+
+
             return new GetOdataResponse(false);
         }
 
@@ -203,18 +204,18 @@ namespace eAdmin.Services
                 http.DefaultRequestHeaders.Add("ContentType", "application/json");
                 var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{current_login_user?.username}:{pass}");
                 string val = System.Convert.ToBase64String(plainTextBytes);
-                
-                    http.DefaultRequestHeaders.Remove("Authorization");
-                    http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
-                   
-              
-             
+
+                http.DefaultRequestHeaders.Remove("Authorization");
+                http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
+
+
+
             }
 
             HttpRequestMessage requestMessage = new HttpRequestMessage();
             if (obj != null)
             {
-                
+
                 requestMessage = new HttpRequestMessage()
                 {
                     Method = new HttpMethod("POST"),
@@ -265,30 +266,30 @@ namespace eAdmin.Services
             {
 
             }
-            return new PostReponse(false, "",500);
+            return new PostReponse(false, "", 500);
         }
-     public async Task<PostReponse> eSoftixApiPost(string url, object obj = null)
+        public async Task<PostReponse> eSoftixApiPost(string url, object obj = null)
         {
             HttpStatusCode StatusCode = new HttpStatusCode();
             string base_url = _configuration.GetValue<string>("apieSoftixUrl");
-             
 
-                
-                http.DefaultRequestHeaders.Add("ContentType", "application/json");
-                var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"esoftix:MN[D8beAt:AWeW5");
-                string val = System.Convert.ToBase64String(plainTextBytes);
-                
-                http.DefaultRequestHeaders.Remove("Authorization");
-                http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
-                   
-              
-             
-        
+
+
+            http.DefaultRequestHeaders.Add("ContentType", "application/json");
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"esoftix:MN[D8beAt:AWeW5");
+            string val = System.Convert.ToBase64String(plainTextBytes);
+
+            http.DefaultRequestHeaders.Remove("Authorization");
+            http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
+
+
+
+
 
             HttpRequestMessage requestMessage = new HttpRequestMessage();
             if (obj != null)
             {
-                
+
                 requestMessage = new HttpRequestMessage()
                 {
                     Method = new HttpMethod("POST"),
@@ -341,8 +342,14 @@ namespace eAdmin.Services
                 return new PostReponse(false, "", 500);
             }
         }
-  
-    
+
+
+
+        public async Task<PostReponse> ApiGetDataFromStoreProcedure(string name, string parameters)
+        {
+            return await ApiPost("GetData", new FilterModel() { procedure_name = name, procedure_parameter = parameters });
+        }
+
     }
 
 }

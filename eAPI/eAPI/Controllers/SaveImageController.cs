@@ -23,10 +23,11 @@ namespace eAPI.Controllers
         [HttpGet("SaveImageFromUrl")]
         public ActionResult SaveImageFromUrl([FromQuery]string filename)
         {
-            string server_url = config.GetValue<string>("apieSoftixUrl");
-            server_url = server_url.Replace("/api/", "/");
+           
             try
             {
+                string server_url = config.GetValue<string>("apieSoftixUrl");
+                server_url = server_url.Replace("/api/", "/");
                 using (WebClient webClient = new WebClient())
                 {
                     string url = server_url + "upload/" + filename;
@@ -39,7 +40,7 @@ namespace eAPI.Controllers
             }
             catch (Exception e)
             {
-                return Ok(e.InnerException.Message);
+                return Ok(e.Message);
             }
 
         }
