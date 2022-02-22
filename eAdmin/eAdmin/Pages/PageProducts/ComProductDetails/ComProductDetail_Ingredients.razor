@@ -14,67 +14,79 @@
                 <ThRight>@lang["Cost"]</ThRight>
                 <ThRight>@lang["Total Cost"]</ThRight>
             </tr>
-
-            @if (product_portion.product_ingredients.Where(r => r.is_deleted == false).Any())
+            @if (product_portion.product_ingredients != null)
             {
-                foreach (var pi in product_portion.product_ingredients.Where(r => r.is_deleted == false).ToList())
+                @if (product_portion.product_ingredients.Where(r => r.is_deleted == false).Any())
                 {
+                    foreach (var pi in product_portion.product_ingredients.Where(r => r.is_deleted == false).ToList())
+                    {
 
+                      
+                            <tr>
+                                <td>
+                                    @if (pi.ingredient.is_menu_product)
+                                    {
+                                        <a href="@($"product/{pi?.ingredient_id}")">
+                                            @pi?.ingredient?.product_display_name
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@($"ingredient/{pi?.ingredient_id}")">
+                                            @pi.ingredient?.product_display_name
+                                        </a>
+                                    }
 
-<tr>
-    <td>
-        @if (pi.ingredient.is_menu_product)
-        {
-            <a href="@($"product/{pi.ingredient_id}")">
-                @pi.ingredient?.product_display_name
-            </a> }
-        else
-        {
-            <a href="@($"ingredient/{pi.ingredient_id}")">
-                @pi.ingredient?.product_display_name
-            </a>
-        }
+                                    <br />
+                                    <LabelInventory is_visible="@(pi.ingredient?.is_inventory_product==true)" />
+                                    <LabelIngredient is_visible="@(pi.ingredient?.is_ingredient_product==true)" />
+                                    <LabelMenuProduct is_visible="@(pi.ingredient?.is_menu_product==true)" />
+                                    @if (pi.product_portion != null && pi.product_portion.portion_name != "Normal")
+                                    {
+                                        <Label Text="@pi.product_portion?.portion_name" Background="#4873aa" />
+                                    }
 
-        <br />
-        <LabelInventory is_visible="@pi.ingredient.is_inventory_product"/>
-        <LabelIngredient is_visible="@pi.ingredient.is_ingredient_product" />
-        <LabelMenuProduct is_visible="@pi.ingredient.is_menu_product" />
-    </td>
-                        <TdCenter>
-                            @pi.quantity.ToString(gv.quantity_format)
-                        </TdCenter>
-                        <TdCenter>@pi.unit?.unit_name</TdCenter>
-                        <TdRight>@pi.cost.ToString(gv.currency_format)</TdRight>
-                        <TdRight>@pi.total_cost.ToString(gv.currency_format)</TdRight>
+                                </td>
+                                <TdCenter>
+                                    @pi.quantity.ToString(gv.quantity_format)
+                                </TdCenter>
+                                <TdCenter>@pi.unit?.unit_name</TdCenter>
+                                <TdRight>@pi.cost.ToString(gv.currency_format)</TdRight>
+                                <TdRight>@pi.total_cost.ToString(gv.currency_format)</TdRight>
+                            </tr>
+                        
+
+                    }
+                    <tfoot>
+                        <tr>
+                            <td>
+                                @lang["Total Cost"]
+                            </td>
+                            <TdCenter>
+                                @product_portion.product_ingredients.Where(r => r.is_deleted == false).Sum(r => r.quantity).ToString(gv.quantity_format)
+                            </TdCenter>
+                            <TdCenter>
+                            </TdCenter>
+                            <TdRight>
+                            </TdRight>
+                            <TdRight>
+                                @product_portion.product_ingredients.Where(r => r.is_deleted == false).Sum(r => r.total_cost).ToString(gv.currency_format)
+                            </TdRight>
+
+                        </tr>
+                    </tfoot>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">
+                            <ComEmptyTemplate padding_top_bottom="25px" />
+                        </td>
                     </tr>
                 }
-                <tfoot>
-                    <tr>
-                        <td>
-                            @lang["Total Cost"]
-                        </td>
-                        <TdCenter>
-                            @product_portion.product_ingredients.Where(r => r.is_deleted == false).Sum(r => r.quantity).ToString(gv.quantity_format)
-                        </TdCenter>
-                        <TdCenter>
-                        </TdCenter>
-                        <TdRight>
-                        </TdRight>
-                        <TdRight>
-                            @product_portion.product_ingredients.Where(r => r.is_deleted == false).Sum(r => r.total_cost).ToString(gv.currency_format)
-                        </TdRight>
-                       
-                    </tr>
-                </tfoot>
+
             }
-            else
-            {
-                <tr>
-                    <td colspan="5">
-                        <ComEmptyTemplate padding_top_bottom="25px" />
-                    </td>
-                </tr>
-            }
+
         </table>
     </UIContainerBox>
   
@@ -132,7 +144,7 @@
         
 
 
-        var resp = await http.ApiGet($"ProductPortion({product_portion.id})?$expand=product_ingredients($expand=ingredient($select=id,is_inventory_product,product_code,product_name_en,product_name_kh,is_ingredient_product,is_menu_product),unit($select=id,unit_name,unit_category_id);$filter=is_deleted eq false)");
+        var resp = await http.ApiGet($"ProductPortion({product_portion.id})?$expand=product_ingredients($expand=product_portion($select=portion_name),ingredient($select=id,is_inventory_product,product_code,product_name_en,product_name_kh,is_ingredient_product,is_menu_product),unit($select=id,unit_name,unit_category_id);$filter=is_deleted eq false)");
         if (resp.IsSuccess)
         {
             product_portion = JsonSerializer.Deserialize<ProductPortionModel>(resp.Content.ToString());

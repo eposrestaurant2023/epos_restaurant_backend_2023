@@ -181,7 +181,7 @@ namespace eAPI.Controllers
             db.Productions.Update(s);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             //add to history
-            //db.Database.ExecuteSqlRaw($"exec sp_update_stock_take_inventory_transaction {id}");
+            db.Database.ExecuteSqlRaw($"exec sp_update_production_to_inventory_transaction {id}");
             return Ok();
 
         }

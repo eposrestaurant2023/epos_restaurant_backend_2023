@@ -6,32 +6,21 @@
     }
     else
     {
-
-        @if (gv.business_branch_by_role.Count() == 1)
+<MudTabs PanelClass="pa-6">
+    @foreach (var b in gv.business_branch_by_role)
+    {
+        if (gv.business_branch_has_feature(b.id.ToString(), "KOT"))
         {
-            @foreach (var p in printers)
-            {
-                <ComInputCheckBox label="@p.printer_name" value="@p.is_selected" valueChanged="@(() => PrinterChanged(p))" />
-            }
-        }
-        else
-        {
-
-           <MudTabs PanelClass="pa-6">
-                @foreach (var b in gv.business_branch_by_role)
+            <MudTabPanel Text="@b.business_branch_name_en">
+              
+                @foreach (var p in printers.Where(r => r.business_branch_id == b.id))
                 {
-                    if (gv.business_branch_has_feature(b.id.ToString(), "KOT"))
-                    {
-                       <MudTabPanel Text="@b.business_branch_name_en">
-                           @foreach (var p in printers.Where(r => r.business_branch_id == b.id))
-                           {
-                               <ComInputCheckBox label="@p.printer_name" value="@p.is_selected" valueChanged="@(() => PrinterChanged(p))" />
-                           }
-                       </MudTabPanel>
-                    }
+                    <ComInputCheckBox label="@p.printer_name" value="@p.is_selected" valueChanged="@(() => PrinterChanged(p))" />
                 }
-            </MudTabs>
+            </MudTabPanel>
         }
+    }
+</MudTabs>
     }
 </UIContainerBox>
 @code {

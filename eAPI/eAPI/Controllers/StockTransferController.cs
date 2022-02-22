@@ -161,8 +161,7 @@ namespace eAPI.Controllers
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             // add to history
-            db.Database.ExecuteSqlRaw($"exec sp_update_stock_transfer_out_inventory_transaction {id}");
-            db.Database.ExecuteSqlRaw($"exec sp_update_stock_transfer_in_inventory_transaction {id}");
+            db.Database.ExecuteSqlRaw($"exec sp_update_stock_transfer_out_inventory_transaction {id};exec sp_update_stock_transfer_in_inventory_transaction {id}");
             return Ok();
 
         }
@@ -180,7 +179,7 @@ namespace eAPI.Controllers
             db.StockTransfers.Update(s);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             // add to history
-            db.Database.ExecuteSqlRaw($"exec sp_update_stock_transfer_in_inventory_transaction {id}");
+            db.Database.ExecuteSqlRaw($"exec sp_update_stock_transfer_out_inventory_transaction {id};exec sp_update_stock_transfer_in_inventory_transaction {id}");
             return Ok();
 
         }

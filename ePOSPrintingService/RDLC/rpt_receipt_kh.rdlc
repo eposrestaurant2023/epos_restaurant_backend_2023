@@ -2073,7 +2073,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>សូមអគុណ ដែលជួយគាំទ្រ </Value>
+                              <Value>=Fields!footer_kh.Value</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontFamily>Kh System</FontFamily>
@@ -2100,6 +2100,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -2919,6 +2920,14 @@
         </Field>
         <Field Name="email">
           <DataField>email</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="footer_en">
+          <DataField>footer_en</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="footer_kh">
+          <DataField>footer_kh</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="phone_1">

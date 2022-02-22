@@ -717,6 +717,10 @@ namespace eAPIClient.Migrations
                     b.Property<int?>("parent_id")
                         .HasColumnType("int");
 
+                    b.Property<string>("photo")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<int>("root_menu_id")
                         .HasColumnType("int");
 

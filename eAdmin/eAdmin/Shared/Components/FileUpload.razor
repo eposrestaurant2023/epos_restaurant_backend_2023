@@ -17,12 +17,15 @@
                 </MudItem>
                 <InputFile OnChange="UploadFiles" style="display: none;" />
             </label>
+
         </InputImage>
+
         @if (show_search_image)
         {
-            <Button OnClick="searchImage_Click">Search Image</Button>
+            <div>
+                <Button OnClick="searchImage_Click" custom_class="mt-4">Search Image</Button>
+            </div>
         }
-
     </div>
 }
 else
@@ -34,13 +37,16 @@ else
             </MudItem>
             <InputFile OnChange="UploadFiles" style="display: none;" />
         </label>
+
     </InputImage>
     @if (show_search_image)
     {
-        <Button OnClick="searchImage_Click">Search Image</Button>
+        <div>
+            <Button OnClick="searchImage_Click" custom_class="mt-4">Search Image</Button>
+        </div>
     }
-}
 
+}
 
 @code {
     public bool showCamera { get; set; } = false;

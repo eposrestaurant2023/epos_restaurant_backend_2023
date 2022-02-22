@@ -27,17 +27,17 @@
 
                 @if (branches.Any())
                 {
-                    @foreach (var b in branches)
+                    @foreach (var b in gv.business_branch_by_role)
                     {
                         if (gv.business_branch_has_feature(b.id.ToString(), "KOT"))
                         {
 
                             <MudExpansionPanels MultiExpansion="true">
                                 <MudExpansionPanel Class="mb-2" Text="@b.business_branch_name_en">
-                                    <ComPrinters printers="@b.printers" />
+                                    <ComPrinters printers="@branches.Where(r=>r.id==b.id).FirstOrDefault().printers" />
                                     <hr />
                                     <div class="uk-text-right">
-                                        <Button OnClick="@(() => AddPrinter(b))">@lang["Add Printer"]</Button>
+                                        <Button OnClick="@(() => AddPrinter(branches.Where(r=>r.id==b.id).FirstOrDefault()))">@lang["Add Printer"]</Button>
                                     </div>
                                 </MudExpansionPanel>
                             </MudExpansionPanels>

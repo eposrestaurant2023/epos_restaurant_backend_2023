@@ -1,14 +1,8 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <UIContainerBox Title="@lang["Menus"]">
-    @if (gv.business_branch_by_role.Count() == 1)
-    {
-        <ComAddProduct_RenderMenu business_branch_id="@gv.bussiness_branches.FirstOrDefault().id" OnMenuSelected="@OnMenuSelected"    selected_menus="@model.product_menus" />
-    }
-    else
-    {
-        <MudTabs PanelClass="pa-6">
-            @foreach (var b in gv.business_branch_by_role)
-            {
+    <MudTabs PanelClass="pa-6">
+        @foreach (var b in gv.business_branch_by_role)
+        {
             <MudTabPanel Text="@b.business_branch_name_en">
                 @if (model.product_menus.Where(r => r.menu.business_branch_id == b.id && r.is_deleted == false).Any())
                 {
@@ -29,10 +23,9 @@
                 }
                 <ComAddProduct_RenderMenu business_branch_id="@b.id" OnMenuSelected="@OnMenuSelected" selected_menus="@model.product_menus" />
             </MudTabPanel>
-            }
-        </MudTabs>
-
-    }
+        }
+    </MudTabs>
+        
 </UIContainerBox>
 @code {
 

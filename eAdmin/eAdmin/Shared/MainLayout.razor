@@ -13,16 +13,17 @@
             {
             <MudLayout>
                 <MudAppBar Elevation="25">
+                    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+                    </MudHidden>
                     <MudHidden Breakpoint="Breakpoint.SmAndDown">
                         <a href="dashboard">
                             <Image ImageUrl="images/ePOS-Res.png" Width="100px" />
                         </a>
                     </MudHidden>
-                    <MudHidden Breakpoint="Breakpoint.MdAndUp">
-                        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-                    </MudHidden>
+
                     <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                        <MudText Style="color:#FFFFFF" Typo="Typo.h6" Class="ml-4">@gv.business_info.company_name</MudText>
+                        <MudText Style="color:#FFFFFF" Typo="Typo.h6" Class="ml-4">@gv.business_info?.company_name</MudText>
                     </MudHidden>
 
                     <MudSpacer />

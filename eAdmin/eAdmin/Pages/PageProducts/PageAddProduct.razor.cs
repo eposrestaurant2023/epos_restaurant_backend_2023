@@ -60,7 +60,7 @@ namespace eAdmin.Pages.PageProducts
                 url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
                 //url = url + "product_modifiers($expand=children($expand=modifier;$filter=is_deleted eq false);$filter=is_deleted eq false),";
                 url = url + "product_taxes,unit,";
-                url = url + "default_stock_location_products($expand=business_branch,stock_location,station($filter=is_deleted eq false and status eq true))";
+                url = url + "default_stock_location_products($expand=business_branch,stock_location,station($expand=outlet($select=outlet_name_en,outlet_name_kh);$filter=is_deleted eq false and status eq true))";
                 return url;
         } }
 
@@ -316,9 +316,22 @@ namespace eAdmin.Pages.PageProducts
             is_open = false;
         }
 
-        public void onImageChanged(ImageModel imagechange)
+        public async Task onImageChanged(ImageModel imagechange)
         {
-            toast.Add(imagechange.image, MudBlazor.Severity.Success);
+            is_open = false;
+            is_loading = true;
+            var res = await http.ApiGet($"SaveImage/SaveImageFromUrl?filename={imagechange.image}");
+            if (res.Content.ToString() == "true")
+            {
+                toast.Add(lang["Save Success"], MudBlazor.Severity.Success);
+                model.photo = imagechange.image;
+                
+            }
+            else
+            {
+                toast.Add(lang["Save failed"], MudBlazor.Severity.Warning);
+            }
+            is_loading = false;
         }
     }
 }

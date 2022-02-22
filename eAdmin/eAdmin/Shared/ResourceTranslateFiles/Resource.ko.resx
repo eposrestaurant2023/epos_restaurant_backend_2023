@@ -320,7 +320,7 @@
 	<data name="Inactive Ingredient" xml:space="preserve"><value>비활성 성분</value></data>
 	<data name="Deleted Ingredient" xml:space="preserve"><value>삭제 된 성분</value></data>
 	<data name="Category" xml:space="preserve"><value>범주</value></data>
-	<data name="Quality" xml:space="preserve"><value>품질</value></data>
+	<data name="Quantity" xml:space="preserve"><value>품질</value></data>
 	<data name="Edit Ingredient Category" xml:space="preserve"><value>편집 성분 카테고리</value></data>
 	<data name="Ingredient Category" xml:space="preserve"><value>성분 카테고리</value></data>
 	<data name="Login" xml:space="preserve"><value>로그인</value></data>

@@ -167,6 +167,7 @@ namespace eSoftixBackend
         public BusinessBranchModel business_branch { get; set; }
         public string stock_location_name { get; set; }
         public bool is_default { get; set; }
+        public bool is_deleted { get; set; }
  
     }
     public class BusinessBranchSystemFeatureModel

@@ -24,6 +24,7 @@
     <Com is_visible="@(model.is_inventory_product)">
         @if (model.stock_location_products != null && model.stock_location_products.Any())
         {
+        <div class="uk-overflow-auto">
             <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                 <thead>
                     <tr>
@@ -88,8 +89,10 @@
                     </tr>
                 </tfoot>
             </table>
-        }
+        </div>
 
+        }
+        <Spacing Number="10"/>
         <div class="defualt-stock-location">
             <div class="uk-text-bold uk-margin-small-bottom">@lang["Defualt Stock Location"]</div>
 
@@ -99,39 +102,46 @@
                     if (gv.business_branch_has_inventory(b.id.ToString()))
                     {
                         <MudTabPanel Text="@b.business_branch_name_en">
-                            <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                                <tr>
-                                    <ThAuto>@lang["Station"]</ThAuto>
-                                    <th>@lang["Stock Location"]</th>
-                                </tr>
-                                @if (model.default_stock_location_products != null ? model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any() : false)
-                                {
-                                    @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).OrderBy(r => r.station.station_name_en).ToList())
+                            <div class="uk-overflow-auto">
+                                <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                    <tr>
+                                        <ThAuto>@lang["Station"]</ThAuto>
+                                        <th>@lang["Stock Location"]</th>
+                                    </tr>
+                                    @if (model.default_stock_location_products != null ? model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any() : false)
                                     {
-                                        @if (d.station != null)
+                                        @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).OrderBy(r => r.station.station_name_en).ToList())
                                         {
-                                            <tr>
-                                                <td>@d.station?.station_name_en</td>
-                                                <td>
-                                                    <SelectStockLocation label="" show_empty="true" @bind-selected_value="@d.stock_location_id" business_branch_id="@b.id" empty_text="@lang["Select Defualt Stock Location"]" width="260px" />
-                                                </td>
-                                            </tr>
+                                            @if (d.station != null)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @d.station?.station_name_en 
+                                                        <span uk-tooltip="Outlet">
+                                                            (@d.station?.outlet?.outlet_name_en)
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <SelectStockLocation label="" show_empty="true" @bind-selected_value="@d.stock_location_id" business_branch_id="@b.id" empty_text="@lang["Select Defualt Stock Location"]" width="260px" />
+                                                    </td>
+                                                </tr>
+                                            }
                                         }
                                     }
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td colspan="3">
-                                            <div class="uk-text-center">
-                                                <Icon icon="search" />
-                                                <br />
-                                                <p>@lang["There is no station"]</p>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }
-                            </table>
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="3">
+                                                <div class="uk-text-center">
+                                                    <Icon icon="search" />
+                                                    <br />
+                                                    <p>@lang["There is no station"]</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
                         </MudTabPanel>
                     }
                 }
@@ -149,6 +159,7 @@
     [Parameter] public bool is_ingredient { get; set; } = false;
     [Parameter] public bool is_production_product { get; set; } = false;
     List<StockLocationProductModel> stock_locatin_products = new List<StockLocationProductModel>();
+    List<DefaultStockLocationProductModel> default_stock_location_products = new List<DefaultStockLocationProductModel>();
 
     bool is_loading;
 
@@ -200,7 +211,8 @@
     protected override async Task OnInitializedAsync()
     {
 
-       await  LoadData();
+        await  LoadData();
+        await LoadDefaultStockLocationProduct();
         if (is_production_product)
         {
 
@@ -208,9 +220,9 @@
             if (!model.stock_location_products.Any())
             {
                 foreach (var d in gv.stock_locations)
-               {
-                   model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id, stock_location = d });
-               }
+                {
+                    model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id, stock_location = d });
+                }
             }
 
 
@@ -219,7 +231,7 @@
 
     }
 
-    void GenerateDefaultStockLocation(bool is_checked)
+    async Task GenerateDefaultStockLocation(bool is_checked)
     {
 
         if (is_checked)
@@ -230,6 +242,7 @@
                 {
                     foreach (var s in o.stations)
                     {
+                        Console.WriteLine($"outlet_id {o.business_branch_id}");
                         var st = gv.stock_locations.Where(r => r.business_branch_id == o.business_branch_id);
                         if (st.Count() > 0)
                         {
@@ -247,19 +260,52 @@
                             DefaultStockLocationProductModel d = new DefaultStockLocationProductModel();
                             d.station_id = s.id;
                             d.station = s;
-                            d.business_branch_id = o.business_branch_id;
-                            d.stock_location_id = default_st.id;
+                            d.station.outlet = o;
 
+                            d.business_branch_id = o.business_branch_id;
+                            if (model.id > 0)
+                            {
+                                var existing_default_stock_location = default_stock_location_products.Where(r => r.station_id == d.station_id && r.business_branch_id == d.business_branch_id);
+                                if (existing_default_stock_location.Any())
+                                {
+                                    d.id = existing_default_stock_location.FirstOrDefault().id;
+                                    d.stock_location_id = existing_default_stock_location.FirstOrDefault().stock_location_id;
+                                }
+                                else
+                                {
+                                    d.stock_location_id = default_st.id;
+                                }
+                            }
+                            else
+                            {
+                                d.stock_location_id = default_st.id;
+                            }
                             model.default_stock_location_products.Add(d);
+
+
                         }
                     }
                 }
+
+            }
+            else
+            {
+                foreach (var o in gv.outlets)
+                {
+                    foreach (var s in o.stations)
+                    {
+                        model.default_stock_location_products.Where(r => r.business_branch_id == o.business_branch_id).Select(r=> { r.station.outlet = o;return r; });
+                    }
+                }
+
             }
         }
         else
         {
             model.default_stock_location_products.Clear();
         }
+
+        await modelChanged.InvokeAsync(model);
 
     }
 
@@ -287,6 +333,28 @@
             is_loading = false;
         }
     }
+
+    async Task LoadDefaultStockLocationProduct()
+    {
+
+        if (model.id > 0)
+        {
+            is_loading = true;
+            string api_url = $"DefaultStockLocationProduct?$filter=product_id eq {model.id}";
+            var resp = await http.ApiGetOData(api_url);
+            if (resp.IsSuccess)
+            {
+                default_stock_location_products = JsonSerializer.Deserialize<List<DefaultStockLocationProductModel>>(resp.Content.ToString());
+
+                Console.WriteLine("loaddefauklt");
+            }
+            await GenerateDefaultStockLocation(model.is_inventory_product);
+
+            is_loading = false;
+        }
+    }
+
+
 
 
 }
