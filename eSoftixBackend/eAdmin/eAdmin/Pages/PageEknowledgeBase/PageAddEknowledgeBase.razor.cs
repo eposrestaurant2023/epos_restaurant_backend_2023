@@ -11,12 +11,16 @@ namespace eAdmin.Pages.PageEknowledgeBase
 {
     public class PageAddEknowledgeBases:PageCore
     {
-        [Parameter] public Guid id { get; set; }
-        [Parameter] public Guid parent_id { get; set; }
+        [Parameter] public string id { get; set; }
+        [Parameter] public string parent_id { get; set; }
         public Dictionary<string, object> editorConf = new Dictionary<string, object>{
-    {"menubar", false},
+        {"menubar", false},
+        { "plugins", "link image code advlist" },
+        {"toolbar", "undo redo | styleselect | forecolor | bold italic | alignleft aligncenter alignright alignjustify | default" }
+       
+  
+        };
 
-  };
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
 
@@ -33,15 +37,15 @@ namespace eAdmin.Pages.PageEknowledgeBase
 
         protected override async Task OnInitializedAsync()
         {
-            if (id!=Guid.Empty)
+            if (!string.IsNullOrEmpty(id))
             {
                 await LoadData();
             }
             else
             {
-                if (parent_id!=Guid.Empty)
+                if (!string.IsNullOrEmpty(parent_id))
                 {
-                    model = new eKnowledgeBaseModel(parent_id);
+                    model = new eKnowledgeBaseModel(Guid.Parse(parent_id));
                 }
                 
             }
@@ -53,7 +57,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
             {
                 is_loading = true;
 
-                if (id != Guid.Empty)
+                if (!string.IsNullOrEmpty(id))
                 {
                     var res = await http.ApiGet(api_url);
                     if (res.IsSuccess)
@@ -71,8 +75,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
                 else
                 {
                     page_title = "New eKnowledge Base";
-                    
-                        models.Add(new eKnowledgeBaseModel(parent_id));
+                    models.Add(new eKnowledgeBaseModel(Guid.Parse(parent_id)));
                     
                    
                 }
@@ -89,9 +92,6 @@ namespace eAdmin.Pages.PageEknowledgeBase
             {
                 toast.Add("Save Successfull.", Severity.Success);
                 var c = JsonSerializer.Deserialize<eKnowledgeBaseModel>(res.Content.ToString());
-                
-                MudDialog.Close(DialogResult.Ok(c));
-
             }
             else
             {
@@ -112,6 +112,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
             {
                 toast.Add("Save Successfull.", Severity.Success);
                 var c = JsonSerializer.Deserialize<eKnowledgeBaseModel>(res.Content.ToString());
+                nav.NavigateTo($"eknowledgebase/{c.parent_id}");
             }
             else
             {
@@ -127,6 +128,24 @@ namespace eAdmin.Pages.PageEknowledgeBase
         //{  
         //    models.Add(new eKnowledgeBaseModel(Guid.Parse(parent_id)));
         //}
+
+
+
+        public void copy_content(eKnowledgeBaseModel d)
+        {
+            model.title_en = d.title_kh;
+            model.description_en = d.description_kh;
+            model.photo_en = d.photo_kh;
+            model.sort_order = d.sort_order;
+
+            foreach(var b in model.children)
+            {
+                b.title_en = d.title_kh;
+                b.description_en = d.description_kh;
+                b.photo_en = d.photo_kh;
+                b.sort_order = d.sort_order;
+            }
+        }
 
         public void DeleteChil_Click(eKnowledgeBaseModel d)
         {

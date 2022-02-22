@@ -2053,7 +2053,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Thank You See You again!</Value>
+                              <Value>=Fields!footer_en.Value</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontFamily>Kh System</FontFamily>
@@ -2891,6 +2891,14 @@
         </Field>
         <Field Name="email">
           <DataField>email</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="footer_en">
+          <DataField>footer_en</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="footer_kh">
+          <DataField>footer_kh</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="phone_1">
