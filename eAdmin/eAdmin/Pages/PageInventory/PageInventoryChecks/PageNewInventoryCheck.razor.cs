@@ -33,7 +33,6 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
                 if (id !=Guid.Empty)
                 {
                     await LoadData();
-                    await BuildCategoryTreeAsync();
                 }
                 
             }
@@ -95,8 +94,7 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
             is_loading_data = true;
             if (id !=Guid.Empty)
             {
-                string url = $"InventoryCheck({id})?";
-                url += $"$expand=inventory_check_products&$filter=is_deleted eq false)";
+                string url = $"InventoryCheck({id})";
                 var resp = await http.ApiGet(url);
                 if (resp.IsSuccess)
                 {
@@ -121,9 +119,11 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
                 toast.Add(lang["Please select stock location."], MudBlazor.Severity.Warning);
                 return;
             }
+            
 
-           
-
+              model.product_categories = string.Join(",", SelectedProductCategory.Select(r => r.id).Distinct());
+            
+            
             InventoryCheckModel save_model = JsonSerializer.Deserialize<InventoryCheckModel>(JsonSerializer.Serialize(model));
              
             save_model.stock_location = null;
@@ -161,8 +161,32 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
         public void onSelectedValueChange(HashSet<TreeViewModel> value)
         {
             SelectedProductCategory = value;
-            model.product_categories = string.Join(",", SelectedProductCategory.Select(r=>r.id));
-            
+            StateHasChanged();
+        }
+
+        public void InVentoryCheckTypeChanged(string value)
+        {
+            model.inventory_check_type = value;
+            if (value == "Full")
+            {
+                SelectedProductCategory.Clear();
+                foreach (var d in product_category_tree) {
+                    UpdateSelected(d);
+                }
+                
+            }
+         
+        }
+
+        void UpdateSelected(TreeViewModel data)
+        {
+            data.is_selected = true;
+            SelectedProductCategory.Add(data);
+            foreach (var d in data.tree_items)
+            {
+                
+                UpdateSelected(d);
+            }
         }
     }
 }
