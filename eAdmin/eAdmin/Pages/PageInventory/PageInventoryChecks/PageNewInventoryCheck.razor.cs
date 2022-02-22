@@ -15,7 +15,7 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
 {
     public class PageNewInventoryCheckBase : PageCore
     {
-        [Parameter] public int id { get; set; }
+        [Parameter] public Guid id { get; set; }
     
 
         public InventoryCheckModel model = new InventoryCheckModel();
@@ -26,14 +26,14 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            title = (id > 0 ? "Edit Inventory Check" : "New Inventory Check");
+            title = (id == Guid.Empty ? "Edit Inventory Check" : "New Inventory Check");
             await BuildCategoryTreeAsync();
             if (!is_error)
             {
-                if (id > 0)
+                if (id !=Guid.Empty)
                 {
-
                     await LoadData();
+                    await BuildCategoryTreeAsync();
                 }
                 
             }
@@ -49,10 +49,7 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
        
         async Task BuildCategoryTreeAsync()
         {
-            var resp = await http.ApiPost("GetData", new FilterModel()
-            {
-                procedure_name = "sp_get_product_group_category_tree"
-            });
+            var resp = await http.ApiGetDataFromStoreProcedure("sp_get_product_group_category_tree", $"{id}");
             if (resp.IsSuccess)
             {
                 var data = JsonSerializer.Deserialize<List<TreeViewModel>>(resp.Content.ToString());
@@ -86,7 +83,7 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
         async Task LoadData()
         {
             is_loading_data = true;
-            if (id > 0)
+            if (id !=Guid.Empty)
             {
                 string url = $"InventoryCheck({id})?";
                 url += $"$expand=inventory_check_products($expand=product($expand=unit);$filter=is_deleted eq false)";
