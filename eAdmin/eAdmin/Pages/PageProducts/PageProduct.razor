@@ -86,7 +86,17 @@
                             <a href="@($"product/{p.id}")">@p.product_code</a>
                         </TdCenter>
                         <td>
-                            <a href="@($"product/{p.id}")">@p.product_name_en @(!string.IsNullOrEmpty(p.product_name_kh)? $"({p.product_name_kh})":"")</a>
+                            <a href="@($"product/{p.id}")">
+
+                                @p.product_name_en 
+                                @if (!string.IsNullOrEmpty(p.product_category_kh) && p.product_name_en != p.product_name_kh)
+                                {
+                                   <span>
+                                       (@p.product_name_kh)
+                                   </span>
+                                }
+
+                            </a>
                             <div>
                                 <LabelIngredient is_visible="@p.is_ingredient_product" />
                                 <LabelInventory is_visible="@p.is_inventory_product" />
