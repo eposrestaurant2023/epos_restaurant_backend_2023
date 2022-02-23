@@ -23,16 +23,31 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
         public HashSet<TreeViewModel> SelectedProductCategory { get; set; }
         public HashSet<TreeViewModel> product_category_tree { get; set; } = new HashSet<TreeViewModel>();
         public bool is_selecting_business_branch { get; set; } = false;
+
+
+
+
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
             title = (id == Guid.Empty ? "Edit Inventory Check" : "New Inventory Check");
             await BuildCategoryTreeAsync();
+            if (id == Guid.Empty || model.inventory_check_type == "Full")
+            {
+                SelectedProductCategory = new HashSet<TreeViewModel>();
+                SelectedProductCategory.Clear();
+                foreach (var d in product_category_tree)
+                {
+                    UpdateSelected(d);
+                }
+            }
+            
             if (!is_error)
             {
                 if (id !=Guid.Empty)
                 {
                     await LoadData();
+                   
                 }
                 
             }
@@ -82,10 +97,7 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
                 }
                 
             }
-             
 
-             
-            
         }
        
        
@@ -119,10 +131,8 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
                 toast.Add(lang["Please select stock location."], MudBlazor.Severity.Warning);
                 return;
             }
-            
 
-              model.product_categories = string.Join(",", SelectedProductCategory.Select(r => r.id).Distinct());
-            
+            model.product_categories = string.Join(",", SelectedProductCategory.Select(r => r.id).Distinct());
             
             InventoryCheckModel save_model = JsonSerializer.Deserialize<InventoryCheckModel>(JsonSerializer.Serialize(model));
              
@@ -188,5 +198,7 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
                 UpdateSelected(d);
             }
         }
+
+       
     }
 }

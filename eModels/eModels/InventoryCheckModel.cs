@@ -64,7 +64,19 @@ namespace eModels
         public decimal consume_quantity { get; set; }
         public decimal expected_quantity { get; set; }
         public decimal actual_quantity { get; set; }
-        public decimal diference_quantity { get; set; }
+
+        private decimal _diference_quantity;
+
+        public decimal diference_quantity
+        {
+            get {
+                _diference_quantity =  actual_quantity - expected_quantity;
+                return _diference_quantity; 
+            }
+            set { _diference_quantity = value; }
+        }
+
+
         public decimal diference_amount { get; set; }
         public string note { get; set; }
 
