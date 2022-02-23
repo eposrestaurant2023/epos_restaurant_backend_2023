@@ -46,6 +46,8 @@ namespace eModels
     [Table("tbl_inventory_check_product")]
     public class InventoryCheckProductModel 
     {
+
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid id { get; set; }
@@ -84,6 +86,8 @@ namespace eModels
         public string product_category_name { get; set; }
         public string product_name { get; set; }
         public string unit_name { get; set; }
+
+        public DateTime inventory_check_date { get; set; }
 
 
 
