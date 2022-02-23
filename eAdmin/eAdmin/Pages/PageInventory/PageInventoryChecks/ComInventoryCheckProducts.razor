@@ -1,12 +1,38 @@
-﻿<MudExpansionPanels>
-    <MudExpansionPanel Text="Group 1">
+﻿@inherits PageCore
+@if (is_loading) {
+    <Spinner is_spinning="is_loading"/>
+}
+else
+{
+    <MudExpansionPanels>
+        @foreach (var group in models.Select(r=>r.product_group_name).Distinct())
+        {
+            <MudExpansionPanel Text="@group">
+                <ComInventoryCheckProductList check_products="@models.Where(r=>r.product_group_name == group).ToList()"/>
+            </MudExpansionPanel>
+        }
+    </MudExpansionPanels>
+}
 
-    </MudExpansionPanel>
-    <MudExpansionPanel Text="Group 2">
-
-    </MudExpansionPanel>
-
-</MudExpansionPanels>
 @code {
     [Parameter] public Guid id { get; set; }
+
+    List<InventoryCheckProductModel> models = new List<InventoryCheckProductModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    async Task LoadData()
+    {
+        is_loading = true;
+        var res = await http.ApiGetOData($"InventoryCheckProduct?$expand=product($select=id,product_name_en,product_name_kh)&$filter=inventory_check_id eq {id}");
+        if (res.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<InventoryCheckProductModel>>(res.Content.ToString());
+        }
+        is_loading = false;
+    }
+
 }

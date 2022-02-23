@@ -225,6 +225,7 @@ namespace eAPI
             odataBuilder.EntitySet<ProductionProductModel>("ProductionProduct");
             odataBuilder.EntitySet<CashDrawerAmountModel>("CashDrawerAmount");
             odataBuilder.EntitySet<InventoryCheckModel>("InventoryCheck");
+            odataBuilder.EntitySet<InventoryCheckProductModel>("InventoryCheckProduct");
             odataBuilder.EntitySet<eShareModel.ExpenseCategoryModel>("ExpenseCategory");
             odataBuilder.EntitySet< eShareModel.ExpenseItemModel> ("ExpenseItem");
             odataBuilder.EntitySet<ExpenseModel>("Expense");
