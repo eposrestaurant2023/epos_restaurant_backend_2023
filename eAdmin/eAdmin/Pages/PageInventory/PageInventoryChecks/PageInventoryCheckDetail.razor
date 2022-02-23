@@ -54,7 +54,7 @@
                         <Spacing Number="4" />
                         
                     </UIGridCenter>
-                    <ComInventoryCheckProducts id="@id" />
+                    <ComInventoryCheckProducts id="@id" is_ready_only="@model.is_fulfilled"/>
                 </MudTabPanel>
                 <MudTabPanel Text="@lang["Comment and History"]"  OnClick="@ShowComment">
                     @if (is_show_comment)

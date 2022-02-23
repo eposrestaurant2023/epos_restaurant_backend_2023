@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220223074724_add_inventory_check_to_inc")]
+    partial class add_inventory_check_to_inc
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1648,8 +1650,8 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("inventory_check_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("inventory_check_id")
+                        .HasColumnType("int");
 
                     b.Property<int>("inventory_transaction_type_id")
                         .HasColumnType("int");
@@ -6685,7 +6687,7 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.InventoryTransactionModel", b =>
                 {
-                    b.HasOne("eModels.InventoryCheckModel", "inventory_check")
+                    b.HasOne("eModels.ProductionModel", "inventory_check")
                         .WithMany()
                         .HasForeignKey("inventory_check_id");
 
