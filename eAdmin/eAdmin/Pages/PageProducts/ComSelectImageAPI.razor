@@ -4,23 +4,49 @@
 <Modal IsSimpleMode="false" Title="@title" IsOpened="@is_opened" IsOpenedChanged="onCloseClick" ModalWidth="@modal_width">
     <ModalBody>
         <MudItem Class="mb-2">
-            <ComSearch is_fullwidth="true" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false">
-
-            </ComSearch>
-        </MudItem>
-        
-        <MudGrid Spacing="2" Justify="Justify.Center">
-            @foreach (var i in images)
+            @if (id > 0)
             {
-                <MudItem>
-                    <MudPaper Height="140px" Width="140px" @onclick="@(()=>ImageClick(i))">
-                        <Image ImageUrl="@(base_image_url + i.image)" />
-                    </MudPaper>
-                </MudItem>
+                <ComSearch is_fullwidth="true" place_holder="@GetFilterValue2(state.filters, "keyword",$"{keyword_title}")" KeywordChanged="@OnSearch" show_advance_filter="false">
 
+                </ComSearch>
+            }
+            else
+            {
+                <ComSearch is_fullwidth="true" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false">
+
+                </ComSearch>
             }
 
-        </MudGrid>
+        </MudItem>
+        @if (images.Any())
+        {
+            <MudGrid Spacing="2" Justify="Justify.Center">
+                @foreach (var i in images)
+                {
+                    <MudItem md="2">
+                        <MudCard @onclick="@(()=>ImageClick(i))" Class="mud-height-full">
+                            <MudCardMedia Image="@(base_image_url + i.image)" Height="100" />
+                            <MudCardContent>
+                                <MudText Typo="Typo.body1">@i.title</MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+
+                }
+
+            </MudGrid>
+        }
+        else
+        {
+            <Spacing Number="10" />
+                <div class="uk-text-center">
+                    <MudText Typo="Typo.body2" Style="color: #838181">
+                        There's no record in the system
+                    </MudText>
+                </div>
+            <Spacing Number="10" />
+        }
+
         <Column ClassName="uk-width-expand@xl uk-width-expand@l uk-width-expand@m uk-width-1-1@s uk-text-center@s wrp-pagging-info">
 
             <ComTotalPager TotalRecord="@TotalItem" PerPage="@state.pager.per_page" CurrentPage="@state.pager.current_page" SelectedPage="@PageChange" IsVisible="@(totalPage > 1)" />
@@ -34,6 +60,8 @@
 @code {
     [Parameter] public EventCallback onCancel { get; set; }
     [Parameter] public string modal_width { get; set; } = "1200px";
+    [Parameter] public string keyword_title { get; set; } = "";
+    [Parameter] public int id { get; set; }
     [Parameter] public bool is_opened { get; set; }
     [Parameter] public EventCallback<bool> is_openedChanged { get; set; }
     [Parameter] public EventCallback<ImageModel> imageChanged { get; set; }
@@ -48,11 +76,21 @@
     {
         get
         {
-            string url = $"{controller_api}?";
+            if (id > 0)
+            {
+                string url = $"{controller_api}?";
+                url += $"&keyword={GetFilterValue2(state.filters, "keyword", $"{keyword_title.Trim().ToLower()}")}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                return url + GetFilter(state.filters);
+            }
+            else
+            {
+                string url = $"{controller_api}?";
+                url += $"&keyword={GetFilterValue2(state.filters, "keyword", "")}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                return url + GetFilter(state.filters);
+            }
 
-            url += $"&keyword={GetFilterValue2(state.filters, "keyword", "")}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
-            return url + GetFilter(state.filters);
+
         }
     }
 
