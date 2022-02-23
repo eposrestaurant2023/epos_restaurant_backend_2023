@@ -20,7 +20,7 @@ namespace eModels
         }
         public string document_number { get; set; } = "New";
         public string reference_number { get; set; } = "";
-        public DateTime? start_date { get; set; }
+        public DateTime? start_date { get; set; } = DateTime.Now;
         public DateTime end_date { get; set; } = DateTime.Now;
 
         public Guid business_branch_id { get; set; }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220223082257_drop_inventory_check_to_inv_2")]
+    partial class drop_inventory_check_to_inv_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1648,9 +1650,6 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("inventory_check_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("inventory_transaction_type_id")
                         .HasColumnType("int");
 
@@ -1719,8 +1718,6 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
-
-                    b.HasIndex("inventory_check_id");
 
                     b.HasIndex("inventory_transaction_type_id");
 
@@ -6685,10 +6682,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.InventoryTransactionModel", b =>
                 {
-                    b.HasOne("eModels.InventoryCheckModel", "inventory_check")
-                        .WithMany()
-                        .HasForeignKey("inventory_check_id");
-
                     b.HasOne("eModels.InventoryTransactionTypeModel", "inventory_transaction_type")
                         .WithMany("inventory_transactions")
                         .HasForeignKey("inventory_transaction_type_id")
@@ -6710,8 +6703,6 @@ namespace eAPI.Migrations
                         .HasForeignKey("stock_location_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("inventory_check");
 
                     b.Navigation("inventory_transaction_type");
 

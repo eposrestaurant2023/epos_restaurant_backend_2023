@@ -55,12 +55,13 @@ namespace eAPI.Controllers
         public async Task<ActionResult<InventoryCheckProductModel>> Save([FromBody] InventoryCheckProductModel p)
         {
             var data =  db.InventoryCheckProduts.Where(r=>r.id == p.id).AsNoTracking().FirstOrDefault();
-            data.actual_quantity = p.actual_quantity;
+            data = p;
+            data.note = p.note;
             db.InventoryCheckProduts.Update(data);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)), hub);
             return Ok(p);
         }
-       
+
 
     }
 }
