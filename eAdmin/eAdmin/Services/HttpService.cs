@@ -71,7 +71,7 @@ namespace eAdmin.Services
 
             if (current_login_user.id != 0 && current_login_user != null)
             {
-
+                http.DefaultRequestHeaders.Remove("ContentType");
                 string pass = EncryptProvider.Base64Decrypt(current_login_user?.password);
                 http.DefaultRequestHeaders.Add("ContentType", "application/json");
                 var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{current_login_user?.username}:{pass}");
@@ -108,7 +108,7 @@ namespace eAdmin.Services
         {
             HttpStatusCode StatusCode = new HttpStatusCode();
 
-
+            http.DefaultRequestHeaders.Remove("ContentType");
 
 
             http.DefaultRequestHeaders.Add("ContentType", "application/json");
@@ -149,6 +149,7 @@ namespace eAdmin.Services
             {
 
                 string pass = EncryptProvider.Base64Decrypt(current_login_user?.password);
+                http.DefaultRequestHeaders.Remove("ContentType");
                 http.DefaultRequestHeaders.Add("ContentType", "application/json");
                 var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{current_login_user?.username}:{pass}");
                 string val = System.Convert.ToBase64String(plainTextBytes);
@@ -175,9 +176,10 @@ namespace eAdmin.Services
                     return new GetOdataResponse(true, con.Count, con.Content);
                 }
             }
-            catch
+            catch(Exception ex)
             {
-
+                string msg = ex.ToString();
+                //Console.WriteLine(ex.ToString());
             }
 
 
@@ -198,7 +200,7 @@ namespace eAdmin.Services
             if (current_login_user.id != 0 && current_login_user != null)
             {
 
-
+                http.DefaultRequestHeaders.Remove("ContentType");
 
                 string pass = EncryptProvider.Base64Decrypt(current_login_user?.password);
                 http.DefaultRequestHeaders.Add("ContentType", "application/json");
