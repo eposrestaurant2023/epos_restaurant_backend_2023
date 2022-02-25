@@ -10,7 +10,7 @@
         <MudSwitch @bind-Checked="@model.is_select_parent" Color="MudBlazor.Color.Tertiary">Select Parent</MudSwitch>
         @if(model.is_select_parent == true)
             {
-              <SelecteKnowledgeBaseParent @bind-selected_value="@model.parent_id" variant="Variant.Text"/>
+              <SelecteKnowledgeBaseParent @bind-selected_value="@model.parent_id"  variant="Variant.Text"/>
             }
         <UI2Columns>
             <Left>

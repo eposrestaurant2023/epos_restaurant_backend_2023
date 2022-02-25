@@ -27,9 +27,10 @@
                         <MudButton OnClick="AddChild_Click"
                                    Variant="Variant.Filled"
                                    EndIcon="@Icons.Filled.Add"
-                                   Color="MudBlazor.Color.Primary">
+                                   Color="MudBlazor.Color.Primary" Class="mt-2 mb-2">
                             Add New Sub Content
                         </MudButton>
+                        
                     </div>
                     @foreach (var c in model.children.Where(r => r.is_deleted == false).OrderBy(r => r.sort_order))
                     {
@@ -88,27 +89,30 @@
                                    Color="MudBlazor.Color.Primary" Class="mt-2 mb-2">
                                 Add New Sub Content
                             </MudButton>
-                            <div style="margin-left:3px;">
-                                  <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Tertiary" OnClick="@(()=>copy_content(model))" Class="mt-2 mb-2" EndIcon="@Icons.Filled.FileCopy">Copy Kh to En</MudButton>
-                            </div>
+                          
                          
                         </div>
                     }
-
-
                 </MudCardContent>
+               
             </MudCard>
 
             <Spacing Number="20" />
             <div class="d-flex justify-end">
-                         <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" OnClick="@Save_Click" Class="mx-2">
+                       <div style="margin-left:3px;">
+                                      <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Tertiary" OnClick="@(()=>copy_content(model))" Class="mt-2 mb-2" EndIcon="@Icons.Filled.FileCopy">Copy Kh to En</MudButton>
+                     </div>
+                       <div style="margin-left:3px;">
+                         <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" OnClick="@Save_Click" Class="mt-2 mb-2">
                           Save
                             @if (is_saving)
                             {
                                 <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true" />
                             }
                         </MudButton>
-                        <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" OnClick="@Save_Close_Click" Class="mx-2">
+                        </div>
+                          <div style="margin-left:3px;">
+                        <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" OnClick="@Save_Close_Click" Class="mt-2 mb-2">
                             
                              Save Close
                             @if (is_saving)
@@ -116,8 +120,10 @@
                                 <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true" />
                             }
                         </MudButton>
-              
-                <MudButton Color="MudBlazor.Color.Default" Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="@(()=>nav.NavigateTo($"eknowledgebase/{model.parent_id}"))">Cancel</MudButton>
+                        </div>
+                       <div style="margin-left:3px;">
+                        <MudButton Color="MudBlazor.Color.Default" Variant="Variant.Filled" ButtonType="ButtonType.Button" OnClick="@(()=>nav.NavigateTo($"eknowledgebase/{model.parent_id}"))" Class="mt-2 mb-2">Cancel</MudButton>
+                        </div>
             </div>
 
         </UICenter>
