@@ -131,5 +131,10 @@ namespace eModels
         public Guid station_id { get; set; }
         [ForeignKey("station_id")]
         public StationModel station { get; set; }
+
+        [NotMapped]
+        public string station_name { get; set; }
+        [NotMapped]
+        public string outlet_name { get; set; }
     }
 }
