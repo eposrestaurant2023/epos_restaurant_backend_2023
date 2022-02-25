@@ -78,6 +78,23 @@ namespace eAPIClient.Controllers
 
         }
 
+        [HttpGet]
+        [Route("GetPublicConfig")]
+        [AllowAnonymous]
+        public ActionResult<string> GetPublicConfig()
+        {
+            string sql = string.Format("exec sp_get_public_config");
+            var d = db.StoreProcedureResults.FromSqlRaw(sql).ToList().FirstOrDefault();
+            if (d != null)
+            {
+                string r = d.result.Replace("\\", "").Replace("\"[", "[").Replace("]\"", "]").ToString();
+                return r;
+            }
+            return BadRequest();
+
+        }
+
+
 
         [HttpGet("GetSystemMachineLicense")]
         [AllowAnonymous]

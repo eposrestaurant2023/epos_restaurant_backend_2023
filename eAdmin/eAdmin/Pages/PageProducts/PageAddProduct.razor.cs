@@ -59,8 +59,8 @@ namespace eAdmin.Pages.PageProducts
                 //url = url + "product_portions($expand=product_prices,unit;$filter=is_deleted eq false),";
                 url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
                 //url = url + "product_modifiers($expand=children($expand=modifier;$filter=is_deleted eq false);$filter=is_deleted eq false),";
-                url = url + "product_taxes,unit,";
-                url = url + "default_stock_location_products($expand=business_branch,stock_location,station($expand=outlet($select=outlet_name_en,outlet_name_kh);$filter=is_deleted eq false and status eq true))";
+                url = url + "product_taxes,unit";
+              
                 return url;
         } }
 
@@ -201,8 +201,11 @@ namespace eAdmin.Pages.PageProducts
             is_saving = true;
 
             ProductModel save_model = new ProductModel();
+
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
             save_model.product_category = null;
+
+
 
 
             if (save_model.default_stock_location_products.Where(r=>r.stock_location_id == Guid.Empty).Any())
@@ -266,6 +269,11 @@ namespace eAdmin.Pages.PageProducts
                 save_model.min_price = save_model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price > 0).Min(r => r.price);
                 save_model.max_price = save_model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price > 0).Max(r => r.price);
             }
+
+            save_model.default_stock_location_products.ForEach(r => {
+                r.station = null;
+            });
+
 
 
             //remove menu

@@ -110,22 +110,21 @@
                                     </tr>
                                     @if (model.default_stock_location_products != null ? model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any() : false)
                                     {
-                                        @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).OrderBy(r => r.station.station_name_en).ToList())
+                                        @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).OrderBy(r => r.station_name).ToList())
                                         {
-                                            @if (d.station != null)
-                                            {
+                                             
                                                 <tr>
                                                     <td>
-                                                        @d.station?.station_name_en 
+                                                        @d.station_name 
                                                         <span uk-tooltip="Outlet">
-                                                            (@d.station?.outlet?.outlet_name_en)
+                                                            (@d.outlet_name)
                                                         </span>
                                                     </td>
                                                     <td>
                                                         <SelectStockLocation label="" show_empty="true" @bind-selected_value="@d.stock_location_id" business_branch_id="@b.id" empty_text="@lang["Select Defualt Stock Location"]" width="260px" />
                                                     </td>
                                                 </tr>
-                                            }
+                                            
                                         }
                                     }
                                     else
@@ -242,7 +241,7 @@
                 {
                     foreach (var s in o.stations)
                     {
-                        Console.WriteLine($"outlet_id {o.business_branch_id}");
+                        
                         var st = gv.stock_locations.Where(r => r.business_branch_id == o.business_branch_id);
                         if (st.Count() > 0)
                         {
@@ -259,8 +258,8 @@
 
                             DefaultStockLocationProductModel d = new DefaultStockLocationProductModel();
                             d.station_id = s.id;
-                            d.station = s;
-                            d.station.outlet = o;
+                            d.station_name = s.station_name_en;
+                            d.outlet_name = o.outlet_name_en;
 
                             d.business_branch_id = o.business_branch_id;
                             if (model.id > 0)
@@ -346,7 +345,7 @@
             {
                 default_stock_location_products = JsonSerializer.Deserialize<List<DefaultStockLocationProductModel>>(resp.Content.ToString());
 
-                Console.WriteLine("loaddefauklt");
+                
             }
             await GenerateDefaultStockLocation(model.is_inventory_product);
 
