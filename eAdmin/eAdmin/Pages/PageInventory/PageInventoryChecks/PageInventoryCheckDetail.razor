@@ -27,7 +27,7 @@
         </PageHeader>
         <PageBody>
             <MudTabs PanelClass="pa-4">
-                <MudTabPanel Text="@lang["Inventory Check Information"]" >
+                <MudTabPanel Text="@lang["Inventory Check Information"]">
                     <ComMarkInvoiceFulfilled is_visible="@(!model.is_fulfilled && !model.is_deleted)" OnClick="@MarkAsFulfilled" />
                     <UIGridCenter>
                         <MudExpansionPanels>
@@ -44,16 +44,17 @@
                                     <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance #"]" label="@lang["Referance #"]" is_read_only="true" />
                                 </UIContainerBox>
                                 <UIContainerBox Title="@lang["Warehouse"]">
-                                   <ListTable>
-                                       <ListTableItem ItemTitle="@lang["Business Branch"]">@model.business_branch?.business_branch_name_en</ListTableItem>
-                                       <ListTableItem ItemTitle="@lang["Warehouse"]">@model.stock_location?.stock_location_name</ListTableItem>
-                                   </ListTable>
+                                    <ListTable>
+                                        <ListTableItem ItemTitle="@lang["Business Branch"]">@model.business_branch?.business_branch_name_en</ListTableItem>
+                                        <ListTableItem ItemTitle="@lang["Warehouse"]">@model.stock_location?.stock_location_name</ListTableItem>
+                                    </ListTable>
                                 </UIContainerBox>
                             </MudExpansionPanel>
                         </MudExpansionPanels>
-                        <Spacing Number="4"/>
-                        <ComInventoryCheckProducts id="@id"/>
+                        <Spacing Number="4" />
+                        
                     </UIGridCenter>
+                    <ComInventoryCheckProducts id="@id" is_ready_only="@model.is_fulfilled"/>
                 </MudTabPanel>
                 <MudTabPanel Text="@lang["Comment and History"]"  OnClick="@ShowComment">
                     @if (is_show_comment)

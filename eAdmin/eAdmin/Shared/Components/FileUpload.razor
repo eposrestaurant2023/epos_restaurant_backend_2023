@@ -33,11 +33,10 @@ else
     <InputImage image_url="@($"{config["BaseUrl"]}upload/{ImageUrl}")" class_name="@class_name">
         <label style="position: absolute; top: 0px; right: 0px;">
             <MudItem Class="mud-theme-primary darken-4">
-                <Icon icon="edit" className="edit_profile_image black-text" title="Upload Image" />
+                <Icon icon="edit" className="edit_profile_image black-text" title="Upload Image"/>
             </MudItem>
             <InputFile OnChange="UploadFiles" style="display: none;" />
         </label>
-
     </InputImage>
     @if (show_search_image)
     {

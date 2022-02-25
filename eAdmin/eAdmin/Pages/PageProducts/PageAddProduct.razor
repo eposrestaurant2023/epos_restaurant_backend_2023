@@ -29,7 +29,7 @@
                     <MudTabs PanelClass="pa-6">
                         <MudTabPanel Text="@lang["Product Information"]">
                             <UIGridCenter>
-                                <UIContainerBox  Title="@lang["Photo"]" ClassName="uk-text-center">
+                                <UIContainerBox Title="@lang["Photo"]" ClassName="uk-text-center">
                                     <UIFlexCenter>
                                         <div>
                                             <FileUpload @bind-ImageUrl="@model.photo" show_search_image="true" onSearchImage="ShowImageClick" />
@@ -105,13 +105,14 @@
                         <ComSavingFormButton is_loading="@is_saving" is_show_cancel_action="true" OnCancel="@OnCancel" />
                     </FooterCenter>
                 </PageFooter>
+                @if (is_open)
+                {
+                    <ComSelectImageAPI id="@model.id" keyword_title="@model.product_name_en" @bind-is_opened="is_open" onCancel="@onCancelClick" imageChanged="onImageChanged" image="image" />
+                }
             </EditForm>
 
         </PageContainer>
-        @if (is_open)
-        { 
-            <ComSelectImageAPI @bind-is_opened="is_open" onCancel="@onCancelClick" imageChanged="onImageChanged" image="image"/>
-        }
+        
     }
     else
     {

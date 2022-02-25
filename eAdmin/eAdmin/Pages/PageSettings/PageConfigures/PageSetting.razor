@@ -2,7 +2,7 @@
 @inherits PageCore
 
 <Loading is_loading="@is_loading" />
-
+ 
 @if (!is_loading)
 {
     <Title Value="@lang["General Setting"]"></Title>
@@ -24,6 +24,8 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            
+         
             <MudHidden Breakpoint="Breakpoint.MdAndUp">
                 <ComSearch is_fullwidth="true" place_holder="@keyword" KeywordChanged="@OnSearch" show_advance_filter="false" />
 
@@ -35,6 +37,7 @@
                         <ComSetting business_branch_id="@(Guid.Empty)" settings="@GetSettings" />
                     </UIGridCenter>
                 </MudTabPanel>
+
                 @foreach (var bs in gv.business_branch_by_role.Where(r => r.is_deleted == false))
                 {
                     <MudTabPanel Text="@bs?.business_branch_name_en">
@@ -43,7 +46,7 @@
                         </UIGridCenter>
                     </MudTabPanel>
                 }
-                </MudTabs>
+            </MudTabs>
         </PageBody>
         <PageFooter>
             <FooterCenter>
@@ -85,7 +88,7 @@
 
 
         var resp = await http.ApiGetOData(api_url);
-        if (resp.IsSuccess)
+      
         {
             settings = JsonSerializer.Deserialize<List<SettingModel>>(resp.Content.ToString());
         }

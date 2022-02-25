@@ -1,0 +1,110 @@
+﻿@inherits PageCore
+<table class="uk-table view_table set-verticle-middle">
+    <thead>
+        <tr>
+            <ThAuto>@lang["Product Name"]</ThAuto>
+            <ThCenter>@lang["Last Date"]</ThCenter>
+
+            <ThCenter>@lang["Initial QTY"]</ThCenter>
+            <ThCenter>@lang["QTY In"]</ThCenter>
+            <ThCenter>@lang["QTY Out"]</ThCenter>
+            <ThCenter>@lang["QTY Expected"]</ThCenter>
+            <ThCenter>@lang["QTY Actual"]</ThCenter>
+            <ThCenter>@lang["Defferential"]</ThCenter>
+            <ThAuto>@lang["Note"]</ThAuto>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in check_products.Select(r => r.product_category_name).Distinct())
+        {
+            <tr>
+                <TdCenter ColSpan="9">
+                    <MudText Typo="@Typo.h6">
+                        @p
+                    </MudText>
+
+                </TdCenter>
+
+            </tr>
+            
+            @foreach (var i in check_products.Where(r => r.product_category_name == p))
+            {
+                <tr>
+                    <td>
+                        <a href="@($"product/{i.product_id}")" target="_blank">
+                            @i.product.product_name_en
+                        </a>
+                    
+                    </td>
+                    <TdCenter>
+                        @if (i.last_inventory_date != null)
+                        {
+                            @Convert.ToDateTime(i.last_inventory_date).ToString(gv.date_format)
+                        }
+                        else
+                        {
+                            @("-")
+                        }
+
+                    </TdCenter>
+
+                    <TdCenter>@i.initial_quantity.ToString(gv.quantity_format)</TdCenter>
+                    <TdCenter>@i.receive_quantity.ToString(gv.quantity_format)</TdCenter>
+                    <TdCenter>@i.consume_quantity.ToString(gv.quantity_format)</TdCenter>
+                    <TdCenter>@i.expected_quantity.ToString(gv.quantity_format)</TdCenter>
+                    <td>
+                        <NumberInput text="@i.actual_quantity" 
+                                     textChanged="@(async (_)  => {
+                                                    await OnQuantityChange(_,i);
+                                                })" is_read_only="@is_ready_only"/>
+                    </td>
+
+                    <TdCenter>@i.diference_quantity.ToString(gv.quantity_format)</TdCenter>
+                    <TdCenter>
+                        <TextArea 
+                                  
+                                  Value="@i.note" 
+                                  ValueChanged="@(async (_)  => {
+                                                await OnNoteChange(_,i);
+                                                })" 
+                                  
+                                  PlaceHolder="@lang["Note"]"/>
+                    </TdCenter>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
+
+@code{
+    [Parameter] public List<InventoryCheckProductModel> check_products { get; set; }
+    [Parameter] public bool is_ready_only { get; set; }
+
+
+    async Task OnQuantityChange(decimal qty,InventoryCheckProductModel p)
+    {
+        p.actual_quantity = qty;
+        var save_model = JsonSerializer.Deserialize<InventoryCheckProductModel>(JsonSerializer.Serialize(p));
+        save_model.product = null;
+
+        var res = await http.ApiPost("InventoryCheckProduct/save",save_model);
+        if (res.IsSuccess)
+        {
+            toast.Add(lang["Save Success."],Severity.Success);
+        }
+    }
+    async Task OnNoteChange(string note, InventoryCheckProductModel p)
+    {
+        p.note = note;
+        var save_model = JsonSerializer.Deserialize<InventoryCheckProductModel>(JsonSerializer.Serialize(p));
+        save_model.product = null;
+       
+        var res = await http.ApiPost("InventoryCheckProduct/save", save_model);
+        if (res.IsSuccess)
+        {
+            toast.Add(lang["Save Success."], Severity.Success);
+        }
+    }
+
+}

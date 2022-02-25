@@ -6,16 +6,7 @@
  
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="log\**" />
-    <Compile Remove="uploads\**" />
-    <Content Remove="log\**" />
-    <Content Remove="uploads\**" />
-    <EmbeddedResource Remove="log\**" />
-    <EmbeddedResource Remove="uploads\**" />
-    <None Remove="log\**" />
-    <None Remove="uploads\**" />
-  </ItemGroup>
+   
 	<ItemGroup>
 		<PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
 		<PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />

@@ -301,8 +301,8 @@ namespace eModels
         {
             tree_items = new HashSet<TreeViewModel>();
         }
-        public int id { get; set; }
-        public int? parent_id { get; set; }
+        public decimal id { get; set; }
+        public decimal? parent_id { get; set; }
         public string title { get; set; }
         public bool is_expand { get; set; }
         public bool is_selected { get; set; }

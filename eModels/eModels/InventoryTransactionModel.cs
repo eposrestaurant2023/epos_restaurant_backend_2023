@@ -32,9 +32,10 @@ namespace eModels
         public StockLocationModel stock_location { get; set; }
 
         public int? production_id { get; set; }
-        [ForeignKey("production_id")]
-        public ProductionModel production { get; set; }
+   
 
+        public Guid? inventory_check_id { get; set; }
+     
         public int? purchase_order_product_id { get; set; }
         public int? stock_take_product_id { get; set; }
         public int? stock_transfer_product_id { get; set; }

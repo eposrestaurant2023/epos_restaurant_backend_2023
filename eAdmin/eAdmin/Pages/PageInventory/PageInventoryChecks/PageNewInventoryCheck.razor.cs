@@ -15,7 +15,7 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
 {
     public class PageNewInventoryCheckBase : PageCore
     {
-        [Parameter] public int id { get; set; }
+        [Parameter] public Guid id { get; set; }
     
 
         public InventoryCheckModel model = new InventoryCheckModel();
@@ -23,17 +23,31 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
         public HashSet<TreeViewModel> SelectedProductCategory { get; set; }
         public HashSet<TreeViewModel> product_category_tree { get; set; } = new HashSet<TreeViewModel>();
         public bool is_selecting_business_branch { get; set; } = false;
+
+
+
+
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            title = (id > 0 ? "Edit Inventory Check" : "New Inventory Check");
+            title = (id == Guid.Empty ? "Edit Inventory Check" : "New Inventory Check");
             await BuildCategoryTreeAsync();
+            if (id == Guid.Empty || model.inventory_check_type == "Full")
+            {
+                SelectedProductCategory = new HashSet<TreeViewModel>();
+                SelectedProductCategory.Clear();
+                foreach (var d in product_category_tree)
+                {
+                    UpdateSelected(d);
+                }
+            }
+            
             if (!is_error)
             {
-                if (id > 0)
+                if (id !=Guid.Empty)
                 {
-
                     await LoadData();
+                   
                 }
                 
             }
@@ -46,15 +60,22 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
             is_loading = false;
 
         }
+        string GetGuid()
+        {
+            if (id != Guid.Empty)
+            {
+                return id.ToString();
+            }
+            return "";
+        }
        
         async Task BuildCategoryTreeAsync()
         {
-            var resp = await http.ApiPost("GetData", new FilterModel()
-            {
-                procedure_name = "sp_get_product_group_category_tree"
-            });
+            var resp = await http.ApiGetDataFromStoreProcedure("sp_get_product_group_category_tree", $"'{GetGuid()}'");
             if (resp.IsSuccess)
             {
+
+                Console.WriteLine(resp.Content.ToString());
                 var data = JsonSerializer.Deserialize<List<TreeViewModel>>(resp.Content.ToString());
 
                 foreach (var g in data.Where(r=>r.parent_id==null))
@@ -76,20 +97,16 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
                 }
                 
             }
-             
 
-             
-            
         }
        
        
         async Task LoadData()
         {
             is_loading_data = true;
-            if (id > 0)
+            if (id !=Guid.Empty)
             {
-                string url = $"InventoryCheck({id})?";
-                url += $"$expand=inventory_check_products($expand=product($expand=unit);$filter=is_deleted eq false)";
+                string url = $"InventoryCheck({id})";
                 var resp = await http.ApiGet(url);
                 if (resp.IsSuccess)
                 {
@@ -115,8 +132,8 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
                 return;
             }
 
-           
-
+            model.product_categories = string.Join(",", SelectedProductCategory.Select(r => r.id).Distinct());
+            
             InventoryCheckModel save_model = JsonSerializer.Deserialize<InventoryCheckModel>(JsonSerializer.Serialize(model));
              
             save_model.stock_location = null;
@@ -150,5 +167,38 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
             model.business_branch_id = _id;
             is_selecting_business_branch = false;
         }
+
+        public void onSelectedValueChange(HashSet<TreeViewModel> value)
+        {
+            SelectedProductCategory = value;
+            StateHasChanged();
+        }
+
+        public void InVentoryCheckTypeChanged(string value)
+        {
+            model.inventory_check_type = value;
+            if (value == "Full")
+            {
+                SelectedProductCategory.Clear();
+                foreach (var d in product_category_tree) {
+                    UpdateSelected(d);
+                }
+                
+            }
+         
+        }
+
+        void UpdateSelected(TreeViewModel data)
+        {
+            data.is_selected = true;
+            SelectedProductCategory.Add(data);
+            foreach (var d in data.tree_items)
+            {
+                
+                UpdateSelected(d);
+            }
+        }
+
+       
     }
 }

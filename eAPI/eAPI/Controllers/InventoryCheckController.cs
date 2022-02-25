@@ -73,6 +73,7 @@ namespace eAPI.Controllers
             AddHistory(p);
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
+            db.Database.ExecuteSqlRaw($"exec sp_generate_inventory_check_product '{p.id}'");
             db.Database.ExecuteSqlRaw($"exec sp_update_inventory_check '{p.id}'");
             return Ok(p);
         }
@@ -130,7 +131,7 @@ namespace eAPI.Controllers
             db.InventoryChecks.Update(s);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             // add to history
-          //  db.Database.ExecuteSqlRaw($"exec sp_update_purchase_order_inventory_transaction {id}");
+            db.Database.ExecuteSqlRaw($"exec sp_update_inventory_check_to_inventory_transaction '{id}'");
             return Ok();
 
         }
@@ -148,7 +149,7 @@ namespace eAPI.Controllers
             db.InventoryChecks.Update(s);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             // add to history
-            //db.Database.ExecuteSqlRaw($"exec sp_update_purchase_order_inventory_transaction {id}");
+            db.Database.ExecuteSqlRaw($"exec sp_update_inventory_check_to_inventory_transaction '{id}'");
             return Ok();
 
         }

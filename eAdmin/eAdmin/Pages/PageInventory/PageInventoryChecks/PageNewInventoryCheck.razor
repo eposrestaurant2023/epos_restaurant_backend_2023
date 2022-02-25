@@ -1,5 +1,5 @@
 ﻿@page "/inventorycheck/new"
-@page "/inventorycheck/edit/{id:int}"
+@page "/inventorycheck/edit/{id:guid}"
 @inherits PageNewInventoryCheckBase
 <Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
 <Com is_visible="@(!is_loading && !is_error)">
@@ -27,33 +27,35 @@
                 <UIContainerBox Title="@lang["Inventory Check Information"]">
                     <TextInput label="@lang["Document #"]" text="@model.document_number" is_read_only="true" />
                     <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance #"]" label="@lang["Referance #"]" />
-                    <SelectInventoryCheckType @bind-selected_value="@model.inventory_check_type" label="@lang["Inventory Check Type"]" />
+                    <SelectInventoryCheckType selected_value="@model.inventory_check_type" selected_valueChanged="InVentoryCheckTypeChanged" label="@lang["Inventory Check Type"]" />
                 </UIContainerBox>
                 <UIContainerBox Title="@lang["Warehouse"]">
-                    <SelectBusinessBranchByRole  show_empty="true" label="@lang["Business Branch"]" selected_valueChanged="@OnBusinessBranchSeletedChange" selected_value="model.business_branch_id" />
+
+                    <SelectBusinessBranchByRole show_empty="true" label="@lang["Business Branch"]" selected_valueChanged="@OnBusinessBranchSeletedChange" selected_value="model.business_branch_id" />
                     @if (!is_selecting_business_branch)
                     {
                         <SelectStockLocation business_branch_id="@model.business_branch_id" show_empty="true" label="@lang["Warehouse"]" selected_valueChanged="@OnStockLocationSeletedChange" selected_value="@model.stock_location_id" />
                     }
                     else
                     {
-                    <div class="uk-form-horizontal">
-                        <div class="uk-margin-small">
-                            <label class="uk-form-label"><Icon icon="layers" size="16px" /> @lang["Stock Location"]</label>
-                            <div class="uk-form-controls">
-                                <div style="height:30px">
-                                    <Spinner />
+                        <div class="uk-form-horizontal">
+                            <div class="uk-margin-small">
+                                <label class="uk-form-label"><Icon icon="layers" size="16px" /> @lang["Stock Location"]</label>
+                                <div class="uk-form-controls">
+                                    <div style="height:30px">
+                                        <Spinner />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     }
                 </UIContainerBox>
-                <UIContainerBox Title="@lang["Product Category"]" is_visible="@(model.inventory_check_type=="Full")">
-                    <MudTreeView Items="product_category_tree" CanSelect="true" @bind-SelectedValues="SelectedProductCategory" CanActivate="true" >
+                <UIContainerBox Title="@lang["Product Category"]" is_visible="@(model.inventory_check_type=="Partial")">
+
+                    <MudTreeView Items="product_category_tree" CanSelect="true" SelectedValues="@SelectedProductCategory" SelectedValuesChanged="@onSelectedValueChange" T="TreeViewModel" CanActivate="true">
                         <ItemTemplate>
                             <MudTreeViewItem @bind-Expanded="@context.is_expand" Items="@context.tree_items" Value="@context" @bind-Selected="@context.is_selected"
-                                               Text="@context.title"  />
+                                             Text="@context.title" />
                         </ItemTemplate>
                     </MudTreeView>
                 </UIContainerBox>
@@ -64,7 +66,7 @@
         </PageBody>
         <PageFooter>
             <FooterCenter>
-                <ComSavingFormButton is_loading="@is_saving"  OnSave="OnSaveClick" is_show_save_action="true" />
+                <ComSavingFormButton is_loading="@is_saving" OnSave="OnSaveClick" is_show_save_action="true" />
             </FooterCenter>
         </PageFooter>
     </PageContainer>

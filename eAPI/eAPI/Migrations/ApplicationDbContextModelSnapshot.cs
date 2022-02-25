@@ -1559,9 +1559,6 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("InventoryCheckModelid")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("actual_quantity")
                         .HasColumnType("decimal(19,8)");
 
@@ -1570,22 +1567,6 @@ namespace eAPI.Migrations
 
                     b.Property<decimal>("cost")
                         .HasColumnType("decimal(19,8)");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime");
 
                     b.Property<decimal>("diference_amount")
                         .HasColumnType("decimal(19,8)");
@@ -1599,37 +1580,52 @@ namespace eAPI.Migrations
                     b.Property<decimal>("initial_quantity")
                         .HasColumnType("decimal(19,8)");
 
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
+                    b.Property<DateTime>("inventory_check_date")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("last_modified_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
+                    b.Property<Guid>("inventory_check_id")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime?>("last_inventory_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("multiplier")
+                        .HasColumnType("decimal(19,8)");
 
                     b.Property<string>("note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("product_category_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("product_group_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<int>("product_id")
                         .HasColumnType("int");
 
+                    b.Property<string>("product_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<decimal>("receive_quantity")
                         .HasColumnType("decimal(19,8)");
 
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
+                    b.Property<int>("unit_id")
+                        .HasColumnType("int");
 
-                    b.Property<string>("unit")
+                    b.Property<string>("unit_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
 
-                    b.HasIndex("InventoryCheckModelid");
+                    b.HasIndex("inventory_check_id");
+
+                    b.HasIndex("product_id");
 
                     b.ToTable("tbl_inventory_check_product");
                 });
@@ -1651,6 +1647,9 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("inventory_check_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("inventory_transaction_type_id")
                         .HasColumnType("int");
@@ -1724,8 +1723,6 @@ namespace eAPI.Migrations
                     b.HasIndex("inventory_transaction_type_id");
 
                     b.HasIndex("product_id");
-
-                    b.HasIndex("production_id");
 
                     b.HasIndex("stock_location_id");
 
@@ -5759,9 +5756,7 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("password")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
+                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("phone_1")
@@ -5787,7 +5782,6 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("user_code")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -6668,9 +6662,21 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.InventoryCheckProductModel", b =>
                 {
-                    b.HasOne("eModels.InventoryCheckModel", null)
+                    b.HasOne("eModels.InventoryCheckModel", "inventory_check")
                         .WithMany("inventory_check_products")
-                        .HasForeignKey("InventoryCheckModelid");
+                        .HasForeignKey("inventory_check_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.ProductModel", "product")
+                        .WithMany()
+                        .HasForeignKey("product_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("inventory_check");
+
+                    b.Navigation("product");
                 });
 
             modelBuilder.Entity("eModels.InventoryTransactionModel", b =>
@@ -6687,10 +6693,6 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.ProductionModel", "production")
-                        .WithMany()
-                        .HasForeignKey("production_id");
-
                     b.HasOne("eModels.StockLocationModel", "stock_location")
                         .WithMany()
                         .HasForeignKey("stock_location_id")
@@ -6700,8 +6702,6 @@ namespace eAPI.Migrations
                     b.Navigation("inventory_transaction_type");
 
                     b.Navigation("product");
-
-                    b.Navigation("production");
 
                     b.Navigation("stock_location");
                 });

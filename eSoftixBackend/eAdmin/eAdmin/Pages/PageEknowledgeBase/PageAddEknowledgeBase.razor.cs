@@ -75,8 +75,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
                 else
                 {
                     page_title = "New eKnowledge Base";
-                    
-                        models.Add(new eKnowledgeBaseModel(Guid.Parse(parent_id)));
+                    models.Add(new eKnowledgeBaseModel(Guid.Parse(parent_id)));
                     
                    
                 }
@@ -129,6 +128,24 @@ namespace eAdmin.Pages.PageEknowledgeBase
         //{  
         //    models.Add(new eKnowledgeBaseModel(Guid.Parse(parent_id)));
         //}
+
+
+
+        public void copy_content(eKnowledgeBaseModel d)
+        {
+            model.title_en = d.title_kh;
+            model.description_en = d.description_kh;
+            model.photo_en = d.photo_kh;
+            model.sort_order = d.sort_order;
+
+            foreach(var b in model.children)
+            {
+                b.title_en = d.title_kh;
+                b.description_en = d.description_kh;
+                b.photo_en = d.photo_kh;
+                b.sort_order = d.sort_order;
+            }
+        }
 
         public void DeleteChil_Click(eKnowledgeBaseModel d)
         {

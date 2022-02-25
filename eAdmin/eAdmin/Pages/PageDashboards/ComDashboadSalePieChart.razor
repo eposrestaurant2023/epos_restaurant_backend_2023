@@ -7,8 +7,6 @@
     }
     else
     {
-
-        
             <ApexChart TItem="SaleTypeSummary" ChartType="ApexCharts.ChartType.Pie" Options="@GetOptions()" Width="300">
                 <ApexSeries TItem="SaleTypeSummary"
                             Items="data"
@@ -18,8 +16,6 @@
                             YAggregate="@(e => e.Sum(e => e.total_order))"
                             ShowDataLabels="true" />
             </ApexChart>
-
-       
     }
     </ComPanel>
 @code {
