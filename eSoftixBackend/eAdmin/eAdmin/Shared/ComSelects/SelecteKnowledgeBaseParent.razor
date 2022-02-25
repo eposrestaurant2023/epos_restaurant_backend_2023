@@ -1,12 +1,12 @@
 ﻿
-        <MudSelect T="Guid?" Label="@label" Value="@SelectedValue" Strict="true" Variant="@variant" ValueChanged="@(()=>SelectedValueChange(id))" AnchorOrigin="Origin.BottomCenter">
+        <MudSelect T="Guid?" Label="@label" Value="@SelectedValue" Strict="true" Variant="@variant" ValueChanged="SelectedValueChange" AnchorOrigin="Origin.BottomCenter">
              @if (show_empty)
             {
-                <MudSelectItem Value="@Guid.Empty">@empty_text</MudSelectItem>
+                <MudSelectItem T="Guid?" Value="@Guid.Empty">@empty_text</MudSelectItem>
             }
             @foreach (var p in app_state.gv.eknowledge_base.Where(r => r.parent_id == null))
             {
-                <MudSelectItem Value="@(p.id)">@p.title_en</MudSelectItem>
+                <MudSelectItem T="Guid?" Value="@(p.id)">@p.title_en</MudSelectItem>
             }
         </MudSelect>
 
@@ -35,7 +35,7 @@
         }
     }
 
-    Guid id = Guid.NewGuid();
+    //Guid id = Guid.NewGuid();
 
     private async Task SelectedValueChange(Guid? n)
     {
