@@ -86,20 +86,20 @@ namespace eAdmin.Pages.PageEknowledgeBase
         public async Task Save_Click()
         {
             is_loading = true;
-            is_saving = true;
-            var res = await http.ApiPost($"eKnowledgeBase/savesingle", model);
-            if (res.IsSuccess)
-            {
-                toast.Add("Save Successfull.", Severity.Success);
-                var c = JsonSerializer.Deserialize<eKnowledgeBaseModel>(res.Content.ToString());
-            }
-            else
-            {
-                toast.Add(res.Content.ToString(), Severity.Warning);
-            }
-             
-            
-            is_saving = false;
+                is_saving = true;
+                     var res = await http.ApiPost($"eKnowledgeBase/savesingle", model);
+                    if (res.IsSuccess)
+                    {
+                        toast.Add("Save Successfull.", Severity.Success);
+                        var c = JsonSerializer.Deserialize<eKnowledgeBaseModel>(res.Content.ToString());
+                        model = c;
+                    }
+                    else
+                    {
+                        toast.Add(res.Content.ToString(), Severity.Warning);
+                    }
+                await LoadData();
+                is_saving = false;
             is_loading = false;
         }
 
@@ -140,10 +140,10 @@ namespace eAdmin.Pages.PageEknowledgeBase
 
             foreach(var b in model.children)
             {
-                b.title_en = d.title_kh;
-                b.description_en = d.description_kh;
-                b.photo_en = d.photo_kh;
-                b.sort_order = d.sort_order;
+                b.title_en = b.title_kh;
+                b.description_en = b.description_kh;
+                b.photo_en = b.photo_kh;
+                b.sort_order = b.sort_order;
             }
         }
 
