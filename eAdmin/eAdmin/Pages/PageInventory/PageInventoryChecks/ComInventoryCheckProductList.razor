@@ -9,11 +9,11 @@
             <ThCenter>@lang["QTY In"]</ThCenter>
             <ThCenter>@lang["QTY Out"]</ThCenter>
             <ThCenter>@lang["Expected QTY"]</ThCenter>
-            <ThCenter>@lang["Expected Amount"]</ThCenter>
+            <ThRight>@lang["Expected Amount"]</ThRight>
             <ThCenter>@lang["Actual QTY "]</ThCenter>
-            <ThCenter>@lang["Actual Amount"]</ThCenter>
+            <ThRight>@lang["Actual Amount"]</ThRight>
             <ThCenter>@lang["Diff. Qty"]</ThCenter>
-            <ThCenter>@lang["Diff. Amount"]</ThCenter>
+            <ThRight>@lang["Diff. Amount"]</ThRight>
             <ThAuto>@lang["Note"]</ThAuto>
         </tr>
     </thead>
@@ -34,7 +34,7 @@
             {
                 <tr>
                     <td>
-                        <a href="@($"product/{i.product_id}")" target="_blank">
+                        <a href="@($"product/{i.product_id}")">
                             @i.product.product_name_en 
                         </a>
                     </td>
@@ -54,7 +54,7 @@
                     <TdCenter>@i.receive_quantity.ToString(gv.quantity_format)</TdCenter>
                     <TdCenter>@i.consume_quantity.ToString(gv.quantity_format)</TdCenter>
                     <TdCenter>@i.expected_quantity.ToString(gv.quantity_format)</TdCenter>
-                    <TdCenter>@i.expected_amount.ToString(gv.currency_format)</TdCenter>
+                    <TdRight>@i.expected_amount.ToString(gv.currency_format)</TdRight>
                     <td>
                         <NumberInputNullable text="@i.actual_quantity" 
                                      textChanged="@(async (_)  => {
@@ -64,9 +64,9 @@
                                              is_read_only="@is_ready_only"/>
                     </td>
 
-                    <TdCenter>@i.actual_amount.ToString(gv.currency_format)</TdCenter>
+                    <TdRight>@i.actual_amount.ToString(gv.currency_format)</TdRight>
                     <TdCenter>@i.diference_quantity.ToString(gv.quantity_format)</TdCenter>
-                    <TdCenter>@i.diference_amount.ToString(gv.currency_format)</TdCenter>
+                    <TdRight>@i.diference_amount.ToString(gv.currency_format)</TdRight>
                     <TdCenter>
                         <TextInput 
                                   
@@ -82,6 +82,18 @@
 
         }
     </tbody>
+    <tfoot>
+        <tr>
+            <TdRight ColSpan="8">
+                @lang["Total Amount"]
+            </TdRight>
+            <TdRight>
+                @check_products.Sum(r => r.actual_amount).ToString(gv.currency_format)
+            </TdRight>
+            <TdRight ColSpan="5">
+            </TdRight>
+        </tr>
+    </tfoot>
 </table>
 
 @code{

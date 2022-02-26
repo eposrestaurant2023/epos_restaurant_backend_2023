@@ -29,7 +29,7 @@
             <MudTabs PanelClass="pa-4">
                 <MudTabPanel Text="@lang["Inventory Check Information"]">
                     <ComMarkInvoiceFulfilled is_visible="@(!model.is_fulfilled && !model.is_deleted)" OnClick="@MarkAsFulfilled" />
-                    <UIGridCenter>
+                   
                         <MudExpansionPanels>
                             <MudExpansionPanel Text="@lang["General Information"]">
                                 <UIContainerBox Title="@lang["Inventory Check Date"]">
@@ -42,6 +42,18 @@
                                 <UIContainerBox Title="@lang["Inventory Check Information"]">
                                     <TextInput label="@lang["Document #"]" text="@model.document_number" is_read_only="true" />
                                     <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance #"]" label="@lang["Referance #"]" is_read_only="true" />
+                                    <MudText Typo="Typo.body1">
+                                        @lang["Expected Amount"] @model.expected_amount.ToString(gv.currency_format)
+
+                                    </MudText>
+                                    <MudText Typo="Typo.body1">
+                                        @lang["Actual Amount"] @model.actual_amount.ToString(gv.currency_format)
+
+                                    </MudText>
+                                    <MudText Typo="Typo.body1">
+                                        @lang["Diff. Amount"] @model.difference_amount.ToString(gv.currency_format)
+
+                                    </MudText>
                                 </UIContainerBox>
                                 <UIContainerBox Title="@lang["Warehouse"]">
                                     <ListTable>
@@ -53,7 +65,6 @@
                         </MudExpansionPanels>
                         <Spacing Number="4" />
                         
-                    </UIGridCenter>
                     <ComInventoryCheckProducts id="@id" is_ready_only="@model.is_fulfilled"/>
                 </MudTabPanel>
                 <MudTabPanel Text="@lang["Comment and History"]"  OnClick="@ShowComment">
