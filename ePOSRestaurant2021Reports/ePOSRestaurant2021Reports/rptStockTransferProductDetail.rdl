@@ -117,7 +117,7 @@
             <Value>=Parameters!product_group_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>
+        <CommandText>	
 select 
 	a.document_number,
 	b.business_branch_name_en as from_business_branch_name,
@@ -147,9 +147,9 @@ where
 	sp.is_deleted = 0 and 
 	a.stock_transfer_date between @start_date and @end_date and
 	cast(a.from_business_branch_id as nvarchar(50)) = iif(@from_business_branch_id='',cast(a.from_business_branch_id as nvarchar(50)),@from_business_branch_id) and
-	cast(a.from_stock_location_id as nvarchar(50))= iif(@to_stock_location_id = '',cast(a.from_stock_location_id as nvarchar(50)),@from_stock_location_id) and
+	cast(a.from_stock_location_id as nvarchar(50))= iif(@from_stock_location_id = '',cast(a.from_stock_location_id as nvarchar(50)),@from_stock_location_id) and
 	cast(a.to_stock_location_id as nvarchar(50))= iif(@to_stock_location_id = '',cast(a.to_stock_location_id as nvarchar(50)),@to_stock_location_id) and
-	cast(a.to_business_branch_id as nvarchar(50))= iif(@from_business_branch_id='',cast(a.to_business_branch_id as nvarchar(50)),@to_business_branch_id) and 
+	cast(a.to_business_branch_id as nvarchar(50))= iif(@to_business_branch_id='',cast(a.to_business_branch_id as nvarchar(50)),@to_business_branch_id) and 
 	p.product_category_id = iif(@product_category_id=0,p.product_category_id,@product_category_id) and 
 	p.product_group_id = iif(@product_group_id = 0, p.product_group_id, @product_group_id)
 

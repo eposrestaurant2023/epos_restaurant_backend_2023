@@ -89,6 +89,9 @@
       <Query>
         <DataSourceName>Datasource</DataSourceName>
         <QueryParameters>
+          <QueryParameter Name="@printed_by">
+            <Value>=Parameters!printed_by.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@start_date">
             <Value>=Parameters!start_date.Value</Value>
           </QueryParameter>
@@ -114,7 +117,8 @@
             <Value>=Parameters!product_group_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>select 
+        <CommandText>
+ select 
 	p.product_name_en,
 	p.product_category_en,
 	avg(pop.cost) as cost,
@@ -124,12 +128,13 @@
 	SUM(pop.total_amount) as total_amount
 from tbl_purchase_order_product pop
 	inner join tbl_purchase_order po on po.id = pop.purchase_order_id
+	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = po.business_branch_id
 	inner join tbl_vendor v on  v.id = po.vendor_id
 	inner join tbl_product p on p.id = pop.product_id 
 where 
 	po.purchase_date between @start_date and @end_date and
-	po.business_branch_id = iif(@business_branch_id='',po.business_branch_id,@business_branch_id) and
-	po.stock_location_id = iif(@stock_location_id='',po.stock_location_id,@stock_location_id) and 
+	cast(po.business_branch_id  as nvarchar(50)) = iif(@business_branch_id='',cast(po.business_branch_id as nvarchar(50)),@business_branch_id) and
+	cast(po.stock_location_id  as nvarchar(50)) = iif(@stock_location_id='',cast(po.stock_location_id as nvarchar(50)),@stock_location_id) and 
 	po.is_deleted = 0 and 
 	pop.is_deleted = 0 and 
 	po.vendor_id = iif(@vendor_id = 0,po.vendor_id,@vendor_id) and 

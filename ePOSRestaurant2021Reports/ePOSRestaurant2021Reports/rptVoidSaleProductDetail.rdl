@@ -92,6 +92,9 @@
           <QueryParameter Name="@printed_by">
             <Value>=Parameters!printed_by.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@business_branch_id">
+            <Value>=Parameters!business_branch_id.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@start_date">
             <Value>=Parameters!start_date.Value</Value>
           </QueryParameter>
@@ -130,6 +133,7 @@ from tbl_sale_product sp
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
 	left join tbl_customer c on c.id = s.customer_id 
 where
+	cast(s.business_branch_id as nvarchar(50))= iif(@business_branch_id = '', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
 	s.working_date between @start_date and @end_date and
 	coalesce(cast(s.customer_id as nvarchar(50)),'') = iif(@customer_id = '',coalesce(cast(s.customer_id as nvarchar(50)),'') ,@customer_id) and 
 	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id) and 
@@ -174,7 +178,8 @@ from tbl_sale_product sp
 where
 	t.is_deleted = 1
 order by 
-	s.document_number</CommandText>
+	s.document_number
+</CommandText>
       </Query>
       <Fields>
         <Field Name="sale_id">

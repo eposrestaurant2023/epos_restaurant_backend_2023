@@ -113,12 +113,12 @@ select
 from tbl_sale s 
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) c on c.id = s.business_branch_id
 where
+	s.is_deleted = 0 and 
 	s.is_foc = 0 and 
 	working_date between @start_date and @end_date   
+	 
 group by
-	c.business_branch_name_en
-
- </CommandText>
+	c.business_branch_name_en</CommandText>
       </Query>
       <Fields>
         <Field Name="business_branch_name_en">

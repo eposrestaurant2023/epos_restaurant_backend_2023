@@ -135,8 +135,8 @@ where
 	c.is_deleted = 0 and 
 	a.is_deleted = 0 and 
 	c.stock_take_date  between @start_date and @end_date and
-	c.business_branch_id = iif(@business_branch_id='',c.business_branch_id,@business_branch_id) and
-	c.stock_location_id = iif(@stock_location_id='',c.stock_location_id,@stock_location_id) and 
+	cast(c.business_branch_id  as nvarchar(50)) = iif(@business_branch_id='',cast(c.business_branch_id as nvarchar(50)),@business_branch_id) and
+	cast(c.stock_location_id  as nvarchar(50)) = iif(@stock_location_id='',cast(c.stock_location_id as nvarchar(50)),@stock_location_id) and 
 	b.product_category_id = iif(@product_category_id = 0,b.product_category_id,@product_category_id) and 
 	b.product_group_id = iif(@product_group_id = 0,b.product_group_id,@product_group_id)
  
