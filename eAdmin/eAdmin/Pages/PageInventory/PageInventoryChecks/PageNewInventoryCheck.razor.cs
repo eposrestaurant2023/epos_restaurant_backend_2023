@@ -147,11 +147,17 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
                 var _model = JsonSerializer.Deserialize<InventoryCheckModel>(resp.Content.ToString());
                 nav.NavigateTo($"inventorycheck/{_model.id}");
             }
+            else if (resp.status_code==409)
+            {
+                toast.Add(lang[resp.Content], MudBlazor.Severity.Warning);
+                
+            }
             else
             {
                 toast.Add(lang["Save data fail."], MudBlazor.Severity.Warning);
-                is_saving = false;
+              
             }
+            is_saving = false;
         }
 
 

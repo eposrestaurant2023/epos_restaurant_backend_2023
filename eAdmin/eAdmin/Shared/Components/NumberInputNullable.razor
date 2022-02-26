@@ -1,0 +1,143 @@
+﻿@inject IStringLocalizer<Resource> lang
+@if (label != "")
+{
+
+    <div class="@(is_horizontal?"uk-form-horizontal":"")">
+        <div class="uk-margin-small">
+            <div class="@wrp_class">
+                <label class="uk-form-label" for="@id">
+                    @if (line_icon != "")
+                    {
+                        <LineIcon IconName="@line_icon" />
+                    }
+                    else if (icon != "")
+                    {
+
+                        <Icon icon="@icon" />
+                    }
+                    @lang[label]
+                </label>
+                <div class="uk-form-controls">
+                    @if (is_read_only)
+                    {
+                        <input type="@text" disabled value="@strText" placeholder="@placeholder" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
+                    }
+                    else
+                    {
+                        <input type="@text" value="@strText" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
+                    }
+
+                    @ChildContent
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    if (is_read_only)
+    {
+        <input type="@text" disabled value="@strText" placeholder="@placeholder" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
+    }
+    else
+    {
+        <input type="@text" value="@strText" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
+    }
+
+    @ChildContent
+}
+
+@code{
+    [Parameter] public string line_icon { get; set; } = "";
+    [Parameter] public string icon { get; set; } = "";
+    [Parameter] public decimal? text { get; set; }
+
+    [Parameter] public string placeholder { get; set; } = "";
+    [Parameter] public string label { get; set; } = "";
+    [Parameter] public bool is_read_only { get; set; } = false;
+    [Parameter] public bool is_horizontal { get; set; } = true;
+    [Parameter] public string text_format { get; set; } = "0.######";
+    [Parameter] public string width { get; set; } = "";
+    [Parameter] public string class_name { get; set; } = "uk-form-small";
+    [Parameter] public string wrp_class { get; set; } = "uk-margin-small";
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<decimal?> textChanged { get; set; }
+    string strText;
+    Guid id = Guid.NewGuid();
+
+
+    protected override void OnInitialized()
+    {
+
+        if (placeholder == "")
+        {
+            placeholder = label;
+        }
+        if (!string.IsNullOrEmpty(strText))
+        {
+            strText = Convert.ToDecimal(text).ToString(text_format);
+        }
+        else
+        {
+            strText = null;
+        }
+
+    }
+
+
+    protected override void OnParametersSet()
+    {
+        if (text != null)
+        {
+            strText = Convert.ToDecimal(text).ToString(text_format);
+        }
+
+    }
+
+
+    private async Task TextChange(string n)
+    {
+        strText = "10000000";
+        if (String.IsNullOrEmpty(n))
+        {
+            await textChanged.InvokeAsync(null);
+        }
+        else
+        {
+            n = n.Replace("$", "").Replace(",", "");
+
+            decimal result = 0;
+            if (decimal.TryParse(n, out result))
+            {
+                text = result;
+            }
+            else
+            {
+                text=null;
+            }
+            await textChanged.InvokeAsync(text);
+        }
+
+
+
+    }
+
+    void TextLeave()
+    {
+        if (text != null)
+        {
+            strText = Convert.ToDecimal(text).ToString(text_format);
+        }
+        else
+        {
+            strText = null;
+        }
+
+    }
+
+}
+
+

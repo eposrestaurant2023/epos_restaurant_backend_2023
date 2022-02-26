@@ -23,7 +23,7 @@
     <AddButton roles="@gv.GetRole("inventory_check_add")" url="inventorycheck/new">@lang["New Inventory Check"]</AddButton>
 </MudHidden>
 <RefreshButton OnClick="@OnRefresh" />
-@if (!model.is_deleted) {
+@if (!model.is_deleted && !model.is_fulfilled) {
 <MoreButton is_loading="@model.is_loading">
     <MudHidden Breakpoint="Breakpoint.MdAndUp">
         <MoreButtonItem roles="@gv.GetRole("inventory_check_add")" icon="add" url="inventorycheck/new">@lang["New Inventory Check"]</MoreButtonItem>
@@ -31,7 +31,8 @@
 
     </MudHidden>
     <MoreButtonItem roles="@gv.GetRole("inventory_check_delete")" icon="delete" OnClick="@DeleteInvoice_Click" is_visible="@(!model.is_fulfilled)">@lang["Delete"]</MoreButtonItem>
-    <MoreButtonItem roles="@gv.GetRole("inventory_check_delete")" icon="clear" is_visible="@model.is_fulfilled" OnClick="@CancelMarkAsFulfilled">@lang["Cancel Mark as Fulfilled"]</MoreButtonItem>
+   
+    
     <MudHidden Breakpoint="Breakpoint.MdAndUp">
         <MudDivider />
         <MoreButtonItem icon="print" is_visible="@(model.is_deleted == false && model.status == true)" OnClick="Print_Click">@lang["Print"]</MoreButtonItem>
@@ -118,23 +119,5 @@
         is_loading = false;
     }
 
-
-    public async Task CancelMarkAsFulfilled()
-    {
-        is_loading = true;
-        if (await js.Confirm(lang["Cancel Make As Fulfilled"], lang["Are you sure you want to​ cancel make as fulfilled?"]))
-        {
-
-            var resp = await http.ApiPost("inventorycheck/CancelMarkAsFulfilled/" + model.id);
-            if (resp.IsSuccess)
-            {
-                model.is_fulfilled = !model.is_fulfilled;
-                await modelChanged.InvokeAsync(model);
-                toast.Add(lang["Cancel Mark as fulfilled successfully"], MudBlazor.Severity.Success);
-            }
-        }
-        is_loading = false;
-
-    }
 
 }
