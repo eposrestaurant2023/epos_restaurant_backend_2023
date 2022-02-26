@@ -36,6 +36,10 @@ namespace eModels
 
         public string note { get; set; }
 
+        public decimal actual_amount { get; set; }
+        public decimal expected_amount { get; set; }
+        public decimal difference_amount { get; set; }
+
         public string product_categories { get; set; }
 
         public List<HistoryModel> histories { get; set; }
@@ -65,21 +69,70 @@ namespace eModels
         public decimal receive_quantity { get; set; }
         public decimal consume_quantity { get; set; }
         public decimal expected_quantity { get; set; }
-        public decimal actual_quantity { get; set; }
+        public decimal? actual_quantity { get; set; }
 
         private decimal _diference_quantity;
 
         public decimal diference_quantity
         {
             get {
-                _diference_quantity =  actual_quantity - expected_quantity;
+               
+
+                if (actual_quantity != null)
+                {
+                    _diference_quantity = Convert.ToDecimal(actual_quantity) - expected_quantity;
+                }
+                else
+                {
+                    _diference_quantity = 0;
+                }
                 return _diference_quantity; 
             }
             set { _diference_quantity = value; }
         }
 
+        private decimal _diference_amount;
 
-        public decimal diference_amount { get; set; }
+        public decimal diference_amount
+        {
+            get {
+
+                return diference_quantity * cost;
+
+            }
+            set { _diference_amount = value; }
+        }
+
+        private decimal _expected_amount;
+
+        public decimal expected_amount
+        {
+            get
+            {
+
+                return expected_quantity * cost;
+
+            }
+            set { _expected_amount = value; }
+        }
+
+
+        private decimal _actual_amount;
+        public decimal actual_amount
+        {
+            get
+            {
+                if (actual_quantity!=null)
+                {
+                    return Convert.ToDecimal(actual_quantity) * cost;
+
+                }
+                return 0;
+
+            }
+            set { _actual_amount = value; }
+        }
+
         public string note { get; set; }
 
         public string product_group_name { get; set; }

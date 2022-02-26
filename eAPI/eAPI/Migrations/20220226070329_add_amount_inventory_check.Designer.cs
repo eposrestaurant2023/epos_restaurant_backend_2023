@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220226070329_add_amount_inventory_check")]
+    partial class add_amount_inventory_check
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1476,9 +1478,6 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("actual_amount")
-                        .HasColumnType("decimal(19,8)");
-
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -1498,18 +1497,12 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime");
 
-                    b.Property<decimal>("difference_amount")
-                        .HasColumnType("decimal(19,8)");
-
                     b.Property<string>("document_number")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<DateTime>("end_date")
                         .HasColumnType("datetime2");
-
-                    b.Property<decimal>("expected_amount")
-                        .HasColumnType("decimal(19,8)");
 
                     b.Property<string>("inventory_check_type")
                         .HasColumnType("nvarchar(max)")
