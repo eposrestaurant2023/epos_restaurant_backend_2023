@@ -63,7 +63,6 @@
                        ScrollClass="uk-overflow-auto">
                     <TableHeader>
                         @HeaderTemplate("start_date", lang["Start Date"], "uk-text-center")
-                        @HeaderTemplate("end_date", lang["End Date"], "uk-text-center")
                         @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
                         @HeaderTemplate("referance_number", lang["Referance #"], "uk-text-center")
                         <ThAuto>
@@ -77,7 +76,6 @@
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>@p.start_date?.ToString(gv.date_time_format)</TdCenter>
-                        <TdCenter>@p.end_date.ToString(gv.date_time_format)</TdCenter>
                         <TdCenter>
                             <a href="inventorycheck/@p.id">@p.document_number</a>
                         </TdCenter>
