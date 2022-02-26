@@ -92,6 +92,9 @@
           <QueryParameter Name="@printed_by">
             <Value>=Parameters!printed_by.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@business_branch_id">
+            <Value>=Parameters!business_branch_id.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@start_date">
             <Value>=Parameters!start_date.Value</Value>
           </QueryParameter>
@@ -114,7 +117,8 @@
             <Value>=Parameters!outlet_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText> select
+        <CommandText>
+ select
 	sp.id,
 	s.working_date,
 	s.customer_name,
@@ -144,6 +148,7 @@ from tbl_sale_product sp
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
 	left join tbl_customer c on c.id = s.customer_id 
 where
+	cast(s.business_branch_id as nvarchar(50))= iif(@business_branch_id = '', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
 	s.is_deleted = 0 and 
 	sp.is_deleted = 0 and 
 	sp.status_id in (1,2) and 

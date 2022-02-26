@@ -117,8 +117,7 @@
             <Value>=Parameters!product_group_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>
-	select
+        <CommandText>select
 	b.product_name_en,
 	a.quantity,
 	a.total_amount,
@@ -137,6 +136,7 @@
 from tbl_purchase_order_product a 
 	inner join tbl_product b on a.product_id = b.id
 	inner join tbl_purchase_order c on c.id = a.purchase_order_id
+	inner join	dbo.fn_get_business_branch_by_role(@printed_by) bb on bb.id = c.business_branch_id
 	inner join tbl_product_category d on d.id = b.product_category_id 
 	inner join tbl_vendor e on e.id = c.vendor_id
 	inner join dbo.fn_get_business_branch_by_role(@printed_by) f on f.id = c.business_branch_id
@@ -145,8 +145,8 @@ where
 	c.is_deleted = 0 and 
 	a.is_deleted = 0 and 
 	c.purchase_date between @start_date and @end_date and
-	c.business_branch_id = iif(@business_branch_id='',c.business_branch_id,@business_branch_id) and
-	c.stock_location_id = iif(@stock_location_id='',c.stock_location_id,@stock_location_id) and 
+	cast(c.business_branch_id  as nvarchar(50)) = iif(@business_branch_id='',cast(c.business_branch_id as nvarchar(50)),@business_branch_id) and
+	cast(c.stock_location_id  as nvarchar(50)) = iif(@stock_location_id='',cast(c.stock_location_id as nvarchar(50)),@stock_location_id) and
 	c.vendor_id = iif(@vendor_id = 0, c.vendor_id,@vendor_id) and 
 	e.vendor_group_id = iif(@vendor_group_id= 0,e.vendor_group_id,@vendor_group_id)  and 
 	b.product_category_id = iif(@product_category_id = 0,b.product_category_id,@product_category_id) and 
@@ -156,7 +156,11 @@ where
 order by
 	c.document_number,
 	b.product_category_en,
-	b.product_name_en</CommandText>
+	b.product_name_en
+
+
+
+</CommandText>
       </Query>
       <Fields>
         <Field Name="product_name_en">

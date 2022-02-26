@@ -118,6 +118,7 @@
           </QueryParameter>
         </QueryParameters>
         <CommandText>
+
 if object_id('tempdb..#tbl') is not null drop table #tbl
 
 select 
@@ -133,7 +134,9 @@ select
 	cast(0.00  as decimal(16,4)) as stock_take,
 	cast(0.00  as decimal(16,4)) as quantity_transfer_in,
 	cast(0.00  as decimal(16,4)) as quantity_transfer_out,
-	cast(0.00  as decimal(16,4)) as quantity_production
+	cast(0.00  as decimal(16,4)) as quantity_production_in,
+	cast(0.00  as decimal(16,4)) as quantity_production_out,
+	cast(0.00  as decimal(16,4)) as quantity_inventory_check
 	into #tbl
 from tbl_product p
 inner join tbl_unit u on u.id = p.unit_id 
@@ -185,7 +188,9 @@ select
 	sum(iif(a.inventory_transaction_type_id =7 , a.quantity,0)) as stock_take,
 	sum(iif(a.inventory_transaction_type_id =5, a.quantity,0)) as stock_transfer_in,
 	sum(iif(a.inventory_transaction_type_id =6, a.quantity,0)) as stock_transfer_out,
-	sum(iif(a.inventory_transaction_type_id =9, a.quantity,0)) as production
+	sum(iif(a.inventory_transaction_type_id =9, a.quantity,0)) as production_in,
+	sum(iif(a.inventory_transaction_type_id =11, a.quantity,0)) as production_out,
+	sum(iif(a.inventory_transaction_type_id =10, a.quantity,0)) as quantity_inventory_check
 	into	#tbl_current_transaction
 from  tbl_inventory_transaction a
 	inner join tbl_stock_location l on l.id= a.stock_location_id
@@ -209,7 +214,9 @@ update t
 		t.quantity_sale = s.sale_order,
 		t.quantity_transfer_in = s.stock_transfer_in,
 		t.quantity_transfer_out = s.stock_transfer_out,
-		t.quantity_production = s.production
+		t.quantity_production_in = s.production_in,
+		t.quantity_production_out = s.production_out,
+		t.quantity_inventory_check = s.quantity_inventory_check
 from #tbl t
 	inner join #tbl_current_transaction s on s.product_id = t.id
 
@@ -218,9 +225,20 @@ from #tbl t
 
 select 
 	*,
-	starting_balance + quantity_adjustment_in + quantity_adjustment_out + stock_take + quantity_receive + quantity_sale + quantity_transfer_in + quantity_transfer_out + quantity_production  as quantity_on_hand
-from #tbl
-</CommandText>
+	(
+		starting_balance + 
+		quantity_adjustment_in + 
+		quantity_adjustment_out + 
+		stock_take + 
+		quantity_receive + 
+		quantity_sale + 
+		quantity_transfer_in + 
+		quantity_transfer_out + 
+		quantity_production_in + 
+		quantity_production_out + 
+		quantity_inventory_check   
+	) as quantity_on_hand
+from #tbl order by product_name_en</CommandText>
       </Query>
       <Fields>
         <Field Name="id">
@@ -271,12 +289,20 @@ from #tbl
           <DataField>quantity_transfer_out</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="quantity_production">
-          <DataField>quantity_production</DataField>
+        <Field Name="quantity_production_in">
+          <DataField>quantity_production_in</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="quantity_production_out">
+          <DataField>quantity_production_out</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="quantity_on_hand">
           <DataField>quantity_on_hand</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="quantity_inventory_check">
+          <DataField>quantity_inventory_check</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
       </Fields>
@@ -422,7 +448,7 @@ from #tbl
             <Value>=Parameters!lang.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>exec sp_get_translate_text @lang,'No,Date,Category,P.Code,Product name,QTY,Unit,Cost,Price,Branch,Warehouse,Group,Inventory Movement,Printed By,on,Page,of,Total,inventory_starting_balance,Production,QTY Receive,Stock Take,Transfer In,Transfer Out,QTY Sold,BOH,printed_by'</CommandText>
+        <CommandText>exec sp_get_translate_text @lang,'No,Date,Category,P.Code,Product name,QTY,Unit,Cost,Price,Branch,Warehouse,Group,Inventory Movement,Printed By,on,Page,of,Total,inventory_starting_balance,Production,QTY Receive,Inv. Deduct,Transfer In,Transfer Out,QTY Sold,BOH,printed_by,Production In,Production Out,Inv. Check'</CommandText>
       </Query>
       <Fields>
         <Field Name="No">
@@ -509,8 +535,8 @@ from #tbl
           <DataField>QTY Receive</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Stock_Take">
-          <DataField>Stock Take</DataField>
+        <Field Name="Inv__Deduct">
+          <DataField>Inv. Deduct</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Transfer_In">
@@ -533,6 +559,18 @@ from #tbl
           <DataField>printed_by</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Production_In">
+          <DataField>Production In</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Production_Out">
+          <DataField>Production Out</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Inv__Check">
+          <DataField>Inv. Check</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
   </DataSets>
@@ -544,46 +582,52 @@ from #tbl
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.50118in</Width>
+                  <Width>0.47331in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.91385in</Width>
+                  <Width>0.88598in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.32011in</Width>
+                  <Width>1.29224in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.54682in</Width>
+                  <Width>0.51895in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.83602in</Width>
+                  <Width>0.61023in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.92262in</Width>
+                  <Width>0.7385in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.65315in</Width>
+                  <Width>0.52421in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.68705in</Width>
+                  <Width>0.58361in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.71594in</Width>
+                  <Width>0.67004in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.80723in</Width>
+                  <Width>0.65918in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.66101in</Width>
+                  <Width>0.62311in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.72353in</Width>
+                  <Width>0.64357in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.90834in</Width>
+                  <Width>0.67213in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.79064in</Width>
+                  <Width>0.77421in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.58671in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.73152in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -622,7 +666,7 @@ from #tbl
                               <Color>Black</Color>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <VerticalAlign>Bottom</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -663,7 +707,7 @@ from #tbl
                               <Color>Black</Color>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <VerticalAlign>Bottom</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -704,7 +748,7 @@ from #tbl
                               <Color>Black</Color>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <VerticalAlign>Bottom</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -745,7 +789,7 @@ from #tbl
                               <Color>Black</Color>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <VerticalAlign>Bottom</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -786,7 +830,7 @@ from #tbl
                               <Color>Black</Color>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <VerticalAlign>Bottom</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -804,7 +848,7 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Production.Value, "translate")</Value>
+                                  <Value>=First(Fields!Production_In.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -827,7 +871,7 @@ from #tbl
                               <Color>Black</Color>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <VerticalAlign>Bottom</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -838,7 +882,7 @@ from #tbl
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox8">
+                        <Textbox Name="Textbox30">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -882,7 +926,96 @@ from #tbl
                               <Color>Black</Color>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox26">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!QTY_Receive.Value, "translate")</Value>
+                                  <Style>
+                                    <FontFamily>Kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox9</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!Transfer_In.Value, "translate")</Value>
+                                  <Style>
+                                    <FontFamily>Kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value xml:space="preserve"> </Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <VerticalAlign>Bottom</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -937,48 +1070,7 @@ from #tbl
                               <Color>Black</Color>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox9">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=First(Fields!QTY_Receive.Value, "translate")</Value>
-                                  <Style>
-                                    <FontFamily>Kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox9</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                            </BottomBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <VerticalAlign>Bottom</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -996,7 +1088,7 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Stock_Take.Value, "translate")</Value>
+                                  <Value>=First(Fields!Inv__Deduct.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1019,55 +1111,7 @@ from #tbl
                               <Color>Black</Color>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox1">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=First(Fields!Transfer_In.Value, "translate")</Value>
-                                  <Style>
-                                    <FontFamily>Kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value xml:space="preserve"> </Value>
-                                  <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                            </BottomBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <VerticalAlign>Bottom</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1108,7 +1152,7 @@ from #tbl
                               <Color>Black</Color>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <VerticalAlign>Bottom</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1149,7 +1193,89 @@ from #tbl
                               <Color>Black</Color>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox18">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!Production_Out.Value, "translate")</Value>
+                                  <Style>
+                                    <FontFamily>Kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox15</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox32">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!Inv__Check.Value, "translate")</Value>
+                                  <Style>
+                                    <FontFamily>Kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox15</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <VerticalAlign>Bottom</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1190,7 +1316,7 @@ from #tbl
                               <Color>Black</Color>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
+                            <VerticalAlign>Bottom</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1390,7 +1516,7 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!quantity_production.Value, First(Fields!quantity_format.Value, "setting"))</Value>
+                                  <Value>=format(Fields!quantity_production_in.Value, First(Fields!quantity_format.Value, "setting"))</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -1418,7 +1544,7 @@ from #tbl
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="starting_balance2">
+                        <Textbox Name="starting_balance8">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1426,41 +1552,6 @@ from #tbl
                               <TextRuns>
                                 <TextRun>
                                   <Value>=format(Fields!quantity_adjustment_in.Value, First(Fields!quantity_format.Value, "setting"))</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>starting_balance</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="starting_balance16">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=format(Fields!quantity_adjustment_out.Value, First(Fields!quantity_format.Value, "setting"))</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -1523,6 +1614,76 @@ from #tbl
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="starting_balance10">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Fields!quantity_transfer_in.Value, First(Fields!quantity_format.Value, "setting"))</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>starting_balance</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="starting_balance16">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Fields!quantity_adjustment_out.Value, First(Fields!quantity_format.Value, "setting"))</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>starting_balance</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="stock_take">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1542,41 +1703,6 @@ from #tbl
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>stock_take</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="starting_balance6">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=format(Fields!quantity_transfer_in.Value, First(Fields!quantity_format.Value, "setting"))</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>starting_balance</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1636,6 +1762,76 @@ from #tbl
                               <TextRuns>
                                 <TextRun>
                                   <Value>=format(Fields!quantity_sale.Value, First(Fields!quantity_format.Value, "setting"))</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>starting_balance</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="starting_balance18">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Fields!quantity_production_out.Value, First(Fields!quantity_format.Value, "setting"))</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>starting_balance</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="starting_balance24">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Fields!quantity_inventory_check.Value, First(Fields!quantity_format.Value, "setting"))</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                   </Style>
@@ -1832,7 +2028,7 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!quantity_production.Value), First(Fields!quantity_format.Value, "setting"))</Value>
+                                  <Value>=format(Sum(Fields!quantity_production_in.Value), First(Fields!quantity_format.Value, "setting"))</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -1864,14 +2060,92 @@ from #tbl
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="starting_balance9">
+                        <Textbox Name="starting_balance28">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(sum(Fields!quantity_adjustment_in.Value), First(Fields!quantity_format.Value, "setting"))</Value>
+                                  <Value>=format(Sum(Fields!quantity_adjustment_in.Value), First(Fields!quantity_format.Value, "setting"))</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>starting_balance</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="starting_balance30">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Sum(Fields!quantity_receive.Value), First(Fields!quantity_format.Value, "setting"))</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>starting_balance</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="starting_balance25">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Sum(Fields!quantity_transfer_in.Value), First(Fields!quantity_format.Value, "setting"))</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -1942,45 +2216,6 @@ from #tbl
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="starting_balance10">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=format(sum(Fields!quantity_receive.Value), First(Fields!quantity_format.Value, "setting"))</Value>
-                                  <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>starting_balance</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
                         <Textbox Name="stock_take1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -2001,45 +2236,6 @@ from #tbl
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>stock_take1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="starting_balance11">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=format(sum(Fields!quantity_transfer_in.Value), First(Fields!quantity_format.Value, "setting"))</Value>
-                                  <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>starting_balance</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -2137,6 +2333,84 @@ from #tbl
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="starting_balance27">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Sum(Fields!quantity_production_out.Value), First(Fields!quantity_format.Value, "setting"))</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>starting_balance</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="starting_balance39">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Sum(Fields!quantity_inventory_check.Value), First(Fields!quantity_format.Value, "setting"))</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>starting_balance</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="starting_balance14">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -2194,6 +2468,8 @@ from #tbl
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -2218,7 +2494,7 @@ from #tbl
             <Top>0.0125in</Top>
             <Left>0.0125in</Left>
             <Height>0.81029in</Height>
-            <Width>10.98749in</Width>
+            <Width>10.98751in</Width>
             <Style>
               <Border>
                 <Style>None</Style>

@@ -92,6 +92,9 @@
           <QueryParameter Name="@printed_by">
             <Value>=Parameters!printed_by.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@business_branch_id">
+            <Value>=Parameters!business_branch_id.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@start_date">
             <Value>=Parameters!start_date.Value</Value>
           </QueryParameter>
@@ -131,6 +134,7 @@ from tbl_sale_product sp
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
 	left join tbl_customer c on c.id = s.customer_id 
 where
+	cast(s.business_branch_id as nvarchar(50))= iif(@business_branch_id = '', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
 	s.is_deleted = 0 and 
 	sp.is_deleted = 0 and 
 	sp.status_id in (1,2) and
@@ -139,14 +143,13 @@ where
 	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id) and 
 	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and 
 	sp.product_group_id  = iif(@product_group_id = 0, sp.product_group_id,@product_group_id) and 
-	cast(s.outlet_id as nvarchar(50))= iif(@outlet_id = '0', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
+	cast(s.outlet_id as nvarchar(50))= iif(@outlet_id = '', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
 	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and 
 	sp.product_group_id = iif(@product_group_id =0,sp.product_group_id ,@product_group_id ) 
 group by
 	coalesce(sp.product_category_en,'Not Set')
 order by 
-	coalesce(sp.product_category_en,'Not Set')
- </CommandText>
+	coalesce(sp.product_category_en,'Not Set')</CommandText>
       </Query>
       <Fields>
         <Field Name="product_category_en">
