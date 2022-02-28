@@ -20,7 +20,7 @@ else
 
         <MudCarousel Class="mud-width-full" ItemsSource="@models" Context="d" Style="height:60vh;" ShowArrows="true" ShowBullets="true" AutoCycle="false">
             <ItemTemplate>
-                <div style="        background-image: linear-gradient( 252 252 252 / 46%), rgba(225 210 210 / 56%) ), url( @d.photo );
+                <div style="        background-image: linear-gradient( 252 252 252 / 46%), rgba(225 210 210 / 56%) ), url( @http.ImageUrl( d.photo) );
         height: 600px;
         background-position: center;
         background-repeat: no-repeat;

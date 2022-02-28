@@ -16,7 +16,10 @@
         <div>
             <div>
                 <Spacing Number="50" />
-                <img src="@(http.ImageUrl( model.logo))" class="image_logo_bussiness"/>
+                
+                <MudAvatar Style="height:100px; width:100px; font-size:2rem;" Image="@(http.ImageUrl( model.logo))"/>
+
+               
             </div>
             <Spacing Number="10"/>
             <div>
