@@ -70,7 +70,7 @@
                             <div class="sub-header-table">@lang["Warehouse"]</div>
                         </ThAuto>
                         @HeaderTemplate("inventory_check_type", lang["Type"], "uk-text-center")
-                        <ThRight>@lang["Total Cost"]</ThRight>
+                        <ThRight>@lang["Total Amount"]</ThRight>
                         <ThRight>@lang["Status"]</ThRight>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
@@ -88,7 +88,7 @@
                             @p.inventory_check_type
                         </TdCenter>
                         <TdRight>
-                            @p.total_cost.ToString(gv.main_currency_format)
+                            @p.actual_amount.ToString(gv.currency_format)
                         </TdRight>
                         <TdRight>
                             <ComInventoryCheckStatus model="@p" />

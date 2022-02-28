@@ -59,6 +59,7 @@ namespace eAPI.Controllers
             data.note = p.note;
             db.InventoryCheckProduts.Update(data);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)), hub);
+            db.Database.ExecuteSqlRaw($"exec sp_update_inventory_check_amount '{p.inventory_check_id}'");
             return Ok(p);
         }
 

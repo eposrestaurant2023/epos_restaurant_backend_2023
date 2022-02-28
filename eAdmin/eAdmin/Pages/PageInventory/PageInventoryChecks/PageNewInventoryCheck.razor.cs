@@ -196,7 +196,10 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
 
         void UpdateSelected(TreeViewModel data)
         {
-            data.is_selected = true;
+            if (model.inventory_check_type=="Full")
+            {
+                data.is_selected = true;
+            }
             SelectedProductCategory.Add(data);
             foreach (var d in data.tree_items)
             {
