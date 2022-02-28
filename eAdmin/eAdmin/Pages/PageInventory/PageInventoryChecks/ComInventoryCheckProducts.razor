@@ -1,14 +1,31 @@
 ﻿@inherits PageCore
-@if (is_loading) {
-    <Spinner is_spinning="is_loading"/>
+
+
+<UIContainerBox Title="@lang["Inventory Check Date"]">
+    <ComSearch is_fullwidth="true" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false">
+
+    </ComSearch>
+    <Spacing Number="8" />
+    <MudChipSet SelectedChip="selected" SelectedChipChanged="onSelectedChipChanged" Filter="true">
+        <MudChip Default="true" Text="All">@lang["All"] (@temp_models.Count)</MudChip>
+        <MudChip Text="Counted">@lang["Counted"] (@temp_models.Count(r=>r.actual_quantity != null))</MudChip>
+        <MudChip Text="UnCounted">@lang["UnCounted"] (@temp_models.Count(r => r.actual_quantity == null))</MudChip>
+
+    </MudChipSet>
+</UIContainerBox>
+
+<Spacing Number="8" />
+@if (is_loading)
+{
+    <Spinner is_spinning="is_loading" />
 }
 else
 {
     <MudExpansionPanels>
-        @foreach (var group in models.Select(r=>r.product_group_name).Distinct())
+        @foreach (var group in models.Select(r => r.product_group_name).Distinct())
         {
-            <MudExpansionPanel Text="@group">
-                <ComInventoryCheckProductList is_ready_only="@is_ready_only" check_products="@models.Where(r=>r.product_group_name == group).ToList()"/>
+            <MudExpansionPanel Text="@($"{group} ({models.Where(r=>r.product_group_name == group).Count()})")">
+                <ComInventoryCheckProductList is_change_text_box="is_change_text_box" is_ready_only="@is_ready_only" check_productsChanged="OnModelChange" check_products="@models.Where(r=>r.product_group_name == group).ToList()" />
             </MudExpansionPanel>
         }
     </MudExpansionPanels>
@@ -17,11 +34,19 @@ else
 @code {
     [Parameter] public Guid id { get; set; }
     [Parameter] public bool is_ready_only { get; set; }
+    bool is_change_text_box;
+
+    MudChip selected;
 
     List<InventoryCheckProductModel> models = new List<InventoryCheckProductModel>();
+    List<InventoryCheckProductModel> temp_models = new List<InventoryCheckProductModel>();
+    [Parameter] public EventCallback<List<InventoryCheckProductModel>> OnCheckProductChange { get; set; }
+    string keyword = "";
+
 
     protected override async Task OnInitializedAsync()
     {
+
         await LoadData();
     }
 
@@ -31,9 +56,49 @@ else
         var res = await http.ApiGetOData($"InventoryCheckProduct?$expand=product($select=id,product_name_en,product_name_kh)&$filter=inventory_check_id eq {id}");
         if (res.IsSuccess)
         {
-            models = JsonSerializer.Deserialize<List<InventoryCheckProductModel>>(res.Content.ToString());
+            temp_models = models = JsonSerializer.Deserialize<List<InventoryCheckProductModel>>(res.Content.ToString());
+
         }
         is_loading = false;
+    }
+
+    void OnSearch(string keyword)
+    {
+        SetFilterValue2(state.filters, "keyword", keyword);
+        if (!string.IsNullOrEmpty(keyword))
+        {
+            models = temp_models.Where(r => r.product_name.ToLower().Trim().Contains(keyword.ToLower().Trim())).ToList();
+        }
+        else
+        {
+            models = temp_models;
+        }
+
+
+    }
+
+    void OnModelChange(List<InventoryCheckProductModel> _check_product)
+    {
+        OnCheckProductChange.InvokeAsync(_check_product);
+    }
+
+    void  onSelectedChipChanged(MudChip _selected)
+    {
+        is_change_text_box = true;
+        selected = _selected;
+        if (_selected.Text == "All")
+        {
+            models = temp_models;
+        }
+        else if (_selected.Text == "Counted")
+        {
+            models = temp_models.Where(r=>r.actual_quantity != null).ToList();
+        }
+        else if (_selected.Text == "UnCounted")
+        {
+            models = temp_models.Where(r => r.actual_quantity == null).ToList();
+        }
+        is_change_text_box = false;
     }
 
 }

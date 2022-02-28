@@ -37,4 +37,13 @@ namespace eModels
         public bool is_select { get; set; }
         public List<BusinessBranchSettingModel> business_branch_settings { get; set; }
     }
+
+
+    public class CustomerDisplaySlideShowModel
+    {
+        public string photo { get; set; }
+        public string caption { get; set; }
+    }
+
+
 }

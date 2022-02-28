@@ -1,0 +1,57 @@
+﻿@page "/setting/customerdisplay"
+@inject IHttpService http;
+@inject ISnackbar toast;
+@inject IStringLocalizer<Resource> lang
+ 
+
+    <Title Value="@lang["Customer Display"]"></Title>
+    <PageContainer roles="@gv.GetRole("customer_display")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["Customer Display"]
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                
+                
+            </HeaderRight>
+        </PageHeader>
+
+        <PageBody>
+          
+                @if (gv.business_branch_by_role.Any())
+                {
+                    <MudTabs>
+                    @foreach (var b in gv.business_branch_by_role)
+                    {
+                        <MudTabPanel Text="@b.business_branch_name_en">
+
+                            <ComCustomerDisplayBusinessBranchInfo model="@b"/>
+
+                            <ComCustomerDisplaySlideshow business_branch_id="@b.id"/>
+
+                        </MudTabPanel>
+
+                    }
+                    </MudTabs>
+                }
+                else
+                {
+                    <ComAlert type="warning">@lang["There is no business branch"]</ComAlert>
+                }
+        
+        </PageBody>
+
+    </PageContainer>
+ 
+
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+ 
+ 
+   
+     
+}
