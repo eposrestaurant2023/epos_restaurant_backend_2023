@@ -1,4 +1,4 @@
-﻿
+
 <div style="        background-image: linear-gradient( rgba(0 0 0 / 46%), rgba(0 0 0 / 39%) ), url(images/maddi-bazzocco-xoP2YeMMGc4-unsplash.jpg);
         height: 640px;
         background-position: center;
@@ -49,4 +49,45 @@
 @code {
     [Parameter]
     public BusinessBranchModel model { get; set; }
+
+    BusinessBranchSettingModel setting = new();
+
+    string image_url = "";
+    bool is_loading;
+
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+    async Task LoadData()
+    {
+
+        var resp = await http.ApiGetOData($"BusinessBranchSetting?$filter=setting_id eq 98 and business_branch_id eq {model.id}");
+        if (resp.IsSuccess)
+        {
+
+            var data = JsonSerializer.Deserialize<List<BusinessBranchSettingModel>>(resp.Content.ToString());
+            if (data.Any())
+            {
+                setting = data.FirstOrDefault();
+                image_url = http.ImageUrl(setting.setting_value);
+            }
+        }
+         
+
+
+    }
+
+     void OnUploadBackground(string url)
+    {
+        image_url = http.ImageUrl( url);
+    }
+
+    
+
 }
