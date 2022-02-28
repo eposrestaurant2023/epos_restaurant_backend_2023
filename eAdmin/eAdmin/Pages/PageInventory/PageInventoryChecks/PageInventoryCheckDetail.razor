@@ -29,7 +29,6 @@
             <MudTabs PanelClass="pa-4">
                 <MudTabPanel Text="@lang["Inventory Check Information"]">
                     <ComMarkInvoiceFulfilled is_visible="@(!model.is_fulfilled && !model.is_deleted)" OnClick="@MarkAsFulfilled" />
-                   
                         <MudExpansionPanels>
                             <MudExpansionPanel Text="@lang["General Information"]">
                                 <UIContainerBox Title="@lang["Inventory Check Date"]">
@@ -42,18 +41,11 @@
                                 <UIContainerBox Title="@lang["Inventory Check Information"]">
                                     <TextInput label="@lang["Document #"]" text="@model.document_number" is_read_only="true" />
                                     <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance #"]" label="@lang["Referance #"]" is_read_only="true" />
-                                    <MudText Typo="Typo.body1">
-                                        @lang["Expected Amount"] @model.expected_amount.ToString(gv.currency_format)
-
-                                    </MudText>
-                                    <MudText Typo="Typo.body1">
-                                        @lang["Actual Amount"] @model.actual_amount.ToString(gv.currency_format)
-
-                                    </MudText>
-                                    <MudText Typo="Typo.body1">
-                                        @lang["Diff. Amount"] @model.difference_amount.ToString(gv.currency_format)
-
-                                    </MudText>
+                                    <ListTable>
+                                        <ListTableItem ItemTitle="@lang["Expected Amount"]">@model.expected_amount.ToString(gv.currency_format)</ListTableItem>
+                                        <ListTableItem ItemTitle="@lang["Actual Amount"]">@model.actual_amount.ToString(gv.currency_format)</ListTableItem>
+                                        <ListTableItem ItemTitle="@lang["Diff. Amount"]">@model.difference_amount.ToString(gv.currency_format)</ListTableItem>
+                                    </ListTable>
                                 </UIContainerBox>
                                 <UIContainerBox Title="@lang["Warehouse"]">
                                     <ListTable>
