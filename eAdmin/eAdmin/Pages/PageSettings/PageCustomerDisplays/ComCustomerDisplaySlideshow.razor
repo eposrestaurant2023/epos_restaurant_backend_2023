@@ -2,12 +2,13 @@
 @inject ISnackbar toast;
 @inject IDialogService dialog;
 @inject IStringLocalizer<Resource> lang
-
-<MudAppBar Color="@MudBlazor.Color.Primary" Fixed="false" Dense="true">
-    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="@MudBlazor.Color.Inherit" Edge="Edge.Start" />
-    <MudSpacer />
-    <MudIconButton Variant="Variant.Filled" OnClick="@OnAddSlideShow" Color="@MudBlazor.Color.Inherit">Add New</MudIconButton>
-</MudAppBar>
+<div class="cus_appbar">
+    <MudAppBar Color="@MudBlazor.Color.Inherit" Fixed="false" Dense="true" Elevation="25">
+        <MudSpacer />
+        <MudButton Variant="Variant.Filled" OnClick="@OnAddSlideShow" EndIcon="@Icons.Material.Filled.Add" Color="@MudBlazor.Color.Info" Size="Size.Medium">Add New</MudButton>
+    </MudAppBar>
+</div>
+<Spacing Number="10"/>
 @if (is_loading)
 {
     <Spinner />
@@ -19,13 +20,24 @@ else
 
         <MudCarousel Class="mud-width-full" ItemsSource="@models" Context="d" Style="height:60vh;" ShowArrows="true" ShowBullets="true" AutoCycle="false">
             <ItemTemplate>
-                <div class="d-flex flex-column flex-column justify-center" style="height:100%">
-
-
-                    <MudText Class="mx-auto">@d.caption | @d.photo</MudText> 
-                    <MudButton OnClick="@(()=>OnEditSlideshow(d))">@lang["Edit"]</MudButton>
-                    <MudButton Variant="Variant.Filled"  Color="MudBlazor.Color.Error" OnClick="@(()=>OnDelete(d))">@lang["Delete"]</MudButton>
-                </div>
+                <div style="        background-image: linear-gradient( 252 252 252 / 46%), rgba(225 210 210 / 56%) ), url( @d.photo );
+        height: 600px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+    ">
+                    <div class="d-flex align-content-center flex-wrap justify-center" style="height:100%">
+                        <div>
+                            <MudText Class="mx-auto" Typo="Typo.h6">@d.caption</MudText>
+                            <div class="d-flex justify-center">
+                                <div> <MudButton OnClick="@(()=>OnEditSlideshow(d))" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Edit">@lang["Edit"]</MudButton></div>
+                                <div class="ml-1"><MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Delete" Color="MudBlazor.Color.Error" OnClick="@(()=>OnDelete(d))">@lang["Delete"]</MudButton></div>
+                            </div>
+                        </div>
+                    </div>
+    </div>
+                    
             </ItemTemplate>
         </MudCarousel>
 

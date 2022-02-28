@@ -1,6 +1,6 @@
 ﻿@inject ISnackbar toast;
 @inject IStringLocalizer<Resource> lang
-<MudDialog>
+<MudDialog Style="width: 500px;">
     <DialogContent>
         <FileUpload @bind-ImageUrl="model.photo" />
 <MudTextField @bind-Value="@model.caption" Label="Caption" />

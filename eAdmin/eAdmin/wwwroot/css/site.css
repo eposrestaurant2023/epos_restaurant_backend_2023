@@ -663,7 +663,19 @@ input[type="text"] {
 .bg_button_po {
     background: #32d296;
 }
-.bg_button_po i{
+.cus_appbar .mud-appbar {
+    width: 100%;
+    display: flex;
+    position: relative;
+    z-index: var(--mud-zindex-appbar);
+    box-sizing: border-box;
+    flex-shrink: 0;
+    flex-direction: column;
+    color: #fff !important;
+    background-color: #fff !important;
+    transition: margin 225ms cubic-bezier(0,0,.2,1) 0ms,width 225ms cubic-bezier(0,0,.2,1) 0ms;
+}
+.bg_button_po i {
     background: #32d296;
 }
 .sale_from_purchase_order .invoice_page_preview table thead tr {
