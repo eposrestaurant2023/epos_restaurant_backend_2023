@@ -1,0 +1,136 @@
+﻿@inject IHttpService http;
+@inject ISnackbar toast;
+@inject IDialogService dialog;
+@inject IStringLocalizer<Resource> lang
+<MudButton Variant="Variant.Filled" OnClick="@OnAddSlideShow">Add New</MudButton>
+@if (is_loading)
+{
+    <Spinner />
+}
+else
+{
+    if (models.Any())
+    {
+
+        <MudCarousel Class="mud-width-full" ItemsSource="@models" Context="d" Style="height:60vh;" ShowArrows="true" ShowBullets="true" AutoCycle="false">
+            <ItemTemplate>
+                <div class="d-flex flex-column flex-column justify-center" style="height:100%">
+
+
+                    <MudText Class="mx-auto">@d.caption | @d.photo</MudText> 
+                    <MudButton OnClick="@(()=>OnEditSlideshow(d))">@lang["Edit"]</MudButton>
+                    <MudButton Variant="Variant.Filled"  Color="MudBlazor.Color.Error" OnClick="@(()=>OnDelete(d))">@lang["Delete"]</MudButton>
+                </div>
+            </ItemTemplate>
+        </MudCarousel>
+
+
+    }
+    else
+    {
+        <MudText Typo="Typo.body2">There is no slideshow image </MudText>
+    }
+}
+
+@code {
+    [Parameter]
+    public Guid business_branch_id { get; set; }
+
+    List<CustomerDisplaySlideShowModel> models = new();
+    BusinessBranchSettingModel setting_model = new();
+    bool is_loading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task OnAddSlideShow()
+    {
+
+        var parameters = new DialogParameters { ["model"] = new CustomerDisplaySlideShowModel() };
+
+        var d = dialog.Show<ComAddCustomerDisplay>("Add New", parameters);
+        var result = await d.Result;
+
+        if (!result.Cancelled)
+        {
+
+            models.Add((CustomerDisplaySlideShowModel)result.Data);
+            await SaveSetting();
+            StateHasChanged();
+        }
+    }
+
+
+    async Task OnEditSlideshow(CustomerDisplaySlideShowModel model)
+    {
+
+        var parameters = new DialogParameters { ["model"] = model };
+
+        var d = dialog.Show<ComAddCustomerDisplay>(lang["Edit"], parameters);
+        var result = await d.Result;
+
+        if (!result.Cancelled)
+        {
+            model= (CustomerDisplaySlideShowModel)result.Data;
+            await SaveSetting();
+            StateHasChanged();
+        }
+    }   
+
+    async Task OnDelete(CustomerDisplaySlideShowModel model)
+    {
+
+        bool? result = await dialog.ShowMessageBox(
+            "Warning", 
+            lang["Are you sure you want to delete this record?"], 
+            yesText:lang["Delete"], cancelText:lang["Cancel"]);
+
+
+        if (result!=null)
+        {
+            models.Remove(model);
+            await SaveSetting();
+            StateHasChanged();
+        }
+    }
+
+    async Task SaveSetting(){
+        setting_model.setting_value = JsonSerializer.Serialize(models);
+            await http.ApiPost("BusinessBranchSetting/save", setting_model);
+    }
+
+
+    async Task LoadData()
+    {
+
+        var resp = await http.ApiGetOData($"BusinessBranchSetting?$filter=setting_id eq 97 and business_branch_id eq {business_branch_id}");
+        if (resp.IsSuccess)
+        {
+
+            var data = JsonSerializer.Deserialize<List<BusinessBranchSettingModel>>(resp.Content.ToString());
+            if (data.Any())
+            {
+                setting_model = data.FirstOrDefault();
+                models = JsonSerializer.Deserialize<List<CustomerDisplaySlideShowModel>>(data.FirstOrDefault().setting_value);
+                
+            }
+        }
+        else
+        {
+            toast.Add(lang["Load customer display data fail."], MudBlazor.Severity.Warning);
+        }
+
+
+    }
+
+    void OnDeleted(CustomerDisplaySlideShowModel d)
+    {
+        models.Remove(d);
+    }
+
+
+}

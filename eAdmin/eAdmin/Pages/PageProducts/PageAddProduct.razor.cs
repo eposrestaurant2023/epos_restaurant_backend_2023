@@ -56,9 +56,9 @@ namespace eAdmin.Pages.PageProducts
 
                 string url = $"Product({id})?";
                 url = url + "$expand=product_printers,product_category,";
-                //url = url + "product_portions($expand=product_prices,unit;$filter=is_deleted eq false),";
+               
                 url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
-                //url = url + "product_modifiers($expand=children($expand=modifier;$filter=is_deleted eq false);$filter=is_deleted eq false),";
+                
                 url = url + "product_taxes,unit";
               
                 return url;

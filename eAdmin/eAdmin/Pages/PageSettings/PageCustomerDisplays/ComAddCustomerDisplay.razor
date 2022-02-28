@@ -1,0 +1,31 @@
+﻿@inject ISnackbar toast;
+@inject IStringLocalizer<Resource> lang
+<MudDialog>
+    <DialogContent>
+        <FileUpload @bind-ImageUrl="model.photo" />
+<MudTextField @bind-Value="@model.caption" Label="Caption" />
+    </DialogContent>
+    <DialogActions>
+       <MudButton OnClick="@OnSave">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+ 
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] 
+    public CustomerDisplaySlideShowModel model { get; set; }
+
+
+    void OnSave()
+    {
+        if ( string.IsNullOrEmpty( model.photo))
+        {
+            toast.Add(lang["Please select photo"], Severity.Warning);
+            return;
+        }
+        MudDialog.Close(DialogResult.Ok(model));
+
+    }
+    
+}
