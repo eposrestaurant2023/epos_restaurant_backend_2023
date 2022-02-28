@@ -594,6 +594,12 @@ input[type="text"] {
 .Color_#ff{
     color:#fff;
 }
+.image_logo_bussiness {
+    height: auto !important;
+    border-radius: 50%;
+    border: 2px solid #2196f3;
+    width: 100px;
+}
 .custom_drop_down ul .uk-nav-header {
     padding: 5px 0;
     font-size: .875rem;

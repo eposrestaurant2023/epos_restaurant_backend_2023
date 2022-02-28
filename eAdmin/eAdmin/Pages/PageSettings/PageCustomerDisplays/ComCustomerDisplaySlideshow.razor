@@ -2,7 +2,12 @@
 @inject ISnackbar toast;
 @inject IDialogService dialog;
 @inject IStringLocalizer<Resource> lang
-<MudButton Variant="Variant.Filled" OnClick="@OnAddSlideShow">Add New</MudButton>
+
+<MudAppBar Color="@MudBlazor.Color.Primary" Fixed="false" Dense="true">
+    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="@MudBlazor.Color.Inherit" Edge="Edge.Start" />
+    <MudSpacer />
+    <MudIconButton Variant="Variant.Filled" OnClick="@OnAddSlideShow" Color="@MudBlazor.Color.Inherit">Add New</MudIconButton>
+</MudAppBar>
 @if (is_loading)
 {
     <Spinner />
