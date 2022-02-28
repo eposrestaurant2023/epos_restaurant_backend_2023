@@ -28,11 +28,15 @@
                     @foreach (var b in gv.business_branch_by_role)
                     {
                         <MudTabPanel Text="@b.business_branch_name_en">
-
-                            <ComCustomerDisplayBusinessBranchInfo model="@b"/>
-
-                            <ComCustomerDisplaySlideshow business_branch_id="@b.id"/>
-
+                            <Spacing Number="10" />
+                            <MudGrid Spacing="3">
+                                <MudItem md="3" Class="mud-height-full">
+                                    <ComCustomerDisplayBusinessBranchInfo model="@b" />
+                                </MudItem>
+                                <MudItem md="9" Class="mud-height-full">
+                                    <ComCustomerDisplaySlideshow business_branch_id="@b.id" />
+                                </MudItem>
+                            </MudGrid>
                         </MudTabPanel>
 
                     }

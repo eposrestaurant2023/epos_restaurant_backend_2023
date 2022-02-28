@@ -1,17 +1,53 @@
-﻿@inject IHttpService http;
-@if (is_loading)
-{
-    <Spinner/>
-}else
-{
-    @model.business_branch_name_en
-<ComFileUploadButton ImageUrlChanged="@OnUploadBackground"/> 
-@image_url
 
-}
+<div style="        background-image: linear-gradient( rgba(0 0 0 / 46%), rgba(0 0 0 / 39%) ), url(images/maddi-bazzocco-xoP2YeMMGc4-unsplash.jpg);
+        height: 600px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+    ">
+    <div class="d-flex justify-center" style="text-align:center;">
+        <div>
+            <div>
+                <Spacing Number="50" />
+                <img src="images/monifast.jpg" class="image_logo_bussiness"/>
+            </div>
+            <Spacing Number="10"/>
+            <div>
+                <MudText Typo="Typo.h6" Style="color:#fff;">
+                    @model.business_branch_name_en
+                </MudText>
+                <MudText Typo="Typo.body2" Style="color:#fff;">
+                    @model.phone_1
+                    @if (!string.IsNullOrEmpty(model.phone_2))
+                    {
+                        <span>@model.phone_2</span>
+                    }
+                </MudText>
+                @if (!string.IsNullOrEmpty(model.email))
+                {
+                    <MudText Typo="Typo.body2" Style="color:#fff;">@model.email</MudText>
+                }
+                @if (!string.IsNullOrEmpty(model.address_en))
+                {
+                    <MudText Typo="Typo.body2" Style="color:#fff;">Address:  @model.address_en</MudText>
+                }
+                <Spacing Number="10" />
+            </div>
+            <div>
+                <MudFab HtmlTag="label"
+                        Size="Size.Small"
+                        Color="MudBlazor.Color.Secondary"
+                        Icon="@Icons.Filled.Image"
+                        Label="Load picture" />
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @code {
-    [Parameter] 
+    [Parameter]
     public BusinessBranchModel model { get; set; }
 
     BusinessBranchSettingModel setting = new();
