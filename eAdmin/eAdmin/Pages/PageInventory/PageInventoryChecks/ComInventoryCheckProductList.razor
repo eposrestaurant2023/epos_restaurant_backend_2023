@@ -1,10 +1,9 @@
 ﻿@inherits PageCore
-<table class="uk-table view_table set-verticle-middle">
+<table class="uk-table uk-table-small uk-table-divider view_table set-verticle-middle">
     <thead>
         <tr>
             <ThAuto>@lang["Product Name"]</ThAuto>
             <ThCenter>@lang["Last Date"]</ThCenter>
-
             <ThCenter>@lang["Initial QTY"]</ThCenter>
             <ThCenter>@lang["QTY In"]</ThCenter>
             <ThCenter>@lang["QTY Out"]</ThCenter>
@@ -21,11 +20,10 @@
         @foreach (var p in check_products.Select(r => r.product_category_name).Distinct())
         {
             <tr>
-                <TdCenter ColSpan="9">
+                <TdCenter ColSpan="12">
                     <MudText Typo="@Typo.h6">
                         @p
                     </MudText>
-
                 </TdCenter>
 
             </tr>
