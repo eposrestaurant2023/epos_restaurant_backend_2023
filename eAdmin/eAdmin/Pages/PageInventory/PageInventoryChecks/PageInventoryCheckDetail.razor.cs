@@ -5,6 +5,7 @@ using eModels;
 using eAdmin.JSHelpers;
 using MatBlazor;
 using System;
+using System.Collections.Generic;
 
 namespace eAdmin.Pages.PageInventory.PageInventoryChecks
 {
@@ -14,6 +15,7 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
 
         public bool is_open_print, is_show_comment;
         public HistoryModel history { get; set; } = new HistoryModel();
+        public int counted_items;
 
         public string api_url
         {
@@ -82,6 +84,11 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
 
         public async Task MarkAsFulfilled()
         {
+            if (counted_items==0)
+            {
+                toast.Add(lang["No Items Counted."], MudBlazor.Severity.Warning);
+                return;
+            }
             is_loading_data = true;
             if (await js.Confirm(lang["Make As Fulfilled"], lang["Are you sure you want to make as fulfilled?"]))
             {
@@ -95,8 +102,14 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
 
             is_loading_data = false;
         }
+        public void OnCheckProductCounted(List<InventoryCheckProductModel> list_items)
+        {
+            counted_items = list_items.Count;
+        }
 
     }
+
+    
 
 }
 
