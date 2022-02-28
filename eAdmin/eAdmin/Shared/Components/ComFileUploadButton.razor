@@ -8,13 +8,13 @@
 @inject ISnackbar toast
  
  
-      <label>
-                <MudItem Class="mud-theme-primary darken-4">
-                    hello
-                </MudItem>
-                <InputFile OnChange="UploadFiles" style="display: none;" />
-            </label>
- 
+                <InputFile id="fileInput" OnChange="UploadFiles" style="display: none;" />
+         <MudFab HtmlTag="label"
+        Color="MudBlazor.Color.Secondary"
+        Icon="@Icons.Filled.Image"
+        Label="Change Background"
+          for="fileInput"
+         /> 
  
 
 @code {
@@ -25,10 +25,9 @@
  
     [Parameter] public EventCallback<string> ImageUrlChanged { get; set; }
  
- 
-    [Parameter] public Dictionary<string, object> CustomAttributes { get; set; }
+  
     [Parameter] public string SaveFolderName { get; set; } = "";
-    [Parameter] public string class_name { get; set; } = "";
+ 
     [Parameter] public string guid { get; set; } = "";
     InputFileData form_data = new InputFileData();
     IBrowserFile file { get; set; }

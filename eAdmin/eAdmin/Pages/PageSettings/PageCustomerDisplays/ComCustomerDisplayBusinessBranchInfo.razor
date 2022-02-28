@@ -1,12 +1,57 @@
-﻿@model.business_branch_name_en
+﻿@inject IHttpService http;
+@if (is_loading)
+{
+    <Spinner/>
+}else
+{
+    @model.business_branch_name_en
+<ComFileUploadButton ImageUrlChanged="@OnUploadBackground"/> 
+@image_url
 
-<MudFab HtmlTag="label"
-        Color="MudBlazor.Color.Secondary"
-        Icon="@Icons.Filled.Image"
-        Label="Load picture"
-         />
+}
 
 @code {
     [Parameter] 
     public BusinessBranchModel model { get; set; }
+
+    BusinessBranchSettingModel setting = new();
+
+    string image_url = "";
+    bool is_loading;
+
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+    async Task LoadData()
+    {
+
+        var resp = await http.ApiGetOData($"BusinessBranchSetting?$filter=setting_id eq 98 and business_branch_id eq {model.id}");
+        if (resp.IsSuccess)
+        {
+
+            var data = JsonSerializer.Deserialize<List<BusinessBranchSettingModel>>(resp.Content.ToString());
+            if (data.Any())
+            {
+                setting = data.FirstOrDefault();
+                image_url = http.ImageUrl(setting.setting_value);
+            }
+        }
+         
+
+
+    }
+
+     void OnUploadBackground(string url)
+    {
+        image_url = http.ImageUrl( url);
+    }
+
+    
+
 }
