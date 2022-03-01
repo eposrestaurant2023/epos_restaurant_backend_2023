@@ -123,6 +123,7 @@
 	sp.product_name_en,
 	sp.product_name_kh,
 	sp.portion_name,
+	sp.is_free,
 	sum(sp.quantity) as quantity,
 	sum(sp.cost) as cost,
 	sum(sp.price + sp.total_modifier_amount) as price,
@@ -155,11 +156,11 @@ group by
 	sp.product_code,
 	sp.product_name_en,
 	sp.product_name_kh,
-	sp.portion_name
+	sp.portion_name,
+	sp.is_free
 order by 
 	sp.product_category_en,
-	sp.product_name_en
-</CommandText>
+	sp.product_name_en</CommandText>
       </Query>
       <Fields>
         <Field Name="product_code">
@@ -181,6 +182,10 @@ order by
         <Field Name="portion_name">
           <DataField>portion_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="is_free">
+          <DataField>is_free</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
         <Field Name="quantity">
           <DataField>quantity</DataField>
@@ -1112,6 +1117,13 @@ order by
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!product_name_en.Value</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=iif(Fields!is_free.Value=true," -FREE","")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
