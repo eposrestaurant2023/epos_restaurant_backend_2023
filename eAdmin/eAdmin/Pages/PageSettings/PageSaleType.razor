@@ -27,7 +27,7 @@
 
                     @foreach (var branch_role in gv.business_branch_by_role)
                     {
-                        @foreach (var b in branches)
+                        @foreach (var b in branches.Where(r=>r.id == branch_role.id))
                         {
                             <MudExpansionPanels MultiExpansion="true">
                                 <MudExpansionPanel Class="mb-2" Text="@b.business_branch_name_en">

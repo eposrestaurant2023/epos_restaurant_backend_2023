@@ -26,54 +26,61 @@
                 }
                 else
                 {
-                    @foreach (var b in branches)
+
+
+                    @foreach (var branch_role in gv.business_branch_by_role)
                     {
+                        @foreach (var b in branches.Where(r=>r.id == branch_role.id))
+                        {
 
-                        <MudExpansionPanels MultiExpansion="true">
-                            <MudExpansionPanel Class="mb-2" Text="@b.business_branch_name_en">
-                                <div class="uk-overflow-auto table-scroll">
-                                    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                            <MudExpansionPanels MultiExpansion="true">
+                                <MudExpansionPanel Class="mb-2" Text="@b.business_branch_name_en">
+                                    <div class="uk-overflow-auto table-scroll">
+                                        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
 
-                                        <tr>
-                                            <ThAuto>@lang["Discount Type"]</ThAuto>
-                                            <ThAuto>@lang["Discount Code"]</ThAuto>
-                                            <ThAuto>@lang["Discount Value"]</ThAuto>
-                                            <ThCenter>@lang["Status"]</ThCenter>
-                                            <Th></Th>
-                                        </tr>
-                                        @foreach (var d in b.discount_codes.Where(r => r.is_deleted == false))
-                                        {
                                             <tr>
-                                                <td>
-                                                    <SelectDiscountType @bind-selected_value="@d.discount_type" />
-                                                </td>
-                                                <td>
-                                                    @if (d.discount_type != "Amount")
-                                                    {
-                                                        <TextInput @bind-text="@d.discount_code" placeholder="Discount Code" />
-                                                    }
-
-                                                </td>
-                                                <td><NumberInput @bind-text="@d.discount_value" label="" placeholder="Discount Value" /></td>
-                                                <TdCenter>
-                                                    <LabelActive OnClick="@(() => Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                                    <LabelInActive OnClick="@(() => Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-                                                </TdCenter>
-                                                <td> <Icon OnClick="@(() => OnDelete(b,d))" icon="delete" /></td>
+                                                <ThAuto>@lang["Discount Type"]</ThAuto>
+                                                <ThAuto>@lang["Discount Code"]</ThAuto>
+                                                <ThAuto>@lang["Discount Value"]</ThAuto>
+                                                <ThCenter>@lang["Status"]</ThCenter>
+                                                <Th></Th>
                                             </tr>
-                                        }
-                                    </table>
-                                </div>
-                                <hr />
-                                <div class="uk-text-right">
-                                    <Button OnClick="@(()=>AddDiscount(b))">@lang["Add Discount Code"]</Button>
-                                </div>
-                            </MudExpansionPanel>
-                        </MudExpansionPanels>
-                                }
-                                }
+                                            @foreach (var d in b.discount_codes.Where(r => r.is_deleted == false))
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <SelectDiscountType @bind-selected_value="@d.discount_type" />
+                                                    </td>
+                                                    <td>
+                                                        @if (d.discount_type != "Amount")
+                                                        {
+                                                            <TextInput @bind-text="@d.discount_code" placeholder="Discount Code" />
+                                                        }
 
-                    </UIGridCenter>
+                                                    </td>
+                                                    <td><NumberInput @bind-text="@d.discount_value" label="" placeholder="Discount Value" /></td>
+                                                    <TdCenter>
+                                                        <LabelActive OnClick="@(() => Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
+                                                        <LabelInActive OnClick="@(() => Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                                    </TdCenter>
+                                                    <td> <Icon OnClick="@(() => OnDelete(b,d))" icon="delete" /></td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </div>
+                                    <hr />
+                                    <div class="uk-text-right">
+                                        <Button OnClick="@(()=>AddDiscount(b))">@lang["Add Discount Code"]</Button>
+                                    </div>
+                                </MudExpansionPanel>
+                            </MudExpansionPanels>
+                        }
+
+                    }
+
+                }
+
+            </UIGridCenter>
         </PageBody>
 
         <PageFooter>

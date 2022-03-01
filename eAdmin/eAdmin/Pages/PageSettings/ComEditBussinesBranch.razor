@@ -14,7 +14,10 @@
     <TextInput label="@lang["Phone"]" @bind-text="@model.phone_2" />
     <TextInput label="@lang["Email"]" @bind-text="@model.email" />
     <TextInput label="@lang["Contact Name"]" @bind-text="@model.contact_name" />
-    <TextInput label="Note" @bind-text="@model.note" type="textarea" />
+    <TextInput label="@lang["Address EN"]" @bind-text="@model.address_en" />
+    <TextInput label="@lang["Address KH"]" @bind-text="@model.address_kh" />
+    <TextInput label="@lang["Note"]" @bind-text="@model.note" type="textarea" />
+
     <SelectStatus @bind-selected_value="@model.status" />
 </EditFormContext>
 

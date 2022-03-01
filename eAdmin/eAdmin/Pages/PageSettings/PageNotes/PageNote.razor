@@ -24,26 +24,33 @@
 
                 @if (branches.Any())
                 {
-                    @foreach (var b in branches)
+
+
+                    @foreach (var branch_role in gv.business_branch_by_role)
                     {
-                <UIContainerBox Title="@b.business_branch_name_en">
-                    @foreach (var c in gv.category_notes.Where(r => r.status))
-                    {
-                        <MudExpansionPanels MultiExpansion="true">
-                            <MudExpansionPanel Class="mb-2" Text="@($"{c.category_note_name_en} ({(@b.cashier_notes.Where(r => r.category_note_id == c.id && r.is_deleted == false).Count())})")">
-                                <ComNoteCategory notes="@b.cashier_notes.Where(r=>r.category_note_id==c.id).ToList()" />
-                                <hr />
-                                <div class="uk-text-right">
-                                    <Button OnClick="@(()=>AddNote(b,c))">@lang["Add New"]</Button>
-                                </div>
-                            </MudExpansionPanel>
-                        </MudExpansionPanels>
+                        @foreach (var b in branches.Where(r=>r.id == branch_role.id))
+                        {
+                            <UIContainerBox Title="@b.business_branch_name_en">
+                                @foreach (var c in gv.category_notes.Where(r => r.status))
+                                {
+                                    <MudExpansionPanels MultiExpansion="true">
+                                        <MudExpansionPanel Class="mb-2" Text="@($"{c.category_note_name_en} ({(@b.cashier_notes.Where(r => r.category_note_id == c.id && r.is_deleted == false).Count())})")">
+                                            <ComNoteCategory notes="@b.cashier_notes.Where(r=>r.category_note_id==c.id).ToList()" />
+                                            <hr />
+                                            <div class="uk-text-right">
+                                                <Button OnClick="@(()=>AddNote(b,c))">@lang["Add New"]</Button>
+                                            </div>
+                                        </MudExpansionPanel>
+                                    </MudExpansionPanels>
                                 }
 
 
 
-                    </UIContainerBox>
+                            </UIContainerBox>
+
+                        }
                     }
+
                 }
                 else
                 {
