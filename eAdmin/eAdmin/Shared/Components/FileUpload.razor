@@ -86,8 +86,7 @@ else
             }
 
             var fileContent = new StreamContent(file.OpenReadStream(maxFileSize));
-            string _new_image = string.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + file.Name;
-
+           string _new_image = string.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + file.Name.Replace(" ","").Replace(" ","");
 
             form_data.ImageUrl = _new_image;
             form_data.multipartForm.Add(

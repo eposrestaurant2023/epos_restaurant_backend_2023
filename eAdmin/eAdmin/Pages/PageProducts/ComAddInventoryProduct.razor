@@ -344,8 +344,6 @@
             if (resp.IsSuccess)
             {
                 default_stock_location_products = JsonSerializer.Deserialize<List<DefaultStockLocationProductModel>>(resp.Content.ToString());
-
-                
             }
             await GenerateDefaultStockLocation(model.is_inventory_product);
 

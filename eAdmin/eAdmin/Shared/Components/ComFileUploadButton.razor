@@ -1,0 +1,84 @@
+﻿@using System.IO
+@using System.Net.Http
+@using System.Net.Http.Headers
+@using Microsoft.JSInterop
+@using Microsoft.Extensions.Configuration;
+@inject IConfiguration config
+@inject IJSRuntime js
+@inject ISnackbar toast
+ 
+ 
+                <InputFile id="fileInput" OnChange="UploadFiles" style="display: none;" />
+         <MudFab HtmlTag="label"
+        Color="MudBlazor.Color.Secondary"
+        Icon="@Icons.Filled.Image"
+        Label="@label"
+          for="fileInput"
+         /> 
+ 
+
+@code {
+    
+
+    [Parameter] public string ImageUrl { get; set; } = "";
+    [Parameter] public string label { get; set; } = "Upload Photo";
+ 
+ 
+    [Parameter] public EventCallback<string> ImageUrlChanged { get; set; }
+ 
+  
+    [Parameter] public string SaveFolderName { get; set; } = "";
+ 
+    [Parameter] public string guid { get; set; } = "";
+    InputFileData form_data = new InputFileData();
+    IBrowserFile file { get; set; }
+
+
+     
+    async Task UploadFiles(InputFileChangeEventArgs e)
+    {
+        var file = e.GetMultipleFiles().FirstOrDefault();
+        form_data = new InputFileData();
+        long maxFileSize = 1024 * 1024 * 2;
+        if (file != null)
+        {
+            if (file.Size > maxFileSize)
+            {
+                toast.Add("Maximum file size 2MB", Severity.Error);
+                return;
+            }
+
+            var fileContent = new StreamContent(file.OpenReadStream(maxFileSize));
+            string _new_image = string.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + file.Name.Replace(" ","").Replace(" ","");
+
+
+            form_data.ImageUrl = _new_image;
+            form_data.multipartForm.Add(
+                        content: fileContent,
+                        name: "\"upload\"",
+                        fileName: _new_image);
+
+            await Save_Click();
+        }
+    }
+
+
+   
+
+    async Task Save_Click()
+    {
+        var client = new HttpClient();
+
+        var url = $"{config["apiBaseUrl"]}upload?folder={SaveFolderName}";
+        var resp = await client.PostAsync(url, form_data.multipartForm);
+
+        if (resp.IsSuccessStatusCode)
+        {
+            ImageUrl = $"{form_data.ImageUrl}";
+            await ImageUrlChanged.InvokeAsync(ImageUrl);
+        }
+
+    }
+
+   
+}

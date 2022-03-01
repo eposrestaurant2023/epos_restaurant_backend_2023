@@ -16,7 +16,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
         public Dictionary<string, object> editorConf = new Dictionary<string, object>{
         {"menubar", false},
         { "plugins", "link image code advlist" },
-        {"toolbar", "undo redo | styleselect | forecolor | bold italic | alignleft aligncenter alignright alignjustify | default" }
+        {"toolbar", "undo redo | styleselect | forecolor | bold italic | alignleft aligncenter alignright alignjustify link | default" }
        
   
         };
