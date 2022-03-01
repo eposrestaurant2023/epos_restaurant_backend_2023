@@ -23,25 +23,31 @@
             <UIGridCenter>
                 @if (branches.Any())
                 {
-                    @foreach (var b in branches)
-                    {
-                        <MudExpansionPanels MultiExpansion="true">
-                            <MudExpansionPanel Class="mb-2" Text="@b.business_branch_name_en">
-                                <ComAddSaleTypes sale_types="@b.sale_types" ColorSelected="OnSelectedColor" />
-                                <hr />
-                                <div class="uk-text-right">
-                                    <Button OnClick="@(()=>Add(b))">@lang["Add Sale Type"]</Button>
-                                </div>
-                            </MudExpansionPanel>
-                        </MudExpansionPanels>
 
-                                }
-                                }
-                                else
-                                {
-                                <ComAlert type="warning">@lang["There is no business branch. Please enter business branch first."]</ComAlert>
-                                }
-                    </UIGridCenter>
+
+                    @foreach (var branch_role in gv.business_branch_by_role)
+                    {
+                        @foreach (var b in branches)
+                        {
+                            <MudExpansionPanels MultiExpansion="true">
+                                <MudExpansionPanel Class="mb-2" Text="@b.business_branch_name_en">
+                                    <ComAddSaleTypes sale_types="@b.sale_types" ColorSelected="OnSelectedColor" />
+                                    <hr />
+                                    <div class="uk-text-right">
+                                        <Button OnClick="@(()=>Add(b))">@lang["Add Sale Type"]</Button>
+                                    </div>
+                                </MudExpansionPanel>
+                            </MudExpansionPanels>
+
+                        }
+                    }
+
+                }
+                else
+                {
+                    <ComAlert type="warning">@lang["There is no business branch. Please enter business branch first."]</ComAlert>
+                }
+            </UIGridCenter>
         </PageBody>
         <PageFooter>
             <FooterCenter>

@@ -56,7 +56,6 @@
                         <TdCenter>@i.expected_quantity.ToString(gv.quantity_format)</TdCenter>
                         <TdRight>@i.expected_amount.ToString(gv.currency_format)</TdRight>
                         <td>
-                            @i.actual_quantity
                             @if (!is_change_text_box)
                             {
                                 <NumberInputNullable text="@i.actual_quantity"

@@ -1,15 +1,15 @@
 ﻿@inherits PageCore
 
 
-<UIContainerBox Title="@lang["Inventory Check Date"]">
+<UIContainerBox Title="@lang["Search"]">
     <ComSearch is_fullwidth="true" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false">
 
     </ComSearch>
     <Spacing Number="8" />
-    <MudChipSet SelectedChip="selected" SelectedChipChanged="onSelectedChipChanged" Filter="true">
+    <MudChipSet SelectedChip="selected" SelectedChipChanged="onSelectedChipChanged" Filter="true" Mandatory="true">
         <MudChip Default="true" Text="All">@lang["All"] (@temp_models.Count)</MudChip>
         <MudChip Text="Counted">@lang["Counted"] (@temp_models.Count(r=>r.actual_quantity != null))</MudChip>
-        <MudChip Text="UnCounted">@lang["UnCounted"] (@temp_models.Count(r => r.actual_quantity == null))</MudChip>
+        <MudChip Text="UnCounted">@lang["Uncounted"] (@temp_models.Count(r => r.actual_quantity == null))</MudChip>
 
     </MudChipSet>
 </UIContainerBox>
@@ -82,9 +82,10 @@ else
         OnCheckProductChange.InvokeAsync(_check_product);
     }
 
-    void  onSelectedChipChanged(MudChip _selected)
+    async Task  onSelectedChipChanged(MudChip _selected)
     {
         is_change_text_box = true;
+        await Task.Delay(25);
         selected = _selected;
         if (_selected.Text == "All")
         {

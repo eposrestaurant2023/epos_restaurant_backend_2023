@@ -1113,9 +1113,6 @@
   <data name="Term &amp; Conditions" xml:space="preserve">
     <value>លក្ខខណ្ឌ</value>
   </data>
-  <data name="Quantity" xml:space="preserve">
-    <value>ចំនួន</value>
-  </data>
   <data name="Old Quantity" xml:space="preserve">
     <value>ចំនួនចាស់</value>
   </data>
@@ -2850,25 +2847,25 @@
   <data name="Order station" xml:space="preserve">
     <value>កុំព្យូទ័រកុម្មង់</value>
   </data>
-	<data name="Park Item" xml:space="preserve">
+  <data name="Park Item" xml:space="preserve">
     <value>ផ្ញើរទំនិញ</value>
   </data>
-	<data name="Redeem" xml:space="preserve">
+  <data name="Redeem" xml:space="preserve">
     <value>យកទំនិញ</value>
   </data>
-	<data name="Redeem on" xml:space="preserve">
+  <data name="Redeem on" xml:space="preserve">
     <value>ថ្ងៃយកទំនិញ</value>
   </data>
-	<data name="Redeem Date" xml:space="preserve">
+  <data name="Redeem Date" xml:space="preserve">
     <value>ថ្ងៃយកទំនិញ</value>
   </data>
-	<data name="Redeem List" xml:space="preserve">
+  <data name="Redeem List" xml:space="preserve">
     <value>យកទំនិញ</value>
   </data>
-	<data name="Park Date" xml:space="preserve">
+  <data name="Park Date" xml:space="preserve">
     <value>ថ្ងៃផ្ញើរ</value>
   </data>
-	<data name="Park expire" xml:space="preserve">
+  <data name="Park expire" xml:space="preserve">
     <value>ផុតកំណត់ថ្ងៃផ្ញើរ</value>
   </data>
   <data name="Park expire on" xml:space="preserve">
@@ -2876,5 +2873,11 @@
   </data>
   <data name="Park note" xml:space="preserve">
     <value>ផ្ញើរ</value>
+  </data>
+  <data name="Counted" xml:space="preserve">
+    <value>បានរាប់</value>
+  </data>
+  <data name="Uncounted" xml:space="preserve">
+    <value>មិនបានរាប់</value>
   </data>
 </root>
