@@ -18,7 +18,9 @@ namespace eAPIClient.Services
         Task<GetOdataResponse> ApiGetOData(string url);
         Task<GetResponse> ApiGet(string url);
         Task SendTelegram (string message); 
+        
         Task SendBackendTelegram (string message); 
+        Task SendFileBackendTelegram (string path); 
         
         Task<PostReponse> ApiPost(string url, object obj = null);
 
@@ -168,6 +170,21 @@ namespace eAPIClient.Services
             var botClient = new TelegramBotClient(token);
             using var cancellationToken = new CancellationTokenSource();
             Message _message = await botClient.SendTextMessageAsync(chatId: chatId, text: message);  
+
+        }   
+        
+        public async Task SendFileBackendTelegram(string path)
+        {
+            string token = _configuration.GetValue<string>("backEndTelegramConfig:access_token");
+            string chatId = _configuration.GetValue<string>("backEndTelegramConfig:chat_id"); 
+            var botClient = new TelegramBotClient(token);
+            using var cancellationToken = new CancellationTokenSource();
+            Message _message = await botClient.SendTextMessageAsync(chatId: chatId, text: "test send backup");
+              
+            Message x =  await botClient.SendDocumentAsync(chatId: chatId, path);
+
+            string n = "x";
+
 
         }
 

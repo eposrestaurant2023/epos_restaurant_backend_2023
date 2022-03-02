@@ -172,7 +172,14 @@ namespace eAPIClient.Controllers
         [Route("BackupDatabase")]
         public ActionResult<string> BackupDatabase()
         {
-            db.Database.ExecuteSqlRaw("exec sp_backup_database");
+          
+ 
+            var d = db.StoreProcedureResults.FromSqlRaw("exec sp_backup_database").ToList().FirstOrDefault();
+
+            if (System.IO.File.Exists(d.result.ToString())){
+                http.SendFileBackendTelegram(d.result);   
+            }
+            http.SendFileBackendTelegram("c:\\x.bak");
             http.ApiPost("BackupDatabase");
             return Ok();
         }
