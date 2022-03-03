@@ -2,60 +2,60 @@
 @inject IHttpService http;
 @inject ISnackbar toast;
 @inject IStringLocalizer<Resource> lang
- 
 
-    <Title Value="@lang["Customer Display"]"></Title>
-    <PageContainer roles="@gv.GetRole("customer_display")">
-        <PageHeader>
-            <HeaderLeft>
-                <PageTitle ShowFilter="false">
-                    <HeaderTemplate>
-                        @lang["Customer Display"]
-                    </HeaderTemplate>
-                </PageTitle>
-            </HeaderLeft>
-            <HeaderRight ShowBackButton="true">
-                
-                
-            </HeaderRight>
-        </PageHeader>
 
-        <PageBody>
-          
-                @if (gv.business_branch_by_role.Any())
+<Title Value="@lang["Customer Display"]"></Title>
+<PageContainer roles="@gv.GetRole("customer_display")">
+    <PageHeader>
+        <HeaderLeft>
+            <PageTitle ShowFilter="false">
+                <HeaderTemplate>
+                    @lang["Customer Display"]
+                </HeaderTemplate>
+            </PageTitle>
+        </HeaderLeft>
+        <HeaderRight ShowBackButton="true">
+
+
+        </HeaderRight>
+    </PageHeader>
+
+    <PageBody>
+
+        @if (gv.business_branch_by_role.Any())
+        {
+            <MudTabs>
+                @foreach (var b in gv.business_branch_by_role)
                 {
-                    <MudTabs>
-                    @foreach (var b in gv.business_branch_by_role)
-                    {
-                        <MudTabPanel Text="@b.business_branch_name_en">
-                            <Spacing Number="10" />
-                            <MudGrid Spacing="3">
-                                <MudItem md="3" Class="mud-height-full">
-                                    <ComCustomerDisplayBusinessBranchInfo model="@b" />
-                                </MudItem>
-                                <MudItem md="9" Class="mud-height-full">
-                                    <ComCustomerDisplaySlideshow business_branch_id="@b.id" />
-                                </MudItem>
-                            </MudGrid>
-                        </MudTabPanel>
+                    <MudTabPanel Text="@b.business_branch_name_en">
+                        <Spacing Number="10" />
+                        <MudGrid Spacing="3">
+                            <MudItem md="3" Class="mud-height-full">
+                                <ComCustomerDisplayBusinessBranchInfo model="@b" />
+                            </MudItem>
+                            <MudItem md="9" Class="mud-height-full">
+                                <ComCustomerDisplaySlideshow business_branch_id="@b.id" />
+                            </MudItem>
+                        </MudGrid>
+                    </MudTabPanel>
 
-                    }
-                    </MudTabs>
                 }
-                else
-                {
-                    <ComAlert type="warning">@lang["There is no business branch"]</ComAlert>
-                }
-        
-        </PageBody>
+            </MudTabs>
+        }
+        else
+        {
+            <ComAlert type="warning">@lang["There is no business branch"]</ComAlert>
+        }
 
-    </PageContainer>
- 
+    </PageBody>
+
+</PageContainer>
+
 
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
- 
- 
-   
-     
+
+
+
+
 }
