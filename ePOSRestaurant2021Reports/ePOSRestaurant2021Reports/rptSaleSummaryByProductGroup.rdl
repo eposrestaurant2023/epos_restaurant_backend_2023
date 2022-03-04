@@ -527,31 +527,34 @@ order by
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.35037in</Width>
+                  <Width>0.33469in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.5154in</Width>
+                  <Width>1.39555in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.62412in</Width>
+                  <Width>0.5251in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.9262in</Width>
+                  <Width>0.77655in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.71788in</Width>
+                  <Width>0.7022in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.65537in</Width>
+                  <Width>0.63969in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.78188in</Width>
+                  <Width>0.73495in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.87563in</Width>
+                  <Width>0.85995in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.81313in</Width>
+                  <Width>0.49473in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.79745in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -861,6 +864,46 @@ order by
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox32</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox18">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>%</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8.5pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox17</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1204,6 +1247,41 @@ order by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox19">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Fields!total_amount.Value / val(ReportItems!txt_total_amount.Value),"P")</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox18</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="total_profit">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1284,7 +1362,7 @@ order by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox40">
+                        <Textbox Name="xx">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1304,7 +1382,6 @@ order by
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox40</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1564,6 +1641,46 @@ order by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox20">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.5pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox19</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox37">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1617,6 +1734,7 @@ order by
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -1636,15 +1754,47 @@ order by
             <DataSetName>SaleProduct</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
-            <Width>7.25998in</Width>
+            <Width>7.26083in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
               </Border>
             </Style>
           </Tablix>
+          <Textbox Name="txt_total_amount">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Sum(Fields!total_amount.Value, "SaleProduct")</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.78473in</Top>
+            <Left>0.35037in</Left>
+            <Height>0.1382in</Height>
+            <Width>0.53125in</Width>
+            <ZIndex>1</ZIndex>
+            <Visibility>
+              <Hidden>true</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
         </ReportItems>
-        <Height>0.7882in</Height>
+        <Height>0.92293in</Height>
         <Style />
       </Body>
       <Width>7.26083in</Width>
@@ -1943,7 +2093,7 @@ order by
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>0.27777in</Height>
+          <Height>0.3668in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -2074,9 +2224,9 @@ order by
               </Paragraphs>
               <rd:DefaultName>Textbox5</rd:DefaultName>
               <Top>0.04167in</Top>
-              <Left>4.14583in</Left>
+              <Left>5.11458in</Left>
               <Height>0.1875in</Height>
-              <Width>3.11417in</Width>
+              <Width>2.14542in</Width>
               <ZIndex>1</ZIndex>
               <Style>
                 <Border>
