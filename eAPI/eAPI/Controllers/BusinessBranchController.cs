@@ -70,6 +70,7 @@ namespace eAPI.Controllers
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
 
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
+            db.Database.ExecuteSqlRaw("exec sp_update_business_information");
             return Ok(branches);
         }
 
