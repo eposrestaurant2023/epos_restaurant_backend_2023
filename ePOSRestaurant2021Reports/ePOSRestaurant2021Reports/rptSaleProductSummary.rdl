@@ -116,8 +116,20 @@
           <QueryParameter Name="@outlet_id">
             <Value>=Parameters!outlet_id.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@keyword">
+            <Value>=Parameters!keyword.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@top">
+            <Value>=Parameters!top.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@top_by">
+            <Value>=Parameters!top_by.Value</Value>
+          </QueryParameter>
         </QueryParameters>
-        <CommandText>select
+        <CommandText>
+if OBJECT_ID('tempdb..#tbl_sale_product') is not null drop table #tbl_sale_product
+
+select
 	sp.product_category_en,
 	sp.product_code,
 	sp.product_name_en,
@@ -132,7 +144,7 @@
 	sum(sp.total_amount) as total_amount,
 	sum(sp.total_tax_amount) as total_tax_amount,
 	sum(sp.profit) as profit
-	
+	into #tbl_sale_product
 from tbl_sale_product sp 
 	inner join tbl_sale s on s.id = sp.sale_id 
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
@@ -149,7 +161,9 @@ where
 	sp.product_group_id  = iif(@product_group_id = 0, sp.product_group_id,@product_group_id) and 
 	cast(s.outlet_id as nvarchar(50))= iif(@outlet_id = '', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
 	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and 
-	sp.product_group_id = iif(@product_group_id =0,sp.product_group_id ,@product_group_id ) 
+	sp.product_group_id = iif(@product_group_id =0,sp.product_group_id ,@product_group_id )  AND
+	lower(coalesce(product_code,'')+' ' + coalesce(product_name_en,'') + ' ' + coalesce(product_name_kh,'')) like N'%'+ LOWER(@keyword)+'%'
+
 	 
 group by
 	sp.product_category_en,
@@ -158,9 +172,19 @@ group by
 	sp.product_name_kh,
 	sp.portion_name,
 	sp.is_free
-order by 
-	sp.product_category_en,
-	sp.product_name_en</CommandText>
+
+
+if @top is null
+begin
+	select * from #tbl_sale_product
+	
+end
+else 
+begin  
+	select top(@top) * from #tbl_sale_product order by iif(@top_by='Amount', total_amount, quantity) desc
+end
+ 
+</CommandText>
       </Query>
       <Fields>
         <Field Name="product_code">
@@ -434,7 +458,7 @@ order by
             <Value>=Parameters!lang.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>exec sp_get_translate_text @lang,'No,Date,Branch,Sale by Product Summary,Outlet,Customer,QTY,Tax,Cost,Total Amount,Profit,Sub Total,Printed by,on,of,Page,Doc. #,Total Receipt,Group,User,Created Date,Customer Group,Product Group,Category,Product,Dis.,Portion'</CommandText>
+        <CommandText>exec sp_get_translate_text @lang,'No,Date,Branch,Sale by Product Summary,Outlet,Customer,QTY,Tax,Cost,Total Amount,Profit,Sub Total,Printed by,on,of,Page,Doc. #,Total Receipt,Group,User,Created Date,Customer Group,Product Group,Category,Product,Dis.,Portion,keyword,Order By'</CommandText>
       </Query>
       <Fields>
         <Field Name="No">
@@ -543,6 +567,14 @@ order by
         </Field>
         <Field Name="Portion">
           <DataField>Portion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="keyword">
+          <DataField>keyword</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Order_By">
+          <DataField>Order By</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -2190,6 +2222,20 @@ order by
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
+                    <TextRun>
+                      <Value>=iif(Parameters!keyword.Value &lt;&gt; ""," /" + First(Fields!keyword.Value, "stanslate") + " : " + Parameters!keyword.Value,"")</Value>
+                      <Style>
+                        <FontFamily>Kh System</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=iif(Parameters!top.Value &gt; 0,First(Fields!Order_By.Value, "stanslate") + "/ : " + Parameters!top_by.Value,"")</Value>
+                      <Style>
+                        <FontFamily>Kh System</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
                   </TextRuns>
                   <Style />
                 </Paragraph>
@@ -2524,11 +2570,48 @@ order by
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="top">
+      <DataType>Integer</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>Top</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="keyword">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=""</Value>
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Keyword</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="top_by">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>Quantity</Value>
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Top By</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>Amount</Value>
+            <Label>Amount</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Quantity</Value>
+            <Label>Quantity</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
-      <NumberOfColumns>3</NumberOfColumns>
-      <NumberOfRows>6</NumberOfRows>
+      <NumberOfColumns>2</NumberOfColumns>
+      <NumberOfRows>7</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -2584,6 +2667,21 @@ order by
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>5</RowIndex>
           <ParameterName>lang</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>6</RowIndex>
+          <ParameterName>keyword</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>5</RowIndex>
+          <ParameterName>top</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>6</RowIndex>
+          <ParameterName>top_by</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

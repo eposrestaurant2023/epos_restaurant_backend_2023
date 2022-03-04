@@ -52,7 +52,7 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] InventoryCheckModel p)
         {
-            var pending_check = db.InventoryChecks.Where(r=>r.stock_location_id == p.stock_location_id && !r.is_fulfilled && r.id != p.id).Include(r=>r.stock_location).AsNoTracking();
+            var pending_check = db.InventoryChecks.Where(r=>r.stock_location_id == p.stock_location_id && !r.is_fulfilled && r.id != p.id && r.is_deleted == false).Include(r=>r.stock_location).AsNoTracking();
             if (pending_check.Any())
             {
                 return StatusCode(409,$"Inventory check is pending is {pending_check.FirstOrDefault().stock_location.stock_location_name}");
