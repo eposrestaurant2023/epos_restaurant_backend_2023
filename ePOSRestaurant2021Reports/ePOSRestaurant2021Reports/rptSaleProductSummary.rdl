@@ -2230,7 +2230,7 @@ end
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=iif(Parameters!top.Value &gt; 0,First(Fields!Order_By.Value, "stanslate") + "/ : " + Parameters!top_by.Value,"")</Value>
+                      <Value>=iif(Parameters!top.Value &gt; 0,"/ " + First(Fields!Order_By.Value, "stanslate") + " : " + Parameters!top_by.Value,"")</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>

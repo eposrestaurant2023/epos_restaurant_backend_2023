@@ -32,20 +32,27 @@
             <PageBody>
                 <UIGridCenter>
                     <UIContainerBox Title="@lang["Payment Type"]">
-                        <TextInput @bind-text="@model.payment_type_name_en" label="@lang["Name En"]">
+                        <TextInput @bind-text="@model.payment_type_name_en" is_read_only="model.is_build_in" label="@lang["Name En"]">
                             <ValidationMessage For="@(() => model.payment_type_name_en )" />
                         </TextInput>
-                        <TextInput @bind-text="@model.payment_type_name_kh" label="@lang["Name Kh"]" />
+                        <TextInput @bind-text="@model.payment_type_name_kh" is_read_only="model.is_build_in" label="@lang["Name Kh"]" />
                         <NumberInputInt @bind-text="@model.sort_order" label="@lang["Sort Order"]" width="100%" />
                         <TextInput label="@lang["Note"]" @bind-text="@model.note" type="textarea" />
-                        <SelectCurrency show_empty="true" @bind-selected_value="@model.currency_id" empty_text="@lang["Select Currency"]" label="@lang["Currency"]">
-                            <ValidationMessage For="@(() => model.currency_id)" />
-                        </SelectCurrency>
-                        <ComSelectPaymentTypeGroup @bind-selected_value="@model.payment_type_group"/>
-                        <ComInputCheckBox label="@lang["FOC"]" @bind-value="@model.is_foc"/>
-                        <ComInputCheckBox label="@lang["Is single payment"]" @bind-value="@model.is_single_payment"/>
-                        <SelectStatus @bind-selected_value="@model.status" />
+
+                        @if (!model.is_build_in)
+                        {
+                            <SelectCurrency show_empty="true" @bind-selected_value="@model.currency_id" empty_text="@lang["Select Currency"]" label="@lang["Currency"]">
+                                <ValidationMessage For="@(() => model.currency_id)" />
+                            </SelectCurrency>
+                            <ComSelectPaymentTypeGroup @bind-selected_value="@model.payment_type_group" />
+                            <ComInputCheckBox label="@lang["FOC"]" @bind-value="@model.is_foc" />
+                            <ComInputCheckBox label="@lang["Is single payment"]" @bind-value="@model.is_single_payment" />
+                            <SelectStatus @bind-selected_value="@model.status" />
+                        }
+
                     </UIContainerBox>
+                    @if (!model.is_build_in)
+                    {
                     <UIContainerBox Title="@lang["Rooms"]" is_visible="@(model.payment_type_group=="Pay to Room")" is_show_add_button="true" OnAddClick="@AddNewRoom">
                         <table class="uk-table cus_hearder_table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                             <tr>
@@ -53,18 +60,18 @@
                                 <Th>@lang["Sort Order"]</Th>
                                 <Th></Th>
                             </tr>
-                           
-                                @foreach (var d in room_list.OrderBy(r=>r.sort_order).ThenBy(r=>r.room_number))
-                                {
-                                    <tr>
-                                        <td>
-                                            <TextInput @bind-text="@d.room_number" placeholder="@lang["Room Number"]" />
 
-                                        </td>
-                                        <td><NumberInputInt @bind-text="@d.sort_order" placeholder="@lang["Room Number"]" /></td>
-                                        <td><Icon icon="delete" OnClick="@(()=>room_list.Remove(d))"/> </td>
-                                    </tr>
-                                }
+                            @foreach (var d in room_list.OrderBy(r => r.sort_order).ThenBy(r => r.room_number))
+                            {
+                                <tr>
+                                    <td>
+                                        <TextInput @bind-text="@d.room_number" placeholder="@lang["Room Number"]" />
+
+                                    </td>
+                                    <td><NumberInputInt @bind-text="@d.sort_order" placeholder="@lang["Room Number"]" /></td>
+                                    <td><Icon icon="delete" OnClick="@(()=>room_list.Remove(d))" /> </td>
+                                </tr>
+                            }
 
                         </table>
                         <Button OnClick="@AddNewRoom">@lang["Add New Room"]</Button>
@@ -75,6 +82,11 @@
                             <div><ComInputCheckBox @bind-value="@b.is_selected" label="@b.business_branch_name_en" label_inline="true" /></div>
                         }
                     </UIContainerBox>
+                    }
+
+
+
+
                 </UIGridCenter>
             </PageBody>
             <PageFooter>

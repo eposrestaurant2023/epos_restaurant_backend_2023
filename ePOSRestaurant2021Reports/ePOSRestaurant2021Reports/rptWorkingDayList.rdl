@@ -1131,7 +1131,7 @@ from #tbl </CommandText>
                             <Actions>
                               <Action>
                                 <Drillthrough>
-                                  <ReportName>rptSaleReceiptA4</ReportName>
+                                  <ReportName>rptWorkingDayDetailA4</ReportName>
                                   <Parameters>
                                     <Parameter Name="id">
                                       <Value>=Fields!id.Value</Value>
@@ -1140,7 +1140,10 @@ from #tbl </CommandText>
                                       <Value>=Parameters!printed_by.Value</Value>
                                     </Parameter>
                                     <Parameter Name="report_url">
-                                      <Value>=Parameters!report_url.Value</Value>
+                                      <Value>rptWorkingDayDetailA4</Value>
+                                    </Parameter>
+                                    <Parameter Name="lang">
+                                      <Value>=Parameters!lang.Value</Value>
                                     </Parameter>
                                   </Parameters>
                                 </Drillthrough>
