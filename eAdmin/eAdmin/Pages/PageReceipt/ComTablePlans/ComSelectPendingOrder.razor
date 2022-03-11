@@ -1,0 +1,38 @@
+﻿@inject IDialogService Dialog
+<MudDialog>
+    <DialogContent>
+       <MudPaper Width="300px" Elevation="0">
+   
+                @foreach(var d in models)
+                {
+                    <MudButton Class="mb-2" Link="@($"sale/{d.id}")" FullWidth="true">
+              <MudCard Style="width:100%" Elevation="4"   >
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h5">@d.sale_number</MudText>
+                            <MudText Typo="Typo.subtitle1">Quantity:  @d.total_quantity.ToString(gv.quantity_format) </MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                             <MudText Typo="Typo.h5">@d.total_amount.ToString(gv.currency_format) </MudText>
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                     
+                </MudCard>  
+                </MudButton>
+                }
+         
+         
+   
+</MudPaper>
+    </DialogContent>
+    
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+        [Parameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public List<PageTableAvaiable.PendingSaleDataModel> models{ get; set; }
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+ 
+    
+}

@@ -1,4 +1,6 @@
 ﻿@inherits PageCore
+ 
+
 @page "/receiptlist/tableplan"
 <Loading is_loading="@(is_loading||is_reloading)" />
 @if (!is_loading)
@@ -43,6 +45,7 @@
                                     @foreach (var table in models.Where(r=>r.table_group_id == table_group.table_group_id))
                                     {
                                     <MudItem>
+                                        <MudButton Class="pa-0 ma-0" DisableElevation="true" Variant="Variant.Text" OnClick="@(()=>ViewPendingOrder(table))">
                                         <MudPaper Style="@($"background:{GetTableColor(table.is_occupy)};color:#424242")" Class="d-flex align-content-center flex-wrap justify-center" Height="140px" Width="140px">
                                            
                                             
@@ -56,6 +59,7 @@
                                                 </div>
                                            
                                         </MudPaper>
+                                        </MudButton>
                                         
                                     </MudItem>
                                     }
@@ -165,6 +169,26 @@
         is_reloading = false;
     }
 
+    async Task ViewPendingOrder(TableOccupyModel t)
+    {
+        if(t.pending_sale_datas==null ) 
+        {
+            return;
+        }
+        if (t.pending_sale_datas.Count() > 0)
+        {
+            if (t.pending_sale_datas.Count() == 1)
+            {
+                nav.NavigateTo($"sale/{t.pending_sale_datas.FirstOrDefault().id}");
+            }else
+            {
+                var options = new DialogOptions { CloseButton = true };
+                  var parameters = new DialogParameters { ["models"]=t.pending_sale_datas,["gv"]=gv };
+        Dialog.Show<PageReceipt.ComTablePlans.ComSelectPendingOrder>(lang["Select Order"], parameters, options);
+            }
+        }
+    }
+
     Guid OnSetDefaultOutlet(Guid branch_id)
     {
         if (branch_id != Guid.Empty)
@@ -202,5 +226,20 @@
         public Guid outlet_id { get; set; }
         public bool is_occupy { get; set; }
         public decimal total_amount { get; set; }
+        public List<PendingSaleDataModel> pending_sale_datas { get; set; }
+
+       
+            
+
+
+
+    }
+
+    public class PendingSaleDataModel
+    {
+         public Guid id { get; set; }
+        public string sale_number { get; set; }
+        public decimal total_quantity { get; set; }
+        public decimal  total_amount { get; set; }
     }
 }
