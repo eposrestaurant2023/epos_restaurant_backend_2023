@@ -13,7 +13,7 @@
                 <Style>
                   <FontStyle>Italic</FontStyle>
                   <FontFamily>Kh Muol</FontFamily>
-                  <FontSize>24pt</FontSize>
+                  <FontSize>12pt</FontSize>
                   <Color>Gray</Color>
                 </Style>
               </TextRun>
@@ -22,10 +22,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox24</rd:DefaultName>
-        <Top>1.81047in</Top>
-        <Left>0.58208in</Left>
-        <Height>0.65694in</Height>
-        <Width>1.73543in</Width>
+        <Top>1.82297in</Top>
+        <Left>1.09458in</Left>
+        <Height>0.30346in</Height>
+        <Width>0.88126in</Width>
         <Visibility>
           <Hidden>=First(Fields!is_reprint_receipt.Value, "Sale")=false</Hidden>
         </Visibility>
