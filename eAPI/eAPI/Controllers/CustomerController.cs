@@ -94,9 +94,8 @@ namespace eAPI.Controllers
             }
             else
             {
-
-                var d = modelCheck.FirstOrDefault();
-
+                is_new = false;
+                
 
                 db.Customers.Update(p);
             }
@@ -150,9 +149,10 @@ namespace eAPI.Controllers
                     await app.SaveDocumentNumber(19);
                 }
 
-
-                hub.Clients.All.SendAsync("Sync", "customer");
-
+                if (!is_synch_from_client)
+                {
+                    hub.Clients.All.SendAsync("Sync", "customer");
+                }
                 return Ok(p);
             }
             catch (Exception e)
