@@ -230,8 +230,8 @@ namespace ePOSPrintingService
                 TypeConverter tc = TypeDescriptor.GetConverter(typeof(Bitmap));
 
 
-                string image_path = CropImage((Bitmap)tc.ConvertFrom(mybytes));
-                if (image_path != "")
+                string file_name = CropImage((Bitmap)tc.ConvertFrom(mybytes));
+                if (file_name != "")
                 {
                     var client = new RestClient(telegram_setting.telegram_alert_url + "bot" + telegram_setting.telegram_alert_token);
                     var request = new RestRequest("sendPhoto", Method.POST)
@@ -239,13 +239,13 @@ namespace ePOSPrintingService
                         RequestFormat = DataFormat.Json,
                         AlwaysMultipartFormData = true
                     };
-                    request.AddFile("photo", $"{telegram_setting.image_path}{image_path}");
+                    request.AddFile("photo", $"{telegram_setting.image_path}{file_name}");
                     request.AddQueryParameter("chat_id", telegram_setting.telegram_chat_id);
                     request.AddQueryParameter("caption", caption);
                     try
                     {
                         var response = client.Post(request);
-                        File.Delete($"{ telegram_setting.image_path}{ image_path}");
+                        File.Delete($"{ telegram_setting.image_path}{ file_name}");
                     }
                     catch (Exception ex)
                     {

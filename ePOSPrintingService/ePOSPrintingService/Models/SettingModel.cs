@@ -21,6 +21,7 @@ namespace ePOSPrintingServiceReportModel
         public string website { get; set; }
         public string footer_en { get; set; }
         public string footer_kh { get; set; }
+        public string vattin { get; set; }
 
         public string wifi_password { get; set; }
         public string currency_format { get; set; }
