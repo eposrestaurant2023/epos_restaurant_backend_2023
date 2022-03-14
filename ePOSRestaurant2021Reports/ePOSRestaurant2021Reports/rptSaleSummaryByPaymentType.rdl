@@ -1833,7 +1833,7 @@ group by
             <Top>0.87375in</Top>
             <Left>0.04168in</Left>
             <Height>1in</Height>
-            <Width>7.18707in</Width>
+            <Width>7.18708in</Width>
             <ZIndex>1</ZIndex>
             <Visibility>
               <Hidden>=Parameters!display_type.Value=1</Hidden>
@@ -1848,7 +1848,7 @@ group by
         <Height>1.87375in</Height>
         <Style />
       </Body>
-      <Width>7.22875in</Width>
+      <Width>7.22876in</Width>
       <Page>
         <PageHeader>
           <Height>1.04167in</Height>
@@ -2355,7 +2355,7 @@ group by
       <DataType>Integer</DataType>
       <DefaultValue>
         <Values>
-          <Value>1</Value>
+          <Value>2</Value>
         </Values>
       </DefaultValue>
       <Prompt>Display Type</Prompt>
