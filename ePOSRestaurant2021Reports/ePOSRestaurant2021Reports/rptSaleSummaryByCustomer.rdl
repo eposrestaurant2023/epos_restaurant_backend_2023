@@ -104,6 +104,12 @@
           <QueryParameter Name="@outlet_id">
             <Value>=Parameters!outlet_id.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@customer_group_id">
+            <Value>=Parameters!customer_group_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@customer_id">
+            <Value>=Parameters!customer_id.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandText>
 select 
@@ -119,11 +125,17 @@ select
 	sum(s.total_tax_amount) as total_tax_amount
 from tbl_sale s 
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) c on c.id = s.business_branch_id
+	left join tbl_customer d on d.id = s.customer_id
 where
 	s.is_foc = 0 and 
 	working_date between @start_date and @end_date and 
 	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
 	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id)  and 
+	coalesce(d.customer_group_id,0) = iif(@customer_group_id=0,coalesce(d.customer_group_id,0),@customer_group_id) and 
+	coalesce(cast(s.customer_id as nvarchar(50)),'')  = iif(@customer_id='',coalesce(cast(s.customer_id as nvarchar(50)),''),@customer_id) and
+
+	
+
 	s.is_closed = 1 and 
 	s.is_deleted = 0 
 group by
@@ -369,6 +381,55 @@ group by
         <Field Name="Total_Receipt">
           <DataField>Total Receipt</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="CustomerGroup">
+      <SharedDataSet>
+        <SharedDataSetReference>CustomerGroupWithAll</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="id">
+          <DataField>id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="customer_group">
+          <DataField>customer_group</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="sort_order">
+          <DataField>sort_order</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Customer">
+      <SharedDataSet>
+        <SharedDataSetReference>CustomerWithAll</SharedDataSetReference>
+        <QueryParameters>
+          <QueryParameter Name="@printed_by">
+            <Value>=Parameters!printed_by.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@business_branch_id">
+            <Value>=Parameters!business_branch_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@customer_group_id">
+            <Value>=Parameters!customer_group_id.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="id">
+          <DataField>id</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="customer_name">
+          <DataField>customer_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="sort_order">
+          <DataField>sort_order</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -2049,6 +2110,39 @@ group by
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="customer_group_id">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Customer Group</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>CustomerGroup</DataSetName>
+          <ValueField>id</ValueField>
+          <LabelField>customer_group</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="customer_id">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Customer</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Customer</DataSetName>
+          <ValueField>id</ValueField>
+          <LabelField>customer_name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
     <ReportParameter Name="lang">
       <DataType>String</DataType>
       <DefaultValue>
@@ -2069,7 +2163,7 @@ group by
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>3</NumberOfColumns>
-      <NumberOfRows>4</NumberOfRows>
+      <NumberOfRows>5</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -2103,8 +2197,18 @@ group by
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>3</RowIndex>
+          <RowIndex>4</RowIndex>
           <ParameterName>lang</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>customer_group_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>customer_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

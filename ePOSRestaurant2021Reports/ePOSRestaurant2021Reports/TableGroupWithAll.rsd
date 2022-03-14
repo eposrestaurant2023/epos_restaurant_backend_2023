@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DataSet1">
+    <Query>
+      <DataSourceReference>DataSource</DataSourceReference>
+      <DataSetParameters>
+        <DataSetParameter Name="@printed_by">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>Object</rd:DbType>
+        </DataSetParameter>
+        <DataSetParameter Name="@business_branch_id">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>Object</rd:DbType>
+        </DataSetParameter>
+        <DataSetParameter Name="@outlet_id">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>Object</rd:DbType>
+        </DataSetParameter>
+      </DataSetParameters>
+      <CommandText>
+
+if object_id ('tempdb..#tbl_table_group') is not null drop table #tbl_table_group
+select 
+	distinct 
+	a.id
+	into #tbl_table_group
+from tbl_table_group a 
+inner join tbl_outlet o on o.id = a.outlet_id
+inner join dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = o.business_branch_id
+where
+	cast(o.business_branch_id as nvarchar(50)) = iif(@business_branch_id = '',cast(o.business_branch_id as nvarchar(50)),@business_branch_id) 
+
+;with a as  (
+	select 0 as id, 'All Table Group' as table_group_name, 0 as sort_order
+	union all
+	select 
+		c.id, 
+		c.table_group_name_en,
+		1 as sort_order 
+	from tbl_table_group c 
+		inner join #tbl_table_group t on t.id = c.id
+	where
+		c.status = 1 and 
+		c.is_deleted = 0 and 
+		cast(c.outlet_id as nvarchar(50)) =  iif(@outlet_id='',cast(c.outlet_id as nvarchar(50)) ,@outlet_id)
+ 	
+)
+select * from a order by sort_order, table_group_name
+</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="id">
+        <DataField>id</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="table_group_name">
+        <DataField>table_group_name</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="sort_order">
+        <DataField>sort_order</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

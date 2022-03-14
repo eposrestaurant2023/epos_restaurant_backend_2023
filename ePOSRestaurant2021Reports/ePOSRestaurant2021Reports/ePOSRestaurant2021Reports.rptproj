@@ -8,9 +8,9 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>568BarAndBistro/ePOSRestaurantReports</TargetReportFolder>
-    <TargetDatasetFolder>568BarAndBistro/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>568BarAndBistro/DataSource</TargetDatasourceFolder>
+    <TargetReportFolder>ePosHaiven/ePOSRestaurantReports</TargetReportFolder>
+    <TargetDatasetFolder>ePosHaiven/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>ePosHaiven/DataSource</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://win-l3prqgu0uqg:3344/ReportServer</TargetServerURL>
   </PropertyGroup>
@@ -65,6 +65,7 @@
     <DataSet Include="Setting.rsd" />
     <DataSet Include="StationName.rsd" />
     <DataSet Include="StockLocationWithAll.rsd" />
+    <DataSet Include="TableGroupWithAll.rsd" />
     <DataSet Include="TableName.rsd" />
     <DataSet Include="VendorGroupWithAll.rsd" />
     <DataSet Include="VendorWithAll.rsd" />

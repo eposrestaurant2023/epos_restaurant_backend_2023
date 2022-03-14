@@ -113,11 +113,15 @@
           <QueryParameter Name="@sale_type">
             <Value>=Parameters!sale_type.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@table_group_id">
+            <Value>=Parameters!table_group_id.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandText>
 select 
 	s.id,
 	s.document_number,
+
 	s.table_name,
 	s.working_date,
 	s.total_quantity,
@@ -136,15 +140,19 @@ select
 from tbl_sale s 
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
 	left join tbl_customer c on c.id = s.customer_id
+	left join tbl_table t on t.id = s.table_id
+	
 where
 	s.is_deleted = 0 and 
+	s.is_closed = 1 and 
 	working_date between @start_date and @end_date and 
 	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
 	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
 	s.is_foc = 0 and 
 	coalesce(cast(c.id as nvarchar(50)),'') = iif(@customer_id = '', coalesce(cast(c.id as nvarchar(50)),'') ,@customer_id) and 
 	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id) and
-	s.sale_type in(@sale_type)
+	s.sale_type in(@sale_type) and 
+	isnull(t.table_group_id,0) = iif(@table_group_id=0,isnull(t.table_group_id,0),@table_group_id)
 	 
 order by
 	document_number</CommandText>
@@ -382,7 +390,7 @@ order by
             <Value>=Parameters!lang.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>exec sp_get_translate_text @lang,'No,Doc. #,Date,Branch,Daily Sale Transaction,Outlet,Customer,QTY,Discount,Tax,Cost,Total Amount,Profit,User,Sub Total,Printed by,on,of,Page,Group,Sale Type'</CommandText>
+        <CommandText>exec sp_get_translate_text @lang,'No,Doc. #,Date,Branch,Daily Sale Transaction,Outlet,Customer,QTY,Discount,Tax,Cost,Total Amount,Profit,User,Sub Total,Printed by,on,of,Page,Group,Sale Type,Table Group'</CommandText>
       </Query>
       <Fields>
         <Field Name="No">
@@ -469,6 +477,10 @@ order by
           <DataField>Sale Type</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Table_Group">
+          <DataField>Table Group</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
     <DataSet Name="sale_type">
@@ -480,6 +492,36 @@ order by
         <Field Name="sale_type_name">
           <DataField>sale_type_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="TableGroup">
+      <SharedDataSet>
+        <SharedDataSetReference>TableGroupWithAll</SharedDataSetReference>
+        <QueryParameters>
+          <QueryParameter Name="@printed_by">
+            <Value>=Parameters!printed_by.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@business_branch_id">
+            <Value>=Parameters!business_branch_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@outlet_id">
+            <Value>=Parameters!outlet_id.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="id">
+          <DataField>id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="table_group_name">
+          <DataField>table_group_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="sort_order">
+          <DataField>sort_order</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -2501,6 +2543,34 @@ order by
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
+                    <TextRun>
+                      <Value> / </Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Table_Group.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!table_group_id.Label</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
                   </TextRuns>
                   <Style />
                 </Paragraph>
@@ -2787,22 +2857,6 @@ order by
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
-    <ReportParameter Name="lang">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>en</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>Language</Prompt>
-      <ValidValues>
-        <DataSetReference>
-          <DataSetName>LanguageCode</DataSetName>
-          <ValueField>language_code</ValueField>
-          <LabelField>language_code</LabelField>
-        </DataSetReference>
-      </ValidValues>
-    </ReportParameter>
     <ReportParameter Name="sale_type">
       <DataType>String</DataType>
       <DefaultValue>
@@ -2821,11 +2875,43 @@ order by
       </ValidValues>
       <MultiValue>true</MultiValue>
     </ReportParameter>
+    <ReportParameter Name="table_group_id">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Table Group</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>TableGroup</DataSetName>
+          <ValueField>id</ValueField>
+          <LabelField>table_group_name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="lang">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>en</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Language</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>LanguageCode</DataSetName>
+          <ValueField>language_code</ValueField>
+          <LabelField>language_code</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>3</NumberOfColumns>
-      <NumberOfRows>5</NumberOfRows>
+      <NumberOfRows>6</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -2869,13 +2955,18 @@ order by
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>4</RowIndex>
+          <RowIndex>5</RowIndex>
           <ParameterName>lang</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>4</RowIndex>
+          <ParameterName>sale_type</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
           <RowIndex>4</RowIndex>
-          <ParameterName>sale_type</ParameterName>
+          <ParameterName>table_group_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
