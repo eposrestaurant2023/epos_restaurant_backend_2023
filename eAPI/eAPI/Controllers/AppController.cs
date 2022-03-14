@@ -293,9 +293,9 @@ namespace eAPI.Controllers
                 deviceId == "4efs1BZOzIg_-wWTNBAfzfWWABfjmNJzmNgW4ecQa0M" ||
                 deviceId == "CsUhcPGkd_hNOyjA1_7jk0t2mhjhWurAQ1MiCymzIj8" ||
                 deviceId == "0v54OjqC4D1ch-996YgPIO_LmwW-D8oGifpMeZVncgw" ||
+                deviceId == "BFrmsTXtMY2akk98Cd9wxRomzqRKaJrrL080xAB-c4I" ||
                 deviceId == "XJHGOXQ1QzMVlFTYrz2Cv7coEkEUmvHE-6hz9FFf8uk"
                     
-
 
                 )
             {

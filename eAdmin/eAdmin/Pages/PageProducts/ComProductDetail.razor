@@ -90,7 +90,7 @@
                         <ComProductDetail_SaleHistory product_id="@id" />
                     }
                 </MudTabPanel>
-                @if (gv.project_has_advance_inventory)
+                @if (gv.project_has_inventory)
                 {
                     <MudTabPanel OnClick="@(()=>show_purchase_history = true)" Text="@lang["Purchase History"]">
                         @if (show_purchase_history)
@@ -99,7 +99,7 @@
                         }
                     </MudTabPanel>
                 }
-                @if (gv.project_has_advance_inventory)
+                @if (gv.project_has_inventory)
                 {
                     <MudTabPanel OnClick="@(()=>show_stock_stransfer = true)" Text="@lang["Stock Transfer"]">
                         @if (show_stock_stransfer)
@@ -108,7 +108,7 @@
                         }
                     </MudTabPanel>
                 }
-                @if (gv.project_has_advance_inventory)
+                @if (gv.project_has_inventory)
                 {
                     <MudTabPanel OnClick="@(()=>show_stock_take = true)" Text="@lang["Stock Take"]">
                         @if (show_stock_take)
@@ -126,7 +126,7 @@
                         }
                     </MudTabPanel>
                 }
-                @if (model.is_inventory_product && gv.project_has_advance_inventory)
+                @if (model.is_inventory_product && (gv.project_has_inventory))
                 {
                     <MudTabPanel OnClick="@(()=>show_inventory_strasation = true)" Text="@lang["Inventory Transaction"]">
                         @if (show_inventory_strasation)
