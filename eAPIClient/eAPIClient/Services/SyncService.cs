@@ -334,8 +334,7 @@ namespace eAPIClient.Services
                      .Include(r => r.sale_products).ThenInclude(r => r.sale_product_modifiers)
                      .AsNoTrackingWithIdentityResolution();
 
-                    string xx = JsonSerializer.Serialize(_saleData.FirstOrDefault());
-
+                  
                     if (_saleData.Count() > 0)
                     {
                         var _sale = _saleData.FirstOrDefault();

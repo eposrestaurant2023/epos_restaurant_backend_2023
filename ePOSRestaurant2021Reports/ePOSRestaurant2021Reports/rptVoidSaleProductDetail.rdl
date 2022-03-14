@@ -116,9 +116,11 @@
           <QueryParameter Name="@outlet_id">
             <Value>=Parameters!outlet_id.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@username">
+            <Value>=Parameters!username.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandText>
-
 if object_id('tempdb..#tbl') is not null drop table #tbl
 
 select
@@ -141,7 +143,8 @@ where
 	sp.product_group_id  = iif(@product_group_id = 0, sp.product_group_id,@product_group_id) and 
 	cast(s.outlet_id as nvarchar(50))= iif(@outlet_id = '', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
 	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and 
-	sp.product_group_id = iif(@product_group_id =0,sp.product_group_id ,@product_group_id ) 
+	sp.product_group_id = iif(@product_group_id =0,sp.product_group_id ,@product_group_id ) and 
+	isnull(sp.created_by,'') = iif(@username = '', isnull(sp.created_by,''),@username)
  
 select
 	sp.sale_id,
@@ -174,12 +177,15 @@ from tbl_sale_product sp
 	inner join #tbl t on t.id = sp.id 
 	inner join tbl_sale s on s.id = sp.sale_id 
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
-	left join tbl_customer c on c.id = s.customer_id 
+	left join tbl_customer c on c.id = s.customer_id  
+	
+
+
+
 where
 	t.is_deleted = 1
 order by 
-	s.document_number
-</CommandText>
+	s.document_number</CommandText>
       </Query>
       <Fields>
         <Field Name="sale_id">
@@ -611,6 +617,29 @@ order by
         <Field Name="language_code">
           <DataField>language_code</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Users">
+      <SharedDataSet>
+        <SharedDataSetReference>UserWithAll</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="id">
+          <DataField>id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="username">
+          <DataField>username</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="full_name">
+          <DataField>full_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="sort_order">
+          <DataField>sort_order</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -3130,6 +3159,23 @@ order by
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="username">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>User</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Users</DataSetName>
+          <ValueField>username</ValueField>
+          <LabelField>full_name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
     <ReportParameter Name="lang">
       <DataType>String</DataType>
       <DefaultValue>
@@ -3203,9 +3249,14 @@ order by
           <ParameterName>product_category_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>5</RowIndex>
           <ParameterName>lang</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>5</RowIndex>
+          <ParameterName>username</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
