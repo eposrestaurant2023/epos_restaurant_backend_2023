@@ -159,7 +159,7 @@
     "telegram_alert_url": "https://api.telegram.org/",
     "telegram_alert_token": "593655431:AAH6x4ncKNsxwj2wlaV2WPS4iIB0O2qRPmw",
     "telegram_chat_id": "-545894511",
-    "image_path":"C:\\www\\host\\restaurant_client_api\\uploads\\telegram_images\\"
+    "image_path":"C:\\Program Files\\ESTC\\ePOS\\watcher\\telegram\\"
 }</Value>
     </Setting>
     <Setting Name="api_url" Type="System.String" Scope="User">

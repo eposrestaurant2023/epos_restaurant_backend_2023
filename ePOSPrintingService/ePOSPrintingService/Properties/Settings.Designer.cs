@@ -133,12 +133,10 @@ namespace ePOSPrintingService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"{
-    ""telegram_alert_url"": ""https://api.telegram.org/"",
-    ""telegram_alert_token"": ""593655431:AAH6x4ncKNsxwj2wlaV2WPS4iIB0O2qRPmw"",
-    ""telegram_chat_id"": ""-545894511"",
-    ""image_path"":""C:\\www\\host\\restaurant_client_api\\uploads\\telegram_images\\""
-}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("{\r\n    \"telegram_alert_url\": \"https://api.telegram.org/\",\r\n    \"telegram_alert_to" +
+            "ken\": \"593655431:AAH6x4ncKNsxwj2wlaV2WPS4iIB0O2qRPmw\",\r\n    \"telegram_chat_id\": " +
+            "\"-545894511\",\r\n    \"image_path\":\"C:\\\\Program Files\\\\ESTC\\\\ePOS\\\\watcher\\\\telegra" +
+            "m\\\\\"\r\n}")]
         public string telegram {
             get {
                 return ((string)(this["telegram"]));

@@ -169,11 +169,11 @@ else
             await Task.Delay(500);
             if (report_parameters == "")
             {
-                url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rs:Embed=true&printed_by={gv.current_login_user.username}&report_url={model.option_name}&lang={current_lang_code}";
+                url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rc:showbackbutton=true&rs:Embed=true&printed_by={gv.current_login_user.username}&report_url={model.option_name}&lang={current_lang_code}";
             }
             else
             {
-                url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rs:Embed=true&{report_parameters}&printed_by={gv.current_login_user.username}&report_url={model.option_name}&lang={current_lang_code}";
+                url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rc:showbackbutton=true&rs:Embed=true&{report_parameters}&printed_by={gv.current_login_user.username}&report_url={model.option_name}&lang={current_lang_code}";
             }
 
             IsMenuReportOpened = false;

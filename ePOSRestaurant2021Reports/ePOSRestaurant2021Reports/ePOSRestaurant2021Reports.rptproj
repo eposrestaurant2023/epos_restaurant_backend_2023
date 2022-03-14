@@ -65,6 +65,7 @@
     <DataSet Include="Setting.rsd" />
     <DataSet Include="StationName.rsd" />
     <DataSet Include="StockLocationWithAll.rsd" />
+    <DataSet Include="TableGroupWithAll.rsd" />
     <DataSet Include="TableName.rsd" />
     <DataSet Include="VendorGroupWithAll.rsd" />
     <DataSet Include="VendorWithAll.rsd" />

@@ -2089,6 +2089,10 @@
           <DataField>tax_3_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="vattin">
+          <DataField>vattin</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="website">
           <DataField>website</DataField>
           <rd:TypeName>System.String</rd:TypeName>

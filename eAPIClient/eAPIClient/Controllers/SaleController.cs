@@ -84,8 +84,12 @@ namespace eAPIClient.Controllers
                     {
                         if (sales.Any())
                         {
+                            //check if bill have item change 
+                            if(sales.FirstOrDefault().last_modified_date != model.last_modified_date && (sales.FirstOrDefault().is_print_invoice) == false)
+                            {
+                                return BadRequest(new BadRequestModel { message = "this_order_was_modified_on_other_devices" });
+                            }
                             //check if bill is already print
-
                             if ((model.is_closed ?? false) == false && (sales.FirstOrDefault().is_print_invoice) == true)
                             {
                                 return BadRequest(new BadRequestModel { message = "this_order_is_print" });
@@ -95,7 +99,9 @@ namespace eAPIClient.Controllers
                             //user payment with new item order  
                             if ((model.is_closed ?? false) == true && (sales.FirstOrDefault().is_print_invoice) == true)
                             {
-                                if (model.sale_products.Where(r => r.id == Guid.Empty).Any() || sales.FirstOrDefault().total_amount != model.total_amount || sales.FirstOrDefault().total_quantity != model.total_quantity)
+                                if (model.sale_products.Where(r => r.id == Guid.Empty).Any() || 
+                                    sales.FirstOrDefault().total_amount != model.total_amount || 
+                                    sales.FirstOrDefault().total_quantity != model.total_quantity)
                                 {
                                     return BadRequest(new BadRequestModel { message = "this_order_is_print" });
                                 }
