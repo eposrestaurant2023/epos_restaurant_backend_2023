@@ -8,9 +8,9 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>ePosHaiven/ePOSRestaurantReports</TargetReportFolder>
-    <TargetDatasetFolder>ePosHaiven/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>ePosHaiven/DataSource</TargetDatasourceFolder>
+    <TargetReportFolder>ePOSNormPangThmorda/ePOSRestaurantReports</TargetReportFolder>
+    <TargetDatasetFolder>ePOSNormPangThmorda/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>ePOSNormPangThmorda/DataSource</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://win-l3prqgu0uqg:3344/ReportServer</TargetServerURL>
   </PropertyGroup>

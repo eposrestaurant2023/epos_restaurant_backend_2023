@@ -110,9 +110,13 @@
           <QueryParameter Name="@customer_group_id">
             <Value>=Parameters!customer_group_id.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@foc_payment_type_id">
+            <Value>=Parameters!foc_payment_type_id.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandText>
 select 
+	p.payment_type_id,
 	s.id,
 	s.document_number,
 	s.table_name,
@@ -130,6 +134,8 @@ select
 	s.closed_by,
 	s.customer_name
 from tbl_sale s 
+	INNER JOIN tbl_sale_payment  p on p.sale_id = s.id 
+	 
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
 	left join tbl_customer c on c.id = s.customer_id
 where
@@ -139,12 +145,21 @@ where
 	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
 	s.is_foc = 1 and 
 	coalesce(cast(c.id as nvarchar(50)),'') = iif(@customer_id = '', coalesce(cast(c.id as nvarchar(50)),'') ,@customer_id) and 
-	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id) 
+	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id)  and 
+	
+	p.payment_type_id= iif( @foc_payment_type_id=0,p.payment_type_id ,@foc_payment_type_id)
+	 
 	 
 order by
-	document_number</CommandText>
+	document_number
+
+</CommandText>
       </Query>
       <Fields>
+        <Field Name="payment_type_id">
+          <DataField>payment_type_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
         <Field Name="id">
           <DataField>id</DataField>
           <rd:TypeName>System.Guid</rd:TypeName>
@@ -458,6 +473,24 @@ order by
         </Field>
         <Field Name="User">
           <DataField>User</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="FOCPaymentType">
+      <Query>
+        <DataSourceName>Datasource</DataSourceName>
+        <CommandText>select 0 as id,'All' as payment_type_name_en
+union
+select id,payment_type_name_en from tbl_payment_type where is_foc = 1</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="id">
+          <DataField>id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="payment_type_name_en">
+          <DataField>payment_type_name_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -2170,7 +2203,7 @@ order by
             <DataSetName>Sale</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
-            <Width>11.08in</Width>
+            <Width>11.07999in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2391,6 +2424,20 @@ order by
                     </TextRun>
                     <TextRun>
                       <Value>=Parameters!customer_id.Label</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>/FOC Payment Type: </Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!foc_payment_type_id.Label</Value>
                       <Style>
                         <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2682,6 +2729,22 @@ order by
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="foc_payment_type_id">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>FOC Payment Type</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>FOCPaymentType</DataSetName>
+          <ValueField>id</ValueField>
+          <LabelField>payment_type_name_en</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
     <ReportParameter Name="lang">
       <DataType>String</DataType>
       <DefaultValue>
@@ -2745,9 +2808,14 @@ order by
           <ParameterName>customer_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>4</RowIndex>
           <ParameterName>lang</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>4</RowIndex>
+          <ParameterName>foc_payment_type_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
