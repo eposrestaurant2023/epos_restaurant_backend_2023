@@ -85,12 +85,12 @@ namespace eAPIClient.Controllers
                         if (sales.Any())
                         {
                             //check if bill have item change 
-                            if(sales.FirstOrDefault().last_modified_date != model.last_modified_date && (sales.FirstOrDefault().is_print_invoice) == false)
+                            if(sales.FirstOrDefault().last_modified_date != model.last_modified_date && (sales.FirstOrDefault().is_print_invoice) == false  )
                             {
                                 return BadRequest(new BadRequestModel { message = "this_order_was_modified_on_other_devices" });
                             }
                             //check if bill is already print
-                            if ((model.is_closed ?? false) == false && (sales.FirstOrDefault().is_print_invoice) == true)
+                            if ((model.is_closed ?? false) == false && (sales.FirstOrDefault().is_print_invoice) == true && sales.FirstOrDefault().last_modified_date != model.last_modified_date)
                             {
                                 return BadRequest(new BadRequestModel { message = "this_order_is_print" });
                             }
