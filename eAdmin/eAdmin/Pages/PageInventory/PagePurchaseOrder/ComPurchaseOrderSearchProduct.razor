@@ -67,7 +67,7 @@
             {
                 filter_production = "";
             }
-            string api = $"Product?$filter=tolower(product_code) eq '{keyword.Trim().ToLower()}' {filter_for_PO} {filter_production}";
+            string api = $"Product?$filter=tolower(product_code) eq '{keyword.Trim().ToLower()}' {filter_for_PO} {filter_production}&$expand=unit($select=unit_name,unit_category_id)";
             var resp = await http.ApiGetOData(api);
             if (resp.IsSuccess)
             {
