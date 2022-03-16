@@ -200,6 +200,7 @@ namespace eModels
         public string value2 { get; set; } = "";
         public string value_clear_state { get; set; } = "";
         public string filter_operator { get; set; } = "eq";
+        public string filter_multiple_operator { get; set; } = "eq";
         public string filter_join_operator { get; set; } = JoinOperator.and.ToString();
         public DateTime date1 { get; set; } = DateTime.Now;
         public DateTime date2 { get; set; } = DateTime.Now;

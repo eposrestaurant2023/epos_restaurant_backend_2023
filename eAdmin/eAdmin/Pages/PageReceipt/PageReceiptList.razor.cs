@@ -213,7 +213,7 @@ namespace eAdmin.Pages.PageReceipt
                 });
             }
 
-            Console.WriteLine(JsonSerializer.Serialize(state.multi_select_id_2));
+           
             // filter outlet
             if (state.multi_select_value_2 != null)
             {

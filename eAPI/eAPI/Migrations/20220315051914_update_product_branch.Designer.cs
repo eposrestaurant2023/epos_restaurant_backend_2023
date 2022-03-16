@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220315051914_update_product_branch")]
+    partial class update_product_branch
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,10 +191,6 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("address_kh")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("business_branch_code")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 

@@ -1447,7 +1447,7 @@ where
           <Value>0</Value>
         </Values>
       </DefaultValue>
-      <Prompt>Vendor Group</Prompt>
+      <Prompt>Customer Group</Prompt>
       <ValidValues>
         <DataSetReference>
           <DataSetName>CustomerGroup</DataSetName>

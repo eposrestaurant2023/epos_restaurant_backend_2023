@@ -1,0 +1,29 @@
+﻿@foreach(var b in gv.business_branch_by_role)
+{
+    if (branch_ids.Contains(b.id.ToString().ToUpper()))
+    {
+        <Label Background="@b.color">@(string.IsNullOrEmpty( b.business_branch_code)?b.business_branch_name_en:b.business_branch_code )</Label>
+    }
+}
+
+@code {
+    [Parameter] 
+    public string business_branch_ids { get; set; }
+
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+    public List<string> branch_ids
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(business_branch_ids))
+            {
+                return new();
+            }
+            return business_branch_ids.Split(',').ToList();
+        }
+    }
+
+
+}

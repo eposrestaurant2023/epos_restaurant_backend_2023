@@ -6,6 +6,7 @@
             <FileUpload @bind-ImageUrl="@model.logo" />
         </UIFlexCenter>
     </UIContainerBox>
+    <TextInput label="@lang["Code"]" @bind-text="@model.business_branch_code"/>
     <TextInput label="@lang["Name"]" @bind-text="@model.business_branch_name_en">
         <ValidationMessage For="@(()=>model.business_branch_name_en)" />
     </TextInput>

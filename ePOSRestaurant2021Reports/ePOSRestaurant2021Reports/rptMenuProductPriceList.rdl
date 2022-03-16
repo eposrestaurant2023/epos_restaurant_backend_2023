@@ -92,6 +92,9 @@
           <QueryParameter Name="@printed_by">
             <Value>=Parameters!printed_by.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@business_branch_id">
+            <Value>=Parameters!business_branch_id.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@product_category_id">
             <Value>=Parameters!product_category_id.Value</Value>
           </QueryParameter>
@@ -100,6 +103,19 @@
           </QueryParameter>
         </QueryParameters>
         <CommandText>
+--GET PRODUCT ID ONLY FOR FILTER BY BRANCH
+
+if object_id('tempdb..#tbl_product') is not null drop table #tbl_product;
+select 
+	distinct product_id 
+	into #tbl_product 
+from tbl_product_menu pm
+	inner join tbl_menu m on m.id = pm.menu_id
+	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = m.business_branch_id
+where 
+	cast(m.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(m.business_branch_id as nvarchar(50)),@business_branch_id) 
+--GET PRODUCT WITH MORE DETAIL INFORMATION 
+   
 
 --get price rule id 
 if object_id('tempdb..#tbl_price_rule') is not null drop table #tbl_price_rule
@@ -126,7 +142,9 @@ select
 	c.price_name,
 	a.price
 from tbl_product_price a
+	
 	inner join tbl_product_portion b on b.id = a.product_portion_id
+	inner join #tbl_product tp on tp.product_id = b.product_id
 	inner join tbl_price_rule c on c.id  = a.price_rule_id
 	inner join tbl_product d on d.id = b.product_id
 	inner join tbl_product_category e on e.id = d.product_category_id 

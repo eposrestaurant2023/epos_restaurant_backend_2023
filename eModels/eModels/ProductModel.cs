@@ -95,6 +95,8 @@ namespace eModels
         public bool is_open_product { get; set; } = false;
 
         private bool _is_auto_generate_code = false;
+
+        public string business_branch_ids { get; set; }
         public bool is_auto_generate_code
         {
             get { return _is_auto_generate_code; }

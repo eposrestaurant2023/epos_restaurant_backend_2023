@@ -219,6 +219,9 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                 });
             }
 
+             
+
+
             state.pager.current_page = 1;
             await LoadData();
         }

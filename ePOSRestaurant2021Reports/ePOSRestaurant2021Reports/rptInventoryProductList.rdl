@@ -108,7 +108,21 @@
             <Value>=Parameters!stock_location_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>			  
+        <CommandText>
+--GET PRODUCT ID ONLY FOR FILTER BY BRANCH
+
+if object_id('tempdb..#tbl_product') is not null drop table #tbl_product;
+select 
+	distinct product_id 
+	into #tbl_product 
+from tbl_product_menu pm
+	inner join tbl_menu m on m.id = pm.menu_id
+	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = m.business_branch_id
+where 
+	cast(m.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(m.business_branch_id as nvarchar(50)),@business_branch_id) 
+--GET PRODUCT WITH MORE DETAIL INFORMATION 
+   
+   			  
 				  		
 if object_id('tempdb..#tbl') is not null drop table #tbl
 select 
@@ -127,6 +141,7 @@ select
 	p.is_inventory_product
 	into #tbl
 from tbl_product p 
+	inner join #tbl_product tp on tp.product_id = p.id
 	inner join tbl_product_category pc on pc.id = p.product_category_id
 	inner join tbl_unit u on u.id = p.unit_id
 where 

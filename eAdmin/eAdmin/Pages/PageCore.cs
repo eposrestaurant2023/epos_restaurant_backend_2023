@@ -151,7 +151,14 @@ namespace eAdmin.Pages
                                 
                                 foreach (var i in values)
                                 {
-                                    filter_values = filter_values + a.key + " eq " + i + " or ";
+                                    if (a.filter_multiple_operator == "contains")
+                                    {
+                                        filter_values = $"{filter_values} contains({a.key}, '{i.ToUpper()}') or ";// filter_values + a.key + " eq " + i + " or ";
+                                    }
+                                    else
+                                    {
+                                        filter_values = filter_values + a.key + " eq " + i + " or ";
+                                    }
                                 }
                                 filter_values = filter_values.Substring(0, filter_values.Length - 4);
                                 filter_values = $"({filter_values})    ";

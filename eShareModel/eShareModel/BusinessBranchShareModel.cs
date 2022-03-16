@@ -28,7 +28,8 @@ namespace eShareModel
             }
         }
 
-    
+
+        public string business_branch_code { get; set; }
 
         [MaxLength(100)]
         public string business_branch_name_kh { get; set; }

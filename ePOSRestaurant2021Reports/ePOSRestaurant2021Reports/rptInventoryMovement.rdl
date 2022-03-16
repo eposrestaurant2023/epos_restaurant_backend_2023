@@ -118,6 +118,20 @@
           </QueryParameter>
         </QueryParameters>
         <CommandText>
+--GET PRODUCT ID ONLY FOR FILTER BY BRANCH
+
+if object_id('tempdb..#tbl_product') is not null drop table #tbl_product;
+select 
+	distinct product_id 
+	into #tbl_product 
+from tbl_product_menu pm
+	inner join tbl_menu m on m.id = pm.menu_id
+	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = m.business_branch_id
+where 
+	cast(m.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(m.business_branch_id as nvarchar(50)),@business_branch_id) 
+
+--GET PRODUCT WITH MORE DETAIL INFORMATION 
+
 
 if object_id('tempdb..#tbl') is not null drop table #tbl
 
@@ -139,7 +153,8 @@ select
 	cast(0.00  as decimal(16,4)) as quantity_inventory_check
 	into #tbl
 from tbl_product p
-inner join tbl_unit u on u.id = p.unit_id 
+	inner join #tbl_product tp on tp.product_id = p.id
+	inner join tbl_unit u on u.id = p.unit_id 
 where
 	p.is_inventory_product = 1  and 
 	p.is_deleted = 0 and 
@@ -158,16 +173,17 @@ select
 	sum(a.quantity) as quantity
 	into	#tbl_starting_balance
 from  tbl_inventory_transaction a
-inner join tbl_stock_location l on l.id = a.stock_location_id
-inner join fn_get_business_branch_by_role(@printed_by) b on l.business_branch_id = b.id
-inner join #tbl t on t.id = a.product_id
-where
-	cast(a.created_date as date) &lt; @start_date and 
-	cast(l.business_branch_id as nvarchar(50)) = iif(@business_branch_id= '',cast(l.business_branch_id as nvarchar(50)),@business_branch_id) and 
-	cast(a.stock_location_id as nvarchar(50)) = iif(@stock_location_id= '',cast(a.stock_location_id as nvarchar(50)),@stock_location_id)
+	
+	inner join tbl_stock_location l on l.id = a.stock_location_id
+	inner join fn_get_business_branch_by_role(@printed_by) b on l.business_branch_id = b.id
+	inner join #tbl t on t.id = a.product_id
+	where
+		cast(a.created_date as date) &lt; @start_date and 
+		cast(l.business_branch_id as nvarchar(50)) = iif(@business_branch_id= '',cast(l.business_branch_id as nvarchar(50)),@business_branch_id) and 
+		cast(a.stock_location_id as nvarchar(50)) = iif(@stock_location_id= '',cast(a.stock_location_id as nvarchar(50)),@stock_location_id)
 
-group by
-	a.product_id;
+	group by
+		a.product_id;
 
 --update starting balance
 update t
@@ -238,7 +254,9 @@ select
 		quantity_production_out + 
 		quantity_inventory_check   
 	) as quantity_on_hand
-from #tbl order by product_name_en</CommandText>
+from #tbl order by product_name_en
+   
+</CommandText>
       </Query>
       <Fields>
         <Field Name="id">
@@ -2494,7 +2512,7 @@ from #tbl order by product_name_en</CommandText>
             <Top>0.0125in</Top>
             <Left>0.0125in</Left>
             <Height>0.81029in</Height>
-            <Width>10.98751in</Width>
+            <Width>10.9875in</Width>
             <Style>
               <Border>
                 <Style>None</Style>

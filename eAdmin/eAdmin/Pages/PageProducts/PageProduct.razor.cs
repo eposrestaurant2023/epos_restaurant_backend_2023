@@ -36,6 +36,25 @@ namespace eAdmin.Pages.PageProducts
                 
                 string url = $"{controller_api}?";
                 url = url + $"$expand=product_category($select=product_category_en),unit($select=unit_name,id,unit_category_id)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+
+                //check if filter no have branch than add branch id condtion
+                if (!state.filters.Where(r => r.key == "business_branch_ids").Any())
+                {
+                    state.filters.Add(new FilterModel()
+                    {
+                        key = "business_branch_ids",
+                        value1 = gv.business_branch_ids_filter_1,
+                        filter_title = lang["Business Branch"],
+                        filter_operator = "multiple",
+                        filter_multiple_operator = "contains",
+                        state_property_name = "list_selected_values",
+                        filter_info_text = gv.business_branch_ids_filter_1,
+                        is_clear_all = true,
+                        will_remove = true,
+                        is_show_on_infor = false
+                    });
+                }
+                
                 return url + GetFilter(state.filters) + " and is_menu_product eq true";
             }
         }
@@ -209,6 +228,7 @@ namespace eAdmin.Pages.PageProducts
                     filter_title = lang["Product Group"],
                     state_property_name = "product_group",
                     filter_info_text = state.product_group.product_group_en,
+
                     is_clear_all = true,
                     will_remove = true
                 });
@@ -228,6 +248,51 @@ namespace eAdmin.Pages.PageProducts
                 });
             }
 
+            // filter business
+            string business_branch_ids = "";
+            if (state.multi_select_value_1 != null && state.multi_select_value_1.Any())
+            {
+
+                foreach (var x in state.multi_select_value_1)
+                {
+                    business_branch_ids += x + ",";
+                }
+                if (!string.IsNullOrEmpty(business_branch_ids))
+                {
+                    business_branch_ids = business_branch_ids.Substring(0, business_branch_ids.Length - 1);
+                }
+
+                state.filters.Add(new FilterModel()
+                {
+                    key = "business_branch_ids",
+                    value1 = business_branch_ids,
+                    filter_title = lang["Business Branch"],
+                    filter_operator = "multiple",
+                    filter_multiple_operator = "contains",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = business_branch_ids,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
+            else
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "business_branch_ids",
+                    value1 = gv.business_branch_ids_filter_1,
+                    filter_title = lang["Business Branch"],
+                    filter_operator = "multiple",
+                    filter_multiple_operator = "contains",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = gv.business_branch_ids_filter_1,
+                    is_clear_all = true,
+                    will_remove = true,
+                    is_show_on_infor = false
+                });
+            }
+
+
             state.pager.current_page = 1;
             await LoadData();
         }
@@ -239,6 +304,11 @@ namespace eAdmin.Pages.PageProducts
             foreach (var k in remove_key)
             {
                 state.filters.RemoveAll(r => r.key == k);
+            }
+            if (f.key == "business_branch_ids")
+            {
+                state.multi_select_id_1.Clear();
+                state.multi_select_value_1.Clear();
             }
 
             state.pager.current_page = 1;
