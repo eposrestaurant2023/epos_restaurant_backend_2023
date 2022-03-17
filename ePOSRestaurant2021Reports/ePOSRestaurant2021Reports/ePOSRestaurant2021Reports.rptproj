@@ -8,9 +8,9 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>ePOSRestaurant2021Reports</TargetReportFolder>
-    <TargetDatasetFolder>ePOSRestaurant2021Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>ePOSRestaurant2021DataSource</TargetDatasourceFolder>
+    <TargetReportFolder>568BarAndBistro/ePOSRestaurantReports</TargetReportFolder>
+    <TargetDatasetFolder>568BarAndBistro/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>568BarAndBistro/DataSource</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://win-l3prqgu0uqg:3344/ReportServer</TargetServerURL>
   </PropertyGroup>
@@ -91,6 +91,8 @@
     <Report Include="rptInventoryProductList.rdl" />
     <Report Include="rptMenuProductPriceList.rdl" />
     <Report Include="rptMonthlySaleSummary.rdl" />
+    <Report Include="rptProductBarcode.rdl" />
+    <Report Include="rptProductBarcode_Sub.rdl" />
     <Report Include="rptProductionList.rdl" />
     <Report Include="rptProductionReceiptA4.rdl" />
     <Report Include="rptProductList.rdl" />
