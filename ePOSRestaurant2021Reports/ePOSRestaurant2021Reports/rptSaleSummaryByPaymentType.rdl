@@ -89,6 +89,9 @@
       <Query>
         <DataSourceName>Datasource</DataSourceName>
         <QueryParameters>
+          <QueryParameter Name="@printed_by">
+            <Value>=Parameters!printed_by.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@start_date">
             <Value>=Parameters!start_date.Value</Value>
           </QueryParameter>
@@ -109,6 +112,7 @@
           </QueryParameter>
         </QueryParameters>
         <CommandText>
+
 select 
 	s.working_date,
 	p.payment_type_name_en,
@@ -118,6 +122,7 @@ select
 	sum(p.payment_amount/p.exchange_rate) as base_payment_amount
 from tbl_sale_payment p
 inner join tbl_sale s on s.id = p.sale_id
+inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
 left join tbl_customer c on c.id = s.customer_id 
 where
 	s.is_deleted = 0 and 
@@ -130,8 +135,7 @@ where
 group by
 	s.working_date,
 	p.payment_type_name_en,
-	p.currency_format
-</CommandText>
+	p.currency_format</CommandText>
       </Query>
       <Fields>
         <Field Name="payment_type_name_en">
@@ -2391,7 +2395,7 @@ group by
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
-      <NumberOfColumns>3</NumberOfColumns>
+      <NumberOfColumns>2</NumberOfColumns>
       <NumberOfRows>5</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
