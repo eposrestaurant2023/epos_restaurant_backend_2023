@@ -77,6 +77,7 @@ namespace eAdmin.Pages.PageProjects
             model.is_saving = true;
             ProjectModel save_model = JsonSerializer.Deserialize<ProjectModel>(JsonSerializer.Serialize(model));
             save_model.customer = null;
+            save_model.project_type = null;
       
             var res = await http.ApiPost($"project/save", save_model);
             if (res.IsSuccess)

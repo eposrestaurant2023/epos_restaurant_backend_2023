@@ -15,8 +15,9 @@ namespace eAdmin.Pages.PageEknowledgeBase
         [Parameter] public string parent_id { get; set; }
         public Dictionary<string, object> editorConf = new Dictionary<string, object>{
         {"menubar", false},
-        { "plugins", "link image code advlist" },
-        {"toolbar", "undo redo | styleselect | forecolor | bold italic | alignleft aligncenter alignright alignjustify link | default" }
+        {"plugins", "link image code lists advlist" },
+        {"toolbar", "undo redo | styleselect | forecolor | bold italic | alignleft aligncenter alignright alignjustify link | default | numlist bullist"},
+        {"advlist_number_styles", "default lower-alpha lower-greek lower-roman upper-alpha upper-roman"}
        
   
         };

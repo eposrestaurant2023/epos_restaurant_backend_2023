@@ -149,7 +149,7 @@ where
 	p.status = 1 and 
 	p.is_menu_product = 1 and 
 	p.product_category_id = iif(@product_category_id = 0, p.product_category_id, @product_category_id) and 
-	pc.product_group_id= iif(@product_group_id= 0, p.product_group_id, @product_group_id) 
+	pc.product_group_id= iif(@product_group_id= 0, pc.product_group_id, @product_group_id) 
 
 --remove some product filter
 --1 option_id = 1 show stock_product

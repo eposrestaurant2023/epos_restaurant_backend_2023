@@ -27,10 +27,6 @@
 	  <PackageReference Include="TinyMCE.Blazor" Version="0.0.9" />
 	 
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\eModels\eModels\eModels.csproj" />
-  </ItemGroup>
  
 
   <ItemGroup>
@@ -41,6 +37,11 @@
   <ItemGroup>
     <Folder Include="Helpers\" />
     <Folder Include="Services\" />
+  </ItemGroup>
+ 
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\eModels\eModels\eModels.csproj" />
   </ItemGroup>
 
 </Project>

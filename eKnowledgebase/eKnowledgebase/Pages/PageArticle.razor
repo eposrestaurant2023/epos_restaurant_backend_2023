@@ -18,7 +18,7 @@
     }
 </MudDrawer>
 
-<MudContainer MaxWidth="MaxWidth.Large">
+<MudContainer MaxWidth="MaxWidth.Large" Class="cus_a">
     @if (is_loading)
     {
         <div>loading...</div>
@@ -54,16 +54,8 @@
             @if (state.GetDescriptText(model) != "")
             {
                 <Spacing Number="5"/>
-                <div> @((MarkupString)state.GetDescriptText(model))</div>
+                <div class="cus_list"> @((MarkupString)state.GetDescriptText(model))</div>
             }
-
-           @foreach (var d in models.OrderBy(r => r.sort_order))
-            {
-                <div @onclick="@(()=> nav.NavigateTo($"article/{d.id}"))" class="title_aticle">
-                    @state.GetTitleText(d)
-                </div>
-            }
-
                       @foreach (var d in models.OrderBy(r => r.sort_order))
         {
             
@@ -81,7 +73,7 @@
                 @if (state.GetDescriptText(d) != "")
                 {
                     <Spacing Number="5"/>
-                    <div>
+                    <div class="cus_list">
                         @((MarkupString)state.GetDescriptText(d))
                     </div>
                 }
@@ -131,17 +123,11 @@
             <Spacing Number="10"/>
             @if (state.GetDescriptText(model) != "")
             {
-                <div> @((MarkupString)state.GetDescriptText(model))</div>
+                <div class="cus_list"> @((MarkupString)state.GetDescriptText(model))</div>
             }
 
-           @foreach (var d in models.OrderBy(r => r.sort_order))
-            {
-                <div @onclick="@(()=> nav.NavigateTo($"article/{d.id}"))" class="title_aticle">
-                    @state.GetTitleText(d)
-                </div>
-            }
 
-                      @foreach (var d in models.OrderBy(r => r.sort_order))
+            @foreach (var d in models.OrderBy(r => r.sort_order))
         {
            
                 @if (state.GetTitleText(d) != "")
@@ -157,7 +143,7 @@
                 <Spacing Number="10"/>
                 @if (state.GetDescriptText(d) != "")
                 {
-                    <div>
+                    <div class="cus_list">
                         @((MarkupString)state.GetDescriptText(d))
                     </div>
                 }

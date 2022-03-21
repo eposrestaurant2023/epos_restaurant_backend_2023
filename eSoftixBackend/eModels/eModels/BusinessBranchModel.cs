@@ -21,7 +21,7 @@ namespace eModels
         [ForeignKey("project_id")]
         public ProjectModel Project { get; set; }
 
-        public DateTime? start_date { get; set; } = DateTime.Now.AddMonths(1);
+        public DateTime? start_date { get; set; } = DateTime.Now;
         public DateTime? expired_date { get; set; } = DateTime.Now.AddMonths(1);
 
         public List<OutletModel>  outlets { get; set; }
