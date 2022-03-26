@@ -401,7 +401,6 @@ namespace eModels
                     if (d.Any())
                     {
                         id = d.FirstOrDefault().id;
-                    Console.WriteLine(id);
                     }
                 }
 
