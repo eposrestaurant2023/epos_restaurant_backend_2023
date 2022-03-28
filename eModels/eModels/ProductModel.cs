@@ -154,6 +154,8 @@ namespace eModels
         public decimal min_price { get; set; }
         public decimal max_price { get; set; }
 
+        public bool allow_append_quantity { get;  set; } = true;
+
         public bool is_product_has_inventory_transaction { get; set; } = false;
 
         [NotMapped, JsonPropertyName("product_menus@odata.count")]

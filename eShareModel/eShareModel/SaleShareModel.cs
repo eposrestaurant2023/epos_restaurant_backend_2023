@@ -129,6 +129,7 @@ namespace eShareModel
         public string check_in_by  { get; set; }
         public string check_out_by  { get; set; }
         public DateTime? check_out_date  { get; set; }
+        public bool? is_checked_out { get; set; }
 
 
     }
