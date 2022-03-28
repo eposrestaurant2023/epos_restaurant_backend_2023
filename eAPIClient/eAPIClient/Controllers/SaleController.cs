@@ -345,6 +345,23 @@ namespace eAPIClient.Controllers
             }
             return Ok();
         }
+        [HttpPost]
+        [Route("UpdateGuestCover/{id}/{guest_cover}")]
+        public async Task<ActionResult> PrintRequestBill(Guid id, int guest_cover)
+        {
+            var _sale = db.Sales.Where(r => r.id == id);
+            if (_sale.Any())
+            {
+                SaleModel s = _sale.FirstOrDefault();
+                s.is_synced = false;
+                s.guest_cover = guest_cover;
+                db.Sales.Update(s);
+                await db.SaveChangesAsync();
+            }
+            sync.sendSyncRequest();
+
+            return Ok();
+        }
 
 
 
