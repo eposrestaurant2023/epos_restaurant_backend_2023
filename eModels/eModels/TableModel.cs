@@ -28,6 +28,7 @@ namespace eModels
         public int sort_order { get; set; }  
  
         public string shape { get; set; } = "Rectangle";
+        public bool require_check_in { get; set; } = false;
 
 
 

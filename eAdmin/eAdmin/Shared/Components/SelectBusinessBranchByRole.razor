@@ -65,6 +65,10 @@
         {
             get
             {
+                if (gv.business_branch_by_role.Count() == 1)
+                {
+                    return gv.business_branch_by_role.FirstOrDefault().id;
+                }
                 return business_branch == null ? selected_value : business_branch.id;
 
             }

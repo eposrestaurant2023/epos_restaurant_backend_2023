@@ -124,6 +124,12 @@ namespace eShareModel
         public Guid? park_sale_id { get; set; }
         public Guid? redeem_park_sale_id { get; set; }
 
+        // Check In Check out
+        public DateTime? check_in_date  { get; set; }
+        public string check_in_by  { get; set; }
+        public string check_out_by  { get; set; }
+        public DateTime? check_out_date  { get; set; }
+
 
     }
 }

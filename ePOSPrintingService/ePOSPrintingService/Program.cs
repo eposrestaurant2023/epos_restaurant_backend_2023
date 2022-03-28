@@ -183,9 +183,11 @@ namespace ePOSPrintingService
         }
         public static void Export(LocalReport report, decimal page_width, decimal page_height, decimal margin_top, decimal margin_left, decimal margin_right, decimal margin_buttom)
         {
-            string deviceInfo = "";
-            deviceInfo = string.Format(
-            @"<DeviceInfo>
+            try
+            {
+                string deviceInfo = "";
+                deviceInfo = string.Format(
+                @"<DeviceInfo>
                 <OutputFormat>emf</OutputFormat>
                 <PageWidth>{0}in</PageWidth>
                 <PageHeight>{1}in</PageHeight>
@@ -195,12 +197,16 @@ namespace ePOSPrintingService
                 <MarginBottom>{5}in</MarginBottom>
             </DeviceInfo>", page_width, page_height, margin_top, margin_left, margin_right, margin_buttom);
 
-            Warning[] warnings;
-            m_streams = new List<Stream>();
-            report.Render("Image", deviceInfo, CreateStream,
-               out warnings);
-            foreach (Stream stream in m_streams)
-                stream.Position = 0;
+                Warning[] warnings;
+                m_streams = new List<Stream>();
+                report.Render("Image", deviceInfo, CreateStream,
+                   out warnings);
+                foreach (Stream stream in m_streams)
+                    stream.Position = 0;
+            }catch(Exception ex)
+            {
+                WriteToFile(ex.ToString());
+            }
         }
         public static void SendTelegramAlert(LocalReport report, string caption )
         {
@@ -453,7 +459,7 @@ namespace ePOSPrintingService
                     switch (p.group_item_type_id)
                     {
                         case 1: //print all item in 1 document
-                            ProcessPrintKitchenOrder(p.printer_name, receipt, sale_data, CreateDataTable(sale_products.Where(r => r.printer_name == p.printer_name)), 1);
+                            ProcessPrintKitchenOrder(p.printer_name, receipt, sale_data, CreateDataTable(sale_products.Where(r => r.printer_name == p.printer_name)), receipt.number_invoice_copies);
                             break;
                         case 2: //print all item in 1 document
                             foreach (var d in sale_products.Where(r => r.printer_name == p.printer_name))

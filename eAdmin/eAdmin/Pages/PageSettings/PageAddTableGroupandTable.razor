@@ -78,6 +78,18 @@
                                     <th>@lang["Shape"]</th>
                                     <th>@lang["Price Rule"]</th>
                                     <Th>@lang["Sale Type"]</Th>
+                                    @if(id > 0){
+                                         <Th>@lang["Require Check In"]</Th>
+                                    }else{
+
+                                        @if (gv.business_branch_has_feature(business_branch_id,"CHIO"))
+                                        {
+                                            <Th>@lang["Require Check In"]</Th>
+       
+                                        }
+                                    }
+                                    
+                                    
                                     <ThCenter>@lang["Sort Order"]</ThCenter>
                                     <Th></Th>
                                 </tr>
@@ -98,12 +110,28 @@
                                     <Th>
                                         <SelectSaleType @bind-selected_value="@sale_type" show_empty="true" width="100px" is_horizontal="false" is_inline="true"/>
                                     </Th>
+                                    @if(id > 0){
+                                        
+                                             <Th>
+                                                <ComInputCheckBox @bind-value="require_check_in"/>
+                                           </Th>
+                                        
+                                    }
+                                    else
+                                    {
+                                        @if (gv.business_branch_has_feature(business_branch_id,"CHIO"))
+                                        {
+                                             <Th>
+                                                <ComInputCheckBox @bind-value="require_check_in"/>
+                                            </Th>
+                                        }
+                                    }
+                                    
                                     <Th></Th>
                                     <th></th>
                                 </tr>
                                 @foreach (var s in model.tables.Where(r => r.is_deleted == false).OrderBy(r=>r.sort_order).ToList())
                                 {
-
                                     <tr>
                                         <td>
                                             <TextInput label="" @bind-text="@s.table_name" />
@@ -123,6 +151,23 @@
                                         <td>
                                             <SelectSaleType @bind-selected_value="@s.sale_type" is_horizontal="false" width="50px" is_inline="true" show_empty="true" />
                                         </td>
+                                        @if(id > 0){
+                                            <td>
+                                                <ComInputCheckBox @bind-value="s.require_check_in"/>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            @if (gv.business_branch_has_feature(business_branch_id,"CHIO"))
+                                            {
+                                                <td>
+                                                    <ComInputCheckBox @bind-value="s.require_check_in"/>
+                                                </td>
+                                            }
+                                        }
+                                        
+
+                                            
                                         <TdCenter>
                                             <NumberInputInt @bind-text="@s.sort_order"/>
                                         </TdCenter>
@@ -208,6 +253,18 @@
         }
     }
 
+    private bool _require_check_in;
+
+    public bool require_check_in
+    {
+        get { return _require_check_in; }
+        set
+        {
+            _require_check_in = value;
+            model.tables.ForEach(r => r.require_check_in = _require_check_in);
+        }
+    }
+
 
     private string? _shape = "Rectangle";
 
@@ -249,7 +306,6 @@
         if (resp.IsSuccess)
         {
             model = JsonSerializer.Deserialize<TableGroupModel>(resp.Content.ToString());
-            Console.WriteLine(JsonSerializer.Serialize(model.tables));
             business_branch = model.outlet.business_branch;
 
         }
@@ -273,12 +329,9 @@
             
           
             save_table_group.outlet = null;
-            Console.WriteLine(JsonSerializer.Serialize(save_table_group));
             var res = await http.ApiPost($"{ControllerApi}/save", save_table_group);
             if (res.IsSuccess)
             {
-                 
-
                 toast.Add(lang["Saving successfully"], MudBlazor.Severity.Success);
                 nav.NavigateTo($"tablegroupandtable");
             }

@@ -78,11 +78,11 @@ namespace ePOSPrintingService
         {
             try
             {  
+
                 Thread.Sleep(250);
                 string file_path = e.FullPath;
                 if (File.Exists(file_path))
-                {
-
+                {  
                     ActionModel action = new ActionModel();
                     using (Stream f = new FileStream(file_path,
                                      FileMode.Open,
@@ -94,8 +94,7 @@ namespace ePOSPrintingService
                         if (json != "")
                         {
                             action = JsonConvert.DeserializeObject<ActionModel>(json);
-                        }
-
+                        } 
 
                         switch (action.action)
                         {
