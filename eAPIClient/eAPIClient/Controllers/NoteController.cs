@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using eAPIClient.Models;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;      
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace eAPIClient.Controllers
 {
@@ -66,6 +67,32 @@ namespace eAPIClient.Controllers
             catch (Exception ex)
             {
                 return BadRequest();
+            }
+        }
+        [HttpPost("delete")]
+        [Authorize]
+        public async Task<ActionResult<string>> Delete([FromBody] string ids) {
+            //
+            try {
+
+                string[] val = ids.Split(',');
+                string _data = "";
+                 
+                foreach(var a in val)
+                {
+                    _data += $"'{a}',";
+                }
+                if (_data != "")
+                {
+                    _data = _data.Substring(0, _data.Length - 1);
+                }       
+                string _query = $"delete tbl_note where is_predefine_note = 0 and id in ({_data})";   
+                db.Database.ExecuteSqlRaw(_query); 
+                return Ok();
+
+            }catch(Exception ex)
+            {
+                return BadRequest(ex);
             }
         }
     }
