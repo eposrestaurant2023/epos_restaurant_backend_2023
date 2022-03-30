@@ -71,11 +71,11 @@ namespace eAPIClient.Controllers
         }
         [HttpPost("delete")]
         [Authorize]
-        public async Task<ActionResult<string>> Delete([FromBody] string ids) {
+        public async Task<ActionResult<string>> Delete([FromBody] NoteId noteId) {
             //
             try {
 
-                string[] val = ids.Split(',');
+                string[] val = noteId.ids.Split(',');
                 string _data = "";
                  
                 foreach(var a in val)
@@ -95,6 +95,12 @@ namespace eAPIClient.Controllers
                 return BadRequest(ex);
             }
         }
+
+
+    }
+    public class NoteId
+    {
+        public string ids { get; set; }
     }
 
 }
