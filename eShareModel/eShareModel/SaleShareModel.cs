@@ -131,6 +131,8 @@ namespace eShareModel
         public DateTime? check_out_date  { get; set; }
         public bool? is_checked_out { get; set; }
 
+        public string kitchen_message_text { get; set; }
+
 
     }
 }
