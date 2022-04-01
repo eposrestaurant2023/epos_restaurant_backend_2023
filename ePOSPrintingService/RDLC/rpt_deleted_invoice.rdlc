@@ -791,7 +791,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=format(Fields!quantity.Value,"0.##")</Value>
+                              <Value>=iif(Fields!is_time_charge.Value=true,Floor(Fields!quantity.Value)+" : "+(Ceiling((Fields!quantity.Value-Floor(Fields!quantity.Value))*Fields!multiplier.Value))+"min",format(Fields!quantity.Value,"0.##"))</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1883,6 +1883,22 @@
           <DataField>is_free</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
+        <Field Name="is_park">
+          <DataField>is_park</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="is_redeem_park">
+          <DataField>is_redeem_park</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="is_time_charge">
+          <DataField>is_time_charge</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="multiplier">
+          <DataField>multiplier</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="net_sale">
           <DataField>net_sale</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
@@ -1890,6 +1906,18 @@
         <Field Name="note">
           <DataField>note</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="park_expired_date">
+          <DataField>park_expired_date</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="park_note">
+          <DataField>park_note</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="park_sale_product_id">
+          <DataField>park_sale_product_id</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="portion_name">
           <DataField>portion_name</DataField>
@@ -1939,6 +1967,10 @@
           <DataField>quantity</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="redeem_sale_product_id">
+          <DataField>redeem_sale_product_id</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
         <Field Name="revenue_group_name">
           <DataField>revenue_group_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -1958,6 +1990,10 @@
         <Field Name="sale_product_modifier_name">
           <DataField>sale_product_modifier_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="sort_order">
+          <DataField>sort_order</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="sub_total">
           <DataField>sub_total</DataField>

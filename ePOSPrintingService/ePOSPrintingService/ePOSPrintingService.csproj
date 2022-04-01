@@ -144,6 +144,7 @@
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.CloseWorkingDaySummaryDataModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.DynamicDataModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.GrandTotalModel.datasource" />
+    <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.KitchenMessageModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.SaleModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.SalePaymentChangeModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.SalePaymentModel.datasource" />

@@ -45,8 +45,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>1pt</PaddingTop>
-                        <PaddingBottom>1pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -81,8 +81,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>1pt</PaddingTop>
-                        <PaddingBottom>1pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -489,7 +489,11 @@
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=Fields!sub_total.Value=Fields!total_amount.Value</Hidden>
+              </Visibility>
+            </TablixMember>
             <TablixMember>
               <Visibility>
                 <Hidden>=iif(Fields!total_discount_amount.Value&gt;0,false,true)</Hidden>
@@ -513,7 +517,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Sale</DataSetName>
-        <Top>3.91019in</Top>
+        <Top>3.84769in</Top>
         <Left>0.00626in</Left>
         <Height>1.13542in</Height>
         <Width>2.77083in</Width>
@@ -589,7 +593,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>No : </Value>
+                              <Value>No: </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -631,7 +635,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>ទីតាំងអតិថិជន :</Value>
+                              <Value>ទីតាំងអតិ.:</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -687,7 +691,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value> : </Value>
+                              <Value>: </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -735,7 +739,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value> : </Value>
+                              <Value>: </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -790,7 +794,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value> : </Value>
+                              <Value>: </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -838,7 +842,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>អតិថិជន : </Value>
+                              <Value>អតិ.: </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -896,7 +900,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Sale</DataSetName>
-        <Top>1.48723in</Top>
+        <Top>1.43723in</Top>
         <Left>0.01249in</Left>
         <Height>1.23408in</Height>
         <Width>2.77084in</Width>
@@ -912,10 +916,10 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.47736in</Width>
+              <Width>1.3982in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.34528in</Width>
+              <Width>0.40779in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.48861in</Width>
@@ -930,7 +934,7 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox1">
+                    <Textbox Name="Textbox8">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -940,7 +944,7 @@
                               <Value>ទំនិញ</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>7.5pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -949,7 +953,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox1</rd:DefaultName>
+                      <rd:DefaultName>Textbox8</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -974,10 +978,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>ចំនួន</Value>
+                              <Value>ចំ.</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>7.5pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1014,7 +1018,7 @@
                               <Value>តម្លៃ</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1051,7 +1055,7 @@
                               <Value>សរុប</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1083,45 +1087,45 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox3">
+                    <Textbox Name="product_name_en">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!product_name_en.Value</Value>
+                              <Value>=Fields!product_name_kh.Value</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>9pt</FontSize>
+                                <FontSize>8.5pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value xml:space="preserve"> </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>9pt</FontSize>
+                                <FontSize>8.5pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=iif(Fields!portion_name.Value="Normal","","(" + Fields!portion_name.Value + ")" )</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>9pt</FontSize>
+                                <FontSize>8.5pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value xml:space="preserve"> </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>9pt</FontSize>
+                                <FontSize>8.5pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=iif(Fields!is_free.Value=false,"","-FREE" )</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>9pt</FontSize>
+                                <FontSize>8.5pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1130,7 +1134,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox3</rd:DefaultName>
+                      <rd:DefaultName>product_name_en</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1154,7 +1158,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=format(Fields!quantity.Value,"0.##")</Value>
+                              <Value>=iif(Fields!is_time_charge.Value=true,Floor(Fields!quantity.Value) &amp; " : " &amp; format( CInt((Fields!quantity.Value - Floor(Fields!quantity.Value))*Fields!multiplier.Value),"00") &amp;" min",format(Fields!quantity.Value,"0.##"))</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -1305,14 +1309,14 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox6">
+                    <Textbox Name="Textbox14">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>បញ្ចុះតម្លៃ </Value>
+                              <Value>Disc. </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -1320,7 +1324,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>==iif(Fields!sale_product_discount_type.Value ="Percent","(" + format(Fields!sale_product_discount_value.Value,"0.##")  + " %)","")</Value>
+                              <Value>=iif(Fields!sale_product_discount_type.Value ="Percent","(" + format(Fields!sale_product_discount_value.Value,"0.##")  + " %)","")</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -1328,7 +1332,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>:</Value>
+                              <Value>: </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -1350,7 +1354,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox6</rd:DefaultName>
+                      <rd:DefaultName>Textbox14</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1375,14 +1379,14 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox7">
+                    <Textbox Name="Textbox17">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Note : [note]</Value>
+                              <Value>Note: [note]</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontFamily>Kh System</FontFamily>
@@ -1395,7 +1399,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox7</rd:DefaultName>
+                      <rd:DefaultName>Textbox17</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1454,10 +1458,10 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SaleProduct</DataSetName>
-        <Top>2.76852in</Top>
+        <Top>2.70602in</Top>
         <Left>0.01249in</Left>
         <Height>1.04168in</Height>
-        <Width>2.77708in</Width>
+        <Width>2.76043in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -1466,7 +1470,7 @@
         </Style>
       </Tablix>
       <Line Name="Line1">
-        <Top>3.86227in</Top>
+        <Top>3.79977in</Top>
         <Left>2.77416in</Left>
         <Height>0in</Height>
         <Width>-2.76584in</Width>
@@ -1479,7 +1483,7 @@
         </Style>
       </Line>
       <Line Name="Line2">
-        <Top>3.88889in</Top>
+        <Top>3.82639in</Top>
         <Left>2.76999in</Left>
         <Height>0in</Height>
         <Width>-2.76582in</Width>
@@ -1529,7 +1533,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!name_en.Value</Value>
+                              <Value>=Fields!name_kh.Value</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontWeight>Bold</FontWeight>
@@ -1617,7 +1621,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>GrandTotal</DataSetName>
-        <Top>5.07583in</Top>
+        <Top>5.01333in</Top>
         <Left>0.01249in</Left>
         <Height>0.25in</Height>
         <Width>2.76043in</Width>
@@ -1625,6 +1629,179 @@
         <Style>
           <Border>
             <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Tablix>
+      <Tablix Name="Tablix8">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>2.76167in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.15625in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox74">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Wifi: </Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Normal</FontWeight>
+                                <TextDecoration>None</TextDecoration>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=First(Fields!wifi_password.Value, "Setting")</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Normal</FontWeight>
+                                <TextDecoration>None</TextDecoration>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox74</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.16667in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="footer_kh">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!footer_kh.Value</Value>
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Normal</FontWeight>
+                                <TextDecoration>None</TextDecoration>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>footer_kh</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.20833in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox30">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Powered By : ePOS </Value>
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>7.5pt</FontSize>
+                                <FontWeight>Normal</FontWeight>
+                                <TextDecoration>None</TextDecoration>
+                                <Color>Gray</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox30</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=Fields!wifi_password.Value=""</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>Setting</DataSetName>
+        <Top>5.322in</Top>
+        <Height>0.53125in</Height>
+        <Width>2.76167in</Width>
+        <ZIndex>6</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
           </Border>
         </Style>
       </Tablix>
@@ -1775,19 +1952,12 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="address_en">
+                    <Textbox Name="address_kh">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
-                            <TextRun>
-                              <Value xml:space="preserve"> </Value>
-                              <Style>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
-                              </Style>
-                            </TextRun>
                             <TextRun>
                               <Value>=Fields!address_kh.Value</Value>
                               <Style>
@@ -1801,7 +1971,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>address_en</rd:DefaultName>
+                      <rd:DefaultName>address_kh</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1829,13 +1999,6 @@
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
-                            <TextRun>
-                              <Value xml:space="preserve"> </Value>
-                              <Style>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>8pt</FontSize>
-                              </Style>
-                            </TextRun>
                             <TextRun>
                               <Value>=Fields!phone_1.Value</Value>
                               <Style>
@@ -2012,184 +2175,9 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Setting</DataSetName>
-        <Top>0.0375in</Top>
-        <Left>0.00979in</Left>
+        <Top>0.025in</Top>
         <Height>1.39458in</Height>
         <Width>2.76999in</Width>
-        <ZIndex>6</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-        </Style>
-      </Tablix>
-      <Tablix Name="Tablix8">
-        <TablixBody>
-          <TablixColumns>
-            <TablixColumn>
-              <Width>2.76167in</Width>
-            </TablixColumn>
-          </TablixColumns>
-          <TablixRows>
-            <TablixRow>
-              <Height>0.15625in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox74">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Wifi: </Value>
-                              <Style>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Normal</FontWeight>
-                                <TextDecoration>None</TextDecoration>
-                              </Style>
-                            </TextRun>
-                            <TextRun>
-                              <Value>=First(Fields!wifi_password.Value, "Setting")</Value>
-                              <Style>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Normal</FontWeight>
-                                <TextDecoration>None</TextDecoration>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox74</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>0.25pt</PaddingTop>
-                        <PaddingBottom>0.25pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-              </TablixCells>
-            </TablixRow>
-            <TablixRow>
-              <Height>0.16667in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="footer_en">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!footer_en.Value</Value>
-                              <Style>
-                                <FontStyle>Italic</FontStyle>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Normal</FontWeight>
-                                <TextDecoration>None</TextDecoration>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>footer_en</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>0.25pt</PaddingTop>
-                        <PaddingBottom>0.25pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-              </TablixCells>
-            </TablixRow>
-            <TablixRow>
-              <Height>0.20833in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox30">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Powered By : ePOS Restaurant</Value>
-                              <Style>
-                                <FontStyle>Italic</FontStyle>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>7.5pt</FontSize>
-                                <FontWeight>Normal</FontWeight>
-                                <TextDecoration>None</TextDecoration>
-                                <Color>Gray</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox30</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-              </TablixCells>
-            </TablixRow>
-          </TablixRows>
-        </TablixBody>
-        <TablixColumnHierarchy>
-          <TablixMembers>
-            <TablixMember />
-          </TablixMembers>
-        </TablixColumnHierarchy>
-        <TablixRowHierarchy>
-          <TablixMembers>
-            <TablixMember>
-              <Visibility>
-                <Hidden>=Fields!wifi_password.Value=""</Hidden>
-              </Visibility>
-            </TablixMember>
-            <TablixMember />
-            <TablixMember />
-          </TablixMembers>
-        </TablixRowHierarchy>
-        <DataSetName>Setting</DataSetName>
-        <Top>5.39144in</Top>
-        <Left>0.01395in</Left>
-        <Height>0.53125in</Height>
-        <Width>2.76167in</Width>
         <ZIndex>7</ZIndex>
         <Style>
           <Border>
@@ -2198,7 +2186,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>5.92269in</Height>
+    <Height>5.85325in</Height>
     <Style />
   </Body>
   <Width>2.78957in</Width>
@@ -2322,12 +2310,20 @@
           <DataField>is_paid</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
+        <Field Name="is_park">
+          <DataField>is_park</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
         <Field Name="is_partially_paid">
           <DataField>is_partially_paid</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
         <Field Name="is_print_invoice">
           <DataField>is_print_invoice</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="is_redeem_park">
+          <DataField>is_redeem_park</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
         <Field Name="is_reprint_receipt">
@@ -2374,9 +2370,17 @@
           <DataField>paid_amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="park_sale_id">
+          <DataField>park_sale_id</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
         <Field Name="phone_number">
           <DataField>phone_number</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="redeem_park_sale_id">
+          <DataField>redeem_park_sale_id</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="rounding_amount">
           <DataField>rounding_amount</DataField>
@@ -2535,6 +2539,22 @@
           <DataField>is_free</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
+        <Field Name="is_park">
+          <DataField>is_park</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="is_redeem_park">
+          <DataField>is_redeem_park</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="is_time_charge">
+          <DataField>is_time_charge</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="multiplier">
+          <DataField>multiplier</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="net_sale">
           <DataField>net_sale</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
@@ -2542,6 +2562,18 @@
         <Field Name="note">
           <DataField>note</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="park_expired_date">
+          <DataField>park_expired_date</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="park_note">
+          <DataField>park_note</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="park_sale_product_id">
+          <DataField>park_sale_product_id</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="portion_name">
           <DataField>portion_name</DataField>
@@ -2591,6 +2623,10 @@
           <DataField>quantity</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="redeem_sale_product_id">
+          <DataField>redeem_sale_product_id</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
         <Field Name="revenue_group_name">
           <DataField>revenue_group_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -2610,6 +2646,10 @@
         <Field Name="sale_product_modifier_name">
           <DataField>sale_product_modifier_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="sort_order">
+          <DataField>sort_order</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="sub_total">
           <DataField>sub_total</DataField>

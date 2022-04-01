@@ -19,5 +19,10 @@ namespace ePOSPrintingService.Models
 
         public bool is_reprint { get; set; } = false;
 
+        public string data { get; set; }
+
     }
+
+    
+         
 }

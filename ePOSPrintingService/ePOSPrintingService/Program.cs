@@ -34,7 +34,7 @@ namespace ePOSPrintingService
             if (LoadSetting())
             {
 #if DEBUG
-                 
+
                 ePOSPrintingService myService = new ePOSPrintingService();
                 myService.OnDebug();
                 System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
@@ -67,10 +67,10 @@ namespace ePOSPrintingService
 
                 translate_caches = new List<TranslateCacheModel>();
 
-               GetTranslateText("en");
-                 GetTranslateText("kh");
+                GetTranslateText("en");
+                GetTranslateText("kh");
 
-             
+
                 isLoaded = true;
             }
             catch (Exception ex)
@@ -137,12 +137,12 @@ namespace ePOSPrintingService
         public static string LabelPrinterName { get; set; }
         public static string CashierPrinter { get; set; }
         public static List<ReceiptListModel> ReceiptLists { get; set; }
-        public static TelegramSettingModel  telegram_setting { get; set; }
+        public static TelegramSettingModel telegram_setting { get; set; }
         public static LabelPageSetupModel LabelPageSetup { get; set; }
         public static bool IsPrintSuccess { get; set; }
 
 
-        public static  List<TranslateCacheModel> translate_caches { get; set; } 
+        public static List<TranslateCacheModel> translate_caches { get; set; }
 
 
         public static DataTable CreateDataTable<T>(IEnumerable<T> list)
@@ -203,12 +203,12 @@ namespace ePOSPrintingService
                    out warnings);
                 foreach (Stream stream in m_streams)
                     stream.Position = 0;
-            }catch(Exception ex)
+            } catch (Exception ex)
             {
                 WriteToFile(ex.ToString());
             }
         }
-        public static void SendTelegramAlert(LocalReport report, string caption )
+        public static void SendTelegramAlert(LocalReport report, string caption)
         {
             try
             {
@@ -259,7 +259,7 @@ namespace ePOSPrintingService
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 WriteToFile(ex.Message);
             }
@@ -277,9 +277,9 @@ namespace ePOSPrintingService
 
             ev.Graphics.FillRectangle(Brushes.White, adjustedRect);
             ev.Graphics.DrawImage(pageImage, adjustedRect);
-            
-           
-       
+
+
+
 
             m_currentPageIndex++;
             ev.HasMorePages = (m_currentPageIndex < m_streams.Count);
@@ -401,10 +401,10 @@ namespace ePOSPrintingService
                       new RectangleF(leftmost, topmost, croppedWidth, croppedHeight),
                       GraphicsUnit.Pixel);
                 }
-                string file_name = Guid.NewGuid() + ".jpg"; 
+                string file_name = Guid.NewGuid() + ".jpg";
                 target.Save(telegram_setting.image_path + file_name);
                 return file_name;
-                 
+
             }
             catch (Exception ex)
             {
@@ -416,6 +416,46 @@ namespace ePOSPrintingService
         }
 
         // ============End Print Receipt ==========================
+
+        public static void PrintKitchenMessage(string _data)
+        {
+            try
+            {
+                ReceiptListModel receipt = new ReceiptListModel();
+                receipt = ReceiptLists.Where(r => r.ReceiptName.ToLower() == "Kitchen Message".ToLower()).FirstOrDefault();
+
+                //sale data
+                DataTable data = new DataTable();
+                List<KitchenMessageModel> values = new List<KitchenMessageModel>();
+                var _value = JsonConvert.DeserializeObject<KitchenMessageModel>(_data);
+                values.Add(_value);
+                data = CreateDataTable(values);
+
+                LocalReport report = new LocalReport();
+                report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
+                report.DataSources.Add(new ReportDataSource("Data", data));
+
+                Export(report,
+                     receipt.PageWidth,
+                     receipt.PageHeight,
+                     receipt.MarginTop,
+                     receipt.MarginLeft,
+                     receipt.MarginRight,
+                     receipt.MarginBottom
+                     );
+                foreach (var p in _value.printer_names.Split(','))
+                {
+                    Print(p);
+                } 
+                IsPrintSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                //
+                IsPrintSuccess = false;
+                WriteToFile(ex.Message);
+            }
+        }
 
         public static void PrintKitchenOrder(string sale_id)
         {
@@ -433,9 +473,8 @@ namespace ePOSPrintingService
                     return;
                 }
 
-
                 ReceiptListModel receipt = new ReceiptListModel();
-                receipt = ReceiptLists.Where(r => r.ReceiptName == "Kitchen Order").FirstOrDefault();
+                receipt = ReceiptLists.Where(r => r.ReceiptName.ToLower() == "Kitchen Order".ToLower()).FirstOrDefault();
                
 
                 //sale data
