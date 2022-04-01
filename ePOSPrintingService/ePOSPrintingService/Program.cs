@@ -431,8 +431,8 @@ namespace ePOSPrintingService
                 data = CreateDataTable(values);
 
                
-                          ReceiptListModel receipt = new ReceiptListModel();
-                    receipt = ReceiptLists.Where(r => r.ReceiptName.ToLower() == "Kitchen Message".ToLower()).FirstOrDefault();
+                ReceiptListModel receipt = new ReceiptListModel();
+                receipt = ReceiptLists.Where(r => r.ReceiptName.ToLower() == "Kitchen Message".ToLower()).FirstOrDefault();
                
                 foreach (var p in _value.printer_names.Split(','))
                 {
