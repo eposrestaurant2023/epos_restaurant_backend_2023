@@ -421,8 +421,7 @@ namespace ePOSPrintingService
         {
             try
             {
-                ReceiptListModel receipt = new ReceiptListModel();
-                receipt = ReceiptLists.Where(r => r.ReceiptName.ToLower() == "Kitchen Message".ToLower()).FirstOrDefault();
+              
 
                 //sale data
                 DataTable data = new DataTable();
@@ -431,20 +430,24 @@ namespace ePOSPrintingService
                 values.Add(_value);
                 data = CreateDataTable(values);
 
-                LocalReport report = new LocalReport();
-                report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
-                report.DataSources.Add(new ReportDataSource("Data", data));
-
-                Export(report,
-                     receipt.PageWidth,
-                     receipt.PageHeight,
-                     receipt.MarginTop,
-                     receipt.MarginLeft,
-                     receipt.MarginRight,
-                     receipt.MarginBottom
-                     );
+               
+                          ReceiptListModel receipt = new ReceiptListModel();
+                    receipt = ReceiptLists.Where(r => r.ReceiptName.ToLower() == "Kitchen Message".ToLower()).FirstOrDefault();
+               
                 foreach (var p in _value.printer_names.Split(','))
                 {
+                  
+                    LocalReport report = new LocalReport();
+                    report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
+                    report.DataSources.Add(new ReportDataSource("Data", data));
+                    Export(report,
+                        receipt.PageWidth,
+                        receipt.PageHeight,
+                        receipt.MarginTop,
+                        receipt.MarginLeft,
+                        receipt.MarginRight,
+                        receipt.MarginBottom
+                    );
                     Print(p);
                 } 
                 IsPrintSuccess = true;
