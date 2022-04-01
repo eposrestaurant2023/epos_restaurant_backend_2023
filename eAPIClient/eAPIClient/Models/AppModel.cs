@@ -182,6 +182,7 @@ namespace eAPIClient.Models
         public string language { get; set; }
 
         public bool is_reprint { get; set; }
+        public string data { get; set; }
 
     }
 
