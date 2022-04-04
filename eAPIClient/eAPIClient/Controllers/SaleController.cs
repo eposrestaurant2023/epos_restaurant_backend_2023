@@ -97,11 +97,18 @@ namespace eAPIClient.Controllers
 
                             //check bill alredy print
                             //user payment with new item order  
+                            
                             if ((model.is_closed ?? false) == true && (sales.FirstOrDefault().is_print_invoice) == true)
                             {
-                                if (model.sale_products.Where(r => r.id == Guid.Empty).Any() || 
-                                    sales.FirstOrDefault().total_amount != model.total_amount || 
-                                    sales.FirstOrDefault().total_quantity != model.total_quantity)
+                                string _format = "#,###,##0.00#####";
+                                string _db_total_amount = string.Format(@"{0:" + _format + "}", sales.FirstOrDefault().total_amount);
+                                string _db_total_qty = string.Format(@"{0:" + _format + "}", sales.FirstOrDefault().total_quantity);
+                                string _model_total_amount = string.Format(@"{0:" + _format + "}", model.total_amount);
+                                string _model_total_qty = string.Format(@"{0:" + _format + "}", model.total_quantity);
+
+
+                                if (model.sale_products.Where(r => r.id == Guid.Empty).Any() ||
+                                   _db_total_amount != _model_total_amount ||  _db_total_qty != _model_total_qty)
                                 {
                                     return BadRequest(new BadRequestModel { message = "this_order_is_print" });
                                 }

@@ -1010,7 +1010,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>ITems</Value>
+                              <Value>Items</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
