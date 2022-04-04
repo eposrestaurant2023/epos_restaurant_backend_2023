@@ -1,5 +1,5 @@
 ﻿@page "/tablegroupandtable/{business_branch_id}/new"
-@page "/tablegroupandtable/edit/{id:int}"
+@page "/tablegroupandtable/edit/{business_branch_id}/{id:int}"
 @inherits PageCore
 
 <Loading is_loading="@is_loading" />
@@ -77,19 +77,11 @@
                                     <ThCenter width="100px">@lang["Height"]</ThCenter>
                                     <th>@lang["Shape"]</th>
                                     <th>@lang["Price Rule"]</th>
-                                    <Th>@lang["Sale Type"]</Th>
-                                    @if(id > 0){
-                                         <Th>@lang["Require Check In"]</Th>
-                                    }else{
-
-                                        @if (gv.business_branch_has_feature(business_branch_id,"CHIO"))
-                                        {
-                                            <Th>@lang["Require Check In"]</Th>
-       
-                                        }
-                                    }
-                                    
-                                    
+                                    <Th>@lang["Sale Type"]</Th> 
+                                    @if (is_table_require_check_in)
+                                    {
+                                        <Th>@lang["Require Check In"]</Th> 
+                                    } 
                                     <ThCenter>@lang["Sort Order"]</ThCenter>
                                     <Th></Th>
                                 </tr>
@@ -110,21 +102,12 @@
                                     <Th>
                                         <SelectSaleType @bind-selected_value="@sale_type" show_empty="true" width="100px" is_horizontal="false" is_inline="true"/>
                                     </Th>
-                                    @if(id > 0){
-                                        
-                                             <Th>
-                                                <ComInputCheckBox @bind-value="require_check_in"/>
-                                           </Th>
-                                        
-                                    }
-                                    else
+                                    
+                                    @if (is_table_require_check_in)
                                     {
-                                        @if (gv.business_branch_has_feature(business_branch_id,"CHIO"))
-                                        {
-                                             <Th>
-                                                <ComInputCheckBox @bind-value="require_check_in"/>
-                                            </Th>
-                                        }
+                                        <Th>
+                                            <ComInputCheckBox @bind-value="require_check_in"/>
+                                        </Th>
                                     }
                                     
                                     <Th></Th>
@@ -150,26 +133,16 @@
                                         </td>
                                         <td>
                                             <SelectSaleType @bind-selected_value="@s.sale_type" is_horizontal="false" width="50px" is_inline="true" show_empty="true" />
-                                        </td>
-                                        @if(id > 0){
+                                        </td> 
+                                        @if (is_table_require_check_in)
+                                        {
                                             <td>
-                                                <ComInputCheckBox @bind-value="s.require_check_in"/>
+                                                <ComInputCheckBox @bind-value="s.require_check_in" />
                                             </td>
                                         }
-                                        else
-                                        {
-                                            @if (gv.business_branch_has_feature(business_branch_id,"CHIO"))
-                                            {
-                                                <td>
-                                                    <ComInputCheckBox @bind-value="s.require_check_in"/>
-                                                </td>
-                                            }
-                                        }
-                                        
 
-                                            
                                         <TdCenter>
-                                            <NumberInputInt @bind-text="@s.sort_order"/>
+                                            <NumberInputInt @bind-text="@s.sort_order" />
                                         </TdCenter>
                                         <td>
                                             <Icon icon="delete" OnClick="@(()=>Delete_Table(s))" />
@@ -198,6 +171,7 @@
     [Parameter] public string business_branch_id { get; set; }
     TableGroupModel model = new TableGroupModel();
     BusinessBranchModel business_branch { get; set; }
+    bool is_table_require_check_in = false;
     string prefix = "T";
     string number_format = "00";
     int min = 1;
@@ -282,7 +256,7 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        @if (id > 0 && string.IsNullOrEmpty(business_branch_id))
+        @if (id > 0)
         {
             await LoadData();
         }
@@ -290,16 +264,23 @@
         {
             business_branch = gv.bussiness_branches.Where(r => r.id == Guid.Parse(business_branch_id)).FirstOrDefault();
         }
-    is_loading = false;
+        //get is table require check in feature
+        is_table_require_check_in =  gv.business_branch_has_feature(business_branch_id,"CHIO"); 
+        
+        is_loading = false;
     }
+
+
 
     async Task LoadData()
     {
         is_loading_data = true;
         string api_url = ControllerApi;
-        api_url = api_url + $"({id})?";
-        api_url = api_url + "$expand=outlet($select=id,outlet_name_en,outlet_name_kh,business_branch_id;$expand=business_branch($select=id,business_branch_name_en,business_branch_name_kh);$filter= is_deleted  eq false),";
-        api_url = api_url + "tables($select = id,sort_order,table_name,height,width,position_x_percent,sale_type,shape,position_y_percent,price_rule_id;$filter= is_deleted  eq false;$orderby=sort_order desc)";
+        api_url += $"({id})?";
+        api_url += "$expand=outlet($select=id,outlet_name_en,outlet_name_kh,business_branch_id;$expand=business_branch";
+        api_url += "($select=id,business_branch_name_en,business_branch_name_kh);$filter= is_deleted  eq false),";
+        api_url +=  "tables($select = id,sort_order,table_name,height,width,position_x_percent,sale_type,shape,position_y_percent,price_rule_id,require_check_in;";
+        api_url += "$filter= is_deleted eq false;$orderby=sort_order desc)";
 
 
         var resp = await http.ApiGet(api_url);
@@ -307,7 +288,6 @@
         {
             model = JsonSerializer.Deserialize<TableGroupModel>(resp.Content.ToString());
             business_branch = model.outlet.business_branch;
-
         }
         is_loading_data = false;
     }
@@ -321,13 +301,13 @@
             return;
         }
 
-        
+
         if (!is_saving)
         {
             is_saving = true;
-             TableGroupModel save_table_group = JsonSerializer.Deserialize<TableGroupModel>(JsonSerializer.Serialize(model));
-            
-          
+            TableGroupModel save_table_group = JsonSerializer.Deserialize<TableGroupModel>(JsonSerializer.Serialize(model));
+
+
             save_table_group.outlet = null;
             var res = await http.ApiPost($"{ControllerApi}/save", save_table_group);
             if (res.IsSuccess)
@@ -369,12 +349,12 @@
     }
 
     void AddNewTable(){
-         model.tables.Add(new TableModel()
-            {
-                table_name = (model.tables.Where(r=>r.is_deleted==false).Count()+ 1).ToString("00"),
-               
-              sort_order = model.tables.Where(r=>r.is_deleted==false).Count()+ 1
-            });
+        model.tables.Add(new TableModel()
+        {
+            table_name = (model.tables.Where(r=>r.is_deleted==false).Count()+ 1).ToString("00"),
+
+            sort_order = model.tables.Where(r=>r.is_deleted==false).Count()+ 1
+        });
     }
 
     void Delete_Table(TableModel s)

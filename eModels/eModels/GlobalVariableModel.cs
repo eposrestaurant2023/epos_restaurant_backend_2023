@@ -397,7 +397,7 @@ namespace eModels
                 Guid id = Guid.Empty;
                 if (system_features.Any())
                 {
-                    var d = system_features.Where(r => r.feature_code == code);
+                    var d = system_features.Where(r => r.feature_code == code ).ToList();
                     if (d.Any())
                     {
                         id = d.FirstOrDefault().id;
@@ -406,7 +406,7 @@ namespace eModels
 
                 if (id != Guid.Empty)
                 {
-                    var f = business_branch_system_features.Where(r => r.business_branch_id.ToString() == business_branch_id && r.system_feature_id == id);
+                    var f = business_branch_system_features.Where(r => r.business_branch_id.ToString() == business_branch_id && r.system_feature_id == id).ToList();
                     if (f.Any())
                     {
                         return f.FirstOrDefault().status;
