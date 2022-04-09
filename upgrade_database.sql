@@ -1,9 +1,9 @@
---dev_db is dev
---client_db is pro
+--epos_dev_client_db is dev
+--epos_lum_orng_client_db is pro
 
 --Step 1 Check new table Dev Database 
-SELECT * from dev_db.INFORMATION_SCHEMA.TABLES 
-WHERE TABLE_NAME not in (SELECT TABLE_NAME from client_db.INFORMATION_SCHEMA.TABLES)
+SELECT * from epos_dev_client_db.INFORMATION_SCHEMA.TABLES 
+WHERE TABLE_NAME not in (SELECT TABLE_NAME from epos_lum_orng_client_db.INFORMATION_SCHEMA.TABLES)
 --Generate only table dont have in pro db
 -- contrain name, schema and data, use dB false, collation, permission
 
@@ -12,8 +12,8 @@ WHERE TABLE_NAME not in (SELECT TABLE_NAME from client_db.INFORMATION_SCHEMA.TAB
 
 
 --STEP 3 if table exist in pro db and dev db not have
-SELECT 'drop table ' +  TABLE_NAME from client_db.INFORMATION_SCHEMA.TABLES 
-WHERE TABLE_NAME not in (SELECT TABLE_NAME from dev_db.INFORMATION_SCHEMA.TABLES)
+SELECT 'drop table ' +  TABLE_NAME from epos_lum_orng_client_db.INFORMATION_SCHEMA.TABLES 
+WHERE TABLE_NAME not in (SELECT TABLE_NAME from epos_dev_client_db.INFORMATION_SCHEMA.TABLES)
 
 
 
@@ -26,8 +26,8 @@ SELECT
  dev.COLUMN_NAME ,
  dev.COLUMN_DEFAULT,
  'alter table ' + dev.TABLE_NAME + ' add ' + dev.COLUMN_NAME +  ' ' + dev.DATA_TYPE + '(' + cast(dev.NUMERIC_PRECISION as nvarchar(50)) + ',' + cast(dev.NUMERIC_SCALE as nvarchar(50)) + ')'
-from dev_db.INFORMATION_SCHEMA.COLUMNS dev
-left join  client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
+from epos_dev_client_db.INFORMATION_SCHEMA.COLUMNS dev
+left join  epos_lum_orng_client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
 WHERE pro.COLUMN_NAME is null and dev.DATA_TYPE = 'decimal' 
 
 --check with data type float
@@ -37,8 +37,8 @@ SELECT
  dev.COLUMN_NAME ,
  dev.COLUMN_DEFAULT,
  'alter table ' + dev.TABLE_NAME + ' add ' + dev.COLUMN_NAME +  ' ' + dev.DATA_TYPE + ' DEFAULT ' + coalesce(dev.COLUMN_DEFAULT ,'''''') 
-from dev_db.INFORMATION_SCHEMA.COLUMNS dev
-left join  client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
+from epos_dev_client_db.INFORMATION_SCHEMA.COLUMNS dev
+left join  epos_lum_orng_client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
 WHERE pro.COLUMN_NAME is null and dev.DATA_TYPE = 'float' 
 
 --check with data type nvarchar  
@@ -48,8 +48,8 @@ SELECT
  dev.COLUMN_NAME ,
   
  'alter table ' + dev.TABLE_NAME + ' add ' + dev.COLUMN_NAME +  ' ' + dev.DATA_TYPE +  '(' + cast(dev.CHARACTER_MAXIMUM_LENGTH as nvarchar(50)) +  ') DEFAULT ' + coalesce(dev.COLUMN_DEFAULT ,'''''') 
-from dev_db.INFORMATION_SCHEMA.COLUMNS dev
-left join  client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
+from epos_dev_client_db.INFORMATION_SCHEMA.COLUMNS dev
+left join  epos_lum_orng_client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
 WHERE pro.COLUMN_NAME is null and dev.DATA_TYPE = 'nvarchar' and dev.CHARACTER_MAXIMUM_LENGTH>=0
 
 
@@ -60,8 +60,8 @@ SELECT
  dev.COLUMN_NAME ,
   
  'alter table ' + dev.TABLE_NAME + ' add ' + dev.COLUMN_NAME +  ' ' + dev.DATA_TYPE +  '(max) DEFAULT ' + coalesce(dev.COLUMN_DEFAULT ,'''''') 
-from dev_db.INFORMATION_SCHEMA.COLUMNS dev
-left join  client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
+from epos_dev_client_db.INFORMATION_SCHEMA.COLUMNS dev
+left join  epos_lum_orng_client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
 WHERE pro.COLUMN_NAME is null and dev.DATA_TYPE = 'nvarchar'  and dev.CHARACTER_MAXIMUM_LENGTH = -1
 
 --check data have diferent lenght for nvarchar only
@@ -75,8 +75,8 @@ SELECT
 	pro.character_maximum_length as pro_character_maximum_length,
 	dev.character_maximum_length as dev_character_maximum_length,
 	'ALTER TABLE ' + pro.TABLE_NAME + ' ALTER COLUMN ' + pro.COLUMN_NAME + ' NVARCHAR (' + case when cast(dev.character_maximum_length as nvarchar(50))='-1' then 'MAX' else cast(dev.character_maximum_length as nvarchar(50)) end + ') NULL;' as [modify]
-from client_db.INFORMATION_SCHEMA.COLUMNS pro
-inner join dev_db.INFORMATION_SCHEMA.COLUMNS dev  on pro.DATA_TYPE = dev.DATA_TYPE and pro.TABLE_NAME = dev.TABLE_NAME and pro.COLUMN_NAME = dev.COLUMN_NAME and pro.character_maximum_length <> dev.character_maximum_length
+from epos_lum_orng_client_db.INFORMATION_SCHEMA.COLUMNS pro
+inner join epos_dev_client_db.INFORMATION_SCHEMA.COLUMNS dev  on pro.DATA_TYPE = dev.DATA_TYPE and pro.TABLE_NAME = dev.TABLE_NAME and pro.COLUMN_NAME = dev.COLUMN_NAME and pro.character_maximum_length <> dev.character_maximum_length
 
 
 
@@ -87,8 +87,8 @@ SELECT
  dev.COLUMN_NAME ,
   
  'alter table ' + dev.TABLE_NAME + ' add ' + dev.COLUMN_NAME +  ' ' + dev.DATA_TYPE +  ' DEFAULT ' + coalesce(dev.COLUMN_DEFAULT ,'''''') 
-from dev_db.INFORMATION_SCHEMA.COLUMNS dev
-left join  client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
+from epos_dev_client_db.INFORMATION_SCHEMA.COLUMNS dev
+left join  epos_lum_orng_client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
 WHERE pro.COLUMN_NAME is null and dev.DATA_TYPE = 'text'   
 
 
@@ -99,8 +99,8 @@ SELECT
  dev.COLUMN_NAME ,
   
  'alter table ' + dev.TABLE_NAME + ' add ' + dev.COLUMN_NAME +  ' ' + dev.DATA_TYPE +  ' DEFAULT ' + coalesce(dev.COLUMN_DEFAULT ,'''''') 
-from dev_db.INFORMATION_SCHEMA.COLUMNS dev
-left join  client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
+from epos_dev_client_db.INFORMATION_SCHEMA.COLUMNS dev
+left join  epos_lum_orng_client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
 WHERE pro.COLUMN_NAME is null and dev.DATA_TYPE = 'ntext' 
 
 --check with data type int
@@ -110,8 +110,8 @@ SELECT
  dev.COLUMN_NAME ,
   
  'alter table ' + dev.TABLE_NAME + ' add ' + dev.COLUMN_NAME +  ' ' + dev.DATA_TYPE  + ' DEFAULT ' + coalesce(dev.COLUMN_DEFAULT ,'0') 
-from dev_db.INFORMATION_SCHEMA.COLUMNS dev
-left join  client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
+from epos_dev_client_db.INFORMATION_SCHEMA.COLUMNS dev
+left join  epos_lum_orng_client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
 WHERE pro.COLUMN_NAME is null and dev.DATA_TYPE = 'int' 
 
 
@@ -122,8 +122,8 @@ SELECT
  dev.COLUMN_NAME ,
   
  'alter table ' + dev.TABLE_NAME + ' add ' + dev.COLUMN_NAME +  ' ' + dev.DATA_TYPE  + ' DEFAULT ' + coalesce(dev.COLUMN_DEFAULT ,'0') 
-from dev_db.INFORMATION_SCHEMA.COLUMNS dev
-left join  client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
+from epos_dev_client_db.INFORMATION_SCHEMA.COLUMNS dev
+left join  epos_lum_orng_client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
 WHERE pro.COLUMN_NAME is null and dev.DATA_TYPE = 'bit' 
 
 
@@ -135,9 +135,9 @@ SELECT
  dev.COLUMN_NAME ,
   
  'alter table ' + dev.TABLE_NAME + ' add ' + dev.COLUMN_NAME +  ' ' + dev.DATA_TYPE  
-from dev_db.INFORMATION_SCHEMA.COLUMNS dev
-left join  client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
-WHERE pro.COLUMN_NAME is null and dev.DATA_TYPE in ('date' , 'datetime','time')
+from epos_dev_client_db.INFORMATION_SCHEMA.COLUMNS dev
+left join  epos_lum_orng_client_db.INFORMATION_SCHEMA.COLUMNS pro on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
+WHERE pro.COLUMN_NAME is null and dev.DATA_TYPE in ('date' , 'datetime','time','datetime2')
 
 
 
@@ -153,8 +153,8 @@ SELECT
  pro.COLUMN_NAME ,
  'ALTER TABLE ' + pro.TABLE_NAME + ' DROP COLUMN ' + pro.COLUMN_NAME
   
-from client_db.INFORMATION_SCHEMA.COLUMNS pro
-left join  dev_db.INFORMATION_SCHEMA.COLUMNS dev on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
+from epos_lum_orng_client_db.INFORMATION_SCHEMA.COLUMNS pro
+left join  epos_dev_client_db.INFORMATION_SCHEMA.COLUMNS dev on dev.TABLE_NAME = pro.TABLE_NAME and dev.COLUMN_NAME = pro.COLUMN_NAME
 WHERE dev.COLUMN_NAME is null 
 
 
@@ -167,8 +167,8 @@ SELECT
  pro.COLUMN_NAME as pro_COLUMN_NAME,
  pro.DATA_TYPE as pro_DATA_TYPE ,
  'ALTER TABLE ' + pro.TABLE_NAME + ' ALTER COLUMN ' + pro.COLUMN_NAME + ' ' + dev.DATA_TYPE + '(' + cast(dev.NUMERIC_PRECISION as nvarchar(50)) + ',' + cast(dev.NUMERIC_SCALE as nvarchar(50)) + ')'
-from client_db.INFORMATION_SCHEMA.COLUMNS pro
-inner join dev_db.INFORMATION_SCHEMA.COLUMNS dev  on pro.DATA_TYPE <> dev.DATA_TYPE and pro.TABLE_NAME = dev.TABLE_NAME and pro.COLUMN_NAME = dev.COLUMN_NAME
+from epos_lum_orng_client_db.INFORMATION_SCHEMA.COLUMNS pro
+inner join epos_dev_client_db.INFORMATION_SCHEMA.COLUMNS dev  on pro.DATA_TYPE <> dev.DATA_TYPE and pro.TABLE_NAME = dev.TABLE_NAME and pro.COLUMN_NAME = dev.COLUMN_NAME
 
 
 
@@ -187,6 +187,6 @@ select 'ALTER TABLE ' + TABLE_NAME + ' ALTER COLUMN ' + COLUMN_NAME + ' nvarchar
 
 
 -- Step 14 Enabl Broker Rollback
-alter database client_db set enable_broker with rollback immediate;
+alter database epos_lum_orng_client_db set enable_broker with rollback immediate;
 -- Or 
-ALTER DATABASE client_db SET NEW_BROKER;
+ALTER DATABASE epos_lum_orng_client_db SET NEW_BROKER;
