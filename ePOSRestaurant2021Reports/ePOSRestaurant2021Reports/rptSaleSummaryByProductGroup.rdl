@@ -101,6 +101,9 @@
           <QueryParameter Name="@end_date">
             <Value>=Parameters!end_date.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@is_include_foc">
+            <Value>=Parameters!is_include_foc.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@customer_id">
             <Value>=Parameters!customer_id.Value</Value>
           </QueryParameter>
@@ -119,6 +122,7 @@
         </QueryParameters>
         <CommandText>
  
+if OBJECT_ID('tempdb..#tbl_sale_product') is not null drop table #tbl_sale_product
 select
 	coalesce(sp.product_group_en,'Not Set') as poduct_group_name_en,
 	sum(sp.quantity) as quantity,
@@ -129,6 +133,7 @@ select
 	sum(sp.total_amount) as total_amount,
 	sum(sp.total_tax_amount) as total_tax_amount,
 	sum(sp.profit) as profit
+	into #tbl_sale_product
 	
 from tbl_sale_product sp 
 	inner join tbl_sale s on s.id = sp.sale_id 
@@ -140,6 +145,7 @@ where
 	sp.is_deleted = 0 and 
 	sp.status_id in (1,2) and 
 	s.working_date between @start_date and @end_date and
+	s.is_foc = iif(@is_include_foc=1,s.is_foc, 0) and
 	coalesce(cast(s.customer_id as nvarchar(50)),'') = iif(@customer_id = '',coalesce(cast(s.customer_id as nvarchar(50)),'') ,@customer_id) and 
 	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id) and 
 	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and 
@@ -151,7 +157,9 @@ group by
 	coalesce(sp.product_group_en,'Not Set')
 order by 
 	coalesce(sp.product_group_en,'Not Set')
- </CommandText>
+ 
+	 
+select * from #tbl_sale_product </CommandText>
       </Query>
       <Fields>
         <Field Name="poduct_group_name_en">
@@ -1754,7 +1762,7 @@ order by
             <DataSetName>SaleProduct</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
-            <Width>7.26083in</Width>
+            <Width>7.26086in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1797,7 +1805,7 @@ order by
         <Height>0.92293in</Height>
         <Style />
       </Body>
-      <Width>7.26083in</Width>
+      <Width>7.26086in</Width>
       <Page>
         <PageHeader>
           <Height>1.04167in</Height>
@@ -1910,7 +1918,7 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> /</Value>
+                      <Value> / </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1923,7 +1931,7 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> : </Value>
+                      <Value>: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1936,7 +1944,7 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> /</Value>
+                      <Value> / </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1949,7 +1957,7 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> : </Value>
+                      <Value>: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1962,7 +1970,7 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> /</Value>
+                      <Value> / </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1975,7 +1983,7 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> : </Value>
+                      <Value>: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1988,7 +1996,7 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> /</Value>
+                      <Value> / </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -2001,7 +2009,7 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> : </Value>
+                      <Value>: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -2014,7 +2022,7 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> /</Value>
+                      <Value> / </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -2027,7 +2035,7 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> : </Value>
+                      <Value>: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -2040,7 +2048,7 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> /</Value>
+                      <Value> / </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -2053,13 +2061,27 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> : </Value>
+                      <Value>: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>=Parameters!product_category_id.Label</Value>
+                      <Style>
+                        <FontFamily>Kh System</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> / </Value>
+                      <Style>
+                        <FontFamily>Kh System</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!is_include_foc.Label</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2383,6 +2405,27 @@ order by
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="is_include_foc">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Include FOC</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>0</Value>
+            <Label>Not Include FOC</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>Include FOC</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+    </ReportParameter>
     <ReportParameter Name="lang">
       <DataType>String</DataType>
       <DefaultValue>
@@ -2402,7 +2445,7 @@ order by
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
-      <NumberOfColumns>3</NumberOfColumns>
+      <NumberOfColumns>2</NumberOfColumns>
       <NumberOfRows>6</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
@@ -2456,9 +2499,14 @@ order by
           <ParameterName>product_category_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>5</RowIndex>
           <ParameterName>lang</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>5</RowIndex>
+          <ParameterName>is_include_foc</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

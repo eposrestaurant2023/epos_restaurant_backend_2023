@@ -101,6 +101,9 @@
           <QueryParameter Name="@end_date">
             <Value>=Parameters!end_date.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@is_include_foc">
+            <Value>=Parameters!is_include_foc.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@customer_id">
             <Value>=Parameters!customer_id.Value</Value>
           </QueryParameter>
@@ -128,7 +131,6 @@
         </QueryParameters>
         <CommandText>
 if OBJECT_ID('tempdb..#tbl_sale_product') is not null drop table #tbl_sale_product
-
 select
 	sp.product_category_en,
 	sp.product_code,
@@ -155,16 +157,13 @@ where
 	sp.is_deleted = 0 and 
 	sp.status_id in (1,2) and --submited and new 
 	s.working_date between @start_date and @end_date and
+	s.is_foc = iif(@is_include_foc =1, s.is_foc,0) and
 	coalesce(cast(s.customer_id as nvarchar(50)),'') = iif(@customer_id = '',coalesce(cast(s.customer_id as nvarchar(50)),'') ,@customer_id) and 
 	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id) and 
 	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and 
 	sp.product_group_id  = iif(@product_group_id = 0, sp.product_group_id,@product_group_id) and 
 	cast(s.outlet_id as nvarchar(50))= iif(@outlet_id = '', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
-	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and 
-	sp.product_group_id = iif(@product_group_id =0,sp.product_group_id ,@product_group_id )  AND
-	lower(coalesce(product_code,'')+' ' + coalesce(product_name_en,'') + ' ' + coalesce(product_name_kh,'')) like N'%'+ LOWER(@keyword)+'%'
-
-	 
+	lower(coalesce(product_code,'')+' ' + coalesce(product_name_en,'') + ' ' + coalesce(product_name_kh,'')) like N'%'+ LOWER(@keyword)+'%'	 
 group by
 	sp.product_category_en,
 	sp.product_code,
@@ -175,15 +174,13 @@ group by
 
 
 if @top is null
-begin
-	select * from #tbl_sale_product
-	
+begin 
+	select * from #tbl_sale_product 
 end
 else 
 begin  
 	select top(@top) * from #tbl_sale_product order by iif(@top_by='Amount', total_amount, quantity) desc
 end
- 
 </CommandText>
       </Query>
       <Fields>
@@ -2236,6 +2233,20 @@ end
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
+                    <TextRun>
+                      <Value> / </Value>
+                      <Style>
+                        <FontFamily>Kh System</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!is_include_foc.Label</Value>
+                      <Style>
+                        <FontFamily>Kh System</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
                   </TextRuns>
                   <Style />
                 </Paragraph>
@@ -2554,20 +2565,25 @@ end
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
-    <ReportParameter Name="lang">
-      <DataType>String</DataType>
+    <ReportParameter Name="is_include_foc">
+      <DataType>Integer</DataType>
       <DefaultValue>
         <Values>
-          <Value>en</Value>
+          <Value>0</Value>
         </Values>
       </DefaultValue>
-      <Prompt>Language</Prompt>
+      <Prompt>Include FOC</Prompt>
       <ValidValues>
-        <DataSetReference>
-          <DataSetName>LanguageCode</DataSetName>
-          <ValueField>language_code</ValueField>
-          <LabelField>language_code</LabelField>
-        </DataSetReference>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>0</Value>
+            <Label>Not Include FOC</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>Include FOC</Label>
+          </ParameterValue>
+        </ParameterValues>
       </ValidValues>
     </ReportParameter>
     <ReportParameter Name="top">
@@ -2607,11 +2623,27 @@ end
         </ParameterValues>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="lang">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>en</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Language</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>LanguageCode</DataSetName>
+          <ValueField>language_code</ValueField>
+          <LabelField>language_code</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>2</NumberOfColumns>
-      <NumberOfRows>7</NumberOfRows>
+      <NumberOfRows>8</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -2665,7 +2697,7 @@ end
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>5</RowIndex>
+          <RowIndex>7</RowIndex>
           <ParameterName>lang</ParameterName>
         </CellDefinition>
         <CellDefinition>
@@ -2682,6 +2714,11 @@ end
           <ColumnIndex>1</ColumnIndex>
           <RowIndex>6</RowIndex>
           <ParameterName>top_by</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>5</RowIndex>
+          <ParameterName>is_include_foc</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
