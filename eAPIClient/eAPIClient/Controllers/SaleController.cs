@@ -84,8 +84,20 @@ namespace eAPIClient.Controllers
                     {
                         if (sales.Any())
                         {
+
+                            var x = sales.FirstOrDefault().last_modified_date;
+
+                            if(x == model.last_modified_date)
+                            {
+                                return BadRequest(new BadRequestModel { message = "equre" });
+                            }
+                            else
+                            {
+                                return BadRequest(new BadRequestModel { message = "not equre" });
+                            }
+
                             //check if bill have item change 
-                            if(sales.FirstOrDefault().last_modified_date != model.last_modified_date && (sales.FirstOrDefault().is_print_invoice) == false  )
+                            if (sales.FirstOrDefault().last_modified_date != model.last_modified_date && (sales.FirstOrDefault().is_print_invoice) == false  )
                             {
                                 return BadRequest(new BadRequestModel { message = "this_order_was_modified_on_other_devices" });
                             }

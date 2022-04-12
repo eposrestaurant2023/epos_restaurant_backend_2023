@@ -1901,22 +1901,6 @@ where
       <Prompt>report_url</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
-    <ReportParameter Name="month">
-      <DataType>Integer</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>=month(now)</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>Month</Prompt>
-      <ValidValues>
-        <DataSetReference>
-          <DataSetName>month</DataSetName>
-          <ValueField>month_number</ValueField>
-          <LabelField>month_text</LabelField>
-        </DataSetReference>
-      </ValidValues>
-    </ReportParameter>
     <ReportParameter Name="year">
       <DataType>Integer</DataType>
       <DefaultValue>
@@ -1930,6 +1914,22 @@ where
           <DataSetName>Year</DataSetName>
           <ValueField>year</ValueField>
           <LabelField>year</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="month">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=month(now)</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Month</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>month</DataSetName>
+          <ValueField>month_number</ValueField>
+          <LabelField>month_text</LabelField>
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
@@ -1985,7 +1985,7 @@ where
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
-      <NumberOfColumns>3</NumberOfColumns>
+      <NumberOfColumns>2</NumberOfColumns>
       <NumberOfRows>4</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
@@ -2009,12 +2009,12 @@ where
           <ParameterName>outlet_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>1</RowIndex>
           <ParameterName>month</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
+          <ColumnIndex>0</ColumnIndex>
           <RowIndex>1</RowIndex>
           <ParameterName>year</ParameterName>
         </CellDefinition>
