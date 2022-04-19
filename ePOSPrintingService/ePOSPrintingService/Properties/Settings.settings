@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="FileWatcherPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Program Files\ESTC\watcher\print\</Value>
+      <Value Profile="(Default)">C:\Program Files\ESTC\ePOS\watcher\</Value>
     </Setting>
     <Setting Name="LabelPageSetup" Type="System.String" Scope="User">
       <Value Profile="(Default)">{"PageWidth":1.5,"PageHeight":1,"MarginTop":0,"MarginRight":0,"MarginBottom":0,"MarginLeft":0}</Value>
@@ -18,7 +18,7 @@
         "ReceiptFileName": "rpt_receipt_en",
         "InvoiceFileName": "rpt_invoice_en",
         "number_invoice_copies": 1,
-        "number_receipt_copies": 2,
+        "number_receipt_copies": 1,
         "PageWidth": 2.85,
         "PageHeight": 11,
         "MarginTop": 0,
@@ -30,7 +30,7 @@
         "ReceiptName": "Invoice Kh",
         "ReceiptFileName": "rpt_receipt_kh",
         "InvoiceFileName": "rpt_invoice_kh",
-        "number_invoice_copies": 2,
+        "number_invoice_copies": 1,
         "number_receipt_copies": 1,
         "PageWidth": 2.85,
         "PageHeight": 11,
@@ -167,16 +167,15 @@
     <Setting Name="CashierPrinter" Type="System.String" Scope="User">
       <Value Profile="(Default)">Cashier Printer</Value>
     </Setting>
-    <Setting Name="telegram" Type="System.String" Scope="User">
+    <Setting Name="Telegram" Type="System.String" Scope="User">
       <Value Profile="(Default)">{
-    "telegram_alert_url": "https://api.telegram.org/",
-    "telegram_alert_token": "593655431:AAH6x4ncKNsxwj2wlaV2WPS4iIB0O2qRPmw",
-    "telegram_chat_id": "-545894511",
+    "token": "593655431:AAH6x4ncKNsxwj2wlaV2WPS4iIB0O2qRPmw",
+    "chat_id": "-545894511",
     "image_path":"C:\\Program Files\\ESTC\\ePOS\\watcher\\telegram\\"
 }</Value>
     </Setting>
-    <Setting Name="api_url" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://customer.esoftix.com:9697/restaurant_client_api/api/</Value>
+    <Setting Name="BaseAPIURL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://localhost:1111/api/</Value>
     </Setting>
     <Setting Name="USBCashDrawer" Type="System.String" Scope="User">
       <Value Profile="(Default)">{"is_usb":false,"port":"COM1"}</Value>
