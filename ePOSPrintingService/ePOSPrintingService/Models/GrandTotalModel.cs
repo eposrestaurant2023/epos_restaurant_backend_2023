@@ -15,8 +15,8 @@ namespace ePOSPrintingServiceReportModel
         public string name_kh { get; set; }
         public string format { get; set; }
         public string symbol { get; set; }
-        public string show_in_receipt { get; set; }
-        public Boolean sort_order { get; set; }
+        public bool show_in_receipt { get; set; }
+        public int sort_order { get; set; }
         public double total_amount { get; set; }
     }
 }

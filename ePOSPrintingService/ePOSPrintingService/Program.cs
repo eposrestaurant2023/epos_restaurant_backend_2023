@@ -245,8 +245,7 @@ namespace ePOSPrintingService
                     {
                         Task.Factory.StartNew(async () =>
                         {
-                            await SendTelegramImage(file_name, caption);
-                            File.Delete($"{ telegram_setting.image_path}{ file_name}");
+                            await SendTelegramImage($"{telegram_setting.image_path}{file_name}", caption);  
                         });
                        
                     }
@@ -261,18 +260,42 @@ namespace ePOSPrintingService
                 WriteToFile(ex.Message);
             }
         }
+        public static byte[] getByteImage(Stream input)
+        {
+            byte[] buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
+        }
 
         private static async Task SendTelegramImage(string imagePath, string caption)
         {  
             try
-            {                                               
+            {
+                
                 TelegramBotClient Bot = new TelegramBotClient(telegram_setting.token);
-                await Bot.SendChatActionAsync(telegram_setting.chat_id, ChatAction.UploadPhoto);
-                await Bot.SendPhotoAsync(
-                    chatId: telegram_setting.chat_id,
-                    photo: new InputOnlineFile(imagePath),
-                    caption: caption
-                );           
+                using (var file = new FileStream(imagePath, FileMode.Open))
+                {
+                    Stream s = new MemoryStream(getByteImage(file));
+                    await Bot.SendChatActionAsync(telegram_setting.chat_id, ChatAction.UploadPhoto);
+
+                    await Bot.SendPhotoAsync(
+                        chatId: telegram_setting.chat_id,
+                        photo: new InputOnlineFile(s),
+                        caption: caption
+                    );
+                    s.Close();
+                    File.Delete($"{imagePath}");
+
+                }
+
+                             
             }
             catch (Exception _ex)
             {
@@ -577,7 +600,7 @@ namespace ePOSPrintingService
         
         }
 
-        public static async Task PrintIvoice(string sale_id, ReceiptListModel receipt, string printer_name, int copies)
+        public static async Task PrintInvoice(string sale_id, ReceiptListModel receipt, string printer_name, int copies)
         {
             try
             {
@@ -629,7 +652,7 @@ namespace ePOSPrintingService
                          );
                     Print(printer_name, Convert.ToInt16(copies));
 
-                    Thread t = ThreadStart(() => SendTelegramAlert(report, "Print Sale Invoice"));
+                    Thread t = ThreadStart(() => SendTelegramAlert(report,  "Print Sale Invoice"));
                     IsPrintSuccess = true;
                 }    
             }
@@ -1499,10 +1522,10 @@ namespace ePOSPrintingService
                 var request = new RestRequest("Printing/GetPrintData");
                 request.AddParameter("procedure_name", procedure_name);
                 request.AddParameter("parameters", parameters);
-                var response = await client.GetAsync(request);
+                var response = await client.GetAsync(request); 
                 if ( response.Content.ToString() != "")
                 {
-                    var result =System.Text.Json.JsonSerializer.Deserialize<List<DynamicDataModel>>( response.Content);  
+                    var result =JsonSerializer.Deserialize<List<DynamicDataModel>>( response.Content);  
                     return result;
                 }     
                 return new List<DynamicDataModel>();   
