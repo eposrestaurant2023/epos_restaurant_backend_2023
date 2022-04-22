@@ -14,6 +14,7 @@ namespace eAPIClient
             var host = builder.Build();
 
 
+
             var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
             var sync = services.GetRequiredService<ISyncService>();
@@ -29,6 +30,8 @@ namespace eAPIClient
             {
                 Directory.CreateDirectory(path);
             }
+
+
 
             var watcher = new FileSystemWatcher(path);  
             watcher.NotifyFilter = NotifyFilters.Attributes

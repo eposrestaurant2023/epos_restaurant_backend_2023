@@ -82,15 +82,12 @@ namespace eAPIClient.Services
             }
         }
 
-
-
-      
         public async void OnSyncFromRemoteServerAsync(object sender, FileSystemEventArgs e)
         {
             await SyncRemoteCustomer();
         }
 
-  bool is_sync_customer_busy = false;
+        bool is_sync_customer_busy = false;
         public async Task SyncRemoteCustomer()
         {
             if (is_sync_customer_busy)
@@ -100,12 +97,10 @@ namespace eAPIClient.Services
             }
             is_sync_customer_busy = true;
             try
-            {
-
-                http.SendBackendTelegram($"{business_branch_name}\nStart Sync Customer");
-          
+            {    
+                http.SendBackendTelegram($"{business_branch_name}\nStart Sync Customer");    
                 List<CustomerBusinessBranchModel> data = new List<CustomerBusinessBranchModel>();
-                string query = $"CustomerBusinessBranch?$expand=customer&$filter=is_synced eq false and business_branch_id eq {config.GetValue<string>("business_branch_id")}";
+                string query = $"CustomerBusinessBranch?$expand=customer($expand=customer_cards)&$filter=is_synced eq false and business_branch_id eq {config.GetValue<string>("business_branch_id")}";
                 var resp = await http.ApiGetOData(query);
                 if (resp.IsSuccess)
                 {
@@ -114,7 +109,6 @@ namespace eAPIClient.Services
                     {
                         foreach (var b in data)
                         {
-                            
                             if (SaveRemoteCustomerToLocalCustomer(b.customer))
                             {
                                 b.customer = null;
@@ -179,11 +173,23 @@ namespace eAPIClient.Services
                     model.business_branch_id = _business_branch_id;
                     model.last_update_business_branch_id = _business_branch_id;
                     model.is_synced = true;
-                    var _modelCheck = db.Customers.Where(r => r.id == model.id).AsNoTracking();  
+                    var _modelCheck = db.Customers.Where(r => r.id == model.id).AsNoTracking();
+                    //
+                    foreach (var cc in model.customer_cards)
+                    {
+                        db.Entry(cc).State = EntityState.Added;
+                        if (cc.id != Guid.Empty)
+                        {
+                            var _old_sale_product = db.CustomerCards.Where(x => x.id == cc.id).AsNoTracking();
+                            if (_old_sale_product.Any())
+                            {
+                                db.Entry(cc).State = EntityState.Modified;
+                            }
+                        }
+                    }
 
                     if (_modelCheck.Count() > 0)
                     {
-
                         db.Customers.Update(model);
                     }
                     else
