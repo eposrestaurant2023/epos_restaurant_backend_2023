@@ -11,9 +11,9 @@ namespace ePOSPrintingServiceReportModel
         public string product_code { get; set; }
         public string product_name_en { get; set; }
         public string product_name_kh { get; set; }
-        public object kitchen_group_name { get; set; }
-        public string kitchen_group_sort_order { get; set; }
-        public object note { get; set; }
+        public string kitchen_group_name { get; set; }
+        public int kitchen_group_sort_order { get; set; }
+        public string note { get; set; }
         public string unit { get; set; }
         public string portion_name { get; set; }
         public double quantity { get; set; }
