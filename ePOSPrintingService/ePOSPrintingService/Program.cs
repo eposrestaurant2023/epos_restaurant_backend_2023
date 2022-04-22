@@ -1631,12 +1631,13 @@ namespace ePOSPrintingService
         public static void OpenCashDrawer()
         {
             try
-            {
-                var _usb_cashdrawer_data = JsonSerializer.Deserialize<dynamic>(Properties.Settings.Default.USBCashDrawer); 
+            {                                                                                              
                 string path = AppDomain.CurrentDomain.BaseDirectory + "\\Logs";
-
-                bool _usb = _usb_cashdrawer_data["is_usb"].Value;
-                string _port = _usb_cashdrawer_data["port"].Value; 
+                var doc = JsonDocument.Parse(Properties.Settings.Default.USBCashDrawer);
+                var root = doc.RootElement;
+                var _usb = root.GetProperty("is_usb").GetBoolean();
+                var _port = root.GetProperty("port").GetString();
+                  
                 if (_usb)
                 {
                     try
@@ -1664,6 +1665,7 @@ namespace ePOSPrintingService
                WriteToFile(ex.Message);  
             }
         }
+
 
         //open cach drawer
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
