@@ -29,14 +29,13 @@ namespace eAPIClient.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{keyword}")]
         [EnableQuery(MaxExpansionDepth = 8)] 
         public IQueryable<CustomerCardModel> Find(string keyword)
         {
             
             if (string.IsNullOrEmpty(keyword))
             {
-                return db.CustomerCards.Where(r=>!r.is_deleted && r.status);
+                return db.CustomerCards;
 
             }
             else
@@ -64,10 +63,9 @@ namespace eAPIClient.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 4)]
         [Route("[action]/{code}")]
-
         public SingleResult<CustomerCardModel> Get(string code)
         {
-            var s = db.CustomerCards.Where(r => r.card_code == code).AsQueryable(); 
+            var s = db.CustomerCards.Where(r => r.card_code == code).AsQueryable();
             return SingleResult.Create(s);
         }
 
