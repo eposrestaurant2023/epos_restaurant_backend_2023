@@ -36,13 +36,13 @@ namespace eAPIClient.Controllers
         }
 
 
-        [HttpGet]
-        [EnableQuery(MaxExpansionDepth = 0)]
-        [AllowAnonymous]
-        public SingleResult<CustomerCardModel> Get([FromODataUri] Guid key)
-        { 
-            var s = db.CustomerCards.Where(r => r.id == key).AsQueryable();
-            return SingleResult.Create(s); 
-        } 
+        [HttpGet("/{code}")]
+        [EnableQuery(MaxExpansionDepth = 4)]    
+        public SingleResult<CustomerCardModel> Get(string code)
+        {
+            var s = db.CustomerCards.Where(r => r.card_code == code).AsQueryable();
+
+            return SingleResult.Create(s);
+        }
     }
 }
