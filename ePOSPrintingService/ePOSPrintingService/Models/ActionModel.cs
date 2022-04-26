@@ -26,6 +26,8 @@ namespace ePOSPrintingService.Models
 
         public string data { get; set; }
 
+
+        public DateTime created_date { get; set; }
     }
 
     

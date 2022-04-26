@@ -243,10 +243,8 @@ namespace ePOSPrintingService
                 {
                     try
                     {
-                        Task.Factory.StartNew(async () =>
-                        {
-                            await SendTelegramImage($"{telegram_setting.image_path}{file_name}", caption);  
-                        });
+                       SendTelegramImage($"{telegram_setting.image_path}{file_name}", caption);  
+                       
                        
                     }
                     catch (Exception ex)
@@ -291,6 +289,7 @@ namespace ePOSPrintingService
                         caption: caption
                     );
                     s.Close();
+                    file.Dispose();
                     File.Delete($"{imagePath}");
 
                 }
@@ -335,7 +334,12 @@ namespace ePOSPrintingService
             if (!printDoc.PrinterSettings.IsValid)
             {
                 try { throw new Exception("Error: cannot find the default printer."); }
-                catch { /*do nothing*/ }
+                catch(Exception ex) {
+
+                    WriteToFile($"Print {printerName} \n=> {ex.ToString()}" );
+                    
+                    /*do nothing*/ 
+                }
             }
             else
             {
@@ -345,7 +349,10 @@ namespace ePOSPrintingService
                     m_currentPageIndex = 0;
                     printDoc.Print();
                 }
-                catch {  /*do nothing*/  }
+                catch(Exception ex)
+                {
+                    WriteToFile($"Print {printerName} \n=> {ex.ToString()}");
+                }
             }
         }
         private static void Dispose()
