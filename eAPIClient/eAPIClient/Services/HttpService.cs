@@ -170,7 +170,6 @@ namespace eAPIClient.Services
             var botClient = new TelegramBotClient(token);
             using var cancellationToken = new CancellationTokenSource();
             Message _message = await botClient.SendTextMessageAsync(chatId: chatId, text: message);  
-
         }   
         
         public async Task SendFileBackendTelegram(string path)
@@ -179,13 +178,8 @@ namespace eAPIClient.Services
             string chatId = _configuration.GetValue<string>("backEndTelegramConfig:chat_id"); 
             var botClient = new TelegramBotClient(token);
             using var cancellationToken = new CancellationTokenSource();
-            Message _message = await botClient.SendTextMessageAsync(chatId: chatId, text: "test send backup");
-              
-            Message x =  await botClient.SendDocumentAsync(chatId: chatId, path);
-
-            string n = "x";
-
-
+            Message _message = await botClient.SendTextMessageAsync(chatId: chatId, text: "test send backup");   
+            Message x =  await botClient.SendDocumentAsync(chatId: chatId, path);   
         }
 
     }

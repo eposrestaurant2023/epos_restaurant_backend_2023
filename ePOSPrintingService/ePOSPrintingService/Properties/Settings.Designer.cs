@@ -25,7 +25,7 @@ namespace ePOSPrintingService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\ESTC\\watcher\\print\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\ESTC\\ePOS\\watcher\\")]
         public string FileWatcherPath {
             get {
                 return ((string)(this["FileWatcherPath"]));
@@ -64,11 +64,11 @@ namespace ePOSPrintingService.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("[\r\n    {\r\n        \"ReceiptName\": \"Invoice En\",\r\n        \"ReceiptFileName\": \"rpt_r" +
             "eceipt_en\",\r\n        \"InvoiceFileName\": \"rpt_invoice_en\",\r\n        \"number_invoi" +
-            "ce_copies\": 1,\r\n        \"number_receipt_copies\": 2,\r\n        \"PageWidth\": 2.85,\r" +
+            "ce_copies\": 1,\r\n        \"number_receipt_copies\": 1,\r\n        \"PageWidth\": 2.85,\r" +
             "\n        \"PageHeight\": 11,\r\n        \"MarginTop\": 0,\r\n        \"MarginRight\": 0,\r\n" +
             "        \"MarginBottom\": 0,\r\n        \"MarginLeft\": 0\r\n    },\r\n    {\r\n        \"Rec" +
             "eiptName\": \"Invoice Kh\",\r\n        \"ReceiptFileName\": \"rpt_receipt_kh\",\r\n        " +
-            "\"InvoiceFileName\": \"rpt_invoice_kh\",\r\n        \"number_invoice_copies\": 2,\r\n     " +
+            "\"InvoiceFileName\": \"rpt_invoice_kh\",\r\n        \"number_invoice_copies\": 1,\r\n     " +
             "   \"number_receipt_copies\": 1,\r\n        \"PageWidth\": 2.85,\r\n        \"PageHeight\"" +
             ": 11,\r\n        \"MarginTop\": 0,\r\n        \"MarginRight\": 0,\r\n        \"MarginBottom" +
             "\": 0,\r\n        \"MarginLeft\": 0\r\n    },\r\n    {\r\n        \"ReceiptName\": \"Kitchen O" +
@@ -138,28 +138,27 @@ namespace ePOSPrintingService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("{\r\n    \"telegram_alert_url\": \"https://api.telegram.org/\",\r\n    \"telegram_alert_to" +
-            "ken\": \"593655431:AAH6x4ncKNsxwj2wlaV2WPS4iIB0O2qRPmw\",\r\n    \"telegram_chat_id\": " +
+        [global::System.Configuration.DefaultSettingValueAttribute("{\r\n    \"token\": \"593655431:AAH6x4ncKNsxwj2wlaV2WPS4iIB0O2qRPmw\",\r\n    \"chat_id\": " +
             "\"-545894511\",\r\n    \"image_path\":\"C:\\\\Program Files\\\\ESTC\\\\ePOS\\\\watcher\\\\telegra" +
             "m\\\\\"\r\n}")]
-        public string telegram {
+        public string Telegram {
             get {
-                return ((string)(this["telegram"]));
+                return ((string)(this["Telegram"]));
             }
             set {
-                this["telegram"] = value;
+                this["Telegram"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://customer.esoftix.com:9697/restaurant_client_api/api/")]
-        public string api_url {
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.10.13:9697/restaurant_client_api/api/")]
+        public string BaseAPIURL {
             get {
-                return ((string)(this["api_url"]));
+                return ((string)(this["BaseAPIURL"]));
             }
             set {
-                this["api_url"] = value;
+                this["BaseAPIURL"] = value;
             }
         }
         

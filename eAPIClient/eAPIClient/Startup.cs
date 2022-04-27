@@ -141,6 +141,7 @@ namespace eAPIClient
             odataBuilder.EntitySet<CashDrawerAmountModel>("CashDrawerAmount");
             odataBuilder.EntitySet<HistoryModel>("History");
             odataBuilder.EntitySet<ExpenseModel>("Expense");
+            odataBuilder.EntitySet<CustomerCardModel>("CustomerCard");
             return odataBuilder.GetEdmModel();
         }
     }

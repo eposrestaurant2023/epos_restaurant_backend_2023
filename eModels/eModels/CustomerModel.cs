@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
+using System.Collections.Generic;               
+using System.ComponentModel.DataAnnotations.Schema;       
 using System.Text.Json.Serialization;
 using eShareModel;
 
@@ -17,16 +15,12 @@ namespace eModels
         }
 
 
-        public Guid? business_branch_id { get; set; }
-
-
-  
-
-
+        public Guid? business_branch_id { get; set; } 
         [ForeignKey("customer_group_id")]
         public CustomerGroupModel customer_group { get; set; }    
         public List<CustomerBusinessBranchModel> customer_business_branchs { get; set; }
 
+        public List<CustomerCardModel> customer_cards { get; set; }
 
         [NotMapped, JsonIgnore]
         public string customer_code_name

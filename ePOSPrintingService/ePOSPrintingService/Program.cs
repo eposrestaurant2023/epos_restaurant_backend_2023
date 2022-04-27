@@ -11,8 +11,7 @@ using System.IO;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
-using Microsoft.Reporting.WinForms;
-using Newtonsoft.Json;
+using Microsoft.Reporting.WinForms;    
 using ePOSPrintingService.Models;
 using System.Reflection;
 using ePOSPrintingServiceReportModel;
@@ -20,6 +19,13 @@ using System.ComponentModel;
 using RestSharp;
 using System.Threading;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using System.Text.Json;
+using Telegram.Bot.Types;
+using Telegram.Bot;
+using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InputFiles;
+using File = System.IO.File;
 
 namespace ePOSPrintingService
 {
@@ -49,27 +55,27 @@ namespace ePOSPrintingService
             }
         }
 
-        public static bool LoadSetting()
+        public static  bool LoadSetting()
         {
             bool isLoaded = false;
             try
             {
-
                 FileWatcherPath = Properties.Settings.Default.FileWatcherPath;
                 LabelPrinterName = Properties.Settings.Default.LabelPrinterName;
                 CashierPrinter = Properties.Settings.Default.CashierPrinter;
                 string str_receipt_list = Properties.Settings.Default.ReceiptSettings.Replace("\r\n", "");
-                string str_telegram_setting = Properties.Settings.Default.telegram.Replace("\r\n", "");
+                string str_telegram_setting = Properties.Settings.Default.Telegram.Replace("\r\n", "");
 
-                ReceiptLists = JsonConvert.DeserializeObject<List<ReceiptListModel>>(str_receipt_list);
-                telegram_setting = JsonConvert.DeserializeObject<TelegramSettingModel>(str_telegram_setting);
-                LabelPageSetup = JsonConvert.DeserializeObject<LabelPageSetupModel>(Properties.Settings.Default.LabelPageSetup.ToString());
+                ReceiptLists = JsonSerializer.Deserialize<List<ReceiptListModel>>(str_receipt_list);
+                telegram_setting = JsonSerializer.Deserialize<TelegramSettingModel>(str_telegram_setting);
+                LabelPageSetup = JsonSerializer.Deserialize<LabelPageSetupModel>(Properties.Settings.Default.LabelPageSetup.ToString());   
 
-                translate_caches = new List<TranslateCacheModel>();
-
-                GetTranslateText("en");
-                GetTranslateText("kh");
-
+                translate_caches = new List<TranslateCacheModel>();  
+                Task.Factory.StartNew(async () =>
+                {     
+                   await GetTranslateText("en");
+                   await GetTranslateText("kh");
+                });
 
                 isLoaded = true;
             }
@@ -214,44 +220,32 @@ namespace ePOSPrintingService
             {
                 string deviceInfo = "";
                 deviceInfo =
-                @"<DeviceInfo>
-                <OutputFormat>bmp</OutputFormat>
-                <PageWidth>5in</PageWidth>
-                <PageHeight>20in</PageHeight>
-                <MarginTop>0in</MarginTop>
-                <MarginLeft>0in</MarginLeft>
-                <MarginRight>0in</MarginRight>
-                <MarginBottom>0in</MarginBottom>
-            </DeviceInfo>";
-
+                    @"<DeviceInfo>
+                    <OutputFormat>bmp</OutputFormat>
+                    <PageWidth>5in</PageWidth>
+                    <PageHeight>20in</PageHeight>
+                    <MarginTop>0in</MarginTop>
+                    <MarginLeft>0in</MarginLeft>
+                    <MarginRight>0in</MarginRight>
+                    <MarginBottom>0in</MarginBottom>
+                </DeviceInfo>";     
                 Warning[] warnings;
                 string[] streamIds;
                 string mimeType = string.Empty;
                 string encoding = string.Empty;
-                string extension = string.Empty;
-
+                string extension = string.Empty; 
                 m_streams = new List<Stream>();
 
                 Byte[] mybytes = report.Render("Image", deviceInfo, out mimeType, out encoding, out extension, out streamIds, out warnings);
                 TypeConverter tc = TypeDescriptor.GetConverter(typeof(Bitmap));
-
-
                 string file_name = CropImage((Bitmap)tc.ConvertFrom(mybytes));
                 if (file_name != "")
                 {
-                    var client = new RestClient(telegram_setting.telegram_alert_url + "bot" + telegram_setting.telegram_alert_token);
-                    var request = new RestRequest("sendPhoto", Method.POST)
-                    {
-                        RequestFormat = DataFormat.Json,
-                        AlwaysMultipartFormData = true
-                    };
-                    request.AddFile("photo", $"{telegram_setting.image_path}{file_name}");
-                    request.AddQueryParameter("chat_id", telegram_setting.telegram_chat_id);
-                    request.AddQueryParameter("caption", caption);
                     try
                     {
-                        var response = client.Post(request);
-                        File.Delete($"{ telegram_setting.image_path}{ file_name}");
+                       SendTelegramImage($"{telegram_setting.image_path}{file_name}", caption);  
+                       
+                       
                     }
                     catch (Exception ex)
                     {
@@ -264,6 +258,50 @@ namespace ePOSPrintingService
                 WriteToFile(ex.Message);
             }
         }
+        public static byte[] getByteImage(Stream input)
+        {
+            byte[] buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
+        }
+
+        private static async Task SendTelegramImage(string imagePath, string caption)
+        {  
+            try
+            {
+                
+                TelegramBotClient Bot = new TelegramBotClient(telegram_setting.token);
+                using (var file = new FileStream(imagePath, FileMode.Open))
+                {
+                    Stream s = new MemoryStream(getByteImage(file));
+                    await Bot.SendChatActionAsync(telegram_setting.chat_id, ChatAction.UploadPhoto);
+
+                    await Bot.SendPhotoAsync(
+                        chatId: telegram_setting.chat_id,
+                        photo: new InputOnlineFile(s),
+                        caption: caption
+                    );
+                    s.Close();
+                    file.Dispose();
+                    File.Delete($"{imagePath}");
+
+                }
+
+                             
+            }
+            catch (Exception _ex)
+            {
+                WriteToFile(_ex.Message + "\n" + _ex.ToString());
+            }
+        }
+
         private static void PrintPage(object sender, PrintPageEventArgs ev)
         {
             Metafile pageImage = new
@@ -296,7 +334,12 @@ namespace ePOSPrintingService
             if (!printDoc.PrinterSettings.IsValid)
             {
                 try { throw new Exception("Error: cannot find the default printer."); }
-                catch { /*do nothing*/ }
+                catch(Exception ex) {
+
+                    WriteToFile($"Print {printerName} \n=> {ex.ToString()}" );
+                    
+                    /*do nothing*/ 
+                }
             }
             else
             {
@@ -306,7 +349,10 @@ namespace ePOSPrintingService
                     m_currentPageIndex = 0;
                     printDoc.Print();
                 }
-                catch {  /*do nothing*/  }
+                catch(Exception ex)
+                {
+                    WriteToFile($"Print {printerName} \n=> {ex.ToString()}");
+                }
             }
         }
         private static void Dispose()
@@ -402,7 +448,7 @@ namespace ePOSPrintingService
                       GraphicsUnit.Pixel);
                 }
                 string file_name = Guid.NewGuid() + ".jpg";
-                target.Save(telegram_setting.image_path + file_name);
+                target.Save(telegram_setting.image_path + file_name);   
                 return file_name;
 
             }
@@ -426,17 +472,15 @@ namespace ePOSPrintingService
                 //sale data
                 DataTable data = new DataTable();
                 List<KitchenMessageModel> values = new List<KitchenMessageModel>();
-                var _value = JsonConvert.DeserializeObject<KitchenMessageModel>(_data);
+                var _value = JsonSerializer.Deserialize<KitchenMessageModel>(_data);
                 values.Add(_value);
                 data = CreateDataTable(values);
 
-               
                 ReceiptListModel receipt = new ReceiptListModel();
                 receipt = ReceiptLists.Where(r => r.ReceiptName.ToLower() == "Kitchen Message".ToLower()).FirstOrDefault();
                
                 foreach (var p in _value.printer_names.Split(','))
-                {
-                  
+                {    
                     LocalReport report = new LocalReport();
                     report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
                     report.DataSources.Add(new ReportDataSource("Data", data));
@@ -460,13 +504,12 @@ namespace ePOSPrintingService
             }
         }
 
-        public static void PrintKitchenOrder(string sale_id)
+        public static async Task PrintKitchenOrder(string sale_id)
         {
             try
             {
                 DynamicDataModel print_data = new DynamicDataModel();
-
-                var data = GetApiData($"sp_get_sale_product_for_print_to_kitchen", $"'{sale_id}','json'");
+                var data = await GetApiData($"sp_get_sale_product_for_print_to_kitchen", $"'{sale_id}','json'");
                 if (data.Any())
                 {
                     print_data = data.FirstOrDefault();
@@ -483,14 +526,12 @@ namespace ePOSPrintingService
                 //sale data
                 DataTable sale_data = new DataTable();
                 List<SaleModel> sales = new List<SaleModel>();
-                sales = JsonConvert.DeserializeObject<List<SaleModel>>(print_data.sale_data);
+                sales = JsonSerializer.Deserialize<List<SaleModel>>(print_data.sale_data);
 
-                sale_data = CreateDataTable(sales);
-
-                //sale_product_data
-
+                sale_data = CreateDataTable(sales);       
+                //sale_product_data     
                 List<SaleProductPrintQueueModel> sale_products = new List<SaleProductPrintQueueModel>();
-                sale_products = JsonConvert.DeserializeObject<List<SaleProductPrintQueueModel>>(print_data.sale_product_data);
+                sale_products = JsonSerializer.Deserialize<List<SaleProductPrintQueueModel>>(print_data.sale_product_data);
 
 
                 //loop to printer for print to document
@@ -523,23 +564,16 @@ namespace ePOSPrintingService
                                 {
                                     sale_products.ForEach(r => { r.group_item_type_id = 1; r.quantity = d.quantity - copy; });
                                     ProcessPrintKitchenOrder(p.printer_name, receipt, sale_data, CreateDataTable(sale_products.Where(r => r.id == d.id)), 1);
-                                }
-
-                                 
-                                
+                                }   
                             }
                             break;
                         default:
                             break;
-                    }
-
-
-
-
+                    }  
                 }
-                // update print status
-                ExecuteSQLSatement(string.Format("exec sp_update_print_to_kitchen_status '{0}'", sale_id));
 
+                // update print status
+                await  ExecuteSQLSatement(string.Format("exec sp_update_print_to_kitchen_status '{0}'", sale_id));  
                 IsPrintSuccess = true;
 
             }
@@ -573,68 +607,61 @@ namespace ePOSPrintingService
         
         }
 
-        public static void PrintIvoice(string sale_id, ReceiptListModel receipt, string printer_name, int copies)
+        public static async Task PrintInvoice(string sale_id, ReceiptListModel receipt, string printer_name, int copies)
         {
             try
             {
                 DynamicDataModel receipt_data = new DynamicDataModel();
-
-                var data = GetApiData($"sp_get_sale_data_for_print_bill",$"'{sale_id}','json'");
+                var data = await GetApiData($"sp_get_sale_data_for_print_bill", $"'{sale_id}','json'");
                 if (data.Any())
                 {
                     receipt_data = data.FirstOrDefault();
-               
-                     
+                    LocalReport report = new LocalReport();
 
-                LocalReport report = new LocalReport();
+                    report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.InvoiceFileName);
 
-                report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.InvoiceFileName);
-
-                //sale data
-                DataTable sale_data = new DataTable();
-                List<SaleModel> sales = new List<SaleModel>();
-                sales = JsonConvert.DeserializeObject<List<SaleModel>>(receipt_data.sale_data);
-                sale_data = CreateDataTable(sales);
-                //sale_product_data
-                DataTable sale_product_data = new DataTable();
-                List<SaleProductModel> sale_products = new List<SaleProductModel>();
-                sale_products = JsonConvert.DeserializeObject<List<SaleProductModel>>(receipt_data.sale_product_data);
-                sale_product_data = CreateDataTable(sale_products);
+                    //sale data
+                    DataTable sale_data = new DataTable();
+                    List<SaleModel> sales = new List<SaleModel>();
+                    sales = JsonSerializer.Deserialize<List<SaleModel>>(receipt_data.sale_data);
+                    sale_data = CreateDataTable(sales);
+                    //sale_product_data
+                    DataTable sale_product_data = new DataTable();
+                    List<SaleProductModel> sale_products = new List<SaleProductModel>();
+                    sale_products = JsonSerializer.Deserialize<List<SaleProductModel>>(receipt_data.sale_product_data);
+                    sale_product_data = CreateDataTable(sale_products);
 
 
-                //Grand total data
-                DataTable grand_total_data = new DataTable();
-                List<GrandTotalModel> grand_totals = new List<GrandTotalModel>();
-                grand_totals = JsonConvert.DeserializeObject<List<GrandTotalModel>>(receipt_data.grand_total_data);
-                grand_total_data = CreateDataTable(grand_totals);
+                    //Grand total data
+                    DataTable grand_total_data = new DataTable();
+                    List<GrandTotalModel> grand_totals = new List<GrandTotalModel>();
+                    grand_totals = JsonSerializer.Deserialize<List<GrandTotalModel>>(receipt_data.grand_total_data);
+                    grand_total_data = CreateDataTable(grand_totals);
 
-                //Setting data
-                DataTable setting_data = new DataTable();
-                List<SettingModel> settings = new List<SettingModel>();
-                settings = JsonConvert.DeserializeObject<List<SettingModel>>(receipt_data.setting_data);
-                setting_data = CreateDataTable(settings);
+                    //Setting data
+                    DataTable setting_data = new DataTable();
+                    List<SettingModel> settings = new List<SettingModel>();
+                    settings = JsonSerializer.Deserialize<List<SettingModel>>(receipt_data.setting_data);
+                    setting_data = CreateDataTable(settings);
 
-                report.DataSources.Add(new ReportDataSource("Sale", sale_data));
-                report.DataSources.Add(new ReportDataSource("SaleProduct", sale_product_data));
-                report.DataSources.Add(new ReportDataSource("GrandTotal", grand_total_data));
-                report.DataSources.Add(new ReportDataSource("Setting", setting_data));
+                    report.DataSources.Add(new ReportDataSource("Sale", sale_data));
+                    report.DataSources.Add(new ReportDataSource("SaleProduct", sale_product_data));
+                    report.DataSources.Add(new ReportDataSource("GrandTotal", grand_total_data));
+                    report.DataSources.Add(new ReportDataSource("Setting", setting_data));
 
-                Export(report,
-                     receipt.PageWidth,
-                     receipt.PageHeight,
-                     receipt.MarginTop,
-                     receipt.MarginLeft,
-                     receipt.MarginRight,
-                     receipt.MarginBottom
-                     );
-                Print(printer_name, Convert.ToInt16(copies));
-            
-                Thread t = ThreadStart(() => SendTelegramAlert(report, "Print Sale Invoice"));
+                    Export(report,
+                         receipt.PageWidth,
+                         receipt.PageHeight,
+                         receipt.MarginTop,
+                         receipt.MarginLeft,
+                         receipt.MarginRight,
+                         receipt.MarginBottom
+                         );
+                    Print(printer_name, Convert.ToInt16(copies));
 
-
-                IsPrintSuccess = true;
-                }
-                
+                    Thread t = ThreadStart(() => SendTelegramAlert(report,  "Print Sale Invoice"));
+                    IsPrintSuccess = true;
+                }    
             }
             catch (Exception ex)
             {
@@ -646,13 +673,12 @@ namespace ePOSPrintingService
 
       
 
-        public static void PrintWaitingOrder(string sale_id, ReceiptListModel receipt, string printer_name, int copies)
+        public static async Task PrintWaitingOrder(string sale_id, ReceiptListModel receipt, string printer_name, int copies)
         {
             try
             { 
-                DynamicDataModel receipt_data = new DynamicDataModel();
-
-                var data = GetApiData($"sp_get_sale_data_for_print_bill", $"'{sale_id}','json'");
+                DynamicDataModel receipt_data = new DynamicDataModel();     
+                var data = await GetApiData($"sp_get_sale_data_for_print_bill", $"'{sale_id}','json'");
                 if (data.Any())
                 {
                     receipt_data = data.FirstOrDefault();
@@ -662,31 +688,30 @@ namespace ePOSPrintingService
                     return;
                 } 
                 LocalReport report = new LocalReport();
-
                 report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.InvoiceFileName);
 
                 //sale data
                 DataTable sale_data = new DataTable();
                 List<SaleModel> sales = new List<SaleModel>();
-                sales = JsonConvert.DeserializeObject<List<SaleModel>>(receipt_data.sale_data);
+                sales = JsonSerializer.Deserialize<List<SaleModel>>(receipt_data.sale_data);
                 sale_data = CreateDataTable(sales);
                 //sale_product_data
                 DataTable sale_product_data = new DataTable();
                 List<SaleProductModel> sale_products = new List<SaleProductModel>();
-                sale_products = JsonConvert.DeserializeObject<List<SaleProductModel>>(receipt_data.sale_product_data);
+                sale_products = JsonSerializer.Deserialize<List<SaleProductModel>>(receipt_data.sale_product_data);
                 sale_product_data = CreateDataTable(sale_products);
 
 
                 //Grand total data
                 DataTable grand_total_data = new DataTable();
                 List<GrandTotalModel> grand_totals = new List<GrandTotalModel>();
-                grand_totals = JsonConvert.DeserializeObject<List<GrandTotalModel>>(receipt_data.grand_total_data);
+                grand_totals = JsonSerializer.Deserialize<List<GrandTotalModel>>(receipt_data.grand_total_data);
                 grand_total_data = CreateDataTable(grand_totals);
 
                 //Setting data
                 DataTable setting_data = new DataTable();
                 List<SettingModel> settings = new List<SettingModel>();
-                settings = JsonConvert.DeserializeObject<List<SettingModel>>(receipt_data.setting_data);
+                settings = JsonSerializer.Deserialize<List<SettingModel>>(receipt_data.setting_data);
                 setting_data = CreateDataTable(settings);
 
                 report.DataSources.Add(new ReportDataSource("Sale", sale_data));
@@ -714,14 +739,13 @@ namespace ePOSPrintingService
             };
         }
 
-       public static void PrintWifiPassword()
+       public static async Task PrintWifiPassword()
         {
             try
-            {
-
+            {    
                 ReceiptListModel receipt = ReceiptLists.FirstOrDefault(); 
                 DynamicDataModel receipt_data = new DynamicDataModel(); 
-                var data = GetApiData($"sp_get_setting_data", $"'json'");
+                var data = await GetApiData($"sp_get_setting_data", $"'json'");
                 if (data.Any())
                 {
                     receipt_data = data.FirstOrDefault();
@@ -729,19 +753,15 @@ namespace ePOSPrintingService
                 else
                 {
                     return;
-                }
-
-
-                LocalReport report = new LocalReport();
-
+                }   
+                LocalReport report = new LocalReport();   
                 report.ReportPath = string.Format(@"{0}\RDLC\rpt_wifi_password.rdlc", AppDomain.CurrentDomain.BaseDirectory); 
+
                 //Setting data
                 DataTable setting_data = new DataTable();
                 List<SettingModel> settings = new List<SettingModel>();
-                settings = JsonConvert.DeserializeObject<List<SettingModel>>(receipt_data.setting_data);
+                settings = JsonSerializer.Deserialize<List<SettingModel>>(receipt_data.setting_data);
                 setting_data = CreateDataTable(settings);
-
-
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
 
                 Export(report,
@@ -752,8 +772,8 @@ namespace ePOSPrintingService
                      receipt.MarginRight,
                      receipt.MarginBottom
                      );
-                Print(CashierPrinter,1);
 
+                Print(CashierPrinter,1);
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -763,12 +783,12 @@ namespace ePOSPrintingService
             };
         }
 
-        public static void PrintReceipt(string sale_id, ReceiptListModel receipt, string printer_name, int copies, bool is_reprint = false)
+        public static async Task PrintReceipt(string sale_id, ReceiptListModel receipt, string printer_name, int copies, bool is_reprint = false)
         {
             try
             { 
                 DynamicDataModel receipt_data = new DynamicDataModel(); 
-                var data = GetApiData($"sp_get_sale_data_for_print_bill", $"'{sale_id}','json'");
+                var data = await GetApiData($"sp_get_sale_data_for_print_bill", $"'{sale_id}','json'");
                 if (data.Any())
                 {
                     receipt_data = data.FirstOrDefault();
@@ -782,27 +802,26 @@ namespace ePOSPrintingService
                 //sale data
                 DataTable sale_data = new DataTable();
                 List<SaleModel> sales = new List<SaleModel>();
-                sales = JsonConvert.DeserializeObject<List<SaleModel>>(receipt_data.sale_data);
+                sales = JsonSerializer.Deserialize<List<SaleModel>>(receipt_data.sale_data);
                 sales.ForEach(r => r.is_reprint_receipt = is_reprint);
                 sale_data = CreateDataTable(sales);
                 //sale_product_data
                 DataTable sale_product_data = new DataTable();
                 List<SaleProductModel> sale_products = new List<SaleProductModel>();
-                sale_products = JsonConvert.DeserializeObject<List<SaleProductModel>>(receipt_data.sale_product_data);
-                sale_product_data = CreateDataTable(sale_products);
-
+                sale_products = JsonSerializer.Deserialize<List<SaleProductModel>>(receipt_data.sale_product_data);
+                sale_product_data = CreateDataTable(sale_products);  
 
                 //Grand total data
                 DataTable grand_total_data = new DataTable();
                 List<GrandTotalModel> grand_totals = new List<GrandTotalModel>();
-                grand_totals = JsonConvert.DeserializeObject<List<GrandTotalModel>>(receipt_data.grand_total_data);
+                grand_totals = JsonSerializer.Deserialize<List<GrandTotalModel>>(receipt_data.grand_total_data);
                 grand_total_data = CreateDataTable(grand_totals);
 
 
                 //sale payment data
                 DataTable sale_payment_data = new DataTable();
                 List<SalePaymentModel> sale_payments = new List<SalePaymentModel>();
-                sale_payments = JsonConvert.DeserializeObject<List<SalePaymentModel>>(receipt_data.sale_payment_data);
+                sale_payments = JsonSerializer.Deserialize<List<SalePaymentModel>>(receipt_data.sale_payment_data);
                 sale_payment_data = CreateDataTable(sale_payments);
 
                 //sale payment change data
@@ -810,17 +829,15 @@ namespace ePOSPrintingService
                 List<SalePaymentChangeModel> sale_payment_change_list= new List<SalePaymentChangeModel>();
                 if (receipt_data.sale_payment_change_data != null)
                 {
-                    sale_payment_change_list = JsonConvert.DeserializeObject<List<SalePaymentChangeModel>>(receipt_data.sale_payment_change_data);
+                    sale_payment_change_list = JsonSerializer.Deserialize<List<SalePaymentChangeModel>>(receipt_data.sale_payment_change_data);
                 }
                 
-                sale_payment_change_data = CreateDataTable(sale_payment_change_list);
-
-
+                sale_payment_change_data = CreateDataTable(sale_payment_change_list);   
 
                 //Setting data
                 DataTable setting_data = new DataTable();
                 List<SettingModel> settings = new List<SettingModel>();
-                settings = JsonConvert.DeserializeObject<List<SettingModel>>(receipt_data.setting_data);
+                settings = JsonSerializer.Deserialize<List<SettingModel>>(receipt_data.setting_data);
                 setting_data = CreateDataTable(settings);
 
                 report.DataSources.Add(new ReportDataSource("Sale", sale_data));
@@ -838,12 +855,9 @@ namespace ePOSPrintingService
                      receipt.MarginRight,
                      receipt.MarginBottom
                      );
-                Print(printer_name, Convert.ToInt16(copies));
 
-                 
-                Thread t = ThreadStart(() => SendTelegramAlert(report, is_reprint ? "Re Print Receipt" : "Print Receipt"));
-
-               
+                Print(printer_name, Convert.ToInt16(copies));   
+                Thread t = ThreadStart(() => SendTelegramAlert(report, is_reprint ? "Re Print Receipt" : "Print Receipt"));  
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -853,12 +867,12 @@ namespace ePOSPrintingService
             };
         }
 
-        public static void PrintParkItemReceipt(string sale_id, ReceiptListModel receipt, string printer_name, bool is_reprint = false)
+        public static async Task PrintParkItemReceipt(string sale_id, ReceiptListModel receipt, string printer_name, bool is_reprint = false)
         {
             try
             {
                 DynamicDataModel receipt_data = new DynamicDataModel();
-                var data = GetApiData($"sp_get_sale_data_for_print_bill", $"'{sale_id}','json'");
+                var data = await GetApiData($"sp_get_sale_data_for_print_bill", $"'{sale_id}','json'");
                 if (data.Any())
                 {
                     receipt_data = data.FirstOrDefault();
@@ -873,31 +887,25 @@ namespace ePOSPrintingService
                 //sale data
                 DataTable sale_data = new DataTable();
                 List<SaleModel> sales = new List<SaleModel>();
-                sales = JsonConvert.DeserializeObject<List<SaleModel>>(receipt_data.sale_data);
+                sales = JsonSerializer.Deserialize<List<SaleModel>>(receipt_data.sale_data);
                 sales.ForEach(r => r.is_reprint_receipt = is_reprint);
                 sale_data = CreateDataTable(sales);
                 //sale_product_data
                 DataTable sale_product_data = new DataTable();
                 List<SaleProductModel> sale_products = new List<SaleProductModel>();
-                sale_products = JsonConvert.DeserializeObject<List<SaleProductModel>>(receipt_data.sale_product_data);
+                sale_products = JsonSerializer.Deserialize<List<SaleProductModel>>(receipt_data.sale_product_data);
                 sale_product_data = CreateDataTable(sale_products.Where(r=>r.is_park==true));
-
- 
-
-             
 
                 //Setting data
                 DataTable setting_data = new DataTable();
                 List<SettingModel> settings = new List<SettingModel>();
-                settings = JsonConvert.DeserializeObject<List<SettingModel>>(receipt_data.setting_data);
+                settings = JsonSerializer.Deserialize<List<SettingModel>>(receipt_data.setting_data);
                 setting_data = CreateDataTable(settings);
-
 
                 report.DataSources.Add(new ReportDataSource("Sale", sale_data));
                 report.DataSources.Add(new ReportDataSource("SaleProduct", sale_product_data));
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
 
-        
                 Export(report,
                      receipt.PageWidth,
                      receipt.PageHeight,
@@ -906,12 +914,9 @@ namespace ePOSPrintingService
                      receipt.MarginRight,
                      receipt.MarginBottom
                      );
+
                 Print(printer_name, Convert.ToInt16(receipt.number_receipt_copies));
-
-
                 Thread t = ThreadStart(() => SendTelegramAlert(report, is_reprint ? "Re Print Park Item Receipt" : "Print Park Item Receipt"));
-
-
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -922,17 +927,12 @@ namespace ePOSPrintingService
         }
 
 
-        public static void PrintDeletedOrder(string sale_id, ReceiptListModel receipt, string printer_name)
+        public static async Task PrintDeletedOrder(string sale_id, ReceiptListModel receipt, string printer_name)
         {
             try
             {
-
-
-
-               
                 DynamicDataModel receipt_data = new DynamicDataModel();
-
-                var data = GetApiData($"sp_get_deleted_sale_data_for_print_bill", $"'{sale_id}','json'");
+                var data = await GetApiData($"sp_get_deleted_sale_data_for_print_bill", $"'{sale_id}','json'");
                 if (data.Any())
                 {
                     receipt_data = data.FirstOrDefault();
@@ -942,34 +942,31 @@ namespace ePOSPrintingService
                     return;
                 }
 
-
-
                 LocalReport report = new LocalReport();
-
                 report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.InvoiceFileName);
 
                 //sale data
                 DataTable sale_data = new DataTable();
                 List<SaleModel> sales = new List<SaleModel>();
-                sales = JsonConvert.DeserializeObject<List<SaleModel>>(receipt_data.sale_data);
+                sales = JsonSerializer.Deserialize<List<SaleModel>>(receipt_data.sale_data);
                 sale_data = CreateDataTable(sales);
                 //sale_product_data
                 DataTable sale_product_data = new DataTable();
                 List<SaleProductModel> sale_products = new List<SaleProductModel>();
-                sale_products = JsonConvert.DeserializeObject<List<SaleProductModel>>(receipt_data.sale_product_data);
+                sale_products = JsonSerializer.Deserialize<List<SaleProductModel>>(receipt_data.sale_product_data);
                 sale_product_data = CreateDataTable(sale_products);
 
 
                 //Grand total data
                 DataTable grand_total_data = new DataTable();
                 List<GrandTotalModel> grand_totals = new List<GrandTotalModel>();
-                grand_totals = JsonConvert.DeserializeObject<List<GrandTotalModel>>(receipt_data.grand_total_data);
+                grand_totals = JsonSerializer.Deserialize<List<GrandTotalModel>>(receipt_data.grand_total_data);
                 grand_total_data = CreateDataTable(grand_totals);
 
                 //Setting data
                 DataTable setting_data = new DataTable();
                 List<SettingModel> settings = new List<SettingModel>();
-                settings = JsonConvert.DeserializeObject<List<SettingModel>>(receipt_data.setting_data);
+                settings = JsonSerializer.Deserialize<List<SettingModel>>(receipt_data.setting_data);
                 setting_data = CreateDataTable(settings);
 
                 report.DataSources.Add(new ReportDataSource("Sale", sale_data));
@@ -986,10 +983,7 @@ namespace ePOSPrintingService
                      receipt.MarginBottom
                      );
                 Print(printer_name,1);
-
                 Thread t = ThreadStart(() => SendTelegramAlert(report, "Print Deleted Order"));
-
-               
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -1000,9 +994,8 @@ namespace ePOSPrintingService
         }
 
 
-        public static void PrintSaleProductToLabelPrinter(int sale_id, DataTable data, string is_paid)
-        {
-
+        public static async Task PrintSaleProductToLabelPrinter(int sale_id, DataTable data, string is_paid)
+        {     
             LocalReport report = new LocalReport();
             report.ReportPath = string.Format(@"{0}\RDLC\rptLabel.rdlc", AppDomain.CurrentDomain.BaseDirectory);
             int total_qty = 0;
@@ -1042,16 +1035,15 @@ namespace ePOSPrintingService
                 }
             }
             //Update Is Label Print
-            ExecuteSQLSatement(string.Format("update tbl_sale_product_kitchen_printer_queue set is_printed_label = 1 where sale_id ={0} and coalesce(is_printed_label,0) = 0 ;", sale_id));
+            await ExecuteSQLSatement(string.Format("update tbl_sale_product_kitchen_printer_queue set is_printed_label = 1 where sale_id ={0} and coalesce(is_printed_label,0) = 0 ;", sale_id));
         }
 
-        public static void PrintCloseWorkingDay(string working_day_id, ReceiptListModel receipt, string printer_name, string printed_by="",string language="en")
+        public static async Task PrintCloseWorkingDay(string working_day_id, ReceiptListModel receipt, string printer_name, string printed_by="",string language="en")
         {
             try
             {
                 DynamicDataModel report_data = new DynamicDataModel();
-
-                var data = GetApiData($"sp_get_close_working_data_for_print", $"'{working_day_id}','json','{language}'");
+                var data = await GetApiData($"sp_get_close_working_data_for_print", $"'{working_day_id}','json','{language}'");
                 if (data.Any())
                 {
                     report_data = data.FirstOrDefault();
@@ -1060,40 +1052,32 @@ namespace ePOSPrintingService
                 {
                     return;
                 }
-
-
-
-
-                LocalReport report = new LocalReport();
-
+                var _translate_text = await GetTranslateText(language);
+                LocalReport report = new LocalReport();     
                 report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
-
-              
 
                 //Working day info
                 DataTable working_day_data = new DataTable();
                 List<WorkingDayModel> working_day = new List<WorkingDayModel>();
-                working_day = JsonConvert.DeserializeObject<List<WorkingDayModel>>(report_data.working_day_info);
+                working_day = JsonSerializer.Deserialize<List<WorkingDayModel>>(report_data.working_day_info);
                 working_day_data = CreateDataTable(working_day);
                 
                 //Working day summaryu data
                 DataTable working_day_summary_data = new DataTable();
                 List<CloseWorkingDaySummaryDataModel> working_day_summary = new List<CloseWorkingDaySummaryDataModel>();
-                working_day_summary = JsonConvert.DeserializeObject<List<CloseWorkingDaySummaryDataModel>>(report_data.working_day_data);
+                working_day_summary = JsonSerializer.Deserialize<List<CloseWorkingDaySummaryDataModel>>(report_data.working_day_data);
                 working_day_summary_data = CreateDataTable(working_day_summary);
                
                 //Close sale data data
                 DataTable close_sale_data = new DataTable();
                 List<SaleModel> close_sales = new List<SaleModel>();
-                close_sales = JsonConvert.DeserializeObject<List<SaleModel>>(report_data.sale_data);
+                close_sales = JsonSerializer.Deserialize<List<SaleModel>>(report_data.sale_data);
                 close_sale_data = CreateDataTable(close_sales);
-
-
 
                 //Setting data
                 DataTable setting_data = new DataTable();
                 List<SettingModel> settings = new List<SettingModel>();
-                settings = JsonConvert.DeserializeObject<List<SettingModel>>(report_data.setting_data);
+                settings = JsonSerializer.Deserialize<List<SettingModel>>(report_data.setting_data);
                 settings.ForEach(r => r.printed_by = printed_by);
                 setting_data = CreateDataTable(settings);
  
@@ -1101,7 +1085,7 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
                 report.DataSources.Add(new ReportDataSource("CloseWorkingDayData", working_day_summary_data));
                 report.DataSources.Add(new ReportDataSource("CloseSaleData", close_sale_data));
-                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(GetTranslateText(language))));
+                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));
 
                 Export(report,
                      receipt.PageWidth,
@@ -1111,10 +1095,9 @@ namespace ePOSPrintingService
                      receipt.MarginRight,
                      receipt.MarginBottom
                      );
-                Print(printer_name,1); 
 
-                Thread t = ThreadStart(() => SendTelegramAlert(report, $"Close working day report {working_day.FirstOrDefault().working_day_number}"));
-  
+                Print(printer_name,1);   
+                Thread t = ThreadStart(() => SendTelegramAlert(report, $"Close working day report {working_day.FirstOrDefault().working_day_number}"));   
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -1131,16 +1114,12 @@ namespace ePOSPrintingService
         }
 
 
-        public static void PrintCloseWorkingDaySaleProduct(string working_day_id, ReceiptListModel receipt, string printer_name, string printed_by = "",string language="en")
+        public static async Task PrintCloseWorkingDaySaleProduct(string working_day_id, ReceiptListModel receipt, string printer_name, string printed_by = "",string language="en")
         {
             try
-            {
-
- 
-
-                DynamicDataModel report_data = new DynamicDataModel();
-
-                var data = GetApiData($"sp_get_close_working_sale_product_data_for_print", $"'{working_day_id}','{language}','json'");
+            {  
+                DynamicDataModel report_data = new DynamicDataModel();  
+                var data = await GetApiData($"sp_get_close_working_sale_product_data_for_print", $"'{working_day_id}','{language}','json'");
                 if (data.Any())
                 {
                     report_data = data.FirstOrDefault();
@@ -1149,49 +1128,40 @@ namespace ePOSPrintingService
                 {
                     return;
                 }
-
-
-
-                LocalReport report = new LocalReport();
-
+                var _translate_text = await GetTranslateText(language);
+                LocalReport report = new LocalReport();  
                 report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
-
-
 
                 //Working day info
                 DataTable working_day_data = new DataTable();
                 List<WorkingDayModel> working_day = new List<WorkingDayModel>();
-                working_day = JsonConvert.DeserializeObject<List<WorkingDayModel>>(report_data.working_day_info);
+                working_day = JsonSerializer.Deserialize<List<WorkingDayModel>>(report_data.working_day_info);
                 working_day_data = CreateDataTable(working_day);
-
-      
 
                 //Setting data
                 DataTable setting_data = new DataTable();
                 List<SettingModel> settings = new List<SettingModel>();
-                settings = JsonConvert.DeserializeObject<List<SettingModel>>(report_data.setting_data);
+                settings = JsonSerializer.Deserialize<List<SettingModel>>(report_data.setting_data);
                 settings.ForEach(r => r.printed_by = printed_by);
                 setting_data = CreateDataTable(settings);
 
                 //Sale Product Data
                 DataTable sale_product_data= new DataTable();
                 List<SaleProductModel> sale_products = new List<SaleProductModel>();
-                sale_products = JsonConvert.DeserializeObject<List<SaleProductModel>>(report_data.sale_product_data);
+                sale_products = JsonSerializer.Deserialize<List<SaleProductModel>>(report_data.sale_product_data);
                 sale_product_data = CreateDataTable(sale_products);
 
                 //FOC Sale Product Data
                 DataTable foc_sale_product_data= new DataTable();
                 List<SaleProductModel> foc_sale_products = new List<SaleProductModel>();
-                foc_sale_products = JsonConvert.DeserializeObject<List<SaleProductModel>>(report_data.foc_sale_product_data);
+                foc_sale_products = JsonSerializer.Deserialize<List<SaleProductModel>>(report_data.foc_sale_product_data);
                 foc_sale_product_data = CreateDataTable(foc_sale_products);
-
-
 
                 report.DataSources.Add(new ReportDataSource("WorkingDay", working_day_data));
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
                 report.DataSources.Add(new ReportDataSource("SaleProductData", sale_product_data));
                 report.DataSources.Add(new ReportDataSource("FOCSaleProductData", foc_sale_product_data));
-                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(GetTranslateText(language))));
+                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));
 
                 Export(report,
                      receipt.PageWidth,
@@ -1201,11 +1171,9 @@ namespace ePOSPrintingService
                      receipt.MarginRight,
                      receipt.MarginBottom
                      );
-                Print(printer_name, 1);
 
-                Thread t = ThreadStart(() => SendTelegramAlert(report, $"Close working day - Sale Product Report  {working_day.FirstOrDefault().working_day_number}"));
-
-                
+                Print(printer_name, 1);  
+                Thread t = ThreadStart(() => SendTelegramAlert(report, $"Close working day - Sale Product Report  {working_day.FirstOrDefault().working_day_number}"));  
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -1215,17 +1183,12 @@ namespace ePOSPrintingService
             };
         }
 
-        public static void PrintCloseWorkingDaySaleTransaction(string working_day_id, ReceiptListModel receipt, string printer_name, string printed_by = "",string language="")
+        public static async Task PrintCloseWorkingDaySaleTransaction(string working_day_id, ReceiptListModel receipt, string printer_name, string printed_by = "",string language="")
         {
             try
-            {
-
-
-              
-
-                DynamicDataModel report_data = new DynamicDataModel();
-
-                var data = GetApiData($"sp_get_close_working_data_sale_transaction_for_print", $"'{working_day_id}','{language}','json'");
+            { 
+                DynamicDataModel report_data = new DynamicDataModel();  
+                var data = await GetApiData($"sp_get_close_working_data_sale_transaction_for_print", $"'{working_day_id}','{language}','json'");
                 if (data.Any())
                 {
                     report_data = data.FirstOrDefault();
@@ -1234,44 +1197,33 @@ namespace ePOSPrintingService
                 {
                     return;
                 }
-
-
-
-
-                LocalReport report = new LocalReport();
-
+                var _translate_text = await GetTranslateText(language);
+                LocalReport report = new LocalReport();  
                 report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
-
-
 
                 //Working day info
                 DataTable working_day_data = new DataTable();
                 List<WorkingDayModel> working_day = new List<WorkingDayModel>();
-                working_day = JsonConvert.DeserializeObject<List<WorkingDayModel>>(report_data.working_day_info);
+                working_day = JsonSerializer.Deserialize<List<WorkingDayModel>>(report_data.working_day_info);
                 working_day_data = CreateDataTable(working_day);
-
-
 
                 //Setting data
                 DataTable setting_data = new DataTable();
                 List<SettingModel> settings = new List<SettingModel>();
-                settings = JsonConvert.DeserializeObject<List<SettingModel>>(report_data.setting_data);
+                settings = JsonSerializer.Deserialize<List<SettingModel>>(report_data.setting_data);
                 settings.ForEach(r => r.printed_by = printed_by);
                 setting_data = CreateDataTable(settings);
-
 
                 //Close sale data data
                 DataTable close_sale_data = new DataTable();
                 List<SaleModel> close_sales = new List<SaleModel>();
-                close_sales = JsonConvert.DeserializeObject<List<SaleModel>>(report_data.sale_data);
+                close_sales = JsonSerializer.Deserialize<List<SaleModel>>(report_data.sale_data);
                 close_sale_data = CreateDataTable(close_sales);
-
-
 
                 report.DataSources.Add(new ReportDataSource("WorkingDay", working_day_data));
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
                 report.DataSources.Add(new ReportDataSource("CloseSaleData", close_sale_data));
-                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(GetTranslateText(language))));
+                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));
 
                 Export(report,
                      receipt.PageWidth,
@@ -1281,11 +1233,9 @@ namespace ePOSPrintingService
                      receipt.MarginRight,
                      receipt.MarginBottom
                      );
-                Print(printer_name, 1);
 
-
-                Thread t = ThreadStart(() => SendTelegramAlert(report, $"Close working day - Sale Transaction Report  {working_day.FirstOrDefault().working_day_number}"));
-
+                Print(printer_name, 1); 
+                Thread t = ThreadStart(() => SendTelegramAlert(report, $"Close working day - Sale Transaction Report  {working_day.FirstOrDefault().working_day_number}"));  
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -1293,22 +1243,13 @@ namespace ePOSPrintingService
                 WriteToFile(ex.Message + ex.ToString());
                 IsPrintSuccess = false;
             };
-        }
-
-
-
-        public static void PrintCloseCashierShiftSummary(string cashier_shift_id, ReceiptListModel receipt, string printer_name, string printed_by = "", string language = "en")
+        }  
+        public static async Task PrintCloseCashierShiftSummary(string cashier_shift_id, ReceiptListModel receipt, string printer_name, string printed_by = "", string language = "en")
         {
             try
-            {
-
-
-                
-
-                DynamicDataModel report_data = new DynamicDataModel();
-
-                var data = GetApiData($"sp_get_close_cashier_shift_data_for_print", $"'{cashier_shift_id}','json','{language}'");
-
+            {   
+                DynamicDataModel report_data = new DynamicDataModel();   
+                var data = await GetApiData($"sp_get_close_cashier_shift_data_for_print", $"'{cashier_shift_id}','json','{language}'");   
                 if (data.Any())
                 {
                     report_data = data.FirstOrDefault();
@@ -1317,55 +1258,40 @@ namespace ePOSPrintingService
                 {
                     return;
                 }
-
-
-
-
-
-                LocalReport report = new LocalReport();
-
+                var _translate_text = await GetTranslateText(language);
+                LocalReport report = new LocalReport();  
                 report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
-
-
 
                 //cashier shift info
                 DataTable cashier_shift_data = new DataTable();
                 List<CashierShiftModel> cashier_shift = new List<CashierShiftModel>();
-                cashier_shift = JsonConvert.DeserializeObject<List<CashierShiftModel>>(report_data.cashier_shift_info);
+                cashier_shift = JsonSerializer.Deserialize<List<CashierShiftModel>>(report_data.cashier_shift_info);
                 cashier_shift_data = CreateDataTable(cashier_shift);
 
                 //cashier shift summaryu data
                 DataTable cashier_shift_summary_data = new DataTable();
                 List<CloseCashierShiftSummaryDataModel> cashier_shift_summary = new List<CloseCashierShiftSummaryDataModel>();
-                cashier_shift_summary= JsonConvert.DeserializeObject<List<CloseCashierShiftSummaryDataModel>>(report_data.cashier_shift_data);
+                cashier_shift_summary= JsonSerializer.Deserialize<List<CloseCashierShiftSummaryDataModel>>(report_data.cashier_shift_data);
                 cashier_shift_summary_data = CreateDataTable(cashier_shift_summary);
 
                 //Close sale data data
                 DataTable close_sale_data = new DataTable();
                 List<SaleModel> close_sales = new List<SaleModel>();
-                close_sales = JsonConvert.DeserializeObject<List<SaleModel>>(report_data.sale_data);
+                close_sales = JsonSerializer.Deserialize<List<SaleModel>>(report_data.sale_data);
                 close_sale_data = CreateDataTable(close_sales);
-
-
 
                 //Setting data
                 DataTable setting_data = new DataTable();
                 List<SettingModel> settings = new List<SettingModel>();
-                settings = JsonConvert.DeserializeObject<List<SettingModel>>(report_data.setting_data);
+                settings = JsonSerializer.Deserialize<List<SettingModel>>(report_data.setting_data);
                 settings.ForEach(r => r.printed_by = printed_by);
                 setting_data = CreateDataTable(settings);
-
-
-              
-             
-
-
 
                 report.DataSources.Add(new ReportDataSource("CashierShiftData",cashier_shift_data));
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
                 report.DataSources.Add(new ReportDataSource("CloseCashierShiftData", cashier_shift_summary_data));
                 report.DataSources.Add(new ReportDataSource("CloseSaleData", close_sale_data));
-                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(GetTranslateText(language))));
+                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));
 
                 Export(report,
                      receipt.PageWidth,
@@ -1375,6 +1301,7 @@ namespace ePOSPrintingService
                      receipt.MarginRight,
                      receipt.MarginBottom
                      );
+
                 Print(printer_name, 1);
                 SendTelegramAlert(report, $"Close cashier shift - Sale summary report  {cashier_shift.FirstOrDefault().cashier_shift_number}");
                 IsPrintSuccess = true;
@@ -1386,20 +1313,12 @@ namespace ePOSPrintingService
             };
         }
 
-
-
-        public static void PrintCloseCashierShiftSaleTransaction(string cashier_shift_id, ReceiptListModel receipt, string printer_name, string printed_by = "",string language="en")
+        public static async Task PrintCloseCashierShiftSaleTransaction(string cashier_shift_id, ReceiptListModel receipt, string printer_name, string printed_by = "",string language="en")
         {
             try
-            {
-
-                    
-               
-
-
-                DynamicDataModel report_data = new DynamicDataModel();
-
-                var data = GetApiData($"sp_get_close_cashier_shift_sale_transaction_for_print", $"'{cashier_shift_id}','{language}','json'");
+            {  
+                DynamicDataModel report_data = new DynamicDataModel();   
+                var data = await GetApiData($"sp_get_close_cashier_shift_sale_transaction_for_print", $"'{cashier_shift_id}','{language}','json'");
                 if (data.Any())
                 {
                     report_data = data.FirstOrDefault();
@@ -1408,42 +1327,34 @@ namespace ePOSPrintingService
                 {
                     return;
                 }
-
-
-
-
-                LocalReport report = new LocalReport();
-
-                report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
-
-
+                var _translate_text = await GetTranslateText(language);
+                LocalReport report = new LocalReport();   
+                report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName); 
 
                 //cashier shift info
                 DataTable cashier_shift_data = new DataTable();
                 List<CashierShiftModel> cashier_shift = new List<CashierShiftModel>();
-                cashier_shift = JsonConvert.DeserializeObject<List<CashierShiftModel>>(report_data.cashier_shift_info);
-                cashier_shift_data = CreateDataTable(cashier_shift);
-
+                cashier_shift = JsonSerializer.Deserialize<List<CashierShiftModel>>(report_data.cashier_shift_info);
+                cashier_shift_data = CreateDataTable(cashier_shift);  
                
                 //Close sale data data
                 DataTable close_sale_data = new DataTable();
                 List<SaleModel> close_sales = new List<SaleModel>();
-                close_sales = JsonConvert.DeserializeObject<List<SaleModel>>(report_data.sale_data);
+                close_sales = JsonSerializer.Deserialize<List<SaleModel>>(report_data.sale_data);
                 close_sale_data = CreateDataTable(close_sales);
-
-
 
                 //Setting data
                 DataTable setting_data = new DataTable();
                 List<SettingModel> settings = new List<SettingModel>();
-                settings = JsonConvert.DeserializeObject<List<SettingModel>>(report_data.setting_data);
+                settings = JsonSerializer.Deserialize<List<SettingModel>>(report_data.setting_data);
                 settings.ForEach(r => r.printed_by = printed_by);
                 setting_data = CreateDataTable(settings);
 
                 report.DataSources.Add(new ReportDataSource("CashierShiftData", cashier_shift_data));
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
                 report.DataSources.Add(new ReportDataSource("CloseSaleData", close_sale_data));
-                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(GetTranslateText(language))));
+                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));
+
                 Export(report,
                      receipt.PageWidth,
                      receipt.PageHeight,
@@ -1452,6 +1363,7 @@ namespace ePOSPrintingService
                      receipt.MarginRight,
                      receipt.MarginBottom
                      );
+
                 Print(printer_name, 1);
                 SendTelegramAlert(report, $"Close cashier shift - Sale transaction report  {cashier_shift.FirstOrDefault().cashier_shift_number}");
                 IsPrintSuccess = true;
@@ -1465,17 +1377,12 @@ namespace ePOSPrintingService
 
 
 
-        public static void PrintCloseCashierShiftSaleProduct(string cashier_shift_id, ReceiptListModel receipt, string printer_name, string printed_by = "",string language="en")
+        public static async Task PrintCloseCashierShiftSaleProduct(string cashier_shift_id, ReceiptListModel receipt, string printer_name, string printed_by = "",string language="en")
         {
             try
-            {
-
-
-               
-
-                DynamicDataModel report_data = new DynamicDataModel();
-
-                var data = GetApiData($"sp_get_close_cashier_shift_sale_product_data_for_print", $"'{cashier_shift_id}','{language}','json'");
+            { 
+                DynamicDataModel report_data = new DynamicDataModel();    
+                var data = await GetApiData($"sp_get_close_cashier_shift_sale_product_data_for_print", $"'{cashier_shift_id}','{language}','json'");
                 if (data.Any())
                 {
                     report_data = data.FirstOrDefault();
@@ -1484,52 +1391,41 @@ namespace ePOSPrintingService
                 {
                     return;
                 }
-
-
-
-
-                LocalReport report = new LocalReport();
-
-                report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
-
-
+                var _translate_text = await GetTranslateText(language);
+                LocalReport report = new LocalReport();  
+                report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);  
 
                 //cashier shift info
                 DataTable cashier_shift_data = new DataTable();
                 List<CashierShiftModel> cashier_shift = new List<CashierShiftModel>();
-                cashier_shift = JsonConvert.DeserializeObject<List<CashierShiftModel>>(report_data.cashier_shift_info);
+                cashier_shift = JsonSerializer.Deserialize<List<CashierShiftModel>>(report_data.cashier_shift_info);
                 cashier_shift_data = CreateDataTable(cashier_shift);
-
-              
 
                 //Setting data
                 DataTable setting_data = new DataTable();
                 List<SettingModel> settings = new List<SettingModel>();
-                settings = JsonConvert.DeserializeObject<List<SettingModel>>(report_data.setting_data);
+                settings = JsonSerializer.Deserialize<List<SettingModel>>(report_data.setting_data);
                 settings.ForEach(r => r.printed_by = printed_by);
                 setting_data = CreateDataTable(settings);
 
                 //Sale Product Data
                 DataTable sale_product_data = new DataTable();
                 List<SaleProductModel> sale_products = new List<SaleProductModel>();
-                sale_products = JsonConvert.DeserializeObject<List<SaleProductModel>>(report_data.sale_product_data);
+                sale_products = JsonSerializer.Deserialize<List<SaleProductModel>>(report_data.sale_product_data);
                 sale_product_data = CreateDataTable(sale_products);
 
                 //FOC Sale Product Data
                 DataTable foc_sale_product_data = new DataTable();
                 List<SaleProductModel> foc_sale_products = new List<SaleProductModel>();
-                foc_sale_products = JsonConvert.DeserializeObject<List<SaleProductModel>>(report_data.foc_sale_product_data);
+                foc_sale_products = JsonSerializer.Deserialize<List<SaleProductModel>>(report_data.foc_sale_product_data);
                 foc_sale_product_data = CreateDataTable(foc_sale_products);
-
-
 
                 report.DataSources.Add(new ReportDataSource("CashierShiftData", cashier_shift_data));
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
          
                 report.DataSources.Add(new ReportDataSource("SaleProductData", sale_product_data));
                 report.DataSources.Add(new ReportDataSource("FOCSaleProductData", foc_sale_product_data));
-                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(GetTranslateText(language))));
-
+                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));
 
                 Export(report,
                      receipt.PageWidth,
@@ -1539,13 +1435,14 @@ namespace ePOSPrintingService
                      receipt.MarginRight,
                      receipt.MarginBottom
                      );
+
                 Print(printer_name, 1);
                 SendTelegramAlert(report, $"Close cashier shift - Sale product report  {cashier_shift.FirstOrDefault().cashier_shift_number}");
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
             {
-                WriteToFile(ex.Message + ex.ToString());
+                WriteToFile(ex.Message + "\n" + ex.ToString());
                 IsPrintSuccess = false;
             };
         }
@@ -1553,9 +1450,11 @@ namespace ePOSPrintingService
 
         public static void ExportPrintLabel(LocalReport report)
         {
-            string deviceInfo = "";
-            deviceInfo = string.Format(
-                @"<DeviceInfo>
+            try
+            {
+                string deviceInfo = "";
+                deviceInfo = string.Format(
+                    @"<DeviceInfo>
                             <OutputFormat>emf</OutputFormat>
                             <PageWidth>{0}in</PageWidth>
                             <PageHeight>{1}in</PageHeight>
@@ -1564,19 +1463,23 @@ namespace ePOSPrintingService
                             <MarginRight>{4}in</MarginRight>
                             <MarginBottom>{5}in</MarginBottom>
                         </DeviceInfo>",
-                LabelPageSetup.PageWidth,
-                LabelPageSetup.PageHeight,
-                LabelPageSetup.MarginTop,
-                LabelPageSetup.MarginLeft,
-                LabelPageSetup.MarginRight,
-                LabelPageSetup.MarginBottom);
+                    LabelPageSetup.PageWidth,
+                    LabelPageSetup.PageHeight,
+                    LabelPageSetup.MarginTop,
+                    LabelPageSetup.MarginLeft,
+                    LabelPageSetup.MarginRight,
+                    LabelPageSetup.MarginBottom);
 
-            Warning[] warnings;
-            m_streams = new List<Stream>();
-            report.Render("Image", deviceInfo, CreateStream,
-               out warnings);
-            foreach (Stream stream in m_streams)
-                stream.Position = 0;
+                Warning[] warnings;
+                m_streams = new List<Stream>();
+                report.Render("Image", deviceInfo, CreateStream,
+                   out warnings);
+                foreach (Stream stream in m_streams)
+                    stream.Position = 0;
+            }catch(Exception ex)
+            {
+                WriteToFile(ex.Message + "\n" + ex.ToString());
+            }
         }
 
         public static void PrintLabel()
@@ -1616,40 +1519,33 @@ namespace ePOSPrintingService
         }
 
 
-      public  static List<DynamicDataModel> GetApiData(string procedure_name, string parameters)
+      public  static async Task<List<DynamicDataModel>> GetApiData(string procedure_name, string parameters)
         {
 
             try
             {
-                var client = new RestClient(Properties.Settings.Default.api_url);
+                var client = new RestClient(Properties.Settings.Default.BaseAPIURL);
 
                 var request = new RestRequest("Printing/GetPrintData");
                 request.AddParameter("procedure_name", procedure_name);
                 request.AddParameter("parameters", parameters);
-                var response = client.Get(request);
-                if (response.Content.ToString() != "")
+                var response = await client.GetAsync(request); 
+                if ( response.Content.ToString() != "")
                 {
-                    var result =System.Text.Json.JsonSerializer.Deserialize<List<DynamicDataModel>>( response.Content);
-                  
-                
-                  
+                    var result =JsonSerializer.Deserialize<List<DynamicDataModel>>( response.Content);  
                     return result;
-                }
-                    
-                return new List<DynamicDataModel>();
-
-
-
+                }     
+                return new List<DynamicDataModel>();   
             }
             catch (Exception ex)
             {
-                return new List<DynamicDataModel>();
-
+                WriteToFile(ex.Message + "\n" + ex.ToString());
+                return new List<DynamicDataModel>();   
             }
         }
 
 
-        public static List<DynamicDataModel> GetTranslateText(string language_code = "en")
+        public static async Task<List<DynamicDataModel>> GetTranslateText(string language_code = "en")
         {
 
             try
@@ -1660,18 +1556,15 @@ namespace ePOSPrintingService
                 }
                 else
                 {
-
-                    var client = new RestClient(Properties.Settings.Default.api_url);
+                    var client = new RestClient(Properties.Settings.Default.BaseAPIURL);
 
                     var request = new RestRequest("Printing/GetPrintData");
                     request.AddParameter("procedure_name", "sp_get_translate_text");
                     request.AddParameter("parameters", $"'{language_code}','close_cashier_shift_summary_report,shift_information,working_day_no,shift_no,sale_transaction,receipt_no,tbl_no,time,qty,amt,by,branch,outlet,status,close_working_day_summary_report,working_day_information,cash_drawer_name,opened_date,opened_by,closed_date,closed_by,printed_by,printed_on,sale_products,sale_product,amount,total,grand_total,product_name,summary_by_revenue_group,revenue_group,foc_sale_product,free_sale_product,close_cashier_shift_report','json'");
-                    var response = client.Get(request);
+                    var response = await client.GetAsync(request);
                     if (response.Content.ToString() != "")
                     {
-                        var result = System.Text.Json.JsonSerializer.Deserialize<List<DynamicDataModel>>(response.Content);
-
-
+                        var result = System.Text.Json.JsonSerializer.Deserialize<List<DynamicDataModel>>(response.Content);  
                         if (!translate_caches.Where(r => r.language_code == language_code).Any())
                         {
                             translate_caches.Add(new TranslateCacheModel() { language_code = language_code, translate_data = result });
@@ -1680,12 +1573,11 @@ namespace ePOSPrintingService
                     }
 
                     return new List<DynamicDataModel>();
-                }
-
-
+                }  
             }
             catch (Exception ex)
             {
+                WriteToFile(ex.Message + "\n" + ex.ToString());
                 return new List<DynamicDataModel>();
 
             }
@@ -1693,23 +1585,20 @@ namespace ePOSPrintingService
 
 
 
-        public static void ExecuteSQLSatement(string sql)
+        public static async Task ExecuteSQLSatement(string sql)
         {
 
             try
             {
-                var client = new RestClient(Properties.Settings.Default.api_url);
-
+                var client = new RestClient(Properties.Settings.Default.BaseAPIURL);      
                 var request = new RestRequest("Printing/ExecuteSQLSatement");
-                request.AddParameter("sql", sql);
-                 
-                var response = client.Get(request);
+                request.AddParameter("sql", sql);   
+                var response = await client.GetAsync(request);
                 
             }
             catch (Exception ex)
             {
-                WriteToFile(ex.ToString());
-
+                WriteToFile(ex.ToString());     
             }
         }
 
@@ -1749,12 +1638,13 @@ namespace ePOSPrintingService
         public static void OpenCashDrawer()
         {
             try
-            {
-                var _usb_cashdrawer_data = JsonConvert.DeserializeObject<dynamic>(Properties.Settings.Default.USBCashDrawer); 
+            {                                                                                              
                 string path = AppDomain.CurrentDomain.BaseDirectory + "\\Logs";
-
-                bool _usb = _usb_cashdrawer_data["is_usb"].Value;
-                string _port = _usb_cashdrawer_data["port"].Value; 
+                var doc = JsonDocument.Parse(Properties.Settings.Default.USBCashDrawer);
+                var root = doc.RootElement;
+                var _usb = root.GetProperty("is_usb").GetBoolean();
+                var _port = root.GetProperty("port").GetString();
+                  
                 if (_usb)
                 {
                     try
@@ -1782,6 +1672,7 @@ namespace ePOSPrintingService
                WriteToFile(ex.Message);  
             }
         }
+
 
         //open cach drawer
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -1861,7 +1752,7 @@ namespace ePOSPrintingService
             }
             catch (Exception ex)
             {
-            
+                WriteToFile(ex.Message + "\n" + ex.ToString());
                 functionReturnValue = false;
             }
             finally

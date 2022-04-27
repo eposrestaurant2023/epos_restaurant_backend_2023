@@ -14,7 +14,7 @@ namespace eAPIClient.Models
         [JsonIgnore]
         public string customer_code_name { get { return customer_code + "-" + customer_name_en; } }
 
-    
+        public List<CustomerCardModel> customer_cards { get; set; }
         public Guid? business_branch_id { get; set; }
 
     }

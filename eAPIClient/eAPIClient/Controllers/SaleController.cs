@@ -83,19 +83,7 @@ namespace eAPIClient.Controllers
                     if (model.id != Guid.Empty)
                     {
                         if (sales.Any())
-                        {
-
-                            var x = sales.FirstOrDefault().last_modified_date;
-
-                            if(x == model.last_modified_date)
-                            {
-                                return BadRequest(new BadRequestModel { message = "equre" });
-                            }
-                            else
-                            {
-                                return BadRequest(new BadRequestModel { message = "not equre" });
-                            }
-
+                        {   
                             //check if bill have item change 
                             if (sales.FirstOrDefault().last_modified_date != model.last_modified_date && (sales.FirstOrDefault().is_print_invoice) == false  )
                             {

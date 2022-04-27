@@ -363,7 +363,7 @@ namespace eAPIClient.Controllers
         async Task SyncRemoteCustomer(Guid business_branch_id)
         {
             List<CustomerBusinessBranchModel> data = new List<CustomerBusinessBranchModel>();
-            string query = $"CustomerBusinessBranch?$expand=customer&$filter=is_synced eq false and business_branch_id eq {business_branch_id}";
+            string query = $"CustomerBusinessBranch?$expand=customer($expand=customer_cards)&$filter=is_synced eq false and business_branch_id eq {business_branch_id}";
             var resp = await http.ApiGetOData(query);
             if (resp.IsSuccess)
             {
@@ -374,8 +374,6 @@ namespace eAPIClient.Controllers
                     {
                         if (SaveRemoteCustomerToLocalCustomer(b.customer))
                         {
-                            
-
                             b.customer = null;
                             b.is_synced = true;
                             await http.ApiPost("CustomerBusinessBranch/Save", b);
@@ -391,8 +389,26 @@ namespace eAPIClient.Controllers
         {
             try
             {
-                var _modelCheck = db.Customers.Where(r => r.id == model.id).AsNoTracking();
+                var _modelCheck = db.Customers.Where(r => r.id == model.id)          
+                    .AsNoTracking();
+                Guid _business_branch_id = Guid.Parse(config.GetValue<string>("business_branch_id"));
+                model.business_branch_id = _business_branch_id;
+                model.last_update_business_branch_id = _business_branch_id;
                 model.is_synced = true;
+                //
+                foreach(var cc in model.customer_cards)
+                {
+                    db.Entry(cc).State = EntityState.Added;
+                    if (cc.id != Guid.Empty)
+                    {
+                        var _old_sale_product = db.CustomerCards.Where(x => x.id == cc.id).AsNoTracking();
+                        if (_old_sale_product.Any())
+                        {
+                            db.Entry(cc).State = EntityState.Modified;
+                        }
+                    }
+                }
+
                 if (_modelCheck.Count() > 0)
                 {
 
@@ -535,7 +551,6 @@ namespace eAPIClient.Controllers
             BusinessBranchModel business_branch = JsonSerializer.Deserialize<BusinessBranchModel>(_resp.Content.ToString());
             return Ok(business_branch);
         }
-
 
 
         async Task<List<MenuModel>> GetRemoteMenu(string business_branch_id)
