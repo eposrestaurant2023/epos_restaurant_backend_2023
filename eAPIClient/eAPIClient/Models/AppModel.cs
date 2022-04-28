@@ -177,7 +177,7 @@ namespace eAPIClient.Models
         public Guid sale_id { get; set; }
         public Guid id { get; set; }
         public string receipt_name { get; set; }
-        public int copies { get; set; }
+        public string copies { get; set; } = "1";
         public string printed_by { get; set; }
         public string language { get; set; }
 
