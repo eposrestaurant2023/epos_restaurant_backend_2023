@@ -8,11 +8,11 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>SopheakMongkulTeukThla/ePOSRestaurantReports</TargetReportFolder>
-    <TargetDatasetFolder>SopheakMongkulTeukThla/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>SopheakMongkulTeukThla/DataSource</TargetDatasourceFolder>
+    <TargetReportFolder>KhmerSantipheap/ePOSRestaurantReports</TargetReportFolder>
+    <TargetDatasetFolder>KhmerSantipheap/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>KhmerSantipheap/DataSource</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
-    <TargetServerURL>http://win-l3prqgu0uqg:3344/ReportServer</TargetServerURL>
+    <TargetServerURL>http://192.168.10.13:3344/ReportServer</TargetServerURL>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
     <FullPath>DebugLocal</FullPath>

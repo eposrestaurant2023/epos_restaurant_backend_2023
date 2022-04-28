@@ -22,11 +22,12 @@ namespace eAPIClient.Services
         Task SyncRemoteCustomer();
         Task<bool> SyncAllData();
 
-        void sendSyncRequest();
-        void sendSyncRemoteDataRequest();
+        void sendSyncRequest(string extension="txt");
+      
 
         void OnCreatedAsync(object sender, FileSystemEventArgs e);
         void OnSyncFromRemoteServerAsync(object sender, FileSystemEventArgs e);
+        void OnClearHistoryData(object sender, FileSystemEventArgs e);
 
     }
     public class SyncService : ISyncService
@@ -53,7 +54,7 @@ namespace eAPIClient.Services
         }
 
 
-        public void sendSyncRequest()
+        public void sendSyncRequest(string extension = "txt")
         {
 
             path = environment.ContentRootPath + "\\logs";
@@ -62,28 +63,28 @@ namespace eAPIClient.Services
                 Directory.CreateDirectory(path);
             }
             // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
-            using (FileStream fs = File.Create(Path.Combine(path, $"{Guid.NewGuid()}.txt")))
+            using (FileStream fs = File.Create(Path.Combine(path, $"{Guid.NewGuid()}.{extension}")))
             {
                 //fs.Write(item.File, 0, item.File.Length);
             }
         }
-        public void sendSyncRemoteDataRequest()
+    
+
+        public void OnClearHistoryData(object sender, FileSystemEventArgs e)
         {
+            http.SendBackendTelegram($"{business_branch_name}\nStart Clear History");
 
-            path = environment.ContentRootPath + "\\logs";
-            if (!Directory.Exists(path))
+            using (var db = new ApplicationDbContext(config))
             {
-                Directory.CreateDirectory(path);
+                db.StoreProcedureResults.FromSqlRaw("exec sp_clear_temp_db");
+ 
             }
-            // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
-            using (FileStream fs = File.Create(Path.Combine(path, $"{Guid.NewGuid()}.bat")))
-            {
-                //fs.Write(item.File, 0, item.File.Length);
-            }
-        }
-
+        } 
+        
+        
         public async void OnSyncFromRemoteServerAsync(object sender, FileSystemEventArgs e)
         {
+
             await SyncRemoteCustomer();
         }
 
