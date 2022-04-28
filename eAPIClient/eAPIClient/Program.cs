@@ -63,7 +63,27 @@ namespace eAPIClient
             watcherRemoteData.Created += sync.OnSyncFromRemoteServerAsync;  
             watcherRemoteData.Filter = "*.bat";
             watcherRemoteData.IncludeSubdirectories = true;
-            watcherRemoteData.EnableRaisingEvents = true;  
+            watcherRemoteData.EnableRaisingEvents = true;
+
+            //watcher for clear history sale data
+            var watcherClearHistoryData= new FileSystemWatcher(path);
+
+            watcherClearHistoryData.NotifyFilter = NotifyFilters.Attributes
+                                 | NotifyFilters.CreationTime
+                                 | NotifyFilters.DirectoryName
+                                 | NotifyFilters.FileName
+                                 | NotifyFilters.LastAccess
+                                 | NotifyFilters.LastWrite
+                                 | NotifyFilters.Security
+                                 | NotifyFilters.Size;
+            watcherClearHistoryData.Created += sync.OnClearHistoryData;
+            watcherClearHistoryData.Filter = "*.historydata";
+            watcherClearHistoryData.IncludeSubdirectories = true;
+            watcherClearHistoryData.EnableRaisingEvents = true;
+
+
+
+
             host.Run();     
         }
 
