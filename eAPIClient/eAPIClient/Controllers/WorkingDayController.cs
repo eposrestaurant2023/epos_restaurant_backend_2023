@@ -98,6 +98,10 @@ namespace eAPIClient.Controllers
                 }
 
                 sync.sendSyncRequest();
+                if (u.is_closed)
+                {
+                    sync.sendSyncRequest("historydata");
+                }
                 return Ok(u);
             }catch(Exception _ex)
             {

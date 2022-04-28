@@ -155,7 +155,7 @@ namespace eAPIClient.Controllers
         [Route("SendSyncRequest")]
         public ActionResult<string> SendSyncRequest()
         {
-            sync.sendSyncRequest();
+            sync.sendSyncRequest("txt");
             return Ok();
         }  
         
@@ -163,7 +163,7 @@ namespace eAPIClient.Controllers
         [Route("SendSyncRemoteDataRequest")]
         public ActionResult<string> SendSyncRemoteDataRequest()
         {
-            sync.sendSyncRemoteDataRequest();
+            sync.sendSyncRequest("bat");
             return Ok();
         }
 
