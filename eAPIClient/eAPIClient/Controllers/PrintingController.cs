@@ -62,13 +62,6 @@ namespace eAPIClient.Controllers
             db.Database.ExecuteSqlRaw(sql);
             return Ok();
              
-        } 
-
-                 
-
-                
-    } 
- 
-
-     
+        }         
+    }  
 }
