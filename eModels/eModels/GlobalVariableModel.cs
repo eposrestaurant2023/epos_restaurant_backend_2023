@@ -192,6 +192,13 @@ namespace eModels
                 return get_setting_value(2);
             }
         }
+        public string product_id_item_charge
+        {
+            get
+            {
+                return get_setting_value(110);
+            }
+        }
         public string report_folder
         {
             get

@@ -762,7 +762,6 @@
   <data name="Category" xml:space="preserve">
     <value>ប្រភេទ</value>
   </data>
- 
   <data name="Edit Ingredient Category" xml:space="preserve">
     <value>កែប្រែប្រភេទគ្រឿងផ្សំ</value>
   </data>
@@ -2877,5 +2876,14 @@
   </data>
   <data name="Uncounted" xml:space="preserve">
     <value>មិនបានរាប់</value>
+  </data>
+  <data name="Hourly Time Item Charge Rate" xml:space="preserve">
+    <value>ទំនិញគិតលុយតាមម៉ោង</value>
+  </data>
+  <data name="Break Point" xml:space="preserve">
+    <value>ចំណុចបំបែក</value>
+  </data>
+  <data name="Loading time charge rate failed." xml:space="preserve">
+    <value>ទាញអត្រាគិតលុយតាមម៉ោង</value>
   </data>
 </root>

@@ -31,6 +31,15 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
         {
             is_loading = true;
             title = (id == Guid.Empty ? "Edit Inventory Check" : "New Inventory Check");
+            if (!is_error)
+            {
+                if (id != Guid.Empty)
+                {
+                    await LoadData();
+
+                }
+
+            }
             await BuildCategoryTreeAsync();
             if (id == Guid.Empty || model.inventory_check_type == "Full")
             {
@@ -42,15 +51,7 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
                 }
             }
             
-            if (!is_error)
-            {
-                if (id !=Guid.Empty)
-                {
-                    await LoadData();
-                   
-                }
-                
-            }
+            
 
             if (model.is_fulfilled)
             {
@@ -74,8 +75,6 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
             var resp = await http.ApiGetDataFromStoreProcedure("sp_get_product_group_category_tree", $"'{GetGuid()}'");
             if (resp.IsSuccess)
             {
-
-                Console.WriteLine(resp.Content.ToString());
                 var data = JsonSerializer.Deserialize<List<TreeViewModel>>(resp.Content.ToString());
 
                 foreach (var g in data.Where(r=>r.parent_id==null))

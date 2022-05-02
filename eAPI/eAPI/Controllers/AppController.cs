@@ -132,6 +132,15 @@ namespace eAPI.Controllers
             return Ok(record);
         }
 
+        //[HttpGet("ProductPortion")]
+        //[EnableQuery]
+        //public async Task<List<ProductPortionModel>> GetProductPortion(string keyword = "")
+        //{
+            
+        //        return db.ProductPortions.Where(r=>r.is_deleted == false).ToList();
+            
+        //}
+
         [HttpPost("Company/save")]
         public async Task<ActionResult<BusinessInformationModel>> Savecompany([FromBody] BusinessInformationModel company)
         {

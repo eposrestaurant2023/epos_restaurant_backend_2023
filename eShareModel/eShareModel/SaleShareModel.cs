@@ -67,6 +67,7 @@ namespace eShareModel
         public decimal sale_discount_amount { get; set; }
         public decimal total_discount_amount { get; set; } //sale_product_discount_amount + sale_discount_amount// report must use this column
 
+        
 
         public string discount_code { get; set; }
         public string discount_note { get; set; }
