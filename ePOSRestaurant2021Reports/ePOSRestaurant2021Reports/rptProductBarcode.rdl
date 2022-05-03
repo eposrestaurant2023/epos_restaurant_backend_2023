@@ -89,12 +89,6 @@
       <Query>
         <DataSourceName>Datasource</DataSourceName>
         <QueryParameters>
-          <QueryParameter Name="@printed_by">
-            <Value>=Parameters!printed_by.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@business_branch_id">
-            <Value>=Parameters!business_branch_id.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@product_category_id">
             <Value>=Parameters!product_category_id.Value</Value>
           </QueryParameter>
@@ -107,13 +101,9 @@
 
 if object_id('tempdb..#tbl_product') is not null drop table #tbl_product;
 select 
-	distinct product_id 
+	distinct pm.id as  product_id 
 	into #tbl_product 
-from tbl_product_menu pm
-	inner join tbl_menu m on m.id = pm.menu_id
-	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = m.business_branch_id
-where 
-	cast(m.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(m.business_branch_id as nvarchar(50)),@business_branch_id) 
+from tbl_product pm
 --GET PRODUCT WITH MORE DETAIL INFORMATION 
   
 	 
@@ -563,6 +553,7 @@ where
                             </Border>
                           </Style>
                         </Subreport>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
