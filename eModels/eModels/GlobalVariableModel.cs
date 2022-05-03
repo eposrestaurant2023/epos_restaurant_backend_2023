@@ -192,11 +192,18 @@ namespace eModels
                 return get_setting_value(2);
             }
         }
-        public string product_id_item_charge
+        public int product_id_item_charge
         {
             get
             {
-                return get_setting_value(110);
+                try
+                {
+                    return Convert.ToInt32(get_setting_value(110));
+                }
+                catch  
+                {
+                    return -1;
+                }
             }
         }
         public string report_folder

@@ -20,65 +20,46 @@
         </PageHeader>
 
         <PageBody>
-            <Tab>
-                <TabHeader>
-                        @foreach (var branch_role in gv.business_branch_by_role)
-                        {
-                            @foreach (var b in branch_item_charge_rates.Where(r => r.business_branch.id == branch_role.id))
-                            {
-                                <TabHeaderItem>
-                                    @b.business_branch.business_branch_name_en
-                                </TabHeaderItem>
-                            }
-                        }
-                </TabHeader>
-                <TabBody>
-                        @foreach (var branch_role in gv.business_branch_by_role)
-                        {
-                            <TabItem>
-                                @foreach (var b in branch_item_charge_rates.Where(r => r.business_branch.id == branch_role.id))
-                            {
-                                <UIGridCenter>
-                                    @foreach(var p in product_portions)
-                                    {
-                                        <MudExpansionPanels MultiExpansion="true">
-                                            <MudExpansionPanel Class="mb-2" Text="@p.portion_name">
-                                                <div class="uk-overflow-auto table-scroll">
-                                                            <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                                                                <tr>
-                                                                    <th>@lang["hour"]</th>
-                                                                    <ThCenter>@lang["portion"]</ThCenter>
-                                                                    <ThCenter>@lang["break point"]</ThCenter>
-                                                                </tr>
-                                                                @foreach (var charge_rate in b.hourly_time_charge_rates.Where(r=>r.portion_id == p.id))
-                                                                {
-                                                                    <tr>
-                                                                        <td>
-                                                                            <NumberInputInt @bind-text="@charge_rate.hour" is_read_only placeholder="@lang["hour"]" />
-                                                                        </td>
-                                                                        <TdCenter>
-                                                                            <SelectProductPortion label="" product_id="product_item_charge" @bind-selected_value="@charge_rate.portion_id"/>
-                                                                        </TdCenter>
-                                                                        <TdCenter>
-                                                                            <ComInputCheckBox  @bind-value="@charge_rate.is_break_point" />
-                                                                        </TdCenter>
-                                                                    </tr>
-                                                                }
-                                                            </table>
-                                                        </div>
-                                            </MudExpansionPanel>
-                                        </MudExpansionPanels>
-                                   
-                                    }
-                                            
+            <MudTabs>
+                 @foreach (var branch in branch_item_charges)
+                    {
 
-                                </UIGridCenter>
-                            }
-                            </TabItem>
                             
-                        }
-                </TabBody>
-            </Tab>
+                    <MudTabPanel Text="@branch.business_branch.business_branch_name_en" Class="py-2">
+                        
+                        <UIGridCenter>
+                                <div class="uk-overflow-auto table-scroll">
+                                    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                        <tr>
+                                            <Th>@lang["Hour"]</Th>
+                                            <ThCenter>@lang["Portion"]</ThCenter>
+                                            <ThCenter>@lang["Break Point"]</ThCenter>
+                                        </tr>
+                                         @foreach (var item in branch.hourly_time_charge_rates.OrderBy(r=>r.hour))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @(item.hour.ToString("00"))
+                                                </td>
+                                                <TdCenter>
+                                                    <SelectProductPortion is_inline product_id="@gv.product_id_item_charge" @bind-selected_value="@item.portion_id"/>
+                                                </TdCenter>
+                                                <TdCenter>
+                                                    <ComInputCheckBox @bind-value="item.is_break_point"/>
+                                                </TdCenter>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                                       
+                                        
+                     
+                        </UIGridCenter>
+                    </MudTabPanel>
+                    }
+                    
+                      
+            </MudTabs>
 
         </PageBody>
         <PageFooter>
@@ -90,18 +71,9 @@
 }
 
 @code {
-    List<BusinessBranchSettingModel> branch_settings = new List<BusinessBranchSettingModel>();
-    List<HourlyTimeChargeRateModel> hourly_time_charge_rates = new List<HourlyTimeChargeRateModel>();
-    List<BranchItemChargeRateModel> branch_item_charge_rates = new List<BranchItemChargeRateModel>();
-    public List<ProductPortionModel> product_portions { get; set; }
+    List<BusinessBranchSettingModel> branch_settings = new List<BusinessBranchSettingModel>();  
+    List<BranchItemChargeRateModel> branch_item_charges = new List<BranchItemChargeRateModel>();
 
-    private int _product_item_charge;
-
-    public int product_item_charge
-    {
-        get { return Convert.ToInt32(gv.product_id_item_charge); }
-        set { _product_item_charge = value; }
-    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -112,27 +84,42 @@
     }
 
 
+    List<HourlyTimeChargeRateModel> GetHourlyTimeChargeByBusinessBranch(Guid business_branch_id)
+    {
+        var setting = branch_settings.Where(r => r.business_branch_id == business_branch_id).ToList(); 
+        if (setting.Any())
+        { 
+            var _data = JsonSerializer.Deserialize<List<HourlyTimeChargeRateModel>>(setting.FirstOrDefault().setting_value);
+            return _data.ToList();
+        }else
+        {
+            return new List<HourlyTimeChargeRateModel>() ;
+        }
+    }
+
+    
 
     async Task LoadData()
     {
 
-        var resp = await http.ApiGetOData("businessbranchsetting?$expand=setting,business_branch&$filter=setting_id eq 113");
+        var resp = await http.ApiGetOData("businessbranchsetting?$filter=setting_id eq 113"); //setting id = 113 get hourly time charge configure
         if (resp.IsSuccess)
         {
             branch_settings = new List<BusinessBranchSettingModel>();
-            branch_settings = JsonSerializer.Deserialize<List<BusinessBranchSettingModel>>(resp.Content.ToString());
-            var business_branch = branch_settings.Select(r => new BusinessBranchModel()
-                {
-                    business_branch_name_en = r.business_branch.business_branch_name_en,
-                    business_branch_name_kh = r.business_branch.business_branch_name_kh,
-                    id = r.business_branch_id
-                }).ToList();
+            branch_settings = JsonSerializer.Deserialize<List<BusinessBranchSettingModel>>(resp.Content.ToString()); 
 
-            branch_item_charge_rates = new List<BranchItemChargeRateModel>();
 
-            var res = await http.ApiGetOData("productportion?$filter=product_id eq 249&$select=id,portion_name");
-            if(res.IsSuccess){
-                product_portions = JsonSerializer.Deserialize<List<ProductPortionModel>>(res.Content.ToString());
+            branch_item_charges = new List<BranchItemChargeRateModel>();
+            foreach (var branch in gv.business_branch_by_role )
+            {
+                BranchItemChargeRateModel branch_item_charge = new BranchItemChargeRateModel();
+                branch_item_charge.business_branch = branch;
+                branch_item_charge.hourly_time_charge_rates = new List<HourlyTimeChargeRateModel>();
+
+                branch_item_charge.hourly_time_charge_rates.AddRange(GetHourlyTimeChargeByBusinessBranch(branch.id));
+
+
+                branch_item_charges.Add(branch_item_charge);
             }
 
         }
@@ -150,15 +137,17 @@
         is_saving = true;
         var save_model = new List<BusinessBranchSettingModel>();
 
-        foreach(var s in branch_item_charge_rates)
+        foreach (var b in branch_item_charges)
         {
-            save_model.Add(new BusinessBranchSettingModel()
-                {
-                    setting_id = branch_settings.FirstOrDefault().setting_id,
-                    business_branch_id = s.business_branch.id,
-                    setting_value = JsonSerializer.Serialize(s.hourly_time_charge_rates)
-        });
+            var _setting_value = JsonSerializer.Serialize(b.hourly_time_charge_rates);
+            save_model.Add(new BusinessBranchSettingModel (){ 
+                business_branch_id = b.business_branch.id,
+                setting_id = 113,
+                setting_value=_setting_value,
+            });
         }
+
+        
         var resp = await http.ApiPost("BusinessBranchSetting/save/multiple",save_model);
         if (resp.IsSuccess)
         {
@@ -179,5 +168,6 @@
     {
         public BusinessBranchModel business_branch { get; set; }
         public List<HourlyTimeChargeRateModel> hourly_time_charge_rates { get; set; }
+
     }
 }
