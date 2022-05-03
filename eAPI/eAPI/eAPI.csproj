@@ -6,7 +6,6 @@
 	  
   </PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
 		<PackageReference Include="DeviceId" Version="5.2.0" />
 		<PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4" />

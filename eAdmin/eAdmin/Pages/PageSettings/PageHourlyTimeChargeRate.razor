@@ -51,9 +51,6 @@
                                         }
                                     </table>
                                 </div>
-                                       
-                                        
-                     
                         </UIGridCenter>
                     </MudTabPanel>
                     }
@@ -146,8 +143,6 @@
                 setting_value=_setting_value,
             });
         }
-
-        
         var resp = await http.ApiPost("BusinessBranchSetting/save/multiple",save_model);
         if (resp.IsSuccess)
         {
@@ -159,7 +154,7 @@
         else
         {
 
-            toast.Add(lang["Save item charge rate fail"], MudBlazor.Severity.Warning);
+            toast.Add(lang["Save item charge rate failed"], MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }
