@@ -43,6 +43,13 @@
                     <MudTabPanel Text="@lang["Overview"]">
                         <ComCustomerDetail_CustomerInformation model="@model" />
                     </MudTabPanel>
+                @if (gv.project_has_membership_card)
+                {
+                    <MudTabPanel Text="@lang["Card"]">
+                        <ComCustomerDetail_CustomerCard customer_id="Guid.Parse(id)"/>
+                    </MudTabPanel>
+                }
+                
                 <MudTabPanel OnClick="@(()=>sale_history_tab_click=true)" Text="@lang["Sale History"]">
                     @if (sale_history_tab_click)
                     {

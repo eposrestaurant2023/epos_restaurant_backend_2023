@@ -1,0 +1,59 @@
+﻿@inherits PageCore
+
+    <MudDialog >
+        <DialogContent>
+            <TextInput @bind-text="model.card_name" label="@lang["Card Name"]"/>
+            <TextInput @bind-text="model.card_code" label="@lang["Card Code"]"/>
+            @*<SelectDate @bind-date="model.expiry_date" label="@lang["Select Date"]"/>*@
+            <DateInput @bind-value="model.expiry_date" label="@lang["Expiry Date"]"/>
+        </DialogContent>
+        <DialogActions>
+            <Button type="submit" icon="save" OnClick="onSubmit" disabled="@is_submitting">@lang["Save"]</Button>
+            <Button icon="reply" class_name="danger" OnClick="@OnCancelClick" disabled="@is_submitting">@lang["Cancel"]</Button>
+        </DialogActions>
+    </MudDialog>
+
+@code {
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public CustomerCardModel model {get;set;}
+    [Parameter] public Guid customer_id {get;set;}
+    bool is_submitting =false;
+
+
+    async Task onSubmit()
+    {
+        is_submitting =true;
+        if (string.IsNullOrEmpty(model.card_code))
+        {
+            toast.Add(lang["Please enter card code."],Severity.Warning);
+            is_submitting =false;
+            return;
+        }
+        if (string.IsNullOrEmpty(model.card_name))
+        {
+            toast.Add(lang["Please enter card name."],Severity.Warning);
+            is_submitting =false;
+            return;
+        }
+        model.customer_id = customer_id;
+        var res = await http.ApiPost("customerCard/save",model);
+        if (res.IsSuccess)
+        {
+            var customerCard = JsonSerializer.Deserialize<CustomerCardModel>(res.Content.ToString());
+            toast.Add(lang["Save successfully."],Severity.Success);
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+        else if(res.status_code==400)
+        {
+            toast.Add(lang[res.Content.ToString()],Severity.Warning);
+        }
+
+        is_submitting =false;
+    }
+    void OnCancelClick()
+    {
+        MudDialog.Cancel();
+    }
+    
+}
