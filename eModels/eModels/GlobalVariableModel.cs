@@ -392,6 +392,15 @@ namespace eModels
                 return system_feature_status("INV_ADVANCE");
             }
         }
+
+        public bool project_has_membership_card
+        {
+            get
+            {
+                return system_feature_status("MSC");
+            }
+        }
+
         public bool system_feature_status(string code)
         {
             if (system_features.Any()) {

@@ -2886,4 +2886,22 @@
   <data name="Loading time charge rate failed." xml:space="preserve">
     <value>ទាញអត្រាគិតលុយតាមម៉ោង</value>
   </data>
+  <data name="New Card" xml:space="preserve">
+    <value>បញ្ចូលកាតសមាជិក</value>
+  </data>
+  <data name="Card Name" xml:space="preserve">
+    <value>ប្រភេទកាត</value>
+  </data>
+  <data name="Card Code" xml:space="preserve">
+    <value>លេខកាត</value>
+  </data>
+  <data name="Please enter card code." xml:space="preserve">
+    <value>សូមបញ្ចូលលេខកាត</value>
+  </data>
+  <data name="Please enter card name." xml:space="preserve">
+    <value>សូមបញ្ចូលប្រភេទកាត</value>
+  </data>
+  <data name="Expiry" xml:space="preserve">
+    <value>ថ្ងៃផុតកំណត់</value>
+  </data>
 </root>

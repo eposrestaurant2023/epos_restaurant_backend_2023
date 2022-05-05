@@ -1,0 +1,137 @@
+﻿@inherits PageCore
+@inject IDialogService DialogService
+<div>
+    <UIGridCenter>
+        @if (is_loading)
+        {
+            <div class="pa-1">
+            <MudSkeleton  Width="270px"/>
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="270px" Height="180px" />
+            </div>
+            <div class="pa-1">
+            <MudSkeleton  Width="270px"/>
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="270px" Height="180px" />
+            </div>
+            <div class="pa-1">
+            <MudSkeleton Width="270px"/>
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="270px" Height="180px" />
+            </div>
+        }
+        @if(!is_loading)
+        {
+            @if(customer_card_list.Count() > 0)
+            {
+                    <MudPaper Elevation="0"  Class="overflow-y-auto">
+                        <MudCard Outlined Class="ma-3 d-inline-block" Style="width:270px;height:180px;float: left">
+                            <MudCardContent Class="d-flex align-center justify-center" Style="height:inherit">
+                                <div>
+                                    <MudText Typo="Typo.body2">
+                                        @lang["New Card"]
+                                    </MudText>
+                                    <MudIconButton OnClick="OnAddNewClick" Class="ml-2" Size="Size.Large" Icon="@Icons.Material.Outlined.AddCircleOutline" Color="MudBlazor.Color.Default" />
+                                </div>
+                               
+                                
+                        
+                            </MudCardContent>
+                        </MudCard>
+                       @foreach (var item in customer_card_list)
+                        {
+                               
+                                <MudCard Class="ma-3 d-inline-block" Style="width:270px;height:180px;float: left">
+                                <MudCardHeader Class="mb-2 pb-2">
+                                    <CardHeaderContent>
+                                        <MudText Typo="Typo.h6">@item.card_name</MudText>
+                                    </CardHeaderContent>
+                                    <CardHeaderActions>
+                                        <MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@item.is_expired" Color="MudBlazor.Color.Default" OnClick="(()=>OnEditCardClick(item))"/>
+                                    </CardHeaderActions>
+                                </MudCardHeader>
+                                <MudCardContent Class="mt-2 pt-2">
+                                    <MudText Typo="Typo.body2" Style="text-align:center;font-size:18px">
+                                        @item.card_code
+                                    </MudText>
+                                    <MudText Typo="Typo.subtitle2">
+                                        @lang["Expiry"]
+                                    </MudText>
+                                    <MudPaper Class="d-flex justify-space-between" Elevation="0">
+                                        <MudText Typo="Typo.body2" Class="align-self-center">
+                                        @item.expiry_date.ToString(gv.date_format)
+                                        </MudText>
+                                        @if (item.is_expired)
+                                        {
+                                            <MudChip Disabled="true" Size="Size.Small" Color="MudBlazor.Color.Error">@lang["Expired"]</MudChip>
+                                    }
+                                    </MudPaper>
+                            
+                            
+                                </MudCardContent>
+                                </MudCard>
+                               
+                        }
+
+                
+                    </MudPaper>
+
+        
+            }
+        }
+        </UIGridCenter>
+</div>
+
+
+
+@code {
+    [Parameter] public Guid customer_id { get; set; }
+    List<CustomerCardModel> customer_card_list = new List<CustomerCardModel>();
+    string dialog_title = "New Card";
+    protected override async Task OnInitializedAsync()
+    {
+       
+        await LoadData();
+        
+    }
+    async Task LoadData()
+    {
+         is_loading=true;
+        var res = await http.ApiGetOData("CustomerCard?$orderby=created_date desc");
+        if (res.IsSuccess)
+        {
+            customer_card_list = JsonSerializer.Deserialize<List<CustomerCardModel>>(res.Content.ToString());
+        }
+        is_loading = false;
+    }
+    async Task OnAddNewClick()
+    {
+
+        var parameters = new DialogParameters();
+        parameters.Add("model", new CustomerCardModel());
+        parameters.Add("customer_id", customer_id);
+        var options = new DialogOptions { DisableBackdropClick = true };
+        var result = await DialogService.Show<ComCustomerDetail_AddCustomerCard>(lang[dialog_title],parameters, options).Result;
+        if (result.Data != null)
+        {
+            if ((bool)result.Data == true)
+            {
+                await LoadData();
+            }
+        }
+        
+    }
+    async Task OnEditCardClick(CustomerCardModel card)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("model", card);
+        parameters.Add("customer_id", customer_id);
+        dialog_title = $"Edit {card.card_code} : {card.card_name}";
+        var options = new DialogOptions { DisableBackdropClick = true };
+        var result = await DialogService.Show<ComCustomerDetail_AddCustomerCard>(lang[dialog_title],parameters, options).Result;
+        if (result.Data != null)
+        {
+            if ((bool)result.Data == true)
+            {
+                await LoadData();
+            }
+        }
+    }
+}

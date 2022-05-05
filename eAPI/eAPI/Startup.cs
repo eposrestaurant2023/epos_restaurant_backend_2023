@@ -229,6 +229,7 @@ namespace eAPI
             odataBuilder.EntitySet<eShareModel.ExpenseCategoryModel>("ExpenseCategory");
             odataBuilder.EntitySet< eShareModel.ExpenseItemModel> ("ExpenseItem");
             odataBuilder.EntitySet<ExpenseModel>("Expense");
+            odataBuilder.EntitySet<CustomerCardModel>("CustomerCard");
             odataBuilder.EntitySet<DefaultStockLocationProductModel>("DefaultStockLocationProduct");
 
             odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
