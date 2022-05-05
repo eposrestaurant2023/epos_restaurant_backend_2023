@@ -29,6 +29,14 @@ namespace eAPI.Controllers
             return db.CustomerCards.AsQueryable();
         }
 
+        [HttpGet]
+        [EnableQuery(MaxExpansionDepth = 8)]
+        [Route("Find")]
+        public async Task<SingleResult<CustomerCardModel>> Get([FromODataUri] Guid key)
+        {
+            return await Task.Factory.StartNew(() => SingleResult.Create<CustomerCardModel>(db.CustomerCards.Where(r => r.id == key).AsQueryable()));
+        }
+
         [HttpPost("Save")]
         
         public async Task<ActionResult> Save([FromBody] CustomerCardModel customer_card)
