@@ -4,7 +4,7 @@
         <DialogContent>
             <TextInput @bind-text="model.card_name" label="@lang["Card Name"]"/>
             <TextInput @bind-text="model.card_code" label="@lang["Card Code"]"/>
-            @*<SelectDate @bind-date="model.expiry_date" label="@lang["Select Date"]"/>*@
+            <NumberInputDecimal @bind-text="model.discount_value" label="@discount_label"/>
             <DateInput @bind-value="model.expiry_date" label="@lang["Expiry Date"]"/>
         </DialogContent>
         <DialogActions>
@@ -16,10 +16,17 @@
 @code {
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public CustomerCardModel model {get;set;}
-    [Parameter] public Guid customer_id {get;set;}
-    bool is_submitting =false;
-
+    [Parameter] public CustomerCardModel model { get; set; }
+    [Parameter] public Guid customer_id { get; set; }
+    bool is_submitting = false;
+    string discount_label
+    {
+        get
+        {
+            return lang["Discount"] + " (%)";
+        }
+           
+    }
 
     async Task onSubmit()
     {
@@ -33,6 +40,12 @@
         if (string.IsNullOrEmpty(model.card_name))
         {
             toast.Add(lang["Please enter card name."],Severity.Warning);
+            is_submitting =false;
+            return;
+        }
+        if (model.id == Guid.Empty && model.is_expired)
+        {
+            toast.Add(lang["Invalid expired date."],Severity.Warning);
             is_submitting =false;
             return;
         }

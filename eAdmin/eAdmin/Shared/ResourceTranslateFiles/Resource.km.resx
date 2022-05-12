@@ -2904,4 +2904,7 @@
   <data name="Expiry" xml:space="preserve">
     <value>ថ្ងៃផុតកំណត់</value>
   </data>
+  <data name="Invalid expired date" xml:space="preserve">
+    <value>ថ្ងៃផុតកំណត់មិនត្រឹមត្រូវ</value>
+  </data>
 </root>
