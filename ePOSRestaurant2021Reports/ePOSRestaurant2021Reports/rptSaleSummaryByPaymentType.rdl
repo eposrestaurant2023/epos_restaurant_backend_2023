@@ -113,29 +113,48 @@
         </QueryParameters>
         <CommandText>
 
-select 
-	s.working_date,
-	p.payment_type_name_en,
-	p.currency_format,
-	sum(s.total_amount) as sale_amount,
-	sum(p.payment_amount) as payment_amount,
-	sum(p.payment_amount/p.exchange_rate) as base_payment_amount
-from tbl_sale_payment p
-inner join tbl_sale s on s.id = p.sale_id
-inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
-left join tbl_customer c on c.id = s.customer_id 
-where
-	s.is_deleted = 0 and 
-	s.working_date between @start_date and @end_date and 
-	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
-	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
-	s.is_foc = 0 and 
-	coalesce(cast(c.id as nvarchar(50)),'') = iif(@customer_id = '', coalesce(cast(c.id as nvarchar(50)),'') ,@customer_id) and 
-	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id) 
-group by
-	s.working_date,
-	p.payment_type_name_en,
-	p.currency_format</CommandText>
+if OBJECT_ID('tempdb..#tbl') is not null drop  table #tbl
+
+	select 
+		s.id,
+		s.working_date,
+		sp.payment_type_name_en,
+		sp.currency_format,
+		s.total_amount ,
+		sum(sp.payment_amount) as payment_amount,
+		sum((sp.payment_amount/sp.exchange_rate)) as base_payment_amount
+		into #tbl
+	from tbl_sale_payment sp 
+	inner join tbl_sale s on s.id = sp.sale_id
+	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
+	left join tbl_customer c on c.id = s.customer_id 
+	where 
+		s.is_deleted = 0 and 
+		s.working_date between @start_date and @end_date and 
+		cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
+		cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
+		s.is_foc = 0 and 
+		coalesce(cast(c.id as nvarchar(50)),'') = iif(@customer_id = '', coalesce(cast(c.id as nvarchar(50)),'') ,@customer_id) and 
+		coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id) 
+	group by 
+		s.id,
+		s.working_date,
+		sp.currency_format,
+		sp.payment_type_name_en,
+		s.total_amount 
+	 
+	select 
+		working_date,
+		payment_type_name_en,
+		currency_format,
+		sum(total_amount) as sale_amount,
+		sum(payment_amount) as payment_amount,
+		sum(base_payment_amount) as base_payment_amount
+	from #tbl 
+	group by 
+		working_date,
+		payment_type_name_en,
+		currency_format</CommandText>
       </Query>
       <Fields>
         <Field Name="payment_type_name_en">

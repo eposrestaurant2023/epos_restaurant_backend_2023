@@ -37,8 +37,8 @@ namespace ePOSPrintingService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("{\"PageWidth\":1.5,\"PageHeight\":1,\"MarginTop\":0,\"MarginRight\":0,\"MarginBottom\":0,\"M" +
-            "arginLeft\":0}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("{\"PageWidth\":1.57,\"PageHeight\":1.063,\"MarginTop\":0,\"MarginRight\":0,\"MarginBottom\"" +
+            ":0,\"MarginLeft\":0}")]
         public string LabelPageSetup {
             get {
                 return ((string)(this["LabelPageSetup"]));
@@ -50,7 +50,7 @@ namespace ePOSPrintingService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("OneNote")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Label Printer")]
         public string LabelPrinterName {
             get {
                 return ((string)(this["LabelPrinterName"]));

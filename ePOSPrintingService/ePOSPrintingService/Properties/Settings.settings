@@ -6,10 +6,10 @@
       <Value Profile="(Default)">C:\Program Files\ESTC\ePOS\watcher\</Value>
     </Setting>
     <Setting Name="LabelPageSetup" Type="System.String" Scope="User">
-      <Value Profile="(Default)">{"PageWidth":1.5,"PageHeight":1,"MarginTop":0,"MarginRight":0,"MarginBottom":0,"MarginLeft":0}</Value>
+      <Value Profile="(Default)">{"PageWidth":1.57,"PageHeight":1.063,"MarginTop":0,"MarginRight":0,"MarginBottom":0,"MarginLeft":0}</Value>
     </Setting>
     <Setting Name="LabelPrinterName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">OneNote</Value>
+      <Value Profile="(Default)">Label Printer</Value>
     </Setting>
     <Setting Name="ReceiptSettings" Type="System.String" Scope="User">
       <Value Profile="(Default)">[

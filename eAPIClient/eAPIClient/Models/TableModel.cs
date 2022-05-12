@@ -16,7 +16,8 @@ namespace eAPIClient.Models
         public double position_x_percent { get; set; }
         public double position_y_percent { get; set; }
         public double height { get; set; }
-        public double width { get; set; } 
+        public double width { get; set; }
+        public bool require_check_in { get; set; } = false;
     }
 
     public class TableGroupModel
