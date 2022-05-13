@@ -467,8 +467,6 @@ namespace ePOSPrintingService
         {
             try
             {
-              
-
                 //sale data
                 DataTable data = new DataTable();
                 List<KitchenMessageModel> values = new List<KitchenMessageModel>();
@@ -477,8 +475,8 @@ namespace ePOSPrintingService
                 data = CreateDataTable(values);
 
                 ReceiptListModel receipt = new ReceiptListModel();
-                receipt = ReceiptLists.Where(r => r.ReceiptName.ToLower() == "Kitchen Message".ToLower()).FirstOrDefault();
-               
+                receipt = ReceiptLists.Where(r => r.ReceiptName.ToLower() == "Kitchen Message".ToLower()).FirstOrDefault();      
+                
                 foreach (var p in _value.printer_names.Split(','))
                 {    
                     LocalReport report = new LocalReport();
@@ -538,7 +536,6 @@ namespace ePOSPrintingService
                 foreach (var p in sale_products.Select(r => new { r.printer_name, r.group_item_type_id }).Distinct().ToList())
                 {
                     sale_products.ForEach(r => r.total_quantity = r.quantity);
-
                     switch (p.group_item_type_id)
                     {
                         case 1: //print all item in 1 document
@@ -1022,11 +1019,9 @@ namespace ePOSPrintingService
                 {
                     report.SetParameters(new ReportParameter[] { new ReportParameter("OrderDate", order_date) });
                     report.SetParameters(new ReportParameter[] { new ReportParameter("WaitingNo", WaitingNo == "" ? "0" : WaitingNo) });
-                    report.SetParameters(new ReportParameter[] { new ReportParameter("TableName", table_name) });
                     report.SetParameters(new ReportParameter[] { new ReportParameter("ProductNameEn", product_name_en) });
                     report.SetParameters(new ReportParameter[] { new ReportParameter("ProductNameKh", product_name_kh) });
                     report.SetParameters(new ReportParameter[] { new ReportParameter("Note", note) });
-                    report.SetParameters(new ReportParameter[] { new ReportParameter("IsPaid", is_paid) });
                     report.SetParameters(new ReportParameter[] { new ReportParameter("totalQuantity", total_qty.ToString()) });
                     report.SetParameters(new ReportParameter[] { new ReportParameter("perQuantity", per_qty.ToString()) });
                     ExportPrintLabel(report);
