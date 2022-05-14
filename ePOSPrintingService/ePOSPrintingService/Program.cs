@@ -602,20 +602,23 @@ namespace ePOSPrintingService
             };
         }
 
-        static void ProcessPrintLabel(DataTable sale_data, List<SaleProductPrintQueueModel> sale_products)
+        static void ProcessPrintLabel(DataTable sale_data, List<SaleProductPrintQueueModel> sale_product_print_queues)
         {
-            foreach (var d in sale_products)
+            foreach (var d in sale_product_print_queues)
             {
-                int copy = (int)Math.Floor(d.quantity);
-                if (copy > 0)
+                var _sppq = sale_product_print_queues.Where(r => r.id == d.id).ToList();
+                double _qty = d.quantity;
+                for (double i = _qty; i > 0; i--)
                 {
-                    PrintLabel( sale_data, CreateDataTable(sale_products.Where(r => r.id == d.id)));
-                }
-
-                if (d.quantity - copy > 0)
-                {
-                    sale_products.ForEach(r => { r.group_item_type_id = 1; r.quantity = d.quantity - copy; });
-                    PrintLabel(sale_data, CreateDataTable(sale_products.Where(r => r.id == d.id)));
+                    if (i < 1)
+                    {
+                        _sppq.ForEach(r => r.quantity = i);
+                    }
+                    else
+                    {
+                        _sppq.ForEach(r => r.quantity =  Convert.ToDouble((int)Math.Floor(i)));
+                    }
+                    PrintLabel(sale_data, CreateDataTable(_sppq));
                 }
             }
         }
