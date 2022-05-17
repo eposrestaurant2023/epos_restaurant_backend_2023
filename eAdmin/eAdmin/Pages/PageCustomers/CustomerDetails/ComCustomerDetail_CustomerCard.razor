@@ -48,12 +48,10 @@
                                             <MudText Typo="Typo.h6">
                                                 @item.card_name 
                                             </MudText>
-                                               
-                                            
                                             
                                         </CardHeaderContent>
                                         <CardHeaderActions>
-                                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@item.is_expired" Color="MudBlazor.Color.Default" OnClick="(()=>OnEditCardClick(item))"/>
+                                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="MudBlazor.Color.Default" OnClick="(()=>OnEditCardClick(item))"/>
                                         </CardHeaderActions>
                                     </MudCardHeader>
                                     <MudCardContent Class="mt-2 pt-2">
