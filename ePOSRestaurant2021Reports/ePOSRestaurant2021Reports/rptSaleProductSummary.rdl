@@ -160,7 +160,7 @@ where
 	s.is_foc = iif(@is_include_foc =1, s.is_foc,0) and
 	coalesce(cast(s.customer_id as nvarchar(50)),'') = iif(@customer_id = '',coalesce(cast(s.customer_id as nvarchar(50)),'') ,@customer_id) and 
 	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id) and 
-	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and 
+	sp.product_category_id in (@product_category_id) and 
 	sp.product_group_id  = iif(@product_group_id = 0, sp.product_group_id,@product_group_id) and 
 	cast(s.outlet_id as nvarchar(50))= iif(@outlet_id = '', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
 	lower(coalesce(product_code,'')+' ' + coalesce(product_name_en,'') + ' ' + coalesce(product_name_kh,'')) like N'%'+ LOWER(@keyword)+'%'	 
@@ -180,8 +180,7 @@ end
 else 
 begin  
 	select top(@top) * from #tbl_sale_product order by iif(@top_by='Amount', total_amount, quantity) desc
-end
-</CommandText>
+end</CommandText>
       </Query>
       <Fields>
         <Field Name="product_code">
@@ -2552,9 +2551,10 @@ end
     <ReportParameter Name="product_category_id">
       <DataType>Integer</DataType>
       <DefaultValue>
-        <Values>
-          <Value>0</Value>
-        </Values>
+        <DataSetReference>
+          <DataSetName>ProductCategory</DataSetName>
+          <ValueField>id</ValueField>
+        </DataSetReference>
       </DefaultValue>
       <Prompt>Category</Prompt>
       <ValidValues>
@@ -2564,6 +2564,7 @@ end
           <LabelField>product_category_en</LabelField>
         </DataSetReference>
       </ValidValues>
+      <MultiValue>true</MultiValue>
     </ReportParameter>
     <ReportParameter Name="is_include_foc">
       <DataType>Integer</DataType>

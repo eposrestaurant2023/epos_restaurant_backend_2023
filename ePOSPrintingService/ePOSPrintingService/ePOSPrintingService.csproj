@@ -98,7 +98,6 @@
     <Compile Include="Models\CloseWorkingDaySummaryDataModel.cs" />
     <Compile Include="Models\DynamicDataModel.cs" />
     <Compile Include="Models\GrandTotalModel.cs" />
-    <Compile Include="Models\LabelPageSetupModel.cs" />
     <Compile Include="Models\ReceiptListModel.cs" />
     <Compile Include="Models\SaleModel.cs" />
     <Compile Include="Models\SalePaymentModel.cs" />

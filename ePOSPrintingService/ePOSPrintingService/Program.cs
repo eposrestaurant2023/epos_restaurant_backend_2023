@@ -68,7 +68,6 @@ namespace ePOSPrintingService
 
                 ReceiptLists = JsonSerializer.Deserialize<List<ReceiptListModel>>(str_receipt_list);
                 telegram_setting = JsonSerializer.Deserialize<TelegramSettingModel>(str_telegram_setting);
-                LabelPageSetup = JsonSerializer.Deserialize<LabelPageSetupModel>(Properties.Settings.Default.LabelPageSetup.ToString());   
 
                 translate_caches = new List<TranslateCacheModel>();  
                 Task.Factory.StartNew(async () =>
@@ -143,8 +142,7 @@ namespace ePOSPrintingService
         public static string LabelPrinterName { get; set; }
         public static string CashierPrinter { get; set; }
         public static List<ReceiptListModel> ReceiptLists { get; set; }
-        public static TelegramSettingModel telegram_setting { get; set; }
-        public static LabelPageSetupModel LabelPageSetup { get; set; }
+        public static TelegramSettingModel telegram_setting { get; set; }  
         public static bool IsPrintSuccess { get; set; }
 
 
@@ -467,8 +465,6 @@ namespace ePOSPrintingService
         {
             try
             {
-              
-
                 //sale data
                 DataTable data = new DataTable();
                 List<KitchenMessageModel> values = new List<KitchenMessageModel>();
@@ -477,8 +473,8 @@ namespace ePOSPrintingService
                 data = CreateDataTable(values);
 
                 ReceiptListModel receipt = new ReceiptListModel();
-                receipt = ReceiptLists.Where(r => r.ReceiptName.ToLower() == "Kitchen Message".ToLower()).FirstOrDefault();
-               
+                receipt = ReceiptLists.Where(r => r.ReceiptName.ToLower() == "Kitchen Message".ToLower()).FirstOrDefault();      
+                
                 foreach (var p in _value.printer_names.Split(','))
                 {    
                     LocalReport report = new LocalReport();
@@ -538,33 +534,55 @@ namespace ePOSPrintingService
                 foreach (var p in sale_products.Select(r => new { r.printer_name, r.group_item_type_id }).Distinct().ToList())
                 {
                     sale_products.ForEach(r => r.total_quantity = r.quantity);
-
                     switch (p.group_item_type_id)
                     {
-                        case 1: //print all item in 1 document
-                            ProcessPrintKitchenOrder(p.printer_name, receipt, sale_data, CreateDataTable(sale_products.Where(r => r.printer_name == p.printer_name)), receipt.number_invoice_copies);
+                        case 1: //print all item in 1 document                                                                       
+                            if (p.printer_name != Properties.Settings.Default.LabelPrinterName)
+                            {
+                                ProcessPrintKitchenOrder(p.printer_name, receipt, sale_data, CreateDataTable(sale_products.Where(r => r.printer_name == p.printer_name)), receipt.number_invoice_copies);                                 
+                            }
+                            else
+                            {
+                                //Print Label
+                                ProcessPrintLabel(sale_data, sale_products.Where(r => r.printer_name == p.printer_name).ToList());     
+                            }
                             break;
                         case 2: //print all item in 1 document
-                            foreach (var d in sale_products.Where(r => r.printer_name == p.printer_name))
+                            if (p.printer_name != Properties.Settings.Default.LabelPrinterName)
                             {
-                                ProcessPrintKitchenOrder(p.printer_name, receipt, sale_data, CreateDataTable(sale_products.Where(r => r.id == d.id)), 1);
+                                foreach (var d in sale_products.Where(r => r.printer_name == p.printer_name))
+                                {
+                                    ProcessPrintKitchenOrder(p.printer_name, receipt, sale_data, CreateDataTable(sale_products.Where(r => r.id == d.id)), 1);
+                                }
                             }
-
+                            else
+                            {
+                                //Print Label
+                                ProcessPrintLabel(sale_data, sale_products.Where(r => r.printer_name == p.printer_name).ToList());
+                            }
                             break;
                         case 3:
-                            foreach (var d in sale_products.Where(r => r.printer_name == p.printer_name))
+                            if (p.printer_name != Properties.Settings.Default.LabelPrinterName)
                             {
-                                int copy = (int)Math.Floor(d.quantity);
-                                if (copy > 0)
+                                foreach (var d in sale_products.Where(r => r.printer_name == p.printer_name))
                                 {
-                                    ProcessPrintKitchenOrder(p.printer_name, receipt, sale_data, CreateDataTable(sale_products.Where(r => r.id == d.id)), (Int16)copy);
-                                }
+                                    int copy = (int)Math.Floor(d.quantity);
+                                    if (copy > 0)
+                                    {
+                                        ProcessPrintKitchenOrder(p.printer_name, receipt, sale_data, CreateDataTable(sale_products.Where(r => r.id == d.id)), (Int16)copy);
+                                    }
 
-                                if(d.quantity - copy>0)
-                                {
-                                    sale_products.ForEach(r => { r.group_item_type_id = 1; r.quantity = d.quantity - copy; });
-                                    ProcessPrintKitchenOrder(p.printer_name, receipt, sale_data, CreateDataTable(sale_products.Where(r => r.id == d.id)), 1);
-                                }   
+                                    if (d.quantity - copy > 0)
+                                    {
+                                        sale_products.ForEach(r => { r.group_item_type_id = 1; r.quantity = d.quantity - copy; });
+                                        ProcessPrintKitchenOrder(p.printer_name, receipt, sale_data, CreateDataTable(sale_products.Where(r => r.id == d.id)), 1);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                //Print Label
+                                ProcessPrintLabel(sale_data, sale_products.Where(r => r.printer_name == p.printer_name).ToList());
                             }
                             break;
                         default:
@@ -584,15 +602,33 @@ namespace ePOSPrintingService
             };
         }
 
+        static void ProcessPrintLabel(DataTable sale_data, List<SaleProductPrintQueueModel> sale_product_print_queues)
+        {
+            foreach (var d in sale_product_print_queues)
+            {
+                var _sppq = sale_product_print_queues.Where(r => r.id == d.id).ToList();
+                double _qty = d.quantity;
+                for (double i = _qty; i > 0; i--)
+                {
+                    if (i < 1)
+                    {
+                        _sppq.ForEach(r => r.quantity = i);
+                    }
+                    else
+                    {
+                        _sppq.ForEach(r => r.quantity =  Convert.ToDouble((int)Math.Floor(i)));
+                    }
+                    PrintLabel(sale_data, CreateDataTable(_sppq));
+                }
+            }
+        }
+
         static void ProcessPrintKitchenOrder(string printer_name, ReceiptListModel receipt, DataTable sale_data, DataTable sale_product_data, short copies = 1)
         {
-
             LocalReport report = new LocalReport();
-
             report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
             report.DataSources.Add(new ReportDataSource("Sale", sale_data));
             report.DataSources.Add(new ReportDataSource("SaleProduct", sale_product_data));
-
             Export(report,
                  receipt.PageWidth,
                  receipt.PageHeight,
@@ -602,10 +638,32 @@ namespace ePOSPrintingService
                  receipt.MarginBottom
                  );
 
-            Print(printer_name, copies);
-
-        
+            Print(printer_name, copies);            
         }
+
+        static void PrintLabel(DataTable sale_data, DataTable sale_product_data)
+        {
+            LocalReport report = new LocalReport();
+            ReceiptListModel receipt = new ReceiptListModel();
+            receipt = ReceiptLists.Where(r => r.ReceiptName.ToLower() == "Label".ToLower()).FirstOrDefault();
+
+            report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
+            report.DataSources.Add(new ReportDataSource("Sale", sale_data));
+            report.DataSources.Add(new ReportDataSource("SaleProduct", sale_product_data));
+
+            Export(
+                report, 
+                receipt.PageWidth, 
+                receipt.PageHeight, 
+                receipt.MarginTop, 
+                receipt.MarginLeft, 
+                receipt.MarginRight, 
+                receipt.MarginBottom);
+
+            Print(Properties.Settings.Default.LabelPrinterName, 1);
+        }
+
+    
 
         public static async Task PrintInvoice(string sale_id, ReceiptListModel receipt, string printer_name, int copies)
         {
@@ -994,49 +1052,6 @@ namespace ePOSPrintingService
         }
 
 
-        public static async Task PrintSaleProductToLabelPrinter(int sale_id, DataTable data, string is_paid)
-        {     
-            LocalReport report = new LocalReport();
-            report.ReportPath = string.Format(@"{0}\RDLC\rptLabel.rdlc", AppDomain.CurrentDomain.BaseDirectory);
-            int total_qty = 0;
-            int per_qty = 1;
-            foreach (DataRow d in data.Rows)
-            {
-                total_qty = total_qty + GetInt(d["quantity"]);
-            }
-
-            foreach (DataRow d in data.Rows)
-            {
-                string order_date = d["order_date"].ToString();
-                string WaitingNo = d["waiting_number"].ToString();
-                string table_name = d["table_name"].ToString();
-                string product_name_en = d["item_line_title"].ToString();
-                string product_name_kh = d["item_line_title_kh"].ToString();
-                string note = d["modifier"].ToString();
-                if (note == "")
-                {
-                    note = " ";
-                }
-
-                for (int i = 0; i < GetDecimal(d["quantity"]); i++)
-                {
-                    report.SetParameters(new ReportParameter[] { new ReportParameter("OrderDate", order_date) });
-                    report.SetParameters(new ReportParameter[] { new ReportParameter("WaitingNo", WaitingNo == "" ? "0" : WaitingNo) });
-                    report.SetParameters(new ReportParameter[] { new ReportParameter("TableName", table_name) });
-                    report.SetParameters(new ReportParameter[] { new ReportParameter("ProductNameEn", product_name_en) });
-                    report.SetParameters(new ReportParameter[] { new ReportParameter("ProductNameKh", product_name_kh) });
-                    report.SetParameters(new ReportParameter[] { new ReportParameter("Note", note) });
-                    report.SetParameters(new ReportParameter[] { new ReportParameter("IsPaid", is_paid) });
-                    report.SetParameters(new ReportParameter[] { new ReportParameter("totalQuantity", total_qty.ToString()) });
-                    report.SetParameters(new ReportParameter[] { new ReportParameter("perQuantity", per_qty.ToString()) });
-                    ExportPrintLabel(report);
-                    PrintLabel();
-                    per_qty++;
-                }
-            }
-            //Update Is Label Print
-            await ExecuteSQLSatement(string.Format("update tbl_sale_product_kitchen_printer_queue set is_printed_label = 1 where sale_id ={0} and coalesce(is_printed_label,0) = 0 ;", sale_id));
-        }
 
         public static async Task PrintCloseWorkingDay(string working_day_id, ReceiptListModel receipt, string printer_name, string printed_by="",string language="en")
         {
@@ -1446,78 +1461,6 @@ namespace ePOSPrintingService
                 IsPrintSuccess = false;
             };
         }
-
-
-        public static void ExportPrintLabel(LocalReport report)
-        {
-            try
-            {
-                string deviceInfo = "";
-                deviceInfo = string.Format(
-                    @"<DeviceInfo>
-                            <OutputFormat>emf</OutputFormat>
-                            <PageWidth>{0}in</PageWidth>
-                            <PageHeight>{1}in</PageHeight>
-                            <MarginTop>{2}in</MarginTop>
-                            <MarginLeft>{3}in</MarginLeft>
-                            <MarginRight>{4}in</MarginRight>
-                            <MarginBottom>{5}in</MarginBottom>
-                        </DeviceInfo>",
-                    LabelPageSetup.PageWidth,
-                    LabelPageSetup.PageHeight,
-                    LabelPageSetup.MarginTop,
-                    LabelPageSetup.MarginLeft,
-                    LabelPageSetup.MarginRight,
-                    LabelPageSetup.MarginBottom);
-
-                Warning[] warnings;
-                m_streams = new List<Stream>();
-                report.Render("Image", deviceInfo, CreateStream,
-                   out warnings);
-                foreach (Stream stream in m_streams)
-                    stream.Position = 0;
-            }catch(Exception ex)
-            {
-                WriteToFile(ex.Message + "\n" + ex.ToString());
-            }
-        }
-
-        public static void PrintLabel()
-        {
-            if (m_streams == null || m_streams.Count == 0)
-                throw new Exception("Error: no stream to print.");
-            PrintDocument printDoc = new PrintDocument();
-            PrintController printControl = new StandardPrintController();
-
-            printDoc.PrintController = printControl;
-            printDoc.PrinterSettings.PrinterName = LabelPrinterName;
-
-            if (!printDoc.PrinterSettings.IsValid)
-            {
-                try
-                {
-                    throw new Exception("Error: cannot find the default printer.");
-                }
-                catch
-                {
-                    //do nothing
-                }
-            }
-            else
-            {
-                try
-                {
-                    printDoc.PrintPage += new PrintPageEventHandler(PrintPage);
-                    m_currentPageIndex = 0;
-                    printDoc.Print();
-                }
-                catch
-                {
-                    //do nothing
-                }
-            }
-        }
-
 
       public  static async Task<List<DynamicDataModel>> GetApiData(string procedure_name, string parameters)
         {
