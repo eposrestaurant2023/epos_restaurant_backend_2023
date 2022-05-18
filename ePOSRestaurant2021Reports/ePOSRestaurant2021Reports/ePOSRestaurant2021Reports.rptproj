@@ -8,11 +8,11 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>ePOSNormPangThmorda/ePOSRestaurantReports</TargetReportFolder>
-    <TargetDatasetFolder>ePOSNormPangThmorda/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>ePOSNormPangThmorda/DataSource</TargetDatasourceFolder>
+    <TargetReportFolder>ePOSDemo/ePOSRestaurantReports</TargetReportFolder>
+    <TargetDatasetFolder>ePOSDemo/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>ePOSDemo/DataSource</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
-    <TargetServerURL>http://192.168.10.13:3344/ReportServer</TargetServerURL>
+    <TargetServerURL>http://192.168.10.169:3333/ReportServer_MSSQLSERVER16</TargetServerURL>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
     <FullPath>DebugLocal</FullPath>
@@ -89,7 +89,6 @@
     <Report Include="rptInventoryCheckA4.rdl" />
     <Report Include="rptInventoryMovement.rdl" />
     <Report Include="rptInventoryProductList.rdl" />
-    <Report Include="rptLabel.rdl" />
     <Report Include="rptMenuProductPriceList.rdl" />
     <Report Include="rptMonthlySaleSummary.rdl" />
     <Report Include="rptProductBarcode.rdl" />
