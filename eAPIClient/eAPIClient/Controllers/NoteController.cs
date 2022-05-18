@@ -51,8 +51,7 @@ namespace eAPIClient.Controllers
         {
             try
             {
-                var data = db.Notes.Where(r => r.category_note_id == model.category_note_id && r.note.Trim().ToLower() == model.note.Trim().ToLower());
-
+                var data = db.Notes.Where(r => r.category_note_id == model.category_note_id && r.product_id == model.product_id && r.note.Trim().ToLower() == model.note.Trim().ToLower());
                 if (data.Any())
                 {
                     return Ok(data.FirstOrDefault());
