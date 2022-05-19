@@ -108,7 +108,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SalePayment</DataSetName>
-        <Top>4.84288in</Top>
+        <Top>4.65538in</Top>
         <Left>0.01353in</Left>
         <Height>0.21875in</Height>
         <Width>2.7575in</Width>
@@ -240,7 +240,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SalePaymentChange</DataSetName>
-        <Top>5.09621in</Top>
+        <Top>4.90871in</Top>
         <Left>0.01145in</Left>
         <Height>0.21875in</Height>
         <Width>2.76043in</Width>
@@ -256,7 +256,7 @@
         </Style>
       </Tablix>
       <Line Name="Line3">
-        <Top>5.33996in</Top>
+        <Top>5.15246in</Top>
         <Left>2.77458in</Left>
         <Height>0in</Height>
         <Width>-2.76582in</Width>
@@ -436,7 +436,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Setting</DataSetName>
-        <Top>5.38769in</Top>
+        <Top>5.20019in</Top>
         <Left>0.01084in</Left>
         <Height>0.51042in</Height>
         <Width>2.76167in</Width>
@@ -881,7 +881,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.44893in</Height>
+              <Height>0.2406in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -892,25 +892,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>វិក្កយបត្រអាករ</Value>
+                              <Value>បង្កាន់ដៃ</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>10.5pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>TAX INVOICE</Value>
-                              <Style>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -1323,7 +1308,7 @@
         <DataSetName>Sale</DataSetName>
         <Top>1.22369in</Top>
         <Left>0.00625in</Left>
-        <Height>1.35105in</Height>
+        <Height>1.14272in</Height>
         <Width>2.77084in</Width>
         <ZIndex>6</ZIndex>
         <Style>
@@ -1841,7 +1826,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Sale</DataSetName>
-        <Top>3.62926in</Top>
+        <Top>3.44176in</Top>
         <Left>0.0073in</Left>
         <Height>0.9375in</Height>
         <Width>2.77083in</Width>
@@ -2384,7 +2369,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SaleProduct</DataSetName>
-        <Top>2.5876in</Top>
+        <Top>2.4001in</Top>
         <Left>0.01353in</Left>
         <Height>0.96877in</Height>
         <Width>2.76043in</Width>
@@ -2396,7 +2381,7 @@
         </Style>
       </Tablix>
       <Line Name="Line1">
-        <Top>3.58134in</Top>
+        <Top>3.39384in</Top>
         <Left>2.7752in</Left>
         <Height>0in</Height>
         <Width>-2.76584in</Width>
@@ -2409,7 +2394,7 @@
         </Style>
       </Line>
       <Line Name="Line2">
-        <Top>3.60797in</Top>
+        <Top>3.42047in</Top>
         <Left>2.77103in</Left>
         <Height>0in</Height>
         <Width>-2.76582in</Width>
@@ -2545,7 +2530,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>GrandTotal</DataSetName>
-        <Top>4.58968in</Top>
+        <Top>4.40218in</Top>
         <Left>0.0125in</Left>
         <Height>0.21875in</Height>
         <Width>2.76043in</Width>
@@ -2557,7 +2542,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>5.89811in</Height>
+    <Height>5.71061in</Height>
     <Style />
   </Body>
   <Width>2.78334in</Width>

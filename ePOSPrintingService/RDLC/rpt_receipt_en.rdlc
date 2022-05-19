@@ -889,7 +889,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>TAX INVOICE</Value>
+                              <Value>RECEIPT</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>10.5pt</FontSize>
