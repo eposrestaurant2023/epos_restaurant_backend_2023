@@ -59,6 +59,7 @@ namespace eShareModel
         public decimal amount { get; set; }
         public double exchange_rate { get; set; }
 
+
         public decimal base_currency_amount{ get; set; }
         public string note { get; set; }
 

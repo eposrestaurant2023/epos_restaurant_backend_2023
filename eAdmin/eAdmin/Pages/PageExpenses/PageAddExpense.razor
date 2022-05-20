@@ -8,7 +8,11 @@
     <PageContainer>
         <PageHeader>
             <HeaderLeft>
-                @title
+                <PageTitle>
+                    <HeaderTemplate>
+                        @lang[title]
+                    </HeaderTemplate>
+                </PageTitle>
             </HeaderLeft>
             <HeaderRight>
 
@@ -100,6 +104,7 @@
     {
         model.paymen_type_id = p.id;
         model.paymen_type = p.payment_type_name_en;
+
     }
 
 
@@ -156,7 +161,6 @@
                 is_saving = false;
                 return;
             }
-
             var res = await http.ApiPost($"{ControllerApi}/save", save_expenses);
             if (res.IsSuccess)
             {

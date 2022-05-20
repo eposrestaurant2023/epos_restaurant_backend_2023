@@ -58,6 +58,14 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ExpenseModel u)
         {
+            var payment_type = db.PaymentTypes.Where(r => r.id == u.paymen_type_id).Include(r => r.currency).FirstOrDefault();
+            var business_branch_currency = db.BusinessBranchCurrencies.Where(r => r.business_branch_id == u.business_branch_id && r.currency_id == payment_type.currency_id).FirstOrDefault();
+            u.currency_name = payment_type.currency.currency_name_en;
+            u.currency_symbol = payment_type.currency.symbol;
+            u.currency_format = payment_type.currency.currency_format;
+            u.exchange_rate = business_branch_currency.exchange_rate;
+            u.currency_id = payment_type.currency_id;
+            u.base_currency_amount = u.amount / Convert.ToDecimal(u.exchange_rate);
             if (u.id == Guid.Empty)
             {
                 db.Expenses.Add(u);
