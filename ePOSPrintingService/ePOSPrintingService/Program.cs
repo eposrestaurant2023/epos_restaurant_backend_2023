@@ -1655,53 +1655,61 @@ namespace ePOSPrintingService
         public static bool PrintRaw(string printerName, string origString)
         {
             bool functionReturnValue = false;
-            // ----- Send a string of  raw data to  the printer.
-            IntPtr hPrinter = default(IntPtr);
-            DOCINFO spoolData = new DOCINFO();
-            IntPtr dataToSend = default(IntPtr);
-            int dataSize = 0;
-            int bytesWritten = 0;
-
-            // ----- The internal format of a .NET String is just
-            //       different enough from what the printer expects
-            //       that there will be a problem if we send it
-            //       directly. Convert it to ANSI format before
-            //       sending.
-            dataSize = origString.Length;
-            dataToSend = Marshal.StringToCoTaskMemAnsi(origString);
-
-            // ----- Prepare information for the spooler.
-            spoolData.pDocName = "OpenDrawer";
-            // class='highlight'
-            spoolData.pDataType = "RAW";
-
             try
             {
-                // ----- Open a channel to  the printer or spooler.
-                OpenPrinter(printerName, ref hPrinter, 0);
+                // ----- Send a string of  raw data to  the printer.
+                IntPtr hPrinter = default(IntPtr);
+                DOCINFO spoolData = new DOCINFO();
+                IntPtr dataToSend = default(IntPtr);
+                int dataSize = 0;
+                int bytesWritten = 0;
 
-                // ----- Start a new document and Section 1.1.
-                StartDocPrinter(hPrinter, 1, ref spoolData);
-                StartPagePrinter(hPrinter);
+                // ----- The internal format of a .NET String is just
+                //       different enough from what the printer expects
+                //       that there will be a problem if we send it
+                //       directly. Convert it to ANSI format before
+                //       sending.
+                dataSize = origString.Length;
+                dataToSend = Marshal.StringToCoTaskMemAnsi(origString);
 
-                // ----- Send the data to the printer.
-                WritePrinter(hPrinter, dataToSend, dataSize, ref bytesWritten);
+                // ----- Prepare information for the spooler.
+                spoolData.pDocName = "OpenDrawer";
+                // class='highlight'
+                spoolData.pDataType = "RAW";
 
-                // ----- Close everything that we opened.
-                EndPagePrinter(hPrinter);
-                EndDocPrinter(hPrinter);
-                ClosePrinter(hPrinter);
-                functionReturnValue = true;
+                try
+                {
+                    // ----- Open a channel to  the printer or spooler.
+                    OpenPrinter(printerName, ref hPrinter, 0);
+
+                    // ----- Start a new document and Section 1.1.
+                    StartDocPrinter(hPrinter, 1, ref spoolData);
+                    StartPagePrinter(hPrinter);
+
+                    // ----- Send the data to the printer.
+                    WritePrinter(hPrinter, dataToSend, dataSize, ref bytesWritten);
+
+                    // ----- Close everything that we opened.
+                    EndPagePrinter(hPrinter);
+                    EndDocPrinter(hPrinter);
+                    ClosePrinter(hPrinter);
+                    functionReturnValue = true;
+                }
+                catch (Exception ex)
+                {
+                    WriteToFile(ex.Message + "\n" + ex.ToString());
+                    functionReturnValue = false;
+                }
+                finally
+                {
+                    // ----- Get rid of the special ANSI version.
+                    Marshal.FreeCoTaskMem(dataToSend);
+                }
             }
             catch (Exception ex)
             {
                 WriteToFile(ex.Message + "\n" + ex.ToString());
                 functionReturnValue = false;
-            }
-            finally
-            {
-                // ----- Get rid of the special ANSI version.
-                Marshal.FreeCoTaskMem(dataToSend);
             }
             return functionReturnValue;
         }
