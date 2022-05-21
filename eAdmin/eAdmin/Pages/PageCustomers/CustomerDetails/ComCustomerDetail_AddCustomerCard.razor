@@ -2,10 +2,11 @@
 
     <MudDialog >
         <DialogContent>
-            <TextInput @bind-text="model.card_name" label="@lang["Card Name"]"/>
-            <TextInput @bind-text="model.card_code" label="@lang["Card Code"]"/>
-            <NumberInputDecimal @bind-text="model.discount_value" label="@discount_label"/>
-            <DateInput @bind-value="model.expiry_date" label="@lang["Expiry Date"]"/>
+            <TextInput @bind-text="model.card_name" label="@lang["Card Name"]" />
+            <TextInput @bind-text="model.card_code" label="@lang["Card Code"]" />
+            <NumberInputDecimal @bind-text="model.discount_value" label="@discount_label" />
+            <DateInput @bind-value="model.expiry_date" label="@lang["Expiry Date"]" />
+            <MudCheckBox Label=" " @bind-Checked="@model.status">@lang["Status"]</MudCheckBox>
         </DialogContent>
         <DialogActions>
             <Button type="submit" icon="save" OnClick="onSubmit" disabled="@is_submitting">@lang["Save"]</Button>

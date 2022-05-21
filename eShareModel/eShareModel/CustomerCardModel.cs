@@ -14,6 +14,7 @@ namespace eShareModel
 
         [Column(TypeName = "date")]
         public DateTime expiry_date { get; set; } = DateTime.Now.AddMonths(1).AddDays(-1);
+
         [NotMapped,JsonIgnore]
         public bool is_expired
         { get 

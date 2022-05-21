@@ -65,7 +65,7 @@ namespace eAPIClient.Controllers
         [Route("[action]/{code}")]
         public SingleResult<CustomerCardModel> Get(string code)
         {
-            var s = db.CustomerCards.Where(r => r.card_code == code).AsQueryable();
+            var s = db.CustomerCards.Where(r => r.card_code == code && r.status && !r.is_deleted).AsQueryable();
             return SingleResult.Create(s);
         }
 

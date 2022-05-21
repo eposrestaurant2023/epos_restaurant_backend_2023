@@ -43,9 +43,9 @@ namespace eAPI.Controllers
         {
             
 
-            if (customer_card.id == System.Guid.Empty)
+            if (customer_card.id == Guid.Empty)
             {
-                var cards = db.CustomerCards.Where(r => r.card_code == customer_card.card_code).AsNoTracking().ToList();
+                var cards = db.CustomerCards.Where(r => r.card_code == customer_card.card_code && r.status==customer_card.status && r.expiry_date ==customer_card.expiry_date).AsNoTracking().ToList();
                 if (cards.Any())
                 {
                     return BadRequest("Card code already exist.");
@@ -54,7 +54,7 @@ namespace eAPI.Controllers
             }
             else
             {
-                var cards = db.CustomerCards.Where(r => r.card_code == customer_card.card_code && r.id != customer_card.id).AsNoTracking().ToList();
+                var cards = db.CustomerCards.Where(r => r.card_code == customer_card.card_code && r.id != customer_card.id &&  r.status == customer_card.status && r.expiry_date == customer_card.expiry_date).AsNoTracking().ToList();
                 if (cards.Any())
                 {
                     return BadRequest("Card code already exist.");
@@ -62,6 +62,9 @@ namespace eAPI.Controllers
                 db.CustomerCards.Update(customer_card);
             }
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)), hub);
+
+            string _sql = string.Format(@"update tbl_customer set is_synced = 0 where id = '{0}';update tbl_customer_business_branch set is_synced = 0 where customer_id = '{0}'",customer_card.customer_id);
+            db.Database.ExecuteSqlRaw(_sql);
             return Ok(customer_card);
         }
     }

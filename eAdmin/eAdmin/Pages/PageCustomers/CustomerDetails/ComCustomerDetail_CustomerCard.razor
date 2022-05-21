@@ -42,7 +42,8 @@
                         @foreach (var item in customer_card_list)
                         {
                             <MudItem xs="12" md="6" lg="6" xl="6">
-                                <MudCard>
+
+                                <MudCard >
                                     <MudCardHeader Class="mb-2 pb-2">
                                         <CardHeaderContent>
                                             <MudText Typo="Typo.h6">
@@ -51,29 +52,43 @@
                                             
                                         </CardHeaderContent>
                                         <CardHeaderActions>
-                                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="MudBlazor.Color.Default" OnClick="(()=>OnEditCardClick(item))"/>
+
+                                            @if (!item.is_deleted)
+                                            {
+                                                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="MudBlazor.Color.Default" OnClick="(() => OnEditCardClick(item))" />
+                                                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="MudBlazor.Color.Error" OnClick="(() => OnDeleteCardClick(item))" />
+                                            }
+                                            else
+                                            {
+                                                <MudChip Disabled="true" Size="Size.Small" Color="MudBlazor.Color.Error">
+                                                    @lang["Deleted"]
+                                                </MudChip> 
+                                            }
                                         </CardHeaderActions>
                                     </MudCardHeader>
                                     <MudCardContent Class="mt-2 pt-2">
                                         <MudText Typo="Typo.subtitle1" Style="text-align:center;">
-                                             @item.discount_value.ToString(gv.quantity_format) %
+                                            @item.discount_value.ToString(gv.quantity_format) %
                                         </MudText>
                                         <MudText Typo="Typo.body2" Style="text-align:center;font-size:18px">
                                             @item.card_code
                                         </MudText>
+                                       
                                         <MudText Typo="Typo.subtitle1">
                                             @lang["Expiry"]
                                         </MudText>
                                         <MudPaper Class="d-flex justify-space-between" Elevation="0">
-                                            
-                                           
                                             <MudText Typo="Typo.body2" Class="align-self-center">
-                                            @item.expiry_date.ToString(gv.date_format)
+                                                @item.expiry_date.ToString(gv.date_format)
                                             </MudText>
+                                            @if (!item.status)
+                                            {
+                                                <MudChip Disabled="true" Size="Size.Small" Color="MudBlazor.Color.Warning">@lang["Inactive"]</MudChip>
+                                            }
                                             @if (item.is_expired)
                                             {
                                                 <MudChip Disabled="true" Size="Size.Small" Color="MudBlazor.Color.Error">@lang["Expired"]</MudChip>
-                                        }
+                                            }
                                         </MudPaper>
                                     </MudCardContent>
                                 </MudCard>
@@ -112,7 +127,7 @@
     }
     async Task OnAddNewClick()
     {
-        
+
         var parameters = new DialogParameters();
         parameters.Add("model", new CustomerCardModel());
         parameters.Add("customer_id", customer_id);
@@ -131,13 +146,13 @@
     {
         var parameters = new DialogParameters();
         CustomerCardModel temp = new CustomerCardModel();
-        var res = await http.ApiGet($"customerCard({card.id})");
+        var res = await http.ApiGet($"CustomerCard({card.id})");
         if(res.IsSuccess){
             temp = JsonSerializer.Deserialize<CustomerCardModel>(res.Content.ToString());
         }
         parameters.Add("model", temp);
         parameters.Add("customer_id", customer_id);
-       
+
         dialog_title = lang["Edit"] +$" {temp.card_code}";
         var options = new DialogOptions { DisableBackdropClick = true };
         var result = await DialogService.Show<ComCustomerDetail_AddCustomerCard>(lang[dialog_title],parameters, options).Result;
@@ -149,4 +164,18 @@
             }
         }
     }
+    async Task OnDeleteCardClick(CustomerCardModel card)
+    {
+        if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"]))
+        {
+            card.is_deleted = true;
+            var res = await http.ApiPost("customerCard/save", card);
+            if (res.IsSuccess)
+            {
+                toast.Add(lang["Delete record successfully"], MudBlazor.Severity.Success);
+                await LoadData();
+            }
+        }
+    }
+}
 }
