@@ -510,7 +510,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Sale</DataSetName>
-        <Top>3.21644in</Top>
+        <Top>3.05394in</Top>
         <Left>0.00688in</Left>
         <Height>0.9375in</Height>
         <Width>2.77083in</Width>
@@ -579,32 +579,31 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="sale_id">
+                    <Textbox Name="Textbox10">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>លេខ: </Value>
+                              <Value>កាលបរិច្ឆេទ: </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
+                                <FontSize>7.5pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!sale_number.Value</Value>
+                              <Value>=format(Fields!working_date.Value,"dd/MM/yyyy")</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
+                                <FontSize>7.5pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>sale_id</rd:DefaultName>
+                      <rd:DefaultName>Textbox10</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -670,21 +669,21 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox10">
+                    <Textbox Name="Textbox4">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>កាលបរិច្ឆេទ: </Value>
+                              <Value>អ្នកគិតប្រាក់: </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=format(Fields!working_date.Value,"dd/MM/yyyy")</Value>
+                              <Value>=Fields!created_by.Value</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -694,7 +693,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox10</rd:DefaultName>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -752,54 +751,6 @@
                     </Textbox>
                   </CellContents>
                 </TablixCell>
-              </TablixCells>
-            </TablixRow>
-            <TablixRow>
-              <Height>0.17571in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox4">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>អ្នកគិតប្រាក់: </Value>
-                              <Style>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>7.5pt</FontSize>
-                              </Style>
-                            </TextRun>
-                            <TextRun>
-                              <Value>=Fields!created_by.Value</Value>
-                              <Style>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>7.5pt</FontSize>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox4</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Width>0.25pt</Width>
-                        </Border>
-                        <VerticalAlign>Top</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>0.25pt</PaddingTop>
-                        <PaddingBottom>0.25pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                    <ColSpan>2</ColSpan>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell />
               </TablixCells>
             </TablixRow>
             <TablixRow>
@@ -863,7 +814,6 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
             <TablixMember>
               <Visibility>
                 <Hidden>=Fields!customer_name.Value=""</Hidden>
@@ -874,7 +824,7 @@
         <DataSetName>Sale</DataSetName>
         <Top>1.21848in</Top>
         <Left>0.01311in</Left>
-        <Height>0.93199in</Height>
+        <Height>0.75628in</Height>
         <Width>2.77084in</Width>
         <ZIndex>1</ZIndex>
         <Style>
@@ -1416,7 +1366,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SaleProduct</DataSetName>
-        <Top>2.17477in</Top>
+        <Top>2.01227in</Top>
         <Left>0.01311in</Left>
         <Height>0.96877in</Height>
         <Width>2.76043in</Width>
@@ -1428,7 +1378,7 @@
         </Style>
       </Tablix>
       <Line Name="Line1">
-        <Top>3.16852in</Top>
+        <Top>3.00602in</Top>
         <Left>2.77478in</Left>
         <Height>0in</Height>
         <Width>-2.76584in</Width>
@@ -1441,7 +1391,7 @@
         </Style>
       </Line>
       <Line Name="Line2">
-        <Top>3.19514in</Top>
+        <Top>3.03264in</Top>
         <Left>2.7706in</Left>
         <Height>0in</Height>
         <Width>-2.76582in</Width>
@@ -1577,7 +1527,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>GrandTotal</DataSetName>
-        <Top>4.18208in</Top>
+        <Top>4.01958in</Top>
         <Left>0.01311in</Left>
         <Height>0.21875in</Height>
         <Width>2.76043in</Width>
@@ -1755,7 +1705,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Setting</DataSetName>
-        <Top>4.42825in</Top>
+        <Top>4.26575in</Top>
         <Left>0.01312in</Left>
         <Height>0.53125in</Height>
         <Width>2.76167in</Width>
@@ -2147,7 +2097,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>4.9595in</Height>
+    <Height>4.797in</Height>
     <Style />
   </Body>
   <Width>2.78957in</Width>

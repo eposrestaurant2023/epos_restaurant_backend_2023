@@ -510,7 +510,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Sale</DataSetName>
-        <Top>3.23519in</Top>
+        <Top>3.06019in</Top>
         <Left>0.00626in</Left>
         <Height>0.9375in</Height>
         <Width>2.77083in</Width>
@@ -579,32 +579,31 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="sale_id">
+                    <Textbox Name="Textbox10">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>No: </Value>
+                              <Value>Date: </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
+                                <FontSize>7.5pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!sale_number.Value</Value>
+                              <Value>=format(Fields!working_date.Value,"dd/MM/yyyy")</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
+                                <FontSize>7.5pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>sale_id</rd:DefaultName>
+                      <rd:DefaultName>Textbox10</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -670,21 +669,21 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox10">
+                    <Textbox Name="Textbox4">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Date: </Value>
+                              <Value>Cashier: </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=format(Fields!working_date.Value,"dd/MM/yyyy")</Value>
+                              <Value>=Fields!created_by.Value</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -694,7 +693,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox10</rd:DefaultName>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -752,54 +751,6 @@
                     </Textbox>
                   </CellContents>
                 </TablixCell>
-              </TablixCells>
-            </TablixRow>
-            <TablixRow>
-              <Height>0.17571in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox4">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Cashier: </Value>
-                              <Style>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>7.5pt</FontSize>
-                              </Style>
-                            </TextRun>
-                            <TextRun>
-                              <Value>=Fields!created_by.Value</Value>
-                              <Style>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>7.5pt</FontSize>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox4</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Width>0.25pt</Width>
-                        </Border>
-                        <VerticalAlign>Top</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>0.25pt</PaddingTop>
-                        <PaddingBottom>0.25pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                    <ColSpan>2</ColSpan>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell />
               </TablixCells>
             </TablixRow>
             <TablixRow>
@@ -863,7 +814,6 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
             <TablixMember>
               <Visibility>
                 <Hidden>=Fields!customer_name.Value=""</Hidden>
@@ -874,7 +824,7 @@
         <DataSetName>Sale</DataSetName>
         <Top>1.23723in</Top>
         <Left>0.01249in</Left>
-        <Height>0.932in</Height>
+        <Height>0.75628in</Height>
         <Width>2.77084in</Width>
         <ZIndex>1</ZIndex>
         <Style>
@@ -1416,9 +1366,9 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SaleProduct</DataSetName>
-        <Top>2.19352in</Top>
+        <Top>2.01852in</Top>
         <Left>0.01249in</Left>
-        <Height>0.96876in</Height>
+        <Height>0.96877in</Height>
         <Width>2.76043in</Width>
         <ZIndex>2</ZIndex>
         <Style>
@@ -1428,7 +1378,7 @@
         </Style>
       </Tablix>
       <Line Name="Line1">
-        <Top>3.18727in</Top>
+        <Top>3.01227in</Top>
         <Left>2.77416in</Left>
         <Height>0in</Height>
         <Width>-2.76584in</Width>
@@ -1441,7 +1391,7 @@
         </Style>
       </Line>
       <Line Name="Line2">
-        <Top>3.21389in</Top>
+        <Top>3.03889in</Top>
         <Left>2.76999in</Left>
         <Height>0in</Height>
         <Width>-2.76582in</Width>
@@ -1577,7 +1527,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>GrandTotal</DataSetName>
-        <Top>4.20083in</Top>
+        <Top>4.02583in</Top>
         <Left>0.01249in</Left>
         <Height>0.20833in</Height>
         <Width>2.76043in</Width>
@@ -1755,7 +1705,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Setting</DataSetName>
-        <Top>4.4345in</Top>
+        <Top>4.2595in</Top>
         <Left>0.0125in</Left>
         <Height>0.53125in</Height>
         <Width>2.76167in</Width>
@@ -2138,7 +2088,7 @@
         <DataSetName>Setting</DataSetName>
         <Top>0.025in</Top>
         <Left>0.0125in</Left>
-        <Height>1.19666in</Height>
+        <Height>1.19665in</Height>
         <Width>2.77167in</Width>
         <ZIndex>7</ZIndex>
         <Style>
@@ -2148,7 +2098,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>4.96575in</Height>
+    <Height>4.79075in</Height>
     <Style />
   </Body>
   <Width>2.78417in</Width>
