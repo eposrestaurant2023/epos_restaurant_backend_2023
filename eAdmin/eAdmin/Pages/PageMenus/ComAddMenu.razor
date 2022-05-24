@@ -33,6 +33,7 @@
                 <TextInput label="@lang["Background Color"]" type="color" @bind-text="@model.background_color" />
                 <NumberInputInt label="@lang["Sort Order"]" @bind-text="@model.sort_order" />
                 <ComInputCheckBox @bind-Value="@model.is_shortcut_menu" label="@lang["Shortcut Menu"]"/>
+                   <SelectPriceRule @bind-selected_value="@model.price_rule_id"   show_empty="true"  label="@lang["Price Rule"]" />
                 <SelectStatus label="@lang["Status"]" @bind-selected_value="@model.status" />
 
             </UIContainerBox>

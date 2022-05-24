@@ -1,0 +1,191 @@
+﻿@page "/sortmenu"
+@inherits PageCore
+<Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
+<Title Value="@lang["Sort Menu"]"></Title>
+
+@if (!is_loading)
+{
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        <MudHidden Breakpoint="Breakpoint.LgAndUp">
+                            <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => IsMenuOpened=!IsMenuOpened)" />
+                        </MudHidden>
+                        @lang["Sort Menu"]
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+          
+        </PageHeader>
+        <PageBody>
+            <MudDrawer @bind-Open="@IsMenuOpened" Elevation="1" Variant="@DrawerVariant.Temporary">
+                <MudDrawerHeader>
+                    <MudText Class="d-flex align-center" Typo="Typo.h6">@lang["Menu"]</MudText>
+                </MudDrawerHeader>
+                <MudDivider />
+               menu tree
+            </MudDrawer>
+            <Grid ClassName="uk-grid-small">
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <Column ClassName="uk-width-1-5@m uk-width-1-1@s">
+                        menu tree
+                    </Column>
+                </MudHidden>
+                <Column ClassName="uk-width-4-5@m uk-width-1-1@s">
+                    
+                    menu and item list for sort
+                     
+                </Column>
+            </Grid>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <ComSavingFormButton is_show_cancel="false" OnSave="@Save_Click" is_show_save_action="true" is_loading="@is_saving" />
+            </FooterCenter>
+        </PageFooter>
+    </PageContainer>
+}
+
+@code
+{
+
+    List<MenuModel> menus = new List<MenuModel>();
+    MenuModel menu = new MenuModel();
+
+    int root_menu_id;
+    int parent_menu_id;
+    int current_menu_id;
+    bool show_add_menu;
+    bool IsMenuOpened;
+    Guid business_id = Guid.NewGuid();
+
+
+    string keyword;
+
+    string controller_api = "Menu";
+    public string ControllerApi
+    {
+        get
+        {
+            string url = $"{controller_api}?";
+            url += $"$expand=product_menus($expand=product($select=id,product_category_id,photo,product_name_en,product_name_kh);$filter=is_deleted eq false)";
+            url = url + GetFilter(state.filters);
+            return url;
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+
+        state.filters.RemoveAll(r => r.key == "business_branch_id" || r.key == "is_deleted");
+
+        state.filters.Add(new FilterModel()
+        {
+            key = "business_branch_id",
+            filter_operator = "multiple",
+            value1 = gv.business_branch_ids_filter_1,
+
+        });
+        state.filters.Add(new FilterModel()
+        {
+            key = "is_deleted",
+            value1 = "false"
+        });
+
+        await LoadData();
+        is_loading = false;
+    }
+
+    public async Task LoadData(string api_url = "")
+    {
+        is_loading = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+            api_url = $"{ControllerApi}";
+            state.api_url = api_url;
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+            menus = JsonSerializer.Deserialize<List<MenuModel>>(resp.Content.ToString());
+        }
+        is_loading = false;
+    }
+
+    public async Task Save_Click()
+    {
+        is_saving = true;
+        List<MenuModel> save_menu = new List<MenuModel>();
+        save_menu = JsonSerializer.Deserialize<List<MenuModel>>(JsonSerializer.Serialize(menus));
+
+        save_menu.SelectMany(r => r.product_menus).ToList().ForEach(r => r.product = null);
+
+        save_menu.Where(r => r.parent != null).ToList().ForEach(r => r.parent = null);
+
+        var resp = await http.ApiPost("Menu/Save/Multiple", save_menu);
+
+        if (resp.IsSuccess)
+        {
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
+            await LoadData();
+            if (menus.Count() > 0)
+            {
+                if (menus.Where(r => r.id == root_menu_id).Any())
+                {
+                    menus.Where(r => r.id == root_menu_id).FirstOrDefault().is_selected = true;
+                }
+            }
+        }
+        else
+        {
+            toast.Add(lang["Save record fail."], MudBlazor.Severity.Warning);
+        }
+        is_saving = false;
+    }
+
+
+    async Task OnGetMenu(MenuModel _menu)
+    {
+        menu = _menu;
+        menus = new List<MenuModel>();
+        await LoadData();
+    }
+
+
+
+    void AddRootMenu(Guid business_branch_id)
+    {
+        menu = new MenuModel();
+        menu.parent = null;
+        menu.business_branch_id = business_branch_id;
+        show_add_menu = true;
+    }
+
+    void SaveMenu(MenuModel m)
+    {
+        if (menu.id == 0)
+        {
+            menu = m;
+            menus.Add(m);
+
+        }
+        else
+        {
+            menu = m;
+        }
+
+        show_add_menu = false;
+    }
+
+    void OnEditMenu(MenuModel m)
+    {
+        menu = m;
+        show_add_menu = true;
+    }
+
+}
+

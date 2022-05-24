@@ -64,6 +64,7 @@ namespace eModels
             set { _menu_path = value; }
         }
 
+        public int? price_rule_id { get; set; }
 
 
     }
@@ -82,6 +83,8 @@ namespace eModels
         public virtual MenuModel menu { get; set; }
 
         public bool is_deleted { get; set; }
+
+        public int sort_order { get; set; }
     }
 
 }
