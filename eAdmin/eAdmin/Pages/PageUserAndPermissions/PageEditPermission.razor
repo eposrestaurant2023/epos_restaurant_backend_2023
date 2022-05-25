@@ -76,6 +76,7 @@
 
 @code {
     [Parameter] public int role_id { get; set; }
+
     public HashSet<PermissionModel> SelectedOptionFrontend { get; set; } = new HashSet<PermissionModel>();
     public HashSet<PermissionModel> SelectedOptionBackend { get; set; } = new HashSet<PermissionModel>();
     public HashSet<PermissionModel> SelectedOptionReport { get; set; } = new HashSet<PermissionModel>();
