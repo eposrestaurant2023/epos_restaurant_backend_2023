@@ -25,35 +25,77 @@
                     <MudText Class="d-flex align-center" Typo="Typo.h6">@lang["Menu"]</MudText>
                 </MudDrawerHeader>
                 <MudDivider />
-               menu tree
+              <MudTreeView @bind-ActivatedValue="@selected_menu"  T="MenuSortOrder" Items="@(new  HashSet<MenuSortOrder>(TreeItems.Where(r=>r.parent_id ==  null)))" CanActivate="true">
+                            <ItemTemplate>
+                                <MudTreeViewItem Items="@context.children" Text="@context.menu_name_en" Value="@context"> 
+                                </MudTreeViewItem>
+                            </ItemTemplate>
+                        </MudTreeView>
             </MudDrawer>
             <Grid ClassName="uk-grid-small">
                 <MudHidden Breakpoint="Breakpoint.SmAndDown">
                     <Column ClassName="uk-width-1-5@m uk-width-1-1@s">
-                        menu tree
-                    </Column>
-                </MudHidden>
-                <Column ClassName="uk-width-4-5@m uk-width-1-1@s">
-                    <UIContainerBox Title="Report">
-                        <MudTreeView Items="@(new  HashSet<MenuSortOrder>(TreeItems.Where(r=>r.parent_id ==  null)))" CanActivate="true">
+                       <MudTreeView T="MenuSortOrder" @bind-ActivatedValue="@selected_menu" Items="@(new  HashSet<MenuSortOrder>(TreeItems.Where(r=>r.parent_id ==  null)))" CanActivate="true">
                             <ItemTemplate>
-                                <MudTreeViewItem Items="@context.children" > 
-                                        <MudTreeViewItemToggleButton  Visible="@(context.children.Count()>0)" />
-                                        <MudText>@context.menu_name_en</MudText>
+                                <MudTreeViewItem Items="@context.children" Text="@context.menu_name_en" Value="@context"> 
                                 </MudTreeViewItem>
                             </ItemTemplate>
                         </MudTreeView>
-                        @JsonSerializer.Serialize(TreeItems)
+                    </Column>
+                </MudHidden>
+                <Column ClassName="uk-width-4-5@m uk-width-1-1@s">
+                    <UIContainerBox Title="Menu">
+                         <Table Items="@(root_list.menu.Where(r=>r.parent_id==selected_menu.id).ToList())"
+                      
+                               isLoading="@is_loading_data"
+                               ClassName="uk-table-small uk-table-striped uk-table-hover"
+                               ScrollClass="uk-overflow-auto">
+                            <TableHeader>
+                                <ThRight>@lang["Menu Name En"]</ThRight>
+                                <ThRight>@lang["Sort Order"]</ThRight>
+                                
+                            </TableHeader>
+                            <RowTemplate Context="m">
+                                <TdCenter>
+                                    @m.menu_name_en
+                                </TdCenter>
+                                <td>
+                                    <NumberInputInt @bind-text="@m.sort_order"/>
+                                </td>
+                        
+                            </RowTemplate>
+                        </Table>
                     </UIContainerBox>
                     
-                    
+                     <UIContainerBox Title="Menu">
+                        <Table Items="@selected_menu.children"
+                      
+                               isLoading="@is_loading_data"
+                               ClassName="uk-table-small uk-table-striped uk-table-hover"
+                               ScrollClass="uk-overflow-auto">
+                            <TableHeader>
+                                <ThRight>@lang["Menu Name En"]</ThRight>
+                                <ThRight>@lang["Sort Order"]</ThRight>
+                                
+                            </TableHeader>
+                            <RowTemplate Context="p">
+                                <TdCenter>
+                                    @p.menu_name_en
+                                </TdCenter>
+                                <td>
+                                    @p.menu_name_en
+                                </td>
+                        
+                            </RowTemplate>
+                        </Table>
+                    </UIContainerBox>
                      
                 </Column>
             </Grid>
         </PageBody>
         <PageFooter>
             <FooterCenter>
-                <ComSavingFormButton is_show_cancel="false" is_show_save_action="true" is_loading="@is_saving" />
+                <ComSavingFormButton is_show_cancel="false" is_show_save_action="true" is_loading="@is_saving" OnSave="@OnSave" />
             </FooterCenter>
         </PageFooter>
     </PageContainer>
@@ -63,6 +105,7 @@
 {
 
     RootMenu  root_list { get; set; } = new RootMenu();
+    private MenuSortOrder selected_menu { get; set; }
     private HashSet<MenuSortOrder> TreeItems { get; set; } = new HashSet<MenuSortOrder>();
     protected override async Task OnInitializedAsync()
     {
@@ -85,6 +128,39 @@
         is_loading = false;
     }
 
+
+
+    async Task OnSave()
+    {
+        is_saving = true;
+        var menu_data = from m in root_list.menu
+                        select new
+                        {
+                            i = m.id,
+                            s = m.sort_order
+                        };
+
+        string save_data= JsonSerializer.Serialize(menu_data);
+        await http.ApiGetDataFromStoreProcedure("sp_update_menu_sort_order", $"'menu','{save_data}'");
+
+        //menu product
+        var menu_product_data = from m in root_list.menu_product
+                        select new
+                        {
+                            i = m.id,
+                            s = m.sort_order
+                        };
+
+        save_data= JsonSerializer.Serialize(menu_product_data);
+        
+        await http.ApiGetDataFromStoreProcedure("sp_update_menu_sort_order", $"'product_menu','{save_data}'");
+
+
+        is_saving = false;
+        toast.Add(lang["Save sucessfully"], Severity.Success );
+
+    }
+
     void BuidTree()
     {
         foreach (var i in root_list.menu.Where(r=>r.parent_id == null ))
@@ -96,12 +172,15 @@
         }
     }
 
+
     void AddChild(MenuSortOrder parent){
         foreach (var i in root_list.menu.Where(r=>r.parent_id == parent.id))
         {
-            //   AddChild(i);
-            parent.children.Add(i);
 
+             
+                AddChild(i);
+                parent.children.Add(i);
+           
 
         }
 
