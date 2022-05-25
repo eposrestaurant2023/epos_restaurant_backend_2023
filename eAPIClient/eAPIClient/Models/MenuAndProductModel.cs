@@ -115,6 +115,8 @@ namespace eAPIClient.Models
         [ForeignKey("menu_id")]
         public virtual MenuModel menu { get; set; }
 
+        public int sort_order { get; set; } = 0;
+
     }
 
     [Table("tbl_product_printer")]
