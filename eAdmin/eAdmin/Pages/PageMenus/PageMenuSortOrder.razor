@@ -20,7 +20,8 @@
           
         </PageHeader>
         <PageBody>
-            <MudDrawer Elevation="1" Variant="@DrawerVariant.Temporary">
+
+            <MudDrawer Elevation="1"  @bind-Open="@IsMenuOpened" Variant="@DrawerVariant.Temporary">
                 <MudDrawerHeader>
                     <MudText Class="d-flex align-center" Typo="Typo.h6">@lang["Menu"]</MudText>
                 </MudDrawerHeader>
@@ -34,61 +35,80 @@
             </MudDrawer>
             <Grid ClassName="uk-grid-small">
                 <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                    <Column ClassName="uk-width-1-5@m uk-width-1-1@s">
-                       <MudTreeView T="MenuSortOrder" @bind-ActivatedValue="@selected_menu" Items="@(new  HashSet<MenuSortOrder>(TreeItems.Where(r=>r.parent_id ==  null)))" CanActivate="true">
-                            <ItemTemplate>
-                                <MudTreeViewItem Items="@context.children" Text="@context.menu_name_en" Value="@context"> 
-                                </MudTreeViewItem>
-                            </ItemTemplate>
-                        </MudTreeView>
-                    </Column>
+                        <Column ClassName="uk-width-1-5@m uk-width-1-1@s">
+                           <MudTreeView T="MenuSortOrder" @bind-ActivatedValue="@selected_menu" Items="@(new  HashSet<MenuSortOrder>(TreeItems.Where(r=>r.parent_id ==  null)))" CanActivate="true">
+                                <ItemTemplate>
+                                    <MudTreeViewItem Items="@context.children" Text="@context.menu_name_en" Value="@context"> 
+                                    </MudTreeViewItem>
+                                </ItemTemplate>
+                            </MudTreeView>
+                        </Column>
+                    
                 </MudHidden>
                 <Column ClassName="uk-width-4-5@m uk-width-1-1@s">
-                    <UIContainerBox Title="Menu">
-                         <Table Items="@(root_list.menu.Where(r=>r.parent_id==selected_menu.id).ToList())"
-                      
-                               isLoading="@is_loading_data"
-                               ClassName="uk-table-small uk-table-striped uk-table-hover"
-                               ScrollClass="uk-overflow-auto">
-                            <TableHeader>
-                                <ThRight>@lang["Menu Name En"]</ThRight>
-                                <ThRight>@lang["Sort Order"]</ThRight>
-                                
-                            </TableHeader>
-                            <RowTemplate Context="m">
-                                <TdCenter>
-                                    @m.menu_name_en
-                                </TdCenter>
-                                <td>
-                                    <NumberInputInt @bind-text="@m.sort_order"/>
-                                </td>
+                    @if (selected_menu != null)
+                    {
+                         <UIContainerBox Title="sub Menu">
+                        @if (root_list.menu.Where(r => r.parent_id == selected_menu.id).Count() > 0)
+                        {
+                           
+                                <Table Items="@(root_list.menu.Where(r=>r.parent_id==selected_menu.id).OrderBy(r=>r.sort_order).ToList())"
+                                        ShowTotalCount="false"
+                                       isLoading="@is_loading_data"
+                                       ClassName="uk-table-small uk-table-striped uk-table-hover"
+                                       ScrollClass="uk-overflow-auto">
+                                    <TableHeader>
+                                        <Th>@lang["Name En"]</Th>
+                                        <ThCenter>@lang["Sort Order"]</ThCenter>
+                                        <ThCenter></ThCenter>
+                                    </TableHeader>
+                                    <RowTemplate Context="m">
+                                        <td>
+                                            @m.menu_name_en
+                                        </td>
+                                        <TdCenter>
+                                            <NumberInputInt @bind-text="@m.sort_order"/>
+                                        </TdCenter>
+                                        
+                                    </RowTemplate>
+                                </Table>
+                            
+                            
+                        }
+                        </UIContainerBox>
+                        <UIContainerBox Title="Product">
+                            <Table Items="@(root_list.menu_product.Where(r=>r.menu_id==selected_menu.id).OrderBy(r=>r.sort_order).ThenBy(r=>r.product_name_en).ToList())"
+                                    ShowTotalCount="false"
+                                    isLoading="@is_loading_data"
+                                    ClassName="uk-table-small uk-table-striped uk-table-hover"
+                                    ScrollClass="uk-overflow-auto">
+                                <TableHeader>
+                                    <Th>@lang["Name En"]</Th>
+                                    <ThCenter>@lang["Sort Order"]</ThCenter>
+                                    <ThCenter></ThCenter>
+
+                                </TableHeader>
+                                <RowTemplate Context="p">
+                                    <td>
+                                        @p.product_name_en
+                                    </td>
+                                    <TdCenter>
+                                        <NumberInputInt @bind-text="@p.sort_order"/>
+                                    </TdCenter>
+                                    
+                                </RowTemplate>
+                            </Table>
+                        </UIContainerBox>
+                         
+                    }
+                    else
+                    {
+                        <UIContainerBox Title="Sub Menu">
+                            <ComEmptyTemplate/>
+                        </UIContainerBox>
                         
-                            </RowTemplate>
-                        </Table>
-                    </UIContainerBox>
-                    
-                     <UIContainerBox Title="Menu">
-                        <Table Items="@selected_menu.children"
-                      
-                               isLoading="@is_loading_data"
-                               ClassName="uk-table-small uk-table-striped uk-table-hover"
-                               ScrollClass="uk-overflow-auto">
-                            <TableHeader>
-                                <ThRight>@lang["Menu Name En"]</ThRight>
-                                <ThRight>@lang["Sort Order"]</ThRight>
-                                
-                            </TableHeader>
-                            <RowTemplate Context="p">
-                                <TdCenter>
-                                    @p.menu_name_en
-                                </TdCenter>
-                                <td>
-                                    @p.menu_name_en
-                                </td>
-                        
-                            </RowTemplate>
-                        </Table>
-                    </UIContainerBox>
+                    }
+
                      
                 </Column>
             </Grid>
@@ -107,6 +127,7 @@
     RootMenu  root_list { get; set; } = new RootMenu();
     private MenuSortOrder selected_menu { get; set; }
     private HashSet<MenuSortOrder> TreeItems { get; set; } = new HashSet<MenuSortOrder>();
+    bool IsMenuOpened;
     protected override async Task OnInitializedAsync()
     {
         await LoadData();
@@ -141,18 +162,20 @@
                         };
 
         string save_data= JsonSerializer.Serialize(menu_data);
+        save_data= save_data.Replace("\"", "").Replace("[","A").Replace("{","B").Replace("}","C").Replace("]","D");
+
         await http.ApiGetDataFromStoreProcedure("sp_update_menu_sort_order", $"'menu','{save_data}'");
 
         //menu product
         var menu_product_data = from m in root_list.menu_product
-                        select new
-                        {
-                            i = m.id,
-                            s = m.sort_order
-                        };
+                                select new
+                                {
+                                    i = m.id,
+                                    s = m.sort_order
+                                };
 
         save_data= JsonSerializer.Serialize(menu_product_data);
-        
+        save_data= save_data.Replace("\"", "").Replace("[","A").Replace("{","B").Replace("}","C").Replace("]","D");
         await http.ApiGetDataFromStoreProcedure("sp_update_menu_sort_order", $"'product_menu','{save_data}'");
 
 
@@ -176,15 +199,13 @@
     void AddChild(MenuSortOrder parent){
         foreach (var i in root_list.menu.Where(r=>r.parent_id == parent.id))
         {
-
-             
-                AddChild(i);
-                parent.children.Add(i);
-           
-
+            AddChild(i);
+            parent.children.Add(i);
         }
 
     }
+
+
 
     class MenuSortOrder
     {
