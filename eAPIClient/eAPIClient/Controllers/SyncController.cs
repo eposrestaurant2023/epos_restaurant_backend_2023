@@ -615,7 +615,7 @@ namespace eAPIClient.Controllers
         async Task<List<ProductMenuModel>> GetRemoteProductMenu(string business_branch_id)
         {
             is_get_remote_data_success = false;
-            string url = "ProductMenu?$select=id,product_id,menu_id";
+            string url = "ProductMenu?$select=id,product_id,menu_id,sort_order";
             url = url + "&$filter=is_deleted eq false and  ";
             url = url + "menu/is_deleted eq false  and ";
             url = url + "menu/status eq true ";
