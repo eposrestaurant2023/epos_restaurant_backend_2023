@@ -32,7 +32,7 @@ namespace eAPIClient.Models
 
         public List<ProductMenuModel> product_menus { get; set; }
 
-        public int price_rule_id { get; set; }
+
 
     }
 
