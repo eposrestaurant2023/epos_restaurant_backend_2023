@@ -28,6 +28,7 @@ namespace eAPIClient.Models
         public int root_menu_id { get; set; }
         public int sort_order { get; set; } = 0;
         public bool is_shortcut_menu { get; set; } = false;
+        public int? price_rule_id { get; set; }
 
         public List<ProductMenuModel> product_menus { get; set; }
 
