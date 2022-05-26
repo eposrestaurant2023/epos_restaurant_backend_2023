@@ -439,6 +439,9 @@ namespace eAPIClient.Controllers
         public async Task<ActionResult<List<ConfigDataModel>>> GetRemoteData(bool isFirstSetup=false)
         {
 
+
+
+
             string business_branch_id = config.GetValue<string>("business_branch_id");
             //run script prepare config data 
             var prepare = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data ", procedure_parameter = $"'{business_branch_id}'" });
@@ -556,7 +559,7 @@ namespace eAPIClient.Controllers
         async Task<List<MenuModel>> GetRemoteMenu(string business_branch_id)
         {      
             is_get_remote_data_success = false;
-            var resp = await http.ApiGetOData($"Menu?$select=id,parent_id,menu_name_en,menu_name_kh,text_color,background_color,root_menu_id,photo,is_shortcut_menu&$filter=business_branch_id eq {business_branch_id} and is_deleted eq false and status eq true");
+            var resp = await http.ApiGetOData($"Menu?$select=id,parent_id,menu_name_en,menu_name_kh,text_color,background_color,root_menu_id,photo,is_shortcut_menu,price_rule_id&$filter=business_branch_id eq {business_branch_id} and is_deleted eq false and status eq true");
             if (resp.IsSuccess)
             {
                 is_get_remote_data_success = true;
