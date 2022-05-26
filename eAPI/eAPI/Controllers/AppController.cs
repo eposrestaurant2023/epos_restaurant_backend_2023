@@ -196,7 +196,7 @@ namespace eAPI.Controllers
         [Route("GetData")]
         public ActionResult<string> GetData([FromBody] FilterModel f)
         {
-            f.procedure_parameter = f.procedure_parameter.Replace("\\", "");
+
             var d = db.StoreProcedureResults.FromSqlRaw(string.Format("exec {0} {1}", f.procedure_name, f.procedure_parameter)).ToList().FirstOrDefault();
             if (d != null)
             {

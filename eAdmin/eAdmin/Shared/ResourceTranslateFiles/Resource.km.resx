@@ -2907,4 +2907,7 @@
   <data name="Invalid expired date" xml:space="preserve">
     <value>ថ្ងៃផុតកំណត់មិនត្រឹមត្រូវ</value>
   </data>
+  <data name="Chanage Product Group" xml:space="preserve">
+    <value>ប្តូរក្រុមទំនិញ</value>
+  </data>
 </root>
