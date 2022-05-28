@@ -8,11 +8,11 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>SayamSeafoodReport/Reports</TargetReportFolder>
-    <TargetDatasetFolder>SayamSeafoodReport/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>SayamSeafoodReport/DataSource</TargetDatasourceFolder>
+    <TargetReportFolder>ePos Report</TargetReportFolder>
+    <TargetDatasetFolder>ePos Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>ePos Data Sources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
-    <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
+    <TargetServerURL>http://192.168.10.112:3333/reportserver_mssqlserver16</TargetServerURL>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
     <FullPath>DebugLocal</FullPath>
