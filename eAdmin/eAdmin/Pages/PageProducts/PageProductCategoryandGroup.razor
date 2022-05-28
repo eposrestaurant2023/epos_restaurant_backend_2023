@@ -68,6 +68,7 @@
                                                         <Th>@lang["Product Category En"]</Th>
                                                         <Th>@lang["Product Category Kh"]</Th>
                                                         <ThCenter>@lang["Status"]</ThCenter>
+                                                        <ThCenter></ThCenter>
                                                     </tr>
                                                     <ViewEmptyTemplate is_view="@d.product_categories.Any()" colspan="6">
                                                         @foreach (var s in d.product_categories)
@@ -78,6 +79,12 @@
                                                                 <TdCenter>
                                                                     <LabelActive is_visible="@s.status" is_loading="@s.is_change_status" />
                                                                     <LabelInActive is_visible="@(!s.status)" is_loading="@s.is_change_status" />
+                                                                </TdCenter>
+                                                                <TdCenter>
+                                                                  <TdActions>
+                                                                        <TableActionItem OnClick="(()=>onOpenDialogClick(s))">@lang["Change Product Group"]</TableActionItem>
+   
+                                                                    </TdActions>
                                                                 </TdCenter>
                                                             </tr>
                                                         }
@@ -95,13 +102,27 @@
             </UIGridCenter>
             
         </PageBody>
+
+       <EditFormContext Cancel_Click="Cancel_click" model="change_group_model" is_opened="is_change_group" title="@dialog_title" Save_Click="@SaveGroupChage" is_submitting="change_group_model.is_loading" modal_width="500px">
+                <SelectProductGroup @bind-selected_value="product_group_id" />
+            
+        </EditFormContext>
+
     </PageContainer>
+
+
+
 }
 
 @code{
     List<ProductGroupModel> models = new List<ProductGroupModel>();
     List<ProductCategoryModel> product_category = new List<ProductCategoryModel>();
+    bool is_change_group = false;
+    ProductCategoryModel change_group_model = new ProductCategoryModel();
+    int product_group_id = 0;
+    private DialogOptions dialogOptions = new() { FullWidth = true,MaxWidth=MaxWidth.Small,DisableBackdropClick=true,CloseButton=true };
     string ControllerApi = "ProductGroup";
+    string dialog_title = "";
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
@@ -133,6 +154,34 @@
         is_loading = false;
     }
 
+    void onOpenDialogClick(ProductCategoryModel category)
+    {
+        dialog_title = lang["Product Product Group"] + $": {category.product_category_en}";
+        is_change_group = true;
+
+        product_group_id = category.product_group_id;
+        change_group_model = category; 
+    }
+
+    async Task SaveGroupChage()
+    {
+        change_group_model.product_group_id = product_group_id;
+        var save_model = JsonSerializer.Deserialize<ProductCategoryModel>(JsonSerializer.Serialize(change_group_model));
+        save_model.products = null;
+        var res = await http.ApiPost("ProductCategory/save",save_model);
+        if (res.IsSuccess)
+        {
+            toast.Add(lang["save successfull"],Severity.Success);
+            await LoadData();
+        }
+        is_change_group = false;
+
+    }
+
+    void Cancel_click()
+    {
+        is_change_group = false;
+    }
 
     async Task Deleted(ProductGroupModel p)
     {

@@ -1,0 +1,11 @@
+﻿Build started...
+1>------ Build started: Project: eAdmin, Configuration: Debug Any CPU ------
+1>D:\eSoftixProject\ePOSRetaurant2021\eAdmin\eAdmin\Pages\PageCustomers\ComCustomerSaleProductHistory.razor(88,29): warning RZ10012: Found markup element with unexpected name 'LabelParkItem'. If this is intended to be a component, add a @using directive for its namespace.
+1>D:\eSoftixProject\ePOSRetaurant2021\eAdmin\eAdmin\Pages\PageProducts\ComProductDetails\ComProductDetail_SaleHistory.razor(95,29): warning RZ10012: Found markup element with unexpected name 'LabelParkItem'. If this is intended to be a component, add a @using directive for its namespace.
+1>D:\eSoftixProject\ePOSRetaurant2021\eAdmin\eAdmin\Pages\PageReceipt\PageTableAvaiable.razor(172,16,172,32): warning CS1998: This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
+1>D:\eSoftixProject\ePOSRetaurant2021\eAdmin\eAdmin\Pages\PageProducts\ComAddInventoryProduct.razor(204,13,204,48): warning CS4014: Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.
+1>D:\eSoftixProject\ePOSRetaurant2021\eAdmin\eAdmin\Pages\PageInventory\PageInventoryChecks\ComInventoryCheckProducts.razor(44,12,44,19): warning CS0414: The field 'ComInventoryCheckProducts.keyword' is assigned but its value is never used
+1>eAdmin -> D:\eSoftixProject\ePOSRetaurant2021\eAdmin\eAdmin\bin\Debug\net5.0\eAdmin.dll
+1>eAdmin (Blazor output) -> D:\eSoftixProject\ePOSRetaurant2021\eAdmin\eAdmin\bin\Debug\net5.0\wwwroot
+1>Done building project "eAdmin.csproj".
+========== Build: 1 succeeded, 0 failed, 2 up-to-date, 0 skipped ==========

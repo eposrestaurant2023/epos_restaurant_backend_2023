@@ -1,0 +1,240 @@
+﻿@page "/sortmenu"
+@inherits PageCore
+<Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
+<Title Value="@lang["Sort Menu"]"></Title>
+
+@if (!is_loading)
+{
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        <MudHidden Breakpoint="Breakpoint.LgAndUp">
+                            <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" />
+                        </MudHidden>
+                        @lang["Sort Menu"]
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+          
+        </PageHeader>
+        <PageBody>
+
+            <MudDrawer Elevation="1"  @bind-Open="@IsMenuOpened" Variant="@DrawerVariant.Temporary">
+                <MudDrawerHeader>
+                    <MudText Class="d-flex align-center" Typo="Typo.h6">@lang["Menu"]</MudText>
+                </MudDrawerHeader>
+                <MudDivider />
+              <MudTreeView @bind-ActivatedValue="@selected_menu"  T="MenuSortOrder" Items="@(new  HashSet<MenuSortOrder>(TreeItems.Where(r=>r.parent_id ==  null)))" CanActivate="true">
+                            <ItemTemplate>
+                                <MudTreeViewItem Items="@context.children" Text="@context.menu_name_en" Value="@context"> 
+                                </MudTreeViewItem>
+                            </ItemTemplate>
+                        </MudTreeView>
+            </MudDrawer>
+            <Grid ClassName="uk-grid-small">
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                        <Column ClassName="uk-width-1-5@m uk-width-1-1@s">
+                           <MudTreeView T="MenuSortOrder" @bind-ActivatedValue="@selected_menu" Items="@(new  HashSet<MenuSortOrder>(TreeItems.Where(r=>r.parent_id ==  null)))" CanActivate="true">
+                                <ItemTemplate>
+                                    <MudTreeViewItem Items="@context.children" Text="@context.menu_name_en" Value="@context"> 
+                                    </MudTreeViewItem>
+                                </ItemTemplate>
+                            </MudTreeView>
+                        </Column>
+                    
+                </MudHidden>
+                <Column ClassName="uk-width-4-5@m uk-width-1-1@s">
+                    @if (selected_menu != null)
+                    {
+                         <UIContainerBox Title="sub Menu">
+                        @if (root_list.menu.Where(r => r.parent_id == selected_menu.id).Count() > 0)
+                        {
+                           
+                                <Table Items="@(root_list.menu.Where(r=>r.parent_id==selected_menu.id).OrderBy(r=>r.sort_order).ToList())"
+                                        ShowTotalCount="false"
+                                       isLoading="@is_loading_data"
+                                       ClassName="uk-table-small uk-table-striped uk-table-hover"
+                                       ScrollClass="uk-overflow-auto">
+                                    <TableHeader>
+                                        <Th>@lang["Name En"]</Th>
+                                        <ThCenter>@lang["Sort Order"]</ThCenter>
+                                        <ThCenter></ThCenter>
+                                    </TableHeader>
+                                    <RowTemplate Context="m">
+                                        <td>
+                                            @m.menu_name_en
+                                        </td>
+                                        <TdCenter>
+                                            <NumberInputInt @bind-text="@m.sort_order"/>
+                                        </TdCenter>
+                                        
+                                    </RowTemplate>
+                                </Table>
+                            
+                            
+                        }
+                        </UIContainerBox>
+                        <UIContainerBox Title="Product">
+                            <Table Items="@(root_list.menu_product.Where(r=>r.menu_id==selected_menu.id).OrderBy(r=>r.sort_order).ThenBy(r=>r.product_name_en).ToList())"
+                                    ShowTotalCount="false"
+                                    isLoading="@is_loading_data"
+                                    ClassName="uk-table-small uk-table-striped uk-table-hover"
+                                    ScrollClass="uk-overflow-auto">
+                                <TableHeader>
+                                    <Th>@lang["Name En"]</Th>
+                                    <ThCenter>@lang["Sort Order"]</ThCenter>
+                                    <ThCenter></ThCenter>
+
+                                </TableHeader>
+                                <RowTemplate Context="p">
+                                    <td>
+                                        @p.product_name_en
+                                    </td>
+                                    <TdCenter>
+                                        <NumberInputInt @bind-text="@p.sort_order"/>
+                                    </TdCenter>
+                                    
+                                </RowTemplate>
+                            </Table>
+                        </UIContainerBox>
+                         
+                    }
+                    else
+                    {
+                        <UIContainerBox Title="Sub Menu">
+                            <ComEmptyTemplate/>
+                        </UIContainerBox>
+                        
+                    }
+
+                     
+                </Column>
+            </Grid>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <ComSavingFormButton is_show_cancel="false" is_show_save_action="true" is_loading="@is_saving" OnSave="@OnSave" />
+            </FooterCenter>
+        </PageFooter>
+    </PageContainer>
+}
+
+@code
+{
+
+    RootMenu  root_list { get; set; } = new RootMenu();
+    private MenuSortOrder selected_menu { get; set; }
+    private HashSet<MenuSortOrder> TreeItems { get; set; } = new HashSet<MenuSortOrder>();
+    bool IsMenuOpened;
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    async Task LoadData()
+    {
+        is_loading = true;
+        var res = await http.ApiPost("getData",new FilterModel()
+        {
+            procedure_name="sp_get_menu_for_sort_order",
+            procedure_parameter= $"'{gv.current_login_user.username}'"
+        });
+        if (res.IsSuccess)
+        {
+            root_list = JsonSerializer.Deserialize<RootMenu>(res.Content.ToString());
+            BuidTree();
+        }
+        is_loading = false;
+    }
+
+
+
+    async Task OnSave()
+    {
+        is_saving = true;
+        var menu_data = from m in root_list.menu
+                        select new
+                        {
+                            i = m.id,
+                            s = m.sort_order
+                        };
+
+        string save_data= JsonSerializer.Serialize(menu_data);
+        save_data= save_data.Replace("\"", "").Replace("[","A").Replace("{","B").Replace("}","C").Replace("]","D");
+
+        await http.ApiGetDataFromStoreProcedure("sp_update_menu_sort_order", $"'menu','{save_data}'");
+
+        //menu product
+        var menu_product_data = from m in root_list.menu_product
+                                select new
+                                {
+                                    i = m.id,
+                                    s = m.sort_order
+                                };
+
+        save_data= JsonSerializer.Serialize(menu_product_data);
+        save_data= save_data.Replace("\"", "").Replace("[","A").Replace("{","B").Replace("}","C").Replace("]","D");
+        await http.ApiGetDataFromStoreProcedure("sp_update_menu_sort_order", $"'product_menu','{save_data}'");
+
+
+        is_saving = false;
+        toast.Add(lang["Save sucessfully"], Severity.Success );
+
+    }
+
+    void BuidTree()
+    {
+        foreach (var i in root_list.menu.Where(r=>r.parent_id == null ))
+        {
+            AddChild(i);
+            TreeItems.Add(i);
+
+
+        }
+    }
+
+
+    void AddChild(MenuSortOrder parent){
+        foreach (var i in root_list.menu.Where(r=>r.parent_id == parent.id))
+        {
+            AddChild(i);
+            parent.children.Add(i);
+        }
+
+    }
+
+
+
+    class MenuSortOrder
+    {
+        public MenuSortOrder()
+        {
+            children = new();
+        }
+        public int id { get; set; }
+        public int? parent_id { get; set; }
+        public string menu_name_en { get; set; }
+        public int sort_order { get; set; }
+
+        public HashSet<MenuSortOrder> children  { get; set; }
+    }
+    class MenuProductSortOrder
+    {
+        public int id { get; set; }
+        public int menu_id { get; set; }
+        public string product_code { get; set; }
+        public string product_name_en { get; set; }
+        public int sort_order { get; set; }
+    }
+
+    class RootMenu
+    {
+        public List<MenuSortOrder> menu { get; set; }
+        public List<MenuProductSortOrder> menu_product { get; set; }
+    }
+
+
+}
+

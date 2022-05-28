@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220525071652_add_price_rule_to_menu")]
+    partial class add_price_rule_to_menu
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -785,9 +787,6 @@ namespace eAPIClient.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("root_menu_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("sort_order")
                         .HasColumnType("int");
 
                     b.Property<string>("text_color")
