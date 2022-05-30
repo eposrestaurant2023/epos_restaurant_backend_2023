@@ -11,61 +11,59 @@ else
     {
         foreach (var s in model.product_modifiers.Where(r => r.is_section == true && r.is_deleted == false && r.modifier_group_id == null).OrderBy(r=>r.sort_order))
         {
-            
-        <MudExpansionPanels MultiExpansion="true">
-            <MudExpansionPanel Class="mb-2" Text="@s.section_name">
-                <UIContainerBox Title="@s.section_name" is_show_delete_button="true" OnDeleteClick="@(() => DeleteSection(s))">
-                    <TextInput @bind-text="@s.section_name" label="@lang["Section Name"]" />
-                    <NumberInputInt @bind-text="@s.sort_order" label="@lang["Sort Order"]" />
-                    <ComInputCheckBox @bind-value="@s.is_required" label="@lang["Is Required"]" />
-                    <ComInputCheckBox @bind-value="@s.is_multiple_select" label="@lang["Allow Multiple Select"]" />
-                    <hr />
-                    <ModifierTypeahead modifier="@modifier" modifierChanged="@((val) => OnSelectModifer(s, val))" />
-                    <hr />
-                    <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                        <tr>
-                            <ThAuto>@lang["Name"]</ThAuto>
-                            <ThRight>@lang["Price"]</ThRight>
-                            <ThCenter>@lang["Sort Order"]</ThCenter>
-                            <ThCenter></ThCenter>
-                        </tr>
-                        @foreach (var pm in s.children.Where(r => r.is_deleted == false && r.is_section == false))
-                        {
+            <MudExpansionPanels MultiExpansion="true">
+                <MudExpansionPanel Class="mb-2" Text="@s.section_name">
+                    <UIContainerBox Title="@s.section_name" is_show_delete_button="true" OnDeleteClick="@(() => DeleteSection(s))">
+                        <TextInput @bind-text="@s.section_name" label="@lang["Section Name"]" />
+                        <NumberInputInt @bind-text="@s.sort_order" label="@lang["Sort Order"]" />
+                        <ComInputCheckBox @bind-value="@s.is_required" label="@lang["Is Required"]" />
+                        <ComInputCheckBox @bind-value="@s.is_multiple_select" label="@lang["Allow Multiple Select"]" />
+                        <hr />
+                        <ModifierTypeahead modifier="@modifier" modifierChanged="@((val) => OnSelectModifer(s, val))" />
+                        <hr />
+                        <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                             <tr>
-                                <td>
-
-                                    @if (pm.id == Guid.Empty)
-                                    {
-                                        <TextInput @bind-text="@pm.modifier.modifier_name" />
-                                    }
-                                    else
-                                    {
-                                        @pm.modifier.modifier_name
-                                    }
-
-                                </td>
-                                <TdCenter>
-                                    <NumberInput placeholder="@lang["Price"]" @bind-text="@pm.price" width="100px" class_name="uk-text-right" />
-                                </TdCenter>
-                                <TdCenter>
-                                    <NumberInputInt placeholder="@lang["Sort Order"]" @bind-text="@pm.sort_order" width="80px" class_name="uk-text-center" />
-                                </TdCenter>
-                                <TdCenter>
-                                    <Icon icon="delete" OnClick="@(() => DeleteModifier(s.children, pm))"/>
-                                </TdCenter>
+                                <ThAuto>@lang["Name"]</ThAuto>
+                                <ThRight>@lang["Price"]</ThRight>
+                                <ThCenter>@lang["Sort Order"]</ThCenter>
+                                <ThCenter></ThCenter>
                             </tr>
-                        }
-                    </table>
-                </UIContainerBox>
-            </MudExpansionPanel>
-        </MudExpansionPanels>
+                            @foreach (var pm in s.children.Where(r => r.is_deleted == false && r.is_section == false))
+                            {
+                                <tr>
+                                    <td>
 
-    }
-    <hr />
-    <div class="uk-text-right">
-        <Button OnClick="@AddSection">@lang["Add Section"]</Button>
-    </div>
+                                        @if (pm.id == Guid.Empty)
+                                        {
+                                            <TextInput @bind-text="@pm.modifier.modifier_name" />
+                                        }
+                                        else
+                                        {
+                                            @pm.modifier.modifier_name
+                                        }
 
+                                    </td>
+                                    <TdCenter>
+                                        <NumberInput placeholder="@lang["Price"]" @bind-text="@pm.price" width="100px" class_name="uk-text-right" />
+                                    </TdCenter>
+                                    <TdCenter>
+                                        <NumberInputInt placeholder="@lang["Sort Order"]" @bind-text="@pm.sort_order" width="80px" class_name="uk-text-center" />
+                                    </TdCenter>
+                                    <TdCenter>
+                                        <Icon icon="delete" OnClick="@(() => DeleteModifier(s.children, pm))"/>
+                                    </TdCenter>
+                                </tr>
+                            }
+                        </table>
+                    </UIContainerBox>
+                </MudExpansionPanel>
+            </MudExpansionPanels>
+
+        }
+        <hr />
+        <div class="uk-text-right">
+            <Button OnClick="@AddSection">@lang["Add Section"]</Button>
+        </div>
     }
     else
     {
