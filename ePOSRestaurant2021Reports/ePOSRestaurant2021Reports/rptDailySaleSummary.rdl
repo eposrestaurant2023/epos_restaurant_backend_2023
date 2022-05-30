@@ -104,15 +104,16 @@
           <QueryParameter Name="@outlet_id">
             <Value>=Parameters!outlet_id.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@shift_name">
+            <Value>=Parameters!shift_name.Value</Value>
+          </QueryParameter>
         </QueryParameters>
-        <CommandText>		
+        <CommandText>	
  declare @start_date date, @end_date date;
  SET @start_date = cast(@year as nvarchar(4)) + '-' + cast(@month as nvarchar(2)) + '-01'
  SET @end_date = EOMONTH(@start_date)
  
- 
 if object_id('tempdb..#tbl') is not null drop table #tbl
-
 select 
 	s.working_date,
 	count(s.id) as total_document,
@@ -131,7 +132,8 @@ where
 	s.is_foc = 0 and
 	working_date between @start_date and @end_date and 
 	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
-	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) 
+	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) and
+	LOWER(s.shift_name) = lower(iif(@shift_name='',s.shift_name,@shift_name))
 group by
 	s.working_date;
 
@@ -328,7 +330,7 @@ where
             <Value>=Parameters!lang.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>exec sp_get_translate_text @lang,'Day,Date,Branch,Outlet,QTY,Sub Total,Tax,Discount,Cost,Total Amount,Profit,Total Receipt,Printed by,on,of,Page,Daily Sale Summary'</CommandText>
+        <CommandText>exec sp_get_translate_text @lang,'Day,Date,Branch,Outlet,QTY,Sub Total,Tax,Discount,Cost,Total Amount,Profit,Total Receipt,Printed by,on,of,Page,Daily Sale Summary,Shift'</CommandText>
       </Query>
       <Fields>
         <Field Name="Day">
@@ -398,6 +400,29 @@ where
         <Field Name="Daily_Sale_Summary">
           <DataField>Daily Sale Summary</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Shift">
+          <DataField>Shift</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Shift">
+      <SharedDataSet>
+        <SharedDataSetReference>Shift</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="value">
+          <DataField>value</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="shift_name">
+          <DataField>shift_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="sort_order">
+          <DataField>sort_order</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -1692,6 +1717,31 @@ where
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
+                    <TextRun>
+                      <Value> / </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Shift.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!shift_name.Label</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
                   </TextRuns>
                   <Style />
                 </Paragraph>
@@ -1967,6 +2017,24 @@ where
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="shift_name">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Shift</DataSetName>
+          <ValueField>value</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Shift</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Shift</DataSetName>
+          <ValueField>value</ValueField>
+          <LabelField>shift_name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
     <ReportParameter Name="lang">
       <DataType>String</DataType>
       <DefaultValue>
@@ -2019,9 +2087,14 @@ where
           <ParameterName>year</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>lang</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>shift_name</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

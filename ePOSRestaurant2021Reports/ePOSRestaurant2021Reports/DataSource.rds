@@ -2,7 +2,7 @@
 <RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="DataSource">
   <ConnectionProperties>
     <Extension>SQL</Extension>
-    <ConnectString>Data Source=192.168.10.112\mssqlserver16;Initial Catalog=epos_restaurant_2021_db</ConnectString>
+    <ConnectString>Data Source=192.168.10.13,1437;Initial Catalog=epos_sop_pope_lk99_db</ConnectString>
   </ConnectionProperties>
   <DataSourceID>5f16343f-1d80-4ca5-8379-7d3c2a43910f</DataSourceID>
 </RptDataSource>
