@@ -31,12 +31,12 @@ else
                                 {
 
 
-                                    <MudListItem Text="@r.report_title" Icon="@Icons.Material.Filled.KeyboardArrowRight" />
+                                    <MudListItem Text="@(gv.current_language.language_id=="km-KH"?r.report_title_kh:r.report_title)" Icon="@Icons.Material.Filled.KeyboardArrowRight" />
                                     <MudDivider />
                                 }
                                 else
                                 {
-                                    <MudListItem Text="@r.report_title" Icon="@Icons.Material.Filled.KeyboardArrowRight" OnClick="@(() => PreviewReport_Click(r))" />
+                                    <MudListItem Text="@(gv.current_language.language_id=="km-KH"?r.report_title_kh:r.report_title)" Icon="@Icons.Material.Filled.KeyboardArrowRight" OnClick="@(() => PreviewReport_Click(r))" />
                                     <MudDivider />
 
                                 }
