@@ -10,13 +10,32 @@
                 {
                     <ul uk-accordion>
                         <li style="margin-top: 10px !important;" class="report-header">
-                            <a class="uk-accordion-title" href="#" style="background:transparent !important;padding:0px !important;">@r.report_title</a>
+                            <a class="uk-accordion-title" href="#" style="background:transparent !important;padding:0px !important;">
+                                
+                                @if(gv.current_language.language_id=="km-KH")
+                                {
+                                    @r.report_title_kh
+                                }
+                                else
+                                {
+                                    @r.report_title
+                                }
+                            </a>
                             <div class="uk-accordion-content" style="padding:0px !important;">
                                 @foreach (var p in gv.permission_options.Where(u => u.parent_id == r.id && u.report_title.Trim().ToLower().Contains(keyword.Trim().ToLower())).ToList().OrderBy(r => r.sort_order))
                                 {
                                     <AuthorizeView Roles="@gv.GetRole(p.option_name)">
-                                        <div class="report-content-item" @onclick="@(() => ViewReportClick(p))" uk-tooltip="@p.report_title">
-                                            <Icon icon="chevron_right" /> @p.report_title
+                                        <div class="report-content-item" @onclick="@(() => ViewReportClick(p))" uk-tooltip="@(gv.current_language.language_id=="km-KH"?p.report_title_kh:p.report_title)">
+                                            <Icon icon="chevron_right" />
+                                            @if(gv.current_language.language_id=="km-KH")
+                                            {
+                                                @p.report_title_kh
+                                            }
+                                            else
+                                            {
+                                                @p.report_title
+                                            }
+                                            
                                         </div>
                                     </AuthorizeView>
                                 }
@@ -38,14 +57,20 @@
                     @foreach (var p in gv.permission_options.Where(u => u.parent_id == r.id && u.report_title.Trim().ToLower().Contains(keyword.Trim().ToLower())).ToList().OrderBy(r => r.sort_order))
                     {
                         <AuthorizeView Roles="@gv.GetRole(p.option_name)">
-                            <div class="report-content-item" @onclick="@(()=>ViewReportClick(p))" uk-tooltip="@p.report_title">
-                                <Icon icon="chevron_right" /> @p.report_title
+                            <div class="report-content-item" @onclick="@(()=>ViewReportClick(p))" uk-tooltip="@(gv.current_language.language_id=="km-KH"?p.report_title_kh:p.report_title)">
+                                <Icon icon="chevron_right" />  
+                                @if(gv.current_language.language_id=="km-KH")
+                                {
+                                    @p.report_title_kh
+                                }
+                                else
+                                {
+                                    @p.report_title
+                                }
                                 <div class="category_report">@r.note</div>
                             </div>
                         </AuthorizeView>
                     }
-
-
                 }
             </ComAuth>
         }
