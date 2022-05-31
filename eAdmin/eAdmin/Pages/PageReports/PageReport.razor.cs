@@ -22,7 +22,7 @@ namespace eAdmin.Pages.PageReports
             {
                 if (report != null && report.id > 0)
                 {
-                    return lang["Report"] + "-" + report.report_title;
+                    return lang["Report"] + "-" + gv.current_language.language_id == "km-KH" ? report.report_title_kh : report.report_title;
                 }
                 else
                 {

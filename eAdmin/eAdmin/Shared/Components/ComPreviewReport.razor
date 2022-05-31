@@ -162,7 +162,7 @@ else
     async Task PreviewReport_Click(PermissionOptionModel report)
     {
         model = report;
-        Title = lang["Report"] + " - " + report.report_title;
+        Title = lang["Report"] + " - " + gv.current_language.language_id=="km-KH"?report.report_title_kh:report.report_title;
         if (report != null)
         {
             is_loading = true;

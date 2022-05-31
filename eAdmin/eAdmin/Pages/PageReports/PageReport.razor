@@ -40,7 +40,18 @@
                             <div class="report-model">
                                 <div class="content">
                                     <div class="modal-header">
-                                        <div class="modal-title">@report_title</div>
+                                            @if(report != null && report.id > 0)
+                                            {
+                                               <div class="modal-title">
+                                                 @lang["Report"]  -  @(gv.current_language.language_id == "km-KH" ? report.report_title_kh : report.report_title)
+                                               </div>
+                                                    
+                                            }else{
+                                               <div class="modal-title">
+                                                    @lang["Report"]
+                                               </div>
+                                                
+                                            }
 
                                         <Icon is_visible="@(report.id>0)" icon="fullscreen" className="uk-modal-close-default" OnClick="@OnViewFullscreenReport" />
                                     </div>
