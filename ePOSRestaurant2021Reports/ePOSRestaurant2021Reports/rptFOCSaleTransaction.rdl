@@ -104,6 +104,9 @@
           <QueryParameter Name="@outlet_id">
             <Value>=Parameters!outlet_id.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@shift_name">
+            <Value>=Parameters!shift_name.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@customer_id">
             <Value>=Parameters!customer_id.Value</Value>
           </QueryParameter>
@@ -114,7 +117,7 @@
             <Value>=Parameters!foc_payment_type_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>
+        <CommandText>if OBJECT_ID('tempdb..#tbl_sale') is not null drop table #tbl_sale
 select 
 	p.payment_type_id,
 	s.id,
@@ -132,10 +135,11 @@ select
 	s.business_branch_id,
 	b.business_branch_name_en,
 	s.closed_by,
-	s.customer_name
+	s.customer_name,
+	s.shift_name
+	into #tbl_sale
 from tbl_sale s 
-	INNER JOIN tbl_sale_payment  p on p.sale_id = s.id 
-	 
+	INNER JOIN tbl_sale_payment  p on p.sale_id = s.id 	 
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
 	left join tbl_customer c on c.id = s.customer_id
 where
@@ -144,15 +148,13 @@ where
 	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
 	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
 	s.is_foc = 1 and 
+	lower(s.shift_name)=lower(iif(@shift_name='',s.shift_name,@shift_name)) and 
 	coalesce(cast(c.id as nvarchar(50)),'') = iif(@customer_id = '', coalesce(cast(c.id as nvarchar(50)),'') ,@customer_id) and 
-	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id)  and 
-	
-	p.payment_type_id= iif( @foc_payment_type_id=0,p.payment_type_id ,@foc_payment_type_id)
+	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id)  and 	
+	p.payment_type_id= iif( @foc_payment_type_id=0,p.payment_type_id ,@foc_payment_type_id) 	 
 	 
-	 
-order by
-	document_number
 
+select * from #tbl_sale order by document_number
 </CommandText>
       </Query>
       <Fields>
@@ -222,6 +224,10 @@ order by
         </Field>
         <Field Name="customer_name">
           <DataField>customer_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="shift_name">
+          <DataField>shift_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -388,7 +394,7 @@ order by
             <Value>=Parameters!lang.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>exec sp_get_translate_text @lang,'No,Date,Branch,FOC Sale Transaction,Outlet,Customer,QTY,Discount,Tax,Cost,Total Amount,Profit,Sub Total,Printed by,on,of,Page,Doc. #,Total Receipt,Group,User'</CommandText>
+        <CommandText>exec sp_get_translate_text @lang,'No,Date,Branch,FOC Sale Transaction,Outlet,Customer,QTY,Discount,Tax,Cost,Total Amount,Profit,Sub Total,Printed by,on,of,Page,Doc. #,Total Receipt,Group,User,Shift'</CommandText>
       </Query>
       <Fields>
         <Field Name="No">
@@ -475,6 +481,10 @@ order by
           <DataField>User</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Shift">
+          <DataField>Shift</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
     <DataSet Name="FOCPaymentType">
@@ -492,6 +502,25 @@ select id,payment_type_name_en from tbl_payment_type where is_foc = 1</CommandTe
         <Field Name="payment_type_name_en">
           <DataField>payment_type_name_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Shift">
+      <SharedDataSet>
+        <SharedDataSetReference>Shift</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="value">
+          <DataField>value</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="shift_name">
+          <DataField>shift_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="sort_order">
+          <DataField>sort_order</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -686,6 +715,22 @@ select id,payment_type_name_en from tbl_payment_type where is_foc = 1</CommandTe
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
+                                <TextRun>
+                                  <Value> &amp; </Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=First(Fields!Outlet.Value, "translate")</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
                               </TextRuns>
                               <Style>
                                 <TextAlign>Left</TextAlign>
@@ -719,7 +764,7 @@ select id,payment_type_name_en from tbl_payment_type where is_foc = 1</CommandTe
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Outlet.Value, "translate")</Value>
+                                  <Value>=First(Fields!Shift.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1236,6 +1281,22 @@ select id,payment_type_name_en from tbl_payment_type where is_foc = 1</CommandTe
                                 <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!outlet_name_en.Value</Value>
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Color>DimGray</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>business_branch_name_en1</rd:DefaultName>
                           <Style>
@@ -1260,7 +1321,7 @@ select id,payment_type_name_en from tbl_payment_type where is_foc = 1</CommandTe
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!outlet_name_en.Value</Value>
+                                  <Value>=Fields!shift_name.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2379,7 +2440,32 @@ select id,payment_type_name_en from tbl_payment_type where is_foc = 1</CommandTe
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> /</Value>
+                      <Value> / </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Shift.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!shift_name.Label</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> / </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -2655,10 +2741,20 @@ select id,payment_type_name_en from tbl_payment_type where is_foc = 1</CommandTe
     </ReportParameter>
     <ReportParameter Name="start_date">
       <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=CDate(Format(Now, "yyyy-MM-dd"))</Value>
+        </Values>
+      </DefaultValue>
       <Prompt>Start Date</Prompt>
     </ReportParameter>
     <ReportParameter Name="end_date">
       <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=CDate(Format(Now, "yyyy-MM-dd"))</Value>
+        </Values>
+      </DefaultValue>
       <Prompt>End Date</Prompt>
     </ReportParameter>
     <ReportParameter Name="business_branch_id">
@@ -2692,6 +2788,24 @@ select id,payment_type_name_en from tbl_payment_type where is_foc = 1</CommandTe
           <DataSetName>Outlet</DataSetName>
           <ValueField>id</ValueField>
           <LabelField>outlet_name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="shift_name">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Shift</DataSetName>
+          <ValueField>value</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Shift</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Shift</DataSetName>
+          <ValueField>value</ValueField>
+          <LabelField>shift_name</LabelField>
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
@@ -2764,8 +2878,8 @@ select id,payment_type_name_en from tbl_payment_type where is_foc = 1</CommandTe
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
-      <NumberOfColumns>3</NumberOfColumns>
-      <NumberOfRows>5</NumberOfRows>
+      <NumberOfColumns>2</NumberOfColumns>
+      <NumberOfRows>6</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -2798,24 +2912,29 @@ select id,payment_type_name_en from tbl_payment_type where is_foc = 1</CommandTe
           <ParameterName>outlet_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>customer_group_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>3</RowIndex>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>4</RowIndex>
           <ParameterName>customer_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>4</RowIndex>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>5</RowIndex>
           <ParameterName>lang</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>4</RowIndex>
           <ParameterName>foc_payment_type_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>shift_name</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

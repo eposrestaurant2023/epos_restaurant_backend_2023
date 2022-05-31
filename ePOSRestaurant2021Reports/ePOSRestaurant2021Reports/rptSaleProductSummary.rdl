@@ -104,6 +104,9 @@
           <QueryParameter Name="@is_include_foc">
             <Value>=Parameters!is_include_foc.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@shift_name">
+            <Value>=Parameters!shift_name.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@customer_id">
             <Value>=Parameters!customer_id.Value</Value>
           </QueryParameter>
@@ -136,8 +139,10 @@ select
 	sp.product_code,
 	sp.product_name_en,
 	sp.product_name_kh,
+	sp.sale_product_modifier_name,
 	sp.portion_name,
 	sp.is_free,
+	s.shift_name,
 	sum(sp.quantity) as quantity,
 	sum(sp.cost) as cost,
 	sum(sp.price + sp.total_modifier_amount) as price,
@@ -158,6 +163,7 @@ where
 	sp.status_id in (1,2) and --submited and new 
 	s.working_date between @start_date and @end_date and
 	s.is_foc = iif(@is_include_foc =1, s.is_foc,0) and
+	lower(s.shift_name) = lower(iif(@shift_name='',s.shift_name,@shift_name)) and 
 	coalesce(cast(s.customer_id as nvarchar(50)),'') = iif(@customer_id = '',coalesce(cast(s.customer_id as nvarchar(50)),'') ,@customer_id) and 
 	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id) and 
 	sp.product_category_id in (@product_category_id) and 
@@ -169,7 +175,9 @@ group by
 	sp.product_code,
 	sp.product_name_en,
 	sp.product_name_kh,
+	sp.sale_product_modifier_name,
 	sp.portion_name,
+	s.shift_name,
 	sp.is_free
 
 
@@ -199,6 +207,10 @@ end</CommandText>
           <DataField>product_name_kh</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="sale_product_modifier_name">
+          <DataField>sale_product_modifier_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="portion_name">
           <DataField>portion_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -206,6 +218,10 @@ end</CommandText>
         <Field Name="is_free">
           <DataField>is_free</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="shift_name">
+          <DataField>shift_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="quantity">
           <DataField>quantity</DataField>
@@ -408,14 +424,10 @@ end</CommandText>
       </Fields>
     </DataSet>
     <DataSet Name="ProductCategory">
-      <SharedDataSet>
-        <SharedDataSetReference>ProductCategoryWithAll</SharedDataSetReference>
-        <QueryParameters>
-          <QueryParameter Name="@product_group_id">
-            <Value>=Parameters!product_group_id.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-      </SharedDataSet>
+      <Query>
+        <DataSourceName>Datasource</DataSourceName>
+        <CommandText>select id, product_category_en from tbl_product_category </CommandText>
+      </Query>
       <Fields>
         <Field Name="id">
           <DataField>id</DataField>
@@ -424,14 +436,6 @@ end</CommandText>
         <Field Name="product_category_en">
           <DataField>product_category_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="product_category_kh">
-          <DataField>product_category_kh</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="sort_order">
-          <DataField>sort_order</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -446,7 +450,7 @@ end</CommandText>
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="stanslate">
+    <DataSet Name="translate">
       <Query>
         <DataSourceName>Datasource</DataSourceName>
         <QueryParameters>
@@ -454,7 +458,7 @@ end</CommandText>
             <Value>=Parameters!lang.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>exec sp_get_translate_text @lang,'No,Date,Branch,Sale by Product Summary,Outlet,Customer,QTY,Tax,Cost,Total Amount,Profit,Sub Total,Printed by,on,of,Page,Doc. #,Total Receipt,Group,User,Created Date,Customer Group,Product Group,Category,Product,Dis.,Portion,keyword,Order By'</CommandText>
+        <CommandText>exec sp_get_translate_text @lang,'No,Date,Branch,Sale by Product Summary,Outlet,Customer,QTY,Tax,Cost,Total Amount,Profit,Sub Total,Printed by,on,of,Page,Doc. #,Total Receipt,Group,User,Created Date,Customer Group,Product Group,Category,Product,Dis.,Portion,keyword,Order By,Shift'</CommandText>
       </Query>
       <Fields>
         <Field Name="No">
@@ -573,6 +577,29 @@ end</CommandText>
           <DataField>Order By</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Shift">
+          <DataField>Shift</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Shift">
+      <SharedDataSet>
+        <SharedDataSetReference>Shift</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="value">
+          <DataField>value</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="shift_name">
+          <DataField>shift_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="sort_order">
+          <DataField>sort_order</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
   </DataSets>
@@ -630,7 +657,7 @@ end</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!No.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!No.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>Kh system</FontFamily>
                                     <FontSize>8.5pt</FontSize>
@@ -670,7 +697,7 @@ end</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Category.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!Category.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8.5pt</FontSize>
@@ -710,7 +737,7 @@ end</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Product.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!Product.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8.5pt</FontSize>
@@ -750,7 +777,7 @@ end</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Portion.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!Shift.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8.5pt</FontSize>
@@ -790,7 +817,7 @@ end</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!QTY.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!QTY.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8.5pt</FontSize>
@@ -830,7 +857,7 @@ end</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Sub_Total.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!Sub_Total.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8.5pt</FontSize>
@@ -870,7 +897,7 @@ end</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Dis_.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!Dis_.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8.5pt</FontSize>
@@ -910,7 +937,7 @@ end</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Tax.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!Tax.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8.5pt</FontSize>
@@ -950,7 +977,7 @@ end</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Cost.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!Cost.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8.5pt</FontSize>
@@ -990,7 +1017,7 @@ end</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Total_Amount.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!Total_Amount.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8.5pt</FontSize>
@@ -1030,7 +1057,7 @@ end</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Profit.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!Profit.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8.5pt</FontSize>
@@ -1151,6 +1178,27 @@ end</CommandText>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
+                                  <Value>=iif(Fields!sale_product_modifier_name.Value="",""," "&amp; Fields!sale_product_modifier_name.Value)</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=iif(Fields!portion_name.Value="Normal",""," "&amp; Fields!portion_name.Value)</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value xml:space="preserve"> </Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
                                   <Value>=iif(Fields!is_free.Value=true," -FREE","")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
@@ -1179,14 +1227,14 @@ end</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="portion_name">
+                        <Textbox Name="shift_name">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!portion_name.Value</Value>
+                                  <Value>=Fields!shift_name.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1198,7 +1246,7 @@ end</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>portion_name</rd:DefaultName>
+                          <rd:DefaultName>shift_name</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1953,7 +2001,7 @@ end</CommandText>
       <Width>11.11755in</Width>
       <Page>
         <PageHeader>
-          <Height>1.02083in</Height>
+          <Height>1.03125in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -1997,7 +2045,7 @@ end</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!Sale_by_Product_Summary.Value, "stanslate")</Value>
+                      <Value>=First(Fields!Sale_by_Product_Summary.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh system</FontFamily>
                         <FontSize>11pt</FontSize>
@@ -2032,7 +2080,7 @@ end</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!Date.Value, "stanslate")</Value>
+                      <Value>=First(Fields!Date.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh system</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2069,7 +2117,7 @@ end</CommandText>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=First(Fields!Branch.Value, "stanslate")</Value>
+                      <Value>=First(Fields!Branch.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh system</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2095,7 +2143,7 @@ end</CommandText>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=First(Fields!Outlet.Value, "stanslate")</Value>
+                      <Value>=First(Fields!Outlet.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2115,13 +2163,38 @@ end</CommandText>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> /</Value>
+                      <Value> / </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=First(Fields!Customer_Group.Value, "stanslate")</Value>
+                      <Value>=First(Fields!Shift.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!shift_name.Label</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> / </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Customer_Group.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh system</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2147,7 +2220,7 @@ end</CommandText>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=First(Fields!Customer.Value, "stanslate")</Value>
+                      <Value>=First(Fields!Customer.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh system</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2173,7 +2246,7 @@ end</CommandText>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=First(Fields!Product_Group.Value, "stanslate")</Value>
+                      <Value>=First(Fields!Product_Group.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh system</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2199,34 +2272,14 @@ end</CommandText>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=First(Fields!Category.Value, "stanslate")</Value>
+                      <Value>=iif(Parameters!keyword.Value &lt;&gt; ""," /" + First(Fields!keyword.Value, "translate") + " : " + Parameters!keyword.Value,"")</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> : </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!product_category_id.Label</Value>
-                      <Style>
-                        <FontFamily>Kh system</FontFamily>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=iif(Parameters!keyword.Value &lt;&gt; ""," /" + First(Fields!keyword.Value, "stanslate") + " : " + Parameters!keyword.Value,"")</Value>
-                      <Style>
-                        <FontFamily>Kh System</FontFamily>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=iif(Parameters!top.Value &gt; 0,"/ " + First(Fields!Order_By.Value, "stanslate") + " : " + Parameters!top_by.Value,"")</Value>
+                      <Value>=iif(Parameters!top.Value &gt; 0,"/ " + First(Fields!Order_By.Value, "translate") + " : " + Parameters!top_by.Value,"")</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2243,6 +2296,31 @@ end</CommandText>
                       <Value>=Parameters!is_include_foc.Label</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!Category.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>Kh System</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> : </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=join(Parameters!product_category_id.Label,",")</Value>
+                      <Style>
+                        <FontFamily>Kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -2274,7 +2352,7 @@ end</CommandText>
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>0.31944in</Height>
+          <Height>0.24306in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -2285,7 +2363,7 @@ end</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!Page.Value, "stanslate")</Value>
+                      <Value>=First(Fields!Page.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2310,7 +2388,7 @@ end</CommandText>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=First(Fields!of.Value, "stanslate")</Value>
+                      <Value>=First(Fields!of.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2356,7 +2434,7 @@ end</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!Printed_by.Value, "stanslate")</Value>
+                      <Value>=First(Fields!Printed_by.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2381,7 +2459,7 @@ end</CommandText>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=First(Fields!on.Value, "stanslate")</Value>
+                      <Value>=First(Fields!on.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2459,10 +2537,20 @@ end</CommandText>
     </ReportParameter>
     <ReportParameter Name="start_date">
       <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=CDate(Format(Now, "yyyy-MM-dd"))</Value>
+        </Values>
+      </DefaultValue>
       <Prompt>Start Date</Prompt>
     </ReportParameter>
     <ReportParameter Name="end_date">
       <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=CDate(Format(Now, "yyyy-MM-dd"))</Value>
+        </Values>
+      </DefaultValue>
       <Prompt>End Date</Prompt>
     </ReportParameter>
     <ReportParameter Name="business_branch_id">
@@ -2496,6 +2584,24 @@ end</CommandText>
           <DataSetName>Outlet</DataSetName>
           <ValueField>id</ValueField>
           <LabelField>outlet_name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="shift_name">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Shift</DataSetName>
+          <ValueField>value</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Shift</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Shift</DataSetName>
+          <ValueField>value</ValueField>
+          <LabelField>shift_name</LabelField>
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
@@ -2592,16 +2698,6 @@ end</CommandText>
       <Nullable>true</Nullable>
       <Prompt>Top</Prompt>
     </ReportParameter>
-    <ReportParameter Name="keyword">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>=""</Value>
-        </Values>
-      </DefaultValue>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Keyword</Prompt>
-    </ReportParameter>
     <ReportParameter Name="top_by">
       <DataType>String</DataType>
       <DefaultValue>
@@ -2623,6 +2719,16 @@ end</CommandText>
           </ParameterValue>
         </ParameterValues>
       </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="keyword">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=""</Value>
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Search Product Name</Prompt>
     </ReportParameter>
     <ReportParameter Name="lang">
       <DataType>String</DataType>
@@ -2677,38 +2783,38 @@ end</CommandText>
           <ParameterName>outlet_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>customer_group_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>3</RowIndex>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>4</RowIndex>
           <ParameterName>customer_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>4</RowIndex>
           <ParameterName>product_group_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>4</RowIndex>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>5</RowIndex>
           <ParameterName>product_category_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>7</RowIndex>
           <ParameterName>lang</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>6</RowIndex>
+          <RowIndex>7</RowIndex>
           <ParameterName>keyword</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>5</RowIndex>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>6</RowIndex>
           <ParameterName>top</ParameterName>
         </CellDefinition>
         <CellDefinition>
@@ -2717,9 +2823,14 @@ end</CommandText>
           <ParameterName>top_by</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>5</RowIndex>
           <ParameterName>is_include_foc</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>shift_name</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
