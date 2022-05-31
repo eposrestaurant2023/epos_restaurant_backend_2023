@@ -8,9 +8,9 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>ManeFamilyVacation/ePOSRestaurantReports</TargetReportFolder>
-    <TargetDatasetFolder>ManeFamilyVacation/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>ManeFamilyVacation/DataSource</TargetDatasourceFolder>
+    <TargetReportFolder>SoupPorpae/Reports</TargetReportFolder>
+    <TargetDatasetFolder>SoupPorpae/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>SoupPorpae/Data Sources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
   </PropertyGroup>
@@ -63,6 +63,7 @@
     <DataSet Include="report_name.rsd" />
     <DataSet Include="SaleType.rsd" />
     <DataSet Include="Setting.rsd" />
+    <DataSet Include="Shift.rsd" />
     <DataSet Include="StationName.rsd" />
     <DataSet Include="StockLocationWithAll.rsd" />
     <DataSet Include="TableGroupWithAll.rsd" />

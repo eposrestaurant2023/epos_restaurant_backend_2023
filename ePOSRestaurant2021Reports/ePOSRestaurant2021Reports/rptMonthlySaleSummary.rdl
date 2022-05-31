@@ -101,6 +101,9 @@
           <QueryParameter Name="@outlet_id">
             <Value>=Parameters!outlet_id.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@shift_name">
+            <Value>=Parameters!shift_name.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandText>
  declare @start_date date, @end_date date;
@@ -130,7 +133,8 @@ where
 	s.is_foc = 0 and
 	working_date between @start_date and @end_date and 
 	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
-	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) 
+	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) and
+	lower(s.shift_name)=lower(iif(@shift_name='',s.shift_name,@shift_name))
 group by
 	month(s.working_date)
 
@@ -148,9 +152,7 @@ select
 from tbl_number n
 left join #tbl t on t.[month]  = n.number
 where
-	n.number between 1 and  12
-
-	 </CommandText>
+	n.number between 1 and  12</CommandText>
       </Query>
       <Fields>
         <Field Name="month">
@@ -315,7 +317,7 @@ where
             <Value>=Parameters!lang.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>exec sp_get_translate_text @lang,'Month,Branch,Outlet,QTY,Sub Total,Tax,Discount,Cost,Total Amount,Profit,Total Receipt,Printed by,on,of,Page,Monthly Sale Summary,Year'</CommandText>
+        <CommandText>exec sp_get_translate_text @lang,'Month,Branch,Outlet,QTY,Sub Total,Tax,Discount,Cost,Total Amount,Profit,Total Receipt,Printed by,on,of,Page,Monthly Sale Summary,Year,Shift'</CommandText>
       </Query>
       <Fields>
         <Field Name="Month">
@@ -385,6 +387,29 @@ where
         <Field Name="Year">
           <DataField>Year</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Shift">
+          <DataField>Shift</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Shift">
+      <SharedDataSet>
+        <SharedDataSetReference>Shift</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="value">
+          <DataField>value</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="shift_name">
+          <DataField>shift_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="sort_order">
+          <DataField>sort_order</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -1667,13 +1692,38 @@ where
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
+                    <TextRun>
+                      <Value> / </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Shift.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!shift_name.Label</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
                   </TextRuns>
                   <Style />
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>0.54167in</Top>
-              <Left>0.00083in</Left>
+              <Left>0.00085in</Left>
               <Height>0.20833in</Height>
               <Width>7.36709in</Width>
               <ZIndex>2</ZIndex>
@@ -1926,6 +1976,24 @@ where
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="shift_name">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Shift</DataSetName>
+          <ValueField>value</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Shift</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Shift</DataSetName>
+          <ValueField>value</ValueField>
+          <LabelField>shift_name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
     <ReportParameter Name="lang">
       <DataType>String</DataType>
       <DefaultValue>
@@ -1945,7 +2013,7 @@ where
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
-      <NumberOfColumns>3</NumberOfColumns>
+      <NumberOfColumns>2</NumberOfColumns>
       <NumberOfRows>4</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
@@ -1959,12 +2027,12 @@ where
           <ParameterName>report_url</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>2</RowIndex>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>1</RowIndex>
           <ParameterName>business_branch_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
+          <ColumnIndex>0</ColumnIndex>
           <RowIndex>2</RowIndex>
           <ParameterName>outlet_id</ParameterName>
         </CellDefinition>
@@ -1977,6 +2045,11 @@ where
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>lang</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>shift_name</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
