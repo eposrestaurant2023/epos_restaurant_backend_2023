@@ -1615,7 +1615,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!base_currency_amount.Value)</Value>
+                                  <Value>=format(Sum(Fields!base_currency_amount.Value),First(Fields!currency_format.Value, "Setting"))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8.5pt</FontSize>
@@ -1761,7 +1761,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
             <DataSetName>ExpenseData</DataSetName>
             <Left>0.09538cm</Left>
             <Height>0.75695in</Height>
-            <Width>11.04245in</Width>
+            <Width>11.04242in</Width>
             <Style>
               <Border>
                 <Style>None</Style>

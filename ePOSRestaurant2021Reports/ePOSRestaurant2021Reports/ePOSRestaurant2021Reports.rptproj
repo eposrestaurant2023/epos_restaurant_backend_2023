@@ -8,9 +8,9 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>SoupPorpae/Reports</TargetReportFolder>
-    <TargetDatasetFolder>SoupPorpae/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>SoupPorpae/Data Sources</TargetDatasourceFolder>
+    <TargetReportFolder>ePOSRestaurant2021Reports</TargetReportFolder>
+    <TargetDatasetFolder>ePOSRestaurant2021Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>ePOSRestaurant2021DataSource</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
   </PropertyGroup>

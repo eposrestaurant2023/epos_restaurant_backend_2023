@@ -46,7 +46,7 @@
     {
         selected_value = Guid.Parse(n);
         await selected_valueChanged.InvokeAsync(selected_value);
-        if (string.IsNullOrEmpty(selected_value.ToString()))
+        if (string.IsNullOrEmpty(selected_value.ToString()) || selected_value == Guid.Empty)
         {
             await business_branchChanged.InvokeAsync(new BusinessBranchModel());
         }
