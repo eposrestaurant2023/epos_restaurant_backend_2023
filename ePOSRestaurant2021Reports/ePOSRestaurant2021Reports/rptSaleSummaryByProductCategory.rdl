@@ -104,6 +104,9 @@
           <QueryParameter Name="@is_include_foc">
             <Value>=Parameters!is_include_foc.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@shift_name">
+            <Value>=Parameters!shift_name.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@customer_id">
             <Value>=Parameters!customer_id.Value</Value>
           </QueryParameter>
@@ -125,6 +128,7 @@ if OBJECT_ID('tempdb..#tbl_sale_product') is not null drop table #tbl_sale_produ
 
 select
 	coalesce(sp.product_category_en,'Not Set') as product_category_en,
+	s.shift_name,
 	sum(sp.quantity) as quantity,
 	sum(sp.cost) as cost,
 	sum(sp.price + sp.total_modifier_amount) as price,
@@ -145,6 +149,7 @@ where
 	sp.status_id in (1,2) and
 	s.working_date between @start_date and @end_date and
 	s.is_foc = iif(@is_include_foc=1,s.is_foc,0) and
+	lower(s.shift_name) = lower(iif(@shift_name='',s.shift_name,@shift_name)) and
 	coalesce(cast(s.customer_id as nvarchar(50)),'') = iif(@customer_id = '',coalesce(cast(s.customer_id as nvarchar(50)),'') ,@customer_id) and 
 	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id) and 
 	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and 
@@ -153,7 +158,8 @@ where
 	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and 
 	sp.product_group_id = iif(@product_group_id =0,sp.product_group_id ,@product_group_id ) 
 group by
-	coalesce(sp.product_category_en,'Not Set') 
+	coalesce(sp.product_category_en,'Not Set') ,
+	s.shift_name
 order by
 	coalesce(sp.product_category_en,'Not Set')
 	 
@@ -164,20 +170,16 @@ select * from #tbl_sale_product </CommandText>
           <DataField>product_category_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="shift_name">
+          <DataField>shift_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="quantity">
           <DataField>quantity</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="sub_total">
-          <DataField>sub_total</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
         <Field Name="cost">
           <DataField>cost</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="total_amount">
-          <DataField>total_amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="price">
@@ -186,6 +188,14 @@ select * from #tbl_sale_product </CommandText>
         </Field>
         <Field Name="total_discount_amount">
           <DataField>total_discount_amount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="sub_total">
+          <DataField>sub_total</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="total_amount">
+          <DataField>total_amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="total_tax_amount">
@@ -411,7 +421,7 @@ select * from #tbl_sale_product </CommandText>
             <Value>=Parameters!lang.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>exec sp_get_translate_text @lang,'No,Date,Branch,Sale Summary by Product Category,Outlet,Customer,QTY,Tax,Cost,Total Amount,Profit,Sub Total,Printed by,on,of,Page,Doc. #,Total Receipt,Group,User,Created Date,Customer Group,Product Group,Category,Product,Dis.,Portion'</CommandText>
+        <CommandText>exec sp_get_translate_text @lang,'No,Date,Branch,Sale Summary by Product Category,Outlet,Customer,QTY,Tax,Cost,Total Amount,Profit,Sub Total,Printed by,on,of,Page,Doc. #,Total Receipt,Group,User,Created Date,Customer Group,Product Group,Category,Product,Dis.,Portion,Shift,FOC'</CommandText>
       </Query>
       <Fields>
         <Field Name="No">
@@ -522,6 +532,33 @@ select * from #tbl_sale_product </CommandText>
           <DataField>Portion</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Shift">
+          <DataField>Shift</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FOC">
+          <DataField>FOC</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Shift">
+      <SharedDataSet>
+        <SharedDataSetReference>Shift</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="value">
+          <DataField>value</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="shift_name">
+          <DataField>shift_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="sort_order">
+          <DataField>sort_order</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
   </DataSets>
@@ -533,25 +570,28 @@ select * from #tbl_sale_product </CommandText>
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.35037in</Width>
+                  <Width>0.28787in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.5154in</Width>
+                  <Width>1.34873in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.62412in</Width>
+                  <Width>0.67794in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.49912in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.9262in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.71788in</Width>
+                  <Width>0.6033in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.65537in</Width>
+                  <Width>0.56162in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.78188in</Width>
+                  <Width>0.67771in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.87563in</Width>
@@ -646,6 +686,46 @@ select * from #tbl_sale_product </CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox14">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!Shift.Value, "translate")</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8.5pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox14</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox10">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -702,7 +782,7 @@ select * from #tbl_sale_product </CommandText>
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -940,6 +1020,7 @@ select * from #tbl_sale_product </CommandText>
                                 <TextRun>
                                   <Value>=format(rownumber(nothing),"00")</Value>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -955,6 +1036,7 @@ select * from #tbl_sale_product </CommandText>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
+                            <VerticalAlign>Top</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -990,6 +1072,43 @@ select * from #tbl_sale_product </CommandText>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
+                            <VerticalAlign>Top</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox15">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!shift_name.Value</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox15</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <VerticalAlign>Top</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1025,6 +1144,7 @@ select * from #tbl_sale_product </CommandText>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
+                            <VerticalAlign>Top</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1050,7 +1170,7 @@ select * from #tbl_sale_product </CommandText>
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1060,6 +1180,7 @@ select * from #tbl_sale_product </CommandText>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
+                            <VerticalAlign>Top</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1095,6 +1216,7 @@ select * from #tbl_sale_product </CommandText>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
+                            <VerticalAlign>Top</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1130,6 +1252,7 @@ select * from #tbl_sale_product </CommandText>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
+                            <VerticalAlign>Top</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1165,6 +1288,7 @@ select * from #tbl_sale_product </CommandText>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
+                            <VerticalAlign>Top</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1200,6 +1324,7 @@ select * from #tbl_sale_product </CommandText>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
+                            <VerticalAlign>Top</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1235,6 +1360,7 @@ select * from #tbl_sale_product </CommandText>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
+                            <VerticalAlign>Top</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1330,6 +1456,46 @@ select * from #tbl_sale_product </CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox16">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.5pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox16</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox23">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1386,7 +1552,7 @@ select * from #tbl_sale_product </CommandText>
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1623,6 +1789,7 @@ select * from #tbl_sale_product </CommandText>
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -1643,7 +1810,7 @@ select * from #tbl_sale_product </CommandText>
             <Top>0.02778in</Top>
             <Left>0.03012cm</Left>
             <Height>0.72917in</Height>
-            <Width>7.25998in</Width>
+            <Width>7.27125in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1654,10 +1821,10 @@ select * from #tbl_sale_product </CommandText>
         <Height>0.79862in</Height>
         <Style />
       </Body>
-      <Width>7.27269in</Width>
+      <Width>7.28311in</Width>
       <Page>
         <PageHeader>
-          <Height>1.1875in</Height>
+          <Height>1.20834in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -1826,6 +1993,31 @@ select * from #tbl_sale_product </CommandText>
                       </Style>
                     </TextRun>
                     <TextRun>
+                      <Value>=First(Fields!Shift.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!shift_name.Label</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> / </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
                       <Value>=First(Fields!Customer_Group.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
@@ -1918,20 +2110,6 @@ select * from #tbl_sale_product </CommandText>
                     </TextRun>
                     <TextRun>
                       <Value>=Parameters!product_category_id.Label</Value>
-                      <Style>
-                        <FontFamily>Kh System</FontFamily>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> / </Value>
-                      <Style>
-                        <FontFamily>Kh System</FontFamily>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!is_include_foc.Label</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2164,10 +2342,20 @@ select * from #tbl_sale_product </CommandText>
     </ReportParameter>
     <ReportParameter Name="start_date">
       <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=CDate(Format(Now, "yyyy-MM-dd"))</Value>
+        </Values>
+      </DefaultValue>
       <Prompt>Start Date</Prompt>
     </ReportParameter>
     <ReportParameter Name="end_date">
       <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=CDate(Format(Now, "yyyy-MM-dd"))</Value>
+        </Values>
+      </DefaultValue>
       <Prompt>End Date</Prompt>
     </ReportParameter>
     <ReportParameter Name="business_branch_id">
@@ -2201,6 +2389,24 @@ select * from #tbl_sale_product </CommandText>
           <DataSetName>Outlet</DataSetName>
           <ValueField>id</ValueField>
           <LabelField>outlet_name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="shift_name">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Shift</DataSetName>
+          <ValueField>value</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Shift</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Shift</DataSetName>
+          <ValueField>value</ValueField>
+          <LabelField>shift_name</LabelField>
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
@@ -2310,7 +2516,7 @@ select * from #tbl_sale_product </CommandText>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>2</NumberOfColumns>
-      <NumberOfRows>6</NumberOfRows>
+      <NumberOfRows>7</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -2343,34 +2549,39 @@ select * from #tbl_sale_product </CommandText>
           <ParameterName>outlet_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>customer_group_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>3</RowIndex>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>4</RowIndex>
           <ParameterName>customer_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>4</RowIndex>
           <ParameterName>product_group_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>4</RowIndex>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>5</RowIndex>
           <ParameterName>product_category_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>5</RowIndex>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>6</RowIndex>
           <ParameterName>lang</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>5</RowIndex>
           <ParameterName>is_include_foc</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>shift_name</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
