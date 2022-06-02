@@ -6,11 +6,11 @@ namespace eAPIClient.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "price_rule_id",
-                table: "tbl_menu",
-                type: "int",
-                nullable: true);
+            //migrationBuilder.AddColumn<int>(
+            //    name: "price_rule_id",
+            //    table: "tbl_menu",
+            //    type: "int",
+            //    nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

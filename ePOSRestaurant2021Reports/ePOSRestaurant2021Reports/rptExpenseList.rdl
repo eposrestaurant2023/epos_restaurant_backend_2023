@@ -104,8 +104,23 @@
         </QueryParameters>
         <CommandText>
 select 
-*
-from tbl_expense e
+	e.reference_number,
+	e.business_branch_name,
+	e.outlet_name,
+	e.station_name,
+	e.working_day_number,
+	e.cashier_shift_number,
+	e.expense_date,
+	e.expense_category_name,
+	e.expense_item_name,
+	e.expense_by,
+	e.note,
+	e.paymen_type,
+	e.amount,
+	e.base_currency_amount,
+	iif(c.is_prefix_symbol = 1,c.symbol +' '+ c.currency_format, c.currency_format   +' '+ c.symbol ) as currency_format
+from tbl_expense e 
+inner join tbl_currency c on e.currency_id = c.id
 where
 	e.is_deleted = 0 and 
 	e.expense_date  between @start_date and @end_date and 
@@ -117,165 +132,65 @@ order by
 	e.expense_date</CommandText>
       </Query>
       <Fields>
-        <Field Name="id">
-          <DataField>id</DataField>
-          <rd:TypeName>System.Guid</rd:TypeName>
-        </Field>
-        <Field Name="business_branch_id">
-          <DataField>business_branch_id</DataField>
-          <rd:TypeName>System.Guid</rd:TypeName>
-        </Field>
         <Field Name="business_branch_name">
           <DataField>business_branch_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="outlet_id">
-          <DataField>outlet_id</DataField>
-          <rd:TypeName>System.Guid</rd:TypeName>
         </Field>
         <Field Name="outlet_name">
           <DataField>outlet_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="station_id">
-          <DataField>station_id</DataField>
-          <rd:TypeName>System.Guid</rd:TypeName>
-        </Field>
         <Field Name="station_name">
           <DataField>station_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="working_day_id">
-          <DataField>working_day_id</DataField>
-          <rd:TypeName>System.Guid</rd:TypeName>
         </Field>
         <Field Name="working_day_number">
           <DataField>working_day_number</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="cashier_shift_id">
-          <DataField>cashier_shift_id</DataField>
-          <rd:TypeName>System.Guid</rd:TypeName>
-        </Field>
         <Field Name="cashier_shift_number">
           <DataField>cashier_shift_number</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="cash_drawer_id">
-          <DataField>cash_drawer_id</DataField>
-          <rd:TypeName>System.Guid</rd:TypeName>
-        </Field>
-        <Field Name="cash_drawer_name">
-          <DataField>cash_drawer_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="expense_date">
           <DataField>expense_date</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="expense_by">
-          <DataField>expense_by</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="expense_category_id">
-          <DataField>expense_category_id</DataField>
-          <rd:TypeName>System.Guid</rd:TypeName>
-        </Field>
         <Field Name="expense_category_name">
           <DataField>expense_category_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="expense_item_id">
-          <DataField>expense_item_id</DataField>
-          <rd:TypeName>System.Guid</rd:TypeName>
         </Field>
         <Field Name="expense_item_name">
           <DataField>expense_item_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="paymen_type_id">
-          <DataField>paymen_type_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="paymen_type">
           <DataField>paymen_type</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="currency_id">
-          <DataField>currency_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="currency_name">
-          <DataField>currency_name</DataField>
+        <Field Name="expense_by">
+          <DataField>expense_by</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="currency_format">
           <DataField>currency_format</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="amount">
-          <DataField>amount</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="exchange_rate">
-          <DataField>exchange_rate</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="base_currency_amount">
-          <DataField>base_currency_amount</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
         <Field Name="note">
           <DataField>note</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="created_by">
-          <DataField>created_by</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="created_date">
-          <DataField>created_date</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="last_modified_by">
-          <DataField>last_modified_by</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="last_modified_date">
-          <DataField>last_modified_date</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="is_deleted">
-          <DataField>is_deleted</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
-        <Field Name="deleted_by">
-          <DataField>deleted_by</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="deleted_date">
-          <DataField>deleted_date</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="status">
-          <DataField>status</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
-        <Field Name="is_synced">
-          <DataField>is_synced</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
         <Field Name="reference_number">
           <DataField>reference_number</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="currency_symbol">
-          <DataField>currency_symbol</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="amount">
+          <DataField>amount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="deleted_note">
-          <DataField>deleted_note</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="base_currency_amount">
+          <DataField>base_currency_amount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -357,7 +272,7 @@ order by
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="stanslate">
+    <DataSet Name="translate">
       <Query>
         <DataSourceName>Datasource</DataSourceName>
         <QueryParameters>
@@ -365,7 +280,7 @@ order by
             <Value>=Parameters!lang.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>exec sp_get_translate_text @lang,'No,Date,Branch,Sale by Product Summary,Outlet,Customer,QTY,Tax,Cost,Total Amount,Profit,Sub Total,Printed by,on,of,Page,Doc. #,Total Receipt,Group,User,Created Date,Customer Group,Product Group,Category,Product,Dis.,Portion,keyword,Order By,Expense Report,Ref. No,Amount,Expense By,Note'</CommandText>
+        <CommandText>exec sp_get_translate_text @lang,'No,Date,Branch,Sale by Product Summary,Outlet,Customer,QTY,Tax,Cost,Total Amount,Profit,Sub Total,Printed by,on,of,Page,Doc. #,Total Receipt,Group,User,Created Date,Customer Group,Product Group,Category,Product,Dis.,Portion,keyword,Order By,Expense Report,Ref. No,Amount,Expense By,Note,Expense Category,Expense Item,Currency,Payment Type,Total'</CommandText>
       </Query>
       <Fields>
         <Field Name="No">
@@ -504,6 +419,26 @@ order by
           <DataField>Note</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Expense_Category">
+          <DataField>Expense Category</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Expense_Item">
+          <DataField>Expense Item</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Currency">
+          <DataField>Currency</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Payment_Type">
+          <DataField>Payment Type</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Total">
+          <DataField>Total</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
     <DataSet Name="ExpenseCategory">
@@ -511,7 +446,7 @@ order by
         <DataSourceName>Datasource</DataSourceName>
         <CommandText>select '' as id, 'All Category' as expense_category_name 
 union all
-select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_category where is_deleted = 0 and status = 1</CommandText>
+select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_category </CommandText>
       </Query>
       <Fields>
         <Field Name="id">
@@ -533,34 +468,31 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.71136in</Width>
+                  <Width>0.44053in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.06248in</Width>
+                  <Width>0.93748in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.88328in</Width>
+                  <Width>1.22703in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.06248in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>1.06248in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>1.06248in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.67708in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.54165in</Width>
+                  <Width>0.84373in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.62498in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.35415in</Width>
+                  <Width>2.11865in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.29166in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.125in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.43339in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -576,10 +508,10 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!No.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!No.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>Kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -616,10 +548,10 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Date.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!Date.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -656,10 +588,10 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Branch.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!Branch.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -696,10 +628,10 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Ref__No.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!Ref__No.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -736,10 +668,33 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>expense category name</Value>
+                                  <Value>=First(Fields!Expense_Item.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value> &amp;</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!Expense_Category.Value, "translate")</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -769,17 +724,17 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox18">
+                        <Textbox Name="Textbox8">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>expense item name</Value>
+                                  <Value>=First(Fields!Note.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -789,7 +744,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox18</rd:DefaultName>
+                          <rd:DefaultName>Textbox8</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -816,10 +771,50 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>currency name</Value>
+                                  <Value>=First(Fields!Payment_Type.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox52</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox12">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!Expense_By.Value, "translate")</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -829,7 +824,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox52</rd:DefaultName>
+                          <rd:DefaultName>Textbox12</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -856,10 +851,10 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Amount.Value, "stanslate")</Value>
+                                  <Value>=First(Fields!Amount.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -870,86 +865,6 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox37</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox43">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=First(Fields!Expense_By.Value, "stanslate")</Value>
-                                  <Style>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox43</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox40">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=First(Fields!Note.Value, "stanslate")</Value>
-                                  <Style>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox40</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -983,7 +898,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                                 <TextRun>
                                   <Value>=format(rownumber(nothing),"00")</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1018,7 +933,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                                   <Value>=format(Fields!expense_date.Value, First(Fields!date_format.Value, "Setting"))</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1053,7 +968,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                                   <Value>=Fields!business_branch_name.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1088,7 +1003,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                                   <Value>=Fields!reference_number.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1120,10 +1035,27 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!expense_category_name.Value</Value>
+                                  <Value>=Fields!expense_item_name.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!expense_category_name.Value</Value>
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>7.5pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <Color>DimGray</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1133,146 +1065,6 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>expense_category_name</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="expense_item_name">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!expense_item_name.Value</Value>
-                                  <Style>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>expense_item_name</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="currency_name">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!currency_name.Value</Value>
-                                  <Style>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>currency_name</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="amount">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=format(Fields!amount.Value,Fields!currency_format.Value)</Value>
-                                  <Style>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>amount</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="expense_by">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!expense_by.Value</Value>
-                                  <Style>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>expense_by</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1298,7 +1090,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                                   <Value>=Fields!note.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1308,6 +1100,111 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>note</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="paymen_type">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!paymen_type.Value</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>paymen_type</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox13">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!expense_by.Value</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox13</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="amount">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Fields!amount.Value,Fields!currency_format.Value)</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>amount</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1335,16 +1232,15 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=First(Fields!Total.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Left</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1364,248 +1260,16 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <ColSpan>8</ColSpan>
                       </CellContents>
                     </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox51">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox51</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox9">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox9</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox48">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox48</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox17">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox17</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox20">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox20</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox54">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox54</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox39">
@@ -1617,8 +1281,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                                 <TextRun>
                                   <Value>=format(Sum(Fields!base_currency_amount.Value),First(Fields!currency_format.Value, "Setting"))</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1629,86 +1292,6 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox39</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox45">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox45</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox42">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox42</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1741,7 +1324,6 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
-                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -1761,7 +1343,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
             <DataSetName>ExpenseData</DataSetName>
             <Left>0.09538cm</Left>
             <Height>0.75695in</Height>
-            <Width>11.04242in</Width>
+            <Width>11.04245in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1819,7 +1401,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!Expense_Report.Value, "stanslate")</Value>
+                      <Value>=First(Fields!Expense_Report.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh system</FontFamily>
                         <FontSize>11pt</FontSize>
@@ -1854,7 +1436,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!Date.Value, "stanslate")</Value>
+                      <Value>=First(Fields!Date.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh system</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -1885,13 +1467,13 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> /</Value>
+                      <Value> / </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=First(Fields!Branch.Value, "stanslate")</Value>
+                      <Value>=First(Fields!Branch.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh system</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -1911,8 +1493,28 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value xml:space="preserve"> </Value>
+                      <Value> / </Value>
                       <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Expense_Category.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>Kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> : </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!expense_category_id.Label</Value>
+                      <Style>
+                        <FontFamily>Kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1944,7 +1546,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>0.31944in</Height>
+          <Height>0.20556in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -1955,7 +1557,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!Page.Value, "stanslate")</Value>
+                      <Value>=First(Fields!Page.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -1980,7 +1582,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=First(Fields!of.Value, "stanslate")</Value>
+                      <Value>=First(Fields!of.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2005,7 +1607,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox5</rd:DefaultName>
-              <Top>0.05556in</Top>
+              <Top>0.01806in</Top>
               <Left>4.18337in</Left>
               <Height>0.1875in</Height>
               <Width>6.93417in</Width>
@@ -2026,7 +1628,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!Printed_by.Value, "stanslate")</Value>
+                      <Value>=First(Fields!Printed_by.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2051,7 +1653,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=First(Fields!on.Value, "stanslate")</Value>
+                      <Value>=First(Fields!on.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2074,7 +1676,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox4</rd:DefaultName>
-              <Top>0.05556in</Top>
+              <Top>0.01806in</Top>
               <Left>0.09535cm</Left>
               <Height>0.1875in</Height>
               <Width>4in</Width>
@@ -2129,10 +1731,20 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
     </ReportParameter>
     <ReportParameter Name="start_date">
       <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=CDate(Format(Now, "yyyy-MM-dd"))</Value>
+        </Values>
+      </DefaultValue>
       <Prompt>Start Date</Prompt>
     </ReportParameter>
     <ReportParameter Name="end_date">
       <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=CDate(Format(Now, "yyyy-MM-dd"))</Value>
+        </Values>
+      </DefaultValue>
       <Prompt>End Date</Prompt>
     </ReportParameter>
     <ReportParameter Name="business_branch_id">
