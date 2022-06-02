@@ -62,6 +62,8 @@ namespace eAPIClient.Controllers
         {
             try
             {
+                int time_charge_product_id = 0;
+                int tip_product_id = 0;
 
                 //check if cashift is opened 
                 var check_shift_opened = db.CashierShifts.Where(r => r.cash_drawer_id == model.closed_cash_drawer_id && r.is_closed == false && r.id == model.closed_cashier_shift_id );
@@ -73,8 +75,27 @@ namespace eAPIClient.Controllers
                 List<SaleModel> sales = new List<SaleModel>();
                 if (model.id != Guid.Empty)
                 {                                               
-                    sales = db.Sales.Where(r => r.id == model.id).Include(x=>x.sale_products).AsNoTracking().ToList();  
-                    ///the_bill_was_modified_by_other_device     
+                    sales = db.Sales.Where(r => r.id == model.id).Include(x=>x.sale_products).AsNoTracking().ToList();
+                    ///the_bill_was_modified_by_other_device   
+                    ///
+
+                    var setting_product_config = db.ConfigDatas.Where(r => r.config_type == "tip_product_id" || r.config_type == "time_charge_product_id");
+                    if (setting_product_config.Any())
+                    {
+                        var time_charge = setting_product_config.Where(r => r.config_type == "time_charge_product_id");
+                        var tip = setting_product_config.Where(r => r.config_type == "tip_product_id");
+                        if (time_charge.Any())
+                        {
+                            var _d = time_charge.FirstOrDefault().data;
+                            time_charge_product_id = Convert.ToInt32(_d == "" ? "0" : _d);
+                        }
+                        if (tip.Any())
+                        {
+                            var _d = tip.FirstOrDefault().data;
+                            tip_product_id = Convert.ToInt32(_d == "" ? "0" : _d);
+                        }
+                    }
+
                 }
 
 
@@ -83,22 +104,27 @@ namespace eAPIClient.Controllers
                     if (model.id != Guid.Empty)
                     {
                         if (sales.Any())
-                        {   
+                        {
                             //check if bill have item change 
-                            if (sales.FirstOrDefault().last_modified_date != model.last_modified_date && (sales.FirstOrDefault().is_print_invoice) == false  )
+                            if (sales.FirstOrDefault().last_modified_date != model.last_modified_date && (sales.FirstOrDefault().is_print_invoice) == false)
                             {
                                 return BadRequest(new BadRequestModel { message = "this_order_was_modified_on_other_devices" });
                             }
+
                             //check if bill is already print
                             if ((model.is_closed ?? false) == false && (sales.FirstOrDefault().is_print_invoice) == true && sales.FirstOrDefault().last_modified_date != model.last_modified_date)
                             {
                                 return BadRequest(new BadRequestModel { message = "this_order_is_print" });
                             }
 
+
+                            //check if have tip product
+                            bool _is_tip_product = false;
+                            var _tip_product_exists = model.sale_products.Where(r => r.product_id == tip_product_id && !r.is_deleted);
+                            _is_tip_product = _tip_product_exists.Any();
                             //check bill alredy print
                             //user payment with new item order  
-                            
-                            if ((model.is_closed ?? false) == true && (sales.FirstOrDefault().is_print_invoice) == true)
+                            if ((model.is_closed ?? false) == true && (sales.FirstOrDefault().is_print_invoice) == true && !_is_tip_product)
                             {
                                 string _format = "#,###,##0.00#####";
                                 string _db_total_amount = string.Format(@"{0:" + _format + "}", sales.FirstOrDefault().total_amount);
