@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -12,7 +13,7 @@ namespace eModels
     class AppModel
     {
     }
-   
+
     public class AuthenticateModel
     {
         [Required]
@@ -39,7 +40,7 @@ namespace eModels
         public string document_name { get; set; }
         public string prefix { get; set; }
         public string format { get; set; }
-        public int counter { get; set; } 
+        public int counter { get; set; }
         public string counter_digit { get; set; }
     }
 
@@ -113,7 +114,7 @@ namespace eModels
         public bool show_logo { get; set; } = false;
     }
 
-  
+
 
 
     public class LineChartModel
@@ -183,7 +184,7 @@ namespace eModels
         {
 
         }
-        public ApiResponseModel(string _message,List<CustomerModel> _customer, List<VendorModel> _vendors)
+        public ApiResponseModel(string _message, List<CustomerModel> _customer, List<VendorModel> _vendors)
         {
             customers = new List<CustomerModel>();
             vendors = new List<VendorModel>();
@@ -234,9 +235,9 @@ namespace eModels
 
     public class QuantityAdjustmentModel
     {
-        
+
         public int product_id { get; set; }
-      
+
         public Guid stock_location_id { get; set; }
         public decimal quantity { get; set; }
     }
@@ -259,7 +260,7 @@ namespace eModels
         public int id { get; set; }
         public int category_note_id { get; set; }
         public string note { get; set; }
-         
+
 
         public int sort_order { get; set; } = 0;
     }
@@ -290,8 +291,8 @@ namespace eModels
         public int number_of_invoice_copies { get; set; } = 1;
         public int number_of_receipt_copies { get; set; } = 1;
         public string receipt_file_name { get; set; }
-        public int sort_order { get; set; } 
-        public bool is_build_in { get; set; } 
+        public int sort_order { get; set; }
+        public bool is_build_in { get; set; }
 
     }
 
@@ -308,6 +309,90 @@ namespace eModels
         public bool is_selected { get; set; }
         public HashSet<TreeViewModel> tree_items { get; set; }
 
+    }
+
+    public class DataModel
+    {
+        public List<PriceRule> price_rules { get; set; }
+        public List<Category> categories { get; set; }
+        public List<Printer> printers { get; set; }
+
+    }
+    public class Category
+    {
+        public int id { get; set; }
+        public string product_category_en { get; set; }
+
+        public List<Product> product { get; set; }
+
+
+
+
+
+
+    }
+    public class Printer
+    {
+        public int id { get; set; }
+        public string printer_name { get; set; }
+        public string bussiness_nranch_id { get; set; }
+    }
+
+    public class PriceRule
+    {
+        public int id { get; set; }
+        public string price_name { get; set; }
+    }
+    public class Product
+    {
+        public int id { get; set; }
+        public int c_id { get; set; }
+        public string p_name { get; set; }
+        public List<ProductPortion> product_portion { get; set; }
+        public List<ProductPrinter> product_printers { get; set; }
+
+        public int total_product_portion
+        {
+            get
+            {
+
+                if (product_portion == null)
+                {
+                    return 0;
+                }
+                return product_portion.Count();
+            }
+        } 
+        
+        
+
+    }
+
+    public class ProductPrinter
+    {
+        public int printer_id { get; set; }
+        public int product_id { get; set; }
+        public bool is_checked { get; set; } = false;
+    }
+    
+    public class ProductPortion
+    {
+        public ProductPortion()
+        {
+            product_price = new List<ProductPrice>();
+        }
+        public int id { get; set; }
+        public int p_id { get; set; }
+        public string p_name { get; set; }
+        public List<ProductPrice> product_price { get; set; }
+    }
+
+    public class ProductPrice
+    {
+        public int id { get; set; }
+        public int pp_id { get; set; }
+        public int pr_id { get; set; }
+        public decimal price { get; set; }
     }
 
 

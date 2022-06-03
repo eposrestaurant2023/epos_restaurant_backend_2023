@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 namespace eAdmin.Pages.PageProducts
 {
-    public class PageProductPriceAdjustmentBase : PageCore
+    public class PageProductPrinterBase : PageCore
     {
 
         public DataModel model { get; set; } = new DataModel();
@@ -31,32 +31,32 @@ namespace eAdmin.Pages.PageProducts
             is_loading = true;
             var resp = await http.ApiPost("GetData", new FilterModel()
             {
-                procedure_name= "sp_get_product_for_price_adjustment",
+                procedure_name = "sp_get_product_printer_for_adjustment",
                 procedure_parameter = $"'{gv.current_login_user.username}'"
             });
             if (resp.IsSuccess)
             {
-                
+
                 model = JsonSerializer.Deserialize<DataModel>(resp.Content.ToString());
             }
             is_loading = false;
 
         }
-        
-        public async Task OnPriceChanged(ProductPrice pp , decimal price)
+
+        public async Task OnCheckChanged(int product_id, int printer_id)
         {
             is_loading_data = true;
-            pp.price = price;
-            var resp = await http.ApiPost($"Product/UpdateProductPrice/{pp.id}/{price}");
+            var resp = await http.ApiPost($"Product/UpdateProductPrinter/{product_id}/{printer_id}");
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Update price successfully"], MudBlazor.Severity.Success);
+                toast.Add(lang["Update successfully"], MudBlazor.Severity.Success);
             }
             is_loading_data = false;
         }
+
+
+
+
+
     }
-
-  
-
-
 }

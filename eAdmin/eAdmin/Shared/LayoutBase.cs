@@ -174,9 +174,6 @@ namespace eAdmin.Shared
                 gv = new GlobalVariableModel();
                
             }
-
-           
-            
             var lang = await GetCurrentLanguage();
             gv.current_language = lang;
             gv.image_base_url = config["BaseUrl"] + "upload/";
@@ -184,8 +181,9 @@ namespace eAdmin.Shared
         }
         public async Task<LanguageModel> GetCurrentLanguage()
         {
+            Console.WriteLine(await localStorage.GetItemAsStringAsync("current_language"));
             string current_lang = await localStorage.GetItemAsync<string>("current_language");
-            
+            Console.WriteLine("current_lang", current_lang);
             if (current_lang != null)
             {
                 return await ChangeLanguage_Click(current_lang);
