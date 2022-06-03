@@ -208,7 +208,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=format(Fields!created_date.Value,"HH:mm tt")</Value>
+                              <Value>=format(Fields!created_date.Value,"hh:mm tt")</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -251,7 +251,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=format(Fields!closed_date.Value,"HH:mm tt")</Value>
+                              <Value>=format(Fields!closed_date.Value,"hh:mm tt")</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
