@@ -271,6 +271,37 @@ namespace eAPI.Controllers
         }
 
         [HttpPost]
+        [Route("UpdateProductPrinter/{id}/{printer_id}")]
+        public async Task<ActionResult> UpdateProductPrinter(int id, int printer_id) //update product printer
+        {
+            var data = db.ProductPrinters.Where(r => r.product_id == id && r.printer_id ==printer_id).ToList();
+            if (data.Any())
+            {
+                db.ProductPrinters.Remove(data.FirstOrDefault());
+                 
+                await db.SaveChangesAsync();
+ 
+            }else
+            {
+                ProductPrinterModel pp = new ProductPrinterModel();
+                var printer = db.Printers.Find(printer_id);
+                pp.product_id = id;
+                pp.printer_name = printer.printer_name;
+                pp.printer_id = printer_id;
+                pp.port = printer.port;
+                pp.ip_address = pp.ip_address;
+                pp.group_item_type_id = printer.group_item_type_id;
+                pp.is_deleted = false;
+                db.ProductPrinters.Add(pp);
+                await db.SaveChangesAsync();
+
+            }
+
+
+            return Ok();
+        }
+
+        [HttpPost]
         [Route("delete/{id}")]
         public async Task<ActionResult> DeleteRecord(int id) //Delete
         {
