@@ -1,0 +1,67 @@
+﻿@inject  IStringLocalizer<Resource> lang ;
+
+<div class="uk-overflow-auto table-scroll">
+    <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover ">
+        <thead>
+            <tr>
+                <Th>@lang["Product"]</Th>
+                @foreach (var pr in printers.Where(r => r.business_branch_id.ToLower() == business_branch_id.ToString().ToLower()))
+                {
+                    <Th>@pr.printer_name </Th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in category.product.Where(r => r.p_name.Trim().ToLower().Contains(keyword.Trim().ToLower())))
+            {
+                <tr>
+                    <td>
+                        <a href="product/@p.id">@p.p_name</a>
+                    </td>
+
+                    @foreach (var pr in printers.Where(r => r.business_branch_id.ToLower() == business_branch_id.ToString().ToLower()))
+                    {
+
+                        <td>
+
+                            <MudCheckBox T="bool" Checked="@p.product_printers.Where(r=>r.printer_id==pr.id).FirstOrDefault().is_checked" CheckedChanged="@((v)=> OnChanged(p.product_printers.Where(r=>r.printer_id==pr.id).FirstOrDefault(), p.id) )"></MudCheckBox>
+
+                        </td>
+                    }
+                </tr>
+
+            }
+        </tbody>
+    </table>
+ </div>
+
+@code {
+
+    [Parameter]
+    public string keyword { get; set; }
+
+    [Parameter] 
+    public string business_branch_id { get; set; }
+
+    [Parameter] 
+    public Category category { get; set; }
+
+    [Parameter] 
+    public List<Printer> printers { get; set; }
+
+    [Parameter]
+    public EventCallback<ProductPrinter> OnCheckChanged { get; set; }
+
+
+
+    async Task OnChanged(ProductPrinter pp, int product_id)
+    {  pp.is_checked = !pp.is_checked;
+        pp.product_id = product_id;
+        await OnCheckChanged.InvokeAsync(pp);
+    }
+
+
+
+
+
+}

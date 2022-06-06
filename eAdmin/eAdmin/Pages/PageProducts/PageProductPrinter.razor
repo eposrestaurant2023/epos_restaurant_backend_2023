@@ -6,75 +6,43 @@
 {
     @if (!is_error)
     {
-        <Title Value="@(lang["Product Price Adjustment"])"></Title>
-        <PageContainer roles="@gv.GetRole("product_printer")">
-            <PageHeader>
-                <HeaderLeft>
-                    <PageTitle ShowFilter="false">
-                        <HeaderTemplate>
-                            @lang["Product Printer Assignment"]
-                        </HeaderTemplate>
-                    </PageTitle>
-                </HeaderLeft>
-                <HeaderRight ShowBackButton="true">
-                    <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                        <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" />
-                    </MudHidden>
-                    <RefreshButton OnClick="@(async()=>await LoadData())"/>
-                </HeaderRight>
-            </PageHeader>
+        @if (model.printers != null)
+        {
+            <Title Value="@(lang["Product Price Adjustment"])"></Title>
+            <PageContainer roles="@gv.GetRole("product_printer")">
+                <PageHeader>
+                    <HeaderLeft>
+                        <PageTitle ShowFilter="false">
+                            <HeaderTemplate>
+                                @lang["Product Printer Assignment"]
+                            </HeaderTemplate>
+                        </PageTitle>
+                    </HeaderLeft>
+                    <HeaderRight ShowBackButton="true">
+                        <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                            <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" />
+                        </MudHidden>
+                        <RefreshButton OnClick="@(async()=>await LoadData())" />
+                    </HeaderRight>
+                </PageHeader>
                 <MudHidden Breakpoint="Breakpoint.MdAndUp">
-                    <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" is_fullwidth="true"/>
+                    <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" is_fullwidth="true" />
                     <Spacing Number="4" />
                 </MudHidden>
                 <PageBody>
                     <UIGridCenter>
                         <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
-                            @foreach(var b in gv.business_branch_by_role)
+                            @foreach (var b in gv.business_branch_by_role)
                             {
                                 <MudTabPanel Text="@b.business_branch_name_en">
-                                    <MudExpansionPanels  MultiExpansion="true">
+                                    <MudExpansionPanels MultiExpansion="true">
                                         @foreach (var c in model.categories)
                                         {
                                             if (c.product.Where(r => r.p_name.Trim().ToLower().Contains(keyword.Trim().ToLower())).Any())
                                             {
 
-                                                <MudExpansionPanel Class="mb-4" Text="@($"{c.product_category_en}")" >
-                                                    <div class="uk-overflow-auto table-scroll">
-                                            <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover ">
-                                                <thead>
-                                                    <tr>
-                                                        <Th>@lang["Product"]</Th>
-                                                      
-                                                        @foreach (var pr in model.printers)
-                                                        {
-                                                            <Th>@pr.printer_name</Th>
-                                                        }
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach (var p in c.product.Where(r => r.p_name.Trim().ToLower().Contains(keyword.Trim().ToLower())))
-                                                    {
-                                                        <tr>
-                                                                <td>
-                                                                    <a href="product/@p.id">@p.p_name</a>
-                                                                </td>
-
-                                                                @foreach (var pr in model.printers)
-                                                                {
-                                                                     
-                                                                    <td>
- 
-                                                                        <ComInputCheckBox   value="@p.product_printers.Where(r=>r.printer_id==pr.id).FirstOrDefault().is_checked" valueChanged="@((v)=> OnCheckChanged(p.id,pr.id) )"></ComInputCheckBox>
-
-                                                                    </td>
-                                                                }
-                                                            </tr>
-
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                <MudExpansionPanel Class="mb-4" Text="@($"{c.product_category_en}")">
+                                                    <ComProductPrinterAdjustment business_branch_id="@b.id.ToString()" category="@c" printers="@model.printers" keyword="@keyword" OnCheckChanged="OnCheckChanged"/>
                                                 </MudExpansionPanel>
                                             }
                                         }
@@ -82,18 +50,20 @@
                                 </MudTabPanel>
                             }
                         </MudTabs>
-                    
-                        
+
+
                     </UIGridCenter>
-                          
+
                 </PageBody>
-               
-         
-        </PageContainer>
+
+
+            </PageContainer>
+        }
+
     }
     else
     {
-        <Error title="@lang["Product Price Adjustment"]">@error_text</Error>
+        <Error title="@lang["Product Printer Adjustment"]">@error_text</Error>
     }
 
 }

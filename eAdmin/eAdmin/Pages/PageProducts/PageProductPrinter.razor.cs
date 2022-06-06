@@ -43,10 +43,13 @@ namespace eAdmin.Pages.PageProducts
 
         }
 
-        public async Task OnCheckChanged(int product_id, int printer_id)
+        public async Task OnCheckChanged(ProductPrinter pp)
         {
             is_loading_data = true;
-            var resp = await http.ApiPost($"Product/UpdateProductPrinter/{product_id}/{printer_id}");
+
+          
+
+            var resp = await http.ApiPost($"Product/UpdateProductPrinter/{pp.product_id}/{pp.printer_id}");
             if (resp.IsSuccess)
             {
                 toast.Add(lang["Update successfully"], MudBlazor.Severity.Success);

@@ -335,7 +335,7 @@ namespace eModels
     {
         public int id { get; set; }
         public string printer_name { get; set; }
-        public string bussiness_nranch_id { get; set; }
+        public string business_branch_id { get; set; }
     }
 
     public class PriceRule
