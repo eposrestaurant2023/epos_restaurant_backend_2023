@@ -6,9 +6,9 @@ namespace eAPIClient.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "price_rule_id",
-                table: "tbl_menu");
+            //migrationBuilder.DropColumn(
+            //    name: "price_rule_id",
+            //    table: "tbl_menu");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
