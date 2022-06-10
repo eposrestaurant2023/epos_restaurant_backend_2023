@@ -45,6 +45,7 @@
                         </Column>
                     
                 </MudHidden>
+                @JsonSerializer.Serialize(TreeItems)
                 <Column ClassName="uk-width-4-5@m uk-width-1-1@s">
                     @if (selected_menu != null)
                     {
@@ -103,7 +104,7 @@
                     }
                     else
                     {
-                        <UIContainerBox Title="Sub Menu">
+                        <UIContainerBox Title="Menu">
                             <ComEmptyTemplate/>
                         </UIContainerBox>
                         
