@@ -8,9 +8,9 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>Mane/Reports</TargetReportFolder>
-    <TargetDatasetFolder>Mane/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>Mane/Data Sources</TargetDatasourceFolder>
+    <TargetReportFolder>SoupPorpae/Reports</TargetReportFolder>
+    <TargetDatasetFolder>SoupPorpae/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>SoupPorpae/Data Sources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
   </PropertyGroup>
@@ -87,6 +87,7 @@
     <Report Include="rptFOCSaleSummaryByCustomer.rdl" />
     <Report Include="rptFOCSaleTransaction.rdl" />
     <Report Include="rptHourlySaleSummary.rdl" />
+    <Report Include="rptIncomeExpense.rdl" />
     <Report Include="rptIngredientProductList.rdl" />
     <Report Include="rptInventoryCheckA4.rdl" />
     <Report Include="rptInventoryMovement.rdl" />
