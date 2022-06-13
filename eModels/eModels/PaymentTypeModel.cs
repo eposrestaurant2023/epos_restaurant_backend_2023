@@ -48,6 +48,7 @@ namespace eModels
 
         public string payment_type_group { get; set; }
         public bool is_foc { get; set; }
+        public bool is_allow_zero { get; set; } = false;
         public bool is_single_payment { get; set; } = false;
 
         public List<BusinessBranchPaymentTypeModel> business_branch_payment_types { get; set; }
