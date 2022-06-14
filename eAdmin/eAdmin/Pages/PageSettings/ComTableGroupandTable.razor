@@ -185,7 +185,7 @@
 
 
 
-    async Task LoadData(string api_url = "") 
+    async Task LoadData(string api_url = "")
     {
 
         is_loading_data = true;
@@ -193,7 +193,7 @@
         if (string.IsNullOrEmpty(api_url))
         {
 
-            api_url = $"{ControllerApi}?$expand=tables($expand=price_rule;$select=table_name,sale_type,sort_order,height,shape,width,position_x_percent,position_y_percent,id,status;$filter= is_deleted eq false),outlet($select=id,outlet_name_en,outlet_name_kh;$filter= is_deleted  eq false)";
+            api_url = $"{ControllerApi}?$expand=tables($expand=price_rule;$select=table_name,sale_type,sort_order,height,shape,width,position_x_percent,position_y_percent,id,status;$filter= is_deleted eq false),outlet($select=id,outlet_name_en,outlet_name_kh,business_branch_id,status,is_deleted;$filter= is_deleted  eq false)";
         }
 
         var resp = await http.ApiGetOData(api_url);
@@ -213,12 +213,18 @@
 
         b.is_change_status = true;
         await Task.Delay(1000);
-        b.status = !b.status;
-
+        bool status = false;
+        status = b.status;
+        b.status = !status;
         var resp = await http.ApiPost($"{ControllerApi}/Save", b);
         if (resp.IsSuccess)
         {
             toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
+        }
+        else
+        {
+            b.status = status;
+            toast.Add(lang["Change status error"], MudBlazor.Severity.Error);
         }
 
         b.is_change_status = false;
