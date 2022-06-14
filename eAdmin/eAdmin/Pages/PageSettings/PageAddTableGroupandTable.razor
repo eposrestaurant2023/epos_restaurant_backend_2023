@@ -94,60 +94,66 @@
                                         <NumberInputDouble @bind-text="@height" />
                                     </ThCenter>
                                     <th>
-                                        <SelectShape @bind-selected_value="@shape"/>
+                                        <SelectShape @bind-selected_value="@shape" />
                                     </th>
                                     <th>
                                         <SelectPriceRule @bind-selected_value="@price_rule" outlet="@model.outlet" is_inline="true" show_empty="true" width="100px" />
                                     </th>
                                     <Th>
-                                        <SelectSaleType @bind-selected_value="@sale_type" show_empty="true" width="100px" is_horizontal="false" is_inline="true"/>
+                                        <SelectSaleType @bind-selected_value="@sale_type" show_empty="true" width="100px" is_horizontal="false" is_inline="true" />
                                     </Th>
-                                    
+
                                     @if (is_table_require_check_in)
                                     {
                                         <Th>
-                                            <ComInputCheckBox @bind-value="require_check_in"/>
+                                            <ComInputCheckBox @bind-value="require_check_in" />
                                         </Th>
                                     }
-                                    
+
                                     <Th></Th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 @foreach (var s in model.tables.Where(r => r.is_deleted == false).OrderBy(r=>r.sort_order).ToList())
                                 {
-                                    <tr>
-                                        <td>
-                                            <TextInput label="" @bind-text="@s.table_name" />
-                                        </td>
-                                        <TdCenter>
-                                            <NumberInputDouble @bind-text="@s.width" />
-                                        </TdCenter>
-                                        <TdCenter>
-                                            <NumberInputDouble @bind-text="@s.height" />
-                                        </TdCenter>
-                                        <td>
-                                            <SelectShape @bind-selected_value="@s.shape" />
-                                        </td>
-                                        <td>
-                                            <SelectPriceRule @bind-selected_value="@s.price_rule_id" outlet="@model.outlet" is_inline="true" show_empty="true" width="100px" />
-                                        </td>
-                                        <td>
-                                            <SelectSaleType @bind-selected_value="@s.sale_type" is_horizontal="false" width="50px" is_inline="true" show_empty="true" />
-                                        </td> 
-                                        @if (is_table_require_check_in)
-                                        {
-                                            <td>
-                                                <ComInputCheckBox @bind-value="s.require_check_in" />
-                                            </td>
-                                        }
+                            <tr>
+                                <td>
+                                    <TextInput label="" @bind-text="@s.table_name" />
+                                </td>
+                                <TdCenter>
+                                    <NumberInputDouble @bind-text="@s.width" />
+                                </TdCenter>
+                                <TdCenter>
+                                    <NumberInputDouble @bind-text="@s.height" />
+                                </TdCenter>
+                                <td>
+                                    <SelectShape @bind-selected_value="@s.shape" />
+                                </td>
+                                <td>
+                                    <SelectPriceRule @bind-selected_value="@s.price_rule_id" outlet="@model.outlet" is_inline="true" show_empty="true" width="100px" />
+                                </td>
+                                <td>
+                                    <SelectSaleType @bind-selected_value="@s.sale_type" is_horizontal="false" width="50px" is_inline="true" show_empty="true" />
+                                </td>
+                                @if (is_table_require_check_in)
+                                {
+                                    <td>
+                                        <ComInputCheckBox @bind-value="s.require_check_in" />
+                                    </td>
+                                }
 
-                                        <TdCenter>
-                                            <NumberInputInt @bind-text="@s.sort_order" />
-                                        </TdCenter>
-                                        <td>
-                                            <Icon icon="delete" OnClick="@(()=>Delete_Table(s))" />
-                                        </td>
-                                    </tr>
+                                <TdCenter>
+                                    <NumberInputInt @bind-text="@s.sort_order" />
+                                </TdCenter>
+
+                                <td>
+                                    <LabelActive OnClick="@(() => Activebutton(s))" is_visible="@s.status" />
+                                    <LabelInActive OnClick="@(() => Activebutton(s))" is_visible="@(!s.status)" />
+                                </td>
+                                <td>
+                                    <Icon icon="delete" OnClick="@(()=>Delete_Table(s))" />
+                                </td>
+                            </tr>
                                 }
                             </table>
                             <Spacing Number="4"/>
@@ -265,8 +271,8 @@
             business_branch = gv.bussiness_branches.Where(r => r.id == Guid.Parse(business_branch_id)).FirstOrDefault();
         }
         //get is table require check in feature
-        is_table_require_check_in =  gv.business_branch_has_feature(business_branch_id,"CHIO"); 
-        
+        is_table_require_check_in =  gv.business_branch_has_feature(business_branch_id,"CHIO");
+
         is_loading = false;
     }
 
@@ -279,7 +285,7 @@
         api_url += $"({id})?";
         api_url += "$expand=outlet($select=id,outlet_name_en,outlet_name_kh,business_branch_id;$expand=business_branch";
         api_url += "($select=id,business_branch_name_en,business_branch_name_kh);$filter= is_deleted  eq false),";
-        api_url +=  "tables($select = id,sort_order,table_name,height,width,position_x_percent,sale_type,shape,position_y_percent,price_rule_id,require_check_in;";
+        api_url +=  "tables($select = id,sort_order,table_name,height,width,position_x_percent,sale_type,shape,position_y_percent,price_rule_id,require_check_in,status;";
         api_url += "$filter= is_deleted eq false;$orderby=sort_order desc)";
 
 
@@ -368,6 +374,12 @@
             s.is_deleted = true;
         }
     }
+
+    void Activebutton(TableModel t)
+    {
+        t.status = !t.status;
+    }
+
 
     void OnOutletChanged(Guid? id){
         model.outlet_id = id ?? Guid.Empty;
