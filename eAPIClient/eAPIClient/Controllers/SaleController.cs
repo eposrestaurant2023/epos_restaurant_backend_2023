@@ -196,17 +196,13 @@ namespace eAPIClient.Controllers
                     else
                     {
                         db.Sales.Add(model);
-                    }
-                    
+                    }  
 
-                   
                     is_new = !(model.is_closed ?? false);
                 }
                 else
                 {
                     is_new = false;
-
-
                     model.sale_products.ForEach(sp =>
                     {
                         
@@ -220,9 +216,13 @@ namespace eAPIClient.Controllers
                     db.Sales.Update(model);
                 }
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+
                 //Update Document
                 await app.UpdateDocument(_saleNumber);
                 await app.UpdateDocument(_waitingNumber);
+
+
                 if (!is_new)
                 {
                     if (model.is_closed == true && (model.document_number == "New" || model.document_number == ""))
@@ -231,17 +231,15 @@ namespace eAPIClient.Controllers
                         _saleDoc = app.GetDocument("SaleDoc", model.closed_cash_drawer_id.ToString());
                         model.document_number = _saleDoc.id > 0 ? app.GetDocumentFormat(_saleDoc) : "New";
 
+                        db.Sales.Update(model);
                         await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                         await app.UpdateDocument(_saleDoc);
                     }
                 }
 
-
                 //for anyupdate that related to sale if have
-                db.Database.ExecuteSqlRaw($"exec sp_update_sale_infomation '{model.id}'");   
-                        
-                    sync.sendSyncRequest();
-               
+                db.Database.ExecuteSqlRaw($"exec sp_update_sale_infomation '{model.id}'");
+                sync.sendSyncRequest();   
 
                 return Ok(model);
             }
