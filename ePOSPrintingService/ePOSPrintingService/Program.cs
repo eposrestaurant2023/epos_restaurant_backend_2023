@@ -320,37 +320,43 @@ namespace ePOSPrintingService
             m_currentPageIndex++;
             ev.HasMorePages = (m_currentPageIndex < m_streams.Count);
         }
-        public static void Print(string printerName, short copy = 1)
+        public static void Print(LocalReport report, ReceiptListModel receipt, string printerName, short copies=1)
         {
-            if (m_streams == null || m_streams.Count == 0)
-                throw new Exception("Error: no stream to print.");
-            PrintDocument printDoc = new PrintDocument();
-            printDoc.PrinterSettings.Copies = copy;
-            PrintController printControl = new StandardPrintController();
-            printDoc.PrintController = printControl;
-            printDoc.PrinterSettings.PrinterName = printerName;
-            if (!printDoc.PrinterSettings.IsValid)
-            {
-                try { throw new Exception("Error: cannot find the default printer."); }
-                catch(Exception ex) {
 
-                    WriteToFile($"Print {printerName} \n=> {ex.ToString()}" );
-                    
-                    /*do nothing*/ 
-                }
-            }
-            else
+            for (int i = 0; i < copies; i++)
             {
-                try
+                Export(report, receipt.PageWidth, receipt.PageHeight, receipt.MarginTop, receipt.MarginLeft, receipt.MarginRight, receipt.MarginBottom);
+
+                if (m_streams == null || m_streams.Count == 0)
+                    throw new Exception("Error: no stream to print.");
+                PrintDocument printDoc = new PrintDocument();
+                //printDoc.PrinterSettings.Copies = copy;
+                PrintController printControl = new StandardPrintController();
+                printDoc.PrintController = printControl;
+                printDoc.PrinterSettings.PrinterName = printerName;
+                if (!printDoc.PrinterSettings.IsValid)
                 {
-                    printDoc.PrintPage += new PrintPageEventHandler(PrintPage);
-                    m_currentPageIndex = 0;
-                    printDoc.Print();
+                    try { throw new Exception("Error: cannot find the default printer."); }
+                    catch (Exception ex)
+                    {
+                        WriteToFile($"Print {printerName} \n=> {ex.ToString()}");
+                    }
                 }
-                catch(Exception ex)
+                else
                 {
-                    WriteToFile($"Print {printerName} \n=> {ex.ToString()}");
+                    try
+                    {
+                        printDoc.PrintPage += new PrintPageEventHandler(PrintPage);
+                        m_currentPageIndex = 0;
+                        printDoc.Print();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        WriteToFile($"Print {printerName} \n=> {ex.ToString()}");
+                    }
                 }
+                printDoc.Dispose();
             }
         }
         private static void Dispose()
@@ -480,15 +486,7 @@ namespace ePOSPrintingService
                     LocalReport report = new LocalReport();
                     report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
                     report.DataSources.Add(new ReportDataSource("Data", data));
-                    Export(report,
-                        receipt.PageWidth,
-                        receipt.PageHeight,
-                        receipt.MarginTop,
-                        receipt.MarginLeft,
-                        receipt.MarginRight,
-                        receipt.MarginBottom
-                    );
-                    Print(p);
+                    Print(report,receipt, p);
                 } 
                 IsPrintSuccess = true;
             }
@@ -629,16 +627,8 @@ namespace ePOSPrintingService
             report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
             report.DataSources.Add(new ReportDataSource("Sale", sale_data));
             report.DataSources.Add(new ReportDataSource("SaleProduct", sale_product_data));
-            Export(report,
-                 receipt.PageWidth,
-                 receipt.PageHeight,
-                 receipt.MarginTop,
-                 receipt.MarginLeft,
-                 receipt.MarginRight,
-                 receipt.MarginBottom
-                 );
 
-            Print(printer_name, copies);            
+            Print(report, receipt,printer_name, copies);            
         }
 
         static void PrintLabel(DataTable sale_data, DataTable sale_product_data)
@@ -651,19 +641,8 @@ namespace ePOSPrintingService
             report.DataSources.Add(new ReportDataSource("Sale", sale_data));
             report.DataSources.Add(new ReportDataSource("SaleProduct", sale_product_data));
 
-            Export(
-                report, 
-                receipt.PageWidth, 
-                receipt.PageHeight, 
-                receipt.MarginTop, 
-                receipt.MarginLeft, 
-                receipt.MarginRight, 
-                receipt.MarginBottom);
-
-            Print(Properties.Settings.Default.LabelPrinterName, 1);
+            Print(report, receipt, Properties.Settings.Default.LabelPrinterName, 1);
         }
-
-    
 
         public static async Task PrintInvoice(string sale_id, ReceiptListModel receipt, string printer_name, int copies)
         {
@@ -707,15 +686,10 @@ namespace ePOSPrintingService
                     report.DataSources.Add(new ReportDataSource("GrandTotal", grand_total_data));
                     report.DataSources.Add(new ReportDataSource("Setting", setting_data));
 
-                    Export(report,
-                         receipt.PageWidth,
-                         receipt.PageHeight,
-                         receipt.MarginTop,
-                         receipt.MarginLeft,
-                         receipt.MarginRight,
-                         receipt.MarginBottom
-                         );
-                    Print(printer_name, Convert.ToInt16(copies));
+          
+
+                    Print(report, receipt, printer_name, Convert.ToInt16(copies));
+
 
                     Thread t = ThreadStart(() => SendTelegramAlert(report,  "Print Sale Invoice"));
                     IsPrintSuccess = true;
@@ -777,16 +751,8 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("GrandTotal", grand_total_data));
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
 
-                Export(report,
-                     receipt.PageWidth,
-                     receipt.PageHeight,
-                     receipt.MarginTop,
-                     receipt.MarginLeft,
-                     receipt.MarginRight,
-                     receipt.MarginBottom
-                     );
 
-                Print(printer_name, Convert.ToInt16(copies));
+                Print(report, receipt, printer_name, Convert.ToInt16(copies));
 
                 IsPrintSuccess = true;
             }
@@ -822,16 +788,7 @@ namespace ePOSPrintingService
                 setting_data = CreateDataTable(settings);
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
 
-                Export(report,
-                     receipt.PageWidth,
-                     receipt.PageHeight,
-                     receipt.MarginTop,
-                     receipt.MarginLeft,
-                     receipt.MarginRight,
-                     receipt.MarginBottom
-                     );
-
-                Print(CashierPrinter,1);
+                Print(report, receipt,CashierPrinter, 1);
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -905,16 +862,8 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("SalePayment", sale_payment_data));
                 report.DataSources.Add(new ReportDataSource("SalePaymentChange", sale_payment_change_data));
 
-                Export(report,
-                     receipt.PageWidth,
-                     receipt.PageHeight,
-                     receipt.MarginTop,
-                     receipt.MarginLeft,
-                     receipt.MarginRight,
-                     receipt.MarginBottom
-                     );
-
-                Print(printer_name, Convert.ToInt16(copies));   
+       
+                Print(report, receipt, printer_name, Convert.ToInt16(copies));   
                 Thread t = ThreadStart(() => SendTelegramAlert(report, is_reprint ? "Re Print Receipt" : "Print Receipt"));  
                 IsPrintSuccess = true;
             }
@@ -963,17 +912,8 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("Sale", sale_data));
                 report.DataSources.Add(new ReportDataSource("SaleProduct", sale_product_data));
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
-
-                Export(report,
-                     receipt.PageWidth,
-                     receipt.PageHeight,
-                     receipt.MarginTop,
-                     receipt.MarginLeft,
-                     receipt.MarginRight,
-                     receipt.MarginBottom
-                     );
-
-                Print(printer_name, Convert.ToInt16(receipt.number_receipt_copies));
+ 
+                Print(report, receipt, printer_name, Convert.ToInt16(receipt.number_receipt_copies));
                 Thread t = ThreadStart(() => SendTelegramAlert(report, is_reprint ? "Re Print Park Item Receipt" : "Print Park Item Receipt"));
                 IsPrintSuccess = true;
             }
@@ -1032,15 +972,8 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("GrandTotal", grand_total_data));
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
 
-                Export(report,
-                     receipt.PageWidth,
-                     receipt.PageHeight,
-                     receipt.MarginTop,
-                     receipt.MarginLeft,
-                     receipt.MarginRight,
-                     receipt.MarginBottom
-                     );
-                Print(printer_name,1);
+     
+                Print(report, receipt,printer_name, 1);
                 Thread t = ThreadStart(() => SendTelegramAlert(report, "Print Deleted Order"));
                 IsPrintSuccess = true;
             }
@@ -1102,16 +1035,8 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("CloseSaleData", close_sale_data));
                 report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));
 
-                Export(report,
-                     receipt.PageWidth,
-                     receipt.PageHeight,
-                     receipt.MarginTop,
-                     receipt.MarginLeft,
-                     receipt.MarginRight,
-                     receipt.MarginBottom
-                     );
-
-                Print(printer_name,1);   
+      
+                Print(report, receipt,printer_name, 1);   
                 Thread t = ThreadStart(() => SendTelegramAlert(report, $"Close working day report {working_day.FirstOrDefault().working_day_number}"));   
                 IsPrintSuccess = true;
             }
@@ -1178,16 +1103,8 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("FOCSaleProductData", foc_sale_product_data));
                 report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));
 
-                Export(report,
-                     receipt.PageWidth,
-                     receipt.PageHeight,
-                     receipt.MarginTop,
-                     receipt.MarginLeft,
-                     receipt.MarginRight,
-                     receipt.MarginBottom
-                     );
-
-                Print(printer_name, 1);  
+          
+                Print(report, receipt, printer_name, 1);  
                 Thread t = ThreadStart(() => SendTelegramAlert(report, $"Close working day - Sale Product Report  {working_day.FirstOrDefault().working_day_number}"));  
                 IsPrintSuccess = true;
             }
@@ -1239,17 +1156,9 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
                 report.DataSources.Add(new ReportDataSource("CloseSaleData", close_sale_data));
                 report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));
+   
 
-                Export(report,
-                     receipt.PageWidth,
-                     receipt.PageHeight,
-                     receipt.MarginTop,
-                     receipt.MarginLeft,
-                     receipt.MarginRight,
-                     receipt.MarginBottom
-                     );
-
-                Print(printer_name, 1); 
+                Print(report, receipt, printer_name, 1); 
                 Thread t = ThreadStart(() => SendTelegramAlert(report, $"Close working day - Sale Transaction Report  {working_day.FirstOrDefault().working_day_number}"));  
                 IsPrintSuccess = true;
             }
@@ -1306,18 +1215,9 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
                 report.DataSources.Add(new ReportDataSource("CloseCashierShiftData", cashier_shift_summary_data));
                 report.DataSources.Add(new ReportDataSource("CloseSaleData", close_sale_data));
-                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));
+                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));     
 
-                Export(report,
-                     receipt.PageWidth,
-                     receipt.PageHeight,
-                     receipt.MarginTop,
-                     receipt.MarginLeft,
-                     receipt.MarginRight,
-                     receipt.MarginBottom
-                     );
-
-                Print(printer_name, 1);
+                Print(report, receipt,printer_name, 1);
                 SendTelegramAlert(report, $"Close cashier shift - Sale summary report  {cashier_shift.FirstOrDefault().cashier_shift_number}");
                 IsPrintSuccess = true;
             }
@@ -1368,18 +1268,10 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("CashierShiftData", cashier_shift_data));
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
                 report.DataSources.Add(new ReportDataSource("CloseSaleData", close_sale_data));
-                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));
+                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));         
 
-                Export(report,
-                     receipt.PageWidth,
-                     receipt.PageHeight,
-                     receipt.MarginTop,
-                     receipt.MarginLeft,
-                     receipt.MarginRight,
-                     receipt.MarginBottom
-                     );
+                Print(report, receipt,printer_name, 1);
 
-                Print(printer_name, 1);
                 SendTelegramAlert(report, $"Close cashier shift - Sale transaction report  {cashier_shift.FirstOrDefault().cashier_shift_number}");
                 IsPrintSuccess = true;
             }
@@ -1441,17 +1333,10 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("SaleProductData", sale_product_data));
                 report.DataSources.Add(new ReportDataSource("FOCSaleProductData", foc_sale_product_data));
                 report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));
+          
 
-                Export(report,
-                     receipt.PageWidth,
-                     receipt.PageHeight,
-                     receipt.MarginTop,
-                     receipt.MarginLeft,
-                     receipt.MarginRight,
-                     receipt.MarginBottom
-                     );
+                Print(report, receipt,printer_name, 1);
 
-                Print(printer_name, 1);
                 SendTelegramAlert(report, $"Close cashier shift - Sale product report  {cashier_shift.FirstOrDefault().cashier_shift_number}");
                 IsPrintSuccess = true;
             }
