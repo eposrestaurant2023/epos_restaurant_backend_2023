@@ -2556,6 +2556,22 @@
           <DataField>cashier_shift_number</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="check_in_by">
+          <DataField>check_in_by</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="check_in_date">
+          <DataField>check_in_date</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="check_out_by">
+          <DataField>check_out_by</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="check_out_date">
+          <DataField>check_out_date</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
         <Field Name="closed_by">
           <DataField>closed_by</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -2624,6 +2640,10 @@
           <DataField>id</DataField>
           <rd:TypeName>System.Guid</rd:TypeName>
         </Field>
+        <Field Name="is_checked_out">
+          <DataField>is_checked_out</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
         <Field Name="is_closed">
           <DataField>is_closed</DataField>
           <rd:TypeName>System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
@@ -2636,12 +2656,20 @@
           <DataField>is_paid</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
+        <Field Name="is_park">
+          <DataField>is_park</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
         <Field Name="is_partially_paid">
           <DataField>is_partially_paid</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
         <Field Name="is_print_invoice">
           <DataField>is_print_invoice</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="is_redeem_park">
+          <DataField>is_redeem_park</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
         <Field Name="is_reprint_receipt">
@@ -2663,6 +2691,10 @@
         <Field Name="is_synced">
           <DataField>is_synced</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="kitchen_message_text">
+          <DataField>kitchen_message_text</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="last_modified_by">
           <DataField>last_modified_by</DataField>
@@ -2688,9 +2720,17 @@
           <DataField>paid_amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="park_sale_id">
+          <DataField>park_sale_id</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
         <Field Name="phone_number">
           <DataField>phone_number</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="redeem_park_sale_id">
+          <DataField>redeem_park_sale_id</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="rounding_amount">
           <DataField>rounding_amount</DataField>
