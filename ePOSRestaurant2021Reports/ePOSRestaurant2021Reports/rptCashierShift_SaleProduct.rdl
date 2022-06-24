@@ -257,6 +257,7 @@
 			sum(sp.total_amount) as total_amount
 		from tbl_sale_product sp 
 		inner join tbl_sale s on s.id = sp.sale_id
+		inner join tbl_sale_product_status sps on sp.status_id = sps.id
 		inner join tbl_product_group g on g.id = sp.product_group_id
 
 		where 
@@ -264,7 +265,9 @@
 			s.is_deleted = 0 and
 			s.closed_cashier_shift_id = @id and 
 			s.is_foc =0 and 
-			s.is_closed = 1
+			s.is_closed = 1 and 
+			sp.is_deleted = 0 and 
+			sps.active_order = 1 
 		group by
 			sp.product_id,
 			g.sort_order,
@@ -1452,7 +1455,7 @@
             <DataSetName>CashierShiftInfo</DataSetName>
             <Top>0.87206in</Top>
             <Left>0.08379cm</Left>
-            <Height>2.29265in</Height>
+            <Height>2.29262in</Height>
             <Width>7.23223in</Width>
             <Style>
               <Border>
