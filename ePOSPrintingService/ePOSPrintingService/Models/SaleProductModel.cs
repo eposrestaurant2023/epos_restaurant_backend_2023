@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace ePOSPrintingServiceReportModel
 {
    public  class SaleProductModel
@@ -22,6 +17,14 @@ namespace ePOSPrintingServiceReportModel
         public string sale_product_discount_type { get; set; }
         public decimal sale_product_discount_value { get; set; }
         public decimal sale_product_discount_amount { get; set; }
+        public decimal sale_discount_amount { get; set; }
+        public decimal total_discount_amount { get; set; }
+        public string tax_1_name { get; set; }
+        public decimal total_tax_1_amount { get; set; }
+        public string tax_2_name { get; set; }
+        public decimal total_tax_2_amount { get; set; }
+        public string tax_3_name { get; set; }
+        public decimal total_tax_3_amount { get; set; }
         public string note { get; set; }
         public decimal price { get; set; }
         public decimal quantity { get; set; }

@@ -67,6 +67,10 @@ namespace ePOSPrintingServiceReportModel
         public string revenue_group{ get; set; }
         public string foc_sale_product{ get; set; }
         public string free_sale_product{ get; set; }
+        public string total_quantity{ get; set; }
+        public string sub_total{ get; set; }
+        public string item_discount { get; set; }
+        public string sale_discount { get; set; }
 
 
 

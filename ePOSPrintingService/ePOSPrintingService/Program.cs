@@ -1385,10 +1385,9 @@ namespace ePOSPrintingService
                 else
                 {
                     var client = new RestClient(Properties.Settings.Default.BaseAPIURL);
-
                     var request = new RestRequest("Printing/GetPrintData");
                     request.AddParameter("procedure_name", "sp_get_translate_text");
-                    request.AddParameter("parameters", $"'{language_code}','close_cashier_shift_summary_report,shift_information,working_day_no,shift_no,sale_transaction,receipt_no,tbl_no,time,qty,amt,by,branch,outlet,status,close_working_day_summary_report,working_day_information,cash_drawer_name,opened_date,opened_by,closed_date,closed_by,printed_by,printed_on,sale_products,sale_product,amount,total,grand_total,product_name,summary_by_revenue_group,revenue_group,foc_sale_product,free_sale_product,close_cashier_shift_report','json'");
+                    request.AddParameter("parameters", $"'{language_code}','close_cashier_shift_summary_report,shift_information,working_day_no,shift_no,sale_transaction,receipt_no,tbl_no,time,qty,amt,by,branch,outlet,status,close_working_day_summary_report,working_day_information,cash_drawer_name,opened_date,opened_by,closed_date,closed_by,printed_by,printed_on,sale_products,sale_product,amount,total,grand_total,product_name,summary_by_revenue_group,revenue_group,foc_sale_product,free_sale_product,close_cashier_shift_report,total_quantity,sub_total,item_discount,sale_discount','json'");
                     var response = await client.GetAsync(request);
                     if (response.Content.ToString() != "")
                     {
@@ -1399,7 +1398,6 @@ namespace ePOSPrintingService
                         }
                             return result;
                     }
-
                     return new List<DynamicDataModel>();
                 }  
             }
@@ -1407,7 +1405,6 @@ namespace ePOSPrintingService
             {
                 WriteToFile(ex.Message + "\n" + ex.ToString());
                 return new List<DynamicDataModel>();
-
             }
         }
 
