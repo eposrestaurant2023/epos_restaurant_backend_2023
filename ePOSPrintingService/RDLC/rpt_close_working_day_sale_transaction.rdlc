@@ -183,7 +183,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.21423in</Height>
+              <Height>0.1934in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -213,10 +213,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -252,10 +252,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -263,7 +263,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.21423in</Height>
+              <Height>0.18298in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -293,10 +293,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -332,10 +332,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -343,7 +343,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.21423in</Height>
+              <Height>0.18298in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -373,10 +373,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -412,10 +412,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -423,7 +423,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.23622in</Height>
+              <Height>0.19455in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -453,10 +453,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -492,10 +492,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -503,7 +503,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.21423in</Height>
+              <Height>0.1934in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -533,10 +533,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -572,10 +572,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -583,7 +583,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.21423in</Height>
+              <Height>0.20381in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -613,10 +613,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -652,10 +652,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -663,7 +663,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.21423in</Height>
+              <Height>0.18298in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -693,10 +693,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -732,10 +732,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -743,7 +743,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.21423in</Height>
+              <Height>0.1934in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -773,10 +773,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -812,10 +812,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -823,7 +823,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.21423in</Height>
+              <Height>0.18298in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -853,10 +853,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -892,10 +892,10 @@
                         <BottomBorder>
                           <Style>None</Style>
                         </BottomBorder>
-                        <PaddingLeft>3.75pt</PaddingLeft>
-                        <PaddingRight>3.75pt</PaddingRight>
-                        <PaddingTop>3.75pt</PaddingTop>
-                        <PaddingBottom>3.75pt</PaddingBottom>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -920,13 +920,21 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=Fields!is_closed.Value=false</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=Fields!is_closed.Value=false</Hidden>
+              </Visibility>
+            </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>WorkingDay</DataSetName>
         <Top>0.94973in</Top>
-        <Height>2.20932in</Height>
+        <Height>1.96974in</Height>
         <Width>2.77708in</Width>
         <ZIndex>1</ZIndex>
         <Style>
@@ -946,7 +954,7 @@
                 <Style>
                   <FontStyle>Italic</FontStyle>
                   <FontFamily>kh system</FontFamily>
-                  <FontSize>8pt</FontSize>
+                  <FontSize>7pt</FontSize>
                 </Style>
               </TextRun>
               <TextRun>
@@ -954,7 +962,7 @@
                 <Style>
                   <FontStyle>Italic</FontStyle>
                   <FontFamily>kh system</FontFamily>
-                  <FontSize>8pt</FontSize>
+                  <FontSize>7pt</FontSize>
                 </Style>
               </TextRun>
               <TextRun>
@@ -962,7 +970,7 @@
                 <Style>
                   <FontStyle>Italic</FontStyle>
                   <FontFamily>kh system</FontFamily>
-                  <FontSize>8pt</FontSize>
+                  <FontSize>7pt</FontSize>
                 </Style>
               </TextRun>
               <TextRun>
@@ -970,7 +978,7 @@
                 <Style>
                   <FontStyle>Italic</FontStyle>
                   <FontFamily>kh system</FontFamily>
-                  <FontSize>8pt</FontSize>
+                  <FontSize>7pt</FontSize>
                 </Style>
               </TextRun>
               <TextRun>
@@ -978,7 +986,7 @@
                 <Style>
                   <FontStyle>Italic</FontStyle>
                   <FontFamily>kh system</FontFamily>
-                  <FontSize>8pt</FontSize>
+                  <FontSize>7pt</FontSize>
                 </Style>
               </TextRun>
               <TextRun>
@@ -986,7 +994,7 @@
                 <Style>
                   <FontStyle>Italic</FontStyle>
                   <FontFamily>kh system</FontFamily>
-                  <FontSize>8pt</FontSize>
+                  <FontSize>7pt</FontSize>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -996,8 +1004,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox25</rd:DefaultName>
-        <Top>4.48976in</Top>
-        <Height>0.25in</Height>
+        <Top>4.10018in</Top>
+        <Height>0.17708in</Height>
         <Width>2.77707in</Width>
         <ZIndex>2</ZIndex>
         <Style>
@@ -1006,8 +1014,8 @@
           </Border>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
+          <PaddingTop>0.25pt</PaddingTop>
+          <PaddingBottom>0.25pt</PaddingBottom>
         </Style>
       </Textbox>
       <Textbox Name="Textbox26">
@@ -1098,6 +1106,7 @@
                               <Value>=First(Fields!sale_transaction.Value, "Translate")</Value>
                               <Style>
                                 <FontFamily>kh system</FontFamily>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -1113,7 +1122,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>#e8e8e8</BackgroundColor>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1139,6 +1148,7 @@
                               <Value EvaluationMode="Constant" />
                               <Style>
                                 <FontFamily>kh system</FontFamily>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -1154,7 +1164,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>#e8e8e8</BackgroundColor>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1166,7 +1176,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.21875in</Height>
+              <Height>0.19792in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -1181,6 +1191,7 @@
                               <Style>
                                 <FontFamily>kh system</FontFamily>
                                 <FontSize>7.5pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1195,8 +1206,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1214,6 +1225,7 @@
                               <Style>
                                 <FontFamily>kh system</FontFamily>
                                 <FontSize>7.5pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1230,8 +1242,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1249,6 +1261,7 @@
                               <Style>
                                 <FontFamily>kh system</FontFamily>
                                 <FontSize>7.5pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1265,8 +1278,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1284,6 +1297,7 @@
                               <Style>
                                 <FontFamily>kh system</FontFamily>
                                 <FontSize>7.5pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1300,8 +1314,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1319,6 +1333,7 @@
                               <Style>
                                 <FontFamily>kh system</FontFamily>
                                 <FontSize>7.5pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1335,8 +1350,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1354,6 +1369,7 @@
                               <Style>
                                 <FontFamily>kh system</FontFamily>
                                 <FontSize>7.5pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1370,8 +1386,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1499,8 +1515,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1534,8 +1550,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1569,8 +1585,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1604,8 +1620,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1639,8 +1655,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1674,8 +1690,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1683,7 +1699,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.25in</Height>
+              <Height>0.1875in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -1702,7 +1718,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox5</rd:DefaultName>
@@ -1713,15 +1731,17 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>
+                <TablixCell />
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox6">
+                    <Textbox Name="Textbox3">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -1740,7 +1760,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox6</rd:DefaultName>
+                      <rd:DefaultName>Textbox3</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1748,14 +1768,12 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>
-                <TablixCell />
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="total_quantity2">
@@ -1785,8 +1803,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1820,8 +1838,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1855,8 +1873,8 @@
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1905,8 +1923,8 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>CloseSaleData</DataSetName>
-        <Top>3.24696in</Top>
-        <Height>1.14584in</Height>
+        <Top>2.98446in</Top>
+        <Height>1.06251in</Height>
         <Width>2.77707in</Width>
         <ZIndex>4</ZIndex>
         <Style>
@@ -1916,7 +1934,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>4.73976in</Height>
+    <Height>4.27726in</Height>
     <Style />
   </Body>
   <Width>2.77708in</Width>
