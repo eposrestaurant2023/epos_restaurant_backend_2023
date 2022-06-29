@@ -141,7 +141,8 @@ select
 	s.closed_by,
 	s.customer_name,
 	s.sale_type,
-	s.shift_name
+	s.shift_name,
+s.guest_cover
 
 	into #tbl_sale
 from tbl_sale s 
@@ -237,6 +238,10 @@ where
         <Field Name="shift_name">
           <DataField>shift_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="guest_cover">
+          <DataField>guest_cover</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -402,7 +407,7 @@ where
             <Value>=Parameters!lang.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>exec sp_get_translate_text @lang,'No,Doc. #,Date,Branch,Daily Sale Transaction,Outlet,Customer,QTY,Discount,Tax,Cost,Total Amount,Profit,User,Sub Total,Printed by,on,of,Page,Group,Sale Type,Table Group,Shift'</CommandText>
+        <CommandText>exec sp_get_translate_text @lang,'No,Doc. #,Date,Branch,Daily Sale Transaction,Outlet,Customer,QTY,Discount,Tax,Cost,Total Amount,Profit,User,Sub Total,Printed by,on,of,Page,Group,Sale Type,Table Group,Shift,Guest #'</CommandText>
       </Query>
       <Fields>
         <Field Name="No">
@@ -497,6 +502,10 @@ where
           <DataField>Shift</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Guest__">
+          <DataField>Guest #</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
     <DataSet Name="sale_type">
@@ -584,7 +593,10 @@ where
                   <Width>0.78125in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.01764in</Width>
+                  <Width>0.86139in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.57292in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.48851in</Width>
@@ -599,16 +611,16 @@ where
                   <Width>0.71767in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.76085in</Width>
+                  <Width>0.5421in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.01085in</Width>
+                  <Width>0.82335in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.81294in</Width>
+                  <Width>0.81379in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.79638in</Width>
+                  <Width>0.78596in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -850,6 +862,46 @@ where
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox9</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox15">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!Guest__.Value, "translate")</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox15</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1456,6 +1508,41 @@ where
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="guest_cover">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!guest_cover.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>guest_cover</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="total_quantity">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1981,6 +2068,46 @@ where
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox18">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!guest_cover.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox18</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox23">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -2319,6 +2446,7 @@ where
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -2339,7 +2467,7 @@ where
             <Top>0.02778in</Top>
             <Left>0.00003cm</Left>
             <Height>0.72917in</Height>
-            <Width>11.07998in</Width>
+            <Width>11.08083in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
