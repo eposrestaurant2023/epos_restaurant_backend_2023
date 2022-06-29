@@ -95,15 +95,17 @@
           <QueryParameter Name="@end_date">
             <Value>=Parameters!end_date.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@expense_category_id">
-            <Value>=Parameters!expense_category_id.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@business_branch_id">
             <Value>=Parameters!business_branch_id.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@expense_category_id">
+            <Value>=Parameters!expense_category_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@expense_item_id">
+            <Value>=Parameters!expense_item_id.Value</Value>
+          </QueryParameter>
         </QueryParameters>
-        <CommandText>
-select 
+        <CommandText>select 
 	e.reference_number,
 	e.business_branch_name,
 	e.outlet_name,
@@ -124,14 +126,17 @@ inner join tbl_currency c on e.currency_id = c.id
 where
 	e.is_deleted = 0 and 
 	e.expense_date  between @start_date and @end_date and 
+	cast(e.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(e.business_branch_id as nvarchar(50)),@business_branch_id)   and
 	cast(e.expense_category_id as nvarchar(50)) =  iif(@expense_category_id='', cast(e.expense_category_id as nvarchar(50)),@expense_category_id)    and
-	cast(e.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(e.business_branch_id as nvarchar(50)),@business_branch_id)   
-	 
-	 
-order by
-	e.expense_date</CommandText>
+	cast(e.expense_item_id as nvarchar(50)) =  iif(@expense_item_id='', cast(e.expense_item_id as nvarchar(50)),@expense_item_id)
+order by e.expense_date asc
+</CommandText>
       </Query>
       <Fields>
+        <Field Name="reference_number">
+          <DataField>reference_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="business_branch_name">
           <DataField>business_branch_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -164,24 +169,16 @@ order by
           <DataField>expense_item_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="paymen_type">
-          <DataField>paymen_type</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="expense_by">
           <DataField>expense_by</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="currency_format">
-          <DataField>currency_format</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="note">
           <DataField>note</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="reference_number">
-          <DataField>reference_number</DataField>
+        <Field Name="paymen_type">
+          <DataField>paymen_type</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="amount">
@@ -191,6 +188,10 @@ order by
         <Field Name="base_currency_amount">
           <DataField>base_currency_amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="currency_format">
+          <DataField>currency_format</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -455,6 +456,30 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
         </Field>
         <Field Name="expense_category_name">
           <DataField>expense_category_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="ExpenseItem">
+      <Query>
+        <DataSourceName>Datasource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@expense_category_id">
+            <Value>=Parameters!expense_category_id.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>select '' as id, 'All Items' as expense_item_name
+union all 
+select cast(id as nvarchar(50)) as id , expense_item_name from tbl_expense_item
+where expense_category_id = iif(@expense_category_id='',expense_category_id,@expense_category_id)</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="id">
+          <DataField>id</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="expense_item_name">
+          <DataField>expense_item_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -1772,12 +1797,29 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
         </Values>
       </DefaultValue>
       <AllowBlank>true</AllowBlank>
-      <Prompt>Category ID</Prompt>
+      <Prompt>Category</Prompt>
       <ValidValues>
         <DataSetReference>
           <DataSetName>ExpenseCategory</DataSetName>
           <ValueField>id</ValueField>
           <LabelField>expense_category_name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="expense_item_id">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Item</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>ExpenseItem</DataSetName>
+          <ValueField>id</ValueField>
+          <LabelField>expense_item_name</LabelField>
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
@@ -1829,7 +1871,7 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
           <ParameterName>end_date</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>lang</ParameterName>
         </CellDefinition>
@@ -1837,6 +1879,11 @@ select cast(id as nvarchar(50)) as id , expense_category_name  from tbl_expense_
           <ColumnIndex>1</ColumnIndex>
           <RowIndex>2</RowIndex>
           <ParameterName>expense_category_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>expense_item_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
