@@ -8,9 +8,10 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>Changkransor/Reports</TargetReportFolder>
-    <TargetDatasetFolder>Changkransor/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>Changkransor/DataSources</TargetDatasourceFolder>
+
+    <TargetReportFolder>SoupPorpae/Reports</TargetReportFolder>
+    <TargetDatasetFolder>SoupPorpae/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>SoupPorpae/Data Sources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
   </PropertyGroup>
