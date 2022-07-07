@@ -8,11 +8,11 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>POSDemo/Reports</TargetReportFolder>
-    <TargetDatasetFolder>POSDemo/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>POSDemo/DataSources</TargetDatasourceFolder>
+    <TargetReportFolder>ePOSDemo/Reports</TargetReportFolder>
+    <TargetDatasetFolder>ePOSDemo/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>ePOSDemo/DataSources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
-    <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
+    <TargetServerURL>http://desktop-ebebouk:3333/reportserver_MSSQLSERVER16</TargetServerURL>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
     <FullPath>DebugLocal</FullPath>
