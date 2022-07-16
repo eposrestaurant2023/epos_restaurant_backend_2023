@@ -2916,4 +2916,10 @@
   <data name="Sort Menu" xml:space="preserve">
     <value>តម្រៀបលំដាប់ម៉ឺនុយ</value>
   </data>
+  <data name="Allow amount zero" xml:space="preserve">
+    <value>បញ្ចូលទឹកប្រាក់សូន្យ</value>
+  </data>
+  <data name="Manual payment fee" xml:space="preserve">
+    <value>អាចបញ្ចូល Payment Fee</value>
+  </data>
 </root>
