@@ -50,7 +50,8 @@ namespace eModels
         public bool is_foc { get; set; }
         public bool is_allow_zero { get; set; } = false;
         public bool is_single_payment { get; set; } = false;
-
+        public decimal payment_fee { get; set; }
+        public bool manual_payment_fee { get; set; }
         public List<BusinessBranchPaymentTypeModel> business_branch_payment_types { get; set; }
     }
 }

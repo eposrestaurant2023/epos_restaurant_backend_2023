@@ -37,7 +37,8 @@ namespace eShareModel
         public string payment_type_name_kh { get; set; }
         public string payment_type_group { get; set; }
 
-
+        public decimal payment_fee { get; set; }
+        public decimal payment_fee_amount { get; set; }
         public bool is_payment_from_pos { get; set; } = false;
     }
 }
