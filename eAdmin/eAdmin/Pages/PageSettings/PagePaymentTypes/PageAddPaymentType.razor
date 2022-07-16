@@ -38,7 +38,8 @@
                         <TextInput @bind-text="@model.payment_type_name_kh" is_read_only="model.is_build_in" label="@lang["Name Kh"]" />
                         <NumberInputInt @bind-text="@model.sort_order" label="@lang["Sort Order"]" width="100%" />
                         <TextInput label="@lang["Note"]" @bind-text="@model.note" type="textarea" />
-                        <NumberInput  label="@lang["Payment Fee"]" @bind-text="@model.payment_fee"/>
+                        <NumberInput label="@lang["Payment Fee (%)"]" @bind-text="@model.payment_fee"/>
+                        <SelectStatus @bind-selected_value="@model.status" />
                         @if (!model.is_build_in)
                         {
                             <SelectCurrency show_empty="true" @bind-selected_value="@model.currency_id" empty_text="@lang["Select Currency"]" label="@lang["Currency"]">
@@ -50,7 +51,7 @@
                             <ComInputCheckBox label="@lang["Allow Change"]" @bind-value="@model.allow_change" />
                             <ComInputCheckBox label="@lang["Manual payment fee"]" @bind-value="@model.manual_payment_fee" />
                             <ComInputCheckBox label="@lang["Allow amount zero"]" @bind-value="@model.is_allow_zero" />
-                            <SelectStatus @bind-selected_value="@model.status" />
+                            
                         }
 
                     </UIContainerBox>

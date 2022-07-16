@@ -2922,4 +2922,7 @@
   <data name="Manual payment fee" xml:space="preserve">
     <value>អាចបញ្ចូល Payment Fee</value>
   </data>
+  <data name="Payment Fee (%)" xml:space="preserve">
+    <value>Payment Fee (%)</value>
+  </data>
 </root>
