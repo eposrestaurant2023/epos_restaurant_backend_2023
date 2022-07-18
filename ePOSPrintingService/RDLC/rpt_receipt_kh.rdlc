@@ -456,6 +456,92 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
+              <Height>0.23958in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox23">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>ថ្លៃសេវាទូទាត់</Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox23</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox24">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=format(Sum(Fields!base_payment_fee_amount.Value),First(Fields!currency_format.Value, "Setting"))</Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox24</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
               <Height>0.21875in</Height>
               <TablixCells>
                 <TablixCell>
@@ -545,6 +631,12 @@
         <TablixRowHierarchy>
           <TablixMembers>
             <TablixMember>
+              <Visibility>
+                <Hidden>=sum(Fields!base_payment_fee_amount.Value)&lt;=0</Hidden>
+              </Visibility>
+              <KeepWithGroup>After</KeepWithGroup>
+            </TablixMember>
+            <TablixMember>
               <Group Name="Details2" />
             </TablixMember>
           </TablixMembers>
@@ -552,7 +644,7 @@
         <DataSetName>SalePayment</DataSetName>
         <Top>5.08038in</Top>
         <Left>0.01353in</Left>
-        <Height>0.21875in</Height>
+        <Height>0.45833in</Height>
         <Width>2.7575in</Width>
         <ZIndex>1</ZIndex>
         <Style>
@@ -683,7 +775,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SalePaymentChange</DataSetName>
-        <Top>5.33371in</Top>
+        <Top>5.59621in</Top>
         <Left>0.01145in</Left>
         <Height>0.21875in</Height>
         <Width>2.76043in</Width>
@@ -699,7 +791,7 @@
         </Style>
       </Tablix>
       <Line Name="Line3">
-        <Top>5.57746in</Top>
+        <Top>5.83996in</Top>
         <Left>2.77458in</Left>
         <Height>0in</Height>
         <Width>-2.76582in</Width>
@@ -879,7 +971,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Setting</DataSetName>
-        <Top>5.62519in</Top>
+        <Top>5.88769in</Top>
         <Left>0.01084in</Left>
         <Height>0.51042in</Height>
         <Width>2.76167in</Width>
@@ -2676,7 +2768,7 @@
         </Style>
       </Image>
     </ReportItems>
-    <Height>6.13561in</Height>
+    <Height>6.39811in</Height>
     <Style />
   </Body>
   <Width>2.78334in</Width>
@@ -3328,12 +3420,24 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
+        <Field Name="base_payment_fee_amount">
+          <DataField>base_payment_fee_amount</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
         <Field Name="format">
           <DataField>format</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="payment_amount">
           <DataField>payment_amount</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="payment_fee">
+          <DataField>payment_fee</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="payment_fee_amount">
+          <DataField>payment_fee_amount</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="payment_type_name_en">

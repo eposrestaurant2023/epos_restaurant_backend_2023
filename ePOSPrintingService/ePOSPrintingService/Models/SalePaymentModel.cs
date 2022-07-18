@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace ePOSPrintingServiceReportModel
 {
     public class SalePaymentModel
@@ -12,6 +7,9 @@ namespace ePOSPrintingServiceReportModel
         public string payment_type_name_kh { get; set; }
         public string format { get; set; }
         public double payment_amount { get; set; }
+        public double payment_fee { get; set; }
+        public double payment_fee_amount { get; set; }
+        public double base_payment_fee_amount { get; set; }
     }
     public class SalePaymentChangeModel
     { 
