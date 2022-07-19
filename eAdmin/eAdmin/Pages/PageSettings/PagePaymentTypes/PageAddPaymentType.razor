@@ -36,23 +36,35 @@
                             <ValidationMessage For="@(() => model.payment_type_name_en )" />
                         </TextInput>
                         <TextInput @bind-text="@model.payment_type_name_kh" is_read_only="model.is_build_in" label="@lang["Name Kh"]" />
-                        <NumberInputInt @bind-text="@model.sort_order" label="@lang["Sort Order"]" width="100%" />
-                        <TextInput label="@lang["Note"]" @bind-text="@model.note" type="textarea" />
-                        <NumberInput label="@lang["Payment Fee (%)"]" @bind-text="@model.payment_fee"/>
-                        <SelectStatus @bind-selected_value="@model.status" />
                         @if (!model.is_build_in)
                         {
+                            <ComSelectPaymentTypeGroup @bind-selected_value="@model.payment_type_group" />
                             <SelectCurrency show_empty="true" @bind-selected_value="@model.currency_id" empty_text="@lang["Select Currency"]" label="@lang["Currency"]">
                                 <ValidationMessage For="@(() => model.currency_id)" />
                             </SelectCurrency>
-                            <ComSelectPaymentTypeGroup @bind-selected_value="@model.payment_type_group" />
-                            <ComInputCheckBox label="@lang["FOC"]" @bind-value="@model.is_foc" />
-                            <ComInputCheckBox label="@lang["Is single payment"]" @bind-value="@model.is_single_payment" />
-                            <ComInputCheckBox label="@lang["Allow Change"]" @bind-value="@model.allow_change" />
-                            <ComInputCheckBox label="@lang["Manual payment fee"]" @bind-value="@model.manual_payment_fee" />
-                            <ComInputCheckBox label="@lang["Allow amount zero"]" @bind-value="@model.is_allow_zero" />
-                            
                         }
+                        else
+                        {
+                            <TextInput @bind-text="@model.payment_type_group" is_read_only="model.is_build_in" label="@lang["Payment Type Group"]" />
+                            <TextInput @bind-text="@(gv.currencies.Where(r=>r.id==@model.currency_id).FirstOrDefault().currency_name_en)" is_read_only="model.is_build_in" label="@lang["Payment Type Group"]" />
+                             
+                        }
+
+
+                        <NumberInput label="@(lang["Payment Fee"] + " (%)")" @bind-text="@model.payment_fee" />
+                        <ComInputCheckBox label="@lang["Manual payment fee"]" @bind-value="@model.manual_payment_fee" />
+                        <NumberInputInt @bind-text="@model.sort_order" label="@lang["Sort Order"]" width="100%" />
+                        <TextInput label="@lang["Note"]" @bind-text="@model.note" type="textarea" />
+
+
+
+                        <ComInputCheckBox label="@lang["Is single payment"]" @bind-value="@model.is_single_payment" />
+                        <ComInputCheckBox label="@lang["FOC"]" @bind-value="@model.is_foc" />
+                        <ComInputCheckBox label="@lang["Allow Change"]" @bind-value="@model.allow_change" />
+
+                        <ComInputCheckBox label="@lang["Allow amount zero"]" @bind-value="@model.is_allow_zero" />
+                        <SelectStatus @bind-selected_value="@model.status" />
+
 
                     </UIContainerBox>
                     @if (!model.is_build_in)
