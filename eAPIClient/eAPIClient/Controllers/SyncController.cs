@@ -710,10 +710,14 @@ namespace eAPIClient.Controllers
                 List<NoteModel> _tempNewNotes = new List<NoteModel>();
              
                 List<CategoryNoteModel> _LocalCategoryNotes = new List<CategoryNoteModel>();
-              
-
-                List<NoteModel> _LocalNotes = new List<NoteModel>();
-                _LocalNotes = db.Notes.AsNoTracking().ToList();
+                try
+                {
+                    List<NoteModel> _LocalNotes = new List<NoteModel>();
+                    _LocalNotes = db.Notes.AsNoTracking().ToList();
+                }catch(Exception ex)
+                {
+                    var x = ex;
+                }
 
                 List<NoteCategory> data = new List<NoteCategory>(); 
                 data = JsonSerializer.Deserialize<List<NoteCategory>>(resp.Content.ToString());

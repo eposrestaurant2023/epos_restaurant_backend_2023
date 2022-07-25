@@ -8,9 +8,9 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>Haiven6nrReport/Reports</TargetReportFolder>
-    <TargetDatasetFolder>Haiven6nrReport/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>Haiven6nrReport/DataSources</TargetDatasourceFolder>
+    <TargetReportFolder>SopheakMongkulToekThla/Reports</TargetReportFolder>
+    <TargetDatasetFolder>SopheakMongkulToekThla/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>SopheakMongkulToekThla/DataSources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
   </PropertyGroup>

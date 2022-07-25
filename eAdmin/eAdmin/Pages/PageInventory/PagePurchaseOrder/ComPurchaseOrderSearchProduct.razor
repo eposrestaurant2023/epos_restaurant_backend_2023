@@ -22,7 +22,7 @@
 
     ProductModel product_model { get; set; }
     public bool is_selected_product { get; set; } = false;
-    public string filter_for_PO { get; set; } = " and (is_inventory_product eq true or is_ingredient_product eq true)";
+    public string filter_for_PO { get; set; } = "";//" and (is_inventory_product eq true or is_ingredient_product eq true)";
     ElementReference txt_search;
 
     public string placeholder
