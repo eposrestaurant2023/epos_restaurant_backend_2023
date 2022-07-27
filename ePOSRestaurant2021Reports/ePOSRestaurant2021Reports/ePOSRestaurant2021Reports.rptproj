@@ -8,11 +8,19 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
+<<<<<<< Updated upstream
     <TargetReportFolder>SopheakMongkulToekThla/Reports</TargetReportFolder>
     <TargetDatasetFolder>SopheakMongkulToekThla/Datasets</TargetDatasetFolder>
     <TargetDatasourceFolder>SopheakMongkulToekThla/DataSources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
+=======
+    <TargetReportFolder>ePOSHengHengSoupPP/Reports</TargetReportFolder>
+    <TargetDatasetFolder>ePOSHengHengSoupPP/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>ePOSHengHengSoupPP/DataSources</TargetDatasourceFolder>
+    <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
+    <TargetServerURL>http://win-l3prqgu0uqg:3344/ReportServer</TargetServerURL>
+>>>>>>> Stashed changes
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
     <FullPath>DebugLocal</FullPath>
@@ -77,6 +85,7 @@
     <DataSource Include="DataSource.rds" />
   </ItemGroup>
   <ItemGroup>
+    <Report Include="rptAuditTrailTransaction.rdl" />
     <Report Include="rptCashierShiftDetailA4.rdl" />
     <Report Include="rptCashierShiftList.rdl" />
     <Report Include="rptCashierShift_SaleProduct.rdl" />
