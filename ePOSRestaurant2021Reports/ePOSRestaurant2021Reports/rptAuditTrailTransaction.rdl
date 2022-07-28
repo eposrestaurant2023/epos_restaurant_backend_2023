@@ -96,16 +96,17 @@
             <Value>=Parameters!end_date.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>select business_branch_name,
+        <CommandText>select 
+                                     business_branch_name,
 		outlet_name,title,
 		description,
 		note,
-		created_date,
+		transaction_date,
 		created_by 
 	from tbl_history
-		where created_date between @start_date and @end_date
+		where transaction_date between @start_date and @end_date
 
-		 order by created_date desc</CommandText>
+		 order by transaction_date desc</CommandText>
       </Query>
       <Fields>
         <Field Name="business_branch_name">
@@ -128,8 +129,8 @@
           <DataField>note</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="created_date">
-          <DataField>created_date</DataField>
+        <Field Name="transaction_date">
+          <DataField>transaction_date</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="created_by">
@@ -827,14 +828,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="created_date">
+                        <Textbox Name="transaction_date">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!created_date.Value</Value>
+                                  <Value>=Fields!transaction_date.Value</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -846,7 +847,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>created_date</rd:DefaultName>
+                          <rd:DefaultName>transaction_date</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1213,7 +1214,7 @@
             <Top>0.02778in</Top>
             <Left>0.00003cm</Left>
             <Height>0.72917in</Height>
-            <Width>11.07999in</Width>
+            <Width>11.07998in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
