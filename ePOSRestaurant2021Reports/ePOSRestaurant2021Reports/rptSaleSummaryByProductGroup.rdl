@@ -1915,7 +1915,7 @@ select * from #tbl_sale_product order by shift_name
             <DataSetName>SaleProduct</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
-            <Width>7.26in</Width>
+            <Width>7.25999in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2293,7 +2293,7 @@ select * from #tbl_sale_product order by shift_name
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>0.22917in</Height>
+          <Height>1.17709in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
