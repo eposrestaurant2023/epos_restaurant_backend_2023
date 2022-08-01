@@ -77,6 +77,8 @@ namespace eAPIClient
             services.AddHttpClient<IHttpService, HttpService>();
             services.AddSingleton<IHostedService, EposRestaurantTask>();
 
+          
+
 
         }
 

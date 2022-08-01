@@ -33,7 +33,6 @@ namespace eAPIClient.Services
     public class SyncService : ISyncService
     {
         public IConfiguration config { get; }
-
         private readonly IHttpService http;
 
         string path = "";
@@ -396,8 +395,7 @@ namespace eAPIClient.Services
                             return false;
                         }
                         db.Histories.Update(_model);
-                        db.SaveChanges();
-                        sendHistoryAlertTelegram(_model);
+                        db.SaveChanges();                       
                         return true;
                     }
 
@@ -414,6 +412,70 @@ namespace eAPIClient.Services
                 Log.Error($"Sync history fail. Ex: {ex.ToString()}");
             }
             return false;
+        }
+
+        public async Task<bool> TelegramHistoryAlert(Guid id)
+        {
+            try
+            {
+                using (var db = new ApplicationDbContext(config))
+                {
+                    var _modelData = db.Histories.Where(r => r.id == id)
+                     .AsNoTrackingWithIdentityResolution();
+                    if (_modelData.Count() > 0)
+                    {
+                        var _model = _modelData.FirstOrDefault();
+                        _model.telegram_checked = true ;   
+                        db.Histories.Update(_model);
+                        db.SaveChanges();
+
+                        sendHistoryAlertTelegram(_model);
+                        return true;
+                    }
+
+                    else
+                    {
+                        Log.Error($"History data not exists. {id.ToString()}");
+                        return false;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Telegram history alert fail. Ex: {ex.ToString()}");
+            }
+            return false;
+        }
+
+        public void sendHistoryAlertTelegram(HistoryModel model)
+        {
+        
+            foreach (var t in Program.Telegrams)
+            {
+                var chk = t.actions.Where(r => r.name == model.title && r.allow_send).ToList();
+                if (chk.Any())
+                {
+                    var _t = chk.FirstOrDefault();                 
+                    string _msg_content = string.Format( _t.msg, 
+                                                        model.title,      //0
+                                                        model.document_number, 
+                                                        model.table_name, 
+                                                        model.transaction_date, 
+                                                        model.note, 
+                                                        string.Format(@"{0:"+model.currency_format+"}", model.amount),
+                                                         string.Format(@"{0:" + model.currency_format + "}", model.old_amount), 
+                                                        model.created_by, 
+                                                        model.created_date.ToString("dd-MM-yyyy hh:mm:ss tt"), 
+                                                        model.business_branch_name, 
+                                                        model.outlet_name, 
+                                                        model.station_name);
+
+                    string messaage = $"{_t.title}\n\n{_msg_content}";
+                    http.SendTelegram(t, messaage);
+                    System.Threading.Thread.Sleep(1000);
+                }
+            }
         }
 
         public async Task<bool> SyncCustomer(Guid id)
@@ -848,27 +910,12 @@ namespace eAPIClient.Services
             var resp = await http.ApiGet("GetTranslateText");
             if (resp.IsSuccess)
             {
-
                 return JsonSerializer.Deserialize<List<eShareModel.TranslateTextModel>>(resp.Content.ToString());
             }
             return new List<eShareModel.TranslateTextModel>();
         }
 
-        public void sendHistoryAlertTelegram(HistoryModel model)
-        {
-
-            string messaage = $"{model.title}\n{model.description}";
-            if (!string.IsNullOrEmpty(model.note))
-            {
-                messaage = messaage + $"\nNote: {model.note}";
-            }
-            messaage = messaage + $"\n-------------------------";
-            messaage = messaage + $"\nBy: {model.created_by} on {model.created_date.ToString("dd/MM/yyyy hh:mm:ss tt")} ";
-
-
-            http.SendTelegram(messaage);
-            System.Threading.Thread.Sleep(1000);
-        }
+        
         private System.Threading.Thread threadStart(Action action)
         {
             System.Threading.Thread thread = new System.Threading.Thread(() => { action(); });
@@ -883,14 +930,10 @@ namespace eAPIClient.Services
             if (is_sync_busy)
             {
                 http.SendBackendTelegram($"{business_branch_name}\nSync process  is busy.");
-
-
                 return;
             }
 
             is_sync_busy = true;
-
-
             http.SendBackendTelegram($"{business_branch_name}\nStart sync data");
             await SyncDataToAdminDatabase();
 
@@ -931,6 +974,9 @@ namespace eAPIClient.Services
                                 break;
                             case "history":
                                 await SyncHistory(Guid.Parse(r.id.ToString()));
+                                break;         
+                            case "history_telgram_alert":
+                                await TelegramHistoryAlert(Guid.Parse(r.id.ToString()));
                                 break;
                             case "customer":
                                 await SyncCustomer(Guid.Parse(r.id.ToString()));

@@ -73,6 +73,7 @@ namespace eAPIClient.Models
         public DateTime created_date { get; set; } = DateTime.Now;
 
         public bool is_synced { get; set; }
+        public bool telegram_checked { get; set; } = false;
 
         public string station_name { get; set; }
         public string outlet_name { get; set; }
@@ -80,9 +81,9 @@ namespace eAPIClient.Models
 
         public string table_name { get; set; }
 
+        public string shift_name { get; set; }
 
-
-
+        public string currency_format { get; set; }
 
 
     }

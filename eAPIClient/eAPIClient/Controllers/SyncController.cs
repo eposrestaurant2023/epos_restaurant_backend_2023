@@ -27,12 +27,12 @@ namespace eAPIClient.Controllers
         private readonly IHttpService http;
         private readonly IConfiguration config;
         private readonly AppService app;
-        public SyncController(ApplicationDbContext _db, IHttpService _http, IConfiguration _config, AppService _app)
+        public SyncController(ApplicationDbContext _db, IHttpService _http, IConfiguration _config)
         {
             db = _db;
             http = _http;
             config = _config;
-            app = _app;
+            
         }
 
     
@@ -285,8 +285,7 @@ namespace eAPIClient.Controllers
                         return BadRequest(_model);
                     }
                     db.Histories.Update(_model);
-                    db.SaveChanges();
-                    app.sendHistoryAlertTelegram(_model);
+                    db.SaveChanges();  
                     return Ok();
                 }
                 else
@@ -439,9 +438,6 @@ namespace eAPIClient.Controllers
         public async Task<ActionResult<List<ConfigDataModel>>> GetRemoteData(bool isFirstSetup=false)
         {
 
-
-
-
             string business_branch_id = config.GetValue<string>("business_branch_id");
             //run script prepare config data 
             var prepare = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data ", procedure_parameter = $"'{business_branch_id}'" });
@@ -548,10 +544,12 @@ namespace eAPIClient.Controllers
             var _resp = await http.ApiGet($"BusinessBranch({business_branch_id})");
             if (!_resp.IsSuccess)
             {
-             return   BadRequest();
-           
-            }
+             return   BadRequest();   
+            }          
+
+
             BusinessBranchModel business_branch = JsonSerializer.Deserialize<BusinessBranchModel>(_resp.Content.ToString());
+
             return Ok(business_branch);
         }
 

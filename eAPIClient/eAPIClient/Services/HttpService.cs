@@ -17,12 +17,13 @@ namespace eAPIClient.Services
     {
         Task<GetOdataResponse> ApiGetOData(string url);
         Task<GetResponse> ApiGet(string url);
-        Task SendTelegram (string message); 
+        Task SendTelegram (TelegramModel telegram, string message); 
         
         Task SendBackendTelegram (string message); 
         Task SendFileBackendTelegram (string path); 
         
         Task<PostReponse> ApiPost(string url, object obj = null);
+
 
         
 
@@ -30,8 +31,7 @@ namespace eAPIClient.Services
     public class HttpService : IHttpService
     {
 
-        private HttpClient http;
- 
+        private HttpClient http;            
 
         private IConfiguration _configuration;
        
@@ -153,29 +153,25 @@ namespace eAPIClient.Services
             }
         }
 
-        public async Task SendTelegram(string message)
+        public async Task SendTelegram(TelegramModel telegram, string message)
         {
-            string token = _configuration.GetValue<string>("telegram_alert_token");
-            string chatId = _configuration.GetValue<string>("telegram_chat_id");
-            var botClient = new TelegramBotClient(token);
-            using var cancellationToken = new CancellationTokenSource();
-            Message _message = await botClient.SendTextMessageAsync(chatId: chatId,text: message);
-
+                                                                           
+                var botClient = new TelegramBotClient(telegram.token);
+                using var cancellationToken = new CancellationTokenSource();
+                Message _message = await botClient.SendTextMessageAsync(chatId: telegram.chat_id, text: message);
         }
 
         public async Task SendBackendTelegram(string message)
         {
-            string token = _configuration.GetValue<string>("backEndTelegramConfig:access_token");
-            string chatId = _configuration.GetValue<string>("backEndTelegramConfig:chat_id"); 
-            var botClient = new TelegramBotClient(token);
+            var botClient = new TelegramBotClient(Program.TelegramSyncLog.token);
             using var cancellationToken = new CancellationTokenSource();
-            Message _message = await botClient.SendTextMessageAsync(chatId: chatId, text: message);  
+            Message _message = await botClient.SendTextMessageAsync(chatId: Program.TelegramSyncLog.chat_id, text: message);  
         }   
         
         public async Task SendFileBackendTelegram(string path)
         {
-            string token = _configuration.GetValue<string>("backEndTelegramConfig:access_token");
-            string chatId = _configuration.GetValue<string>("backEndTelegramConfig:chat_id"); 
+            string token = Program.TelegramSyncLog.token;
+            string chatId = Program.TelegramSyncLog.chat_id; 
             var botClient = new TelegramBotClient(token);
             using var cancellationToken = new CancellationTokenSource();
             Message _message = await botClient.SendTextMessageAsync(chatId: chatId, text: "test send backup");   

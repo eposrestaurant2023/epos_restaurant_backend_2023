@@ -81,8 +81,6 @@ namespace eAPIClient.Services
         }
         public   bool  IsSystemHasFeature(string feature_code)
         {
-
-            
             var config = db.ConfigDatas.Where(r=>r.config_type=="system_feature" ).FirstOrDefault();
             if (config != null)
             {
@@ -91,7 +89,6 @@ namespace eAPIClient.Services
                 if (system_features.Where(r => r.feature_code == feature_code).Any()){
                     return true;
                 }
-
             }
 
             return false;
@@ -99,15 +96,11 @@ namespace eAPIClient.Services
 
         public  List< OutletModel> AllOutlets()
         {
-
-
             var config = db.ConfigDatas.Where(r => r.config_type == "outlet_config").FirstOrDefault();
             if (config != null)
             {
                 List<OutletModel> outlets = JsonSerializer.Deserialize<List<OutletModel>>(config.data);
-
                 return outlets;
-
             }
 
             return new List<OutletModel>();
@@ -116,7 +109,6 @@ namespace eAPIClient.Services
 
         public BusinessBranchModel GetBusinessBranch()
         {
-
             var config = db.ConfigDatas.Where(r => r.config_type == "business_branch").FirstOrDefault();
             if (config != null)
             {
@@ -126,11 +118,8 @@ namespace eAPIClient.Services
                     return data.FirstOrDefault();
 
                 }
-
             }
             return null;
-
-
         }
         public String GetSettinValue(int id)
         {
@@ -141,12 +130,9 @@ namespace eAPIClient.Services
                 return data.FirstOrDefault().setting_value;
             }
             return null;
-
-
         }
-          public List<SettingModel> GetSetting()
+        public List<SettingModel> GetSetting()
         {
-
             var config = db.ConfigDatas.Where(r => r.config_type == "setting").FirstOrDefault();
             if (config != null)
             {
@@ -156,12 +142,9 @@ namespace eAPIClient.Services
                     return data;
 
                 }
-
             }
             return new List<SettingModel>();
-
-
-        }  
+        }
         
         public OutletModel GetOutletInfo(Guid id)
         {
@@ -172,7 +155,6 @@ namespace eAPIClient.Services
                 return data.FirstOrDefault();
             }
             return null;
-
 
         }
 
@@ -185,13 +167,7 @@ namespace eAPIClient.Services
                 return data.Where(r => r.id == id).FirstOrDefault();
             }
             return null;
-            
-        
         }
-
-
-       
-
         public void sendPrintRequest(PrintRequestModel model)
         {
 
@@ -204,21 +180,7 @@ namespace eAPIClient.Services
             // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
             System.IO.File.WriteAllText(Path.Combine(path, $"{Guid.NewGuid()}.json"),JsonSerializer.Serialize(model));
         }
-        public void sendHistoryAlertTelegram(HistoryModel model)
-        {
-
-            string messaage =$"{model.title}\n{model.description}";
-            if(!string.IsNullOrEmpty(model.note))
-            {
-                messaage = messaage + $"\nNote: {model.note}";
-            }
-            messaage = messaage + $"\n-------------------------";
-            messaage = messaage + $"\nBy: {model.created_by} on {model.created_date.ToString("dd/MM/yyyy hh:mm:ss tt")} ";
-
-
-            http.SendTelegram(messaage);
-            System.Threading.Thread.Sleep(1000);
-        }
+         
 
         public async Task<WorkingDayModel> GetWorkingDayInfor(WorkingDayModel model, int UserID)
         {
@@ -322,8 +284,7 @@ namespace eAPIClient.Services
             sync.sendSyncRequest();
 
             return model;
-        }
-
+        }  
 
     }
 }

@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
+using System.Security.Claims;         
+using System.Text.Json;
 using System.Threading.Tasks;
 using eAPIClient.Models;
-using Microsoft.AspNet.OData;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using NETCore.Encrypt;
+using Microsoft.AspNet.OData;               
+using Microsoft.AspNetCore.Mvc;            
+using Microsoft.Extensions.Configuration;    
 
 
 namespace eAPIClient.Controllers
@@ -34,6 +31,36 @@ namespace eAPIClient.Controllers
             try
             {
                 var data = db.ConfigDatas;
+
+          
+               
+                var alert = data.Where(r => r.config_type == "telegram");
+                if (alert.Any())
+                {
+                    try
+                    {
+                        string _val = alert.FirstOrDefault().data;
+                        Program.Telegrams = JsonSerializer.Deserialize<List<TelegramAlertModel>>(_val).ToList();
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+
+                var sync_logs = data.Where(r => r.config_type == "telegram_sync_logs");
+                if (sync_logs.Any())
+                {
+                    try
+                    {
+                        Program.TelegramSyncLog = JsonSerializer.Deserialize<TelegramModel>(sync_logs.FirstOrDefault().data);
+                    }
+                    catch (Exception ex)
+                    {
+                        //
+                    }
+                }  
+
                 return Ok(data);
             }
             catch

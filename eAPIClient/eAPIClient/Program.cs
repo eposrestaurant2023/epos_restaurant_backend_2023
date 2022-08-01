@@ -2,6 +2,7 @@ using eAPIClient.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
 using System.IO;
 
 namespace eAPIClient
@@ -13,26 +14,16 @@ namespace eAPIClient
             var builder = CreateHostBuilder(args);
             var host = builder.Build();
 
-
-
             var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
             var sync = services.GetRequiredService<ISyncService>();
             var env = services.GetRequiredService<IWebHostEnvironment>();
-            //string upload = env.ContentRootPath + "\\uploads";  
-            //if (!Directory.Exists(upload))
-            //{
-            //    Directory.CreateDirectory(upload);
-            //}
 
             string path = env.ContentRootPath + "\\logs";      
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
-            }
-
-
-
+            }      
             var watcher = new FileSystemWatcher(path);  
             watcher.NotifyFilter = NotifyFilters.Attributes
                                  | NotifyFilters.CreationTime
@@ -79,13 +70,15 @@ namespace eAPIClient
             watcherClearHistoryData.Created += sync.OnClearHistoryData;
             watcherClearHistoryData.Filter = "*.historydata";
             watcherClearHistoryData.IncludeSubdirectories = true;
-            watcherClearHistoryData.EnableRaisingEvents = true;
-
-
-
-
+            watcherClearHistoryData.EnableRaisingEvents = true;   
             host.Run();     
         }
+
+        public static List<TelegramAlertModel> Telegrams { get; set; } = new List<TelegramAlertModel>();
+
+       
+        
+        public static TelegramModel TelegramSyncLog { get; set; } = new TelegramModel();
 
 
 
@@ -95,17 +88,6 @@ namespace eAPIClient
                 {
                     webBuilder.UseStartup<Startup>();
                 })
-            // .ConfigureAppConfiguration((hostingContext, config) =>
-            // {
-            //     var x = hostingContext;
-            //     var y = config;
-            // })
-            //.ConfigureWebHost(config =>
-            //    {
-                    
-            //        config.UseUrls("http://*:5050");
-
-            //    })
             .UseWindowsService();
     }
 }
