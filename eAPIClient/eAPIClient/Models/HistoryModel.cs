@@ -57,7 +57,8 @@ namespace eAPIClient.Models
 
         [ForeignKey("expense_id")]
         public ExpenseModel expense { get; set; }
-        
+
+        public string expense_item { get; set; }
 
 
 

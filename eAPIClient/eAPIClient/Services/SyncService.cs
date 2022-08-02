@@ -469,7 +469,9 @@ namespace eAPIClient.Services
                                                         model.created_date.ToString("dd-MM-yyyy hh:mm:ss tt"), 
                                                         model.business_branch_name, 
                                                         model.outlet_name, 
-                                                        model.station_name);
+                                                        model.station_name,
+                                                        model.shift_name,
+                                                        model.expense_item);
 
                     string messaage = $"{_t.title}\n\n{_msg_content}";
                     http.SendTelegram(t, messaage);
