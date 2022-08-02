@@ -100,6 +100,7 @@ namespace eModels
 
         public string table_name { get; set; }
         public string sale_products { get; set; }
+        public string sale_payments { get; set; }
 
 
     }

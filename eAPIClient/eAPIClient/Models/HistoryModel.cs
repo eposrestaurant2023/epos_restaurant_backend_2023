@@ -60,6 +60,7 @@ namespace eAPIClient.Models
 
         public string expense_item { get; set; }
         public string sale_products { get; set; }
+        public string sale_payments { get; set; }
 
 
 
