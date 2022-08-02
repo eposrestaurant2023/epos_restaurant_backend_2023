@@ -131,7 +131,22 @@ namespace eAPI.Services
         {
             try
             {
-                string project_id = db.Settings.Where(r => r.id == 57).AsNoTracking().FirstOrDefault().setting_value;
+                var setting = db.Settings.Where(r => r.id == 57 || r.id==116).AsNoTracking();   //57 project id;       116 sync telegram log
+                string project_id = setting.Where(r => r.id == 57).FirstOrDefault().setting_value;
+                string telegram_sync_log = "";
+                var tsl = setting.Where(r => r.id == 116);
+                TelegramModel telegram = new TelegramModel();
+                try
+                {                       
+                    if (tsl.Any())
+                    {
+                        telegram_sync_log = tsl.FirstOrDefault().setting_value;
+                        JsonSerializer.Deserialize<TelegramModel>(telegram_sync_log);
+
+                    }
+                }
+                catch { }
+
 
                 string api_url = $"project({project_id})?";
                 api_url = api_url + $"$expand=customer,";
@@ -173,10 +188,15 @@ namespace eAPI.Services
 
                     db.Database.ExecuteSqlRaw("exec sp_update_system_after_synchronize_with_esoftix_backend");
 
-                    var message = $"{project.project_name}";
-                    message = message + "%0aCheck System License Successfully";
 
-                    await http.SendTelegram(message);
+                    if (telegram_sync_log != "")
+                    {
+                        var message = $"{project.project_name}";
+                        message = message + "%0aCheck System License Successfully";
+
+                       
+                        await http.SendTelegram(telegram.chat_id, telegram.token, message);
+                    }
 
                     return true;
                 }
@@ -186,7 +206,7 @@ namespace eAPI.Services
                     message = message + "%0a Check System License";
                     message = message + "%0a";
                     message = message + $"Backend Server Down";
-                    await http.SendTelegram(message);
+                    await http.SendTelegram(telegram.chat_id, telegram.token, message);
                 }
 
 
@@ -194,13 +214,27 @@ namespace eAPI.Services
             }
             catch (Exception e)
             {
-                var message = $"{project.project_name}";
-                 message = message + "%0a Check System License";
-                 message = message + "%0a" ;
-                 message = message + $"{e.Message}" ;
-                message = message + "%0a-----------------------";
-                message = message + $"%0a {e.ToString()}";
-                await http.SendTelegram(message);
+                var setting = db.Settings.Where(r => r.id == 116).AsNoTracking();  
+                string telegram_sync_log = "";                                    
+                TelegramModel telegram = new TelegramModel();
+                try
+                {
+                    if (setting.Any())
+                    {
+                        telegram_sync_log = setting.FirstOrDefault().setting_value;
+                        JsonSerializer.Deserialize<TelegramModel>(telegram_sync_log);
+                        var message = $"{project.project_name}";
+                        message = message + "%0a Check System License";
+                        message = message + "%0a";
+                        message = message + $"{e.Message}";
+                        message = message + "%0a-----------------------";
+                        message = message + $"%0a {e.ToString()}";
+                        await http.SendTelegram(telegram.chat_id, telegram.token, message);
+
+                    }
+                }
+                catch { }
+             
             }
             return false;
 
@@ -557,5 +591,11 @@ namespace eAPI.Services
         }
 
 
+    }
+
+    class TelegramModel
+    {
+        public string chat_id { get; set; }
+        public string token { get; set; }
     }
 }

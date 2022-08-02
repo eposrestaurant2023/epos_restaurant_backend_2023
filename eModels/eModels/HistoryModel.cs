@@ -99,6 +99,8 @@ namespace eModels
         public string business_branch_name { get; set; }
 
         public string table_name { get; set; }
+        public string sale_products { get; set; }
+
 
     }
 }

@@ -59,6 +59,7 @@ namespace eAPIClient.Models
         public ExpenseModel expense { get; set; }
 
         public string expense_item { get; set; }
+        public string sale_products { get; set; }
 
 
 

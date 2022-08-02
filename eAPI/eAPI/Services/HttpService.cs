@@ -15,7 +15,7 @@ namespace eAPI.Services
     public interface IHttpService
     {
 
-        Task<GetResponse> SendTelegram(string message);
+        Task<GetResponse> SendTelegram(string chat_id, string token, string message);
         Task<GetResponse> eSoftixApiGet(string url);
         Task<PostReponse> eSoftixApiPost(string url, object obj = null);
     }
@@ -129,14 +129,11 @@ namespace eAPI.Services
             }
         }
 
-        public async Task<GetResponse> SendTelegram(string message)
+        public async Task<GetResponse> SendTelegram(string chat_id,string token, string message)
         {
-
             HttpStatusCode StatusCode = new HttpStatusCode();
-            http.DefaultRequestHeaders.Add("ContentType", "application/json");
+            http.DefaultRequestHeaders.Add("ContentType", "application/json");   
 
-            string token = _configuration.GetValue<string>("backEndTelegramConfig:access_token");
-            string chat_id = _configuration.GetValue<string>("backEndTelegramConfig:chat_id");
             string url = $"{"https://api.telegram.org/bot"}{token}/sendMessage?chat_id={chat_id}&text={message.Replace("#", "")}";
             try
             {
