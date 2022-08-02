@@ -141,7 +141,7 @@ namespace eAPI.Services
                     if (tsl.Any())
                     {
                         telegram_sync_log = tsl.FirstOrDefault().setting_value;
-                        JsonSerializer.Deserialize<TelegramModel>(telegram_sync_log);
+                        telegram = JsonSerializer.Deserialize<TelegramModel>(telegram_sync_log);
 
                     }
                 }
@@ -222,7 +222,7 @@ namespace eAPI.Services
                     if (setting.Any())
                     {
                         telegram_sync_log = setting.FirstOrDefault().setting_value;
-                        JsonSerializer.Deserialize<TelegramModel>(telegram_sync_log);
+                        telegram = JsonSerializer.Deserialize<TelegramModel>(telegram_sync_log);
                         var message = $"{project.project_name}";
                         message = message + "%0a Check System License";
                         message = message + "%0a";

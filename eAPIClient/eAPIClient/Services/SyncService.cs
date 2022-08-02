@@ -471,7 +471,8 @@ namespace eAPIClient.Services
                                                         model.outlet_name, 
                                                         model.station_name,
                                                         model.shift_name,
-                                                        model.expense_item);
+                                                        model.expense_item,
+                                                        model.sale_products.Replace("^","  \n"));
 
                     string messaage = $"{_t.title}\n\n{_msg_content}";
                     http.SendTelegram(t, messaage);
