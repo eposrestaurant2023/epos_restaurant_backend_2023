@@ -90,4 +90,14 @@ namespace eAPIClient.Models
 
 
     }
+   public class TempSalePayment
+    {
+        public List<TempSalePaymentType> received { get; set; } = new List<TempSalePaymentType>();
+        public List<TempSalePaymentType> changed { get; set; } = new List<TempSalePaymentType>();
+    }
+    public class TempSalePaymentType
+    {
+        public string  type { get; set; }
+        public string  amt { get; set; }
+    }
 }

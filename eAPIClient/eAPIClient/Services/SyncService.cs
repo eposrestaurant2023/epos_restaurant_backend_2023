@@ -463,8 +463,8 @@ namespace eAPIClient.Services
                                                         model.table_name, 
                                                         model.transaction_date, 
                                                         model.note, 
-                                                        string.Format(@"{0:"+model.currency_format+"}", model.amount),
-                                                         string.Format(@"{0:" + model.currency_format + "}", model.old_amount), 
+                                                        string.Format(@"{0:"+(model.currency_format??"#")+"}", model.amount),
+                                                         string.Format(@"{0:" + (model.currency_format??"#") + "}", model.old_amount), 
                                                         model.created_by, 
                                                         model.created_date.ToString("dd-MM-yyyy hh:mm:ss tt"), 
                                                         model.business_branch_name, 
@@ -472,7 +472,36 @@ namespace eAPIClient.Services
                                                         model.station_name,
                                                         model.shift_name,
                                                         model.expense_item,
-                                                        model.sale_products.Replace("^","  \n"));
+                                                        (model.sale_products??"").Replace("^","  \n")
+                                                        );
+
+                    if(!string.IsNullOrEmpty(model.sale_payments) || model.sale_payments!="[]")
+                    {
+                        try
+                        {
+                            var hsp = JsonSerializer.Deserialize<TempSalePayment>(model.sale_payments??"{}");
+
+                            string _received = "";
+                            string _changed = "";
+                            hsp.received.ForEach(r =>
+                            {
+                                _received += $"{r.type}: {r.amt}\n";
+                            });
+                            hsp.changed.ForEach(r =>
+                            {
+                                _changed += $"{r.type}: {r.amt}\n";
+                            });
+
+                            _msg_content = _msg_content.Replace("^RP", $"\n{_received}{(_changed!=""?$"\n----------Changed Amount (ប្រាក់អាប់) ---------\n{_changed}":"")}");
+                        }
+                        catch {
+                            _msg_content = _msg_content.Replace("^RP", "");
+                        }   
+                    }
+                    else
+                    {
+                        _msg_content = _msg_content.Replace("^RP", "");
+                    }
 
                     string messaage = $"{_t.title}\n\n{_msg_content}";
                     http.SendTelegram(t, messaage);
