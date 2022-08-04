@@ -492,7 +492,7 @@ namespace eAPIClient.Services
                                 _changed += $"{r.type}: {r.amt}\n";
                             });
 
-                            _msg_content = _msg_content.Replace("^RP", $"\n{_received}{(_changed!=""?$"\n----------Changed Amount (ប្រាក់អាប់) ---------\n{_changed}":"")}");
+                            _msg_content = _msg_content.Replace("^RP", $"\n{_received}{(_changed!=""?$"\n*** Changed Amount (ប្រាក់អាប់)\n{_changed}":"")}");
                         }
                         catch {
                             _msg_content = _msg_content.Replace("^RP", "");
