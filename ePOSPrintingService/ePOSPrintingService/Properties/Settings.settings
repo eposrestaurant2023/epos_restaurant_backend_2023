@@ -169,13 +169,6 @@
     <Setting Name="CashierPrinter" Type="System.String" Scope="User">
       <Value Profile="(Default)">Cashier Printer</Value>
     </Setting>
-    <Setting Name="Telegram" Type="System.String" Scope="User">
-      <Value Profile="(Default)">{
-    "token": "593655431:AAH6x4ncKNsxwj2wlaV2WPS4iIB0O2qRPmw",
-    "chat_id": "-545894511",
-    "image_path":"C:\\Program Files\\ESTC\\ePOS\\watcher\\telegram\\"
-}</Value>
-    </Setting>
     <Setting Name="BaseAPIURL" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://192.168.10.13:9697/restaurant_client_api/api/</Value>
     </Setting>

@@ -114,6 +114,7 @@
     <Compile Include="Models\DynamicDataModel.cs" />
     <Compile Include="Models\GrandTotalModel.cs" />
     <Compile Include="Models\ReceiptListModel.cs" />
+    <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Models\SaleModel.cs" />
     <Compile Include="Models\SalePaymentModel.cs" />
     <Compile Include="Models\SaleProductModel.cs" />

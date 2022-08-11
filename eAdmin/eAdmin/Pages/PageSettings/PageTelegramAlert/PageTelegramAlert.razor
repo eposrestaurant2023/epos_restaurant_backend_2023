@@ -1,7 +1,92 @@
 ﻿@page "/setting/telegramalert"
+@inherits PageTelegramAlertCore
+<Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
+@if (!is_loading && !is_error)
+{
+    <Title Value="@lang["Telegram Alert"]"></Title>
+    <PageContainer roles="@gv.GetRole("telegram_alert")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["Telegram Alert"]
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                <RefreshButton OnClick="@OnInitializedAsync" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <MudTabs PanelClass="pa-6">
+                    <MudTabPanel Text="Message format Index"  OnClick="@(() => { is_message_format = true; })">
+                             <ComTelegramMessageFormat/>
+                    </MudTabPanel>
+                    @foreach (var b in gv.business_branch_by_role)
+                    {
+            <MudTabPanel OnClick="@(() => { is_message_format = false; })" Text="@b.business_branch_name_en">
+                <hr />
+                @if (gv.business_branch_has_feature(b.id.ToString(), "TA"))
+                {
+                    <AddButton title="New Channel" OnClick="@(()=>OnCreateNewChannel_Click(b.id, telegram_alert_list.FirstOrDefault()))">@lang["New Channel"]</AddButton>
+                    <hr />
+                    foreach (var t in telegram_alert_list.Where(r => r.business_branch_id == b.id))
+                    {
+                        <MudExpansionPanels MultiExpansion="true">
+                            <MudExpansionPanel Class="mb-2" Text="@($"CHAT_ID: {t.chat_id}")">
+                                <hr />
+                                <TextInput label="@(lang["CHAT_ID"])" @bind-text="@(t.chat_id)" placeholder="chat id" />
+                                <TextInput label="@(lang["TOKEN"])" @bind-text="@(t.token)" placeholder="token" />
 
-<h3>Comming soon</h3>
+                                @if (telegram_alert_list.Count() > 1)
+                                {
+                                    <Button icon="deleted" title="New Channel" OnClick="@(()=>OnDeletedChannel_Click(b.id, t))">@lang["Delete Channel"]</Button>
+                                    <hr />
+                                }
 
-@code {
+                                <div class="uk-overflow-auto table-scroll">
+                                    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                        <tr>
+                                            <ThAuto>@lang["Title"]</ThAuto>
+                                            <ThAuto>@lang["Message"]</ThAuto>
+                                            <ThCenter>@lang["Allow Send"]</ThCenter>
+                                        </tr>
+                                        @foreach (var a in t.actions)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <i>@(a.name) </i><br />
+                                                    <TextInput @bind-text="@(a.title)" placeholder="Title" />
+                                                </td>
+                                                <td><TextArea @bind-Value="@(a.msg)" Row="4" PlaceHolder="Message" /></td>
+                                                <TdCenter>
+                                                    <ComInputCheckBox value="@a.allow_send" valueChanged="@(()=>OnAllowSend_Click(a))" />
+                                                </TdCenter>
+                                            </tr>
+                                        }
+
+                                    </table>
+                                </div>
+                            </MudExpansionPanel>
+                        </MudExpansionPanels>
+                    }
+                }
+                else
+                {
+                    <span><b>@(b.business_branch_name_en)</b> is not allow with this feature.</span>
+                }
+
+            </MudTabPanel>
+             }      
+            </MudTabs>
+            </PageBody>
+        @if(!is_message_format) { 
+            <PageFooter>
+                <FooterCenter>
+                    <ComSavingFormButton is_loading="@is_saving" is_show_cancel_back="false" is_show_save_action="true" OnSave="@Save_Click" />
+                </FooterCenter>
+            </PageFooter>
+        }
+    </PageContainer>
 
 }

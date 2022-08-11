@@ -116,20 +116,6 @@ namespace ePOSPrintingService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("{\r\n    \"token\": \"593655431:AAH6x4ncKNsxwj2wlaV2WPS4iIB0O2qRPmw\",\r\n    \"chat_id\": " +
-            "\"-545894511\",\r\n    \"image_path\":\"C:\\\\Program Files\\\\ESTC\\\\ePOS\\\\watcher\\\\telegra" +
-            "m\\\\\"\r\n}")]
-        public string Telegram {
-            get {
-                return ((string)(this["Telegram"]));
-            }
-            set {
-                this["Telegram"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.10.13:9697/restaurant_client_api/api/")]
         public string BaseAPIURL {
             get {

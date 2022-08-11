@@ -25,7 +25,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
-using File = System.IO.File;
+using File = System.IO.File;               
 
 namespace ePOSPrintingService
 {
@@ -64,12 +64,14 @@ namespace ePOSPrintingService
                 LabelPrinterName = Properties.Settings.Default.LabelPrinterName;
                 CashierPrinter = Properties.Settings.Default.CashierPrinter;
                 string str_receipt_list = Properties.Settings.Default.ReceiptSettings.Replace("\r\n", "");
-                string str_telegram_setting = Properties.Settings.Default.Telegram.Replace("\r\n", "");
-
                 ReceiptLists = JsonSerializer.Deserialize<List<ReceiptListModel>>(str_receipt_list);
-                telegram_setting = JsonSerializer.Deserialize<TelegramSettingModel>(str_telegram_setting);
+                translate_caches = new List<TranslateCacheModel>();
 
-                translate_caches = new List<TranslateCacheModel>();  
+                TelegramFileWatcherPath = $"{FileWatcherPath}\\telegram\\";
+                if(!Directory.Exists(TelegramFileWatcherPath))
+                {
+                    Directory.CreateDirectory(TelegramFileWatcherPath);
+                }
                 Task.Factory.StartNew(async () =>
                 {     
                    await GetTranslateText("en");
@@ -133,16 +135,14 @@ namespace ePOSPrintingService
             }
 
             return n;
-        }
-
-
-
-        public static string DBConnection { get; set; }
+        }    
+        
         public static string FileWatcherPath { get; set; }
+        public static string TelegramFileWatcherPath { get; set; }
         public static string LabelPrinterName { get; set; }
         public static string CashierPrinter { get; set; }
         public static List<ReceiptListModel> ReceiptLists { get; set; }
-        public static TelegramSettingModel telegram_setting { get; set; }  
+      
         public static bool IsPrintSuccess { get; set; }
 
 
@@ -212,7 +212,7 @@ namespace ePOSPrintingService
                 WriteToFile(ex.ToString());
             }
         }
-        public static void SendTelegramAlert(LocalReport report, string caption)
+        public static void SendTelegramAlert(LocalReport report, string actionName, TelegramMessageParamModel param)
         {
             try
             {
@@ -232,7 +232,7 @@ namespace ePOSPrintingService
                 string mimeType = string.Empty;
                 string encoding = string.Empty;
                 string extension = string.Empty; 
-                m_streams = new List<Stream>();
+                m_streams = new List<Stream>();    
 
                 Byte[] mybytes = report.Render("Image", deviceInfo, out mimeType, out encoding, out extension, out streamIds, out warnings);
                 TypeConverter tc = TypeDescriptor.GetConverter(typeof(Bitmap));
@@ -241,9 +241,7 @@ namespace ePOSPrintingService
                 {
                     try
                     {
-                       SendTelegramImage($"{telegram_setting.image_path}{file_name}", caption);  
-                       
-                       
+                       SendTelegramImage($"{TelegramFileWatcherPath}{file_name}", actionName,param);
                     }
                     catch (Exception ex)
                     {
@@ -270,29 +268,77 @@ namespace ePOSPrintingService
             }
         }
 
-        private static async Task SendTelegramImage(string imagePath, string caption)
+        private static async Task SendTelegramImage(string imagePath, string actionName, TelegramMessageParamModel param)
         {  
             try
             {
-                
-                TelegramBotClient Bot = new TelegramBotClient(telegram_setting.token);
-                using (var file = new FileStream(imagePath, FileMode.Open))
+                ConfigDataModel configData = new ConfigDataModel();
+                var resp = await GetApi("configdata?config_type=telegram");
+                if (resp.IsSuccess)
                 {
-                    Stream s = new MemoryStream(getByteImage(file));
-                    await Bot.SendChatActionAsync(telegram_setting.chat_id, ChatAction.UploadPhoto);
-
-                    await Bot.SendPhotoAsync(
-                        chatId: telegram_setting.chat_id,
-                        photo: new InputOnlineFile(s),
-                        caption: caption
-                    );
-                    s.Close();
-                    file.Dispose();
-                    File.Delete($"{imagePath}");
-
+                    configData = JsonSerializer.Deserialize<ConfigDataModel>(resp.Content.ToString());
                 }
+                if (configData.data != null && configData.data!="")
+                {
+                    //get business branch 
+                    List<BusinessBranchModel> businessBranches = new List<BusinessBranchModel>();
+                    string business_branch_name = "";
+                    var respBusi = await GetApi("configdata?config_type=business_branch");
+                    if (respBusi.IsSuccess)
+                    {
 
-                             
+                        var   confBus = JsonSerializer.Deserialize<ConfigDataModel>(respBusi.Content.ToString());
+                        if(confBus.data != null && confBus.data != "")
+                        {
+                            businessBranches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(confBus.data);
+                            if (businessBranches.Any())
+                            {
+                                business_branch_name = businessBranches.FirstOrDefault().business_branch_name_en;
+                            }
+                        }
+                      
+                    }
+
+
+                    List<TelegramAlertModel> telegrams = new List<TelegramAlertModel>();
+                    telegrams = JsonSerializer.Deserialize<List<TelegramAlertModel>> (configData.data);
+
+                    foreach (var t in telegrams)
+                    {
+                        var actions = t.actions.Where(r => r.allow_send && r.name == actionName);
+                        if (actions.Any())
+                        { 
+                            var action = actions.FirstOrDefault();
+
+                            string _msg = string.Format(action.msg,
+                                                        param.document_number,
+                                                        business_branch_name,
+                                                        param.outlet_name,
+                                                        param.station_name,
+                                                        param.shift_name,
+                                                        param.printed_by,
+                                                        param.printed_date.ToString("dd-MM-yyyy")
+                                                        );
+
+                            TelegramBotClient Bot = new TelegramBotClient(t.token);
+                            using (var file = new FileStream(imagePath, FileMode.Open))
+                            {
+                                Stream s = new MemoryStream(getByteImage(file));
+                                await Bot.SendChatActionAsync(t.chat_id, ChatAction.UploadPhoto);
+                                await Bot.SendPhotoAsync(
+                                    chatId: t.chat_id,
+                                    photo: new InputOnlineFile(s),
+                                    caption: $"{action.title}\n\n{_msg}"
+                                ); 
+                                s.Close();
+                                file.Dispose();
+                               
+                            }
+                        }
+                    }
+
+                    File.Delete($"{imagePath}");
+                }
             }
             catch (Exception _ex)
             {
@@ -313,10 +359,6 @@ namespace ePOSPrintingService
 
             ev.Graphics.FillRectangle(Brushes.White, adjustedRect);
             ev.Graphics.DrawImage(pageImage, adjustedRect);
-
-
-
-
             m_currentPageIndex++;
             ev.HasMorePages = (m_currentPageIndex < m_streams.Count);
         }
@@ -452,7 +494,7 @@ namespace ePOSPrintingService
                       GraphicsUnit.Pixel);
                 }
                 string file_name = Guid.NewGuid() + ".jpg";
-                target.Save(telegram_setting.image_path + file_name);   
+                target.Save(TelegramFileWatcherPath + file_name);   
                 return file_name;
 
             }
@@ -690,8 +732,22 @@ namespace ePOSPrintingService
 
                     Print(report, receipt, printer_name, Convert.ToInt16(copies));
 
+                    if(   sale_data.Rows .Count >0)
+                    {
+                        DataRow row = sale_data.Rows[0];
+                        TelegramMessageParamModel param = new TelegramMessageParamModel()
+                        {
+                            document_number = row["sale_number"].ToString(),
+                            outlet_name = row["outlet_name_en"].ToString(),
+                            station_name = row["station_name_en"].ToString(),
+                            shift_name = row["shift_name"].ToString(),
+                            printed_by = row["last_modified_by"].ToString(),
+                            printed_date = Convert.ToDateTime(row["last_modified_date"].ToString()),
 
-                    Thread t = ThreadStart(() => SendTelegramAlert(report,  "Print Sale Invoice"));
+                        }; 
+                        Thread t = ThreadStart(() => SendTelegramAlert(report, "PrintInvoiceResquestService", param));
+                    }
+
                     IsPrintSuccess = true;
                 }    
             }
@@ -863,8 +919,24 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("SalePaymentChange", sale_payment_change_data));
 
        
-                Print(report, receipt, printer_name, Convert.ToInt16(copies));   
-                Thread t = ThreadStart(() => SendTelegramAlert(report, is_reprint ? "Re Print Receipt" : "Print Receipt"));  
+                Print(report, receipt, printer_name, Convert.ToInt16(copies));
+
+
+                if (sale_data.Rows.Count > 0)
+                {
+                    DataRow row = sale_data.Rows[0];
+                    TelegramMessageParamModel param = new TelegramMessageParamModel()
+                    {
+                        document_number = row["document_number"].ToString(),
+                        outlet_name = row["outlet_name_en"].ToString(),
+                        station_name = row["station_name_en"].ToString(),
+                        shift_name = row["shift_name"].ToString(),
+                        printed_by = row["last_modified_by"].ToString(),
+                        printed_date = Convert.ToDateTime(row["last_modified_date"].ToString()),
+                    };
+
+                    Thread t = ThreadStart(() => SendTelegramAlert(report, is_reprint ? "RePrintReceiptService" : "PrintReceiptService", param));
+                }
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -914,7 +986,23 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
  
                 Print(report, receipt, printer_name, Convert.ToInt16(receipt.number_receipt_copies));
-                Thread t = ThreadStart(() => SendTelegramAlert(report, is_reprint ? "Re Print Park Item Receipt" : "Print Park Item Receipt"));
+
+
+                if (sale_data.Rows.Count > 0)
+                {
+                    DataRow row = sale_data.Rows[0];
+                    TelegramMessageParamModel param = new TelegramMessageParamModel()
+                    {
+                        document_number = row["document_number"].ToString(),
+                        outlet_name = row["outlet_name_en"].ToString(),
+                        station_name = row["station_name_en"].ToString(),
+                        shift_name = row["shift_name"].ToString(),
+                        printed_by = row["last_modified_by"].ToString(),
+                        printed_date = Convert.ToDateTime(row["last_modified_date"].ToString()),
+                    };
+
+                    Thread t = ThreadStart(() => SendTelegramAlert(report, is_reprint ? "RePrintParkItemReceiptService" : "PrintParkItemReceipt",param));
+                }
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -974,7 +1062,20 @@ namespace ePOSPrintingService
 
      
                 Print(report, receipt,printer_name, 1);
-                Thread t = ThreadStart(() => SendTelegramAlert(report, "Print Deleted Order"));
+                if (sale_data.Rows.Count > 0)
+                {
+                    DataRow row = sale_data.Rows[0];
+                    TelegramMessageParamModel param = new TelegramMessageParamModel()
+                    {
+                        document_number = row["document_number"].ToString(),
+                        outlet_name = row["outlet_name_en"].ToString(),
+                        station_name = row["station_name_en"].ToString(),
+                        shift_name = row["shift_name"].ToString(),
+                        printed_by = row["last_modified_by"].ToString(),
+                        printed_date = Convert.ToDateTime(row["last_modified_date"].ToString()),
+                    };
+                    Thread t = ThreadStart(() => SendTelegramAlert(report, "PrintDeletedOrderService",param));
+                }
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -1036,8 +1137,21 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));
 
       
-                Print(report, receipt,printer_name, 1);   
-                Thread t = ThreadStart(() => SendTelegramAlert(report, $"Close working day report {working_day.FirstOrDefault().working_day_number}"));   
+                Print(report, receipt,printer_name, 1);
+
+                if (working_day.Any())
+                {
+                    var wd = working_day.FirstOrDefault();
+                    TelegramMessageParamModel param = new TelegramMessageParamModel()
+                    {
+                        document_number =wd.working_day_number,
+                        outlet_name = wd.outlet_name_en,
+                        station_name = wd.closed_station_name_en,
+                        printed_by = printed_by,
+                    };
+
+                    Thread t = ThreadStart(() => SendTelegramAlert(report, $"PrintCloseWorkingDayReportService",param));
+                }
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -1104,8 +1218,18 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));
 
           
-                Print(report, receipt, printer_name, 1);  
-                Thread t = ThreadStart(() => SendTelegramAlert(report, $"Close working day - Sale Product Report  {working_day.FirstOrDefault().working_day_number}"));  
+                Print(report, receipt, printer_name, 1);
+
+                var wd = working_day.FirstOrDefault();
+                TelegramMessageParamModel param = new TelegramMessageParamModel()
+                {
+                    document_number = wd.working_day_number,
+                    outlet_name = wd.outlet_name_en,
+                    station_name = wd.closed_station_name_en,
+                    printed_by = printed_by,
+                };
+                Thread t = ThreadStart(() => SendTelegramAlert(report, $"PrintCloseWorkingDaySaleProductReportService", param));  
+
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -1158,8 +1282,18 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));
    
 
-                Print(report, receipt, printer_name, 1); 
-                Thread t = ThreadStart(() => SendTelegramAlert(report, $"Close working day - Sale Transaction Report  {working_day.FirstOrDefault().working_day_number}"));  
+                Print(report, receipt, printer_name, 1);
+
+                var wd = working_day.FirstOrDefault();
+                TelegramMessageParamModel param = new TelegramMessageParamModel()
+                {
+                    document_number = wd.working_day_number,
+                    outlet_name = wd.outlet_name_en,
+                    station_name = wd.closed_station_name_en,
+                    printed_by = printed_by,
+                };
+                Thread t = ThreadStart(() => SendTelegramAlert(report, $"PrintCloseWorkingDaySaleTransactionReportService", param)); 
+                
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -1218,7 +1352,17 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(_translate_text)));     
 
                 Print(report, receipt,printer_name, 1);
-                SendTelegramAlert(report, $"Close cashier shift - Sale summary report  {cashier_shift.FirstOrDefault().cashier_shift_number}");
+
+                var cs = cashier_shift.FirstOrDefault();
+                TelegramMessageParamModel param = new TelegramMessageParamModel()
+                {
+                    document_number = cs.working_day_number,
+                    outlet_name = cs.outlet_name_en,
+                    station_name = cs.closed_station_name_en,
+                    printed_by = printed_by,
+                };
+                Thread t = ThreadStart(() => SendTelegramAlert(report, $"PrintCloseCashierShiftSaleSummaryReportService", param));    
+
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -1272,7 +1416,16 @@ namespace ePOSPrintingService
 
                 Print(report, receipt,printer_name, 1);
 
-                SendTelegramAlert(report, $"Close cashier shift - Sale transaction report  {cashier_shift.FirstOrDefault().cashier_shift_number}");
+                var cs = cashier_shift.FirstOrDefault();
+                TelegramMessageParamModel param = new TelegramMessageParamModel()
+                {
+                    document_number = cs.working_day_number,
+                    outlet_name = cs.outlet_name_en,
+                    station_name = cs.closed_station_name_en,
+                    printed_by = printed_by,
+                };
+                Thread t = ThreadStart(() => SendTelegramAlert(report, $"PrintCloseCashierShiftSaleTransactionService", param));
+
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -1337,7 +1490,15 @@ namespace ePOSPrintingService
 
                 Print(report, receipt,printer_name, 1);
 
-                SendTelegramAlert(report, $"Close cashier shift - Sale product report  {cashier_shift.FirstOrDefault().cashier_shift_number}");
+                var cs = cashier_shift.FirstOrDefault();
+                TelegramMessageParamModel param = new TelegramMessageParamModel()
+                {
+                    document_number = cs.working_day_number,
+                    outlet_name = cs.outlet_name_en,
+                    station_name = cs.closed_station_name_en,
+                    printed_by = printed_by,
+                };
+                Thread t = ThreadStart(() => SendTelegramAlert(report, $"PrintCloseCashierShiftSaleProductReportService", param));                 
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -1371,6 +1532,33 @@ namespace ePOSPrintingService
                 return new List<DynamicDataModel>();   
             }
         }
+        public static async Task<GetResponse> GetApi(string query)
+        {
+
+            try
+            {
+                System.Net.HttpStatusCode StatusCode = new System.Net.HttpStatusCode();
+                var client = new RestClient(Properties.Settings.Default.BaseAPIURL);
+                var request = new RestRequest(query);
+                var resp = await client.GetAsync(request);
+
+                StatusCode = resp.StatusCode;
+                if (resp.IsSuccessful)
+                {
+                    var jsonString = resp.Content.ToString();
+                    return new GetResponse(true, jsonString);
+                }
+
+
+                return new GetResponse(false, StatusCode);
+            }
+            catch (Exception ex)
+            {
+                WriteToFile(ex.Message + "\n" + ex.ToString());
+                return new GetResponse(false, 0);
+            }
+        }
+
 
 
         public static async Task<List<DynamicDataModel>> GetTranslateText(string language_code = "en")

@@ -48,44 +48,44 @@
                 {
                     @if (stations.Any())
                     {
-            <MudTabPanel OnClick="@(() => { show_tax_rule = false; })" Text="@b.business_branch_name_en">
-                @if (b.outlets.Any())
-                {
-                    @foreach (var o in b.outlets)
-                    {
-                        if (stations.Where(r => r.outlet_id == o.id).Any())
+                        <MudTabPanel OnClick="@(() => { show_tax_rule = false; })" Text="@b.business_branch_name_en">
+                        @if (b.outlets.Any())
                         {
-                            foreach (var s in stations.Where(r => r.outlet_id == o.id).ToList())
+                            @foreach (var o in b.outlets)
                             {
-                                <UIGridCenter>
-                                    <UIContainerBox Title="@s.station_name_en">
-                                        <NumberInput @bind-text="@s.tax_1_rate" label="@($"{tax_rule.tax_1_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
-                                        <NumberInput @bind-text="@s.tax_1_taxable_rate" label="@($"Percentage of sale price for calculate {tax_rule.tax_1_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
-                                        <Spacing Number="8" />
-                                        <hr />
-                                        <Spacing Number="8" />
-                                        <NumberInput @bind-text="@s.tax_2_rate" label="@($"{tax_rule.tax_2_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
-                                        <NumberInput @bind-text="@s.tax_2_taxable_rate" label="@($"Percentage of sale price for calculate {tax_rule.tax_2_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
-                                        <Spacing Number="8" />
-                                        <hr />
-                                        <Spacing Number="8" />
-                                        <NumberInput @bind-text="@s.tax_3_rate" label="@($"{tax_rule.tax_3_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
-                                        <NumberInput @bind-text="@s.tax_3_taxable_rate" label="@($"Percentage of sale price for calculate {tax_rule.tax_3_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
+                                if (stations.Where(r => r.outlet_id == o.id).Any())
+                                {
+                                    foreach (var s in stations.Where(r => r.outlet_id == o.id).ToList())
+                                    {
+                                        <UIGridCenter>
+                                            <UIContainerBox Title="@s.station_name_en">
+                                                <NumberInput @bind-text="@s.tax_1_rate" label="@($"{tax_rule.tax_1_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
+                                                <NumberInput @bind-text="@s.tax_1_taxable_rate" label="@($"Percentage of sale price for calculate {tax_rule.tax_1_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
+                                                <Spacing Number="8" />
+                                                <hr />
+                                                <Spacing Number="8" />
+                                                <NumberInput @bind-text="@s.tax_2_rate" label="@($"{tax_rule.tax_2_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
+                                                <NumberInput @bind-text="@s.tax_2_taxable_rate" label="@($"Percentage of sale price for calculate {tax_rule.tax_2_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
+                                                <Spacing Number="8" />
+                                                <hr />
+                                                <Spacing Number="8" />
+                                                <NumberInput @bind-text="@s.tax_3_rate" label="@($"{tax_rule.tax_3_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
+                                                <NumberInput @bind-text="@s.tax_3_taxable_rate" label="@($"Percentage of sale price for calculate {tax_rule.tax_3_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
 
-                                    </UIContainerBox>
-                                </UIGridCenter>
+                                            </UIContainerBox>
+                                        </UIGridCenter>
+                                    }
+                                }
+
                             }
                         }
-
-                    }
-                }
-                else
-                {
-                    <ComEmptyTemplate empty="There is no outlet." />
-                }
-            </MudTabPanel>
+                        else
+                        {
+                            <ComEmptyTemplate empty="There is no outlet." />
                         }
-                    }
+                        </MudTabPanel>
+                     }
+                 }
                 </MudTabs>
         </PageBody>
         <PageFooter>
