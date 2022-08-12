@@ -38,11 +38,12 @@
                                 <TextInput label="@(lang["CHAT_ID"])" @bind-text="@(t.chat_id)" placeholder="chat id" />
                                 <TextInput label="@(lang["TOKEN"])" @bind-text="@(t.token)" placeholder="token" />
 
-                                @if (telegram_alert_list.Count() > 1)
+                                @if (telegram_alert_list.Where(r => r.business_branch_id == b.id).Count() > 1)
                                 {
                                     <Button icon="deleted" title="New Channel" OnClick="@(()=>OnDeletedChannel_Click(b.id, t))">@lang["Delete Channel"]</Button>
-                                    <hr />
+
                                 }
+                                <hr />
 
                                 <div class="uk-overflow-auto table-scroll">
                                     <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
