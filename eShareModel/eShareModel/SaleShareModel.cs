@@ -134,6 +134,8 @@ namespace eShareModel
 
         public string kitchen_message_text { get; set; }
 
+        public string sale_seat { get; set; }
+
 
     }
 }
