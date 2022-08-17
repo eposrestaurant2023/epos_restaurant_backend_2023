@@ -410,6 +410,102 @@
                 <TablixCell />
               </TablixCells>
             </TablixRow>
+            <TablixRow>
+              <Height>0.17708in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox7">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>កៅអី#: </Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>7.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!sale_seat.Value</Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>7.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox7</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <VerticalAlign>Top</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.17708in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox25">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>ចំណាំ: </Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>7.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!sale_note.Value</Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>7.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox25</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <VerticalAlign>Top</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
           </TablixRows>
         </TablixBody>
         <TablixColumnHierarchy>
@@ -430,12 +526,22 @@
                 <Hidden>=Fields!customer_name.Value=""</Hidden>
               </Visibility>
             </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=Fields!sale_seat.Value=""</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=Fields!sale_note.Value=""</Hidden>
+              </Visibility>
+            </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Sale</DataSetName>
         <Top>1.22369in</Top>
         <Left>0.00625in</Left>
-        <Height>1.14272in</Height>
+        <Height>1.49689in</Height>
         <Width>2.77084in</Width>
         <Style>
           <Border>
@@ -642,7 +748,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SalePayment</DataSetName>
-        <Top>5.08038in</Top>
+        <Top>5.44288in</Top>
         <Left>0.01353in</Left>
         <Height>0.45833in</Height>
         <Width>2.7575in</Width>
@@ -775,7 +881,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SalePaymentChange</DataSetName>
-        <Top>5.59621in</Top>
+        <Top>5.95871in</Top>
         <Left>0.01145in</Left>
         <Height>0.21875in</Height>
         <Width>2.76043in</Width>
@@ -791,7 +897,7 @@
         </Style>
       </Tablix>
       <Line Name="Line3">
-        <Top>5.83996in</Top>
+        <Top>6.20246in</Top>
         <Left>2.77458in</Left>
         <Height>0in</Height>
         <Width>-2.76582in</Width>
@@ -971,7 +1077,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Setting</DataSetName>
-        <Top>5.88769in</Top>
+        <Top>6.25019in</Top>
         <Left>0.01084in</Left>
         <Height>0.51042in</Height>
         <Width>2.76167in</Width>
@@ -2034,7 +2140,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Sale</DataSetName>
-        <Top>3.44176in</Top>
+        <Top>3.80426in</Top>
         <Left>0.0073in</Left>
         <Height>1.34375in</Height>
         <Width>2.77083in</Width>
@@ -2577,7 +2683,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SaleProduct</DataSetName>
-        <Top>2.4001in</Top>
+        <Top>2.7626in</Top>
         <Left>0.01353in</Left>
         <Height>0.96877in</Height>
         <Width>2.76043in</Width>
@@ -2589,7 +2695,7 @@
         </Style>
       </Tablix>
       <Line Name="Line1">
-        <Top>3.39384in</Top>
+        <Top>3.75634in</Top>
         <Left>2.7752in</Left>
         <Height>0in</Height>
         <Width>-2.76584in</Width>
@@ -2602,7 +2708,7 @@
         </Style>
       </Line>
       <Line Name="Line2">
-        <Top>3.42047in</Top>
+        <Top>3.78297in</Top>
         <Left>2.77103in</Left>
         <Height>0in</Height>
         <Width>-2.76582in</Width>
@@ -2738,7 +2844,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>GrandTotal</DataSetName>
-        <Top>4.82718in</Top>
+        <Top>5.18968in</Top>
         <Left>0.0125in</Left>
         <Height>0.21875in</Height>
         <Width>2.76043in</Width>
@@ -2768,7 +2874,7 @@
         </Style>
       </Image>
     </ReportItems>
-    <Height>6.39811in</Height>
+    <Height>6.76061in</Height>
     <Style />
   </Body>
   <Width>2.78334in</Width>
@@ -3015,6 +3121,10 @@
         <Field Name="sale_product_discount_amount">
           <DataField>sale_product_discount_amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="sale_seat">
+          <DataField>sale_seat</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="sale_type">
           <DataField>sale_type</DataField>
