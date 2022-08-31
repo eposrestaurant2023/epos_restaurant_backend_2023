@@ -324,6 +324,7 @@ namespace eModels
         public List<PermissionOptionModel> MainMenu()
         {
             var data = permission_options.Where(r => r.parent_id == null && r.show_in_menu == true && r.roles != "").OrderBy(r => r.sort_order).ToList();
+           
             return data;
 
         }

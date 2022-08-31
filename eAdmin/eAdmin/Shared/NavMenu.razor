@@ -1,36 +1,39 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <CurrentLoginUserCard Style="background-color: var(--mud-palette-drawer-background);color: var(--mud-palette-drawer-text);" />
-<MudDivider Class="mb-4"/>
+<MudDivider Class="mb-4" />
 
-                    @foreach (var d in gv.MainMenu().ToList())
-                    {
-                        if (gv.SubMenu(d.id).Count() > 0)
-                        {
-                            <ParentMenuItem roles="@d.roles" icon="@d.icon" parent_menu_text="@lang[d.note]">
-                                @foreach (var sub in gv.SubMenu(d.id))
-                                {
-                                    <SubMenuItem roles="@sub.roles" url="@sub.url">@lang[sub.note]</SubMenuItem>
-                                }
-                            </ParentMenuItem>
-                        }
-                        else
-                        {
-                            if (d.url == "/")
-                            {
-                                <MenuItemDynamic IconName="@d.icon" Match="NavLinkMatch.All">@lang[d.note]</MenuItemDynamic>
-                            }
-                            else
-                            {
-                                <MenuItemDynamic IconName="@d.icon" MenuUrl="@d.url">@lang[d.note]</MenuItemDynamic>
-                            }
+@foreach (var d in gv.MainMenu().ToList())
+{
 
-                        }
-
-                    }
-
-
-
-            @code {
-                [CascadingParameter] public GlobalVariableModel gv { get; set; }
-                
+    if (gv.SubMenu(d.id).Count() > 0)
+    {
+        <ParentMenuItem roles="@d.roles" icon="@d.icon" parent_menu_text="@lang[d.note]">
+            @foreach (var sub in gv.SubMenu(d.id))
+            {
+                <SubMenuItem roles="@sub.roles" url="@sub.url">@lang[sub.note]</SubMenuItem>
             }
+        </ParentMenuItem>
+    }
+    else
+    {
+        
+        <AuthorizeView Roles="@d.roles">
+            @if (d.url == "/")
+            {
+            <MenuItemDynamic IconName="@d.icon" Match="NavLinkMatch.All">@lang[d.note]</MenuItemDynamic>
+            }
+            else
+            {
+            <MenuItemDynamic IconName="@d.icon" MenuUrl="@d.url">@lang[d.note]</MenuItemDynamic>
+            }
+        </AuthorizeView>
+       
+    }
+}
+
+
+
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+}

@@ -31,8 +31,6 @@
                     <MudSpacer />
                     <MudHidden Breakpoint="Breakpoint.SmAndDown">
                         <MudIconButton Color="MudBlazor.Color.Inherit" Icon="@Icons.Material.Filled.AttachMoney" Title="@lang["Exchange Rate"]" OnClick="@(()=>nav.NavigateTo("currencyexchangerate"))"></MudIconButton>
-
-
                         @if (is_spinner)
                         {
                             <Spinner />
@@ -40,7 +38,6 @@
                         else
                         {
                             <MudIconButton Color="MudBlazor.Color.Inherit" Icon="@Icons.Material.Filled.Refresh" Title="@lang["Refresh"]" OnClick="@(async () => await LoadData())"></MudIconButton>
-
                         }
                         <ComQuickAddMenu />
                     </MudHidden>

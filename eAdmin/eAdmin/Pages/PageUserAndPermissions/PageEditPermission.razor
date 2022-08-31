@@ -52,11 +52,13 @@
                         <UIGridCenter>
 
                             <UIContainerBox Title="Report">
-                                <MudTreeView T="PermissionModel" CanActivate="true" @bind-SelectedValues="@SelectedOptionReport" Items="@(new  HashSet<PermissionModel>(permissions.Where(r=>r.is_report  == true && r.id == 44)))" CanSelect="true" Context="d">
+                                <MudTreeView T="PermissionModel" CanActivate="true" @bind-SelectedValues="@SelectedOptionReport" Items="@(new  HashSet<PermissionModel>(permissions.Where(r=>r.is_front_end  == false && r.id == 44)))" CanSelect="true" Context="d">
                                     <ItemTemplate>
-                                        <MudTreeViewItem @bind-Selected="@d.is_selected" Items="@(new HashSet<PermissionModel>(d.ChildItem.Where(r=>r.is_report == true)))" Value="@d" Text="@d.note">
+                                         
+                                            <MudTreeViewItem @bind-Selected="@d.is_selected" Items="@(new HashSet<PermissionModel>(d.ChildItem.Where(r=>r.is_report == true)))" Value="@d" Text="@d.note">
 
-                                        </MudTreeViewItem>
+                                            </MudTreeViewItem>
+                                       
                                     </ItemTemplate>
                                 </MudTreeView>
                             </UIContainerBox>

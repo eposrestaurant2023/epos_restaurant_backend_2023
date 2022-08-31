@@ -54,13 +54,7 @@ namespace eAPI
             builder.Entity<BusinessBranchPriceRule>().HasKey(t => new { t.business_branch_id, t.price_rule_id });
             builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id });
             builder.Entity<StoreProcedureResultModel>().HasNoKey();
-            builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();
-            
-
-
-
-
-
+            builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();   
 
             builder.Entity<BusinessBranchSystemFeatureModel>().HasKey(t => new { t.business_branch_id, t.system_feature_id });
 
@@ -176,6 +170,8 @@ namespace eAPI
         public DbSet<TranslateTextModel> TranslateTexts{ get; set; }
         public DbSet<CustomerCardModel> CustomerCards { get; set; }
         public DbSet<DefaultStockLocationProductModel> defaultStockLocationProducts{ get; set; }
+        public DbSet<ProductDiscountPromotionModel> ProductDiscountPromotions { get; set; }
+        public DbSet<DiscountPromotionModel> DiscountPromotions { get; set; }
        
     }
 

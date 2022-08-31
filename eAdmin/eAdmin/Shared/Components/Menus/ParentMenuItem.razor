@@ -2,17 +2,17 @@
 {
     <MudNavGroup Title="@parent_menu_text" Icon="@icon" HideExpandIcon="false">
         @ChildContent
-     </MudNavGroup>
+    </MudNavGroup>
+}
+else
+{
+    <AuthorizeView Roles="@roles">
+        <MudNavGroup Title="@parent_menu_text" Icon="@icon" HideExpandIcon="false">
+            @ChildContent
+        </MudNavGroup>
+    </AuthorizeView>
+}
 
-    }
-    else
-    {
-        <AuthorizeView Roles="@roles">
-            <MudNavGroup Title="@parent_menu_text" Icon="@icon" HideExpandIcon="false">
-                @ChildContent
-            </MudNavGroup>
-        </AuthorizeView>
-    }
 
 
 @code{
