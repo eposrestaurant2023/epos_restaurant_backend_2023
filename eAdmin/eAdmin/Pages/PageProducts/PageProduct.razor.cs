@@ -22,7 +22,6 @@ namespace eAdmin.Pages.PageProducts
         {
             get
             {
-
                 return "278484567Gs252sd45KJssHGytkjhTonB3PCz2Ts" + gv.current_login_user.id; //Storage and Session Key  
             }
         }
@@ -138,13 +137,13 @@ namespace eAdmin.Pages.PageProducts
             await LoadData();
         }
 
-        public async Task OnToogleStatus(ProductModel p)
+        public async Task OnToggleStatus(ProductModel p)
         {
             p.is_loading = true;
             await SaveStatus(p);
             p.is_loading = false;
         }
-        public async Task OnToogleStatusLabel(ProductModel p)
+        public async Task OnToggleStatusLabel(ProductModel p)
         {
             p.is_change_status = true;
             await SaveStatus(p);

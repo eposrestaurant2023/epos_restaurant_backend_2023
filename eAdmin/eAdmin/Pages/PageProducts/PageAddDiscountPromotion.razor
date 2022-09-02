@@ -1,0 +1,82 @@
+﻿@page "/happyhour/new"
+@page "/happyhour/edit/{id:guid}"
+@page "/happyhour/clone/{clone_id:guid}"
+
+@inherits PageAddEditDiscountPromotionBase
+
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+ 
+    @if (!is_loading)
+    {
+        @if (!is_error)
+        {
+            <Title Value="@PageTitle"></Title>
+            <PageContainer roles="@gv.GetRole(role_name)">
+                <PageHeader>
+                    <HeaderLeft>
+                        <PageTitle ShowFilter="false">
+                            <HeaderTemplate>
+                                @PageTitle
+                            </HeaderTemplate>
+                        </PageTitle>
+                    </HeaderLeft>
+                    <HeaderRight ShowBackButton="true">
+
+                    </HeaderRight>
+                </PageHeader>
+                <EditForm Model="@model" OnValidSubmit="@(() => OnSaveClick())" @attributes="@formAttributes">
+                    <DataAnnotationsValidator />
+                    <PageBody>
+
+                        <UIGridCenter>
+                            <UIContainerBox Title="">
+                                <MudSelect T="Guid" Label="@lang["Business Branch"]" AnchorOrigin="Origin.BottomCenter" @bind-Value="@(model.business_branch_id)">
+                                    @foreach (var b in gv.business_branch_by_role)
+                                    {
+                                        <MudSelectItem Value="@b.id">
+                                            @b.business_branch_name_en
+                                        </MudSelectItem>
+                                    }
+                                </MudSelect>
+                                <MudTextField @bind-Value="@model.title" Label="@lang["Title"]" Variant="Variant.Text"></MudTextField>
+                                <MudCheckBox Label="@lang["Base on Hour"]" @bind-Checked="@model.is_base_on_hour" Color="MudBlazor.Color.Secondary"></MudCheckBox>
+                               
+                                <MudGrid>
+                                    <MudItem xs="6">
+                                        <MudDatePicker PickerVariant="PickerVariant.Dialog" Color="MudBlazor.Color.Secondary" Rounded="true" Label="Start Date" Text="@(model.start_date.ToString(gv.date_format))" />
+                                        <MudDatePicker PickerVariant="PickerVariant.Dialog" Color="MudBlazor.Color.Secondary" Rounded="true" Label="End Date" Text="@(model.start_date.ToString(gv.date_format))" />
+                                    </MudItem>
+                                    <MudItem xs="6">
+                                        <MudTimePicker Label="Start Time" AmPm="true" Color="MudBlazor.Color.Secondary" @bind-Time="time" Disabled="@(!model.is_base_on_hour)" ReadOnly="@(!model.is_base_on_hour)" />
+                                        <MudTimePicker Label="End Time" AmPm="true" Color="MudBlazor.Color.Secondary" @bind-Time="time" Disabled="@(!model.is_base_on_hour)" ReadOnly="@(!model.is_base_on_hour)" />
+                                    </MudItem>
+                                </MudGrid>
+                                
+                                <MudTextField T="string" Label="Description" Variant="Variant.Text" @bind-Text="@model.description" Lines="3" />
+                                <MudDivider />
+                            </UIContainerBox> 
+                        </UIGridCenter>
+
+
+
+                    </PageBody>
+                    <PageFooter>
+                        <FooterCenter>
+                            <ComSavingFormButton is_loading="@is_saving" is_show_cancel_action="true" OnCancel="@OnCancelClick" />
+                        </FooterCenter>
+                    </PageFooter>
+
+                </EditForm>
+
+            </PageContainer>
+        }
+    }
+ 
+ 
+@code{
+    TimeSpan? time = new TimeSpan(00, 45, 00);
+}
+
+
+

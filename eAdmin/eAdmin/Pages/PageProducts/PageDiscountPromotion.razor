@@ -1,0 +1,96 @@
+﻿@page "/happyhour"
+@inherits PageDiscountPromotionBase
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
+
+@if (!is_loading)
+{
+    <Title Value="@lang["Happy Hour"]"></Title>
+    <PageContainer roles="@gv.GetRole("happy_hour")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle>
+                    <HeaderTemplate>
+                        @lang[state.page_title]
+                    </HeaderTemplate>
+                    <FilterTemplate>
+                        <PageFilter title="@lang["Status"]">
+                            <ModuleView module_views="@gv.GetModuleView("page_discount_promotion")" OnClick="@ViewClick" />
+                        </PageFilter>
+                    </FilterTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <AddButton roles="@gv.GetRole("happy_hour_add")" OnClick="@(()=>nav.NavigateTo("happyhour/new"))">@lang["New Happy Hour"]</AddButton>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <AddButton roles="@gv.GetRole("happy_hour_add")" OnClick="@(()=>nav.NavigateTo("happyhour/new"))"></AddButton>
+                </MudHidden> 
+
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+        
+            <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+            <Com is_visible="@(discount_promotions != null)">
+                <Table Items="@discount_promotions"
+                       PerPage="@state.pager.per_page"
+                       TotalItem="@TotalRecord"
+                       CurrentPage="@state.pager.current_page"
+                       OnPagerChange="@SelectChange"
+                       OnPageChange="@ChangePager"
+                       isLoading="@is_loading_data"
+                       ShowPager="true"
+                       ShowCounter="true"
+                       ClassName="uk-table-small uk-table-striped uk-table-hover"
+                       ScrollClass="uk-overflow-auto">
+                    <TableHeader>
+                        @HeaderTemplate("business_branch/business_branch_name_en", lang["Business Branch"], "uk-text-center")
+                        @HeaderTemplate("title", lang["Title"])
+                        @HeaderTemplate("description", lang["Description"], "col-auto")
+                        <th>@lang["Duration"]</th> 
+                        <ThRight>
+                            @lang["Status"]
+                        </ThRight>
+                        <th class="uk-width-auto"></th>
+                    </TableHeader>
+                    <RowTemplate Context="m"> 
+                        <TdCenter>
+                            @m.business_branch.business_branch_name_en 
+                        </TdCenter>
+                        <td>
+                            <a href="@($"happyhour/edit/{m.id}")"> 
+                                @m.title                               
+                            </a>
+                            <p style="font-style: italic;">@m.description</p> 
+                        </td>
+                        <td>@(string.Format(@"{0:"+gv.date_format+"} {1} ",m.start_date, (m.start_time!=null?m.start_time?.ToString("hh:mm tt") : ""))) - 
+                        @(string.Format(@" {0:"+gv.date_format+"} {1}",m.end_date,(m.end_time!=null? m.end_time?.ToString("hh:mm tt"):"")))</td>
+                       
+                        <TdRight>
+                            <LabelDeleted is_visible="@m.is_deleted" />
+                            <LabelActive is_visible="@(!m.is_deleted && m.status)" OnClick="(()=>OnToggleStatusLabel(m))" roles="@gv.GetRole("happy_hour_edit")" is_loading="@m.is_change_status" />
+                            <LabelInActive is_visible="@(!m.is_deleted && !m.status)" OnClick="(()=>OnToggleStatusLabel(m))" roles="@gv.GetRole("happy_hour_edit")" is_loading="@m.is_change_status" />
+                        </TdRight>
+                        <TdActions is_loading="@m.is_loading">
+                            <TableActionItem roles="@gv.GetRole("happy_hour_edit")" icon="edit" is_visible="@(!m.is_deleted)" OnClick="@(()=>OnEditClick(m.id))">@lang["Edit"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("happy_hour_add")" icon="file_copy" OnClick="@(()=>OnCloneClick(m.id))">@lang["Clone"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("happy_hour_edit")" icon="highlight_off" is_visible="@(m.status && !m.is_deleted)" OnClick="@(()=>OnToggleStatus(m))">@lang["Inactive"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("happy_hour_edit")" icon="check" is_visible="@(!m.status && !m.is_deleted)" OnClick="@(() => OnToggleStatus(m))">@lang["Active"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("happy_hour_delete")" icon="delete" is_visible="@(!m.is_deleted)" OnClick="@(() => OnDeleteRestoreClick(m))">@lang["Delete"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("happy_hour_restore")" icon="refresh" is_visible="@(m.is_deleted)" OnClick="@(()=>OnDeleteRestoreClick(m,true))">@lang["Restore"]</TableActionItem>
+                        </TdActions>
+                    </RowTemplate>
+                </Table>
+            </Com>
+        </PageBody>
+    </PageContainer>
+}
+

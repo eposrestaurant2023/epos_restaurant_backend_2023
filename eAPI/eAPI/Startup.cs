@@ -231,6 +231,7 @@ namespace eAPI
             odataBuilder.EntitySet<ExpenseModel>("Expense");
             odataBuilder.EntitySet<CustomerCardModel>("CustomerCard");
             odataBuilder.EntitySet<DefaultStockLocationProductModel>("DefaultStockLocationProduct");
+            odataBuilder.EntitySet<DiscountPromotionModel>("DiscountPromotion");
 
             odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
             var business_branch_system_features = odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
