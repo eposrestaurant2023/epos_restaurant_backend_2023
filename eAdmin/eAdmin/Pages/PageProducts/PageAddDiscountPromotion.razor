@@ -1,6 +1,5 @@
 ﻿@page "/happyhour/new"
 @page "/happyhour/edit/{id:guid}"
-@page "/happyhour/clone/{clone_id:guid}"
 
 @inherits PageAddEditDiscountPromotionBase
 
@@ -39,27 +38,63 @@
                                         </MudSelectItem>
                                     }
                                 </MudSelect>
-                                <MudTextField @bind-Value="@model.title" Label="@lang["Title"]" Variant="Variant.Text"></MudTextField>
-                                <MudCheckBox Label="@lang["Base on Hour"]" @bind-Checked="@model.is_base_on_hour" Color="MudBlazor.Color.Secondary"></MudCheckBox>
-                               
-                                <MudGrid>
-                                    <MudItem xs="6">
-                                        <MudDatePicker PickerVariant="PickerVariant.Dialog" Color="MudBlazor.Color.Secondary" Rounded="true" Label="Start Date" Text="@(model.start_date.ToString(gv.date_format))" />
-                                        <MudDatePicker PickerVariant="PickerVariant.Dialog" Color="MudBlazor.Color.Secondary" Rounded="true" Label="End Date" Text="@(model.start_date.ToString(gv.date_format))" />
-                                    </MudItem>
-                                    <MudItem xs="6">
-                                        <MudTimePicker Label="Start Time" AmPm="true" Color="MudBlazor.Color.Secondary" @bind-Time="time" Disabled="@(!model.is_base_on_hour)" ReadOnly="@(!model.is_base_on_hour)" />
-                                        <MudTimePicker Label="End Time" AmPm="true" Color="MudBlazor.Color.Secondary" @bind-Time="time" Disabled="@(!model.is_base_on_hour)" ReadOnly="@(!model.is_base_on_hour)" />
-                                    </MudItem>
-                                </MudGrid>
-                                
-                                <MudTextField T="string" Label="Description" Variant="Variant.Text" @bind-Text="@model.description" Lines="3" />
-                                <MudDivider />
+                                <MudTextField @bind-Value="@model.title" Label="@lang["Title"]" Variant="Variant.Text"></MudTextField>                                 
+                                    <MudCheckBox Style="margin-top:5px" Label="@lang["Base on Hour"]" @bind-Checked="@model.is_base_on_hour" Color="MudBlazor.Color.Secondary"></MudCheckBox>                                   
+
+                                    <MudGrid  Style="margin-top:5px">
+                                        <MudItem xs="6"> 
+                                            <MudDatePicker PickerVariant="PickerVariant.Dialog" Color="MudBlazor.Color.Secondary" Rounded="true" Label="Start Date" @bind-Date="@model.start_date"/>
+                                            <MudDatePicker PickerVariant="PickerVariant.Dialog" Color="MudBlazor.Color.Secondary" Rounded="true" Label="End Date"  @bind-Date="@model.end_date" />
+                                        </MudItem>
+                                        <MudItem xs="6">                                          
+                                                <MudTimePicker  Label="Start Time" AmPm="true" Color="MudBlazor.Color.Secondary" @bind-Time="start_time" Disabled="@(!model.is_base_on_hour)" ReadOnly="@(!model.is_base_on_hour)" />
+                                                <MudTimePicker  Label="End Time" AmPm="true" Color="MudBlazor.Color.Secondary" @bind-Time="end_time" Disabled="@(!model.is_base_on_hour)" ReadOnly="@(!model.is_base_on_hour)" />
+                                        </MudItem>
+                                    </MudGrid>
+
+                                    <MudTextField T="string" Label="Description" Variant="Variant.Text" @bind-Text="@model.description" Lines="3" />
+
+                                    <MudDivider />
+                                   
+                                        <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                            <tr>
+                                                <ThAuto>@lang["Product Category"]</ThAuto>
+                                                <th>@lang["Discount %"]</th>
+                                                <th></th>
+                                            </tr>
+                                            @if (model.discount_promotion_items != null)
+                                            {
+                                                @foreach (var m in model.discount_promotion_items.Where(r => !r.is_deleted).ToList())
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <MudSelect T="int" AnchorOrigin="Origin.BottomCenter" @bind-Value="@(m.product_category_id)" MaxHeight="150">
+                                                                @foreach (var c in gv.product_categories.Where(r => !r.is_deleted).ToList())
+                                                                {
+                                                                    <MudSelectItem Value="@c.id">
+                                                                        @c.product_category_en
+                                                                    </MudSelectItem>
+                                                                }
+                                                            </MudSelect>
+                                                        </td>
+                                                        <td>
+                                                            <MudTextField T="string" Value="@(m.discount_percentage.ToString("0.####")+"%")" ValueChanged="@((val)=>m.discount_percentage = Convert.ToDecimal(val??"0"))"/>
+                                                        </td>
+                                                        <td>
+                                                            <Icon icon="delete" OnClick="@(()=>onDeleteRecordClick(m))" />
+                                                            
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </table>
+                                    
+                                    <MudDivider />
+                                    <div style="margin-top:5px">
+                                        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add"  Color="MudBlazor.Color.Info" Size="Size.Small" OnClick="@(()=>onAddRecord())" >@lang["Add New"]</MudButton>
+                                    </div>
                             </UIContainerBox> 
                         </UIGridCenter>
-
-
-
                     </PageBody>
                     <PageFooter>
                         <FooterCenter>
@@ -73,10 +108,7 @@
         }
     }
  
- 
-@code{
-    TimeSpan? time = new TimeSpan(00, 45, 00);
-}
+
 
 
 

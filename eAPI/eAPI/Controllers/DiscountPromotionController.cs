@@ -80,7 +80,7 @@ namespace eAPI.Controllers
         }       
         [HttpPost]
         [Route("UpdateStatus/{id}")]
-        public async Task<ActionResult<DiscountPromotionModel>> UpdateStatus(int id) //Update
+        public async Task<ActionResult<DiscountPromotionModel>> UpdateStatus(Guid id) //Update
         {
             var u = await db.DiscountPromotions.FindAsync(id);
             u.status = !u.status;

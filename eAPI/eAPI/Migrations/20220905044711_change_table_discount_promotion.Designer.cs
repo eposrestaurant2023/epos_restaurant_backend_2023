@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220905044711_change_table_discount_promotion")]
+    partial class change_table_discount_promotion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1205,11 +1207,11 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime");
 
+                    b.Property<Guid>("dicount_promotion_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("discount_percentage")
                         .HasColumnType("decimal(19,8)");
-
-                    b.Property<Guid>("discount_promotion_id")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -1230,7 +1232,7 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("discount_promotion_id");
+                    b.HasIndex("dicount_promotion_id");
 
                     b.HasIndex("product_category_id");
 
@@ -6838,9 +6840,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.DiscountPromotionItemModel", b =>
                 {
-                    b.HasOne("eModels.DiscountPromotionModel", "discount_promotion")
-                        .WithMany("discount_promotion_items")
-                        .HasForeignKey("discount_promotion_id")
+                    b.HasOne("eModels.DiscountPromotionModel", "dicount_promotion")
+                        .WithMany("product_promotions")
+                        .HasForeignKey("dicount_promotion_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -6850,7 +6852,7 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("discount_promotion");
+                    b.Navigation("dicount_promotion");
 
                     b.Navigation("product_category");
                 });
@@ -7896,7 +7898,7 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.DiscountPromotionModel", b =>
                 {
-                    b.Navigation("discount_promotion_items");
+                    b.Navigation("product_promotions");
                 });
 
             modelBuilder.Entity("eModels.ExpenseModel", b =>

@@ -310,9 +310,8 @@ namespace eAPI.Controllers
                 deviceId == "xWLXg2-DSH_U4Onq06hQpSoQef0P6mqRIW3hv0-Rib8" ||
                 deviceId == "_4iQOiZ92MSAzjXKMj76Mtgu0yTarToX0CSuFxn7clA" ||
                 deviceId == "3lhOl-I3LerDCvMbuB024mBbxwduiWiBaLpC6seAvTs"   ||
-                deviceId == "JFfhd09hh5ue69XCVD4V8XYGcZCVN3MV5gI_5PhLdaA"
-
-
+                deviceId == "JFfhd09hh5ue69XCVD4V8XYGcZCVN3MV5gI_5PhLdaA"  ||
+                deviceId == "GA95_4QfhsOoXEJE1rwCNc7E0ZfZ26go1DaqC7361YY"
                 )
             {
                 

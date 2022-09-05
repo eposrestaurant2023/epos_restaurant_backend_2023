@@ -29,26 +29,7 @@ namespace eAdmin.Pages.PageProducts
             {                                               
 
                 string url = $"{controller_api}?";
-                url = url + $"$expand=product_promotions&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
-
-                //check if filter no have branch than add branch id condtion
-                if (!state.filters.Where(r => r.key == "business_branch_ids").Any())
-                {
-                    state.filters.Add(new FilterModel()
-                    {
-                        key = "business_branch_ids",
-                        value1 = gv.business_branch_ids_filter_1,
-                        filter_title = lang["Business Branch"],
-                        filter_operator = "multiple",
-                        filter_multiple_operator = "contains",
-                        state_property_name = "list_selected_values",
-                        filter_info_text = gv.business_branch_ids_filter_1,
-                        is_clear_all = true,
-                        will_remove = true,
-                        is_show_on_infor = false
-                    });
-                }
-
+                url = url + $"$expand=business_branch&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}"; 
                 return url + GetFilter(state.filters);
             }
         }
@@ -206,6 +187,11 @@ namespace eAdmin.Pages.PageProducts
                     state.pager.current_page = state.pager.current_page - 1;
                 }
                 await LoadData();
+            }
+            else
+            {
+                toast.Add(resp.Content.ToString(), MudBlazor.Severity.Error);
+                discount_promotion.status = discount_promotion.status;
             }
         }
 

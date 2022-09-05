@@ -19,7 +19,7 @@ namespace eModels
         public string description { get; set; }
 
         [Column(TypeName = "Date")]
-        public DateTime start_date { get; set; } = DateTime.Now;
+        public DateTime? start_date { get; set; } =   DateTime.Now;
 
 
         public bool is_base_on_hour { get; set; } = false;
@@ -29,23 +29,23 @@ namespace eModels
 
 
         [Column(TypeName = "Date")]
-        public DateTime end_date { get; set; }     =  DateTime.Now;
+        public DateTime? end_date { get; set; } = DateTime.Now;
 
         
         [ DataType(DataType.Time)]
         public DateTime? end_time { get; set; }
 
-        public List<ProductDiscountPromotionModel> product_promotions { get; set; }
+        public List<DiscountPromotionItemModel> discount_promotion_items { get; set; }
                                                                                                      
     }
 
-    [Table("tbl_product_disocunt_promotion")]
-    public class ProductDiscountPromotionModel : CoreGUIDModel
+    [Table("tbl_discount_promotion_item")]
+    public class DiscountPromotionItemModel : CoreGUIDModel
     {
-        public Guid dicount_promotion_id { get; set; }
+        public Guid discount_promotion_id { get; set; }
 
-        [ForeignKey("dicount_promotion_id")]
-        public DiscountPromotionModel dicount_promotion { get; set; }
+        [ForeignKey("discount_promotion_id")]
+        public DiscountPromotionModel discount_promotion { get; set; }
 
         public int product_category_id { get; set; }
 

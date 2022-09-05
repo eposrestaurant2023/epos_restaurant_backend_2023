@@ -170,7 +170,7 @@ namespace eAPI
         public DbSet<TranslateTextModel> TranslateTexts{ get; set; }
         public DbSet<CustomerCardModel> CustomerCards { get; set; }
         public DbSet<DefaultStockLocationProductModel> defaultStockLocationProducts{ get; set; }
-        public DbSet<ProductDiscountPromotionModel> ProductDiscountPromotions { get; set; }
+        public DbSet<DiscountPromotionItemModel> DiscountPromotionItems { get; set; }
         public DbSet<DiscountPromotionModel> DiscountPromotions { get; set; }
        
     }
