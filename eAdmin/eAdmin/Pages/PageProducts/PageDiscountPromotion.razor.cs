@@ -79,11 +79,9 @@ namespace eAdmin.Pages.PageProducts
         }
         public async Task OrderBy(string col_name = "")
         {
-
             state.pager.order_by = col_name;
             state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
-
-            //await LoadData();
+            await LoadData();
         }
         public async Task ViewClick(ModuleViewModel m)
         {
@@ -93,7 +91,7 @@ namespace eAdmin.Pages.PageProducts
             state.pager.order_by_type = m.default_order_by_type;
             state.page_title = m.title;
             state.pager.current_page = 1;
-            //await LoadData();
+            await LoadData();
         }
 
         public async Task RemoveFilter(FilterModel f)
