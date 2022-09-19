@@ -753,10 +753,10 @@ declare
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.1732in</Width>
+                  <Width>1.29371in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.34932in</Width>
+                  <Width>1.46983in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1221,9 +1221,9 @@ declare
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
             <Top>1.26836in</Top>
-            <Left>0.02708in</Left>
+            <Left>0.01458in</Left>
             <Height>1.27083in</Height>
-            <Width>2.52252in</Width>
+            <Width>2.76353in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1235,19 +1235,19 @@ declare
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.22591in</Width>
+                  <Width>0.27411in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.84418in</Width>
+                  <Width>0.89238in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.29131in</Width>
+                  <Width>0.33951in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.46955in</Width>
+                  <Width>0.51775in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.69159in</Width>
+                  <Width>0.73979in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1695,9 +1695,9 @@ declare
             </TablixRowHierarchy>
             <DataSetName>sale_product</DataSetName>
             <Top>2.57316in</Top>
-            <Left>0.02708in</Left>
+            <Left>0.01458in</Left>
             <Height>0.47007in</Height>
-            <Width>2.52253in</Width>
+            <Width>2.76355in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -1709,10 +1709,10 @@ declare
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.28658in</Width>
+                  <Width>1.40709in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.22343in</Width>
+                  <Width>1.34394in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -2242,9 +2242,9 @@ declare
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
             <Top>3.11753in</Top>
-            <Left>0.03958in</Left>
+            <Left>0.01458in</Left>
             <Height>0.84375in</Height>
-            <Width>2.51001in</Width>
+            <Width>2.75102in</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -2257,9 +2257,9 @@ declare
           </Tablix>
           <Line Name="Line1">
             <Top>3.05781in</Top>
-            <Left>0.03958in</Left>
+            <Left>0.02708in</Left>
             <Height>0in</Height>
-            <Width>2.49752in</Width>
+            <Width>2.73853in</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -2272,10 +2272,10 @@ declare
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.28659in</Width>
+                  <Width>1.40709in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.22344in</Width>
+                  <Width>1.34394in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -2398,9 +2398,9 @@ declare
             </TablixRowHierarchy>
             <DataSetName>GrandTotalData</DataSetName>
             <Top>3.99947in</Top>
-            <Left>0.03958in</Left>
+            <Left>0.01458in</Left>
             <Height>0.25in</Height>
-            <Width>2.51003in</Width>
+            <Width>2.75104in</Width>
             <ZIndex>4</ZIndex>
             <Style>
               <Border>
@@ -2413,10 +2413,10 @@ declare
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.28418in</Width>
+                  <Width>1.40468in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.22584in</Width>
+                  <Width>1.34634in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -2604,9 +2604,9 @@ declare
             </TablixRowHierarchy>
             <DataSetName>PaymentData</DataSetName>
             <Top>4.26753in</Top>
-            <Left>0.03958in</Left>
+            <Left>0.01458in</Left>
             <Height>0.4375in</Height>
-            <Width>2.51002in</Width>
+            <Width>2.75103in</Width>
             <ZIndex>5</ZIndex>
             <Style>
               <Border>
@@ -2619,10 +2619,10 @@ declare
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.66034in</Width>
+                  <Width>0.78085in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.34557in</Width>
+                  <Width>1.46608in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -2717,10 +2717,10 @@ declare
                           <TablixBody>
                             <TablixColumns>
                               <TablixColumn>
-                                <Width>0.66909in</Width>
+                                <Width>0.7896in</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>1.33682in</Width>
+                                <Width>1.45733in</Width>
                               </TablixColumn>
                             </TablixColumns>
                             <TablixRows>
@@ -2964,9 +2964,9 @@ declare
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
             <Top>0.00917in</Top>
-            <Left>0.40619in</Left>
+            <Left>0.51869in</Left>
             <Height>1.20833in</Height>
-            <Width>2.00591in</Width>
+            <Width>2.24692in</Width>
             <ZIndex>6</ZIndex>
             <Style>
               <Border>
@@ -2990,9 +2990,9 @@ declare
             </Paragraphs>
             <rd:DefaultName>Textbox7</rd:DefaultName>
             <Top>4.7453in</Top>
-            <Left>0.02708in</Left>
+            <Left>0.0125in</Left>
             <Height>0.47917in</Height>
-            <Width>1.11044in</Width>
+            <Width>1.35145in</Width>
             <ZIndex>7</ZIndex>
             <Style>
               <Border>
@@ -3023,9 +3023,9 @@ declare
             </Paragraphs>
             <rd:DefaultName>Textbox7</rd:DefaultName>
             <Top>4.74392in</Top>
-            <Left>1.60613in</Left>
+            <Left>1.51863in</Left>
             <Height>0.47917in</Height>
-            <Width>0.94347in</Width>
+            <Width>1.24698in</Width>
             <ZIndex>8</ZIndex>
             <Style>
               <Border>
@@ -3061,9 +3061,9 @@ declare
             </Paragraphs>
             <rd:DefaultName>Textbox31</rd:DefaultName>
             <Top>5.22632in</Top>
-            <Left>0.02708in</Left>
+            <Left>0.0125in</Left>
             <Height>0.25in</Height>
-            <Width>1.11044in</Width>
+            <Width>1.35145in</Width>
             <ZIndex>9</ZIndex>
             <Style>
               <Border>
@@ -3096,9 +3096,9 @@ declare
             </Paragraphs>
             <rd:DefaultName>Textbox31</rd:DefaultName>
             <Top>5.23003in</Top>
-            <Left>1.60613in</Left>
+            <Left>1.51863in</Left>
             <Height>0.25in</Height>
-            <Width>0.93097in</Width>
+            <Width>1.23448in</Width>
             <ZIndex>10</ZIndex>
             <Style>
               <Border>
@@ -3112,9 +3112,9 @@ declare
           </Textbox>
           <Line Name="Line3">
             <Top>4.71892in</Top>
-            <Left>0.02708in</Left>
+            <Left>0.0125in</Left>
             <Height>0in</Height>
-            <Width>2.52252in</Width>
+            <Width>2.76353in</Width>
             <ZIndex>11</ZIndex>
             <Style>
               <Border>
@@ -3125,9 +3125,9 @@ declare
           </Line>
           <Line Name="Line2">
             <Top>3.08698in</Top>
-            <Left>0.03958in</Left>
+            <Left>0.02708in</Left>
             <Height>0in</Height>
-            <Width>2.49752in</Width>
+            <Width>2.73853in</Width>
             <ZIndex>12</ZIndex>
             <Style>
               <Border>
@@ -3136,11 +3136,26 @@ declare
               </Border>
             </Style>
           </Line>
+          <Image Name="Image1">
+            <Source>Embedded</Source>
+            <Value>done</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>0.0875in</Top>
+            <Left>0.025in</Left>
+            <Height>0.5in</Height>
+            <Width>1.04101in</Width>
+            <ZIndex>13</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
         </ReportItems>
         <Height>5.48003in</Height>
         <Style />
       </Body>
-      <Width>2.54961in</Width>
+      <Width>2.77813in</Width>
       <Page>
         <PageWidth>3.14961in</PageWidth>
         <LeftMargin>0.3in</LeftMargin>
@@ -3156,7 +3171,7 @@ declare
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>f9cc5971-2721-4719-d750-08d9a8d3b8b4</Value>
+          <Value>12F71B11-AB31-4BB7-B3B9-08DA86FBAD05</Value>
         </Values>
       </DefaultValue>
       <Prompt>id</Prompt>
