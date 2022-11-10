@@ -192,6 +192,11 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         { 
             is_selecting_from_business_branch = true;
             model.from_stock_location_id = Guid.Empty;
+            var sl = gv.stock_locations.Where(r => r.business_branch_id == _id);
+            if (sl.Any())
+            {
+                OnFormStockLocationSeletedChange(sl.FirstOrDefault().id);
+            }
             await Task.Delay(500);
             model.from_business_branch_id = _id;
             is_selecting_from_business_branch = false;
@@ -202,6 +207,11 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         {
             is_selecting_to_business_branch = true;
             model.to_stock_location_id = Guid.Empty;
+            var sl = gv.stock_locations.Where(r => r.business_branch_id == _id);
+            if (sl.Any())
+            {
+                OnToStockLocationSeletedChange(sl.FirstOrDefault().id);
+            }
             await Task.Delay(500);
             model.to_business_branch_id = _id;
             is_selecting_to_business_branch = false;

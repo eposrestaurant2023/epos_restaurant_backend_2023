@@ -76,7 +76,7 @@
                             <div>@lang["Business Branch"]</div>
                             <div class="sub-header-table">@lang["Warehouse"]</div>
                         </ThAuto>
-                        <ThCenter>@lang["Total Quantity"]</ThCenter>
+                        @*<ThCenter>@lang["Total Quantity"]</ThCenter>*@
                         <ThRight>@lang["Total Amount"]</ThRight>
                         <ThRight>@lang["Status"]</ThRight>
                         <th class="uk-width-auto"></th>
@@ -93,7 +93,7 @@
                             <div>@p.business_branch?.business_branch_name_en</div>
                             <div class="sub-info-row-table">@p.stock_location?.stock_location_name</div>
                         </td>
-                        <TdCenter>@p.total_quantity.ToString(gv.quantity_format)</TdCenter>
+                        @*<TdCenter>@p.total_quantity.ToString(gv.quantity_format)</TdCenter>*@
                         <TdRight>
                             @p.total_amount.ToString(gv.main_currency_format)
                         </TdRight>

@@ -176,6 +176,11 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         {
             is_selecting_business_branch = true;
             model.stock_location_id = Guid.Empty;
+            var sl = gv.stock_locations.Where(r => r.business_branch_id == _id);
+            if (sl.Any())
+            {
+                OnStockLocationSeletedChange(sl.FirstOrDefault().id);
+            }
             await Task.Delay(500);
             model.business_branch_id = _id;
             is_selecting_business_branch = false;

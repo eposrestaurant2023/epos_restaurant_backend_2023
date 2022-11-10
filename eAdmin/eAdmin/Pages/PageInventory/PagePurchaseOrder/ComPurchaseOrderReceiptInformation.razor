@@ -16,7 +16,7 @@
     else
     {
         <div class="uk-margin-small">
-            <label class="uk-form-label"><Icon icon="layers" size="16px" /> @lang["Stock Location"]</label>
+            <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Stock Location"]</label>
             <div class="uk-form-controls">
                 <div style="height:30px">
                     <Spinner />
@@ -37,7 +37,7 @@
     }
     async Task OnStockLocationSeletedChange(Guid _id)
     {
-        
+
         model.stock_location_id = _id;
         await modelChanged.InvokeAsync(model);
 
@@ -48,6 +48,12 @@
         model.stock_location_id = Guid.Empty;
         await Task.Delay(500);
         model.business_branch_id = _id;
+
+        var sl = gv.stock_locations.Where(r => r.business_branch_id == _id);
+        if (sl.Any())
+        {
+            await OnStockLocationSeletedChange(sl.FirstOrDefault().id);
+        }
         await modelChanged.InvokeAsync(model);
         is_selecting_bb = false;
     }

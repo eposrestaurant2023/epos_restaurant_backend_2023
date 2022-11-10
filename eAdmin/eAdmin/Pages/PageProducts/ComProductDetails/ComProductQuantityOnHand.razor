@@ -7,7 +7,7 @@
     }
     else
     {
-        <div>@quantity.ToString(gv.quantity_format)</div>
+        <div>@($"{quantity.ToString(gv.quantity_format)} {unit}")</div>
         <div>
             <LabelOutOfStock is_visible="@(quantity <= 0)"/>
             <LabelLowStock is_visible="@(quantity < min_quantity && quantity > 0)"/>
@@ -22,25 +22,28 @@
     [Parameter] public int product_id { get; set; }
     [Parameter] public Guid stock_location_id { get; set; }
     decimal quantity;
+    string unit = "";
     decimal min_quantity;
     bool is_loading;
-       
-        protected override async Task OnParametersSetAsync()
+
+    protected override async Task OnParametersSetAsync()
     {
         is_loading = true;
         await Task.Delay(500);
-        var resp = await http.ApiGetOData($"StockLocationProduct?$select=quantity&$filter=product_id eq {product_id} and stock_location_id  eq {stock_location_id}");
+        var resp = await http.ApiGetOData($"StockLocationProduct?$select=quantity,unit,min_quantity,max_quantity&$filter=product_id eq {product_id} and stock_location_id  eq {stock_location_id}");
 
         if (resp.IsSuccess)
         {
             var data = JsonSerializer.Deserialize<List<StockLocationProductModel>>(resp.Content.ToString());
             if (data.Any())
             {
-                quantity = data.FirstOrDefault().quantity;
-                min_quantity = data.FirstOrDefault().min_quantity;
+                var _data = data.FirstOrDefault();
+                quantity = _data.quantity;
+                unit = _data.unit;
+                min_quantity = _data.min_quantity;
             }
         }
-         
+
         is_loading = false;
 
     }
