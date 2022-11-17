@@ -673,7 +673,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Sale</DataSetName>
-        <Top>3.42894in</Top>
+        <Top>3.64144in</Top>
         <Left>0.00688in</Left>
         <Height>1.33333in</Height>
         <Width>2.77083in</Width>
@@ -695,7 +695,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.22779in</Height>
+              <Height>0.26946in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -706,11 +706,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>រិក្កយបត្រ</Value>
+                              <Value>ទំនិញព្រាង</Value>
                               <Style>
-                                <FontFamily>Kh System</FontFamily>
+                                <FontFamily>Kh Muol</FontFamily>
                                 <FontSize>10.5pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
+                                <FontWeight>Normal</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -749,17 +749,18 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>កាលបរិច្ឆេទ: </Value>
+                              <Value>លេខ ID៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=format(Fields!working_date.Value,"dd/MM/yyyy")</Value>
+                              <Value>=Fields!sale_number.Value</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -790,7 +791,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>តុ: </Value>
+                              <Value>តុ៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -800,7 +801,7 @@
                               <Value>=Fields!table_name.Value</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -811,6 +812,95 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox9</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <VerticalAlign>Top</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.1875in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox12">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>កាលបរិច្ឆេទ៖ </Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>7.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=format(Fields!working_date.Value,"dd/MM/yyyy")</Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>7.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox12</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <VerticalAlign>Top</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>0.25pt</PaddingTop>
+                        <PaddingBottom>0.25pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox23">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>បើក៖ </Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>7.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=format(Fields!created_date.Value,"hh:mm tt")</Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>7.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox23</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -839,7 +929,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>អ្នកគិតប្រាក់: </Value>
+                              <Value>អ្នកគិតប្រាក់៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -869,51 +959,10 @@
                         <PaddingBottom>0.25pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox11">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>បើក: </Value>
-                              <Style>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>7.5pt</FontSize>
-                              </Style>
-                            </TextRun>
-                            <TextRun>
-                              <Value>=format(Fields!created_date.Value,"hh:mm tt")</Value>
-                              <Style>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>7.5pt</FontSize>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox11</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Width>0.25pt</Width>
-                        </Border>
-                        <VerticalAlign>Top</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>0.25pt</PaddingTop>
-                        <PaddingBottom>0.25pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
+                <TablixCell />
               </TablixCells>
             </TablixRow>
             <TablixRow>
@@ -928,7 +977,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>អតិថិជន: </Value>
+                              <Value>អតិថិជន៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -976,7 +1025,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>កៅអី#: </Value>
+                              <Value>កៅអី#៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -1024,7 +1073,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>ចំណាំ: </Value>
+                              <Value>ចំណាំ៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -1073,6 +1122,7 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
+            <TablixMember />
             <TablixMember>
               <Visibility>
                 <Hidden>=Fields!customer_name.Value=""</Hidden>
@@ -1093,7 +1143,7 @@
         <DataSetName>Sale</DataSetName>
         <Top>1.21848in</Top>
         <Left>0.01311in</Left>
-        <Height>1.11045in</Height>
+        <Height>1.33962in</Height>
         <Width>2.77084in</Width>
         <ZIndex>1</ZIndex>
         <Style>
@@ -1635,7 +1685,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SaleProduct</DataSetName>
-        <Top>2.38727in</Top>
+        <Top>2.59977in</Top>
         <Left>0.01311in</Left>
         <Height>0.96877in</Height>
         <Width>2.76043in</Width>
@@ -1647,7 +1697,7 @@
         </Style>
       </Tablix>
       <Line Name="Line1">
-        <Top>3.38102in</Top>
+        <Top>3.59352in</Top>
         <Left>2.77478in</Left>
         <Height>0in</Height>
         <Width>-2.76584in</Width>
@@ -1660,7 +1710,7 @@
         </Style>
       </Line>
       <Line Name="Line2">
-        <Top>3.40764in</Top>
+        <Top>3.62014in</Top>
         <Left>2.7706in</Left>
         <Height>0in</Height>
         <Width>-2.76582in</Width>
@@ -1796,7 +1846,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>GrandTotal</DataSetName>
-        <Top>4.79458in</Top>
+        <Top>5.00708in</Top>
         <Left>0.01311in</Left>
         <Height>0.21875in</Height>
         <Width>2.76043in</Width>
@@ -1974,7 +2024,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Setting</DataSetName>
-        <Top>5.04075in</Top>
+        <Top>5.25325in</Top>
         <Left>0.01312in</Left>
         <Height>0.53125in</Height>
         <Width>2.76167in</Width>
@@ -2366,7 +2416,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>5.572in</Height>
+    <Height>5.7845in</Height>
     <Style />
   </Body>
   <Width>2.78957in</Width>

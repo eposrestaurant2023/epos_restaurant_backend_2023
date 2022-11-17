@@ -76,13 +76,16 @@
                                     <ThCenter width="100px">@lang["Width"]</ThCenter>
                                     <ThCenter width="100px">@lang["Height"]</ThCenter>
                                     <th>@lang["Shape"]</th>
+                                    <th>@lang["Discount(%)"]</th>
                                     <th>@lang["Price Rule"]</th>
-                                    <Th>@lang["Sale Type"]</Th> 
+                                    <Th>@lang["Sale Type"]</Th>
                                     @if (is_table_require_check_in)
                                     {
-                                        <Th>@lang["Require Check In"]</Th> 
-                                    } 
+                                        <Th>@lang["Require Check In"]</Th>
+
+                                    }
                                     <ThCenter>@lang["Sort Order"]</ThCenter>
+                                    <Th></Th>
                                     <Th></Th>
                                 </tr>
                                 <tr>
@@ -96,6 +99,7 @@
                                     <th>
                                         <SelectShape @bind-selected_value="@shape" />
                                     </th>
+                                    <ThCenter> - </ThCenter>
                                     <th>
                                         <SelectPriceRule @bind-selected_value="@price_rule" outlet="@model.outlet" is_inline="true" show_empty="true" width="100px" />
                                     </th>
@@ -129,6 +133,9 @@
                                 <td>
                                     <SelectShape @bind-selected_value="@s.shape" />
                                 </td>
+                                <TdCenter>
+                                    <NumberInputDouble @bind-text="@s.default_discount_percentage" />
+                                </TdCenter>
                                 <td>
                                     <SelectPriceRule @bind-selected_value="@s.price_rule_id" outlet="@model.outlet" is_inline="true" show_empty="true" width="100px" />
                                 </td>

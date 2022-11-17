@@ -25,11 +25,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>បង្កាន់ដៃ</Value>
+                              <Value>វិក្កយបត្រ</Value>
                               <Style>
-                                <FontFamily>Kh System</FontFamily>
+                                <FontFamily>Kh Muol</FontFamily>
                                 <FontSize>10.5pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
+                                <FontWeight>Normal</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -67,6 +67,14 @@
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
+                            <TextRun>
+                              <Value>លេខវិក្កយបត្រ៖ </Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Normal</FontWeight>
+                              </Style>
+                            </TextRun>
                             <TextRun>
                               <Value>=Fields!document_number.Value</Value>
                               <Style>
@@ -111,7 +119,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>កាលបរិច្ឆេទ: </Value>
+                              <Value>កាលបរិច្ឆេទ៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -152,7 +160,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>តុ: </Value>
+                              <Value>តុ៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -201,7 +209,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>បើក: </Value>
+                              <Value>បើក៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -244,7 +252,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>បិទ: </Value>
+                              <Value>បិទ៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -292,7 +300,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>អ្នកគិតប្រាក់: </Value>
+                              <Value>អ្នកគិតប្រាក់៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -374,7 +382,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>អតិថិជន: </Value>
+                              <Value>អតិថិជន៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -422,7 +430,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>កៅអី#: </Value>
+                              <Value>កៅអី#៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -470,7 +478,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>ចំណាំ: </Value>
+                              <Value>ចំណាំ៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -541,7 +549,7 @@
         <DataSetName>Sale</DataSetName>
         <Top>1.22369in</Top>
         <Left>0.00625in</Left>
-        <Height>1.49689in</Height>
+        <Height>1.49688in</Height>
         <Width>2.77084in</Width>
         <Style>
           <Border>

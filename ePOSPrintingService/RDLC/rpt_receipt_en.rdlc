@@ -25,7 +25,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>RECEIPT</Value>
+                              <Value>INVOICE</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>10.5pt</FontSize>
@@ -67,6 +67,14 @@
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
+                            <TextRun>
+                              <Value>No: </Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Normal</FontWeight>
+                              </Style>
+                            </TextRun>
                             <TextRun>
                               <Value>=Fields!document_number.Value</Value>
                               <Style>
@@ -162,7 +170,7 @@
                               <Value>=Fields!table_name.Value</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -190,11 +198,11 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.16529in</Height>
+              <Height>0.17708in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox11">
+                    <Textbox Name="Textbox6">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -220,7 +228,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox11</rd:DefaultName>
+                      <rd:DefaultName>Textbox6</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -237,7 +245,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox37">
+                    <Textbox Name="Textbox13">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -263,7 +271,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox37</rd:DefaultName>
+                      <rd:DefaultName>Textbox13</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -281,7 +289,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.17571in</Height>
+              <Height>0.18613in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -541,7 +549,7 @@
         <DataSetName>Sale</DataSetName>
         <Top>1.21327in</Top>
         <Left>0.00625in</Left>
-        <Height>1.50491in</Height>
+        <Height>1.52712in</Height>
         <Width>2.77084in</Width>
         <Style>
           <Border>
@@ -748,7 +756,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SalePayment</DataSetName>
-        <Top>5.41996in</Top>
+        <Top>5.44496in</Top>
         <Left>0.01353in</Left>
         <Height>0.47917in</Height>
         <Width>2.7575in</Width>
@@ -881,7 +889,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SalePaymentChange</DataSetName>
-        <Top>5.93579in</Top>
+        <Top>5.96079in</Top>
         <Left>0.01145in</Left>
         <Height>0.21875in</Height>
         <Width>2.76043in</Width>
@@ -897,7 +905,7 @@
         </Style>
       </Tablix>
       <Line Name="Line3">
-        <Top>6.17954in</Top>
+        <Top>6.20454in</Top>
         <Left>2.77458in</Left>
         <Height>0in</Height>
         <Width>-2.76582in</Width>
@@ -1077,7 +1085,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Setting</DataSetName>
-        <Top>6.22727in</Top>
+        <Top>6.25227in</Top>
         <Left>0.01084in</Left>
         <Height>0.51042in</Height>
         <Width>2.76167in</Width>
@@ -2139,7 +2147,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Sale</DataSetName>
-        <Top>3.80634in</Top>
+        <Top>3.83134in</Top>
         <Left>0.0073in</Left>
         <Height>1.30208in</Height>
         <Width>2.77083in</Width>
@@ -2682,7 +2690,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SaleProduct</DataSetName>
-        <Top>2.76468in</Top>
+        <Top>2.78968in</Top>
         <Left>0.01353in</Left>
         <Height>0.96877in</Height>
         <Width>2.76043in</Width>
@@ -2694,7 +2702,7 @@
         </Style>
       </Tablix>
       <Line Name="Line1">
-        <Top>3.75842in</Top>
+        <Top>3.78342in</Top>
         <Left>2.7752in</Left>
         <Height>0in</Height>
         <Width>-2.76584in</Width>
@@ -2707,7 +2715,7 @@
         </Style>
       </Line>
       <Line Name="Line2">
-        <Top>3.78505in</Top>
+        <Top>3.81005in</Top>
         <Left>2.77103in</Left>
         <Height>0in</Height>
         <Width>-2.76582in</Width>
@@ -2843,7 +2851,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>GrandTotal</DataSetName>
-        <Top>5.14176in</Top>
+        <Top>5.16676in</Top>
         <Left>0.0125in</Left>
         <Height>0.21875in</Height>
         <Width>2.76043in</Width>
@@ -2858,10 +2866,10 @@
         <Source>Embedded</Source>
         <Value>copy</Value>
         <Sizing>FitProportional</Sizing>
-        <Top>1.46675in</Top>
+        <Top>1.57092in</Top>
         <Left>0.90413in</Left>
-        <Height>0.85003in</Height>
-        <Width>0.85008in</Width>
+        <Height>0.74586in</Height>
+        <Width>0.74591in</Width>
         <ZIndex>11</ZIndex>
         <Visibility>
           <Hidden>=First(Fields!is_reprint_receipt.Value, "Sale")=false</Hidden>
@@ -2873,7 +2881,7 @@
         </Style>
       </Image>
     </ReportItems>
-    <Height>6.73769in</Height>
+    <Height>6.76269in</Height>
     <Style />
   </Body>
   <Width>2.78334in</Width>
