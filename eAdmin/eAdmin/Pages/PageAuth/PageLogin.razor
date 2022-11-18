@@ -27,11 +27,11 @@
                         {
                         <div>
                             <div class="uk-form-control">
-                                <input id="username" @bind="@model.Username" type="text" placeholder="Enter username" class="uk-input" />
+                                <input id="username" @bind="@model.Username" type="text" placeholder="@(lang["Enter username"])" class="uk-input" />
                                 <ValidationMessage For="@(() => model.Username)" />
                             </div>
                             <div class="uk-form-control">
-                                <input id="password" @bind="@model.Password" type="password" placeholder="Enter password" class="uk-input" />
+                                <input id="password" @bind="@model.Password" type="password" placeholder="@(lang["Enter password"])" class="uk-input" />
                                 <ValidationMessage For="@(() => model.Password)" />
                             </div>   
                             <div class="uk-form-control">
@@ -66,8 +66,8 @@
 
 </AuthorizeView>
 <div class="uk-position-relative">
-    <div class="uk-position-bottom uk-text-center" style=" margin-bottom: 20px;">
-        <a href="http://esoftix.com/" class="cu_color">Power By ePOS</a>
+    <div class="uk-position-bottom uk-text-center" style=" margin-bottom: 20px;">@lang["Powered By: ePOS"]
+        @*<a href="http://esoftix.com/" class="cu_color">Powered By ePOS</a>*@
     </div>
 </div>
 @code {

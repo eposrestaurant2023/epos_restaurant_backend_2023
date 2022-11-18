@@ -2925,4 +2925,25 @@
   <data name="Payment Fee (%)" xml:space="preserve">
     <value>Payment Fee (%)</value>
   </data>
+  <data name="Disc.(%)" xml:space="preserve">
+    <value>បញ្ចុះតម្លៃ(%)</value>
+  </data>
+  <data name="Enter password" xml:space="preserve">
+    <value>លេខសម្ងាត់</value>
+  </data>
+  <data name="Enter username" xml:space="preserve">
+    <value>ឈ្មោះអ្នកប្រើប្រាស់</value>
+  </data>
+  <data name="Powered By: ePOS" xml:space="preserve">
+    <value>រក្សាសិទ្ធិដោយ: ePOS</value>
+  </data>
+  <data name="Product Printer" xml:space="preserve">
+    <value>ទំនិញដែលត្រូវបោះពុម្ភ</value>
+  </data>
+  <data name="Sale Data" xml:space="preserve">
+    <value>ទិន្នន័យលក់</value>
+  </data>
+  <data name="Telegram Alert" xml:space="preserve">
+    <value>កំណត់សារ Telegram</value>
+  </data>
 </root>

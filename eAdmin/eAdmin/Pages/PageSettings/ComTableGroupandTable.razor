@@ -97,6 +97,7 @@
                                                                     <ThAuto>@lang["Table​ Name"]</ThAuto>
                                                                     <ThCenter>@lang["Width"]</ThCenter>
                                                                     <ThCenter>@lang["Height"]</ThCenter>
+                                                                    <ThCenter>@lang["Disc.(%)"]</ThCenter>
                                                                     <th>@lang["Sale Type"]</th>
                                                                     <ThCenter>@lang["Sort Order"]</ThCenter>
                                                                     <th>@lang["Price Rule"]</th>
@@ -130,6 +131,7 @@
                                                                 </td>
                                                                 <TdCenter>@s.width</TdCenter>
                                                                 <TdCenter>@s.height</TdCenter>
+                                                                <TdCenter>@(s.default_discount_percentage)%</TdCenter>
                                                                 <td>
                                                                     @if (!string.IsNullOrEmpty(s.sale_type))
                                                                     {
@@ -143,8 +145,8 @@
                                                                     @s?.price_rule?.price_name
                                                                 </td>
                                                                 <td>
-                                                                    <LabelActive  is_visible="@s.status" />
-                                                                    <LabelInActive  is_visible="@(!s.status)" />
+                                                                    <LabelActive is_visible="@s.status" />
+                                                                    <LabelInActive is_visible="@(!s.status)" />
                                                                 </td>
                                                             </tr>
                                                                     }
@@ -193,7 +195,7 @@
         if (string.IsNullOrEmpty(api_url))
         {
 
-            api_url = $"{ControllerApi}?$expand=tables($expand=price_rule;$select=table_name,sale_type,sort_order,height,shape,width,position_x_percent,position_y_percent,id,status;$filter= is_deleted eq false),outlet($select=id,outlet_name_en,outlet_name_kh,business_branch_id,status,is_deleted;$filter= is_deleted  eq false)";
+            api_url = $"{ControllerApi}?$expand=tables($expand=price_rule;$select=table_name,sale_type,sort_order,height,shape,width,position_x_percent,position_y_percent,id,status,default_discount_percentage;$filter= is_deleted eq false),outlet($select=id,outlet_name_en,outlet_name_kh,business_branch_id,status,is_deleted;$filter= is_deleted  eq false)";
         }
 
         var resp = await http.ApiGetOData(api_url);

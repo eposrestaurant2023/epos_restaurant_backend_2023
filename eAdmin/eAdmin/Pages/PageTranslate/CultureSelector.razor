@@ -21,10 +21,10 @@
         languages L = new languages();
 
         cultures.Add(new languages() { lang_name = "English", lang_code = "en-EN" });
-        cultures.Add(new languages() { lang_name = "Khmer", lang_code = "km-KH" });
-        cultures.Add(new languages() { lang_name = "Thai", lang_code = "th-TH" });
-        cultures.Add(new languages() { lang_name = "Korean", lang_code = "ko-KR" });
-        cultures.Add(new languages() { lang_name = "Chinese", lang_code = "zh-CN" });
+        cultures.Add(new languages() { lang_name = "ខ្មែរ", lang_code = "km-KH" });
+        //cultures.Add(new languages() { lang_name = "Thai", lang_code = "th-TH" });
+        //cultures.Add(new languages() { lang_name = "Korean", lang_code = "ko-KR" });
+        //cultures.Add(new languages() { lang_name = "Chinese", lang_code = "zh-CN" });
 
 
         _current_lang = await local.GetItemAsync<string>("current_language");

@@ -32,8 +32,6 @@
                             @foreach (var outlet in models.Where(r => r.business_branch_id == current_business_branch_id).Select(r => new { r.outlet_id, r.outlet_name_en }).Distinct())
                             {
                                 <MudChip Default="@(current_outlet_id == outlet.outlet_id)" Text="@outlet.outlet_name_en" OnClick="@(()=>OnOutlet_Click(outlet.outlet_id))"></MudChip>
-
-
                             }
                         </MudChipSet>
                         <MudTabs Outlined="true" Position="@Position.Bottom" Rounded="true" Border="true" ApplyEffectsToContainer="true" Class="mt-4" PanelClass="pa-6">
@@ -45,22 +43,37 @@
                                     @foreach (var table in models.Where(r=>r.table_group_id == table_group.table_group_id))
                                     {
                                     <MudItem>
-                                        <MudButton Class="pa-0 ma-0" DisableElevation="true" Variant="Variant.Text" OnClick="@(()=>ViewPendingOrder(table))">
-                                        <MudPaper Style="@($"background:{GetTableColor(table.is_occupy)};color:#424242")" Class="d-flex align-content-center flex-wrap justify-center" Height="140px" Width="140px">
-                                           
-                                            
-                                                <div style="text-align:center">
-                                                    <div> @table.table_name</div>
-                                                    @if (table.total_amount != 0)
-                                                    {
-                                                        <MudText Typo="Typo.h6">@table.total_amount.ToString(gv.currency_format)</MudText>
-                                                    }
-                                                    
-                                                </div>
-                                           
-                                        </MudPaper>
-                                        </MudButton>
-                                        
+                                        @if (table.total_bills > 1)
+                                        {
+                                            <MudBadge Content="@(table.total_bills)" Color="@MudBlazor.Color.Primary" Overlap="true" Class="mx-6 my-4">
+                                                <MudButton Class="pa-0 ma-0" DisableElevation="true" Variant="Variant.Text" OnClick="@(()=>ViewPendingOrder(table))">
+                                                    <MudPaper Style="@($"background:{GetTableColor(table.is_occupy)};color:#424242")" Class="d-flex align-content-center flex-wrap justify-center" Height="140px" Width="140px">
+                                                        <div style="text-align:center">
+                                                            <div> @table.table_name</div>
+                                                            @if (table.total_amount != 0)
+                                                            {
+                                                                <MudText Typo="Typo.h6">@table.total_amount.ToString(gv.currency_format)</MudText>
+                                                            }
+                                                        </div>
+                                                    </MudPaper>
+                                                </MudButton>
+                                            </MudBadge>
+                                        }
+                                        else
+                                        {
+                                            <MudButton Class="pa-0 ma-0" DisableElevation="true" Variant="Variant.Text" OnClick="@(()=>ViewPendingOrder(table))">
+                                                <MudPaper Style="@($"background:{GetTableColor(table.is_occupy)};color:#424242")" Class="d-flex align-content-center flex-wrap justify-center" Height="140px" Width="140px">
+                                                    <div style="text-align:center">
+                                                        <div> @table.table_name</div>
+                                                        @if (table.total_amount != 0)
+                                                        {
+                                                            <MudText Typo="Typo.h6">@table.total_amount.ToString(gv.currency_format)</MudText>
+                                                        }
+                                                    </div>
+                                                </MudPaper>
+                                            </MudButton>
+                                        }
+
                                     </MudItem>
                                     }
                                 </MudGrid>
@@ -221,6 +234,7 @@
         public string business_branch_name_en { get; set; }
         public string table_name { get; set; }
         public int table_group_id { get; set; }
+        public int total_bills { get; set; }
         public string table_group_name_en { get; set; }
         public string outlet_name_en { get; set; }
         public Guid outlet_id { get; set; }
