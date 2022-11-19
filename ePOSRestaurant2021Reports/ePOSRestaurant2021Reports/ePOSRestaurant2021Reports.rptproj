@@ -8,9 +8,9 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>LuciusJapaneseWestern/Reports</TargetReportFolder>
-    <TargetDatasetFolder>LuciusJapaneseWestern/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>LuciusJapaneseWestern/DataSources</TargetDatasourceFolder>
+    <TargetReportFolder>ePOSESTCDemo/Reports</TargetReportFolder>
+    <TargetDatasetFolder>ePOSESTCDemo/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>ePOSESTCDemo/DataSources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
   </PropertyGroup>
