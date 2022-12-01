@@ -367,7 +367,7 @@ namespace ePOSPrintingService
 
             for (int i = 0; i < copies; i++)
             {
-                Export(report, receipt.PageWidth, receipt.PageHeight, receipt.MarginTop, receipt.MarginLeft, receipt.MarginRight, receipt.MarginBottom);
+                Export(report, receipt.PageWidth, 0, receipt.MarginTop, receipt.MarginLeft, receipt.MarginRight, receipt.MarginBottom);
 
                 if (m_streams == null || m_streams.Count == 0)
                     throw new Exception("Error: no stream to print.");
@@ -376,6 +376,26 @@ namespace ePOSPrintingService
                 PrintController printControl = new StandardPrintController();
                 printDoc.PrintController = printControl;
                 printDoc.PrinterSettings.PrinterName = printerName;
+
+                var paper_sizes = printDoc.PrinterSettings.PaperSizes ;
+                int paper_size_index = -1;
+                int x=0;
+                for (x = 0; x < paper_sizes.Count; x++)
+                {
+                    if (paper_sizes[x].ToString().ToLower().Contains("epos receipt"))
+                    {
+                        paper_size_index = x;
+                        break;
+                                              
+                    }
+                }
+
+                if (paper_size_index >= 0)
+                {
+                    printDoc.DefaultPageSettings.PaperSize = printDoc.PrinterSettings.PaperSizes[paper_size_index];
+                }
+
+                
                 if (!printDoc.PrinterSettings.IsValid)
                 {
                     try { throw new Exception("Error: cannot find the default printer."); }
