@@ -38,6 +38,14 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
                     await LoadData();
 
                 }
+                else
+                {
+                    var busi = gv.business_branch_by_role;
+                    if (busi.Any())
+                    {
+                        await OnBusinessBranchSeletedChange(busi.FirstOrDefault().id);
+                    }
+                }
 
             }
             await BuildCategoryTreeAsync();
@@ -168,6 +176,11 @@ namespace eAdmin.Pages.PageInventory.PageInventoryChecks
         {
             is_selecting_business_branch = true;
             model.stock_location_id = Guid.Empty;
+            var sl = gv.stock_locations.Where(r => r.business_branch_id == _id);
+            if (sl.Any())
+            {
+                OnStockLocationSeletedChange(sl.FirstOrDefault().id);
+            }
             await Task.Delay(500);
             model.business_branch_id = _id;
             is_selecting_business_branch = false;

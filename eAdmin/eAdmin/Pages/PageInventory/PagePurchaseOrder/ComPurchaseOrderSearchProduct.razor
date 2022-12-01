@@ -9,7 +9,7 @@
     </div>
 </div>
 <Com is_visible="is_selected_product">
-    <ComSearchProduct @bind-is_open="@is_selected_product" isProduction="@isProduction" @bind-keyword="@keyword" OnConfirmSelectedProductClick="@SelectProduct_Click"/>
+    <ComSearchProduct  @bind-is_open="@is_selected_product" isProduction="@isProduction" @bind-keyword="@keyword" OnConfirmSelectedProductClick="@SelectProduct_Click"/>
 </Com>
 @code{
     [Parameter] public string place_holder { get; set; }

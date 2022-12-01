@@ -8,7 +8,7 @@
         </div>
     </div> 
     <DateInput label="@lang["PO Date"]" value="@model.purchase_date" valueChanged="@OnDateChange" icon="layers" />
-    <SelectBusinessBranchByRole show_empty="true" icon="layers" selected_valueChanged="@OnBusinessBranchSeletedChange" selected_value="model.business_branch_id" />
+    <SelectBusinessBranchByRole show_empty="true" icon="layers"  selected_valueChanged="@OnBusinessBranchSeletedChange" selected_value="model.business_branch_id" />
     @if (!is_selecting_bb)
     {
         <SelectStockLocation business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" selected_valueChanged="@OnStockLocationSeletedChange" selected_value="model.stock_location_id" />
@@ -30,6 +30,18 @@
     [Parameter] public PurchaseOrderModel model { get; set; }
     [Parameter] public EventCallback<PurchaseOrderModel> modelChanged { get; set; }
     bool is_selecting_bb = false;
+    protected override async Task OnInitializedAsync()
+    {
+        if(model.business_branch_id == Guid.Empty)
+        {
+            if (gv.business_branch_by_role.Any())
+            {
+                await OnBusinessBranchSeletedChange(gv.business_branch_by_role.FirstOrDefault().id);
+            }
+        }
+    }
+
+
     async Task OnDateChange(DateTime date)
     {
         model.purchase_date = date;

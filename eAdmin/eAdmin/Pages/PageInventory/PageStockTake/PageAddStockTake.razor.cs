@@ -30,12 +30,18 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             { 
                 if (id > 0)
                 {
-
                     await LoadData();
                 }
                 else if (clone_id > 0)
                 {
                     await CloneRecord();
+                }
+                else
+                {       
+                    if (gv.business_branch_by_role.Any())
+                    {
+                        await OnBusinessBranchSeletedChange(gv.business_branch_by_role.FirstOrDefault().id);
+                    } 
                 }
             }
 
@@ -43,8 +49,8 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             {
                 is_error = true;
                 error_text = lang["This Stock Take is already fulfilled"];
-            }
-            is_loading = false;
+            }  
+        is_loading = false;
 
         }
         public async Task CloneRecord()
@@ -185,5 +191,9 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             model.business_branch_id = _id;
             is_selecting_business_branch = false;
         }
+
+
+
+
     }
 }
