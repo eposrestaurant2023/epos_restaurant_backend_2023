@@ -3,21 +3,74 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221206033616_coupon_voucher_feature")]
+    partial class coupon_voucher_feature
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
+
+            modelBuilder.Entity("eAPIClient.Models.BusinessBranchModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("address_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("address_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("business_branch_name_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("business_branch_name_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("contact_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("email")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("logo")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("phone_1")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("phone_2")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("website")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.HasKey("id");
+
+                    b.ToTable("BusinessBranchModel");
+                });
 
             modelBuilder.Entity("eAPIClient.Models.CashDrawerAmountModel", b =>
                 {
@@ -334,9 +387,6 @@ namespace eAPIClient.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_synced")
-                        .HasColumnType("bit");
-
                     b.Property<string>("last_modified_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -450,9 +500,6 @@ namespace eAPIClient.Migrations
                     b.Property<bool>("is_prefix_symbol")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_synced")
-                        .HasColumnType("bit");
-
                     b.Property<string>("last_modified_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -522,6 +569,8 @@ namespace eAPIClient.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
+
+                    b.HasIndex("business_branch_id");
 
                     b.HasIndex("coupon_voucher_id");
 
@@ -2527,11 +2576,19 @@ namespace eAPIClient.Migrations
 
             modelBuilder.Entity("eAPIClient.Models.CouponVoucherTransactionModel", b =>
                 {
+                    b.HasOne("eAPIClient.Models.BusinessBranchModel", "business_branch")
+                        .WithMany()
+                        .HasForeignKey("business_branch_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("eAPIClient.Models.CouponVoucherModel", "coupon_voucher")
                         .WithMany("coupon_vouchers")
                         .HasForeignKey("coupon_voucher_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("business_branch");
 
                     b.Navigation("coupon_voucher");
                 });

@@ -137,7 +137,7 @@ namespace eAPIClient.Services
 
 
 
-            List<DataForSyncModel> GetDataforSync()
+        List<DataForSyncModel> GetDataforSync()
         {
 
             try
@@ -325,6 +325,48 @@ namespace eAPIClient.Services
             catch (Exception ex)
             {
                 Log.Error($"Sync cashier shift fail. Ex: {ex.ToString()}");
+            }
+            return false;
+        }
+        public async Task<bool> SyncCouponVoucherGet(Guid id)
+        {
+            try
+            {
+                using (var db = new ApplicationDbContext(config))
+                {
+                    var _data = db.CouponVouchers.Where(r => r.id == id)
+                     .Include(r => r.coupon_vouchers)
+                     .AsNoTrackingWithIdentityResolution();
+                    if (_data.Count() > 0)
+                    {
+                        var _cpv = _data.FirstOrDefault();
+                        _cpv.is_synced = true;
+
+                        var _syncResp = await http.ApiPost("CouponVoucher/Save", _cpv);
+                        if (!_syncResp.IsSuccess)
+                        {
+                            string msg = $"{business_branch_name}\nSync Coupon Voucher fail. Data: { JsonSerializer.Serialize(_cpv)}";
+                            http.SendBackendTelegram(msg);
+                            Log.Error(msg);
+                            return false;
+                        }
+                        db.CouponVouchers.Update(_cpv);
+                        db.SaveChanges();
+                        return true;
+                    }
+
+                    else
+                    {
+                        Log.Error($"Coupon Voucher data not exists. {id.ToString()}");
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = $"{business_branch_name}\nSync Coupon Voucher fail. ID: {id}, Error: {ex.ToString()}";
+                http.SendBackendTelegram(msg);
+                Log.Error(msg);
             }
             return false;
         }
@@ -967,7 +1009,6 @@ namespace eAPIClient.Services
 
             is_sync_busy = true;
             http.SendBackendTelegram($"{business_branch_name}\nStart sync data");
-            await SyncDataToAdminDatabase();
 
             //run second time for sync some unsync data
             await SyncDataToAdminDatabase();
@@ -989,7 +1030,6 @@ namespace eAPIClient.Services
                 {
                     foreach (var r in data)
                     {
-
                         switch (r.transaction_type.ToString())
                         {
                             case "working_day":
@@ -1000,6 +1040,9 @@ namespace eAPIClient.Services
                                 break;
                             case "cashier_shift":
                                 await SyncCashierShiftGet(Guid.Parse(r.id.ToString()));
+                                break;
+                            case "coupon_voucher":
+                                await SyncCouponVoucherGet(Guid.Parse(r.id.ToString()));
                                 break;
                             case "sale":
                                 await SyncSaleGet(Guid.Parse(r.id.ToString()));
@@ -1024,12 +1067,7 @@ namespace eAPIClient.Services
                     }
                 }
 
-
                 http.SendBackendTelegram($"{ business_branch_name}\nSync completed");
-
-
-
-
             }
             catch (Exception ex)
             {

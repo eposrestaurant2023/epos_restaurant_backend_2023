@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221206034250_remove_business_branch_fk_coupon_voucher")]
+    partial class remove_business_branch_fk_coupon_voucher
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -334,9 +336,6 @@ namespace eAPIClient.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_synced")
-                        .HasColumnType("bit");
-
                     b.Property<string>("last_modified_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -448,9 +447,6 @@ namespace eAPIClient.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_prefix_symbol")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_synced")
                         .HasColumnType("bit");
 
                     b.Property<string>("last_modified_by")
