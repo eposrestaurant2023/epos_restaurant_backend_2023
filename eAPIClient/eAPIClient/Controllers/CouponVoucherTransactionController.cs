@@ -14,13 +14,13 @@ namespace eAPIClient.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class CouponVoucherController : ODataController
+    public class CouponVoucherTransactionController : ODataController
     {
 
         private readonly ApplicationDbContext db;     
         private readonly ISyncService sync;
 
-        public CouponVoucherController(ApplicationDbContext _db, ISyncService sync)
+        public CouponVoucherTransactionController(ApplicationDbContext _db, ISyncService sync)
         {
             db = _db;     
             this.sync = sync;
@@ -28,25 +28,22 @@ namespace eAPIClient.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)] 
-        public IQueryable<CouponVoucherModel> Find(string keyword)
-        {
-            
+        public IQueryable<CouponVoucherTransactionModel> Find(string keyword)
+        {              
             if (string.IsNullOrEmpty(keyword))
             {
-                return db.CouponVouchers;
-
+                return db.CouponVoucherTransactions;
             }
             else
             {
-                var data = from r in db.CouponVouchers
-                           where                             
+                var data = from r in db.CouponVoucherTransactions
+                           where
                                  EF.Functions.Like(
-                                     ((r.coupon_number ?? " ")
+                                     ((r.coupon_number ?? " ")     +
+                                     (r.document_number ?? " ")
                                      ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
                            select r;
-
                 return data;
-
             } 
         }
 
@@ -54,24 +51,24 @@ namespace eAPIClient.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 4)]
         [Route("[action]/{code}")]
-        public SingleResult<CouponVoucherModel> Get(string code)
+        public SingleResult<CouponVoucherTransactionModel> Get(string code)
         {
-            var s = db.CouponVouchers.Where(r => r.coupon_number == code && r.status && !r.is_deleted).AsQueryable();
+            var s = db.CouponVoucherTransactions.Where(r => r.coupon_number == code && r.status && !r.is_deleted).AsQueryable();
             return SingleResult.Create(s);
         }
 
 
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] CouponVoucherModel model)
+        public async Task<ActionResult<string>> Save([FromBody] CouponVoucherTransactionModel model)
         {
             model.is_synced = false;
             if (model.id == Guid.Empty)
             {
-                db.CouponVouchers.Add(model);
+                db.CouponVoucherTransactions.Add(model);
             }
             else
             {
-                db.CouponVouchers.Update(model);   
+                db.CouponVoucherTransactions.Update(model);   
             }
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
@@ -83,12 +80,12 @@ namespace eAPIClient.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<CouponVoucherModel>> DeleteRecord(Guid id) //Delete
+        public async Task<ActionResult<CouponVoucherTransactionModel>> DeleteRecord(Guid id) //Delete
         {
-            var u = await db.CouponVouchers.FindAsync(id);
+            var u = await db.CouponVoucherTransactions.FindAsync(id);
             u.is_synced = false;
             u.is_deleted = true;
-            db.CouponVouchers.Update(u);
+            db.CouponVoucherTransactions.Update(u);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             sync.sendSyncRequest();
             return Ok(u);

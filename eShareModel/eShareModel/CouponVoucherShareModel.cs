@@ -25,6 +25,7 @@ namespace eShareModel
 
     public class CouponVoucherTransactionShareModel     : CoreGUIDModel
     {
+        public string coupon_number { get; set; }
         public Guid coupon_voucher_id { get; set; }
 
         public string document_number { get; set; } = "New";
@@ -56,6 +57,8 @@ namespace eShareModel
        
         public decimal top_up_amount { get; set; }
         public decimal balance { get; set; }   //update when sale product
+
+        public decimal total_balance { get; set; }
 
 
 

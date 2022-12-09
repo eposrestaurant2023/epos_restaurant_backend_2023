@@ -145,6 +145,7 @@ namespace eAPIClient
             odataBuilder.EntitySet<ExpenseModel>("Expense");
             odataBuilder.EntitySet<CustomerCardModel>("CustomerCard");
             odataBuilder.EntitySet<CouponVoucherModel>("CouponVoucher");
+            odataBuilder.EntitySet<CouponVoucherTransactionModel>("CouponVoucherTransaction");
             return odataBuilder.GetEdmModel();
         }
     }
