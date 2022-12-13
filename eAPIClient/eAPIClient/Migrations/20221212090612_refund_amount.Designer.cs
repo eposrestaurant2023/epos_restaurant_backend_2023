@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221212090612_refund_amount")]
+    partial class refund_amount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -380,9 +382,6 @@ namespace eAPIClient.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("base_current_balance")
-                        .HasColumnType("decimal(19,8)");
-
-                    b.Property<decimal>("base_top_up_amount")
                         .HasColumnType("decimal(19,8)");
 
                     b.Property<string>("business_branch_en")

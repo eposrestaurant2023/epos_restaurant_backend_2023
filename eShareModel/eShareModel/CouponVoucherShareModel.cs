@@ -19,6 +19,7 @@ namespace eShareModel
         public DateTime expiry_date { get; set; }
 
         public decimal total_balance { get; set; }
+        public decimal total_refund_amount { get; set; }
         public bool is_synced { get; set; } = false;
 
     }
@@ -53,12 +54,15 @@ namespace eShareModel
 
         public Guid cashier_shift_id { get; set; }
         public string cashier_shift_number { get; set; }
+        public string shift_name { get; set; }
 
        
         public decimal top_up_amount { get; set; }
-        public decimal balance { get; set; }   //update when sale product
-
-        public decimal total_balance { get; set; }
+        public decimal base_top_up_amount { get; set; }
+        public decimal refund_amount { get; set; }
+        public decimal current_balance { get; set; }  
+        public decimal base_current_balance { get; set; }
+        public bool is_used { get; set; } = false;
 
 
 
@@ -78,7 +82,6 @@ namespace eShareModel
         public int payment_type_id { get; set; }
         public string payment_type_name_en { get; set; }
         public string payment_type_name_kh { get; set; }
-        public decimal payment_amount { get; set; }
 
         public bool is_synced { get; set; } = false;
 

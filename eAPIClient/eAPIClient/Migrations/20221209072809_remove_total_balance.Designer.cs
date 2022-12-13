@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221209072809_remove_total_balance")]
+    partial class remove_total_balance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -365,9 +367,6 @@ namespace eAPIClient.Migrations
                     b.Property<decimal>("total_balance")
                         .HasColumnType("decimal(19,8)");
 
-                    b.Property<decimal>("total_refund_amount")
-                        .HasColumnType("decimal(19,8)");
-
                     b.HasKey("id");
 
                     b.ToTable("tbl_coupon_voucher");
@@ -379,10 +378,7 @@ namespace eAPIClient.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("base_current_balance")
-                        .HasColumnType("decimal(19,8)");
-
-                    b.Property<decimal>("base_top_up_amount")
+                    b.Property<decimal>("balance")
                         .HasColumnType("decimal(19,8)");
 
                     b.Property<string>("business_branch_en")
@@ -439,9 +435,6 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<decimal>("current_balance")
-                        .HasColumnType("decimal(19,8)");
-
                     b.Property<string>("deleted_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -464,9 +457,6 @@ namespace eAPIClient.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_synced")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_used")
                         .HasColumnType("bit");
 
                     b.Property<string>("last_modified_by")
@@ -500,13 +490,6 @@ namespace eAPIClient.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("payment_type_name_kh")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("refund_amount")
-                        .HasColumnType("decimal(19,8)");
-
-                    b.Property<string>("shift_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
