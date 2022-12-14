@@ -56,7 +56,7 @@ namespace eAPIClient.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 4)]
         [Route("[action]/{code}")]
-        public SingleResult<CouponVoucherModel> Get(string code)
+        public SingleResult<CouponVoucherModel> Code(string code)
         {
             var s = db.CouponVouchers.Where(r => r.coupon_number == code && r.status && !r.is_deleted).AsQueryable();
             return SingleResult.Create(s);

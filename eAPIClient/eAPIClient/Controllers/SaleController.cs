@@ -161,6 +161,9 @@ namespace eAPIClient.Controllers
                     model.is_foc = model.sale_payments.Where(r => r.is_deleted == false && r.payment_type_group == "FOC").Any();
                 }
                 model.sale_products.ForEach(r => r.sale_order = r.sale_order_id != Guid.Empty ? null : r.sale_order);
+
+                
+
                 if (model.id == Guid.Empty)
                 {
                     _saleNumber = app.GetDocument("SaleNum", model.cash_drawer_id.ToString());
@@ -215,13 +218,12 @@ namespace eAPIClient.Controllers
 
                     db.Sales.Update(model);
                 }
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
                 //Update Document
                 await app.UpdateDocument(_saleNumber);
                 await app.UpdateDocument(_waitingNumber);
-
 
                 if (!is_new)
                 {
@@ -245,7 +247,6 @@ namespace eAPIClient.Controllers
             }
             catch (Exception _ex)
             {
-                
                 return BadRequest(new BadRequestModel() { message = "save_data_fail_please_try_again" }) ;
             }
         }
