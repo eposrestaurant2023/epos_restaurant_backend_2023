@@ -21,5 +21,7 @@ namespace eModels
 
         public int group_item_type_id { get; set; } = 1;
         public string note { get; set; } = "";
+
+        public bool allow_choose { get; set; } = false;
     }
 }

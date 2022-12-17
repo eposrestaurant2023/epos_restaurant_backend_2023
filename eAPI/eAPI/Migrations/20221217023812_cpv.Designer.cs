@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221217023812_cpv")]
+    partial class cpv
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1451,15 +1453,11 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime");
 
+                    b.Property<decimal>("discount_percentage")
+                        .HasColumnType("decimal(19,8)");
+
                     b.Property<Guid>("discount_promotion_id")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("discount_type")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("discount_value")
-                        .HasColumnType("decimal(19,8)");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -3012,9 +3010,6 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("allow_choose")
-                        .HasColumnType("bit");
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -6066,6 +6061,9 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime");
 
+                    b.Property<double>("default_discount_percentage")
+                        .HasColumnType("float");
+
                     b.Property<string>("deleted_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -6073,13 +6071,6 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime");
-
-                    b.Property<string>("discount_type")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("discount_value")
-                        .HasColumnType("decimal(19,8)");
 
                     b.Property<double>("height")
                         .HasColumnType("float");

@@ -126,5 +126,6 @@ namespace eModels
 
 
         public bool is_order_station { get; set; }
+        public bool order_station_allow_payment { get; set; } = false;
     }
 }

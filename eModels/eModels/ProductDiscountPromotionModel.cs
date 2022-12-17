@@ -50,9 +50,10 @@ namespace eModels
         public int product_category_id { get; set; }
 
         [ForeignKey("product_category_id")]
-        public ProductCategoryModel product_category { get; set; }
+        public ProductCategoryModel product_category { get; set; }   
 
-        public decimal discount_percentage { get; set; }
+        public decimal discount_value { get; set; } = 0;
+        public string discount_type { get; set; } = "Percent";
 
     }
 }

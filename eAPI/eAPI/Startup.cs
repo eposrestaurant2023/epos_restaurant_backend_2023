@@ -232,7 +232,8 @@ namespace eAPI
             odataBuilder.EntitySet<CustomerCardModel>("CustomerCard");
             odataBuilder.EntitySet<DefaultStockLocationProductModel>("DefaultStockLocationProduct");
             odataBuilder.EntitySet<DiscountPromotionModel>("DiscountPromotion");
-
+            odataBuilder.EntitySet<CouponVoucherModel>("CouponVoucher");
+            odataBuilder.EntitySet<CouponVoucherTransactionModel>("CouponVoucherTransaction");
             odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
             var business_branch_system_features = odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
             business_branch_system_features.EntityType.HasKey(r => new { r.business_branch_id, r.system_feature_id });
