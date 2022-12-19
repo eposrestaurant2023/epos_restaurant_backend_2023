@@ -1,18 +1,32 @@
-﻿<div class="uk-margin-small">
-    <div>
-        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
-            <option value="Percent">Percent</option>
-            <option value="Amount">Amount</option>
-        </select>
-        @ChildContent
+﻿<div class="@(is_horizontal ? "uk-form-horizontal":"")">
+    <div class="uk-margin-small">
+        @if (string.IsNullOrEmpty(label))
+        {
+            <div>
+                <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+                    <option value="Percent">Percent</option>
+                    <option value="Amount">Amount</option>
+                </select>
+                @ChildContent
+            </div>
+        }else{
+            <label class="uk-form-label">@label</label>
+            <div class="uk-form-controls">
+                <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+                    <option value="Percent">Percent</option>
+                    <option value="Amount">Amount</option>
+                </select>
+            </div>
+        }
     </div>
 </div>
-
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public string width { get; set; } = "100%";
     [Parameter] public string selected_value { get; set; } = "Percent";
+    [Parameter] public string label { get; set; }
+    [Parameter] public bool is_horizontal { get; set; }
     [Parameter] public EventCallback<string> selected_valueChanged { get; set; }
 
     public string SelectedValue
