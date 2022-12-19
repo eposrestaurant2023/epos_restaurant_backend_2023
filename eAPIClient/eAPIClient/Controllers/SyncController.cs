@@ -339,6 +339,42 @@ namespace eAPIClient.Controllers
             } 
         }
 
+        [HttpGet("SyncCouponVoucher")]
+        [AllowAnonymous]
+        public async Task<ActionResult> SyncCouponVoucherGet(Guid id)
+        {
+            try
+            {
+                var _data = db.CouponVouchers.Where(r => r.id == id)
+                     .Include(r => r.coupon_vouchers)
+                     .AsNoTrackingWithIdentityResolution();
+                if (_data.Count() > 0)
+                {
+                    var _cpv = _data.FirstOrDefault();
+                    _cpv.is_synced = true;
+                    _cpv.coupon_vouchers.ForEach(r => r.is_synced = true);
+                    var _syncResp = await http.ApiPost("CouponVoucher/Save", _cpv);
+                    if (!_syncResp.IsSuccess)
+                    {
+                        return Ok(_cpv);
+                    }
+                    db.CouponVouchers.Update(_cpv);
+                    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                    return Ok();
+                }
+
+                else
+                {
+                    return NotFound();
+                }     
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
 
         [HttpGet("SyncRemoteData")]
         [AllowAnonymous]

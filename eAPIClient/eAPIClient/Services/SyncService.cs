@@ -341,6 +341,7 @@ namespace eAPIClient.Services
                     {
                         var _cpv = _data.FirstOrDefault();
                         _cpv.is_synced = true;
+                        _cpv.coupon_vouchers.ForEach(r => r.is_synced = true);
 
                         var _syncResp = await http.ApiPost("CouponVoucher/Save", _cpv);
                         if (!_syncResp.IsSuccess)
