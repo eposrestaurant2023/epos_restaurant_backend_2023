@@ -10,6 +10,7 @@ namespace eShareModel
         public Guid customer_id { get; set; }
         public string card_name { get; set; }
         public string card_code { get; set; }
+        public string discount_type { get; set; } = "Percent";
         public decimal  discount_value { get; set; }
 
         [Column(TypeName = "date")]
@@ -22,7 +23,6 @@ namespace eShareModel
                 return expiry_date <= DateTime.Now;
             }
         }
-
         
     }
 }
