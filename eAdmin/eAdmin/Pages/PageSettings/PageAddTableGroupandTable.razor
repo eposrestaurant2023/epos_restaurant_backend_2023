@@ -76,7 +76,8 @@
                                     <ThCenter width="100px">@lang["Width"]</ThCenter>
                                     <ThCenter width="100px">@lang["Height"]</ThCenter>
                                     <th>@lang["Shape"]</th>
-                                    <th>@lang["Disc.(%)"]</th>
+                                    <th>@lang["Disc. Type"]</th>
+                                    <th>@lang["Disc. Value"]</th>
                                     <th>@lang["Price Rule"]</th>
                                     <Th>@lang["Sale Type"]</Th>
                                     @if (is_table_require_check_in)
@@ -99,7 +100,7 @@
                                     <th>
                                         <SelectShape @bind-selected_value="@shape" />
                                     </th>
-                                    <ThCenter> - </ThCenter>
+                                    <ThCenter colspan="2"> - </ThCenter>
                                     <th>
                                         <SelectPriceRule @bind-selected_value="@price_rule" outlet="@model.outlet" is_inline="true" show_empty="true" width="100px" />
                                     </th>
@@ -133,8 +134,11 @@
                                 <td>
                                     <SelectShape @bind-selected_value="@s.shape" />
                                 </td>
+                                <td>
+                                    <SelectDiscountType @bind-selected_value="@s.discount_type"></SelectDiscountType>
+                                </td>
                                 <TdCenter>
-                                    <NumberInputDouble @bind-text="@s.default_discount_percentage" />%
+                                    <NumberInputDecimal @bind-text="@s.discount_value" />                                    
                                 </TdCenter>
                                 <td>
                                     <SelectPriceRule @bind-selected_value="@s.price_rule_id" outlet="@model.outlet" is_inline="true" show_empty="true" width="100px" />
