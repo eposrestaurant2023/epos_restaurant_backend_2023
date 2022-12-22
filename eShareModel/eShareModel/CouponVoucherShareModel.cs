@@ -18,6 +18,8 @@ namespace eShareModel
         [Column(TypeName = "date")]
         public DateTime expiry_date { get; set; }
 
+        public bool unlimited { get; set; } = false;
+
         public decimal total_balance { get; set; }
         public decimal total_refund_amount { get; set; }
         public bool is_synced { get; set; } = false;
