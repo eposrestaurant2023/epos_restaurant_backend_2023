@@ -108,8 +108,30 @@ namespace eAPIClient.Controllers
             return Ok();
         }
 
+        [HttpPost("Refund")]
+        public async Task<ActionResult<string>> OnRefund(Guid id, decimal amount )
+        {
 
-        [HttpPost]
+            var coupons = db.CouponVouchers.Where(r => r.id == id).AsNoTracking();
+            if (coupons.Any())
+            {
+                var coupon = coupons.FirstOrDefault();
+                if(coupon.total_balance + coupon.total_refund_amount < amount )
+                {
+                     return BadRequest(new BadRequestModel { message = "you_cannot_to_refund_amount_over"});
+                }
+                else
+                { 
+                    string query = $"exec sp_update_coupon_refund '{id}',{amount}";
+                    db.Database.ExecuteSqlRaw(query);
+                    return Ok();
+                }
+            }
+            return BadRequest(new BadRequestModel { message = "error" });
+        }  
+
+
+[HttpPost]
         [Route("delete/{id}")]
         public async Task<ActionResult<CouponVoucherModel>> DeleteRecord(Guid id) //Delete
         {

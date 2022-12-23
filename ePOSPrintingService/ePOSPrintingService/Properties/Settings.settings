@@ -9,7 +9,8 @@
       <Value Profile="(Default)">Label Printer</Value>
     </Setting>
     <Setting Name="ReceiptSettings" Type="System.String" Scope="User">
-      <Value Profile="(Default)">[
+      <Value Profile="(Default)">
+[
 	{
 		"ReceiptName":"Invoice En",
 		"ReceiptFileName":"rpt_receipt_en",
@@ -27,6 +28,32 @@
 		"ReceiptName":"Invoice Kh",
 		"ReceiptFileName":"rpt_receipt_kh",
 		"InvoiceFileName":"rpt_invoice_kh",
+		"number_invoice_copies":1,
+		"number_receipt_copies":1,
+		"PageWidth":2.85,
+		"PageHeight":11,
+		"MarginTop":0,
+		"MarginRight":0,
+		"MarginBottom":0,
+		"MarginLeft":0
+	},
+    {
+		"ReceiptName":"Coupon Voucher Receipt",
+		"ReceiptFileName":"rpt_coupon_voucher_receipt",
+		"InvoiceFileName":"rpt_coupon_voucher_receipt",
+		"number_invoice_copies":1,
+		"number_receipt_copies":1,
+		"PageWidth":2.85,
+		"PageHeight":11,
+		"MarginTop":0,
+		"MarginRight":0,
+		"MarginBottom":0,
+		"MarginLeft":0
+	},
+    {
+		"ReceiptName":"Coupon Voucher Slip",
+		"ReceiptFileName":"rpt_coupon_voucher_slip",
+		"InvoiceFileName":"rpt_coupon_voucher_slip",
 		"number_invoice_copies":1,
 		"number_receipt_copies":1,
 		"PageWidth":2.85,
@@ -167,10 +194,10 @@
 ]</Value>
     </Setting>
     <Setting Name="CashierPrinter" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Bar Printer</Value>
+      <Value Profile="(Default)">Cashier Printer</Value>
     </Setting>
     <Setting Name="BaseAPIURL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://212.80.213.34:9009/client_demo_api/api/</Value>
+      <Value Profile="(Default)">http://localhost:7072/api/</Value>
     </Setting>
     <Setting Name="USBCashDrawer" Type="System.String" Scope="User">
       <Value Profile="(Default)">{"is_usb":false,"port":"COM1"}</Value>
