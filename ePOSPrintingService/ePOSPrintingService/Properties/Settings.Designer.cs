@@ -60,48 +60,44 @@ namespace ePOSPrintingService.Properties {
             "pt\",\r\n\t\t\"ReceiptFileName\":\"rpt_coupon_voucher_receipt\",\r\n\t\t\"InvoiceFileName\":\"rp" +
             "t_coupon_voucher_receipt\",\r\n\t\t\"number_invoice_copies\":1,\r\n\t\t\"number_receipt_copi" +
             "es\":1,\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"MarginTop\":0,\r\n\t\t\"MarginRigh" +
-            "t\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n    {\r\n\t\t\"ReceiptName\":\"Coupo" +
-            "n Voucher Slip\",\r\n\t\t\"ReceiptFileName\":\"rpt_coupon_voucher_slip\",\r\n\t\t\"InvoiceFile" +
-            "Name\":\"rpt_coupon_voucher_slip\",\r\n\t\t\"number_invoice_copies\":1,\r\n\t\t\"number_receip" +
-            "t_copies\":1,\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"MarginTop\":0,\r\n\t\t\"Marg" +
-            "inRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n{\r\n\t\t\"ReceiptName\":\"Lab" +
-            "el\",\r\n\t\t\"ReceiptFileName\":\"rpt_label\",\r\n\t\t\"InvoiceFileName\":\"rpt_label\",\r\n\t\t\"Pag" +
-            "eWidth\":1.57,\r\n\t\t\"PageHeight\":1,\r\n\t\t\"MarginTop\":0,\r\n\t\t\"MarginRight\":0,\r\n\t\t\"Margi" +
-            "nBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"ReceiptName\":\"Kitchen Order\",\r\n\t\t\"Rec" +
-            "eiptFileName\":\"rpt_kitchen_order\",\r\n\t\t\"InvoiceFileName\":\"rpt_kitchen_order\",\r\n\t\t" +
-            "\"number_invoice_copies\":1,\r\n\t\t\"number_receipt_copies\":1,\r\n\t\t\"PageWidth\":2.85,\r\n\t" +
-            "\t\"PageHeight\":11,\r\n\t\t\"MarginTop\":0,\r\n\t\t\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t" +
-            "\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"ReceiptName\":\"Kitchen Message\",\r\n\t\t\"ReceiptFileName\"" +
-            ":\"rpt_kitchen_message\",\r\n\t\t\"InvoiceFileName\":\"rpt_kitchen_message\",\r\n\t\t\"number_i" +
-            "nvoice_copies\":1,\r\n\t\t\"number_receipt_copies\":1,\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHei" +
-            "ght\":11,\r\n\t\t\"MarginTop\":0,\r\n\t\t\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLe" +
-            "ft\":0\r\n\t},\r\n\t{\r\n\t\t\"ReceiptName\":\"Close Working Day\",\r\n\t\t\"ReceiptFileName\":\"rpt_c" +
-            "lose_working_day_summary\",\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"MarginTo" +
-            "p\":0,\r\n\t\t\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"Re" +
-            "ceiptName\":\"Close Working Day Sale Product\",\r\n\t\t\"ReceiptFileName\":\"rpt_close_wor" +
-            "king_day_sale_product\",\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"MarginTop\":" +
+            "t\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n{\r\n\t\t\"ReceiptName\":\"Label\",\r\n" +
+            "\t\t\"ReceiptFileName\":\"rpt_label\",\r\n\t\t\"InvoiceFileName\":\"rpt_label\",\r\n\t\t\"PageWidth" +
+            "\":1.57,\r\n\t\t\"PageHeight\":1,\r\n\t\t\"MarginTop\":0,\r\n\t\t\"MarginRight\":0,\r\n\t\t\"MarginBotto" +
+            "m\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"ReceiptName\":\"Kitchen Order\",\r\n\t\t\"ReceiptFi" +
+            "leName\":\"rpt_kitchen_order\",\r\n\t\t\"InvoiceFileName\":\"rpt_kitchen_order\",\r\n\t\t\"numbe" +
+            "r_invoice_copies\":1,\r\n\t\t\"number_receipt_copies\":1,\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"Page" +
+            "Height\":11,\r\n\t\t\"MarginTop\":0,\r\n\t\t\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"Margi" +
+            "nLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"ReceiptName\":\"Kitchen Message\",\r\n\t\t\"ReceiptFileName\":\"rpt_" +
+            "kitchen_message\",\r\n\t\t\"InvoiceFileName\":\"rpt_kitchen_message\",\r\n\t\t\"number_invoice" +
+            "_copies\":1,\r\n\t\t\"number_receipt_copies\":1,\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":1" +
+            "1,\r\n\t\t\"MarginTop\":0,\r\n\t\t\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r" +
+            "\n\t},\r\n\t{\r\n\t\t\"ReceiptName\":\"Close Working Day\",\r\n\t\t\"ReceiptFileName\":\"rpt_close_w" +
+            "orking_day_summary\",\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"MarginTop\":0,\r" +
+            "\n\t\t\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"ReceiptN" +
+            "ame\":\"Close Working Day Sale Product\",\r\n\t\t\"ReceiptFileName\":\"rpt_close_working_d" +
+            "ay_sale_product\",\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"MarginTop\":0,\r\n\t\t" +
+            "\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"ReceiptName" +
+            "\":\"Close Working Day Sale Transaction\",\r\n\t\t\"ReceiptFileName\":\"rpt_close_working_" +
+            "day_sale_transaction\",\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"MarginTop\":0" +
+            ",\r\n\t\t\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"Receip" +
+            "tName\":\"Close Cashier Shift Summary\",\r\n\t\t\"ReceiptFileName\":\"rpt_close_cashier_sh" +
+            "ift_summary\",\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"MarginTop\":0,\r\n\t\t\"Mar" +
+            "ginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"ReceiptName\":\"C" +
+            "lose Cashier Shift Sale Transaction\",\r\n\t\t\"ReceiptFileName\":\"rpt_close_cashier_sh" +
+            "ift_sale_transaction\",\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"MarginTop\":0" +
+            ",\r\n\t\t\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"Receip" +
+            "tName\":\"Close Cashier Shift Sale Product\",\r\n\t\t\"ReceiptFileName\":\"rpt_close_cashi" +
+            "er_shift_sale_product\",\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"MarginTop\":" +
             "0,\r\n\t\t\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"Recei" +
-            "ptName\":\"Close Working Day Sale Transaction\",\r\n\t\t\"ReceiptFileName\":\"rpt_close_wo" +
-            "rking_day_sale_transaction\",\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"Margin" +
-            "Top\":0,\r\n\t\t\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"" +
-            "ReceiptName\":\"Close Cashier Shift Summary\",\r\n\t\t\"ReceiptFileName\":\"rpt_close_cash" +
-            "ier_shift_summary\",\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"MarginTop\":0,\r\n" +
-            "\t\t\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"ReceiptNa" +
-            "me\":\"Close Cashier Shift Sale Transaction\",\r\n\t\t\"ReceiptFileName\":\"rpt_close_cash" +
-            "ier_shift_sale_transaction\",\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"Margin" +
-            "Top\":0,\r\n\t\t\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"" +
-            "ReceiptName\":\"Close Cashier Shift Sale Product\",\r\n\t\t\"ReceiptFileName\":\"rpt_close" +
-            "_cashier_shift_sale_product\",\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"Margi" +
-            "nTop\":0,\r\n\t\t\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t" +
-            "\"ReceiptName\":\"Deleted Sale Order\",\r\n\t\t\"InvoiceFileName\":\"rpt_deleted_invoice\",\r" +
-            "\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"MarginTop\":0,\r\n\t\t\"MarginRight\":0,\r\n" +
-            "\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"ReceiptName\":\"Park Item Recei" +
-            "pt\",\r\n\t\t\"ReceiptFileName\":\"rpt_park_item_receipt\",\r\n\t\t\"number_receipt_copies\":1," +
-            "\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"MarginTop\":0,\r\n\t\t\"MarginRight\":0,\r" +
-            "\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"ReceiptName\":\"Waiting Order\"" +
-            ",\r\n\t\t\"InvoiceFileName\":\"rpt_waiting_order\",\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\"" +
-            ":11,\r\n\t\t\"MarginTop\":0,\r\n\t\t\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":" +
-            "0\r\n\t}\r\n]")]
+            "ptName\":\"Deleted Sale Order\",\r\n\t\t\"InvoiceFileName\":\"rpt_deleted_invoice\",\r\n\t\t\"Pa" +
+            "geWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"MarginTop\":0,\r\n\t\t\"MarginRight\":0,\r\n\t\t\"Mar" +
+            "ginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"ReceiptName\":\"Park Item Receipt\",\r\n" +
+            "\t\t\"ReceiptFileName\":\"rpt_park_item_receipt\",\r\n\t\t\"number_receipt_copies\":1,\r\n\t\t\"P" +
+            "ageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n\t\t\"MarginTop\":0,\r\n\t\t\"MarginRight\":0,\r\n\t\t\"Ma" +
+            "rginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t},\r\n\t{\r\n\t\t\"ReceiptName\":\"Waiting Order\",\r\n\t\t\"" +
+            "InvoiceFileName\":\"rpt_waiting_order\",\r\n\t\t\"PageWidth\":2.85,\r\n\t\t\"PageHeight\":11,\r\n" +
+            "\t\t\"MarginTop\":0,\r\n\t\t\"MarginRight\":0,\r\n\t\t\"MarginBottom\":0,\r\n\t\t\"MarginLeft\":0\r\n\t}\r" +
+            "\n]")]
         public string ReceiptSettings {
             get {
                 return ((string)(this["ReceiptSettings"]));

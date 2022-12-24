@@ -256,10 +256,14 @@ namespace eAPIClient.Models
         public string setting_data { get; set; }
         public string sale_payment_data { get; set; }
         public string sale_payment_change_data { get; set; }
+        public string coupon_voucher_data { get; set; }
+
         public string working_day_info { get; set; }
         public string working_day_data { get; set; }
+
         public string deleted_sale_data { get; set; }
         public string foc_sale_product_data { get; set; }
+
         public string cashier_shift_info { get; set; }
         public string cashier_shift_data  { get; set; }
 

@@ -133,7 +133,10 @@ namespace ePOSPrintingServiceReportModel
         public DateTime? check_out_date { get; set; }
         public bool? is_checked_out { get; set; }  
         public string kitchen_message_text { get; set; }
-        public string sale_seat { get; set; }  
+        public string sale_seat { get; set; }
+        public string coupon_number { get; set; }
+        public decimal coupon_voucher_amount { get; set; }
+        
 
     }
     public class KitchenMessageModel

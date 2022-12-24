@@ -111,29 +111,37 @@ namespace ePOSPrintingService
             {
                 var action = action_models.OrderBy(r=>r.created_date).FirstOrDefault();
                 is_busy = true;
+
+                string _printer = action.default_printer_name=="NONE"?Program.CashierPrinter : action.default_printer_name;    
                 switch (action.action)
                 {
                     case "print_request_bill":
                         ReceiptListModel invoice = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
-                        await Program.PrintInvoice(action.sale_id, invoice, Program.CashierPrinter, action.get_copy);
+                        await Program.PrintInvoice(action.sale_id, invoice, _printer, action.get_copy);
 
                         break;
 
                     case "print_receipt":
                         ReceiptListModel receipt = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
-                        await Program.PrintReceipt(action.sale_id, receipt, Program.CashierPrinter, action.get_copy);
+                        await Program.PrintReceipt(action.sale_id, receipt, _printer, action.get_copy);
+
+                        break;
+
+                    case "print_coupon_voucher_receipt":
+                        ReceiptListModel receipt_voucher = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                        await Program.PrintCouponVoucherReceipt(action.id, receipt_voucher, _printer, action.get_copy);
 
                         break;
 
                     case "print_deleted_sale_order":
                         ReceiptListModel deleted_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
-                        await Program.PrintDeletedOrder(action.sale_id, deleted_report, Program.CashierPrinter);
+                        await Program.PrintDeletedOrder(action.sale_id, deleted_report, _printer);
 
                         break;
 
                     case "reprint_receipt":
                         ReceiptListModel reprint_receipt = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
-                        await Program.PrintReceipt(action.sale_id, reprint_receipt, Program.CashierPrinter, action.get_copy, true);
+                        await Program.PrintReceipt(action.sale_id, reprint_receipt, _printer, action.get_copy, true);
 
                         break;
 
@@ -149,49 +157,49 @@ namespace ePOSPrintingService
 
                     case "print_close_working_day_summary":
                         ReceiptListModel close_working_day_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
-                        await Program.PrintCloseWorkingDay(action.id, close_working_day_report, Program.CashierPrinter, action.printed_by, action.language);
+                        await Program.PrintCloseWorkingDay(action.id, close_working_day_report, _printer, action.printed_by, action.language);
 
                         break;
 
                     case "print_close_working_day_sale_product":
                         ReceiptListModel close_working_day_sale_product_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
-                        await Program.PrintCloseWorkingDaySaleProduct(action.id, close_working_day_sale_product_report, Program.CashierPrinter, action.printed_by, action.language);
+                        await Program.PrintCloseWorkingDaySaleProduct(action.id, close_working_day_sale_product_report, _printer, action.printed_by, action.language);
 
                         break;
 
                     case "print_close_working_day_sale_transaction":
                         ReceiptListModel close_working_day_sale_transaction_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
-                        await Program.PrintCloseWorkingDaySaleTransaction(action.id, close_working_day_sale_transaction_report, Program.CashierPrinter, action.printed_by, action.language);
+                        await Program.PrintCloseWorkingDaySaleTransaction(action.id, close_working_day_sale_transaction_report, _printer, action.printed_by, action.language);
 
                         break;
 
                     case "print_close_cashier_shift_summary":
                         ReceiptListModel close_cashift_shift_summary_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
-                        await Program.PrintCloseCashierShiftSummary(action.id, close_cashift_shift_summary_report, Program.CashierPrinter, action.printed_by, action.language);
+                        await Program.PrintCloseCashierShiftSummary(action.id, close_cashift_shift_summary_report, _printer, action.printed_by, action.language);
 
                         break;
 
                     case "print_close_cashier_shift_sale_transaction":
                         ReceiptListModel close_cashift_shift_sale_transaction_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
-                        await Program.PrintCloseCashierShiftSaleTransaction(action.id, close_cashift_shift_sale_transaction_report, Program.CashierPrinter, action.printed_by, action.language);
+                        await Program.PrintCloseCashierShiftSaleTransaction(action.id, close_cashift_shift_sale_transaction_report, _printer, action.printed_by, action.language);
 
                         break;
 
                     case "print_close_cashier_shift_sale_product":
                         ReceiptListModel close_cashift_shift_sale_product_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
-                        await Program.PrintCloseCashierShiftSaleProduct(action.id, close_cashift_shift_sale_product_report, Program.CashierPrinter, action.printed_by, action.language);
+                        await Program.PrintCloseCashierShiftSaleProduct(action.id, close_cashift_shift_sale_product_report, _printer, action.printed_by, action.language);
 
                         break;
 
                     case "print_waiting_order":
                         ReceiptListModel waiting_order = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
-                        await Program.PrintWaitingOrder(action.sale_id, waiting_order, Program.CashierPrinter, action.get_copy);
+                        await Program.PrintWaitingOrder(action.sale_id, waiting_order, _printer, action.get_copy);
 
                         break;
 
                     case "print_park":
                         ReceiptListModel park = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
-                        await Program.PrintParkItemReceipt(action.sale_id, park, Program.CashierPrinter, action.is_reprint);
+                        await Program.PrintParkItemReceipt(action.sale_id, park, _printer, action.is_reprint);
 
                         break;
 

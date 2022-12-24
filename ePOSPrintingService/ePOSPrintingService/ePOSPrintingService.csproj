@@ -120,6 +120,7 @@
     <Compile Include="Models\SalePaymentModel.cs" />
     <Compile Include="Models\SaleProductModel.cs" />
     <Compile Include="Models\SaleProductPrintQueueModel.cs" />
+    <Compile Include="Models\CouponVoucherModel.cs" />
     <Compile Include="Models\SettingModel.cs" />
     <Compile Include="Models\WorkingDayModel.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -142,6 +143,8 @@
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.CashierShiftModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.CloseCashierShiftSummaryDataModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.CloseWorkingDaySummaryDataModel.datasource" />
+    <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.CouponVoucherModel.datasource" />
+    <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.CouponVoucherTransactionModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.DynamicDataModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.GrandTotalModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.KitchenMessageModel.datasource" />
