@@ -1,0 +1,129 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:tax_rule_name",
+ "creation": "2022-12-17 20:59:55.652035",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "tax_rule_name",
+  "section_break_2",
+  "tax_1_rate",
+  "calculate_tax_1_after_discount",
+  "section_break_6",
+  "tax_2_rate",
+  "calculate_tax_2_after_discount",
+  "calculate_tax_2_after_adding_tax_1",
+  "section_break_12",
+  "tax_3_rate",
+  "calculate_tax_3_after_discount",
+  "calculate_tax_3_after_adding_tax_1",
+  "calculate_tax_3_after_adding_tax_2"
+ ],
+ "fields": [
+  {
+   "fieldname": "tax_rule_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tax Rule Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break",
+   "label": "Tax 1"
+  },
+  {
+   "default": "0",
+   "fieldname": "tax_1_rate",
+   "fieldtype": "Float",
+   "label": "Tax 1 Rate"
+  },
+  {
+   "default": "1",
+   "fieldname": "calculate_tax_1_after_discount",
+   "fieldtype": "Check",
+   "label": "Calculate Tax 1 After Discount"
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break",
+   "label": "Tax 2"
+  },
+  {
+   "default": "0",
+   "fieldname": "tax_2_rate",
+   "fieldtype": "Float",
+   "label": "Tax 2 Rate"
+  },
+  {
+   "default": "1",
+   "fieldname": "calculate_tax_2_after_discount",
+   "fieldtype": "Check",
+   "label": "Calculate Tax 2 After Discount"
+  },
+  {
+   "default": "1",
+   "fieldname": "calculate_tax_2_after_adding_tax_1",
+   "fieldtype": "Check",
+   "label": "Calculate Tax 2 After Adding Tax 1"
+  },
+  {
+   "fieldname": "section_break_12",
+   "fieldtype": "Section Break",
+   "label": "Tax 3"
+  },
+  {
+   "default": "0",
+   "fieldname": "tax_3_rate",
+   "fieldtype": "Float",
+   "label": "Tax 3 Rate"
+  },
+  {
+   "default": "1",
+   "fieldname": "calculate_tax_3_after_discount",
+   "fieldtype": "Check",
+   "label": "Calculate Tax 3 After Discount"
+  },
+  {
+   "default": "1",
+   "fieldname": "calculate_tax_3_after_adding_tax_1",
+   "fieldtype": "Check",
+   "label": "Calculate Tax 3 After Adding Tax 1"
+  },
+  {
+   "default": "1",
+   "fieldname": "calculate_tax_3_after_adding_tax_2",
+   "fieldtype": "Check",
+   "label": "Calculate Tax 3 After Adding Tax 2"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-12-18 02:08:33.083964",
+ "modified_by": "Administrator",
+ "module": "Configuration",
+ "name": "Tax Rule",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

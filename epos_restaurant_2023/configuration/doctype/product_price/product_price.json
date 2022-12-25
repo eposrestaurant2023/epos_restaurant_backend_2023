@@ -1,0 +1,76 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2022-12-07 11:36:38.239657",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "business_branch",
+  "price_rule",
+  "portion",
+  "unit",
+  "cost",
+  "price"
+ ],
+ "fields": [
+  {
+   "fieldname": "business_branch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Business Branch",
+   "options": "Business Branch",
+   "reqd": 1
+  },
+  {
+   "fieldname": "price_rule",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Price Rule",
+   "options": "Price Rule",
+   "reqd": 1
+  },
+  {
+   "default": "Normal",
+   "fieldname": "portion",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Portion",
+   "reqd": 1
+  },
+  {
+   "default": "Unit",
+   "fieldname": "unit",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Unit",
+   "options": "Unit Of Measurement",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "label": "Cost"
+  },
+  {
+   "default": "0",
+   "fieldname": "price",
+   "fieldtype": "Currency",
+   "label": "Price"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2022-12-08 10:28:04.485683",
+ "modified_by": "Administrator",
+ "module": "Configuration",
+ "name": "Product Price",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

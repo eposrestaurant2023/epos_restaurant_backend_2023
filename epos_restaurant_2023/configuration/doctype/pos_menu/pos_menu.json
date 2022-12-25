@@ -1,0 +1,172 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:pos_menu_name_en",
+ "creation": "2022-12-07 10:27:50.837005",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "parent_pos_menu",
+  "pos_menu_name_en",
+  "pos_menu_name_kh",
+  "lft",
+  "rgt",
+  "photo",
+  "pos_menu_path",
+  "text_color",
+  "background_color",
+  "column_break_4",
+  "is_group",
+  "shortcut_menu",
+  "price_rule",
+  "sort_order",
+  "disabled",
+  "old_parent"
+ ],
+ "fields": [
+  {
+   "fieldname": "pos_menu_name_en",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "POS Menu Name En",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "pos_menu_name_kh",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "POS Menu Name Kh"
+  },
+  {
+   "fieldname": "lft",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Left",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "rgt",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Right",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fieldname": "is_group",
+   "fieldtype": "Check",
+   "label": "Is Group"
+  },
+  {
+   "fieldname": "old_parent",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Old Parent",
+   "options": "POS Menu"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "parent_pos_menu",
+   "fieldtype": "Link",
+   "label": "Parent POS Menu",
+   "options": "POS Menu"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  },
+  {
+   "fieldname": "pos_menu_path",
+   "fieldtype": "Small Text",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "POS Menu Path"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "#6b6b6b",
+   "fieldname": "text_color",
+   "fieldtype": "Color",
+   "label": "Text Color"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "#e8e6e6",
+   "fieldname": "background_color",
+   "fieldtype": "Color",
+   "label": "Background Color"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "bold": 1,
+   "default": "0",
+   "fieldname": "sort_order",
+   "fieldtype": "Int",
+   "label": "Sort Order"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fieldname": "shortcut_menu",
+   "fieldtype": "Check",
+   "label": "Shortcut menu"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "price_rule",
+   "fieldtype": "Link",
+   "label": "Price Rule",
+   "options": "Price Rule"
+  },
+  {
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "image_field": "photo",
+ "index_web_pages_for_search": 1,
+ "is_tree": 1,
+ "links": [],
+ "modified": "2022-12-12 09:34:53.058239",
+ "modified_by": "Administrator",
+ "module": "Configuration",
+ "name": "POS Menu",
+ "naming_rule": "By fieldname",
+ "nsm_parent_field": "parent_pos_menu",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "search_fields": "pos_menu_name_kh,pos_menu_path",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

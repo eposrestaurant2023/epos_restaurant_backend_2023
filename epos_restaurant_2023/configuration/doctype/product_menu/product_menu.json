@@ -1,0 +1,49 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2022-12-07 11:47:07.310150",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "pos_menu",
+  "pos_menu_name_kh",
+  "menu_path"
+ ],
+ "fields": [
+  {
+   "fieldname": "pos_menu",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "POS Menu",
+   "options": "POS Menu",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "pos_menu.pos_menu_name_kh",
+   "fieldname": "pos_menu_name_kh",
+   "fieldtype": "Data",
+   "label": "POS Menu Name Kh"
+  },
+  {
+   "fetch_from": "pos_menu.pos_menu_path",
+   "fieldname": "menu_path",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Menu Path"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2022-12-07 17:57:00.406049",
+ "modified_by": "Administrator",
+ "module": "Configuration",
+ "name": "Product Menu",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

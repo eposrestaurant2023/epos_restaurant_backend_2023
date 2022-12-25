@@ -1,0 +1,92 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2022-12-15 14:16:33.159642",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "product_code",
+  "product_name",
+  "quantity",
+  "unit",
+  "base_unit",
+  "cost",
+  "amount",
+  "is_inventory_product"
+ ],
+ "fields": [
+  {
+   "fieldname": "product_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Product Code",
+   "options": "Product",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "product_code.product_name_en",
+   "fieldname": "product_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Product Name",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "product_code.unit",
+   "fetch_if_empty": 1,
+   "fieldname": "unit",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Unit",
+   "options": "Unit Of Measurement",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "product_code.unit",
+   "fieldname": "base_unit",
+   "fieldtype": "Data",
+   "label": "Base Unit",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "quantity",
+   "fieldtype": "Float",
+   "label": "Quantity"
+  },
+  {
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "label": "Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fetch_from": "product_code.is_inventory_product",
+   "fieldname": "is_inventory_product",
+   "fieldtype": "Check",
+   "label": "Is Inventory Product"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2022-12-17 17:44:19.933447",
+ "modified_by": "Administrator",
+ "module": "Inventory",
+ "name": "Stock Transfer Products",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

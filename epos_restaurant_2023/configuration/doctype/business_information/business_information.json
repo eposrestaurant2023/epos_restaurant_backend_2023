@@ -1,0 +1,106 @@
+{
+ "actions": [],
+ "autoname": "field",
+ "creation": "2022-12-05 14:21:54.101080",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "business_name_en",
+  "business_name_kh",
+  "phone_number",
+  "office_number",
+  "email",
+  "column_break_4",
+  "contact_name",
+  "contact_number",
+  "contact_email",
+  "photo",
+  "address"
+ ],
+ "fields": [
+  {
+   "fieldname": "business_name_en",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Business Name En",
+   "reqd": 1
+  },
+  {
+   "fieldname": "business_name_kh",
+   "fieldtype": "Data",
+   "label": "Business Name Kh"
+  },
+  {
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "office_number",
+   "fieldtype": "Data",
+   "label": "Office Number"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "contact_name",
+   "fieldtype": "Data",
+   "label": "Contact Name"
+  },
+  {
+   "fieldname": "contact_number",
+   "fieldtype": "Data",
+   "label": "Contact Number"
+  },
+  {
+   "fieldname": "contact_email",
+   "fieldtype": "Data",
+   "label": "Contact Email"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  }
+ ],
+ "image_field": "photo",
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2022-12-14 09:37:59.052160",
+ "modified_by": "Administrator",
+ "module": "Configuration",
+ "name": "Business Information",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

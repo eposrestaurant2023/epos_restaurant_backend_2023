@@ -1,0 +1,199 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2022-12-08 16:37:29.720940",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "posting_date",
+  "column_break_3",
+  "payment_type",
+  "referance",
+  "purchase_order_information_section",
+  "purchase_order",
+  "purchase_order_date",
+  "column_break_9",
+  "purchase_order_amount",
+  "column_break_11",
+  "total_paid",
+  "column_break_13",
+  "balance",
+  "section_break_10",
+  "payment_amount",
+  "section_break_17",
+  "note",
+  "amended_from",
+  "attach_receipt"
+ ],
+ "fields": [
+  {
+   "allow_in_quick_entry": 1,
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "payment_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Payment Type",
+   "options": "Payment Type",
+   "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "purchase_order_information_section",
+   "fieldtype": "Section Break",
+   "label": "Purchase Order Information"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "purchase_order",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Purchase Order",
+   "options": "Purchase Order",
+   "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fetch_from": "purchase_order.posting_date",
+   "fieldname": "purchase_order_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Purchase Order Date",
+   "read_only": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "payment_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Payment Amount",
+   "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Note"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Purchase Order Payment",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "referance",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Referance"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_10",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "attach_receipt",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Attach Receipt"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Document Number",
+   "options": "PO-REC.-.YYYY.-.####"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fetch_from": "purchase_order.grand_total",
+   "fieldname": "purchase_order_amount",
+   "fieldtype": "Currency",
+   "label": "Purchase Order Amount",
+   "read_only": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fetch_from": "purchase_order.total_paid",
+   "fieldname": "total_paid",
+   "fieldtype": "Currency",
+   "label": "Total Paid",
+   "read_only": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fetch_from": "purchase_order.balance",
+   "fieldname": "balance",
+   "fieldtype": "Currency",
+   "label": "Balance",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_11",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_17",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "image_field": "attach_receipt",
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2022-12-15 11:43:46.497324",
+ "modified_by": "Administrator",
+ "module": "Purchasing",
+ "name": "Purchase Order Payment",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

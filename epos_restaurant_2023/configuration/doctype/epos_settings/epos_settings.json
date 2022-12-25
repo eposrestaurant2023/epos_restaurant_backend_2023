@@ -1,0 +1,67 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2022-12-17 17:50:12.752181",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "app_name",
+  "tax_1_name",
+  "tax_2_name",
+  "tax_3_name",
+  "changed_payment_type"
+ ],
+ "fields": [
+  {
+   "fieldname": "app_name",
+   "fieldtype": "Data",
+   "label": "App Name"
+  },
+  {
+   "fieldname": "tax_1_name",
+   "fieldtype": "Data",
+   "label": "Tax 1 Name"
+  },
+  {
+   "fieldname": "tax_2_name",
+   "fieldtype": "Data",
+   "label": "Tax 2 Name"
+  },
+  {
+   "fieldname": "tax_3_name",
+   "fieldtype": "Data",
+   "label": "Tax 3 Name"
+  },
+  {
+   "fieldname": "changed_payment_type",
+   "fieldtype": "Link",
+   "label": "Changed Payment Type",
+   "options": "Payment Type"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2022-12-23 12:07:51.981078",
+ "modified_by": "Administrator",
+ "module": "Configuration",
+ "name": "ePOS Settings",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

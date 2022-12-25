@@ -1,0 +1,106 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:kitchen_group_en",
+ "creation": "2022-12-07 11:26:01.460620",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "kitchen_group_en",
+  "kitchen_name_kh",
+  "sort_order",
+  "lft",
+  "rgt",
+  "is_group",
+  "old_parent",
+  "parent_kitchen_group"
+ ],
+ "fields": [
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "kitchen_group_en",
+   "fieldtype": "Data",
+   "label": "Kitchen Group Name En",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "kitchen_name_kh",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Kitchen Group Name Kh"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "sort_order",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Sort Order"
+  },
+  {
+   "fieldname": "lft",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Left",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "rgt",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Right",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_group",
+   "fieldtype": "Check",
+   "label": "Is Group"
+  },
+  {
+   "fieldname": "old_parent",
+   "fieldtype": "Link",
+   "label": "Old Parent",
+   "options": "Kitchen Group"
+  },
+  {
+   "fieldname": "parent_kitchen_group",
+   "fieldtype": "Link",
+   "label": "Parent Kitchen Group",
+   "options": "Kitchen Group"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-12-07 15:15:54.653646",
+ "modified_by": "Administrator",
+ "module": "Configuration",
+ "name": "Kitchen Group",
+ "naming_rule": "By fieldname",
+ "nsm_parent_field": "parent_kitchen_group",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "search_fields": "kitchen_group_en",
+ "sort_field": "sort_order",
+ "sort_order": "ASC",
+ "states": []
+}

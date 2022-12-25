@@ -1,0 +1,303 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2022-12-13 13:52:17.715207",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "posting_date",
+  "transaction_type",
+  "referance",
+  "column_break_3",
+  "payment_type",
+  "payment_type_group",
+  "currency",
+  "sale_information_section",
+  "sale",
+  "sale_date",
+  "customer",
+  "customer_name",
+  "customer_group",
+  "column_break_13",
+  "outlet",
+  "business_branch",
+  "column_break_9",
+  "sale_amount",
+  "total_paid",
+  "balance",
+  "section_break_11",
+  "input_amount",
+  "column_break_18",
+  "exchange_rate",
+  "column_break_20",
+  "payment_amount",
+  "section_break_13",
+  "note",
+  "attach_receipt",
+  "amended_from",
+  "pos_profile",
+  "working_day",
+  "cashier_shift",
+  "check_valid_payment_amount"
+ ],
+ "fields": [
+  {
+   "allow_in_quick_entry": 1,
+   "default": "SO-REC.-.YYYY.-.####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Document Number",
+   "options": "SO-REC.-.YYYY.-.####"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "payment_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Payment Type",
+   "options": "Payment Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "referance",
+   "fieldtype": "Data",
+   "label": "Referance"
+  },
+  {
+   "fieldname": "sale",
+   "fieldtype": "Link",
+   "label": "Sale",
+   "options": "Sale",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "sale.posting_date",
+   "fieldname": "sale_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Sale Date",
+   "read_only": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fetch_from": "sale.grand_total",
+   "fieldname": "sale_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Sale Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fetch_from": "sale.total_paid",
+   "fieldname": "total_paid",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Paid",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "sale.balance",
+   "fieldname": "balance",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Balance",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_11",
+   "fieldtype": "Section Break"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fieldname": "payment_amount",
+   "fieldtype": "Currency",
+   "label": "Payment Amount",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_13",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "attach_receipt",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Attach Receipt"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Sale Payment",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "sale.customer",
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "fetch_from": "sale.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "sale_information_section",
+   "fieldtype": "Section Break",
+   "label": "Sale Information"
+  },
+  {
+   "fetch_from": "payment_type.currency",
+   "fieldname": "currency",
+   "fieldtype": "Data",
+   "label": "Currency"
+  },
+  {
+   "fieldname": "input_amount",
+   "fieldtype": "Float",
+   "label": "Input Amount"
+  },
+  {
+   "default": "1",
+   "fetch_from": "payment_type.exchange_rate",
+   "fieldname": "exchange_rate",
+   "fieldtype": "Float",
+   "label": "Exchange Rate",
+   "precision": "9",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pos_profile",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "POS Profile"
+  },
+  {
+   "fieldname": "working_day",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Working Day",
+   "options": "Working Day"
+  },
+  {
+   "fieldname": "cashier_shift",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Cashier Shift",
+   "options": "Cashier Shift"
+  },
+  {
+   "fieldname": "column_break_18",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_20",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "check_valid_payment_amount",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "check_valid_payment_amount"
+  },
+  {
+   "default": "Payment",
+   "fieldname": "transaction_type",
+   "fieldtype": "Select",
+   "label": "Transaction Type",
+   "options": "Payment\nChanged"
+  },
+  {
+   "fetch_from": "sale.business_branch",
+   "fieldname": "business_branch",
+   "fieldtype": "Data",
+   "label": "Business Branch"
+  },
+  {
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "sale.outlet",
+   "fieldname": "outlet",
+   "fieldtype": "Data",
+   "label": "Outlet"
+  },
+  {
+   "fetch_from": "customer.customer_group",
+   "fieldname": "customer_group",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Customer Group"
+  },
+  {
+   "fetch_from": "payment_type.payment_type_group",
+   "fieldname": "payment_type_group",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Payment Type Group"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2022-12-23 17:49:44.216197",
+ "modified_by": "Administrator",
+ "module": "Selling",
+ "name": "Sale Payment",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

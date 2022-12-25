@@ -1,0 +1,28 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2022-12-17 16:32:12.421174",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "Defualt Letter Head",
+ "modified": "2022-12-20 09:03:12.750069",
+ "modified_by": "Administrator",
+ "module": "Inventory",
+ "name": "Stock Take Report",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "select s.name,s.posting_date from `tabStock Take` s",
+ "ref_doctype": "Stock Take",
+ "report_name": "Stock Take Report",
+ "report_script": "",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ]
+}

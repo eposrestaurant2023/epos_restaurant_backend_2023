@@ -1,0 +1,91 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:table_group_name_en",
+ "creation": "2022-12-07 12:10:02.211693",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "business_branch",
+  "outlet",
+  "table_group_name_en",
+  "table_group_name_kh",
+  "disabled",
+  "photo"
+ ],
+ "fields": [
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "table_group_name_en",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Table Group Name En",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "table_group_name_kh",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Table Group Name Kh"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "outlet",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Outlet",
+   "options": "Outlet"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "business_branch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Business Branch",
+   "options": "Business Branch"
+  }
+ ],
+ "image_field": "photo",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-12-12 09:52:45.125997",
+ "modified_by": "Administrator",
+ "module": "Configuration",
+ "name": "Table Group",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

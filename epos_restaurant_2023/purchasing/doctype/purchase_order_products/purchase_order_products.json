@@ -1,0 +1,104 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2022-12-15 15:18:45.498629",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "product_code",
+  "product_name",
+  "quantity",
+  "unit",
+  "base_unit",
+  "unit_category",
+  "cost",
+  "amount",
+  "is_inventory_product"
+ ],
+ "fields": [
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "product_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Product Code",
+   "options": "Product"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fetch_from": "product_code.product_name_en",
+   "fieldname": "product_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Product name"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fetch_from": "product_code.unit",
+   "fetch_if_empty": 1,
+   "fieldname": "unit",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Unit",
+   "options": "Unit Of Measurement",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "product_code.unit",
+   "fieldname": "base_unit",
+   "fieldtype": "Data",
+   "label": "Base Unit"
+  },
+  {
+   "fetch_from": "unit.unit_category",
+   "fieldname": "unit_category",
+   "fieldtype": "Data",
+   "label": "Unit Category"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "1",
+   "fieldname": "quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Cost"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fetch_from": "product_code.is_inventory_product",
+   "fieldname": "is_inventory_product",
+   "fieldtype": "Check",
+   "label": "Is Inventory Product"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2022-12-23 11:03:08.912976",
+ "modified_by": "Administrator",
+ "module": "Purchasing",
+ "name": "Purchase Order Products",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

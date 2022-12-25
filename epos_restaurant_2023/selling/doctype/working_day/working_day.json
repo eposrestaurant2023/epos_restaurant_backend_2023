@@ -1,0 +1,93 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2022-12-08 11:30:38.141186",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "posting_date",
+  "pos_profile",
+  "business_branch",
+  "closing_information_section",
+  "is_closed",
+  "closed_date",
+  "outlet"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Document Number",
+   "options": "WD.YYYY.-.####"
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date"
+  },
+  {
+   "fieldname": "business_branch",
+   "fieldtype": "Link",
+   "label": "Business Branch",
+   "options": "Business Branch"
+  },
+  {
+   "fieldname": "closing_information_section",
+   "fieldtype": "Section Break",
+   "label": "Closing Information"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_closed",
+   "fieldtype": "Check",
+   "label": "Is Closed"
+  },
+  {
+   "fieldname": "closed_date",
+   "fieldtype": "Datetime",
+   "label": "Closed Date"
+  },
+  {
+   "fieldname": "pos_profile",
+   "fieldtype": "Link",
+   "label": "POS Profile",
+   "options": "POS Profile"
+  },
+  {
+   "fieldname": "outlet",
+   "fieldtype": "Link",
+   "label": "Outlet",
+   "options": "Outlet"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-12-08 11:39:35.927124",
+ "modified_by": "Administrator",
+ "module": "Selling",
+ "name": "Working Day",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "posting_date,business_branch,outlet",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

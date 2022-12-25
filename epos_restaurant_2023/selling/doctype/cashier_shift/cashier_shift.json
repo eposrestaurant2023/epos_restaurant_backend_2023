@@ -1,0 +1,120 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2022-12-08 11:44:32.334987",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "working_day",
+  "posting_date",
+  "business_branch",
+  "pos_profile",
+  "column_break_5",
+  "opened_note",
+  "close_shift_information_section",
+  "is_closed",
+  "closed_date",
+  "column_break_10",
+  "closed_note"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Document Number",
+   "options": "CS.YYYY.-.####"
+  },
+  {
+   "fetch_from": "working_day.pos_profile",
+   "fieldname": "pos_profile",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "POS Profile",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "working_day.posting_date",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date"
+  },
+  {
+   "fieldname": "working_day",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Working Day",
+   "options": "Working Day"
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "opened_note",
+   "fieldtype": "Small Text",
+   "label": "Opened Note"
+  },
+  {
+   "fieldname": "close_shift_information_section",
+   "fieldtype": "Section Break",
+   "label": "Close Shift Information"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_closed",
+   "fieldtype": "Check",
+   "label": "Is Closed"
+  },
+  {
+   "fieldname": "closed_date",
+   "fieldtype": "Datetime",
+   "label": "Closed Date"
+  },
+  {
+   "fieldname": "column_break_10",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "closed_note",
+   "fieldtype": "Small Text",
+   "label": "Closed Note"
+  },
+  {
+   "fetch_from": "working_day.business_branch",
+   "fieldname": "business_branch",
+   "fieldtype": "Data",
+   "label": "Business Branch"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-12-08 15:21:23.890203",
+ "modified_by": "Administrator",
+ "module": "Selling",
+ "name": "Cashier Shift",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "posting_date,working_day,business_branch,pos_profile",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

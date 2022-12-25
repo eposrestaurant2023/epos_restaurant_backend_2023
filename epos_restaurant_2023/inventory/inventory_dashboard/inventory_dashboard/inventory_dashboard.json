@@ -1,0 +1,24 @@
+{
+ "cards": [],
+ "charts": [
+  {
+   "width": "Half"
+  },
+  {
+   "chart": "Stock Value Chart",
+   "width": "Half"
+  }
+ ],
+ "creation": "2022-12-22 14:04:51.142220",
+ "dashboard_name": "Inventory Dashboard",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2022-12-22 14:23:01.573598",
+ "modified_by": "Administrator",
+ "module": "Inventory",
+ "name": "Inventory Dashboard",
+ "owner": "Administrator"
+}

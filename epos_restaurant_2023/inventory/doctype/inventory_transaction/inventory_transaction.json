@@ -1,0 +1,217 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "hash",
+ "creation": "2022-12-14 09:55:17.550290",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "transaction_date",
+  "transaction_type",
+  "transaction_number",
+  "column_break_4",
+  "product_code",
+  "product_name",
+  "stock_unit",
+  "unit",
+  "uom_conversion",
+  "column_break_7",
+  "business_branch",
+  "stock_location",
+  "section_break_13",
+  "beginning_stock_value",
+  "quantity_on_hand",
+  "column_break_16",
+  "in_quantity",
+  "out_quantity",
+  "price",
+  "column_break_20",
+  "balance",
+  "ending_stock_value",
+  "section_break_23",
+  "note"
+ ],
+ "fields": [
+  {
+   "fieldname": "product_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Product Code",
+   "options": "Product",
+   "set_only_once": 1
+  },
+  {
+   "fetch_from": "product_code.product_name_en",
+   "fieldname": "product_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Product Name",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "unit",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Unit",
+   "read_only": 1,
+   "set_only_once": 1
+  },
+  {
+   "fetch_from": "stock_location.business_branch",
+   "fieldname": "business_branch",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Business Branch",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "stock_location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Stock Location",
+   "options": "Stock Location",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "quantity_on_hand",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity On Hand",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "in_quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "In Quantity",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "out_quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Out Quantity",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "balance",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Balance",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "transaction_type",
+   "fieldtype": "Link",
+   "label": "Transaction Type",
+   "options": "DocType",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "transaction_number",
+   "fieldtype": "Dynamic Link",
+   "label": "Transaction Number",
+   "options": "transaction_type",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "transaction_date",
+   "fieldtype": "Date",
+   "label": "Transaction Date",
+   "set_only_once": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "uom_conversion",
+   "fieldtype": "Float",
+   "label": "UoM Conversion",
+   "precision": "9",
+   "set_only_once": 1
+  },
+  {
+   "fetch_from": "product_code.unit",
+   "fieldname": "stock_unit",
+   "fieldtype": "Data",
+   "label": "Stock Unit",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "price",
+   "fieldtype": "Currency",
+   "label": "Cost",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note",
+   "set_only_once": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "beginning_stock_value",
+   "fieldtype": "Currency",
+   "label": "Beginning Stock Value",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "ending_stock_value",
+   "fieldtype": "Currency",
+   "label": "Ending Stock Value",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_13",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_16",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_20",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_23",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-12-16 19:09:11.506542",
+ "modified_by": "Administrator",
+ "module": "Inventory",
+ "name": "Inventory Transaction",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

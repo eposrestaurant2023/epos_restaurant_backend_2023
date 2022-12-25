@@ -1,1 +1,8 @@
 ePOS Restaurant
+Expense
+Purchasing
+Employee Management
+Selling
+Configuration
+Inventory
+ePOS Report

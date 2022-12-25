@@ -1,0 +1,123 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "hash",
+ "creation": "2022-12-12 09:12:38.905692",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "tbl_number",
+  "tbl_group",
+  "photo",
+  "widh",
+  "height",
+  "column_break_6",
+  "shape",
+  "disc",
+  "price_rule",
+  "sale_type_section",
+  "require_check_in"
+ ],
+ "fields": [
+  {
+   "fieldname": "tbl_group",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Table Group",
+   "options": "Table Group",
+   "reqd": 1
+  },
+  {
+   "fieldname": "tbl_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Table Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  },
+  {
+   "fieldname": "widh",
+   "fieldtype": "Data",
+   "label": "Width"
+  },
+  {
+   "fieldname": "height",
+   "fieldtype": "Data",
+   "label": "Height"
+  },
+  {
+   "fieldname": "shape",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Shape",
+   "options": "Rectangle\nCircle"
+  },
+  {
+   "fieldname": "disc",
+   "fieldtype": "Data",
+   "label": "Disc"
+  },
+  {
+   "fieldname": "price_rule",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Price Rule",
+   "options": "Select Price Rule\nNormal Price\nVIP"
+  },
+  {
+   "fieldname": "sale_type_section",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Sale Type",
+   "options": "Select Sale Type\nGeneral Sale\nCCCCC\nTakeaway\nDine in\nDelivery"
+  },
+  {
+   "default": "0",
+   "fieldname": "require_check_in",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Require Check in"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "image_field": "photo",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-12-13 14:04:37.687249",
+ "modified_by": "Administrator",
+ "module": "Configuration",
+ "name": "Tables Number",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "search_fields": "tbl_group",
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "tbl_number"
+}

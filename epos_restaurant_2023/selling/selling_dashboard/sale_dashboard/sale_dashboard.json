@@ -1,0 +1,21 @@
+{
+ "cards": [],
+ "charts": [
+  {
+   "chart": "Sale Revenue",
+   "width": "Full"
+  }
+ ],
+ "creation": "2022-12-17 16:14:57.564817",
+ "dashboard_name": "Sale Dashboard",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2022-12-17 16:14:57.564817",
+ "modified_by": "Administrator",
+ "module": "Selling",
+ "name": "Sale Dashboard",
+ "owner": "Administrator"
+}

@@ -1,0 +1,224 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:photo",
+ "creation": "2022-12-05 14:26:45.023631",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "customer_name_en",
+  "customer_name_kh",
+  "customer_code_name",
+  "company_name",
+  "column_break_5",
+  "customer_group",
+  "date_of_birth",
+  "gender",
+  "disabled",
+  "column_break_4",
+  "phone_number",
+  "phone_number_2",
+  "email_address",
+  "column_break_11",
+  "country",
+  "province",
+  "default_discount_section",
+  "default_discount",
+  "column_break_12",
+  "photo",
+  "address",
+  "column_break_18",
+  "note"
+ ],
+ "fields": [
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Customer Code",
+   "options": "C.YYYY.-.####",
+   "print_hide": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "customer_name_en",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer Name En",
+   "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "customer_name_kh",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer Name Kh"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fieldname": "province",
+   "fieldtype": "Link",
+   "label": "Province",
+   "options": "Province"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Phone Number  1"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "column_break_4",
+   "fieldtype": "Section Break",
+   "label": "Contact Information"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "date_of_birth",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date of Birth"
+  },
+  {
+   "fieldname": "column_break_12",
+   "fieldtype": "Section Break",
+   "label": "Address & Note"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "email_address",
+   "fieldtype": "Data",
+   "label": "Email address"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "phone_number_2",
+   "fieldtype": "Data",
+   "label": "Phone Number 2"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "default_discount",
+   "fieldtype": "Percent",
+   "label": "Default Discount"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_18",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "column_break_11",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "Not Set",
+   "fieldname": "gender",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Gender",
+   "options": "Not Set\nMale\nFemale"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "default_discount_section",
+   "fieldtype": "Section Break",
+   "label": "Default Discount"
+  },
+  {
+   "fieldname": "customer_code_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Customer Code Name"
+  },
+  {
+   "fieldname": "customer_group",
+   "fieldtype": "Link",
+   "label": "Customer Group",
+   "options": "Customer Group"
+  }
+ ],
+ "image_field": "photo",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-12-17 10:34:59.468302",
+ "modified_by": "Administrator",
+ "module": "Selling",
+ "name": "Customer",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "search_fields": "customer_name_kh,phone_number,phone_number_2",
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "customer_code_name",
+ "track_changes": 1
+}
