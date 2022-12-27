@@ -1838,7 +1838,7 @@ select * from #tbl_sale_product</CommandText>
             </TablixRowHierarchy>
             <DataSetName>SaleProduct</DataSetName>
             <Height>0.72917in</Height>
-            <Width>11.08in</Width>
+            <Width>11.08002in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2412,6 +2412,11 @@ select * from #tbl_sale_product</CommandText>
     </ReportParameter>
     <ReportParameter Name="lang">
       <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>en</Value>
+        </Values>
+      </DefaultValue>
       <Prompt>lang</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>

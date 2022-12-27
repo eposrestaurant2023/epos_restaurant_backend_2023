@@ -8,9 +8,9 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>ePOSRukkaCoffee/Reports</TargetReportFolder>
-    <TargetDatasetFolder>ePOSRukkaCoffee/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>ePOSRukkaCoffee/DataSources</TargetDatasourceFolder>
+    <TargetReportFolder>ePOSDev/Reports</TargetReportFolder>
+    <TargetDatasetFolder>ePOSDev/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>ePOSDev/DataSources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
   </PropertyGroup>

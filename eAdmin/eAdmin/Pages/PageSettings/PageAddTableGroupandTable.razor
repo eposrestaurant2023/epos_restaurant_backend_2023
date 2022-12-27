@@ -296,7 +296,7 @@
         api_url += $"({id})?";
         api_url += "$expand=outlet($select=id,outlet_name_en,outlet_name_kh,business_branch_id;$expand=business_branch";
         api_url += "($select=id,business_branch_name_en,business_branch_name_kh);$filter= is_deleted  eq false),";
-        api_url +=  "tables($select = id,sort_order,table_name,height,width,position_x_percent,sale_type,shape,position_y_percent,price_rule_id,require_check_in,status,default_discount_percentage;";
+        api_url += "tables($select = id,sort_order,table_name,height,width,position_x_percent,sale_type,shape,position_y_percent,price_rule_id,require_check_in,status,discount_type,discount_value;";
         api_url += "$filter= is_deleted eq false;$orderby=sort_order desc)";
 
 

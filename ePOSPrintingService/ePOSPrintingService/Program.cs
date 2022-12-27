@@ -850,7 +850,7 @@ namespace ePOSPrintingService
             };
         }
 
-       public static async Task PrintWifiPassword()
+       public static async Task PrintWifiPassword(string printer_name)
         {
             try
             {    
@@ -875,7 +875,7 @@ namespace ePOSPrintingService
                 setting_data = CreateDataTable(settings);
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
 
-                Print(report, receipt,CashierPrinter, 1);
+                Print(report, receipt,printer_name, 1);
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -1737,7 +1737,7 @@ namespace ePOSPrintingService
             catch { };
         }
 
-        public static void OpenCashDrawer()
+        public static void OpenCashDrawer(string printer_name)
         {
             try
             {                                                                                              
@@ -1764,9 +1764,8 @@ namespace ePOSPrintingService
                 }
                 else
                 {
-                    string DrawerCode = Strings.Chr(27).ToString() + Strings.Chr(112).ToString() + Strings.Chr(48).ToString() + Strings.Chr(64).ToString() + Strings.Chr(64).ToString();
-                    string PrinterName = CashierPrinter;
-                    PrintRaw(PrinterName, DrawerCode);
+                    string DrawerCode = Strings.Chr(27).ToString() + Strings.Chr(112).ToString() + Strings.Chr(48).ToString() + Strings.Chr(64).ToString() + Strings.Chr(64).ToString();                    
+                    PrintRaw(printer_name, DrawerCode);
                 }
             }
             catch (Exception ex)

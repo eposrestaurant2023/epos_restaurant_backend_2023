@@ -51,7 +51,9 @@
 	a.tax_2_amount,
 	a.tax_3_rate,
 	a.tax_3_amount ,
-	a.total_amount
+	a.total_amount,
+a.coupon_number,
+	a.coupon_voucher_amount
 from tbl_sale a 
 inner join tbl_business_branch c on c.id = a.business_branch_id
 
@@ -189,6 +191,14 @@ cast(a.id as nvarchar(50)) = @id</CommandText>
         </Field>
         <Field Name="total_amount">
           <DataField>total_amount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="coupon_number">
+          <DataField>coupon_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="coupon_voucher_amount">
+          <DataField>coupon_voucher_amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
       </Fields>
@@ -2539,22 +2549,6 @@ declare
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
-                                <TextRun>
-                                  <Value xml:space="preserve"> </Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=iif(Fields!sale_discount_type.Value = "Amount" , ""," " &amp; format(Fields!sale_discount_value.Value,"0 %"))</Value>
-                                  <Style>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
                               </TextRuns>
                               <Style>
                                 <TextAlign>Right</TextAlign>
@@ -2621,6 +2615,12 @@ declare
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
+                                <TextRun>
+                                  <Value>- </Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
                                 <TextRun>
                                   <Value>=format(Fields!total_discount_amount.Value, First(Fields!currency_format.Value, "setting"))</Value>
                                   <Style>
@@ -3057,6 +3057,151 @@ declare
                     </TablixCell>
                   </TablixCells>
                 </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>COUPON</Value>
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>(#</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=Fields!coupon_number.Value</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>)</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>2pt</Width>
+                            </Border>
+                            <PaddingLeft>3.75pt</PaddingLeft>
+                            <PaddingRight>3.75pt</PaddingRight>
+                            <PaddingTop>3.75pt</PaddingTop>
+                            <PaddingBottom>3.75pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox7">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>:</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox7</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox8">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>- </Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=format(Fields!coupon_voucher_amount.Value, First(Fields!currency_format.Value, "setting"))</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox8</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>2pt</Width>
+                            </Border>
+                            <PaddingLeft>3.75pt</PaddingLeft>
+                            <PaddingRight>3.75pt</PaddingRight>
+                            <PaddingTop>3.75pt</PaddingTop>
+                            <PaddingBottom>3.75pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <rd:Selected>true</rd:Selected>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
               </TablixRows>
             </TablixBody>
             <TablixColumnHierarchy>
@@ -3090,12 +3235,17 @@ declare
                     <Hidden>=Fields!tax_3_amount.Value=0</Hidden>
                   </Visibility>
                 </TablixMember>
+                <TablixMember>
+                  <Visibility>
+                    <Hidden>=Fields!coupon_voucher_amount.Value &lt;=0</Hidden>
+                  </Visibility>
+                </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
             <Top>3.84253in</Top>
             <Left>3.97755in</Left>
-            <Height>1.5in</Height>
+            <Height>1.75in</Height>
             <Width>3.27334in</Width>
             <ZIndex>4</ZIndex>
             <Style>
@@ -4228,7 +4378,7 @@ declare
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>GrandTotalData</DataSetName>
-            <Top>5.36197in</Top>
+            <Top>5.62447in</Top>
             <Left>3.97755in</Left>
             <Height>0.25in</Height>
             <Width>3.26856in</Width>
@@ -4515,7 +4665,7 @@ declare
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>PaymentData</DataSetName>
-            <Top>5.63003in</Top>
+            <Top>5.89253in</Top>
             <Left>3.97755in</Left>
             <Height>0.5in</Height>
             <Width>3.26856in</Width>
@@ -4999,7 +5149,7 @@ declare
                 </FilterValues>
               </Filter>
             </Filters>
-            <Top>6.19947in</Top>
+            <Top>6.44947in</Top>
             <Left>3.97755in</Left>
             <Height>0.5in</Height>
             <Width>3.26856in</Width>
@@ -5015,13 +5165,13 @@ declare
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>6.72378in</Height>
+        <Height>6.94947in</Height>
         <Style />
       </Body>
       <Width>7.26in</Width>
       <Page>
         <PageFooter>
-          <Height>0.35625in</Height>
+          <Height>0.28125in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -5227,7 +5377,7 @@ declare
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>f9cc5971-2721-4719-d750-08d9a8d3b8b4</Value>
+          <Value>e9b8da06-cf5d-41ec-7eb8-08dae7e09078</Value>
         </Values>
       </DefaultValue>
       <Prompt>id</Prompt>

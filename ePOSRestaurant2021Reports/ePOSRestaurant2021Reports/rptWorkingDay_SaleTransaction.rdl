@@ -234,7 +234,7 @@
 		s.sub_total,
 		s.total_discount_amount,
 		s.total_tax_amount,
-		s.total_amount
+		s.total_amount + s.coupon_voucher_amount as total_amount
 
 	from tbl_sale s
 	where
@@ -302,7 +302,7 @@
 		s.sub_total,
 		s.total_discount_amount,
 		s.total_tax_amount,
-		s.total_amount
+		s.total_amount + s.coupon_voucher_amount as total_amount
 
 	from tbl_sale s
 	where
@@ -368,7 +368,7 @@
 		s.sub_total,
 		s.total_discount_amount,
 		s.total_tax_amount,
-		s.total_amount
+		s.total_amount + s.coupon_voucher_amount as total_amount
 
 	from tbl_sale s
 	where
@@ -4790,7 +4790,7 @@
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>B1733C18-05D5-451C-89CA-08D9E84FAABC</Value>
+          <Value>a541cd2f-8f7f-42a2-d958-08dae7df4841</Value>
         </Values>
       </DefaultValue>
       <Prompt>id</Prompt>

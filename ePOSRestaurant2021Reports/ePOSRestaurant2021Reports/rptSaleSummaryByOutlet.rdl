@@ -111,7 +111,7 @@
 	count(s.id) as total_document,
 	sum(s.total_quantity) as total_quantity,
 	sum(s.sub_total) as sub_total,
-	sum(s.total_amount) as total_amount,
+	sum(s.total_amount + s.coupon_voucher_amount) as total_amount,
 	sum(s.total_discount_amount) as total_discount_amount,
 	sum(s.total_cost) as total_cost,
 	sum(s.total_profit) as total_profit,
@@ -369,13 +369,10 @@ group by
                   <Width>0.49228in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.70694in</Width>
+                  <Width>1.19569in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.48958in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.96139in</Width>
+                  <Width>0.74264in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.56115in</Width>
@@ -387,13 +384,13 @@ group by
                   <Width>0.75906in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.32156in</Width>
+                  <Width>0.50906in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.48974in</Width>
+                  <Width>0.59391in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.02099in</Width>
+                  <Width>0.94807in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.90074in</Width>
@@ -464,39 +461,16 @@ group by
                                 <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox8</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox14">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!Outlet.Value, "translate")</Value>
                                   <Style>
+                                    <FontStyle>Italic</FontStyle>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Color>Gray</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -505,7 +479,7 @@ group by
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox14</rd:DefaultName>
+                          <rd:DefaultName>Textbox8</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -902,34 +876,15 @@ group by
                                 <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>business_branch_name_en1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="outlet_name_en">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!outlet_name_en.Value</Value>
                                   <Style>
+                                    <FontStyle>Italic</FontStyle>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
+                                    <Color>Gray</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -938,7 +893,7 @@ group by
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>outlet_name_en</rd:DefaultName>
+                          <rd:DefaultName>business_branch_name_en1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1319,46 +1274,6 @@ group by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox17">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox17</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
                         <Textbox Name="Textbox9">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1693,7 +1608,6 @@ group by
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
-                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -1713,7 +1627,7 @@ group by
             <DataSetName>Sale</DataSetName>
             <Top>0.075in</Top>
             <Height>0.72917in</Height>
-            <Width>7.36792in</Width>
+            <Width>7.36709in</Width>
             <Style>
               <Border>
                 <Style>None</Style>

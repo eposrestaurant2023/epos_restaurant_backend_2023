@@ -1,11 +1,9 @@
 ﻿@inherits PageCore
 <Loading is_loading="@(is_loading || is_loading_data)" />
-
 @{
     RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
     @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
-}
- 
+} 
     <UIContainerBox Title="@Title">
         @if (!is_loading)
         {
@@ -80,15 +78,13 @@
                                 @(gv.current_language?.language_id == "km-KH" ?p.station_name_kh : p.station_name_en)
                             </div>
                         </td>
-
                         <TdCenter>
                             <div>
-
                                 @p.table_name
                             </div>
                         </TdCenter>
                         <TdRight>
-                            @p.total_amount.ToString(gv.main_currency_format)
+                            @((p.total_amount + p.coupon_voucher_amount).ToString(gv.main_currency_format))
                         </TdRight>
                         <TdRight>
                             @p.total_discount_amount.ToString(gv.main_currency_format)
@@ -98,6 +94,8 @@
                         </TdRight>
                         <TdRight>
                             @p.paid_amount.ToString(gv.main_currency_format)
+                            <br />
+                            <Label Text="@(lang["Coupon"] + "("+p.coupon_voucher_amount.ToString(gv.main_currency_format)+")")" is_visible="@(p.coupon_voucher_amount > 0)" />
                         </TdRight>
                         <TdRight>
                             @p.balance.ToString(gv.main_currency_format)

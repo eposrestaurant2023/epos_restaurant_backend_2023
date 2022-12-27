@@ -126,7 +126,7 @@ select
 	s.working_date,
 	s.total_quantity,
 	s.sub_total,
-	s.total_amount,
+	s.total_amount + s.coupon_voucher_amount as total_amount,
 	s.total_discount_amount,
 	s.total_cost,
 	s.total_profit,
@@ -154,8 +154,7 @@ where
 	p.payment_type_id= iif( @foc_payment_type_id=0,p.payment_type_id ,@foc_payment_type_id) 	 
 	 
 
-select * from #tbl_sale order by document_number
-</CommandText>
+select * from #tbl_sale order by document_number</CommandText>
       </Query>
       <Fields>
         <Field Name="payment_type_id">

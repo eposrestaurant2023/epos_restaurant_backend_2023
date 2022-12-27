@@ -204,12 +204,12 @@ namespace ePOSPrintingService
                         break;
 
                     case "print_wifi_password":
-                        await Program.PrintWifiPassword();
+                        await Program.PrintWifiPassword(_printer);
 
                         break;
 
                     case "open_cashdrawer":
-                        Program.OpenCashDrawer();
+                        Program.OpenCashDrawer(_printer);
                         break;
                     default:
 

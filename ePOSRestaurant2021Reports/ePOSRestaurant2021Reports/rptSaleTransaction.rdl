@@ -130,7 +130,7 @@ select
 	s.working_date,
 	s.total_quantity,
 	s.sub_total,
-	s.total_amount,
+	s.total_amount + s.coupon_voucher_amount as total_amount,
 	s.total_discount_amount,
 	s.total_cost,
 	s.total_profit,
@@ -587,13 +587,10 @@ where
                   <Width>0.81142in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.04302in</Width>
+                  <Width>1.55344in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.78125in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.86139in</Width>
+                  <Width>1.13138in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.57292in</Width>
@@ -728,6 +725,23 @@ where
                                 <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!Shift.Value, "translate")</Value>
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Gray</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox8</rd:DefaultName>
                           <Style>
@@ -786,44 +800,6 @@ where
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox38</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox14">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=First(Fields!Shift.Value, "translate")</Value>
-                                  <Style>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox14</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1353,6 +1329,22 @@ where
                                 <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!shift_name.Value</Value>
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>7.5pt</FontSize>
+                                    <Color>Gray</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>working_date</rd:DefaultName>
                           <Style>
@@ -1406,39 +1398,6 @@ where
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>business_branch_name_en1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="shift_name">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!shift_name.Value</Value>
-                                  <Style>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>shift_name</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1988,46 +1947,6 @@ where
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox16">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox16</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
                         <Textbox Name="Textbox22">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -2446,7 +2365,6 @@ where
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
-                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -2467,7 +2385,7 @@ where
             <Top>0.02778in</Top>
             <Left>0.00003cm</Left>
             <Height>0.72917in</Height>
-            <Width>11.08083in</Width>
+            <Width>11.07999in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2817,7 +2735,7 @@ where
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>0.28819in</Height>
+          <Height>0.25694in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>

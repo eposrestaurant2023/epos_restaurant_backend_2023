@@ -4,7 +4,7 @@
         <DialogContent>
             <TextInput @bind-text="model.card_name" label="@lang["Card Name"]" />
             <TextInput @bind-text="model.card_code" label="@lang["Card Code"]" />
-            <SelectDiscountType @bind-selected_value="model.discount_type" label="@lang["Discount Value"]" is_horizontal="true"/>
+            <SelectDiscountType @bind-selected_value="model.discount_type" label="@lang["Discount Type"]" is_horizontal="true"/>
             <NumberInputDecimal @bind-text="model.discount_value" label="@lang["Discount Value"]" />
             <DateInput @bind-value="model.expiry_date" label="@lang["Expiry Date"]" />
             <MudCheckBox Label=" " @bind-Checked="@model.status">@lang["Status"]</MudCheckBox>
@@ -25,7 +25,7 @@
     {
         get
         {
-            return lang["Discount"] + " (%)";
+            return lang["Discount"] ;
         }
            
     }

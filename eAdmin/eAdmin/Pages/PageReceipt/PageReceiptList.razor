@@ -142,7 +142,9 @@
                             </div>
                         </TdCenter>
                         <TdRight>
-                            @p.total_amount.ToString(gv.main_currency_format)
+                            @((p.total_amount + p.coupon_voucher_amount).ToString(gv.main_currency_format))
+                          
+                           
                         </TdRight>
                         <TdRight>
                             @p.total_discount_amount.ToString(gv.main_currency_format)
@@ -151,7 +153,9 @@
                             @p.total_tax_amount.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
-                            @p.paid_amount.ToString(gv.main_currency_format)
+                            @((p.paid_amount).ToString(gv.main_currency_format))
+                            <br />
+                            <Label Text="@(lang["Coupon"] + "("+p.coupon_voucher_amount.ToString(gv.main_currency_format)+")")" is_visible="@(p.coupon_voucher_amount > 0)" />
                         </TdRight>
                         <TdRight>
                             @p.balance.ToString(gv.main_currency_format)

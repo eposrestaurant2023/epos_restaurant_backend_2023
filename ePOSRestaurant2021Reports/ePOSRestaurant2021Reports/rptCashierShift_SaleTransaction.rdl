@@ -250,7 +250,7 @@
 		s.sub_total,
 		s.total_discount_amount,
 		s.total_tax_amount,
-		s.total_amount
+		s.total_amount + s.coupon_voucher_amount as total_amount
 
 	from tbl_sale s
 	where
@@ -318,7 +318,7 @@
 		s.sub_total,
 		s.total_discount_amount,
 		s.total_tax_amount,
-		s.total_amount
+		s.total_amount + s.coupon_voucher_amount as total_amount
 
 	from tbl_sale s
 	where
@@ -384,7 +384,7 @@
 		s.sub_total,
 		s.total_discount_amount,
 		s.total_tax_amount,
-		s.total_amount
+		s.total_amount + s.coupon_voucher_amount as total_amount
 
 	from tbl_sale s
 	where
@@ -3104,7 +3104,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Total_Amount.Value, "translate")</Value>
+                                  <Value>=First(Fields!Total.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -4096,7 +4096,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Total_Amount.Value, "translate")</Value>
+                                  <Value>=First(Fields!Total.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -4902,7 +4902,7 @@
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>b1733c18-05d5-451c-89ca-07d9e84faabc</Value>
+          <Value>9b26a965-76e7-4245-4795-08dae48df98a</Value>
         </Values>
       </DefaultValue>
       <Prompt>id</Prompt>
