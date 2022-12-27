@@ -23,7 +23,6 @@ def get_report_data(filters):
 		where
 			posting_date between %(start_date)s and %(end_date)s and 
 			docstatus = 1
-
     """
     	
     data = frappe.db.sql(sql,filters , as_dict=1)

@@ -81,33 +81,24 @@ frappe.query_reports["Purchase Order Summary Report"] = {
 			}
 		},
 		{
-			"fieldname": "customer_group",
-			"label": __("Customer Group"),
-			"fieldtype": "MultiSelectList",
-			get_data: function(txt) {
-				
-				return frappe.db.get_link_options('Customer Group', txt);
-			}
-		},
-		{
-			"fieldname": "customer",
-			"label": __("Customer"),
+			"fieldname": "vendor",
+			"label": __("Vendor"),
 			"fieldtype": "Link",
-			"options":"Customer",
+			"options":"Vendor",
 			
 		},
 		{
 			"fieldname": "parent_row_group",
 			"label": __("Parent Group By"),
 			"fieldtype": "Select",
-			"options": "\nCategory\nProduct Group\nRevenue Group\nBusiness Branch\nOutlet\nPOS Profile\nCustomer\nCustomer Group\nStock Location\nDate\n\Month\nYear\nSale Invoice",
+			"options": "\nCategory\nBusiness Branch\nVendor\nStock Location\nDate\n\Month\nYear\nPO Invoice",
 			
 		},
 		{
 			"fieldname": "row_group",
 			"label": __("Row Group By"),
 			"fieldtype": "Select",
-			"options": "Product\nCategory\nProduct Group\nRevenue Group\nBusiness Branch\nOutlet\nPOS Profile\nCustomer\nCustomer Group\nStock Location\nDate\n\Month\nYear\nSale Invoice",
+			"options": "Product\nCategory\nBusiness Branch\nVendor\nStock Location\nDate\n\Month\nYear\nPO Invoice",
 			"default":"Category"
 		},
 		{

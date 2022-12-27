@@ -40,26 +40,20 @@ frappe.query_reports["Purchase Order"] = {
 		{
 			"fieldname":"vendor_name",
 			"label": __("Vendor Name"),
-			"fieldtype":"MultiSelectList",
-			get_data: function(txt) {
-				return frappe.db.get_link_options('Vendor', txt);
-			}
+			"fieldtype":"Link",
+			"options":"Vendor"
 		}
 	
 	],
 	"formatter": function(value, row, column, data, default_formatter) {
-	
+
 		value = default_formatter(value, row, column, data);
 
 		if (data && data.is_group==1) {
 			value = $(`<span>${value}</span>`);
-
 			var $value = $(value).css("font-weight", "bold");
-			
-
 			value = $value.wrap("<p></p>").parent().html();
 		}
-		
 		return value;
 	},
 };

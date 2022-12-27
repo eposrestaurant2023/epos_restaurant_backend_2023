@@ -34,7 +34,9 @@
   "grand_total",
   "total_paid",
   "balance",
-  "attach_receipt"
+  "attach_receipt",
+  "vendor_name",
+  "vendor_number_phone"
  ],
  "fields": [
   {
@@ -197,6 +199,20 @@
    "label": "Purchase Order Products",
    "options": "Purchase Order Products",
    "reqd": 1
+  },
+  {
+   "fetch_from": "vendor.vendor_name",
+   "fieldname": "vendor_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Vendor Name"
+  },
+  {
+   "fetch_from": "vendor.phone_number",
+   "fieldname": "vendor_number_phone",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Vendor Number Phone"
   }
  ],
  "image_field": "attach_receipt",
@@ -209,7 +225,7 @@
    "link_fieldname": "purchase_order"
   }
  ],
- "modified": "2022-12-15 15:52:02.934159",
+ "modified": "2022-12-26 15:09:35.119674",
  "modified_by": "Administrator",
  "module": "Purchasing",
  "name": "Purchase Order",

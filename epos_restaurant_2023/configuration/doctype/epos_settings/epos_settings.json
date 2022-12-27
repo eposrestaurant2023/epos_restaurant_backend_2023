@@ -7,8 +7,11 @@
  "engine": "InnoDB",
  "field_order": [
   "app_name",
+  "use_tax_1",
   "tax_1_name",
+  "use_tax_2",
   "tax_2_name",
+  "use_tax_3",
   "tax_3_name",
   "changed_payment_type"
  ],
@@ -38,12 +41,30 @@
    "fieldtype": "Link",
    "label": "Changed Payment Type",
    "options": "Payment Type"
+  },
+  {
+   "default": "0",
+   "fieldname": "use_tax_1",
+   "fieldtype": "Check",
+   "label": "Use Tax 1"
+  },
+  {
+   "default": "0",
+   "fieldname": "use_tax_2",
+   "fieldtype": "Check",
+   "label": "Use Tax 2"
+  },
+  {
+   "default": "0",
+   "fieldname": "use_tax_3",
+   "fieldtype": "Check",
+   "label": "Use Tax 3"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-12-23 12:07:51.981078",
+ "modified": "2022-12-27 10:32:09.713897",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "ePOS Settings",

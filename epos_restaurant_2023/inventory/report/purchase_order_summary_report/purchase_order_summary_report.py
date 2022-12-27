@@ -191,7 +191,7 @@ def get_fields(filters):
 	return fields
  
 def get_conditions(filters,group_filter=None):
-	conditions = " 1 = 1 "
+	conditions = "1 = 1"
 
 	start_date = filters.start_date
 	end_date = filters.end_date
@@ -201,26 +201,24 @@ def get_conditions(filters,group_filter=None):
 		conditions += " and {} ='{}'".format(group_filter["field"],group_filter["value"].replace("'","''").replace("%","%%"))
 
 	conditions += " AND b.posting_date between '{}' AND '{}'".format(start_date,end_date)
-
-	if filters.get("product_group"):
-		conditions += " AND a.product_group in %(product_group)s"
+	if filters.vendor:
+		conditions += " AND b.vendor = %(vendor)s"
 
 	if filters.get("product_category"):
 		conditions += " AND a.product_category in %(product_category)s"
+  
+	if filters.get("product_group"):
+		conditions += " AND a.product_group in %(product_group)s"
  
 	conditions += " AND b.business_branch in %(business_branch)s"
-	conditions += " AND b.outlet in %(outlet)s"
-
-	if filters.get("pos_profile"):
-		conditions += " AND b.pos_profile in %(pos_profile)s"
-	
+ 
 	return conditions
 
 def get_report_data(filters,parent_row_group=None,indent=0,group_filter=None):
 	
 	hide_columns = filters.get("hide_columns")
 	row_group = [d["fieldname"] for d in get_row_groups() if d["label"]==filters.row_group][0]
-	
+
 	if(parent_row_group!=None):
 		row_group = [d["fieldname"] for d in get_row_groups() if d["label"]==parent_row_group][0]
 
@@ -263,7 +261,6 @@ def get_report_data(filters,parent_row_group=None,indent=0,group_filter=None):
 		GROUP BY 
 		{1} {2} {3}
 	""".format(get_conditions(filters,group_filter), row_group,item_code,groupdocstatus,normal_filter)	
-	
 	data = frappe.db.sql(sql,filters, as_dict=1)
 	
 	return data
@@ -357,7 +354,7 @@ def get_report_chart(filters,data):
 def get_report_field(filters):
 	return [
 		{"label":"Quantity","short_label":"Qty", "fieldname":"quantity","fieldtype":"Float","indicator":"Grey","precision":2, "align":"center","chart_color":"#FF8A65","sql_expression":"a.quantity"},
-		{"label":"Sub Total", "short_label":"Sub To.", "fieldname":"sub_total","fieldtype":"Currency","indicator":"Grey","precision":None, "align":"right","chart_color":"#dd5574","sql_expression":"a.sub_total"},
+		{"label":"Sub Total", "short_label":"Sub To.", "fieldname":"cost","fieldtype":"Currency","indicator":"Grey","precision":None, "align":"right","chart_color":"#dd5574","sql_expression":"a.cost"},
 		{"label":"Amount", "short_label":"Amt", "fieldname":"amount","fieldtype":"Currency","indicator":"Red","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"a.amount"},
 		
     	
@@ -379,11 +376,6 @@ def get_row_groups():
 		{
 			"fieldname":"a.product_group",
 			"label":"Product Group",
-			"parent_row_group_filter_field":"row_group"
-		},
-   		 {
-			"fieldname":"b.outlet",
-			"label":"Outlet",
 			"parent_row_group_filter_field":"row_group"
 		},
 		{

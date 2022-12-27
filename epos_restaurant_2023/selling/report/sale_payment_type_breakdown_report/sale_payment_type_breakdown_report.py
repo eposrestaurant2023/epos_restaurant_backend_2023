@@ -219,27 +219,30 @@ def get_report_field_by_payment_type(filters ):
     payment_types = frappe.db.get_list("Payment Type")
     sqls=[]
     for p in payment_types:
-        sqls.append("sum(if(a.payment_type='{0}',a.input_amount,0)) as {1}".format(p.name,p.name.replace(" ", "_").lower()))
+        sqls.append("ifnull(sum(if(a.payment_type='{0}',a.input_amount,0)),0) as {1}".format(p.name,p.name.replace(" ", "_").lower()))
+        sqls.append("ifnull(sum(if(a.payment_type='{0}',a.input_amount/a.exchange_rate,0)),0) as base_{1}".format(p.name,p.name.replace(" ", "_").lower()))
         
-    sqls.append("sum(a.payment_amount) as total_payment")
+    sqls.append("ifnull(sum(a.payment_amount),0) as total_payment")
     return  ','.join(sqls)
  
 def get_report_field_by_payment_type_group(filters ):
     payment_types = frappe.db.get_list("Payment Type Group")
     sqls=[]
     for p in payment_types:
-        sqls.append("sum(if(a.payment_type_group='{0}',a.payment_amount,0)) as {1}".format(p.name,p.name.replace(" ", "_").lower()))
+        sqls.append("ifnull(sum(if(a.payment_type_group='{0}',a.payment_amount,0)),0) as {1}".format(p.name,p.name.replace(" ", "_").lower()))
+        sqls.append("ifnull(sum(if(a.payment_type_group='{0}',a.payment_amount,0)),0) as base_{1}".format(p.name,p.name.replace(" ", "_").lower()))
         
-    sqls.append("sum(a.payment_amount) as total_payment")
+    sqls.append("ifnull(sum(a.payment_amount),0) as total_payment")
     return  ','.join(sqls)
 
 def get_report_field_by_currency(filters ):
     datas = frappe.db.get_list("Currency")
     sqls=[]
     for p in datas:
-        sqls.append("sum(if(a.currency='{0}',a.input_amount,0)) as {1}".format(p.name,p.name.replace(" ", "_").lower()))
+        sqls.append("ifnull(sum(if(a.currency='{0}',a.input_amount,0)),0) as {1}".format(p.name,p.name.replace(" ", "_").lower()))
+        sqls.append("ifnull(sum(if(a.currency='{0}',a.input_amount/a.exchange_rate,0)),0) as base_{1}".format(p.name,p.name.replace(" ", "_").lower()))
         
-    sqls.append("sum(a.payment_amount) as total_payment")
+    sqls.append("ifnull(sum(a.payment_amount),0) as total_payment")
     return  ','.join(sqls)
 
 def get_conditions(filters,group_filter=None):
@@ -306,7 +309,7 @@ def get_report_data(filters,parent_row_group=None,indent=0,group_filter=None):
 		GROUP BY 
 		{1} 
 	""".format(get_conditions(filters,group_filter), row_group)	
- 
+	
 	data = frappe.db.sql(sql,filters, as_dict=1)
 	
 	return data
@@ -337,21 +340,32 @@ def get_report_summary(data,filters):
 
 	return report_summary
 
+def get_chart_column(data):
+	columns = []
+	for d in data:
+		if d["indent"]==0:
+			columns.append(d["row_group"])
+	return columns
+
+
 def get_report_chart(filters,data):
-	return None
 	columns = []
 	dataset = []
-
-
-
-	fields = get_dynamic_columns(filters)
-
-	for f in data:
-		columns.append(f["row_group"])
-  
+	report_fields = get_dynamic_columns(filters)
+	
+	fields = get_chart_column(data)
+ 
 	for f in fields:
-		dataset.append({'name':f["label"],'values':sum(d["{}".format(f["fieldname"])] for d in data if d["indent"]==0)})
-	 
+		columns.append(f)
+	for rf in report_fields:
+		if rf["fieldname"] !="total_payment":
+			dataset_values = []
+			for f in fields:
+				dataset_values.append(sum(d["base_{}".format(rf["fieldname"])] for d in data if d["indent"]==0 and d["row_group"]==f))
+				
+			dataset.append({'name':rf["label"],'values':dataset_values})
+
+	
 	chart = {
 		'data':{
 			'labels':columns,
@@ -363,8 +377,8 @@ def get_report_chart(filters,data):
 		},
 		"axisOptions": {"xIsSeries": 1}
 	}
+	 
 	return chart
-  
 
 def get_row_groups():
 	return [
@@ -394,7 +408,7 @@ def get_row_groups():
 			"parent_row_group_filter_field":"row_group"
 		},
    		 {
-			"fieldname":"a.outlet",
+			"fieldname":"if(ifnull(a.outlet,'')='','Not Set',a.outlet)",
 			"label":"Outlet",
 			"parent_row_group_filter_field":"row_group"
 		},
