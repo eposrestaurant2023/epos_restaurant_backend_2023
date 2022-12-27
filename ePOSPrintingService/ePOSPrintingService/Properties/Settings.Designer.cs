@@ -121,7 +121,7 @@ namespace ePOSPrintingService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:7072/api/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:1111/api/")]
         public string BaseAPIURL {
             get {
                 return ((string)(this["BaseAPIURL"]));
