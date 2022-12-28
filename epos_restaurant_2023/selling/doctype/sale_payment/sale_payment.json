@@ -188,6 +188,8 @@
    "label": "Currency"
   },
   {
+   "fetch_from": "sale.balance",
+   "fetch_if_empty": 1,
    "fieldname": "input_amount",
    "fieldtype": "Float",
    "label": "Input Amount"
@@ -277,7 +279,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-12-23 17:49:44.216197",
+ "modified": "2022-12-27 15:14:29.068014",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Payment",

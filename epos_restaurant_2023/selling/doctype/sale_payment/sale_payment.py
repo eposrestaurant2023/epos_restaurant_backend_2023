@@ -10,8 +10,7 @@ class SalePayment(Document):
 		if (self.exchange_rate or 0) ==0:
 			self.exchange_rate = 1
    
-		if (self.payment_amount or 0)==0:
-			self.payment_amount = self.input_amount /self.exchange_rate 
+		self.payment_amount = self.input_amount /self.exchange_rate 
    		
 		if (self.payment_amount or 0) ==0:
 			frappe.throw(_("Please enter payment amount"))

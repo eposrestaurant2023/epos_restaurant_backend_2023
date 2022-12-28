@@ -28,9 +28,15 @@
   "purchase_order_products",
   "section_break_7",
   "total_quantity",
+  "discount_type",
+  "discount",
+  "column_break_34",
   "sub_total",
-  "total_discount",
+  "po_discount",
   "section_break_10",
+  "total_discount",
+  "product_discount",
+  "column_break_35",
   "grand_total",
   "total_paid",
   "balance",
@@ -213,6 +219,41 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Vendor Number Phone"
+  },
+  {
+   "default": "0",
+   "fieldname": "product_discount",
+   "fieldtype": "Currency",
+   "label": "Product Discount",
+   "read_only": 1
+  },
+  {
+   "default": "Percent",
+   "fieldname": "discount_type",
+   "fieldtype": "Select",
+   "label": "Discount Type",
+   "options": "Percent\nAmount"
+  },
+  {
+   "default": "0",
+   "fieldname": "discount",
+   "fieldtype": "Float",
+   "label": "Discount"
+  },
+  {
+   "default": "0",
+   "fieldname": "po_discount",
+   "fieldtype": "Currency",
+   "label": "PO Discount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_34",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_35",
+   "fieldtype": "Column Break"
   }
  ],
  "image_field": "attach_receipt",
@@ -225,7 +266,7 @@
    "link_fieldname": "purchase_order"
   }
  ],
- "modified": "2022-12-26 15:09:35.119674",
+ "modified": "2022-12-27 18:38:37.803552",
  "modified_by": "Administrator",
  "module": "Purchasing",
  "name": "Purchase Order",

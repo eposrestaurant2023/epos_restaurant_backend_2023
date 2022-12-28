@@ -78,6 +78,7 @@
   "tax_3_amount",
   "note_tab",
   "amended_from",
+  "sale_type",
   "column_break_36",
   "note",
   "total_cost",
@@ -192,6 +193,7 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Grand Total",
+   "options": "Company:company:default_currency",
    "read_only": 1
   },
   {
@@ -206,6 +208,7 @@
    "fieldname": "balance",
    "fieldtype": "Currency",
    "label": "Balance",
+   "options": "Company:company:default_currency",
    "read_only": 1
   },
   {
@@ -374,7 +377,8 @@
    "default": "0",
    "fieldname": "profit",
    "fieldtype": "Currency",
-   "label": "Profit"
+   "label": "Profit",
+   "options": "Company:company:default_currency"
   },
   {
    "default": "0",
@@ -524,6 +528,12 @@
    "fieldtype": "Currency",
    "label": "Changed Amount",
    "read_only": 1
+  },
+  {
+   "fieldname": "sale_type",
+   "fieldtype": "Link",
+   "label": "Sale Type",
+   "options": "Sale Type"
   }
  ],
  "image_field": "photo",
@@ -536,7 +546,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2022-12-23 09:54:57.190898",
+ "modified": "2022-12-27 17:34:10.995312",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

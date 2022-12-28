@@ -96,7 +96,7 @@ frappe.query_reports["Sale Payment Type Breakdown Report"] = {
 			"fieldname": "row_group",
 			"label": __("Row Group By"),
 			"fieldtype": "Select",
-			"options": "Business Branch\nOutlet\nPOS Profile\nCustomer\nCustomer Group\nDate\n\Month\nYear\nSale Invoice",
+			"options": "Business Branch\nOutlet\nPOS Profile\nCustomer\nCustomer Group\nDate\n\Month\nYear\nSale Invoice\nPayment Type",
 			"default":"Date"
 		},
 		{

@@ -178,8 +178,6 @@ frappe.ui.form.on('Sale Product', {
 	},
 	discount(frm,cdt, cdn) {
 		let row = locals[cdt][cdn];
-		
-	
 		update_sale_product_amount(frm,row);
 		
 	},
@@ -494,7 +492,6 @@ function update_sale_product_amount(frm,doc){
 
 }
 function update_sale_discount_to_sale_product(frm){
-	 
 	let products = frm.doc.sale_products
 	if(products==undefined){
 		return false;

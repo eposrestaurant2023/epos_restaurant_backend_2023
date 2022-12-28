@@ -5,7 +5,7 @@
    "label": "Stock Values"
   }
  ],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Inventory</span>\",\"col\":12}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"Stock Values\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Product\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Take\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Inventory Transaction\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Location Product\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Transfer\",\"col\":3}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Configuration\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}}]",
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Inventory</span>\",\"col\":12}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"Stock Values\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Product\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Take\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Inventory Transaction\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Location Product\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Transfer\",\"col\":3}},{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Recent Transaction</b></span>\",\"col\":12}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Inventory Transaction\",\"col\":6}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Purchase Order Transaction\",\"col\":6}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Stock Transfer Transaction\",\"col\":6}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Stock Take Transaction\",\"col\":6}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Configuration\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Summary Report\",\"col\":4}}]",
  "creation": "2022-12-06 10:52:34.110072",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -77,7 +77,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Reports",
-   "link_count": 6,
+   "link_count": 5,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -87,16 +87,6 @@
    "label": "Stock Take Transaction",
    "link_count": 0,
    "link_to": "Stock Take Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Stock Take Summary",
-   "link_count": 0,
-   "link_to": "Stock Take Summary Report",
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
@@ -140,16 +130,62 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Summary Report",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Purchase Order Summary",
+   "link_count": 0,
+   "link_to": "Purchase Order Summary Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Stock Take Summary",
+   "link_count": 0,
+   "link_to": "Stock Take Summary Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2022-12-23 11:09:08.655769",
+ "modified": "2022-12-27 14:42:55.365953",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Inventory",
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
- "quick_lists": [],
+ "quick_lists": [
+  {
+   "document_type": "Inventory Transaction",
+   "label": "Inventory Transaction",
+   "sub_title_fields": "product_code,product_name,stock_location,balance"
+  },
+  {
+   "document_type": "Purchase Order",
+   "label": "Purchase Order Transaction"
+  },
+  {
+   "document_type": "Stock Transfer",
+   "label": "Stock Transfer Transaction"
+  },
+  {
+   "document_type": "Stock Take",
+   "label": "Stock Take Transaction"
+  }
+ ],
  "roles": [],
  "sequence_id": 2.0,
  "shortcuts": [

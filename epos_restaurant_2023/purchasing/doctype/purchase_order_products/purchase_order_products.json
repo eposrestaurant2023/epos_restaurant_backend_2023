@@ -8,12 +8,29 @@
  "field_order": [
   "product_code",
   "product_name",
-  "quantity",
+  "product_name_kh",
+  "column_break_4",
   "unit",
   "base_unit",
   "unit_category",
+  "section_break_8",
+  "quantity",
+  "column_break_10",
   "cost",
+  "column_break_13",
+  "sub_total",
+  "column_break_19",
   "amount",
+  "discount_section",
+  "discount_type",
+  "po_discount_percent",
+  "column_break_12",
+  "discount",
+  "po_discount_amount",
+  "column_break_15",
+  "discount_amount",
+  "total_discount",
+  "column_break_14",
   "is_inventory_product",
   "product_category",
   "product_group"
@@ -25,7 +42,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Product Code",
-   "options": "Product"
+   "options": "Product",
+   "reqd": 1
   },
   {
    "allow_in_quick_entry": 1,
@@ -68,6 +86,8 @@
   },
   {
    "allow_in_quick_entry": 1,
+   "fetch_from": "product_code.cost",
+   "fetch_if_empty": 1,
    "fieldname": "cost",
    "fieldtype": "Currency",
    "in_list_view": 1,
@@ -79,7 +99,7 @@
    "fieldname": "amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Amount",
+   "label": "Total Amount",
    "read_only": 1
   },
   {
@@ -87,6 +107,7 @@
    "fetch_from": "product_code.is_inventory_product",
    "fieldname": "is_inventory_product",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Is Inventory Product"
   },
   {
@@ -103,12 +124,101 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Product Group"
+  },
+  {
+   "default": "0",
+   "fieldname": "sub_total",
+   "fieldtype": "Currency",
+   "label": "Sub Total"
+  },
+  {
+   "fieldname": "discount_section",
+   "fieldtype": "Section Break",
+   "label": "Discount"
+  },
+  {
+   "default": "Percent",
+   "fieldname": "discount_type",
+   "fieldtype": "Select",
+   "label": "Discount Type",
+   "options": "Percent\nAmount"
+  },
+  {
+   "fieldname": "column_break_12",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "discount",
+   "fieldtype": "Float",
+   "label": "Discount"
+  },
+  {
+   "fieldname": "column_break_15",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "discount_amount",
+   "fieldtype": "Currency",
+   "label": "Discount Amount",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "product_code.product_name_kh",
+   "fieldname": "product_name_kh",
+   "fieldtype": "Data",
+   "label": "Product Name Kh",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_8",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_10",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_14",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_19",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_discount",
+   "fieldtype": "Currency",
+   "label": "Total Discount"
+  },
+  {
+   "default": "0",
+   "fieldname": "po_discount_amount",
+   "fieldtype": "Currency",
+   "label": "PO Discount Amount "
+  },
+  {
+   "default": "0",
+   "fieldname": "po_discount_percent",
+   "fieldtype": "Float",
+   "label": "PO Discount Percent ",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-12-27 09:51:51.403468",
+ "modified": "2022-12-28 09:15:23.830173",
  "modified_by": "Administrator",
  "module": "Purchasing",
  "name": "Purchase Order Products",

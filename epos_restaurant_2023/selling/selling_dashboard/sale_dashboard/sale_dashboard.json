@@ -1,9 +1,41 @@
 {
- "cards": [],
+ "cards": [
+  {
+   "card": "Today Sale Revenue"
+  },
+  {
+   "card": "MTD Sale Revenue"
+  },
+  {
+   "card": "YTD Sale Revenue"
+  },
+  {
+   "card": "YTD Profit"
+  },
+  {
+   "card": "Outstanding Receivable"
+  }
+ ],
  "charts": [
   {
-   "chart": "Sale Revenue",
+   "chart": "Daily Sale Revenues",
    "width": "Full"
+  },
+  {
+   "chart": "YTD Sale By Product Category",
+   "width": "Half"
+  },
+  {
+   "chart": "YTD Sale by Product Group",
+   "width": "Half"
+  },
+  {
+   "chart": "YTD Sale by Sale Type",
+   "width": "Half"
+  },
+  {
+   "chart": "YTD Sale By Payment Type",
+   "width": "Half"
   }
  ],
  "creation": "2022-12-17 16:14:57.564817",
@@ -13,7 +45,7 @@
  "idx": 0,
  "is_default": 0,
  "is_standard": 1,
- "modified": "2022-12-17 16:14:57.564817",
+ "modified": "2022-12-27 18:13:05.746266",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Dashboard",

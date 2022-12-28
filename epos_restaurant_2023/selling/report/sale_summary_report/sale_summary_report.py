@@ -1,5 +1,6 @@
 import frappe
-from frappe.utils import date_diff,today 
+from frappe import _
+from frappe.utils import date_diff,today ,add_months, add_days
 from frappe.utils.data import strip
 import datetime
 
@@ -10,6 +11,10 @@ def execute(filters=None):
 		
 		filters.start_date = '{}-01-01'.format(filters.from_fiscal_year)
 		filters.end_date = '{}-12-31'.format(filters.from_fiscal_year) 
+	elif filters.filter_based_on =="This Month":
+		filters.start_date = datetime.date.today().replace(day=1)
+		filters.end_date =add_days(  add_months(filters.start_date ,1),-1)
+		 
 
 	validate(filters)
 	#run this to update parent_product_group in table sales invoice item
@@ -403,6 +408,16 @@ def get_row_groups():
 			"label":"Outlet",
 			"parent_row_group_filter_field":"row_group"
 		},
+      	 {
+			"fieldname":"if(ifnull(b.tbl_group,'')='','Not Set',b.tbl_group)",
+			"label":_("Table Group"),
+			"parent_row_group_filter_field":"row_group"
+		},
+         {
+			"fieldname":"if(ifnull(b.tbl_number,'')='','Not Set',b.tbl_number)",
+			"label":_("Table"),
+			"parent_row_group_filter_field":"row_group"
+		},
 		{
 			"fieldname":"b.business_branch",
 			"label":"Business Branch",
@@ -447,5 +462,20 @@ def get_row_groups():
 		{
 			"fieldname":"concat(a.product_code,'-',a.product_name)",
 			"label":"Product"
-		}
+		},
+  		{
+			"fieldname":"if(ifnull(b.working_day,'')='','Not Set',b.working_day)",
+			"label":_("Working Day"),
+			"parent_row_group_filter_field":"row_group"
+		},
+    {
+			"fieldname":"if(ifnull(b.cashier_shift,'')='','Not Set',b.cashier_shift)",
+			"label":_("Cashier Shift"),
+			"parent_row_group_filter_field":"row_group"
+		},
+     {
+			"fieldname":"if(ifnull(b.sale_type,'')='','Not Set',b.sale_type)",
+			"label":_("Sale Type"),
+			"parent_row_group_filter_field":"row_group"
+		},
 	]

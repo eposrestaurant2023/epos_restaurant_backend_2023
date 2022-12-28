@@ -3,6 +3,7 @@ from frappe.utils import date_diff,today
 from frappe.utils.data import strip
 from frappe import _
 from py_linq import Enumerable
+import datetime
 
 def execute(filters=None): 
  
@@ -25,10 +26,10 @@ def validate(filters):
 		filters.outlet = frappe.db.get_list("Outlet",pluck='name')
   
 	if not filters.start_date:
-		filters.start_date = frappe.datetime.get_today(),
+		filters.start_date = datetime.date.today()
   
 	if not filters.end_date:
-		filters.end_date = frappe.datetime.get_today(),
+		filters.end_date =  datetime.date.today()
 
 	if filters.start_date and filters.end_date:
 		if filters.start_date > filters.end_date:

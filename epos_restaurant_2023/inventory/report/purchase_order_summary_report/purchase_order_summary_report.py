@@ -29,16 +29,8 @@ def execute(filters=None):
 	return get_columns(filters), report_data, message, report_chart, get_report_summary(report_data,filters),skip_total_row
  
 def validate(filters):
-	if not filters.business_branch:
-		filters.business_branch = frappe.db.get_list("Business Branch",pluck='name')
-  
-	if not filters.outlet:
-		filters.outlet = frappe.db.get_list("Outlet",pluck='name')
-  
-
 	if filters.start_date and filters.end_date:
 		if filters.start_date > filters.end_date:
-
 			frappe.throw("The 'Start Date' ({}) must be before the 'End Date' ({})".format(filters.start_date, filters.end_date))
 
 	
@@ -50,15 +42,16 @@ def validate(filters):
 	if filters.row_group and filters.parent_row_group:
 		if(filters.row_group == filters.parent_row_group):
 			frappe.throw("Parent row group and row group can not be the same")
- 				
+ 
+
+
+				
 
 def get_columns(filters):
 	
 	columns = []
 	columns.append({'fieldname':'row_group','label':filters.row_group,'fieldtype':'Data','align':'left','width':250})
-	# if filters.row_group == "Product":
-	# 	columns.append({"label":"Item Code","fieldname":"item_code","fieldtype":"Data","align":"left",'width':130})
-	
+
 	hide_columns = filters.get("hide_columns")
 	 
 	if filters.column_group !="None" and filters.row_group not in ["Date","Month","Year"]:
@@ -79,7 +72,7 @@ def get_columns(filters):
 					'align':f['align']
 					}
 				)
-	if (filters.row_group == "PO Invoice" or filters.parent_row_group == "PO Invoice") and filters.get("include_cancelled") == True:
+	if (filters.row_group == "Sale Invoice" or filters.parent_row_group == "Sale Invoice") and filters.get("include_cancelled") == True:
 		columns.append({"label":"Status","fieldname":"docstatus","fieldtype":"Data","align":"center",'width':100})
 	return columns
  
@@ -191,7 +184,7 @@ def get_fields(filters):
 	return fields
  
 def get_conditions(filters,group_filter=None):
-	conditions = "1 = 1"
+	conditions = " 1 = 1 "
 
 	start_date = filters.start_date
 	end_date = filters.end_date
@@ -201,24 +194,22 @@ def get_conditions(filters,group_filter=None):
 		conditions += " and {} ='{}'".format(group_filter["field"],group_filter["value"].replace("'","''").replace("%","%%"))
 
 	conditions += " AND b.posting_date between '{}' AND '{}'".format(start_date,end_date)
+  
 	if filters.vendor:
 		conditions += " AND b.vendor = %(vendor)s"
 
-	if filters.get("product_category"):
-		conditions += " AND a.product_category in %(product_category)s"
-  
 	if filters.get("product_group"):
 		conditions += " AND a.product_group in %(product_group)s"
- 
-	conditions += " AND b.business_branch in %(business_branch)s"
- 
+
+	if filters.get("product_category"):
+		conditions += " AND a.product_category in %(product_category)s"
+
 	return conditions
 
 def get_report_data(filters,parent_row_group=None,indent=0,group_filter=None):
-	
 	hide_columns = filters.get("hide_columns")
 	row_group = [d["fieldname"] for d in get_row_groups() if d["label"]==filters.row_group][0]
-
+	
 	if(parent_row_group!=None):
 		row_group = [d["fieldname"] for d in get_row_groups() if d["label"]==parent_row_group][0]
 
@@ -261,6 +252,7 @@ def get_report_data(filters,parent_row_group=None,indent=0,group_filter=None):
 		GROUP BY 
 		{1} {2} {3}
 	""".format(get_conditions(filters,group_filter), row_group,item_code,groupdocstatus,normal_filter)	
+	
 	data = frappe.db.sql(sql,filters, as_dict=1)
 	
 	return data
@@ -325,18 +317,16 @@ def get_report_chart(filters,data):
 			if d["indent"] ==0:
 				columns.append(d["row_group"])
 
-		myds = []
+	
 		for rf in report_fields:
 			if not hide_columns or  rf["label"] not in hide_columns:
 				fieldname = 'total_'+rf["fieldname"]
 				if(fieldname=="total_qty"):
 					dataset.append({'name':rf["label"],'values':(d["total_qty"] for d in data if d["indent"]==0)})
-				elif(fieldname=="total_sub_total"):
-					dataset.append({'name':rf["label"],'values':(d["total_sub_total"] for d in data if d["indent"]==0)})
+				elif(fieldname=="total_cost"):
+					dataset.append({'name':rf["label"],'values':(d["total_cost"] for d in data if d["indent"]==0)})
 				elif(fieldname=="total_amount"):
 					dataset.append({'name':rf["label"],'values':(d["total_amount"] for d in data if d["indent"]==0)})
-	
-		 
 
 	chart = {
 		'data':{
@@ -354,10 +344,9 @@ def get_report_chart(filters,data):
 def get_report_field(filters):
 	return [
 		{"label":"Quantity","short_label":"Qty", "fieldname":"quantity","fieldtype":"Float","indicator":"Grey","precision":2, "align":"center","chart_color":"#FF8A65","sql_expression":"a.quantity"},
-		{"label":"Sub Total", "short_label":"Sub To.", "fieldname":"cost","fieldtype":"Currency","indicator":"Grey","precision":None, "align":"right","chart_color":"#dd5574","sql_expression":"a.cost"},
+  		{"label":"Sub Total", "short_label":"Sub To.", "fieldname":"sub_total","fieldtype":"Currency","indicator":"Grey","precision":None, "align":"right","chart_color":"#dd5574","sql_expression":"a.sub_total"},
+		{"label":"Discount", "short_label":"Disc.", "fieldname":"discount_amount","fieldtype":"Currency","indicator":"Grey","precision":None, "align":"right","chart_color":"#dd5574","sql_expression":"a.discount_amount"},
 		{"label":"Amount", "short_label":"Amt", "fieldname":"amount","fieldtype":"Currency","indicator":"Red","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"a.amount"},
-		
-    	
 	]
  
 
@@ -365,32 +354,18 @@ def get_row_groups():
 	return [
 		{
 			"fieldname":"a.parent",
-			"label":"Sale Invoice",
+			"label":"PO Invoice",
 			"parent_row_group_filter_field":"row_group"
 		},
+  
 		{
 			"fieldname":"a.product_category",
 			"label":"Category",
 			"parent_row_group_filter_field":"row_group"
 		},
 		{
-			"fieldname":"a.product_group",
-			"label":"Product Group",
-			"parent_row_group_filter_field":"row_group"
-		},
-		{
-			"fieldname":"b.business_branch",
-			"label":"Business Branch",
-			"parent_row_group_filter_field":"row_group"
-		},
-		{
 			"fieldname":"if(ifnull(b.vendor,'')='','Not Set',concat(b.vendor,'-',b.vendor_name))",
 			"label":"Vendor",
-			"parent_row_group_filter_field":"row_group"
-		},	
-		{
-			"fieldname":"ifnull(b.stock_location,'Not Set')",
-			"label":"Stock Location",
 			"parent_row_group_filter_field":"row_group"
 		},
 		{

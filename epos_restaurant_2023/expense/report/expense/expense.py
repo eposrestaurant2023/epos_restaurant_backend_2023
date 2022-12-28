@@ -30,7 +30,7 @@ def get_report_data(filters):
 
 def get_report_columns():
     return [
-		{"label":"Expense Code", "fieldname":"name", "fieldtype":"Data","width":120},
+		{"label":"Expense Code", "fieldname":"name", "fieldtype":"Data","width":150},
   		{"label":"Date", "fieldname":"posting_date", "fieldtype":"Date","align":"center","width":120},
   		{"label":"Employee By", "fieldname":"employee_name","fieldtype":"Data","align":"left","width":150},
   		{"label":"Total Amount", "fieldname":"total_amount", "fieldtype":"Currency","align":"right","width":150},

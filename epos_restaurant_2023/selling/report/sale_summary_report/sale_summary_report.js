@@ -17,16 +17,26 @@ frappe.query_reports["Sale Summary Report"] = {
 			"fieldname":"filter_based_on",
 			"label": __("Filter Based On"),
 			"fieldtype": "Select",
-			"options": ["Fiscal Year", "Date Range"],
-			"default": ["Fiscal Year"],
+			"options": ["Fiscal Year","This Month", "Date Range"],
+			"default": ["This Month"],
 			"reqd": 1,
 			on_change: function() {
 				let filter_based_on = frappe.query_report.get_filter_value('filter_based_on');
-				frappe.query_report.toggle_filter_display('from_fiscal_year', filter_based_on === 'Date Range');
-				frappe.query_report.toggle_filter_display('start_date', filter_based_on === 'Fiscal Year');
-				frappe.query_report.toggle_filter_display('end_date', filter_based_on === 'Fiscal Year');
+				if(filter_based_on!="This Month"){ 
+					frappe.query_report.toggle_filter_display('from_fiscal_year', filter_based_on === 'Date Range');
+					frappe.query_report.toggle_filter_display('start_date', filter_based_on === 'Fiscal Year'  );
+					frappe.query_report.toggle_filter_display('end_date', filter_based_on === 'Fiscal Year' );
+
+				
+				}else{
+					frappe.query_report.toggle_filter_display('from_fiscal_year', true);
+					frappe.query_report.toggle_filter_display('start_date', true  );
+					frappe.query_report.toggle_filter_display('end_date', true );
+
+				}
 
 				frappe.query_report.refresh();
+	 
 			}
 		},
 		{
@@ -34,7 +44,7 @@ frappe.query_reports["Sale Summary Report"] = {
 			"label": __("Start Date"),
 			"fieldtype": "Date",
 			default:frappe.datetime.get_today(),
-			"hidden": 1,
+	
 			"reqd": 1
 		},
 		{
@@ -42,7 +52,7 @@ frappe.query_reports["Sale Summary Report"] = {
 			"label": __("End Date"),
 			"fieldtype": "Date",
 			default:frappe.datetime.get_today(),
-			"hidden": 1,
+		
 			"reqd": 1
 		},
 		{
@@ -116,14 +126,14 @@ frappe.query_reports["Sale Summary Report"] = {
 			"fieldname": "parent_row_group",
 			"label": __("Parent Group By"),
 			"fieldtype": "Select",
-			"options": "\nCategory\nProduct Group\nRevenue Group\nBusiness Branch\nOutlet\nPOS Profile\nCustomer\nCustomer Group\nStock Location\nDate\n\Month\nYear\nSale Invoice",
+			"options": "\nCategory\nProduct Group\nRevenue Group\nBusiness Branch\nOutlet\nTable Group\nTable\nPOS Profile\nCustomer\nCustomer Group\nStock Location\nDate\n\Month\nYear\nSale Invoice\nWorking Day\nCashier Shift\nSale Type",
 			
 		},
 		{
 			"fieldname": "row_group",
 			"label": __("Row Group By"),
 			"fieldtype": "Select",
-			"options": "Product\nCategory\nProduct Group\nRevenue Group\nBusiness Branch\nOutlet\nPOS Profile\nCustomer\nCustomer Group\nStock Location\nDate\n\Month\nYear\nSale Invoice",
+			"options": "Product\nCategory\nProduct Group\nRevenue Group\nBusiness Branch\nOutlet\nTable Group\nTable\nPOS Profile\nCustomer\nCustomer Group\nStock Location\nDate\n\Month\nYear\nSale Invoice\nWorking Day\nCashier Shift\nSale Type",
 			"default":"Category"
 		},
 		{
