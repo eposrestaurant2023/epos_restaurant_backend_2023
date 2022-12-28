@@ -87,6 +87,7 @@ frappe.ui.form.on("Sale", {
 	},
 	discount_type(frm){
 		update_sale_discount_to_sale_product(self);
+		frm.refresh_field('sale_products');
 		updateSumTotal(frm);
 	},
 	discount(frm){

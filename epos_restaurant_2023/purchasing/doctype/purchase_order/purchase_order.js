@@ -115,23 +115,35 @@ function update_purchase_order_products_amount(frm,cdt, cdn)  {
 
 function updateSumTotal(frm) {
     const products =  frm.doc.purchase_order_products; 
-    let sum_total = 0;
-	let total_qty = 0;
-  
-    $.each(frm.doc.purchase_order_products, function(i, d) {
-        sum_total += flt(d.amount);
-		total_qty +=flt(d.quantity);
-		 
-    });
+    if(products==undefined){
+		return false;
+	}
+
+	frm.set_value('sub_total', products.reduce((n, d) => n + d.sub_total,0));
+	frm.set_value('total_quantity', products.reduce((n, d) => n + d.quantity,0));
+	frm.set_value('po_discountable_amount', products.reduce((n, d) => n + (d.discount_amount>0?0:d.sub_total),0));
 	
+	let discount = 0;
+	if (frm.doc.discount_type=="Percent"){
+		discount = frm.doc.po_discountable_amount * frm.doc.discount / 100;
+	}else {
+		discount = frm.doc.discount;
+	}
     
-    frm.set_value('sub_total', sum_total);
-    frm.set_value('total_quantity', total_qty);
 	frm.set_value('product_discount', products.reduce((n, d) => n + d.discount_amount,0));
-   
+	frm.set_value('po_discount', discount);
+	frm.set_value('total_discount', discount + frm.doc.product_discount);
+	frm.set_value('grand_total',  frm.doc.sub_total - frm.doc.total_discount);
+	frm.set_value('balance',  frm.doc.grand_total - frm.doc.total_paid);
+
 	frm.refresh_field("sub_total");
 	frm.refresh_field("total_quantity");
 	frm.refresh_field("product_discount");
+	frm.refresh_field("total_discount");
+	frm.refresh_field("grand_total");
+	frm.refresh_field("po_discount");
+	frm.refresh_field("po_discountable_amount");
+	frm.refresh_field("balance");
 }
 
 function check_row_exist(frm, barcode){
@@ -176,14 +188,14 @@ function add_product_to_po_product(frm,p){
 function update_po_product_amount(frm,doc){
 	doc.sub_total = doc.cost * doc.quantity;
 	
-	if(doc.discount){ 
+	if(doc.discount){
 		if (doc.discount_type=="Percent"){
-			doc.discount_amount = (doc.sub_total * doc.discount/100); 
+			doc.discount_amount = (doc.sub_total * doc.discount/100);
+			doc.po_discount_percent = doc.discount;
+
 		}else {
 			doc.discount_amount = doc.discount;
 		}
-		doc.po_discount_percent = 0;
-		doc.po_discount_amount = 0;
 	}else {
 		doc.discount_amount = 0;
 		//check if sale have discount then add discount to sale
@@ -193,26 +205,26 @@ function update_po_product_amount(frm,doc){
 		 
 	}
 	doc.total_discount = doc.discount_amount + doc.po_discount_amount;
-	 
+
 	doc.amount = (doc.sub_total - doc.discount_amount);
-	
+
 	frm.refresh_field('purchase_order_products');
 	updateSumTotal(frm);
 
 }
 
 function update_po_discount_to_po_product(frm){
-	 
 	let products = frm.doc.purchase_order_products
 	if(products==undefined){
 		return false;
 	}
 	let po_discount = frm.doc.discount
-	alert(po_discount)
+	
 
 	if (po_discount>0) { 
 		if (frm.doc.discount_type=="Amount"){ 
-			po_discount=po_discount * 100
+			let discountable_amount = products.reduce((n, d) => n + (d.discount_amount>0?0:d.sub_total),0)
+			po_discount=(po_discount / discountable_amount ) * 100
 		}
 	}
 	$.each(products,  function(i, d)  {
@@ -226,8 +238,8 @@ function update_po_discount_to_po_product(frm){
 			d.po_discount_percent = 0  
 			d.po_discount_amount = 0
 		}
-		d.total_discount = d.po_discount_amount  + d.discount_amount ;
+		d.total_discount = d.po_discount_amount  + d.discount_amount;
 	});
-	frm.refresh_field('sale_products')
+
 	updateSumTotal(frm);
 }

@@ -115,13 +115,14 @@
   {
    "fieldname": "photo",
    "fieldtype": "Attach Image",
+   "hidden": 1,
    "label": "Photo"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-12 14:10:53.904521",
+ "modified": "2022-12-28 17:31:14.893669",
  "modified_by": "Administrator",
  "module": "Employee Management",
  "name": "Employee",

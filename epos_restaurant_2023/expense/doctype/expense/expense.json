@@ -64,13 +64,15 @@
    "fieldtype": "Link",
    "in_standard_filter": 1,
    "label": "Expense By",
-   "options": "Employee"
+   "options": "Employee",
+   "reqd": 1
   },
   {
    "fetch_from": "expense_by.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
-   "label": "Employee Name"
+   "label": "Employee Name",
+   "reqd": 1
   },
   {
    "fieldname": "expense_item_section",
@@ -148,7 +150,8 @@
    "fieldname": "business_branch",
    "fieldtype": "Link",
    "label": "Business Branch",
-   "options": "Business Branch"
+   "options": "Business Branch",
+   "reqd": 1
   }
  ],
  "image_field": "attach_receipt",
@@ -161,7 +164,7 @@
    "link_fieldname": "expense"
   }
  ],
- "modified": "2022-12-14 16:57:10.621005",
+ "modified": "2022-12-28 15:43:13.744305",
  "modified_by": "Administrator",
  "module": "Expense",
  "name": "Expense",

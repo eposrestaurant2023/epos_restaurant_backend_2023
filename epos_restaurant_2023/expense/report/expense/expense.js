@@ -19,23 +19,39 @@ frappe.query_reports["Expense"] = {
 			"reqd": 1
 		},
 		{
-			fieldname: "employee_name",
-			label: __("Employee Name"),
+			fieldname: "business_branch",
+			label: __("Business Branch"),
 			fieldtype: "MultiSelectList",
 			get_data: function(txt) {
-				return frappe.db.get_link_options('Employee', txt);
+				return frappe.db.get_link_options('Business Branch', txt);
 			}
 			 
 		},
 		{
-			"fieldname": "vendor_name",
-			"label": __("Vendor Name"),
+			"fieldname": "expense_by",
+			"label": __("Expense By"),
 			"fieldtype": "MultiSelectList",
 			get_data: function(txt) {
 				
-				return frappe.db.get_link_options('Vendor', txt);
+				return frappe.db.get_link_options('Employee', txt);
 			}
 		},
-	
-	]
+		{
+			"fieldname":"vendor_code",
+			"label": __("Vendor Name"),
+			"fieldtype":"Link",
+			"options":"Vendor"
+		}
+	],
+	"formatter": function(value, row, column, data, default_formatter) {
+
+		value = default_formatter(value, row, column, data);
+
+		if (data && data.is_group==1) {
+			value = $(`<span>${value}</span>`);
+			var $value = $(value).css("font-weight", "bold");
+			value = $value.wrap("<p></p>").parent().html();
+		}
+		return value;
+	},
 };

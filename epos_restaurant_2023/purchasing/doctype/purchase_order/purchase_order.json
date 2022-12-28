@@ -33,6 +33,7 @@
   "column_break_34",
   "sub_total",
   "po_discount",
+  "po_discountable_amount",
   "section_break_10",
   "total_discount",
   "product_discount",
@@ -254,6 +255,13 @@
   {
    "fieldname": "column_break_35",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "po_discountable_amount",
+   "fieldtype": "Currency",
+   "label": "PO Discountable Amount ",
+   "read_only": 1
   }
  ],
  "image_field": "attach_receipt",
@@ -266,7 +274,7 @@
    "link_fieldname": "purchase_order"
   }
  ],
- "modified": "2022-12-27 18:38:37.803552",
+ "modified": "2022-12-28 15:22:07.358358",
  "modified_by": "Administrator",
  "module": "Purchasing",
  "name": "Purchase Order",

@@ -47,10 +47,10 @@ def get_report_columns():
     return [
 		{"label":"Name", "fieldname":"name", "fieldtype":"Link","options":"Stock Transfer","width":150},
   		{"label":"Date", "fieldname":"posting_date", "fieldtype":"Date","align":"center","width":120},
-		{"label":"From Stock Location", "fieldname":"from_stock_location","fieldtype":"Data","align":"left","width":170},
 		{"label":"From Business Branch", "fieldname":"from_business_branch","fieldtype":"Data","align":"left","width":170},
+		{"label":"From Stock Location", "fieldname":"from_stock_location","fieldtype":"Data","align":"left","width":170},
+		{"label":"To Business Branch", "fieldname":"to_business_branch","fieldtype":"Data","align":"left","width":150},
   		{"label":"To Stock Location", "fieldname":"to_stock_location","fieldtype":"Data","align":"left","width":150},
-    	{"label":"To Business Branch", "fieldname":"to_business_branch","fieldtype":"Data","align":"left","width":150},
 		{"label":"QTY", "fieldname":"total_quantity","fieldtype":"Data","align":"center","width":70},
 		{"label":"Total Amount", "fieldname":"total_amount","fieldtype":"Currency","align":"right","width":110},
   		

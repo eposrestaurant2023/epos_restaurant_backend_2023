@@ -199,13 +199,15 @@
    "default": "0",
    "fieldname": "total_discount",
    "fieldtype": "Currency",
-   "label": "Total Discount"
+   "label": "Total Discount",
+   "read_only": 1
   },
   {
    "default": "0",
    "fieldname": "po_discount_amount",
    "fieldtype": "Currency",
-   "label": "PO Discount Amount "
+   "label": "PO Discount Amount ",
+   "read_only": 1
   },
   {
    "default": "0",
@@ -218,7 +220,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-12-28 09:15:23.830173",
+ "modified": "2022-12-28 11:25:19.131021",
  "modified_by": "Administrator",
  "module": "Purchasing",
  "name": "Purchase Order Products",

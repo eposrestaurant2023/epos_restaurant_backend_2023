@@ -11,16 +11,25 @@ from frappe.model.document import Document
 
 class PurchaseOrder(Document):
 	def validate(self):
+		validate_po_discount(self)
 		#validate sale summary
-		for d in self.purchase_order_products:
-			d.amount = d.quantity * d.cost
-
 		total_quantity = Enumerable(self.purchase_order_products).sum(lambda x: x.quantity or 0)
 		sub_total = Enumerable(self.purchase_order_products).sum(lambda x: (x.quantity or 0)* (x.cost or  0))
+		po_discountable_amount =Enumerable(self.purchase_order_products).where(lambda x:(x.discount_amount or 0)==0).sum(lambda x: (x.quantity or 0)* (x.cost or  0))
 
 		self.total_quantity = total_quantity
+		self.po_discountable_amount = po_discountable_amount
 		self.sub_total = sub_total
-		self.grand_total = sub_total - (self.total_discount or 0)
+		# calculate sale discount
+		if self.discount:
+			if self.discount_type =="Percent":
+				self.po_discount = self.po_discountable_amount * self.discount / 100
+			else:
+				self.po_discount = self.discount or 0
+
+		self.product_discount = Enumerable(self.purchase_order_products).sum(lambda x: x.discount_amount)
+		self.total_discount = (self.product_discount or 0) + (self.po_discount or 0)
+		self.grand_total =( sub_total - (self.total_discount or 0))
 		self.balance = self.grand_total  - (self.total_paid or 0)
 		if self.balance == 0:
 			frappe.throw("Total amount is 0")
@@ -97,3 +106,28 @@ def update_inventory_on_cancel(self):
 			})
 			doc.insert()
 			update_product_quantity(stock_location=self.stock_location, product_code=p.product_code, quantity=p.quantity / uom_conversion * -1, cost=((p.amount/p.quantity)*uom_conversion), doc=current_stock)
+
+def validate_po_discount(self):
+	po_discount = self.discount  
+	if po_discount>0:
+		if self.discount_type=="Amount":
+			discountable_amount = Enumerable(self.purchase_order_products).where(lambda x: x.discount==0).sum(lambda x: (x.quantity or 0)* (x.cost or  0))
+			po_discount=(po_discount / discountable_amount ) * 100
+ 
+	for d in self.purchase_order_products:
+		d.sub_total = (d.quantity or 0) * (d.cost or 0)
+		if (d.discount_type or "Percent")=="Percent":
+			d.discount_amount = d.sub_total * (d.discount or 0) / 100
+		else:
+			d.discount_amount = d.discount or 0
+		# check if sale has discount
+		if po_discount>0 and d.discount==0:
+			
+			d.po_discount_percent = po_discount  
+			d.po_discount_amount = (po_discount/100) * d.sub_total
+		else:
+			d.po_discount_percent = 0  
+			d.po_discount_amount = 0
+
+		d.total_discount = (d.po_discount_amount or 0) + (d.discount_amount or 0)
+		d.amount = (d.sub_total - d.discount_amount)

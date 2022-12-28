@@ -16,6 +16,14 @@ frappe.query_reports["Stock Transfer Report"] = {
 			"reqd": 1
 		},
 		{
+			"fieldname":"from_business_branch",
+			"label": __("From Business Branch"),
+			"fieldtype":"MultiSelectList",
+			get_data: function(txt) {
+				return frappe.db.get_link_options('Business Branch', txt);
+			}
+		},
+		{
 			fieldname: "from_stock_location",
 			label: __("From Stock Location"),
 			fieldtype: "MultiSelectList",
@@ -23,6 +31,14 @@ frappe.query_reports["Stock Transfer Report"] = {
 				return frappe.db.get_link_options('Stock Location', txt);
 			}
 			 
+		},
+		{
+			"fieldname":"to_business_branch",
+			"label": __("To Business Branch"),
+			"fieldtype":"MultiSelectList",
+			get_data: function(txt) {
+				return frappe.db.get_link_options('Business Branch', txt);
+			}
 		},
 		{
 			"fieldname": "to_stock_location",
@@ -33,24 +49,8 @@ frappe.query_reports["Stock Transfer Report"] = {
 				return frappe.db.get_link_options('Stock Location', txt);
 			}
 		},
-		{
-			"fieldname":"from_business_branch",
-			"label": __("From Business Branch"),
-			"fieldtype":"MultiSelectList",
-			get_data: function(txt) {
-				return frappe.db.get_link_options('Business Branch', txt);
-			}
-		},
-		{
-			"fieldname":"to_business_branch",
-			"label": __("To Business Branch"),
-			"fieldtype":"MultiSelectList",
-			get_data: function(txt) {
-				return frappe.db.get_link_options('Business Branch', txt);
-			}
-		},
-	
 	],
+
 	"formatter": function(value, row, column, data, default_formatter) {
 	
 		value = default_formatter(value, row, column, data);
