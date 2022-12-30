@@ -51,8 +51,6 @@
 	a.tax_2_amount,
 	a.tax_3_rate,
 	a.tax_3_amount ,
-a.coupon_number,
-a.coupon_voucher_amount,
 	a.total_amount
 from tbl_sale a 
 inner join tbl_business_branch c on c.id = a.business_branch_id
@@ -189,16 +187,8 @@ cast(a.id as nvarchar(50)) = @id</CommandText>
           <DataField>tax_3_amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="coupon_number">
-          <DataField>coupon_number</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="total_amount">
           <DataField>total_amount</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="coupon_voucher_amount">
-          <DataField>coupon_voucher_amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
       </Fields>
@@ -763,13 +753,13 @@ declare
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.10963in</Width>
+                  <Width>0.735in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.17956in</Width>
+                  <Width>0.08in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.59031in</Width>
+                  <Width>0.59119in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -789,7 +779,7 @@ declare
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
                                     <Color>#000000</Color>
@@ -824,7 +814,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -860,7 +850,7 @@ declare
                                   <Value>=Fields!sale_number.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -900,7 +890,7 @@ declare
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
                                     <Color>#000000</Color>
@@ -935,7 +925,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -971,7 +961,7 @@ declare
                                   <Value>=Fields!working_day_number.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1011,7 +1001,7 @@ declare
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
                                     <Color>#000000</Color>
@@ -1046,7 +1036,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1081,7 +1071,7 @@ declare
                                   <Value>=Fields!cashier_shift_number.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1121,7 +1111,7 @@ declare
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
                                     <Color>#000000</Color>
@@ -1156,7 +1146,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1191,7 +1181,7 @@ declare
                                   <Value>=Fields!table_name.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1231,7 +1221,7 @@ declare
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
                                     <Color>#000000</Color>
@@ -1266,7 +1256,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1302,7 +1292,7 @@ declare
                                   <Value>=format(First(Fields!created_date.Value, "sale_data"), First(Fields!date_time_format.Value, "setting"))</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1342,7 +1332,7 @@ declare
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
                                     <Color>#000000</Color>
@@ -1377,7 +1367,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1413,7 +1403,7 @@ declare
                                   <Value>=format(Fields!closed_date.Value, First(Fields!date_time_format.Value, "setting"))</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1453,7 +1443,7 @@ declare
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
                                     <Color>#000000</Color>
@@ -1488,7 +1478,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1524,7 +1514,7 @@ declare
                                   <Value>=Fields!closed_by.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1577,10 +1567,10 @@ declare
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
-            <Top>1.14336in</Top>
-            <Left>2.34048in</Left>
+            <Top>1.06836in</Top>
+            <Left>1.43881in</Left>
             <Height>1.75in</Height>
-            <Width>2.8795in</Width>
+            <Width>1.40619in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1592,19 +1582,19 @@ declare
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.43302in</Width>
+                  <Width>0.27234in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.32998in</Width>
+                  <Width>1.19in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.62616in</Width>
+                  <Width>0.34in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.8044in</Width>
+                  <Width>0.41573in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.02644in</Width>
+                  <Width>0.62693in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1623,7 +1613,7 @@ declare
                                   <Value>=First(Fields!No.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1643,10 +1633,10 @@ declare
                               <Style>Solid</Style>
                             </BottomBorder>
                             <BackgroundColor>#e8e8e8</BackgroundColor>
-                            <PaddingLeft>3.75pt</PaddingLeft>
-                            <PaddingRight>3.75pt</PaddingRight>
-                            <PaddingTop>3.75pt</PaddingTop>
-                            <PaddingBottom>3.75pt</PaddingBottom>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -1663,7 +1653,7 @@ declare
                                   <Value>=First(Fields!Description.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1701,7 +1691,7 @@ declare
                                   <Value>=First(Fields!QTY.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1741,7 +1731,7 @@ declare
                                   <Value>=First(Fields!Price.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1781,7 +1771,7 @@ declare
                                   <Value>=First(Fields!Amount.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1825,7 +1815,7 @@ declare
                                 <TextRun>
                                   <Value>=rownumber(nothing)</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1860,42 +1850,42 @@ declare
                                   <Value>=Fields!product_name_en.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
                                   <Value>=iif(Fields!portion_name.Value="Normal","","-" &amp; Fields!portion_name.Value)</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
                                   <Value>=iif(Fields!is_free.Value=0,"","-" &amp; "FREE")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
                                   <Value xml:space="preserve"> </Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
                                   <Value>=iif(Fields!sale_product_modifier_name.Value = "","","(") &amp; Fields!sale_product_modifier_name.Value &amp; iif(Fields!sale_product_modifier_name.Value = "","",")")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
                                   <Value>=iif(Fields!note.Value="","",VbCrlf)</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
@@ -1903,7 +1893,7 @@ declare
                                   <Style>
                                     <FontStyle>Italic</FontStyle>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1934,7 +1924,7 @@ declare
                                 <TextRun>
                                   <Value>=format(Fields!quantity.Value,First(Fields!quantity_format.Value, "setting"))</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1969,7 +1959,7 @@ declare
                                   <Value>=format(Fields!price.Value,First(Fields!currency_format.Value, "setting"))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2004,7 +1994,7 @@ declare
                                   <Value>=format(Fields!total_amount.Value,First(Fields!currency_format.Value, "setting"))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2051,9 +2041,9 @@ declare
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_product</DataSetName>
-            <Top>2.97316in</Top>
+            <Top>2.87316in</Top>
             <Height>0.55271in</Height>
-            <Width>5.22in</Width>
+            <Width>2.845in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -2071,20 +2061,22 @@ declare
                     <Value>=First(Fields!Receipt__.Value, "translate")</Value>
                     <Style>
                       <FontFamily>kh system</FontFamily>
-                      <FontSize>12pt</FontSize>
+                      <FontSize>9pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                   <TextRun>
                     <Value> : </Value>
                     <Style>
-                      <FontSize>12pt</FontSize>
+                      <FontSize>9pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                   <TextRun>
                     <Value>=First(Fields!document_number.Value, "sale_data")</Value>
-                    <Style />
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
@@ -2095,8 +2087,8 @@ declare
             <rd:DefaultName>Textbox55</rd:DefaultName>
             <Top>0.75587in</Top>
             <Left>0.01389in</Left>
-            <Height>0.32128in</Height>
-            <Width>5.20611in</Width>
+            <Height>0.23795in</Height>
+            <Width>2.83111in</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -2118,7 +2110,7 @@ declare
                     <Value>=First(Fields!business_branch_name_en.Value, "sale_data")</Value>
                     <Style>
                       <FontFamily>kh system</FontFamily>
-                      <FontSize>12pt</FontSize>
+                      <FontSize>9pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
@@ -2130,7 +2122,7 @@ declare
             </Paragraphs>
             <rd:DefaultName>Textbox4</rd:DefaultName>
             <Height>0.28674in</Height>
-            <Width>5.22in</Width>
+            <Width>2.845in</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -2146,13 +2138,13 @@ declare
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.70487in</Width>
+                  <Width>0.83696in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.18478in</Width>
+                  <Width>0.17184in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.72837in</Width>
+                  <Width>0.58748in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -2171,7 +2163,7 @@ declare
                                   <Value>=First(Fields!Total_Quantity.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2219,7 +2211,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2266,7 +2258,7 @@ declare
                                 <TextRun>
                                   <Value>=format(Sum(Fields!quantity.Value, "sale_product"), First(Fields!quantity_format.Value, "setting"))</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2318,7 +2310,7 @@ declare
                                   <Value>=First(Fields!Sub_Total.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2357,7 +2349,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2391,7 +2383,7 @@ declare
                                 <TextRun>
                                   <Value>=format(Fields!sub_total.Value, First(Fields!currency_format.Value, "setting"))</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2434,7 +2426,7 @@ declare
                                   <Value>=First(Fields!Discount.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2473,7 +2465,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2507,13 +2499,13 @@ declare
                                 <TextRun>
                                   <Value>- </Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
                                   <Value>=format(Fields!total_discount_amount.Value, First(Fields!currency_format.Value, "setting"))</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2556,7 +2548,7 @@ declare
                                   <Value>=First(Fields!tax_1_name.Value, "setting")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2564,7 +2556,7 @@ declare
                                   <Value> (</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2572,7 +2564,7 @@ declare
                                   <Value>=Format(Fields!tax_1_rate.Value, "0.## %")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2580,7 +2572,7 @@ declare
                                   <Value>)</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2617,7 +2609,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2651,7 +2643,7 @@ declare
                                 <TextRun>
                                   <Value>=format(Fields!tax_1_amount.Value, First(Fields!currency_format.Value, "setting"))</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2692,7 +2684,7 @@ declare
                                   <Value>=First(Fields!tax_2_name.Value, "setting")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2700,7 +2692,7 @@ declare
                                   <Value> (</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2708,7 +2700,7 @@ declare
                                   <Value>=Format(Fields!tax_2_rate.Value,  "0.## %")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2716,7 +2708,7 @@ declare
                                   <Value>)</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2753,7 +2745,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2787,7 +2779,7 @@ declare
                                 <TextRun>
                                   <Value>=format(Fields!tax_2_amount.Value, First(Fields!currency_format.Value, "setting"))</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2828,7 +2820,7 @@ declare
                                   <Value>=First(Fields!tax_3_name.Value, "setting")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2836,7 +2828,7 @@ declare
                                   <Value> (</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2844,7 +2836,7 @@ declare
                                   <Value>=Format(Fields!tax_3_rate.Value,  "0.## %")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2852,7 +2844,7 @@ declare
                                   <Value>)</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2889,7 +2881,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -2923,7 +2915,7 @@ declare
                                 <TextRun>
                                   <Value>=format(Fields!tax_3_amount.Value, First(Fields!currency_format.Value, "setting"))</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2933,154 +2925,6 @@ declare
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>tax_3_amount</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                              <Width>2pt</Width>
-                            </Border>
-                            <PaddingLeft>3.75pt</PaddingLeft>
-                            <PaddingRight>3.75pt</PaddingRight>
-                            <PaddingTop>3.75pt</PaddingTop>
-                            <PaddingBottom>3.75pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.25in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox1">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>COUPON</Value>
-                                  <Style>
-                                    <FontStyle>Italic</FontStyle>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>(#</Value>
-                                  <Style>
-                                    <FontStyle>Normal</FontStyle>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=Fields!coupon_number.Value</Value>
-                                  <Style>
-                                    <FontStyle>Normal</FontStyle>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>)</Value>
-                                  <Style>
-                                    <FontStyle>Normal</FontStyle>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                              <Width>2pt</Width>
-                            </Border>
-                            <PaddingLeft>3.75pt</PaddingLeft>
-                            <PaddingRight>3.75pt</PaddingRight>
-                            <PaddingTop>3.75pt</PaddingTop>
-                            <PaddingBottom>3.75pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox3">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox3</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox7">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>- </Value>
-                                  <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=format(Fields!coupon_voucher_amount.Value, First(Fields!currency_format.Value, "setting"))</Value>
-                                  <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox7</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -3130,14 +2974,13 @@ declare
                     <Hidden>=Fields!tax_3_amount.Value=0</Hidden>
                   </Visibility>
                 </TablixMember>
-                <TablixMember />
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
-            <Top>3.59253in</Top>
-            <Left>1.60197in</Left>
-            <Height>1.75in</Height>
-            <Width>3.61802in</Width>
+            <Top>3.49253in</Top>
+            <Left>1.22842in</Left>
+            <Height>1.5in</Height>
+            <Width>1.59628in</Width>
             <ZIndex>4</ZIndex>
             <Style>
               <Border>
@@ -3158,22 +3001,20 @@ declare
                     <Value>=First(Fields!Address.Value, "translate")</Value>
                     <Style>
                       <FontFamily>kh system</FontFamily>
+                      <FontSize>7pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value xml:space="preserve"> </Value>
-                    <Style />
-                  </TextRun>
-                  <TextRun>
-                    <Value>: </Value>
+                    <Value> : </Value>
                     <Style>
-                      <FontSize>11pt</FontSize>
+                      <FontSize>7pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
                     <Value>=First(Fields!address_en.Value, "sale_data")</Value>
                     <Style>
                       <FontFamily>Kh System</FontFamily>
+                      <FontSize>7pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -3186,7 +3027,7 @@ declare
             <Top>0.28674in</Top>
             <Left>0.03528cm</Left>
             <Height>0.17325in</Height>
-            <Width>5.20611in</Width>
+            <Width>2.83111in</Width>
             <ZIndex>5</ZIndex>
             <Style>
               <Border>
@@ -3204,18 +3045,20 @@ declare
                     <Value>=First(Fields!Phone.Value, "translate")</Value>
                     <Style>
                       <FontFamily>kh system</FontFamily>
+                      <FontSize>7pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
                     <Value>: </Value>
                     <Style>
-                      <FontSize>11pt</FontSize>
+                      <FontSize>7pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
                     <Value>=First(Fields!phone_1.Value, "sale_data") &amp;" /"&amp; First(Fields!phone_2.Value, "sale_data")</Value>
                     <Style>
                       <FontFamily>kh system</FontFamily>
+                      <FontSize>7pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -3227,7 +3070,7 @@ declare
             <rd:DefaultName>Textbox74</rd:DefaultName>
             <Top>0.51555in</Top>
             <Height>0.18801in</Height>
-            <Width>5.22in</Width>
+            <Width>2.845in</Width>
             <ZIndex>6</ZIndex>
             <Style>
               <Border>
@@ -3239,13 +3082,13 @@ declare
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.90267in</Width>
+                  <Width>0.72566in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.16085in</Width>
+                  <Width>0.10203in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.22174in</Width>
+                  <Width>0.70484in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -3264,7 +3107,7 @@ declare
                                   <Value>=First(Fields!Type.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3298,7 +3141,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3334,7 +3177,7 @@ declare
                                   <Value>=Fields!sale_type.Value</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3373,7 +3216,7 @@ declare
                                   <Value>=First(Fields!Customer.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3407,7 +3250,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3443,7 +3286,7 @@ declare
                                   <Value>=Fields!customer_name.Value</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -3481,7 +3324,7 @@ declare
                                   <Value>=First(Fields!Phone.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3515,7 +3358,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3551,7 +3394,7 @@ declare
                                   <Value>=Fields!phone_number.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -3590,7 +3433,7 @@ declare
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
                                     <Color>#000000</Color>
@@ -3625,7 +3468,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3660,7 +3503,7 @@ declare
                                   <Value>=Fields!guest_cover.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -3700,7 +3543,7 @@ declare
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
                                     <Color>#000000</Color>
@@ -3735,7 +3578,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3770,7 +3613,7 @@ declare
                                   <Value>=Fields!business_branch_name_en.Value</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -3810,7 +3653,7 @@ declare
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
                                     <Color>#000000</Color>
@@ -3845,7 +3688,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3880,7 +3723,7 @@ declare
                                   <Value>=Fields!outlet_name_en.Value</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -3920,7 +3763,7 @@ declare
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
                                     <Color>#000000</Color>
@@ -3955,7 +3798,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -3990,7 +3833,7 @@ declare
                                   <Value>=Fields!station_name_en.Value</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>6.5pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -4035,9 +3878,9 @@ declare
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
-            <Top>1.14336in</Top>
+            <Top>1.06836in</Top>
             <Height>1.75in</Height>
-            <Width>2.28526in</Width>
+            <Width>1.53253in</Width>
             <ZIndex>7</ZIndex>
             <Style>
               <Border>
@@ -4046,9 +3889,9 @@ declare
             </Style>
           </Tablix>
           <Line Name="Line1">
-            <Top>3.55781in</Top>
+            <Top>3.45781in</Top>
             <Height>0in</Height>
-            <Width>5.22in</Width>
+            <Width>2.845in</Width>
             <ZIndex>8</ZIndex>
             <Style>
               <Border>
@@ -4060,13 +3903,13 @@ declare
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.70487in</Width>
+                  <Width>1.23768in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.18478in</Width>
+                  <Width>0.17184in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.72836in</Width>
+                  <Width>0.60778in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -4085,7 +3928,7 @@ declare
                                   <Value>=First(Fields!Grand_Total.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4093,7 +3936,7 @@ declare
                                   <Value> (</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4101,7 +3944,7 @@ declare
                                   <Value>=Fields!name_en.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4109,7 +3952,7 @@ declare
                                   <Value>)</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4146,7 +3989,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4180,7 +4023,7 @@ declare
                                 <TextRun>
                                   <Value>=format(Fields!total_amount.Value,Fields!format.Value)</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4224,10 +4067,10 @@ declare
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>GrandTotalData</DataSetName>
-            <Top>5.36197in</Top>
-            <Left>1.60197in</Left>
+            <Top>5.03697in</Top>
+            <Left>0.82769in</Left>
             <Height>0.25in</Height>
-            <Width>3.61801in</Width>
+            <Width>2.01731in</Width>
             <ZIndex>9</ZIndex>
             <Style>
               <Border>
@@ -4240,13 +4083,13 @@ declare
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.70487in</Width>
+                  <Width>1.23768in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.18478in</Width>
+                  <Width>0.17184in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.72836in</Width>
+                  <Width>0.60778in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -4265,7 +4108,7 @@ declare
                                   <Value>=Fields!payment_type_name_en.Value</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4302,7 +4145,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4336,7 +4179,7 @@ declare
                                 <TextRun>
                                   <Value>=format(Fields!payment_amount.Value,Fields!format.Value)</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4378,7 +4221,7 @@ declare
                                   <Value>=First(Fields!Change.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4415,7 +4258,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4449,7 +4292,7 @@ declare
                                 <TextRun>
                                   <Value>=format(first(Fields!change_amount.Value),First(Fields!currency_format.Value, "setting"))</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4502,10 +4345,10 @@ declare
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>PaymentData</DataSetName>
-            <Top>5.63003in</Top>
-            <Left>1.60197in</Left>
+            <Top>5.30503in</Top>
+            <Left>0.82769in</Left>
             <Height>0.5in</Height>
-            <Width>3.61801in</Width>
+            <Width>2.01731in</Width>
             <ZIndex>10</ZIndex>
             <Style>
               <Border>
@@ -4518,13 +4361,13 @@ declare
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.83669in</Width>
+                  <Width>0.67847in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.03125in</Width>
+                  <Width>0.0333in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.6507in</Width>
+                  <Width>0.43545in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -4543,7 +4386,7 @@ declare
                                   <Value>=First(Fields!Summary_by_Group.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4589,7 +4432,7 @@ declare
                                   <Value>=Fields!product_group_en.Value</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -4621,7 +4464,7 @@ declare
                                 <TextRun>
                                   <Value>:</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -4654,7 +4497,7 @@ declare
                                   <Value>=format(sum(Fields!total_amount.Value),First(Fields!currency_format.Value, "setting"))</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -4703,10 +4546,10 @@ declare
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_product</DataSetName>
-            <Top>3.65917in</Top>
+            <Top>3.55917in</Top>
             <Left>0.01389in</Left>
             <Height>0.5in</Height>
-            <Width>1.51864in</Width>
+            <Width>1.14722in</Width>
             <ZIndex>11</ZIndex>
             <Style>
               <Border>
@@ -4718,13 +4561,13 @@ declare
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.70487in</Width>
+                  <Width>1.23768in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.18478in</Width>
+                  <Width>0.17184in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.72836in</Width>
+                  <Width>0.60778in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -4743,7 +4586,7 @@ declare
                                   <Value>Guests Return Pay</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4780,7 +4623,7 @@ declare
                                   <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4814,7 +4657,7 @@ declare
                                 <TextRun>
                                   <Value />
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4856,7 +4699,7 @@ declare
                                   <Value>=Fields!payment_type_name_en.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4893,7 +4736,7 @@ declare
                                   <Value>:</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
-                                    <FontSize>11pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4927,7 +4770,7 @@ declare
                                 <TextRun>
                                   <Value>=format(Fields!payment_amount.Value, Fields!format.Value)</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -4977,10 +4820,10 @@ declare
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>PaymentData</DataSetName>
-            <Top>6.13793in</Top>
-            <Left>1.60197in</Left>
+            <Top>5.81293in</Top>
+            <Left>0.82769in</Left>
             <Height>0.5in</Height>
-            <Width>3.61801in</Width>
+            <Width>2.01731in</Width>
             <ZIndex>12</ZIndex>
             <Visibility>
               <Hidden>=sum(Fields!payment_amount.Value)=0</Hidden>
@@ -4993,10 +4836,10 @@ declare
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>6.6796in</Height>
+        <Height>6.31293in</Height>
         <Style />
       </Body>
-      <Width>5.22in</Width>
+      <Width>2.845in</Width>
       <Page>
         <PageFooter>
           <Height>0.1875in</Height>
@@ -5013,45 +4856,45 @@ declare
                       <Value>=First(Fields!Printed_by.Value, "translate")</Value>
                       <Style>
                         <FontFamily>kh system</FontFamily>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>7pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>: </Value>
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>7pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>=Parameters!printed_by.Value</Value>
                       <Style>
                         <FontFamily>kh system</FontFamily>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>7pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value xml:space="preserve"> </Value>
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>7pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>=First(Fields!on.Value, "translate")</Value>
                       <Style>
                         <FontFamily>kh system</FontFamily>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>7pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value xml:space="preserve"> </Value>
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>7pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>=format(now,"dd/MM/yyyy HH:mm:ss tt")</Value>
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>7pt</FontSize>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -5060,7 +4903,7 @@ declare
               </Paragraphs>
               <rd:DefaultName>Textbox4</rd:DefaultName>
               <Height>0.1875in</Height>
-              <Width>3.16103in</Width>
+              <Width>1.70373in</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -5081,44 +4924,44 @@ declare
                       <Value>=First(Fields!Page.Value, "translate")</Value>
                       <Style>
                         <FontFamily>kh system</FontFamily>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>7pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value xml:space="preserve"> </Value>
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>7pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>=Globals!PageNumber</Value>
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>7pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value xml:space="preserve"> </Value>
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>7pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>=First(Fields!of.Value, "translate")</Value>
                       <Style>
                         <FontFamily>kh system</FontFamily>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>7pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value xml:space="preserve"> </Value>
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>7pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>=Globals!TotalPages</Value>
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>7pt</FontSize>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -5128,9 +4971,9 @@ declare
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox5</rd:DefaultName>
-              <Left>3.63214in</Left>
+              <Left>1.77318in</Left>
               <Height>0.1875in</Height>
-              <Width>1.58786in</Width>
+              <Width>1.07182in</Width>
               <ZIndex>1</ZIndex>
               <Style>
                 <Border>
@@ -5149,12 +4992,6 @@ declare
             </Border>
           </Style>
         </PageFooter>
-        <PageHeight>8.27in</PageHeight>
-        <PageWidth>5.83in</PageWidth>
-        <LeftMargin>0.3in</LeftMargin>
-        <RightMargin>0.3in</RightMargin>
-        <TopMargin>0.3in</TopMargin>
-        <BottomMargin>0.3in</BottomMargin>
         <Style />
       </Page>
     </ReportSection>

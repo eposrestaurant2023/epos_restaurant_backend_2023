@@ -8,9 +8,9 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>ePOSDev/Reports</TargetReportFolder>
-    <TargetDatasetFolder>ePOSDev/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>ePOSDev/DataSources</TargetDatasourceFolder>
+    <TargetReportFolder>ePOSChangKranKhmer/Reports</TargetReportFolder>
+    <TargetDatasetFolder>ePOSChangKranKhmer/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>ePOSChangKranKhmer/DataSources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
   </PropertyGroup>
@@ -109,6 +109,7 @@
     <Report Include="rptSaleProductDetail.rdl" />
     <Report Include="rptSaleProductDetail_V2.rdl" />
     <Report Include="rptSaleProductSummary.rdl" />
+    <Report Include="rptSaleReceipt.rdl" />
     <Report Include="rptSaleReceiptA4.rdl" />
     <Report Include="rptSaleReceiptA5.rdl" />
     <Report Include="rptSaleReceiptSmallForChangKranKhmer.rdl" />
