@@ -1,0 +1,57 @@
+{
+ "cards": [
+  {
+   "card": "Today Purchase Order"
+  },
+  {
+   "card": "MTD Purchase Order"
+  },
+  {
+   "card": "YTD Purchase Order"
+  },
+  {
+   "card": "YTD Purchase Order Payment"
+  },
+  {
+   "card": "Unpaid Purchase Order"
+  }
+ ],
+ "charts": [
+  {
+   "chart": "Monthly Purchase Order",
+   "width": "Half"
+  },
+  {
+   "chart": "Monthly Purchase Order Payment",
+   "width": "Half"
+  },
+  {
+   "chart": "Purchase Order Credit Balance",
+   "width": "Full"
+  },
+  {
+   "chart": "YTD Purchase Order By Category",
+   "width": "Half"
+  },
+  {
+   "chart": "YTD Purchase Order By Product",
+   "width": "Half"
+  },
+  {
+   "chart": "YTD Purchase Order By Vendor",
+   "width": "Half"
+  }
+ ],
+ "creation": "2022-12-29 15:24:06.117367",
+ "dashboard_name": "Purchase Order Dashboard",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2022-12-30 17:43:06.989368",
+ "modified_by": "Administrator",
+ "module": "Purchasing",
+ "name": "Purchase Order Dashboard",
+ "owner": "Administrator"
+}

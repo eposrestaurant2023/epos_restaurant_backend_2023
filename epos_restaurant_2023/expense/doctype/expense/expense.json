@@ -13,6 +13,7 @@
   "naming_series",
   "posting_date",
   "vendor_code",
+  "vendor_group",
   "vendor_name",
   "column_break_3",
   "business_branch",
@@ -39,6 +40,7 @@
    "options": "EX.-.YYYY.-.####"
   },
   {
+   "default": "Today",
    "fieldname": "posting_date",
    "fieldtype": "Date",
    "in_list_view": 1,
@@ -51,7 +53,8 @@
    "fieldtype": "Link",
    "in_standard_filter": 1,
    "label": "Vendor Code",
-   "options": "Vendor"
+   "options": "Vendor",
+   "reqd": 1
   },
   {
    "fetch_from": "vendor_code.vendor_name",
@@ -92,6 +95,7 @@
    "fieldname": "total_amount",
    "fieldtype": "Currency",
    "label": "Total Amount",
+   "options": "Company:company:default_currency",
    "read_only": 1
   },
   {
@@ -104,6 +108,7 @@
    "fieldname": "balance",
    "fieldtype": "Currency",
    "label": "Balance",
+   "options": "Company:company:default_currency",
    "read_only": 1
   },
   {
@@ -152,6 +157,13 @@
    "label": "Business Branch",
    "options": "Business Branch",
    "reqd": 1
+  },
+  {
+   "fetch_from": "vendor_code.vendor_group",
+   "fieldname": "vendor_group",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Vendor Group"
   }
  ],
  "image_field": "attach_receipt",
@@ -164,7 +176,7 @@
    "link_fieldname": "expense"
   }
  ],
- "modified": "2022-12-28 15:43:13.744305",
+ "modified": "2022-12-29 16:50:42.999697",
  "modified_by": "Administrator",
  "module": "Expense",
  "name": "Expense",

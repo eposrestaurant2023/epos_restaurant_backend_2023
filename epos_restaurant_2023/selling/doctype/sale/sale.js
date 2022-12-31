@@ -170,7 +170,11 @@ frappe.ui.form.on('Sale Product', {
 	unit(frm,cdt, cdn) {
 			let row = locals[cdt][cdn];
 			if(row.product_code){ 
-				product_code(frm,row);
+				
+				get_product_price(frm,row).then((v)=>{
+					row.price = v;
+					update_sale_product_amount(frm,row)
+				});
 			}
 	},
 	discount_type(frm,cdt, cdn) {
@@ -279,9 +283,12 @@ function set_query_cashier_shift(frm){
 }
 
 async function update_product_price(frm){
+
 	let rows = frm.fields_dict["sale_products"].grid.grid_rows;
 	const promises = [];
 	 $.each(rows, async function(i, d)  {
+	 
+	
 		if(d.doc.product_code!=undefined)
 		{ 
 			const promise = frappe.call({
@@ -291,7 +298,8 @@ async function update_product_price(frm){
 					barcode:d.doc.product_code,
 					business_branch:frm.doc.business_branch,
 					price_rule: frm.doc.price_rule,
-					unit:d.doc.unit
+					unit:d.doc.unit,
+					portion:d.portion
 				},
 				callback: function(r){
 					d.doc.price = r.message.price ;
@@ -524,16 +532,20 @@ function update_sale_discount_to_sale_product(frm){
 }
 
 let get_product_price = function (frm,doc) {
+	
 	return new Promise(function(resolve, reject) {
+		
 		frappe.call({
 			method: "epos_restaurant_2023.inventory.doctype.product.product.get_product_price",
 			args: {
 				barcode:doc.product_code,
 				business_branch:frm.doc.business_branch,
 				price_rule: frm.doc.price_rule,
-				unit:doc.unit
+				unit:doc.unit,
+				portion:doc.portion
 			},
 			callback: function(r){
+		
 				resolve(r.message.price)
 			},
 			error: function(r) {

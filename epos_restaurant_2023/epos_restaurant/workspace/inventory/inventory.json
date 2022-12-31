@@ -5,7 +5,7 @@
    "label": "Stock Values"
   }
  ],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Inventory</span>\",\"col\":12}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"Stock Values\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Product\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Take\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Inventory Transaction\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Location Product\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Transfer\",\"col\":3}},{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Recent Transaction</b></span>\",\"col\":12}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Inventory Transaction\",\"col\":6}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Purchase Order Transaction\",\"col\":6}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Stock Transfer Transaction\",\"col\":6}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Stock Take Transaction\",\"col\":6}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Configuration\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Summary Report\",\"col\":4}}]",
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Inventory</span>\",\"col\":12}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"Stock Values\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Product\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Take\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Adjustment\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Transfer\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Inventory Transaction\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Location Product\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dashboard\",\"col\":3}},{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Recent Transaction</b></span>\",\"col\":12}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Inventory Transaction\",\"col\":6}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Stock Adjustment Transaction\",\"col\":6}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Purchase Order Transaction\",\"col\":4}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Stock Transfer Transaction\",\"col\":4}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Stock Take Transaction\",\"col\":4}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Configuration\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Summary Report\",\"col\":4}}]",
  "creation": "2022-12-06 10:52:34.110072",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -77,7 +77,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Reports",
-   "link_count": 5,
+   "link_count": 4,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -97,16 +97,6 @@
    "label": "Stock Value Report",
    "link_count": 0,
    "link_to": "Stock Value Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Expense",
-   "link_count": 0,
-   "link_to": "Expense",
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
@@ -135,7 +125,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Summary Report",
-   "link_count": 2,
+   "link_count": 3,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -158,9 +148,19 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Stock Transfer Summary",
+   "link_count": 0,
+   "link_to": "Stock Transfer Summary Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2022-12-27 14:42:55.365953",
+ "modified": "2022-12-31 12:18:30.104694",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Inventory",
@@ -169,9 +169,13 @@
  "public": 1,
  "quick_lists": [
   {
+   "document_type": "Stock Adjustment",
+   "label": "Stock Adjustment Transaction"
+  },
+  {
    "document_type": "Inventory Transaction",
    "label": "Inventory Transaction",
-   "sub_title_fields": "product_code,product_name,stock_location,balance"
+   "sub_title_fields": "product_code,stock_location,balance"
   },
   {
    "document_type": "Purchase Order",
@@ -227,6 +231,21 @@
    "label": "Inventory Transaction",
    "link_to": "Inventory Transaction",
    "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Stock Adjustment",
+   "link_to": "Stock Adjustment",
+   "stats_filter": "{\"posting_date\":[\"Timespan\",\"this month\"]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Dashboard",
+   "link_to": "Inventory Dashboard",
+   "type": "Dashboard"
   },
   {
    "color": "Grey",

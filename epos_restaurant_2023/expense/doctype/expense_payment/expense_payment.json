@@ -130,6 +130,7 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Payment Amount",
+   "options": "Company:company:default_currency",
    "reqd": 1
   },
   {
@@ -152,7 +153,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-12-26 17:04:01.402695",
+ "modified": "2022-12-29 16:48:46.930926",
  "modified_by": "Administrator",
  "module": "Expense",
  "name": "Expense Payment",

@@ -11,12 +11,13 @@
   "product_name",
   "product_category",
   "product_group",
-  "unit",
   "base_unit",
+  "base_cost",
+  "unit",
   "quantity",
   "price",
   "amount",
-  "data_10"
+  "is_inventory_product"
  ],
  "fields": [
   {
@@ -79,19 +80,29 @@
    "label": "Product Group"
   },
   {
-   "fieldname": "data_10",
-   "fieldtype": "Data"
-  },
-  {
    "fieldname": "price",
    "fieldtype": "Currency",
    "label": "Cost"
+  },
+  {
+   "default": "0",
+   "fetch_from": "product_code.is_inventory_product",
+   "fieldname": "is_inventory_product",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Is Inventory Product"
+  },
+  {
+   "default": "0",
+   "fieldname": "base_cost",
+   "fieldtype": "Currency",
+   "label": "Base Cost"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-12-24 11:41:10.333044",
+ "modified": "2022-12-30 10:55:24.943931",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Take Products",

@@ -7,20 +7,35 @@ from frappe import _
 from frappe.model.document import Document
 from frappe.utils.data import strip
 from py_linq import Enumerable
-from epos_restaurant_2023.inventory.inventory import get_uom_conversion, update_product_quantity,get_stock_location_product
+from epos_restaurant_2023.inventory.inventory import add_to_inventory_transaction, get_uom_conversion, update_product_quantity,get_stock_location_product
 
 class Product(Document):
 	def validate(self):
+		# lock uncheck inventory product
+		if not self.is_new():
+			old_product = frappe.get_doc('Product', self.product_code)
+			if old_product.is_inventory_product and not self.is_inventory_product:
+				frappe.throw(_("Cannot uncheck inventory product"))
+			if old_product.unit != self.unit:
+				frappe.throw(_("Cannot change unit"))
+    
 		if strip(self.naming_series) =="" and strip(self.product_code) =="":
 			frappe.throw(_("Please enter product code"))
    
+		if self.is_inventory_product == False and self.is_new():
+			self.opening_quantity = 0
+   
+		elif self.is_inventory_product and self.opening_quantity > 0 and not self.stock_location:
+			frappe.throw(_("Please select stock location"))
+			
+
 		if strip(self.product_name_kh)=="":
 			self.product_name_kh = strip(self.product_name_en)
-
+		
 		# price = get_product_price(product=self, business_branch="SR Branch",portion="Normal", price_rule="Normal Rate", unit="Box" )
 		# if price:
 		# 	frappe.msgprint(str(price["cost"]))
-	
+
 	def autoname(self):
 
 		if strip(self.naming_series) !="" and strip(self.product_code) =="":
@@ -36,8 +51,15 @@ class Product(Document):
 	def after_insert(self):
 		if self.is_inventory_product:
 			if self.opening_quantity and self.opening_quantity>0:
-				current_stock = get_stock_location_product(self.stock_location, self.product_code)
-				update_product_quantity(doc=current_stock, stock_location=self.stock_location, product_code=self.name, quantity=self.opening_quantity, cost=self.cost)
+				add_to_inventory_transaction(
+					{
+						"doctype":"Inventory Transaction",
+						"product_code":self.name,
+						"stock_location":self.stock_location,
+						"in_quantity":self.opening_quantity,
+						"price":self.cost
+					}
+				)
 	
 	@frappe.whitelist()
 	def get_product_summary_information(self):

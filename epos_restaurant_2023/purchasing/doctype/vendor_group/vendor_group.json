@@ -1,0 +1,61 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:vendor_group_name_en",
+ "creation": "2022-12-08 09:58:30.774528",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "vendor_group_name_en",
+  "vendor_group_name_kh",
+  "disabled"
+ ],
+ "fields": [
+  {
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
+  },
+  {
+   "fieldname": "vendor_group_name_en",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Vendor Group Name En",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "vendor_group_name_kh",
+   "fieldtype": "Data",
+   "label": "Vendor Group Name Kh"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-12-08 10:13:44.997544",
+ "modified_by": "Administrator",
+ "module": "Purchasing",
+ "name": "Vendor Group",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

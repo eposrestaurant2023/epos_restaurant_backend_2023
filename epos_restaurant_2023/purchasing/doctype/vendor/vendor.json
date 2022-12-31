@@ -120,7 +120,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Vendor Group",
-   "options": "Vendo Group"
+   "options": "Vendor Group"
   },
   {
    "fieldname": "vendor_code_name",
@@ -150,7 +150,7 @@
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-13 14:33:58.492256",
+ "modified": "2022-12-28 18:59:08.454133",
  "modified_by": "Administrator",
  "module": "Purchasing",
  "name": "Vendor",

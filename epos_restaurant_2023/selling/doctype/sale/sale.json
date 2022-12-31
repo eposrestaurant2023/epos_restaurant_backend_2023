@@ -78,11 +78,13 @@
   "tax_3_amount",
   "note_tab",
   "amended_from",
+  "total_cost",
+  "column_break_75",
+  "profit",
+  "section_break_74",
   "sale_type",
   "column_break_36",
-  "note",
-  "total_cost",
-  "profit"
+  "note"
  ],
  "fields": [
   {
@@ -106,7 +108,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Customer",
-   "options": "Customer"
+   "options": "Customer",
+   "reqd": 1
   },
   {
    "fetch_from": "customer.customer_name_en",
@@ -149,7 +152,7 @@
   {
    "fieldname": "note_tab",
    "fieldtype": "Tab Break",
-   "label": "Note"
+   "label": "Other"
   },
   {
    "fieldname": "note",
@@ -241,7 +244,8 @@
    "fieldname": "business_branch",
    "fieldtype": "Link",
    "label": "Business Branch",
-   "options": "Business Branch"
+   "options": "Business Branch",
+   "reqd": 1
   },
   {
    "fieldname": "working_day",
@@ -265,14 +269,16 @@
    "fieldname": "outlet",
    "fieldtype": "Link",
    "label": "Outlet",
-   "options": "Outlet"
+   "options": "Outlet",
+   "reqd": 1
   },
   {
    "fetch_from": "customer.phone_number",
    "fetch_if_empty": 1,
    "fieldname": "phone_number",
    "fieldtype": "Data",
-   "label": "Phone Number"
+   "label": "Phone Number",
+   "read_only": 1
   },
   {
    "fieldname": "pos_profile",
@@ -358,7 +364,8 @@
    "fieldname": "stock_location",
    "fieldtype": "Link",
    "label": "Stock Location",
-   "options": "Stock Location"
+   "options": "Stock Location",
+   "reqd": 1
   },
   {
    "fetch_from": "customer.customer_group",
@@ -534,6 +541,14 @@
    "fieldtype": "Link",
    "label": "Sale Type",
    "options": "Sale Type"
+  },
+  {
+   "fieldname": "column_break_75",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_74",
+   "fieldtype": "Section Break"
   }
  ],
  "image_field": "photo",
@@ -546,7 +561,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2022-12-27 17:34:10.995312",
+ "modified": "2022-12-30 11:39:33.297048",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

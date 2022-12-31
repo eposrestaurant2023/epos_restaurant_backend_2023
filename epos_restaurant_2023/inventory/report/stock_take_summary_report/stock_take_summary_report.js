@@ -14,6 +14,15 @@ frappe.query_reports["Stock Take Summary Report"] = {
 			 
 		},
 		{
+			fieldname: "stock_location",
+			label: "Stock Location",
+			fieldtype: "MultiSelectList",
+			get_data: function(txt) {
+				return frappe.db.get_link_options('Stock Location', txt);
+			}
+			 
+		},
+		{
 			"fieldname":"filter_based_on",
 			"label": __("Filter Based On"),
 			"fieldtype": "Select",

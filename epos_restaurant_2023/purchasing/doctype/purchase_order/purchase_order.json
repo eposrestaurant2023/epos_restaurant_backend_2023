@@ -9,9 +9,8 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
-  "column_break_2",
   "posting_date",
-  "column_break_4",
+  "column_break_2",
   "referance",
   "section_break_6",
   "vendor",
@@ -43,7 +42,8 @@
   "balance",
   "attach_receipt",
   "vendor_name",
-  "vendor_number_phone"
+  "vendor_number_phone",
+  "vendor_group"
  ],
  "fields": [
   {
@@ -57,6 +57,7 @@
    "fieldname": "vendor",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Vendor",
    "options": "Vendor",
    "reqd": 1
@@ -108,6 +109,7 @@
    "fieldname": "grand_total",
    "fieldtype": "Currency",
    "label": "Grand Total",
+   "options": "Company:company:default_currency",
    "read_only": 1
   },
   {
@@ -122,6 +124,7 @@
    "fieldname": "balance",
    "fieldtype": "Currency",
    "label": "Balance",
+   "options": "Company:company:default_currency",
    "read_only": 1
   },
   {
@@ -132,6 +135,7 @@
    "fieldname": "referance",
    "fieldtype": "Data",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Referance"
   },
   {
@@ -139,6 +143,7 @@
    "fieldname": "posting_date",
    "fieldtype": "Date",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Posting Date",
    "reqd": 1
   },
@@ -151,6 +156,7 @@
   {
    "fieldname": "stock_location",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Stock Location",
    "options": "Stock Location",
    "reqd": 1
@@ -190,10 +196,6 @@
   },
   {
    "fieldname": "column_break_7",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_4",
    "fieldtype": "Column Break"
   },
   {
@@ -262,6 +264,13 @@
    "fieldtype": "Currency",
    "label": "PO Discountable Amount ",
    "read_only": 1
+  },
+  {
+   "fetch_from": "vendor.vendor_group",
+   "fieldname": "vendor_group",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Vendor Group"
   }
  ],
  "image_field": "attach_receipt",
@@ -274,7 +283,7 @@
    "link_fieldname": "purchase_order"
   }
  ],
- "modified": "2022-12-28 15:22:07.358358",
+ "modified": "2022-12-30 17:20:52.138744",
  "modified_by": "Administrator",
  "module": "Purchasing",
  "name": "Purchase Order",

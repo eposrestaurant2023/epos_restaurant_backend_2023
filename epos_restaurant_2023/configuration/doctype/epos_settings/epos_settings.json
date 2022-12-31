@@ -13,7 +13,9 @@
   "tax_2_name",
   "use_tax_3",
   "tax_3_name",
-  "changed_payment_type"
+  "changed_payment_type",
+  "price_rule",
+  "country"
  ],
  "fields": [
   {
@@ -59,12 +61,24 @@
    "fieldname": "use_tax_3",
    "fieldtype": "Check",
    "label": "Use Tax 3"
+  },
+  {
+   "fieldname": "price_rule",
+   "fieldtype": "Link",
+   "label": "Default Price Rule",
+   "options": "Price Rule"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Default Country",
+   "options": "Country"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-12-27 10:32:09.713897",
+ "modified": "2022-12-31 14:50:20.049089",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "ePOS Settings",

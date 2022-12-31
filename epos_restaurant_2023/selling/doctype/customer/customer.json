@@ -74,7 +74,6 @@
   },
   {
    "allow_in_quick_entry": 1,
-   "default": "0",
    "fieldname": "province",
    "fieldtype": "Link",
    "label": "Province",
@@ -193,7 +192,7 @@
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-17 10:34:59.468302",
+ "modified": "2022-12-31 14:48:40.874556",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Customer",

@@ -8,6 +8,7 @@
  "field_order": [
   "expense_code",
   "expense_name",
+  "expense_category",
   "quantity",
   "price",
   "amount",
@@ -54,12 +55,19 @@
    "fieldname": "note",
    "fieldtype": "Small Text",
    "label": "Note"
+  },
+  {
+   "fetch_from": "expense_code.expense_category",
+   "fieldname": "expense_category",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Expense Category"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-12-05 00:48:04.998582",
+ "modified": "2022-12-29 17:08:06.041660",
  "modified_by": "Administrator",
  "module": "Expense",
  "name": "Expense Item",

@@ -13,7 +13,7 @@
   "quantity",
   "cost",
   "total_cost",
-  "before_admustment_section",
+  "before_adjustment_section",
   "current_quantity",
   "column_break_10",
   "current_cost",
@@ -24,7 +24,9 @@
   "column_break_16",
   "difference_cost",
   "section_break_18",
-  "note"
+  "note",
+  "old_quantity",
+  "old_cost"
  ],
  "fields": [
   {
@@ -32,7 +34,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Product Code",
-   "options": "Product"
+   "options": "Product",
+   "reqd": 1
   },
   {
    "fetch_from": "product_code.product_name_en",
@@ -47,36 +50,37 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Unit",
-   "options": "Unit Of Measurement"
+   "options": "Unit Of Measurement",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_4",
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "quantity",
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Quantity"
   },
   {
+   "default": "0",
    "fieldname": "cost",
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Cost"
   },
   {
+   "default": "0",
    "fieldname": "total_cost",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Total Cost"
+   "label": "Total Cost",
+   "read_only": 1
   },
   {
-   "fieldname": "before_admustment_section",
-   "fieldtype": "Section Break",
-   "label": "Before Admustment"
-  },
-  {
+   "default": "0",
    "fieldname": "current_quantity",
    "fieldtype": "Float",
    "label": "Current Quantity"
@@ -86,6 +90,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "current_cost",
    "fieldtype": "Currency",
    "label": "Current Cost"
@@ -96,7 +101,7 @@
   },
   {
    "fieldname": "total_current_cost",
-   "fieldtype": "Data",
+   "fieldtype": "Currency",
    "label": "Total Current Cost"
   },
   {
@@ -114,8 +119,9 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "difference_cost",
-   "fieldtype": "Data",
+   "fieldtype": "Currency",
    "label": "Difference Cost"
   },
   {
@@ -126,12 +132,31 @@
    "fieldname": "note",
    "fieldtype": "Small Text",
    "label": "Note"
+  },
+  {
+   "fieldname": "before_adjustment_section",
+   "fieldtype": "Section Break",
+   "label": "Before Adjustment"
+  },
+  {
+   "default": "0",
+   "fieldname": "old_quantity",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "Old Quantity"
+  },
+  {
+   "default": "0",
+   "fieldname": "old_cost",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Old Cost"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-12-27 22:10:18.821744",
+ "modified": "2022-12-31 10:16:48.594624",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Adjustment Product",

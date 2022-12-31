@@ -56,7 +56,6 @@ frappe.ui.form.on("Stock Take Products", {
         frm.refresh_field('stock_take_products');
     },
     quantity(frm,cdt, cdn){
-
         update_stock_take_product_amount(frm,cdt, cdn)
     },
     price(frm,cdt, cdn){
@@ -66,7 +65,7 @@ frappe.ui.form.on("Stock Take Products", {
 
 function update_stock_take_product_amount(frm,cdt, cdn)  {
     let doc = locals[cdt][cdn];
-		if(doc.quantity < 1) doc.quantity = 1;
+		if(doc.quantity <= 0) doc.quantity = 1;
 		doc.amount=doc.quantity * doc.price;
 	    frm.refresh_field('stock_take_products');
 		updateSumTotal(frm);
@@ -129,7 +128,6 @@ function add_product_child(frm,p){
 		doc.quantity = 1;
 		doc.amount = doc.quantity * doc.price;
 		doc.unit = p.unit;
-		doc.product_name = p.product_name_en;
         doc.is_inventory_product = p.is_inventory_product;
 		product_by_scan(frm,doc)
 	} 

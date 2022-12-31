@@ -63,13 +63,13 @@ frappe.ui.form.on("Stock Transfer", {
 frappe.ui.form.on('Stock Transfer Products', {
 	product_code(frm,cdt, cdn) {
 		let doc=   locals[cdt][cdn];
-        frm.set_query("unit","stock_transfer_products", function() {
-            return {
-                filters: [
-                    ["Unit Of Measurement","unit_category", "=", doc.unit_category]
-                ]
-            }
-        });
+        // frm.set_query("unit","stock_transfer_products", function() {
+        //     return {
+        //         filters: [
+        //             ["Unit Of Measurement","unit_category", "=", doc.unit_category]
+        //         ]
+        //     }
+        // });
 		product_code(frm,cdt,cdn);
         frm.refresh_field('stock_transfer_products');
 	},
@@ -93,7 +93,7 @@ frappe.ui.form.on('Stock Transfer Products', {
 
 function update_stock_transfer_products_amount(frm,cdt, cdn)  {
     let doc=locals[cdt][cdn];
-	if(doc.quantity < 1) doc.quantity = 1;
+	if(doc.quantity <= 0) doc.quantity = 1;
 	doc.amount=doc.quantity * doc.cost;
 	frm.refresh_field('stock_transfer_products');
 	updateSumTotal(frm);

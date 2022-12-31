@@ -1,7 +1,7 @@
 # Copyright (c) 2022, Tes Pheakdey and contributors
 # For license information, please see license.txt
 
-from epos_restaurant_2023.inventory.inventory import check_uom_conversion, get_product_cost, get_stock_location_product, get_uom_conversion, update_product_quantity
+from epos_restaurant_2023.inventory.inventory import add_to_inventory_transaction, check_uom_conversion, get_product_cost, get_stock_location_product, get_uom_conversion, update_product_quantity
 import frappe
 from frappe import utils
 from frappe import _
@@ -13,9 +13,7 @@ from frappe.model.document import Document
 
 class Sale(Document):
 	def validate(self):
-		#frappe.throw(str(self.discount))
-		#valid sale date
-  
+	 
 		if self.pos_profile:
 			if not self.working_day:
 				frappe.throw(_("Please select your working day"))
@@ -120,7 +118,7 @@ class Sale(Document):
 			if d.is_inventory_product:
 				if d.unit !=d.base_unit:
 					if not check_uom_conversion(d.base_unit, d.unit):
-						frappe.throw(_("There is no UoM conversion from {} to {}".format(d.base_unit, d.unit)))
+						frappe.throw(_("There is no UoM conversion for product {}-{} from {} to {}".format(d.product_code, d.product_name, d.base_unit, d.unit)))
 
 	
 	def on_submit(self):
@@ -134,45 +132,35 @@ class Sale(Document):
 
 
 def update_inventory_on_submit(self):
+	cost = 0
 	for p in self.sale_products:
-		
 		if p.is_inventory_product:
-			
 			uom_conversion = get_uom_conversion(p.base_unit, p.unit)
 			cost = get_product_cost(self.stock_location, p.product_code)	
-			current_stock = get_stock_location_product(self.stock_location, p.product_code)
-			quantity_on_hand = 0
-			current_stock_value = 0
-			if current_stock:
-				quantity_on_hand = current_stock.quantity
-				current_stock_value = current_stock.total_cost
-
-		
-			
-			doc = frappe.get_doc({
+			add_to_inventory_transaction({
 				'doctype': 'Inventory Transaction',
 				'transaction_type':"Sale",
-    			'transaction_date':self.posting_date,
+				'transaction_date':self.posting_date,
 				'transaction_number':self.name,
 				'product_code': p.product_code,
 				'unit':p.unit,
 				'stock_location':self.stock_location,
-				'quantity_on_hand': quantity_on_hand,
 				'out_quantity':p.quantity / uom_conversion,
-				'balance':quantity_on_hand -(p.quantity / uom_conversion) , 
 				"uom_conversion":uom_conversion,
-				"price":cost,
-				"beginning_stock_value":current_stock_value,
-				"ending_stock_value": current_stock_value  - ((p.quantity / uom_conversion) * cost),
 				'note': 'New sale submitted.'
 			})
-			doc.insert()
+		else:
+			#udpate cost for none stock product
+			doc = frappe.get_doc("Product","F01")
+			cost = doc.cost or 0
+			if doc.product_price:
+				prices = Enumerable(doc.product_price).where(lambda x:x.business_branch == self.business_branch and x.price_rule == self.price_rule and x.unit == "Unit" and x.portion ==p.portion).first_or_default()
+				if prices:
+					cost = prices.cost
+    
 
-			frappe.db.sql("update `tabSale Product` set cost = {} where name='{}'".format(cost, p.name))
-
-			
-			update_product_quantity(doc = current_stock, stock_location=self.stock_location, product_code=p.product_code, quantity=p.quantity / uom_conversion * -1, cost=None)
-	
+		frappe.db.sql("update `tabSale Product` set cost = {} where name='{}'".format(cost, p.name))
+   
 	#update total cost to sale and profit to sale
 	total_cost = 0
 	cost_datas = frappe.db.sql("select sum(cost * quantity) from `tabSale Product` where parent='{}'".format(self.name))
@@ -185,17 +173,8 @@ def update_inventory_on_submit(self):
 def update_inventory_on_cancel(self):
 	for p in self.sale_products:
 		if p.is_inventory_product:
-			
-			current_stock = get_stock_location_product(self.stock_location, p.product_code)
-			quantity_on_hand = 0
-			current_stock_value = 0
-			if current_stock:
-				quantity_on_hand = current_stock.quantity
-				current_stock_value = current_stock.total_cost
-
 			uom_conversion = get_uom_conversion(p.base_unit, p.unit)
-
-			doc = frappe.get_doc({
+			add_to_inventory_transaction({
 				'doctype': 'Inventory Transaction',
 				'transaction_type':"Sale",
 				'transaction_number':self.name,
@@ -203,18 +182,13 @@ def update_inventory_on_cancel(self):
 				'product_code': p.product_code,
 				'unit':p.unit,
 				'stock_location':self.stock_location,
-				'quantity_on_hand': quantity_on_hand,
 				'in_quantity':p.quantity / uom_conversion,
-				'balance':quantity_on_hand + (p.quantity / uom_conversion) , 
 				"uom_conversion":uom_conversion,
 				"price":p.cost,
-				"beginning_stock_value": current_stock_value  ,
-				"ending_stock_value": current_stock_value  + ((p.quantity / uom_conversion) * p.cost),
 				'note': 'Sale invoice cancelled.'
 			})
-			doc.insert()
-			update_product_quantity(doc=current_stock, stock_location=self.stock_location, product_code=p.product_code, quantity=p.quantity / uom_conversion, cost=None)
-
+			
+			
 
 def add_payment_to_sale_payment(self):
     

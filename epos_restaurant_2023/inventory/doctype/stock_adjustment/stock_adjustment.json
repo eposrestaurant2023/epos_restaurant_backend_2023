@@ -12,13 +12,17 @@
   "posting_date",
   "reference_number",
   "column_break_4",
-  "business_branch",
   "stock_location",
+  "business_branch",
   "section_break_7",
+  "scan_barcode",
+  "column_break_9",
+  "append_quantity",
+  "section_break_11",
   "products",
   "section_break_9",
   "total_current_quantity",
-  "total_current_cost_column",
+  "total_current_cost",
   "currency_10",
   "total_quantity",
   "total_cost",
@@ -38,6 +42,7 @@
    "options": "STA.YYYY.-.####"
   },
   {
+   "default": "Today",
    "fieldname": "posting_date",
    "fieldtype": "Date",
    "in_list_view": 1,
@@ -55,10 +60,12 @@
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "stock_location.business_branch",
    "fieldname": "business_branch",
    "fieldtype": "Link",
    "label": "Business Branch",
    "options": "Business Branch",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -75,42 +82,47 @@
    "fieldtype": "Section Break"
   },
   {
+   "default": "0",
    "fieldname": "total_current_quantity",
    "fieldtype": "Float",
-   "label": "Total Current Quantity"
-  },
-  {
-   "fieldname": "total_current_cost_column",
-   "fieldtype": "Currency",
-   "label": "Total Current Cost"
+   "label": "Total Current Quantity",
+   "read_only": 1
   },
   {
    "fieldname": "currency_10",
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "total_quantity",
    "fieldtype": "Float",
-   "label": "Total Quantity"
+   "label": "Total Quantity",
+   "read_only": 1
   },
   {
+   "default": "0",
    "fieldname": "total_cost",
    "fieldtype": "Currency",
-   "label": "Total Cost"
+   "label": "Total Cost",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_13",
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "difference_quantity",
    "fieldtype": "Float",
-   "label": "Difference Quantity"
+   "label": "Difference Quantity",
+   "read_only": 1
   },
   {
+   "default": "0",
    "fieldname": "difference_cost",
    "fieldtype": "Currency",
-   "label": "Difference Cost"
+   "label": "Difference Cost",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_16",
@@ -134,17 +146,44 @@
    "fieldname": "products",
    "fieldtype": "Table",
    "label": "Products",
-   "options": "Stock Adjustment Product"
+   "options": "Stock Adjustment Product",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_9",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_current_cost",
+   "fieldtype": "Currency",
+   "label": "Total Current Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "scan_barcode",
+   "fieldtype": "Data",
+   "label": "Scan Barcode"
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "append_quantity",
+   "fieldtype": "Check",
+   "label": " Append Quantity"
+  },
+  {
+   "fieldname": "section_break_11",
    "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-12-27 22:07:02.565783",
+ "modified": "2022-12-31 14:35:04.015017",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Adjustment",

@@ -1,5 +1,11 @@
 import frappe
 
+
+def add_to_inventory_transaction(data):
+    doc = frappe.get_doc(data)
+    doc.insert()
+    
+
 def update_product_quantity(stock_location,product_code, quantity,cost,doc):
     if doc:
         doc.quantity =(doc.quantity or 0) + (quantity or 0)
@@ -32,7 +38,7 @@ def get_stock_location_product(stock_location,product_code):
 
 def get_uom_conversion(from_uom, to_uom):
     conversion =frappe.db.get_value('Unit of Measurement Conversion', {'from_uom': from_uom,"to_uom":to_uom}, ['conversion'], cache=True)
-   
+    
     return conversion or 1
 
 def get_product_cost(stock_location, product_code):

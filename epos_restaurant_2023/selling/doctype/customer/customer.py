@@ -7,8 +7,9 @@ from frappe import utils
 from frappe import _
 class Customer(Document):
 	def validate(self):
-		if self.date_of_birth>utils.today():
-			frappe.throw(_("Date of birth cannot be greater than the current time"))
+		if self.date_of_birth:
+			if self.date_of_birth>utils.today():
+				frappe.throw(_("Date of birth cannot be greater than the current time"))
 
 		if not self.customer_name_kh:
 			self.customer_name_kh = self.customer_name_en

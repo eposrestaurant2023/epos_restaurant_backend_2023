@@ -63,6 +63,7 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Total Cost",
+   "options": "Company:company:default_currency",
    "read_only": 1
   },
   {
@@ -78,14 +79,13 @@
    "fetch_from": "product_code.product_name_en",
    "fieldname": "product_name",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Product Name",
    "set_only_once": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-21 18:37:58.153127",
+ "modified": "2022-12-31 14:46:38.313290",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Location Product",
@@ -106,5 +106,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "product_name"
 }

@@ -22,6 +22,10 @@
    "width": "Full"
   },
   {
+   "chart": "Customer Credit Balance",
+   "width": "Full"
+  },
+  {
    "chart": "YTD Sale By Product Category",
    "width": "Half"
   },
@@ -45,7 +49,7 @@
  "idx": 0,
  "is_default": 0,
  "is_standard": 1,
- "modified": "2022-12-27 18:13:05.746266",
+ "modified": "2022-12-29 12:12:23.469171",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Dashboard",

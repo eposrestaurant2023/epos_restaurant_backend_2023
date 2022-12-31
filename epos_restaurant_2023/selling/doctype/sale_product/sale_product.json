@@ -9,6 +9,7 @@
   "product_code",
   "product_name",
   "product_name_kh",
+  "portion",
   "column_break_4",
   "product_group",
   "product_category",
@@ -463,12 +464,18 @@
    "fieldtype": "Currency",
    "label": "Total Discount",
    "read_only": 1
+  },
+  {
+   "default": "Normal",
+   "fieldname": "portion",
+   "fieldtype": "Data",
+   "label": "Portion"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-12-21 17:28:01.726333",
+ "modified": "2022-12-30 12:33:15.188032",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Product",

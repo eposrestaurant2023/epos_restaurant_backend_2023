@@ -32,8 +32,8 @@ def validate(filters):
 	if not filters.business_branch:
 		filters.business_branch = frappe.db.get_list("Business Branch",pluck='name')
   
-	if not filters.outlet:
-		filters.outlet = frappe.db.get_list("Outlet",pluck='name')
+	if not filters.stock_location:
+		filters.stock_location = frappe.db.get_list("Stock Location",pluck='name')
   
 
 	if filters.start_date and filters.end_date:
@@ -195,7 +195,6 @@ def get_fields(filters):
  
 def get_conditions(filters,group_filter=None):
 	conditions = " 1 = 1 "
-
 	start_date = filters.start_date
 	end_date = filters.end_date
 
@@ -210,15 +209,9 @@ def get_conditions(filters,group_filter=None):
 
 	if filters.get("product_category"):
 		conditions += " AND a.product_category in %(product_category)s"
-
-	if filters.get("customer_group"):
-		conditions += " AND b.customer_group in %(customer_group)s"
  
 	conditions += " AND b.business_branch in %(business_branch)s"
-	 
-
-	if filters.get("pos_profile"):
-		conditions += " AND b.pos_profile in %(pos_profile)s"
+	conditions += " AND b.stock_location in %(stock_location)s"
 	
 	return conditions
 
@@ -394,29 +387,13 @@ def get_row_groups():
 			"label":"Revenue Group",
 			"parent_row_group_filter_field":"row_group"
 		},
-   		
 		{
 			"fieldname":"b.business_branch",
 			"label":"Business Branch",
 			"parent_row_group_filter_field":"row_group"
 		},
-		{
-			"fieldname":"if(ifnull(b.pos_profile,'')='','Not Set',b.pos_profile)",
-			"label":"POS Profile",
-			"parent_row_group_filter_field":"row_group"
-		},
-		{
-			"fieldname":"if(ifnull(b.customer,'')='','Not Set',concat(b.customer,'-',b.customer_name))",
-			"label":"Customer",
-			"parent_row_group_filter_field":"row_group"
-		},
-		{
-			"fieldname":"b.customer_group",
-			"label":"Customer Group",
-			"parent_row_group_filter_field":"row_group"
-		},		
-		{
-			"fieldname":"ifnull(b.stock_location,'Not Set')",
+  		{
+			"fieldname":"b.stock_location",
 			"label":"Stock Location",
 			"parent_row_group_filter_field":"row_group"
 		},

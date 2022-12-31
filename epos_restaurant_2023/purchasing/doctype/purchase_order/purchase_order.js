@@ -64,13 +64,7 @@ frappe.ui.form.on("Purchase Order", {
 frappe.ui.form.on('Purchase Order Products', {
 	product_code(frm,cdt, cdn) {
 		let doc=   locals[cdt][cdn];
-        frm.set_query("unit","purchase_order_products", function() {
-            return {
-                filters: [
-                    ["Unit Of Measurement","unit_category", "=", doc.unit_category]
-                ]
-            }
-        });
+    
         update_po_product_amount(frm,doc);
         frm.refresh_field('purchase_order_products');
 	},
@@ -109,7 +103,7 @@ frappe.ui.form.on('Purchase Order Products', {
 
 function update_purchase_order_products_amount(frm,cdt, cdn)  {
     let doc = locals[cdt][cdn];
-	if(doc.quantity < 1) doc.quantity = 1;
+	if(doc.quantity <= 0) doc.quantity = 1;
 	update_po_product_amount(frm, doc)
 }
 

@@ -78,6 +78,7 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Payment Amount",
+   "options": "Company:company:default_currency",
    "reqd": 1
   },
   {
@@ -172,7 +173,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-12-15 11:43:46.497324",
+ "modified": "2022-12-30 17:17:01.757946",
  "modified_by": "Administrator",
  "module": "Purchasing",
  "name": "Purchase Order Payment",

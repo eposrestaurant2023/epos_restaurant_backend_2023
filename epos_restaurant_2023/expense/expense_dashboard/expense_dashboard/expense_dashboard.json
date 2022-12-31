@@ -1,9 +1,45 @@
 {
- "cards": [],
+ "cards": [
+  {
+   "card": "Today Expense"
+  },
+  {
+   "card": "MTD Expense"
+  },
+  {
+   "card": "YTD Expense"
+  },
+  {
+   "card": "YTD Expense Payment"
+  },
+  {
+   "card": "Unpaid Expense"
+  }
+ ],
  "charts": [
   {
    "chart": "Monthly Expense",
-   "width": "Full"
+   "width": "Half"
+  },
+  {
+   "chart": "Monthly Expense Payment",
+   "width": "Half"
+  },
+  {
+   "chart": "YTD Expense By Category",
+   "width": "Half"
+  },
+  {
+   "chart": "YTD Expense by Expense Code",
+   "width": "Half"
+  },
+  {
+   "chart": "YTD Expense By Employee",
+   "width": "Half"
+  },
+  {
+   "chart": "YTD Expense by Vendor",
+   "width": "Half"
   }
  ],
  "creation": "2022-12-05 02:13:25.719791",
@@ -13,7 +49,7 @@
  "idx": 0,
  "is_default": 0,
  "is_standard": 1,
- "modified": "2022-12-05 02:13:25.719791",
+ "modified": "2022-12-29 17:15:49.437374",
  "modified_by": "Administrator",
  "module": "Expense",
  "name": "Expense Dashboard",

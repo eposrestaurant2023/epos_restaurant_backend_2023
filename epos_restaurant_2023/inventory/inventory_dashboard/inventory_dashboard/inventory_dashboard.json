@@ -1,9 +1,16 @@
 {
- "cards": [],
- "charts": [
+ "cards": [
   {
-   "width": "Half"
+   "card": "Total Inventory Product"
   },
+  {
+   "card": "Total Product Quantity"
+  },
+  {
+   "card": "Total Stock Value"
+  }
+ ],
+ "charts": [
   {
    "chart": "Stock Value Chart",
    "width": "Half"
@@ -16,7 +23,7 @@
  "idx": 0,
  "is_default": 0,
  "is_standard": 1,
- "modified": "2022-12-22 14:23:01.573598",
+ "modified": "2022-12-29 17:41:20.490203",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Inventory Dashboard",

@@ -60,12 +60,13 @@
   {
    "fieldname": "business_branch_printer",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Business Branch Printer"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-08 09:05:38.859076",
+ "modified": "2022-12-29 15:44:24.882767",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Printer",

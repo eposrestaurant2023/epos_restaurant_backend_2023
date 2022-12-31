@@ -1,0 +1,24 @@
+ 
+{% var i=  1 %}
+<table  class="table table-bordered">
+    <tr>
+       <th>No</th>
+        <th>Photo</th>
+        <th>Product Code</th>
+        <th>Product Name</th>
+    </tr>
+    {% for p in data %}
+    <tr>
+       <td>{{i}}</td>
+        <td><img src="{{p.photo}}" height="100"/></td>
+        <td>{{p.name}}</td>
+        <td>{{p.product_name_en}}</td>
+    </tr>
+    {% i = i + 1%}
+    {% endfor %}
+</table>
+<p class="text-right text-muted">{{ __("Printed On ") }}{%= frappe.datetime.str_to_user(frappe.datetime.get_datetime_as_string()) %}</p>
+
+ <script>
+    window.print();
+ </script>
