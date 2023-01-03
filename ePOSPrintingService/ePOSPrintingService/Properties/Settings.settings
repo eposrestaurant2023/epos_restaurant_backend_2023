@@ -184,7 +184,7 @@
       <Value Profile="(Default)">Cashier Printer</Value>
     </Setting>
     <Setting Name="BaseAPIURL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://localhost:1111/api/</Value>
+      <Value Profile="(Default)">http://192.168.10.13:9697/restaurant_client_api/api/</Value>
     </Setting>
     <Setting Name="USBCashDrawer" Type="System.String" Scope="User">
       <Value Profile="(Default)">{"is_usb":false,"port":"COM1"}</Value>
