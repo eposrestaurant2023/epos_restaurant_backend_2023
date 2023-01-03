@@ -171,6 +171,7 @@
   },
   {
    "default": "1",
+   "depends_on": "eval:doc.docstatus==0",
    "fieldname": "append_quantity",
    "fieldtype": "Check",
    "label": " Append Quantity"
@@ -183,7 +184,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-12-31 14:35:04.015017",
+ "modified": "2023-01-02 09:36:53.202779",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Adjustment",

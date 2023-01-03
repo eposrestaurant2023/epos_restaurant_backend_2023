@@ -38,6 +38,7 @@
    "fieldname": "posting_date",
    "fieldtype": "Date",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Posting Date",
    "reqd": 1
   },
@@ -45,12 +46,14 @@
    "fieldname": "referance",
    "fieldtype": "Data",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Referance"
   },
   {
    "fieldname": "from_stock_location",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "From Stock Location",
    "options": "Stock Location",
    "reqd": 1
@@ -75,6 +78,7 @@
    "fieldname": "to_stock_location",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "To Stock Location",
    "options": "Stock Location",
    "reqd": 1
@@ -158,6 +162,7 @@
   },
   {
    "default": "1",
+   "depends_on": "eval:doc.docstatus==0",
    "fieldname": "append_quantity",
    "fieldtype": "Check",
    "label": "Append Quantity"
@@ -174,7 +179,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-12-24 11:59:57.179775",
+ "modified": "2023-01-02 09:43:41.313144",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Transfer",

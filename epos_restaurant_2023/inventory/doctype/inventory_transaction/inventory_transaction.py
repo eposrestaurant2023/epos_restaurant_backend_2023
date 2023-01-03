@@ -3,7 +3,6 @@
 
 import frappe
 from frappe.model.document import Document
-
 class InventoryTransaction(Document):
 	def validate(self):
 	
@@ -11,23 +10,26 @@ class InventoryTransaction(Document):
 		if data:
 			current_qty = data[0]["quantity"]
 			current_cost = data[0]["cost"]
-
 			self.price = self.price or current_cost
-
 			self.beginning_stock_value = current_qty * current_cost
 			self.quantity_on_hand = current_qty
 			self.balance = self.quantity_on_hand + self.in_quantity - self.out_quantity
-			self.ending_stock_value = self.beginning_stock_value + (self.in_quantity - self.out_quantity) * (self.price or current_cost)
+			if self.transaction_type =='Stock Adjustment' and self.action =="Submit":
+				self.ending_stock_value = self.balance * self.price
+			else:
+				self.ending_stock_value = self.beginning_stock_value + (self.in_quantity - self.out_quantity) * (self.price or current_cost)
+			
 			self.product_has_in_stock_location = 1
 			self.stock_location_product_name = data[0]["name"]
 		else:
 			self.product_has_in_stock_location = 0
 			self.balance = self.in_quantity - self.out_quantity
-			self.ending_stock_value =  (self.in_quantity - self.out_quantity) * (self.price or 0 )
+			if self.transaction_type =='Stock Adjustment' and self.action =="Submit":
+				self.ending_stock_value = self.balance * self.price
+			else:
+				self.ending_stock_value =  (self.in_quantity - self.out_quantity) * (self.price or 0 )
 			
 
-
-  
 	def after_insert(self):
 		
 		if self.product_has_in_stock_location==0:
@@ -38,23 +40,32 @@ class InventoryTransaction(Document):
         
 
 def add_stock_location_product(self):
-    
-    doc = frappe.get_doc({
+	cost = 0
+	if self.transaction_type=="Stock Adjustment" and self.action =="Submit":
+		cost = self.price
+	else:
+		cost = self.ending_stock_value / self.balance
+	doc = frappe.get_doc({
 			"doctype":"Stock Location Product",
-		    "product_code" : self.product_code,
+			"product_code" : self.product_code,
 			"stock_location" : self.stock_location, 
-			"cost" : self.ending_stock_value / self.balance,
+			"cost" : cost,
 			"quantity" : self.balance,
 			"total_cost" :  self.ending_stock_value
 		}
 	)
- 
-    doc.insert()
+
+	doc.insert()
 
 def update_stock_location_product(self):
-    doc = frappe.get_doc("Stock Location Product",self.stock_location_product_name )
-    balance = 1 if self.balance == 0 else self.balance
-    doc.cost = self.ending_stock_value / balance
-    doc.quantity = self.balance
-    doc.total_cost =  self.ending_stock_value
-    doc.save()
+	doc = frappe.get_doc("Stock Location Product",self.stock_location_product_name )
+	balance = 1 if self.balance == 0 else self.balance
+
+	if self.transaction_type=="Stock Adjustment" and self.action =="Submit":
+			doc.cost = self.price
+	else:
+			doc.cost = self.ending_stock_value / balance
+
+	doc.quantity = self.balance
+	doc.total_cost =  self.ending_stock_value
+	doc.save()

@@ -82,7 +82,8 @@ def update_to_stock(cancel = False, self=None, p=None):
 		'out_quantity': p.quantity / uom_conversion if cancel else 0,
 		"uom_conversion":uom_conversion,
 		"price":p.base_cost,
-		'note': "New stock transfer from {} to {} submitted.".format(self.from_stock_location,self.to_stock_location)
+		'note': "New stock transfer from {} to {} submitted.".format(self.from_stock_location,self.to_stock_location),
+		"action": "Cancel" if cancel else "Submit"
 	})
 def update_from_stock(cancel = False, self=None, p=None):
 	uom_conversion = get_uom_conversion(p.base_unit, p.unit)
@@ -96,6 +97,6 @@ def update_from_stock(cancel = False, self=None, p=None):
 		'stock_location':self.from_stock_location,
 		'out_quantity':0 if cancel else p.quantity / uom_conversion,
 		'in_quantity':p.quantity / uom_conversion if cancel else 0,
-		
-		'note': "New stock transfer from {} to {} submitted.".format(self.from_stock_location,self.to_stock_location)
+		'note': "New stock transfer from {} to {} submitted.".format(self.from_stock_location,self.to_stock_location),
+  		"action": "Cancel" if cancel else "Submit"
 	})

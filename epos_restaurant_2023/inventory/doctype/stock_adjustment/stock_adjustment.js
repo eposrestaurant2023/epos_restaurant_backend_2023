@@ -73,9 +73,12 @@ function get_location_product(frm, doc){
         },
         callback: function(r){
             if(r.message!=undefined){
-                doc.old_quantity = doc.quantity = r.message.quantity;
-                doc.old_cost = doc.cost = r.message.cost;
-                doc.total_cost = doc.quantity * doc.cost;
+                doc.current_quantity = doc.quantity = r.message.quantity;
+                doc.current_cost = doc.cost = r.message.cost;
+                doc.difference_quantity = doc.quantity - doc.current_quantity;
+                doc.difference_cost = doc.cost - doc.current_cost;
+                doc.total_cost=doc.quantity * doc.cost;           
+                doc.total_current_cost=doc.current_quantity * doc.current_cost;           
                 updateSumTotal(frm)
             }
             else { 
@@ -90,29 +93,31 @@ function get_location_product(frm, doc){
 
 function update_product_amount(frm,cdt, cdn)  {
     let doc = locals[cdt][cdn];
-		doc.total_cost=doc.quantity * doc.cost;
-		updateSumTotal(frm);
+    doc.difference_quantity = doc.quantity - doc.current_quantity;
+    doc.difference_cost = doc.cost - doc.current_cost;
+    doc.total_cost=doc.quantity * doc.cost;
+    updateSumTotal(frm);
 }
 
 function updateSumTotal(frm) {
     
     let sum_total = 0;
 	let total_qty = 0;
-    let old_sum_total = 0;
-	let old_total_qty = 0;
+    let current_sum_total = 0;
+	let current_total_qty = 0;
   
     $.each(frm.doc.products, function(i, d) {
         sum_total += flt(d.total_cost);
 		total_qty +=flt(d.quantity);
-        old_sum_total += flt(d.old_cost);
-		old_total_qty +=flt(d.old_quantity);
+        current_sum_total += flt(d.total_current_cost);
+		current_total_qty +=flt(d.current_quantity);
     });
-    let difference_quantity = total_qty - old_total_qty; 
-    let difference_cost = sum_total - old_sum_total; 
-    frm.set_value('total_current_cost', sum_total);
-    frm.set_value('total_current_quantity', total_qty);
-    frm.set_value('total_cost', old_sum_total);
-    frm.set_value('total_quantity', old_total_qty);
+    let difference_quantity = total_qty - current_total_qty; 
+    let difference_cost = sum_total - current_sum_total; 
+    frm.set_value('total_current_cost', current_sum_total);
+    frm.set_value('total_current_quantity', current_total_qty);
+    frm.set_value('total_cost', sum_total);
+    frm.set_value('total_quantity', total_qty);
     frm.set_value('difference_quantity', difference_quantity);
     frm.set_value('difference_cost', difference_cost);
     frm.refresh_field('products');

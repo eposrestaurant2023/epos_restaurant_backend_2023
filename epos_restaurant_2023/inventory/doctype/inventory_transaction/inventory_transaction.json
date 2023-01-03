@@ -31,7 +31,8 @@
   "balance",
   "ending_stock_value",
   "section_break_23",
-  "note"
+  "note",
+  "action"
  ],
  "fields": [
   {
@@ -195,11 +196,17 @@
   {
    "fieldname": "section_break_23",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "action",
+   "fieldtype": "Data",
+   "label": "Action",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-31 14:56:58.613365",
+ "modified": "2022-12-31 17:21:48.597803",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Inventory Transaction",

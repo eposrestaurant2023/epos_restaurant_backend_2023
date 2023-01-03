@@ -23,7 +23,23 @@
   "address",
   "column_break_12",
   "note",
-  "photo"
+  "photo",
+  "working_information_tab",
+  "department",
+  "position",
+  "report_to",
+  "column_break_21",
+  "join_date",
+  "basic_salary",
+  "employee_type",
+  "emergency_contact_tab",
+  "emergency_contacts",
+  "exit_information_tab",
+  "is_exit",
+  "exit_type",
+  "exit_date",
+  "column_break_30",
+  "exit_note"
  ],
  "fields": [
   {
@@ -117,12 +133,98 @@
    "fieldtype": "Attach Image",
    "hidden": 1,
    "label": "Photo"
+  },
+  {
+   "fieldname": "working_information_tab",
+   "fieldtype": "Tab Break",
+   "label": "Working Information"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "position",
+   "fieldtype": "Link",
+   "label": "Position",
+   "options": "Position"
+  },
+  {
+   "fieldname": "report_to",
+   "fieldtype": "Link",
+   "label": "Report to",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "column_break_21",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "join_date",
+   "fieldtype": "Date",
+   "label": "Join Date"
+  },
+  {
+   "fieldname": "basic_salary",
+   "fieldtype": "Currency",
+   "label": "Basic Salary"
+  },
+  {
+   "default": "Full Time",
+   "fieldname": "employee_type",
+   "fieldtype": "Link",
+   "label": "Employee Type",
+   "options": "Employee Type"
+  },
+  {
+   "fieldname": "emergency_contact_tab",
+   "fieldtype": "Tab Break",
+   "label": "Emergency Contact"
+  },
+  {
+   "fieldname": "exit_information_tab",
+   "fieldtype": "Tab Break",
+   "label": "Exit Information"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_exit",
+   "fieldtype": "Check",
+   "label": "Is Exit"
+  },
+  {
+   "fieldname": "exit_type",
+   "fieldtype": "Link",
+   "label": "Exit Type",
+   "options": "Employee Exit Type"
+  },
+  {
+   "fieldname": "exit_date",
+   "fieldtype": "Date",
+   "label": "Exit Date"
+  },
+  {
+   "fieldname": "column_break_30",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "exit_note",
+   "fieldtype": "Small Text",
+   "label": "Exit Note"
+  },
+  {
+   "fieldname": "emergency_contacts",
+   "fieldtype": "Table",
+   "label": "Emergency Contacts",
+   "options": "Employee Emergency Contact"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-28 17:31:14.893669",
+ "modified": "2023-01-02 22:30:08.464513",
  "modified_by": "Administrator",
  "module": "Employee Management",
  "name": "Employee",

@@ -1,6 +1,6 @@
 {
  "aggregate_function_based_on": "balance",
- "color": "#B4CD29",
+ "color": "#f74545",
  "creation": "2022-12-30 17:22:23.096114",
  "docstatus": 0,
  "doctype": "Number Card",
@@ -12,7 +12,7 @@
  "is_public": 1,
  "is_standard": 1,
  "label": "Unpaid Purchase Order",
- "modified": "2022-12-30 17:22:32.371920",
+ "modified": "2023-01-02 14:47:12.814670",
  "modified_by": "Administrator",
  "module": "Purchasing",
  "name": "Unpaid Purchase Order",

@@ -1,0 +1,46 @@
+{
+ "charts": [
+  {
+   "chart_name": "Employee Expense",
+   "label": "Employee Expense"
+  }
+ ],
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"> Employee Management</span>\",\"col\":12}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"Employee Expense\",\"col\":12}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Employee\",\"col\":3}}]",
+ "creation": "2022-12-03 17:19:17.043664",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "share-people",
+ "idx": 0,
+ "label": "Employee Management",
+ "links": [],
+ "modified": "2023-01-02 16:59:21.669005",
+ "modified_by": "Administrator",
+ "module": "Employee Management",
+ "name": "Employee Management",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 5.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "New",
+   "label": "New Employee",
+   "link_to": "Employee",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Employee",
+   "link_to": "Employee",
+   "stats_filter": "{\"disabled\":[\"=\",0]}",
+   "type": "DocType"
+  }
+ ],
+ "title": "Employee Management"
+}

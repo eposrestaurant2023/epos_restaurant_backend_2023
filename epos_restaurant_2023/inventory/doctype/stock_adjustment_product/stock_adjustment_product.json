@@ -25,8 +25,7 @@
   "difference_cost",
   "section_break_18",
   "note",
-  "old_quantity",
-  "old_cost"
+  "is_inventory_product"
  ],
  "fields": [
   {
@@ -140,23 +139,16 @@
   },
   {
    "default": "0",
-   "fieldname": "old_quantity",
-   "fieldtype": "Float",
-   "hidden": 1,
-   "label": "Old Quantity"
-  },
-  {
-   "default": "0",
-   "fieldname": "old_cost",
-   "fieldtype": "Currency",
-   "hidden": 1,
-   "label": "Old Cost"
+   "fetch_from": "product_code.is_inventory_product",
+   "fieldname": "is_inventory_product",
+   "fieldtype": "Check",
+   "label": "Is Inventory Product"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-12-31 10:16:48.594624",
+ "modified": "2023-01-02 16:40:20.275185",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Adjustment Product",

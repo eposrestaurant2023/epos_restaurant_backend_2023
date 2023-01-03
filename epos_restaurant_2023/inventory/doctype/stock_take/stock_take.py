@@ -63,7 +63,8 @@ def update_inventory_on_submit(self):
 				'stock_location':self.stock_location,
 				'out_quantity':p.quantity / uom_conversion,
 				"price":p.base_cost,
-				'note': 'New stock take submitted.'
+				'note': 'New stock take submitted.',
+				"action": "Submit"
 			})
 
 def update_inventory_on_cancel(self):
@@ -80,5 +81,6 @@ def update_inventory_on_cancel(self):
 				'stock_location':self.stock_location,
 				'in_quantity':p.quantity / uom_conversion,
 				"price":p.base_cost,
-				'note': 'Stock take cancelled.'
+				'note': 'Stock take cancelled.',
+    			"action": "Cancel"
 			})

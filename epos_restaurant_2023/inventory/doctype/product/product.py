@@ -54,10 +54,12 @@ class Product(Document):
 				add_to_inventory_transaction(
 					{
 						"doctype":"Inventory Transaction",
+						"transaction_date":datetime.now(),
 						"product_code":self.name,
 						"stock_location":self.stock_location,
 						"in_quantity":self.opening_quantity,
-						"price":self.cost
+						"price":self.cost,
+						"note":"Opening Quantity"
 					}
 				)
 	

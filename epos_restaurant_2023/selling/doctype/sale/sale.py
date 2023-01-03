@@ -22,7 +22,7 @@ class Sale(Document):
 				frappe.throw(_("Please select your cashier shift"))
     
 		if self.posting_date>utils.today():
-			frappe.throw(_("Sale date cannote greater than current date"))
+			frappe.throw(_("Sale date cannot greater than current date"))
 		
 		if self.discount_type =="Percent" and self.discount> 100:
 			frappe.throw(_("Discount percent cannot greater than 100%"))
@@ -147,7 +147,8 @@ def update_inventory_on_submit(self):
 				'stock_location':self.stock_location,
 				'out_quantity':p.quantity / uom_conversion,
 				"uom_conversion":uom_conversion,
-				'note': 'New sale submitted.'
+				'note': 'New sale submitted.',
+    			'action': 'Submit'
 			})
 		else:
 			#udpate cost for none stock product
@@ -185,7 +186,8 @@ def update_inventory_on_cancel(self):
 				'in_quantity':p.quantity / uom_conversion,
 				"uom_conversion":uom_conversion,
 				"price":p.cost,
-				'note': 'Sale invoice cancelled.'
+				'note': 'Sale invoice cancelled.',
+				'action': 'Cancel'
 			})
 			
 			

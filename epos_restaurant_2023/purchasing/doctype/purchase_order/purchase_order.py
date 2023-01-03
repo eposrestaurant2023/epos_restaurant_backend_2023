@@ -66,7 +66,8 @@ def update_inventory_on_submit(self):
 				'in_quantity':p.quantity / uom_conversion,
 				"uom_conversion":uom_conversion,
 				"price":p.cost,
-				'note': 'New purchase order submitted.'
+				'note': 'New purchase order submitted.',
+    			'action': 'Submit'
 			})
 			
 def update_inventory_on_cancel(self):
@@ -83,7 +84,8 @@ def update_inventory_on_cancel(self):
 				'stock_location':self.stock_location,
 				'out_quantity':p.quantity / uom_conversion,
 				"price":p.cost,
-				'note': 'Purchase order cancelled.'
+				'note': 'Purchase order cancelled.',
+				'action': 'Cancel'
 			})
 
 def validate_po_discount(self):

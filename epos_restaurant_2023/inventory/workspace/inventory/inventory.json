@@ -160,9 +160,9 @@
    "type": "Link"
   }
  ],
- "modified": "2022-12-31 12:18:30.104694",
+ "modified": "2023-01-02 16:58:14.192913",
  "modified_by": "Administrator",
- "module": "ePOS Restaurant",
+ "module": "Inventory",
  "name": "Inventory",
  "owner": "Administrator",
  "parent_page": "",
