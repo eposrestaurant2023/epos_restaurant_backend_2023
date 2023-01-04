@@ -25,7 +25,12 @@
   "payment_amount",
   "section_break_16",
   "note",
-  "attach_receipt"
+  "attach_receipt",
+  "payment_type_group",
+  "vendor",
+  "vendor_name",
+  "vendor_group",
+  "business_branch"
  ],
  "fields": [
   {
@@ -148,13 +153,49 @@
    "fieldtype": "Attach Image",
    "hidden": 1,
    "label": "Attach Receipt"
+  },
+  {
+   "fetch_from": "payment_type.payment_type_group",
+   "fieldname": "payment_type_group",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Payment Type Group"
+  },
+  {
+   "fetch_from": "expense.vendor_code",
+   "fieldname": "vendor",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Vendor",
+   "options": "Vendor"
+  },
+  {
+   "fetch_from": "vendor.vendor_name",
+   "fieldname": "vendor_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Vendor Name"
+  },
+  {
+   "fetch_from": "vendor.vendor_group",
+   "fieldname": "vendor_group",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Vendor Group"
+  },
+  {
+   "fetch_from": "expense.business_branch",
+   "fieldname": "business_branch",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Business Branch"
   }
  ],
  "image_field": "attach_receipt",
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-01-02 16:26:40.505308",
+ "modified": "2023-01-03 17:20:32.441330",
  "modified_by": "Administrator",
  "module": "Expense",
  "name": "Expense Payment",

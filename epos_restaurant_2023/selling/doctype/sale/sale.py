@@ -136,7 +136,8 @@ def update_inventory_on_submit(self):
 	for p in self.sale_products:
 		if p.is_inventory_product:
 			uom_conversion = get_uom_conversion(p.base_unit, p.unit)
-			cost = get_product_cost(self.stock_location, p.product_code)	
+			cost = get_product_cost(self.stock_location, p.product_code)
+			
 			add_to_inventory_transaction({
 				'doctype': 'Inventory Transaction',
 				'transaction_type':"Sale",

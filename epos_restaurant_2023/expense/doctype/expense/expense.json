@@ -12,6 +12,7 @@
  "field_order": [
   "naming_series",
   "posting_date",
+  "reference",
   "vendor_code",
   "vendor_group",
   "vendor_name",
@@ -164,6 +165,11 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Vendor Group"
+  },
+  {
+   "fieldname": "reference",
+   "fieldtype": "Data",
+   "label": "Reference"
   }
  ],
  "image_field": "attach_receipt",
@@ -176,7 +182,7 @@
    "link_fieldname": "expense"
   }
  ],
- "modified": "2022-12-29 16:50:42.999697",
+ "modified": "2023-01-03 17:15:40.227593",
  "modified_by": "Administrator",
  "module": "Expense",
  "name": "Expense",

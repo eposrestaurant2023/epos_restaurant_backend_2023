@@ -27,7 +27,13 @@
   "section_break_17",
   "note",
   "amended_from",
-  "attach_receipt"
+  "attach_receipt",
+  "payment_type_group",
+  "vendor",
+  "vendor_name",
+  "vendor_group",
+  "business_branch",
+  "stock_location"
  ],
  "fields": [
   {
@@ -102,7 +108,7 @@
    "fieldname": "referance",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Referance"
+   "label": "Reference"
   },
   {
    "fieldname": "column_break_3",
@@ -167,13 +173,56 @@
   {
    "fieldname": "section_break_17",
    "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "payment_type.payment_type_group",
+   "fieldname": "payment_type_group",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Payment Type Group"
+  },
+  {
+   "fetch_from": "purchase_order.vendor",
+   "fieldname": "vendor",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Vendor",
+   "options": "Vendor"
+  },
+  {
+   "fetch_from": "vendor.vendor_name",
+   "fieldname": "vendor_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Vendor Name"
+  },
+  {
+   "fetch_from": "vendor.vendor_group",
+   "fieldname": "vendor_group",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Vendor Group"
+  },
+  {
+   "fetch_from": "purchase_order.business_branch",
+   "fieldname": "business_branch",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Business Branch"
+  },
+  {
+   "fetch_from": "purchase_order.stock_location",
+   "fieldname": "stock_location",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Stock Location"
   }
  ],
  "image_field": "attach_receipt",
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-12-30 17:17:01.757946",
+ "modified": "2023-01-03 17:51:56.852427",
  "modified_by": "Administrator",
  "module": "Purchasing",
  "name": "Purchase Order Payment",

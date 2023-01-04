@@ -1,0 +1,113 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-01-03 17:14:56.165270",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "employee",
+  "employee_name",
+  "check_in_time",
+  "check_out_time",
+  "early_check_in",
+  "late_check_in",
+  "early_check_out",
+  "late_check_out",
+  "total_hour",
+  "absence"
+ ],
+ "fields": [
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee Name"
+  },
+  {
+   "fieldname": "check_in_time",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Check In Time"
+  },
+  {
+   "fieldname": "check_out_time",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Check Out Time"
+  },
+  {
+   "fieldname": "early_check_in",
+   "fieldtype": "Float",
+   "label": "Early Check In"
+  },
+  {
+   "fieldname": "late_check_in",
+   "fieldtype": "Float",
+   "label": "Late Check In"
+  },
+  {
+   "fieldname": "early_check_out",
+   "fieldtype": "Float",
+   "label": "Early Check Out"
+  },
+  {
+   "fieldname": "late_check_out",
+   "fieldtype": "Float",
+   "label": "Late Check Out"
+  },
+  {
+   "fieldname": "total_hour",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Total Hour"
+  },
+  {
+   "default": "0",
+   "fieldname": "absence",
+   "fieldtype": "Check",
+   "label": "Absence"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-01-03 17:34:34.603621",
+ "modified_by": "Administrator",
+ "module": "Employee Management",
+ "name": "Attendance",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "employee_name"
+}

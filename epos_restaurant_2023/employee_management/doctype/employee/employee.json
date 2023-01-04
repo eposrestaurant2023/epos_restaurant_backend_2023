@@ -32,6 +32,7 @@
   "join_date",
   "basic_salary",
   "employee_type",
+  "device_id",
   "emergency_contact_tab",
   "emergency_contacts",
   "exit_information_tab",
@@ -219,12 +220,17 @@
    "fieldtype": "Table",
    "label": "Emergency Contacts",
    "options": "Employee Emergency Contact"
+  },
+  {
+   "fieldname": "device_id",
+   "fieldtype": "Data",
+   "label": "Device ID"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-02 22:30:08.464513",
+ "modified": "2023-01-03 17:15:59.731607",
  "modified_by": "Administrator",
  "module": "Employee Management",
  "name": "Employee",

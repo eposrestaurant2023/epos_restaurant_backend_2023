@@ -27,6 +27,7 @@
   "working_day",
   "cashier_shift",
   "price_rule",
+  "sale_quotation",
   "section_break_6",
   "scan_barcode",
   "column_break_14",
@@ -549,6 +550,12 @@
   {
    "fieldname": "section_break_74",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "sale_quotation",
+   "fieldtype": "Link",
+   "label": "Sale Quotation",
+   "options": "Sale Quotation"
   }
  ],
  "image_field": "photo",
@@ -561,7 +568,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-01-02 09:46:09.195174",
+ "modified": "2023-01-03 15:01:18.418321",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

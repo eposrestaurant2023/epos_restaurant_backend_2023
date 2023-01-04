@@ -43,10 +43,9 @@ def get_uom_conversion(from_uom, to_uom):
 
 def get_product_cost(stock_location, product_code):
     cost =frappe.db.get_value('Stock Location Product', {'stock_location':stock_location,"product_code":product_code}, ['cost'], cache=True)
-   
     if (cost or 0) == 0:
         cost = frappe.db.get_value('Product',{'product_code':product_code}, ['cost'], cache=True)
-  
+    
     return cost or 0
 
 def check_uom_conversion(from_uom, to_uom):

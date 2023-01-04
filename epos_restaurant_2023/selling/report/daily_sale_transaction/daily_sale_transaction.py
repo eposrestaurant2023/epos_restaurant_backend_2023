@@ -78,6 +78,9 @@ def get_conditions(filters,group_filter=None):
 
 	if filters.get("customer_group"):
 		conditions += " AND a.customer_group in %(customer_group)s"
+  
+	if filters.get("customer"):
+		conditions += " AND a.customer = %(customer)s"
  
 	conditions += " AND a.business_branch in %(business_branch)s"
 	conditions += " AND a.outlet in %(outlet)s"

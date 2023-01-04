@@ -1,0 +1,22 @@
+{
+  "name": "epos_restaurant_2023",
+  "version": "1.0.0",
+  "description": "epos restaurant 2023 by ESTC",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cd epos_frontend && yarn dev",
+    "build": "cd epos_frontend && yarn build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eposrestaurant2023/epos_restaurant_backend_2023.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eposrestaurant2023/epos_restaurant_backend_2023/issues"
+  },
+  "homepage": "https://github.com/eposrestaurant2023/epos_restaurant_backend_2023#readme"
+}

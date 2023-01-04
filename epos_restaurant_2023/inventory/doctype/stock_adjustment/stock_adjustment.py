@@ -37,8 +37,8 @@ class StockAdjustment(Document):
 		update_inventory_on_submit(self)
 		#frappe.enqueue("epos_restaurant_2023.inventory.doctype.stock_adjustment.stock_adjustment.update_inventory_on_submit", queue='short', self=self)
 	
-	def on_cancel(self):
-		update_inventory_on_cancel(self)
+	def before_cancel(self):
+		frappe.throw(_("Cannot cancel"))
 		#frappe.enqueue("epos_restaurant_2023.inventory.doctype.stock_adjustment.stock_adjustment.update_inventory_on_cancel", queue='short', self=self)
   
 def update_inventory_on_submit(self):
@@ -60,7 +60,7 @@ def update_inventory_on_submit(self):
 				"action":"Submit"
 			})
 
-def update_inventory_on_cancel(self):
+
 	for p in self.products:
 		if p.is_inventory_product:
 			defference_qty = p.quantity - p.current_quantity
@@ -74,7 +74,7 @@ def update_inventory_on_cancel(self):
 				'stock_location':self.stock_location,
 				'out_quantity': defference_qty if defference_qty >= 0 else 0,
 				'in_quantity': abs(defference_qty) if defference_qty < 0 else 0,
-				"price":p.cost,
+				"price":p.current_cost,
 				'note': 'Stock adjustment cancelled.',
     			"action":"Cancel"	
 			})
