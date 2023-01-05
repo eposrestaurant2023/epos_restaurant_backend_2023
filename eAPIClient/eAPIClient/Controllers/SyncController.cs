@@ -14,6 +14,7 @@ using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using System.Security.Claims;
 using Serilog;
+using ReportModel;
 
 namespace eAPIClient.Controllers
 {

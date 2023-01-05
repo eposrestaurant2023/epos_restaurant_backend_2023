@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eAPIClient", "eAPIClient\eA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShareModel", "..\eShareModel\eShareModel\eShareModel.csproj", "{B0940B42-C6C9-479D-9B6E-37BB3820AD6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reporting", "Reporting\Reporting.csproj", "{2090B63B-0921-43D6-BC03-C0F65B6D727E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportModel", "ReportModel\ReportModel.csproj", "{26D45D27-FAC2-4355-829B-E8C64806C17A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{B0940B42-C6C9-479D-9B6E-37BB3820AD6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0940B42-C6C9-479D-9B6E-37BB3820AD6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0940B42-C6C9-479D-9B6E-37BB3820AD6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2090B63B-0921-43D6-BC03-C0F65B6D727E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2090B63B-0921-43D6-BC03-C0F65B6D727E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2090B63B-0921-43D6-BC03-C0F65B6D727E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2090B63B-0921-43D6-BC03-C0F65B6D727E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26D45D27-FAC2-4355-829B-E8C64806C17A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26D45D27-FAC2-4355-829B-E8C64806C17A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26D45D27-FAC2-4355-829B-E8C64806C17A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26D45D27-FAC2-4355-829B-E8C64806C17A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

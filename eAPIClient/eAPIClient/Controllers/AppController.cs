@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
+using System.Collections.Generic;  
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 using eAPIClient.Models;
 using eAPIClient.Services;
@@ -14,9 +12,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using NETCore.Encrypt;
-
+using Microsoft.Extensions.Configuration;    
+using Reporting.Models;
+using Reporting.Services;  
+using ReportModel;
 
 namespace eAPIClient.Controllers
 {
@@ -27,21 +26,34 @@ namespace eAPIClient.Controllers
         
         public IConfiguration config { get; }
         private readonly ApplicationDbContext db;
+        private readonly List<ReceiptSettingModel> receipts;
         private readonly AppService app;
         private readonly IHttpService http;
         private readonly ISyncService sync;
-
+        private readonly IPrintRequestAction request_action;
         private readonly IWebHostEnvironment environment;
+
+
+
+
        
 
-        public AppController(ApplicationDbContext _db, AppService _app, IConfiguration configuration, IHttpService _http, ISyncService sync, IWebHostEnvironment environment)
+        public AppController(ApplicationDbContext _db, 
+            AppService _app, 
+            IConfiguration configuration, 
+            IHttpService _http, ISyncService _sync, 
+            IWebHostEnvironment _environment, 
+            IPrintRequestAction _request_action,
+            List<ReceiptSettingModel> _receipts)
         {
             db = _db;
             app = _app;
             config = configuration;
             http = _http;
-            this.environment = environment;
-            this.sync = sync;
+            environment = _environment;
+            sync = _sync;
+            request_action = _request_action;
+            receipts = _receipts;
         }
 
 
@@ -141,6 +153,112 @@ namespace eAPIClient.Controllers
             }      
             return BadRequest();
         }
+
+        [HttpPost]
+        [Route("TerminalPOSPrintRequest")]
+        [AllowAnonymous]
+        public async Task<ActionResult<string>> TerminalPOSPrintRequest([FromBody] PrintRequestModel f)
+        {
+            var _file_path = config.GetValue<string>("terminal_pos_receipt_path");
+            ReceiptSettingModel receipt = new ReceiptSettingModel();
+            var check = receipts.Where(r => r.receipt_name.ToLower() == r.receipt_name.ToLower());
+            if (check.Any())
+            {
+                receipt = check.FirstOrDefault();  
+                var data =  await onActionPrintRequest(request: f, setting: receipt, file_path: _file_path);
+                if (!string.IsNullOrWhiteSpace(data))
+                {
+                    string str = "{\"copies\":\"" + f.copies + "\",\"file_data\":\"" + data + "\"}";
+                    var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(str);
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+
+
+            return BadRequest();
+        }
+
+
+
+      async Task< string> onActionPrintRequest(PrintRequestModel request, ReceiptSettingModel setting, string file_path)
+        {
+            DynamicModel receipt_data = new DynamicModel();
+            string file_data = "";
+            switch (request.action)
+            {
+                case "print_request_bill":
+                    receipt_data = GetDynamicReportData("sp_get_sale_data_for_print_bill", $"'{request.sale_id}','json'");
+                    file_data = await request_action.Invoice(receipt_data: receipt_data, setting: setting, file_path: file_path);
+                    break;
+
+                case "print_receipt":
+
+                    break;
+                case "print_coupon_voucher_receipt":
+                    return "";
+
+                case "print_deleted_sale_order":
+                    return "";
+
+                case "reprint_receipt":
+
+                    return "";
+
+                case "print_close_working_day_summary":
+                    return "";
+
+                case "print_close_working_day_sale_product":
+                    return "";
+
+                case "print_close_working_day_sale_transaction":
+
+                    return "";
+
+                case "print_close_cashier_shift_summary":
+                    return "";
+                case "print_close_cashier_shift_sale_transaction":
+
+                    return "";
+
+                case "print_close_cashier_shift_sale_product":
+                    return "";
+
+                case "print_waiting_order":
+
+                    return "";
+                case "print_park":
+
+                    return "";
+                case "print_wifi_password":
+                    break;
+
+            }
+
+            return file_data;
+        }
+
+
+        DynamicModel GetDynamicReportData(string procedure_name, string parameters)
+        {
+            var d = db.StoreProcedureResults.FromSqlRaw($"exec {procedure_name} {parameters}").ToList().FirstOrDefault();
+            if (d != null)
+            {
+                string r = d.result;
+                var data = JsonSerializer.Deserialize<List<DynamicModel>>(r);
+                if (data.Any())
+                {
+                    return data.FirstOrDefault();
+                }
+                return null;
+            }
+            return null;
+        }
+
+
 
 
         [HttpPost]
