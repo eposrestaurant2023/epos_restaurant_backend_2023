@@ -1,16 +1,19 @@
 # Copyright (c) 2022, Tes Pheakdey and contributors
 # For license information, please see license.txt
 
-from datetime import datetime # from python std library
+from datetime import datetime
+import json # from python std library
 import frappe
 from frappe import _
 from frappe.model.document import Document
 from frappe.utils.data import strip
 from py_linq import Enumerable
+from frappe.utils import add_years
 from epos_restaurant_2023.inventory.inventory import add_to_inventory_transaction, get_uom_conversion, update_product_quantity,get_stock_location_product
 
 class Product(Document):
 	def validate(self):
+  
 		# lock uncheck inventory product
 		if not self.is_new():
 			old_product = frappe.get_doc('Product', self.product_code)
@@ -63,10 +66,16 @@ class Product(Document):
 					}
 				)
 	
+	def on_update(self):
+		
+		add_product_to_temp_menu(self)
+		#frappe.enqueue("epos_restaurant_2023.inventory.doctype.product.product.add_product_to_temp_menu", queue='short', self=self)
+
+
 	@frappe.whitelist()
 	def get_product_summary_information(self):
 		stock_information = []
-  
+
 		stock_data =frappe.db.get_list('Stock Location Product',
 					filters={
 						'product_code': self.name
@@ -175,3 +184,30 @@ def get_product_cost_by_stock(product_code=None, stock_location=None):
 	if result:
 		return result[0]
 	return {'cost':0}
+
+def add_product_to_temp_menu(self):
+	frappe.db.sql("delete from `tabTemp Product Menu` where product_code='{}'".format(self.name))
+	if self.pos_menus and not self.disabled:
+		printers = []
+		for p in self.printers:
+			printers.append({"printer":p.printer})
+	
+		prices = []
+		for p in self.product_price:
+			prices.append({"price":p.price,'branch':p.business_branch or "",'price_rule':p.price_rule, 'portion':p.portion})
+	
+		modifiers = []
+		for m in self.product_modifiers:
+			modifiers.append({"branch":m.business_branch or "", "category":m.modifier_category, "prefix":m.prefix, "modifier":m.modifier_code, "price":m.price })
+		
+	
+		for m in self.pos_menus:
+			doc = frappe.get_doc({
+							'doctype': 'Temp Product Menu',
+							'product_code': self.name,
+							'pos_menu':m.pos_menu,
+							'printers':json.dumps(printers),
+							'prices':json.dumps(prices),
+							'modifiers':json.dumps(modifiers)
+						})
+			doc.insert() 

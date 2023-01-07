@@ -2,23 +2,37 @@ import './index.css';
 import { createApp, reactive } from "vue";
 import App from "./App.vue";
 
+import 'vuetify/styles';
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+
 import router from './router';
 import resourceManager from "../../../doppio/libs/resourceManager";
+import API from "./api/index";
 import call from "../../../doppio/libs/controllers/call";
 import socket from "../../../doppio/libs/controllers/socket";
 import Auth from "../../../doppio/libs/controllers/auth";
+import store from "./store";
 
 const app = createApp(App);
 const auth = reactive(new Auth());
 
+const vuetify = createVuetify({
+	components,
+	directives,
+  });
+
 // Plugins
 app.use(router);
 app.use(resourceManager);
-
+app.use(vuetify);
+app.use(store);
 // Global Properties,
 // components can inject this
 app.provide("$auth", auth);
 app.provide("$call", call);
+app.provide("$api",API);
 app.provide("$socket", socket);
 
 

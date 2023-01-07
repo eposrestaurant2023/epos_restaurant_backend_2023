@@ -1,13 +1,16 @@
 <template>
-	<div>
-		<button v-if="$auth.isLoggedIn" @click="$auth.logout()">Logout</button>
+	<!-- <button v-if="$auth.isLoggedIn" @click="$auth.logout()">Logout</button> -->
+	<MainLayout>
 		<router-view />
-	</div>
+	</MainLayout>
 </template>
 
 
 <script>
+import MainLayout from './components/layout/MainLayout.vue';
+
 export default {
-	inject: ['$auth']
+    inject: ["$auth"],
+    components: { MainLayout }
 };
 </script>

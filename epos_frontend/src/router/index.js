@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
+import AddSale from "../views/sale/AddSale.vue";
 import authRoutes from './auth';
 
 const routes = [
@@ -8,6 +9,12 @@ const routes = [
     name: "Home",
     component: Home,
   },
+  {
+    path: "/add-sale/:name?",
+    name: "AddSale",
+    component: AddSale,
+  },
+
   ...authRoutes,
 ];
 

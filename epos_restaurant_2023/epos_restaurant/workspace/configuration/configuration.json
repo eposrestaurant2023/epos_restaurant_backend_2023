@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Configuration</span>\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"System Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Business\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Inventory Setting\",\"col\":4}}]",
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Configuration</span>\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"System Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Business\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Inventory Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"POS Settings\",\"col\":4}}]",
  "creation": "2022-12-05 00:50:50.260305",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -90,7 +90,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "System Setting",
-   "link_count": 19,
+   "link_count": 17,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -120,16 +120,6 @@
    "label": "Price Rule",
    "link_count": 0,
    "link_to": "Price Rule",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "POS Menu",
-   "link_count": 0,
-   "link_to": "POS Menu",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -170,16 +160,6 @@
    "label": "Sale Type",
    "link_count": 0,
    "link_to": "Sale Type",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "POS Profile",
-   "link_count": 0,
-   "link_to": "POS Profile",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -283,9 +263,47 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Settings",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Menu",
+   "link_count": 0,
+   "link_to": "POS Menu",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Profile",
+   "link_count": 0,
+   "link_to": "POS Profile",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Modifier Code",
+   "link_count": 0,
+   "link_to": "Modifier Code",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2022-12-22 12:12:11.780269",
+ "modified": "2023-01-07 01:26:54.155391",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Configuration",

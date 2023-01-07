@@ -1,22 +1,28 @@
 <template>
-  <div>
-    <h1>Home Page</h1>
-    <!-- Fetch the resource on click -->
-    <button @click="$resources.ping.fetch()">Pingxxx</button>
+  <div class="container">
+    <v-sheet
+      :elevation="2"
+      class="mx-auto"
+      height="100"
+      width="100"
+      @click="onPOS"
+      >
+      POS
+    </v-sheet>
   </div>
 </template>
 
 <script>
 export default {
-  resources: {
-    ping() {
-      return {
-        method: "frappe.ping", // Method to call on backend
-        onSuccess(d) {
-          alert(d);
-        },
-      };
-    },
+  data() {
+    return {
+      i: ''
+    }
+  },
+  methods: {
+    onPOS(){
+      this.$router.push({ path: "/add-sale" });
+    }
   },
 };
 </script>

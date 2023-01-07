@@ -1,0 +1,152 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "hash",
+ "creation": "2023-01-07 00:28:51.666070",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "pos_menu",
+  "product_code",
+  "product_name_en",
+  "product_name_kh",
+  "unit",
+  "price",
+  "kitchen_group",
+  "allow_discount",
+  "allow_free",
+  "allow_change_price",
+  "is_inventory_product",
+  "is_open_product",
+  "printers",
+  "prices",
+  "modifiers",
+  "photo"
+ ],
+ "fields": [
+  {
+   "fieldname": "pos_menu",
+   "fieldtype": "Data",
+   "label": "POS Menu"
+  },
+  {
+   "fieldname": "product_code",
+   "fieldtype": "Link",
+   "label": "Product Code",
+   "options": "Product"
+  },
+  {
+   "fetch_from": "product_code.product_name_en",
+   "fieldname": "product_name_en",
+   "fieldtype": "Data",
+   "label": "Product Name En"
+  },
+  {
+   "fetch_from": "product_code.product_name_kh",
+   "fieldname": "product_name_kh",
+   "fieldtype": "Data",
+   "label": "Product Name Kh"
+  },
+  {
+   "fetch_from": "product_code.unit",
+   "fieldname": "unit",
+   "fieldtype": "Data",
+   "label": "Unit"
+  },
+  {
+   "fetch_from": "product_code.price",
+   "fieldname": "price",
+   "fieldtype": "Currency",
+   "label": "Price"
+  },
+  {
+   "fetch_from": "product_code.kitchen_group",
+   "fieldname": "kitchen_group",
+   "fieldtype": "Data",
+   "label": "Kitchen Group"
+  },
+  {
+   "default": "0",
+   "fetch_from": "product_code.allow_discount",
+   "fieldname": "allow_discount",
+   "fieldtype": "Check",
+   "label": "Allow Discount"
+  },
+  {
+   "default": "0",
+   "fetch_from": "product_code.allow_free",
+   "fieldname": "allow_free",
+   "fieldtype": "Check",
+   "label": "Allow Free"
+  },
+  {
+   "default": "0",
+   "fetch_from": "product_code.allow_change_price",
+   "fieldname": "allow_change_price",
+   "fieldtype": "Check",
+   "label": "Allow Change Price"
+  },
+  {
+   "default": "0",
+   "fetch_from": "product_code.is_open_product",
+   "fieldname": "is_open_product",
+   "fieldtype": "Check",
+   "label": "Is Open Product"
+  },
+  {
+   "fieldname": "printers",
+   "fieldtype": "JSON",
+   "label": "Printers"
+  },
+  {
+   "fieldname": "prices",
+   "fieldtype": "JSON",
+   "label": "Prices"
+  },
+  {
+   "default": "0",
+   "fetch_from": "product_code.is_inventory_product",
+   "fieldname": "is_inventory_product",
+   "fieldtype": "Check",
+   "label": "Is Inventory Product"
+  },
+  {
+   "fetch_from": "product_code.photo",
+   "fieldname": "photo",
+   "fieldtype": "Data",
+   "label": "photo"
+  },
+  {
+   "fieldname": "modifiers",
+   "fieldtype": "JSON",
+   "label": "Modifiers"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-01-07 01:18:58.312152",
+ "modified_by": "Administrator",
+ "module": "Selling",
+ "name": "Temp Product Menu",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

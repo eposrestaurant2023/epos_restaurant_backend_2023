@@ -9,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "parent_pos_menu",
+  "parent_menu_path",
   "pos_menu_name_en",
   "pos_menu_name_kh",
   "lft",
@@ -23,7 +24,8 @@
   "price_rule",
   "sort_order",
   "disabled",
-  "old_parent"
+  "old_parent",
+  "products"
  ],
  "fields": [
   {
@@ -137,13 +139,25 @@
   {
    "fieldname": "column_break_4",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "products",
+   "fieldtype": "JSON",
+   "label": "Products"
+  },
+  {
+   "fetch_from": "parent_pos_menu.pos_menu_path",
+   "fieldname": "parent_menu_path",
+   "fieldtype": "Data",
+   "label": "Parent Menu Path"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2022-12-12 09:34:53.058239",
+ "make_attachments_public": 1,
+ "modified": "2023-01-07 00:03:52.129634",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Menu",
