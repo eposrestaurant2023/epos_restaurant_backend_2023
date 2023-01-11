@@ -57,7 +57,7 @@ export default {
     methods:{
         async onSave(){
             await this.$api('Sale', this.sale).then((res) => {
-                alert( atob('aGVsbG8gbWFkYSBmYWth'));
+              
                 alert('Success')
             })
         },

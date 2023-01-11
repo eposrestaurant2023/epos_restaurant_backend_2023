@@ -2,7 +2,10 @@ import { createStore } from "vuex";
 import call from "../../../../doppio/libs/controllers/call";
 export default createStore({
   state: {
+
     isLoading: false,
+    drawer: true,
+    ePOSSettings:{},
     gv: {},
     posMenu: [],
     posMenuProduct: [],
@@ -19,6 +22,9 @@ export default createStore({
     loadingStatus(state, new_value) {
       state.isLoading = new_value;
     },
+   ePOSSettings(state, new_value) {
+      state.ePOSSettings = new_value;
+    },
     gv(state, new_value) {
       state.gv = new_value;
     },
@@ -30,6 +36,9 @@ export default createStore({
     },
     posMenuProduct(state, new_value){
       state.posMenuProduct = new_value;
+    },
+    drawer(state, new_value){
+      state.drawer = new_value;
     },
     async getPosMenu(state, new_value){
       await call('frappe.client.get_list', {

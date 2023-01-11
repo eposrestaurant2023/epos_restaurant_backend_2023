@@ -13,16 +13,16 @@ from frappe.model.document import Document
 
 class Sale(Document):
 	def validate(self):
-	 
+		#frappe.throw(_("Please select your working day"))
 		if self.pos_profile:
 			if not self.working_day:
 				frappe.throw(_("Please select your working day"))
 
 			if not self.cashier_shift: 
 				frappe.throw(_("Please select your cashier shift"))
-    
-		if self.posting_date>utils.today():
-			frappe.throw(_("Sale date cannot greater than current date"))
+		# if self.posting_date:
+		# 	if self.posting_date>utils.today():
+		# 		frappe.throw(_("Sale date cannot greater than current date"))
 		
 		if self.discount_type =="Percent" and self.discount> 100:
 			frappe.throw(_("Discount percent cannot greater than 100%"))

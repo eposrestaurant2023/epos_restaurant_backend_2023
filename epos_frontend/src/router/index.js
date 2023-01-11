@@ -8,6 +8,7 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+    meta: { layout: 'main_layout' }
   },
   {
     path: "/add-sale/:name?",

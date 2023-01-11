@@ -6,7 +6,12 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "app_name",
+  "epos_app_name",
+  "epos_logo",
+  "company_name",
+  "address",
+  "phone_number",
+  "section_break_6",
   "use_tax_1",
   "tax_1_name",
   "use_tax_2",
@@ -18,11 +23,6 @@
   "country"
  ],
  "fields": [
-  {
-   "fieldname": "app_name",
-   "fieldtype": "Data",
-   "label": "App Name"
-  },
   {
    "fieldname": "tax_1_name",
    "fieldtype": "Data",
@@ -73,12 +73,44 @@
    "fieldtype": "Link",
    "label": "Default Country",
    "options": "Country"
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "epos_app_name",
+   "fieldtype": "Data",
+   "label": "App Name"
+  },
+  {
+   "fieldname": "epos_logo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Logo"
   }
  ],
+ "image_field": "epos_logo",
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-12-31 14:50:20.049089",
+ "make_attachments_public": 1,
+ "modified": "2023-01-10 09:36:38.620380",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "ePOS Settings",
