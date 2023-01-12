@@ -885,7 +885,6 @@
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
                                     <FontSize>10.5pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -935,7 +934,7 @@
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
+                                    <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -983,7 +982,7 @@
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
+                                    <FontWeight>Normal</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1226,7 +1225,8 @@
                                 <TextRun>
                                   <Value> Items</Value>
                                   <Style>
-                                    <FontFamily>Kh System</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>12pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1242,7 +1242,7 @@
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <BackgroundColor>Silver</BackgroundColor>
+                            <BackgroundColor>LightGrey</BackgroundColor>
                             <PaddingLeft>0.25pt</PaddingLeft>
                             <PaddingRight>0.25pt</PaddingRight>
                             <PaddingTop>0.25pt</PaddingTop>
@@ -1262,7 +1262,8 @@
                                 <TextRun>
                                   <Value>QTY</Value>
                                   <Style>
-                                    <FontFamily>Kh System</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>12pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1278,7 +1279,7 @@
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <BackgroundColor>Silver</BackgroundColor>
+                            <BackgroundColor>LightGrey</BackgroundColor>
                             <PaddingLeft>0.25pt</PaddingLeft>
                             <PaddingRight>0.25pt</PaddingRight>
                             <PaddingTop>0.25pt</PaddingTop>
@@ -1298,7 +1299,8 @@
                                 <TextRun>
                                   <Value>Price</Value>
                                   <Style>
-                                    <FontFamily>Kh System</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>12pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1314,7 +1316,7 @@
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <BackgroundColor>Silver</BackgroundColor>
+                            <BackgroundColor>LightGrey</BackgroundColor>
                             <PaddingLeft>0.25pt</PaddingLeft>
                             <PaddingRight>0.25pt</PaddingRight>
                             <PaddingTop>0.25pt</PaddingTop>
@@ -1334,7 +1336,8 @@
                                 <TextRun>
                                   <Value>Amt</Value>
                                   <Style>
-                                    <FontFamily>Kh System</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>12pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1350,7 +1353,7 @@
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
-                            <BackgroundColor>Silver</BackgroundColor>
+                            <BackgroundColor>LightGrey</BackgroundColor>
                             <PaddingLeft>0.25pt</PaddingLeft>
                             <PaddingRight>0.25pt</PaddingRight>
                             <PaddingTop>0.25pt</PaddingTop>
@@ -1408,17 +1411,18 @@
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>=iif(Fields!sale_product_discount_value.Value=0,"",vbcrlf &amp; "Disc."&amp;iif(Fields!sale_product_discount_type.Value ="Percent","(" + format(Fields!sale_product_discount_value.Value,"0.##")  + " %)","")&amp;": "&amp;format(Fields!sale_product_discount_amount.Value,First(Fields!currency_format.Value, "Setting")))</Value>
+                                  <Value>=iif(Fields!note.Value="","",vbcrlf &amp; "Note: "&amp; Fields!note.Value)</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>=iif(Fields!note.Value="","",vbcrlf &amp; "Note: "&amp; Fields!note.Value)</Value>
+                                  <Value>=iif(Fields!sale_product_discount_value.Value=0,"",vbcrlf &amp; "Disc."&amp;iif(Fields!sale_product_discount_type.Value ="Percent","(" + format(Fields!sale_product_discount_value.Value,"0.##")  + " %)","")&amp;": "&amp;format(Fields!sale_product_discount_amount.Value,First(Fields!currency_format.Value, "Setting")))</Value>
                                   <Style>
+                                    <FontStyle>Italic</FontStyle>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1584,8 +1588,20 @@
               </Border>
             </Style>
           </Tablix>
+          <Line Name="Line1">
+            <Top>2.33208in</Top>
+            <Left>0.905in</Left>
+            <Height>0in</Height>
+            <Width>1.04167in</Width>
+            <ZIndex>3</ZIndex>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+              </Border>
+            </Style>
+          </Line>
         </ReportItems>
-        <Height>3.22917in</Height>
+        <Height>2.33208in</Height>
         <Style>
           <Border>
             <Style>None</Style>

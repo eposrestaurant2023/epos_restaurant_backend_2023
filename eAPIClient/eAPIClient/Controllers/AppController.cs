@@ -195,9 +195,11 @@ namespace eAPIClient.Controllers
                     file_data = await request_action.Invoice(receipt_data: receipt_data, setting: setting, file_path: file_path);
                     break;
 
-                case "print_receipt":
-
+                case "print_receipt": 
+                    receipt_data = GetDynamicReportData("sp_get_sale_data_for_print_bill", $"'{request.sale_id}','json'");
+                    file_data = await request_action.Invoice(receipt_data: receipt_data, setting: setting, file_path: file_path);
                     break;
+
                 case "print_coupon_voucher_receipt":
                     return "";
 
@@ -205,8 +207,9 @@ namespace eAPIClient.Controllers
                     return "";
 
                 case "reprint_receipt":
-
-                    return "";
+                    receipt_data = GetDynamicReportData("sp_get_sale_data_for_print_bill", $"'{request.sale_id}','json'");
+                    file_data = await request_action.Invoice(receipt_data: receipt_data, setting: setting, file_path: file_path);
+                    break;
 
                 case "print_close_working_day_summary":
                     return "";
@@ -234,6 +237,8 @@ namespace eAPIClient.Controllers
 
                     return "";
                 case "print_wifi_password":
+                    receipt_data = GetDynamicReportData("sp_get_setting_data", $"'json'");
+                    file_data = await request_action.WifiPassword(receipt_data: receipt_data,  file_path: file_path);
                     break;
 
             }

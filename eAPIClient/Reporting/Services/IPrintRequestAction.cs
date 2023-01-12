@@ -8,5 +8,6 @@ namespace Reporting.Services
     public interface IPrintRequestAction
     {
         Task<string> Invoice(DynamicModel receipt_data, ReceiptSettingModel setting,string file_path);
+        Task<string> WifiPassword(DynamicModel receipt_data, string file_path);
     }
 }
