@@ -1,8 +1,6 @@
-﻿using ReportModel.Interface;
-using System;
-namespace ReportModel
-{ 
-    public class SaleProductReportModel : ISaleProductReportModel
+﻿namespace ReportModel.Interface
+{
+   public  interface ISaleProductReportModel
     {
         public int product_category_id { get; set; }
         public int product_group_id { get; set; }
@@ -45,6 +43,6 @@ namespace ReportModel
         public string park_expired_date { get; set; }
         public int sort_order { get; set; }
 
-    }
+    } 
 
 }

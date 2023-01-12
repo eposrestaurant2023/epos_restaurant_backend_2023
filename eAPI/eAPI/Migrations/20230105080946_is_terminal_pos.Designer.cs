@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230105080946_is_terminal_pos")]
+    partial class is_terminal_pos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -5476,7 +5478,7 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_order_station")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_terminal_pos")
+                    b.Property<bool>("is_termial_pos")
                         .HasColumnType("bit");
 
                     b.Property<string>("last_modified_by")

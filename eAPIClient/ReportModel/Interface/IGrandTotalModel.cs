@@ -1,8 +1,6 @@
-﻿using ReportModel.Interface;
-
-namespace ReportModel
-{ 
-    public class GrandTotalReportModel : IGrandTotalReportModel
+﻿namespace ReportModel.Interface
+{
+    public interface IGrandTotalReportModel
     {
         public int id { get; set; }
         public double exchange_rate { get; set; }
@@ -14,5 +12,5 @@ namespace ReportModel
         public bool show_in_receipt { get; set; }
         public int sort_order { get; set; }
         public double total_amount { get; set; }
-    }
+    } 
 }

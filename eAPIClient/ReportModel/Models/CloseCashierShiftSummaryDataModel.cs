@@ -2,8 +2,7 @@
 
 namespace ReportModel
 { 
-   
-    public class CloseWorkingDaySummaryReportModel : ICloseWorkingDaySummaryReportModel
+    public class CloseCashierShiftSummaryDataModel : ICloseCashierShiftSummaryDataModel
     {
         public string group { get; set; }
         public string title { get; set; }

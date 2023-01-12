@@ -1,9 +1,6 @@
-﻿using ReportModel.Interface;
-using System;                      
-
-namespace ReportModel
-{ 
-    public class WorkingDayReportModel : IWorkingDayReportModel
+﻿namespace ReportModel.Interface
+{
+    public interface IWorkingDayReportModel
     {
         public string id { get; set; }
         public string business_branch_id { get; set; }
@@ -36,6 +33,6 @@ namespace ReportModel
         public string business_branch_name_en { get; set; }
         public string business_branch_name_kh { get; set; }
         public bool is_synced { get; set; }
-    }
+    } 
 
 }

@@ -4,13 +4,13 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Threading.Tasks;
-using System.Text;
-using System.Text.Json;
+using System.Text; 
 using ReportModel;
 using System.Data;
 using System.Collections.Generic;
 using System.Reflection;
 using Reporting.Models;
+using System.Text.Json;
 
 namespace Reporting.Services
 {
@@ -24,7 +24,7 @@ namespace Reporting.Services
 
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 var _file = $"{file_path}\\{setting.invoice_file_name}.rdlc";
-                LocalReport report = new LocalReport(_file);
+                LocalReport report = new LocalReport(_file); 
 
 
                 //sale data

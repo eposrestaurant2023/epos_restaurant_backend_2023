@@ -1,8 +1,9 @@
-﻿using ReportModel.Interface; 
+﻿
+namespace ReportModel.Interface
+{
 
-namespace ReportModel
-{  
-    public class DynamicModel : IDynamicModel
+    
+    public interface IDynamicModel
     {
         public string transaction_type { get; set; }
         public string id { get; set; }
@@ -68,6 +69,6 @@ namespace ReportModel
         public string total_quantity { get; set; }
         public string sub_total { get; set; }
         public string item_discount { get; set; }
-        public string sale_discount { get; set; }
-    }
+        public string sale_discount { get; set; } 
+    } 
 }

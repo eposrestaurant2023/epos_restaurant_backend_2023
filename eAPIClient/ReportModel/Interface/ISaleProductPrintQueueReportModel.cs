@@ -1,9 +1,7 @@
 ﻿
-using ReportModel.Interface; 
-
-namespace ReportModel
-{ 
-    public class SaleProductPrintQueueReportModel : ISaleProductPrintQueueReportModel
+namespace ReportModel.Interface
+{
+    public interface ISaleProductPrintQueueReportModel
     {
         public string id { get; set; }
         public string sale_product_id { get; set; }
@@ -30,10 +28,10 @@ namespace ReportModel
         public string station_name { get; set; }
         public string sale_product_status_note { get; set; }
         public string table_name { get; set; }
-        public string old_table_name { get; set; }
+        public string old_table_name{ get; set; }
         public int group_item_type_id { get; set; }
         public int sort_order { get; set; }
         public bool is_free { get; set; }
-    }
+    } 
 
 }

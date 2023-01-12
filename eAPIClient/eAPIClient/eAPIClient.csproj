@@ -28,6 +28,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\eShareModel\eShareModel\eShareModel.csproj" />
 	  <ProjectReference Include="..\Reporting\Reporting.csproj" />
+	  <ProjectReference Include="..\ReportModel\ReportModel.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="BackgroundServices\" />
