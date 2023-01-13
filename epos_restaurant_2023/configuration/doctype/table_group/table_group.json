@@ -8,12 +8,12 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "photo",
   "business_branch",
   "outlet",
   "table_group_name_en",
   "table_group_name_kh",
-  "disabled",
-  "photo"
+  "disabled"
  ],
  "fields": [
   {
@@ -42,7 +42,6 @@
   {
    "fieldname": "photo",
    "fieldtype": "Attach Image",
-   "hidden": 1,
    "label": "Photo"
   },
   {
@@ -62,10 +61,10 @@
    "options": "Business Branch"
   }
  ],
- "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-12 09:52:45.125997",
+ "make_attachments_public": 1,
+ "modified": "2023-01-12 17:49:45.504936",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Table Group",

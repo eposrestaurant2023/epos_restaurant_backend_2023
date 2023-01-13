@@ -11,13 +11,13 @@
   "tbl_number",
   "tbl_group",
   "photo",
-  "widh",
+  "width",
   "height",
   "column_break_6",
   "shape",
-  "disc",
+  "default_discount",
   "price_rule",
-  "sale_type_section",
+  "sale_type",
   "require_check_in"
  ],
  "fields": [
@@ -43,16 +43,13 @@
    "label": "Photo"
   },
   {
-   "fieldname": "widh",
-   "fieldtype": "Data",
-   "label": "Width"
-  },
-  {
+   "default": "85",
    "fieldname": "height",
-   "fieldtype": "Data",
+   "fieldtype": "Int",
    "label": "Height"
   },
   {
+   "default": "Rectangle",
    "fieldname": "shape",
    "fieldtype": "Select",
    "in_list_view": 1,
@@ -60,23 +57,11 @@
    "options": "Rectangle\nCircle"
   },
   {
-   "fieldname": "disc",
-   "fieldtype": "Data",
-   "label": "Disc"
-  },
-  {
    "fieldname": "price_rule",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Price Rule",
    "options": "Select Price Rule\nNormal Price\nVIP"
-  },
-  {
-   "fieldname": "sale_type_section",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Sale Type",
-   "options": "Select Sale Type\nGeneral Sale\nCCCCC\nTakeaway\nDine in\nDelivery"
   },
   {
    "default": "0",
@@ -88,12 +73,31 @@
   {
    "fieldname": "column_break_6",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sale_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Sale Type",
+   "options": "Sale Type"
+  },
+  {
+   "default": "100",
+   "fieldname": "width",
+   "fieldtype": "Int",
+   "label": "Width"
+  },
+  {
+   "default": "0",
+   "fieldname": "default_discount",
+   "fieldtype": "Percent",
+   "label": "Default Discount"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-13 14:04:37.687249",
+ "modified": "2023-01-12 17:43:33.133975",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Tables Number",

@@ -1,9 +1,7 @@
 <template>
-    <div class="container">
-        <ComProductSearch/>
+    <div class="pa-4">
         <v-row>
             <v-col sm="16">
-                <h2>MENU</h2>
                 <ComMenu/>
             </v-col>
             <v-col sm="16">
@@ -32,50 +30,32 @@
         </v-row>
         <div class="pa-4">
             <button @click="onSave()">Save</button>
-            {{ sale }}
         </div>
     </div>
 </template>
-<script>
+<script setup>
+import { computed } from 'vue';
 import ComProductSearch from './components/ComProductSearch.vue';
 import ComSelectedCustomer from './components/ComSelectedCustomer.vue';
 import ComMenu from './components/ComMenu.vue';
+import { createResource } from '@/resource.js'
+import { useStore } from 'vuex'
+const store = useStore()
+const sale = computed(() => {
+  return store.state.sale.sale
+})
 
-export default {
-    name: "AddSale",
-    inject: ['$api'],
-    components:{
-        ComProductSearch,
-        ComSelectedCustomer,
-        ComMenu
-    },
-    computed: {
-        sale(){
-            return this.$store.state.sale;
-        }
-    },
-    methods:{
-        async onSave(){
-            await this.$api('Sale', this.sale).then((res) => {
-              
-                alert('Success')
-            })
-        },
-        
-    },
-    async mounted(){
-        if(this.$route.params.name){
-            await this.$api('Sale', {
-                name: this.$route.params.name
-            }).then((res) => {
-                if(res.data)
-                    this.$store.commit('sale',res.data)
-            })
-        }
-        
-    }
-}
+let todos = createResource({
+  url: 'frappe.client.get',
+  params: {
+    doctype: 'Sale',
+    name: 'SO2022-0005'
+  },
+  auto:true,
+  onError(x) {
+   
+  },
+
+})
+
 </script>
-<style lang="">
-    
-</style>

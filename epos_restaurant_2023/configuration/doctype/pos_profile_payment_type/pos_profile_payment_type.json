@@ -1,0 +1,42 @@
+{
+ "actions": [],
+ "autoname": "field:payment_type",
+ "creation": "2023-01-12 19:16:42.965326",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "payment_type",
+  "allow_cash_float"
+ ],
+ "fields": [
+  {
+   "fieldname": "payment_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Payment Type",
+   "options": "Payment Type",
+   "unique": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_cash_float",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Allow Cash Float"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-01-12 19:20:08.768468",
+ "modified_by": "Administrator",
+ "module": "Configuration",
+ "name": "POS Profile Payment Type",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

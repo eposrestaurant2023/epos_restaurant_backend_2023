@@ -1,52 +1,46 @@
 <template>
-  <div v-if="s.doc">
-    <div>
-      <h1>
-        {{ s.name }}
-        {{ s.doc.name }}
-        {{ s.doc.message.customer }}
-        <button @click="s.setValue.submit({ note: 'Hello note' })">
-          Mark as Closed
-        </button>
-      </h1>
-    </div>
-  </div>
-  <div class="flex flex-col items-center justify-center">
-    <v-container class="mt-2">
-      <div class="grid-container">
-        <div>1</div>
-      <div>2</div>
-      </div>
-    </v-container>
-  </div>
+    <img :src="setting.home_background" />
+    <img :src="setting.logo" />
+    <h1>{{ setting.business_branch }}</h1>
+    <h1>{{ setting.phone_number }}</h1>
+    <h1>{{ setting.address }}</h1>
+    <h1>{{ setting.outlet }}</h1>
 
+    <v-btn v-if="current_working_day.data"  @click="onRoute('OpenShift')">
+        Close Working Day
+    </v-btn>
+    <v-btn v-else  @click="onRoute('OpenShift')">
+        Start Working Day
+    </v-btn>
+
+
+    <v-btn variant="tonal" @click="onRoute('ReceiptList')">
+        Receipt List
+    </v-btn>
+    <v-btn @click="onRoute('Table')">
+        POS
+    </v-btn>
+    
 
 </template>
 <script setup>
-import { createDocumentResource, } from 'frappe-ui'
-let s = createDocumentResource({
-  doctype: 'Sale',
-  name: 'SO2023-0094',
-  method: 'POST',
-})
+    import { useRouter,createResource, createDocumentResource } from '@/plugin'
+    let setting = JSON.parse(localStorage.getItem("setting"))
+    const current_working_day = createResource({
+        url:"epos_restaurant_2023.api.api.get_current_working_day",
+        params:{
+            pos_profile: localStorage.getItem("pos_profile")
+        },
+        auto:true
+    })
+     
+
+    const router = useRouter()
+    function onRoute(page) {
+        router.push({ name: page })
+    }
+
+
 </script>
 
 
-<style>
- .grid-container > div {
-        background-color: #eee;
-        text-align: center;
-        padding: 30px 0;
-        font-size: 30px;
-      }
-  .box {
-        grid-row-start: auto;
-      }
-  .grid-container {
-        display: grid;
-        grid-template-columns: auto auto auto auto;
-        grid-gap: 20px;
-        background-color: #ccc;
-        padding: 10px;
-      }
-</style>

@@ -8,5 +8,5 @@ export default [
 			isLoginPage: true
 		},
 		props: true
-	}
+	},
 ]

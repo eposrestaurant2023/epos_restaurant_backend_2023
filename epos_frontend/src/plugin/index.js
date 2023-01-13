@@ -1,6 +1,5 @@
-import call from "../../../../doppio/libs/controllers/call"
-export default {
-    install: (app, options) => {
-      app.prototype.$call = call
-    }
-  }
+export * from 'vue'
+export * from 'vuex'
+export * from 'vue-router'
+export { createToaster } from "@meforma/vue-toaster";
+export * from '@/resource.js'

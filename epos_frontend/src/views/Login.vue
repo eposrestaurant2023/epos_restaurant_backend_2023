@@ -1,125 +1,199 @@
-<template class="h-full">
-  <div class="h-full w-full py-16 px-4">
-    <form @submit.prevent="login">
-      <div class="flex flex-col items-center justify-center">
-        <div class="bg-red-800 shadow rounded lg:w-1/3  md:w-1/2 w-full p-10 mt-16">
-
-          <div class="mt-6  w-full">
-            <img :src="ePOSSettings.epos_logo"/>
-            <label for="pass" class="text-sm font-medium leading-none text-gray-800">
-              Password   {{ ePOSSettings.epos_app_name }} {{ ePOSSettings.epos_logo }}
-            </label>
-            <div class="relative flex items-center justify-center">
-              <input v-model="password" id="pass" type="password"
-                class="bg-gray-200 border rounded  text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2" />
+<template>
+  <v-row class="mt-0 mb-0 h-screen">
+    <v-col md="8" class="pa-0">
+      <div class="h-screen bg-cover bg-no-repeat bg-center" v-bind:style="{ 'background-image': 'url(' + setting.login_background + ')' }">
+        <div class="h-full w-full p-10 flex justify-center items-center">
+          <div>
+            
+            <div class="app-info w-96 inline-block text-center rounded-lg pa-4 bg-gradient-to-t from-yellow-900 to-yellow-700 text-white shadow-sm">
+              
+              <div class="mb-3">
+                <img class="my-0 mx-auto" :src="setting.logo"/>
+              </div>
+              <h1 class="font-bold mb-3">{{ setting.app_name }}</h1>
+              <v-divider></v-divider>
+              <div class="py-3">
+                <v-list lines="one" bg-color="transparent">
+                <v-list-item
+                  class="mb-2"
+                  :title="setting.business_branch"
+                  subtitle="Business"
+                ></v-list-item>
+                <v-list-item
+                  class="mb-2"
+                  :title="setting.pos_profile"
+                  subtitle="POS Profile"
+                ></v-list-item>
+                <v-list-item
+                  class="mb-2"
+                  :title="setting.phone_number"
+                  subtitle="Phone Number"
+                ></v-list-item>
+                <v-list-item
+                  :title="setting.address"
+                  subtitle="Address"
+                ></v-list-item>
+              </v-list>
             </div>
-          </div>
-          <div class="mt-8">
-            <v-btn @click="numpad_click('1')">
-              1
-            </v-btn>
-            <v-btn @click="numpad_click('2')">
-              2
-            </v-btn>
-            <v-btn @click="numpad_click('3')">
-              3
-            </v-btn>
-            <v-btn @click="numpad_click('4')">
-              4
-            </v-btn>
-            <v-btn @click="numpad_click('5')">
-              5
-            </v-btn>
-            <v-btn @click="numpad_click('6')">
-              6
-            </v-btn>
-            <v-btn @click="numpad_click('7')">
-              7
-            </v-btn>
-            <v-btn @click="numpad_click('8')">
-              8
-            </v-btn>
-            <v-btn @click="numpad_click('9')">
-              9
-            </v-btn>
-            <v-btn @click="numpad_click('0')">
-              0
-            </v-btn>
-            <v-btn @click="numpad_click('0')">
-
-            </v-btn>
-            <v-btn @click="clear_password">
-              Clear
-            </v-btn>
-            <div id="x">xxx</div>
-            <button role="button" type="submit" v-if="!this.$store.state.isLoading"
-              class="mysubmit focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full">
-              Login
-            </button>
-            <button role="button" type="button" disabled v-else
-              class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full">
-              Login
-              <v-progress-circular indeterminate color="primary"></v-progress-circular>
-            </button>
-
+            </div>
           </div>
         </div>
       </div>
-    </form>
-  </div>
+    </v-col>
+    <v-col sm="12" md="4" class="pa-0">
+      <div class="h-full flex items-center justify-center bg-gray-100">
+        <form @submit.prevent="login">
+          <div class="w-73">
+            <div>
+              <div class="mb-3">
+                <div class="relative">
+                  <v-text-field
+                    type="password"
+                    density="compact"
+                    variant="solo"
+                    label="Password"
+                    append-inner-icon="mdi-arrow-left"
+                    single-line
+                    hide-details
+                    v-model="state.password"
+                    height="200"
+                    @click:append-inner="onDeleteBack()"
+                  ></v-text-field>
+                </div>
+              </div>
+              <div>
+                <div class="grid grid-cols-3 gap-3">
+                  <v-btn @click="numpad_click('1')" size="x-large">
+                    1
+                  </v-btn>
+                  <v-btn @click="numpad_click('2')" size="x-large">
+                    2
+                  </v-btn>
+                  <v-btn @click="numpad_click('3')" size="x-large">
+                    3
+                  </v-btn>
+                  <v-btn @click="numpad_click('4')" size="x-large">
+                    4
+                  </v-btn>
+                  <v-btn @click="numpad_click('5')" size="x-large">
+                    5
+                  </v-btn>
+                  <v-btn @click="numpad_click('6')" size="x-large">
+                    6
+                  </v-btn>
+                  <v-btn @click="numpad_click('7')" size="x-large">
+                    7
+                  </v-btn>
+                  <v-btn @click="numpad_click('8')" size="x-large">
+                    8
+                  </v-btn>
+                  <v-btn @click="numpad_click('9')" size="x-large">
+                    9
+                  </v-btn>
+                  <v-btn @click="numpad_click('0')" size="x-large">
+                    0
+                  </v-btn>
+                  <v-btn class="col-span-2" color="error" @click="clear_password" size="x-large">
+                    Clear
+                  </v-btn>
+                
+                </div>
+              </div>
+              <div class="mt-6">
+                <v-btn type="submit" :loading="isLoading" size="x-large" class="w-full" color="primary">Login</v-btn>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </v-col>
+  </v-row>
+  
 </template>
-<script>
-export default {
-  data() {
-    return {
-      username: "Administrator",
-      password: "",
-    };
-  },
-  inject: ["$auth", "$call"],
-  async mounted() {
-    if (this.$route?.query?.route) {
-      this.redirect_route = this.$route.query.route;
-      this.$router.replace({ query: null });
-    }
-  },
-  methods: {
-    numpad_click(n) {
-      if (this.password == undefined) {
-        this.password = "";
-      }
-      this.password = this.password + n;
-    },
-    clear_password() {
-      this.password = "";
-    },
-    async login() {
-      try {
-        this.$store.state.isLoading = true;
-        let res = await this.$call("epos_restaurant_2023.api.api.check_username", { "pin_code": this.password });
-        this.username = res.username;
-        if (this.username && this.password) {
-          let res = await this.$auth.login(this.username, this.password);
-          if (res) {
-            this.$router.push({ name: "Home" });
+<script setup>
+import {reactive, inject, computed, useStore, useRouter, createResource, createToaster} from '@/plugin'
+const toast = createToaster()
+const router = useRouter()
 
-          } else {
-            this.$toast.warning(`Login fail. Invalid username or password.`);
-          }
-         
-        }
+let state = reactive({
+  username: "Administrator",
+  password: "",
+})
+const store = useStore()
+const setting = computed(() => {
+  return JSON.parse(localStorage.getItem('setting'))
+})
+const isLoading = computed(() => {
+  return store.state.isLoading
+})
 
-      } catch (error) {
-        this.$toast.error(error.messages ? error.messages.join("\n") : error)
-      } finally {
-        this.$store.state.isLoading = false;
-      }
-    },
-  },
-  computed:{
-    ePOSSettings(){
-      return this.$store.state.ePOSSettings
-    }
+const auth = inject("$auth")
+
+function numpad_click(n) {
+  if (state.password == undefined) {
+    state.password = "";
   }
-};
+  state.password = state.password + n;
+}
+function clear_password() {
+  state.password = "";
+
+}
+function onDeleteBack(){
+  state.password = state.password.substring(0,state.password.length-1);
+}
+const login = async () => {
+    if(!state.password){
+      toast.warning('Invalid Password',{position:'top'})
+      return
+    }
+    store.dispatch('startLoading');
+    createResource({
+      url: 'epos_restaurant_2023.api.api.check_username',
+      auto: true,
+      params: {
+        "pin_code": state.password
+      },
+      async onSuccess(doc) {
+        store.dispatch('startLoading');
+        state.username = doc.username;
+        
+        if (state.username && state.password) {
+          let res = await auth.login(state.username, state.password);
+          if (res) {
+            getCurrentUserInfo()
+            
+          } else {
+            toast.warning(`Login fail. Invalid username or password.`);
+            store.dispatch('endLoading');
+          }
+
+        }
+      },
+      onError(x) {
+        store.dispatch('endLoading');
+      }
+    })
+    
+}
+
+function getCurrentUserInfo(){
+  createResource({
+      url: 'epos_restaurant_2023.api.api.get_user_information',
+      auto: true,
+      async onSuccess(doc) {
+        localStorage.setItem('current_user',JSON.stringify(doc))
+        router.push({ name: "Home" });
+        store.dispatch('endLoading')
+      },
+      onError(x) {
+        store.dispatch('endLoading');
+      }
+    })
+}
 </script>
+<style scoped>
+  .app-info h1 {
+    font-size: 26px;
+  }
+</style>

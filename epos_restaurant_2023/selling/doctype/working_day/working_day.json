@@ -12,6 +12,8 @@
   "posting_date",
   "pos_profile",
   "business_branch",
+  "column_break_5",
+  "note",
   "closing_information_section",
   "is_closed",
   "closed_date",
@@ -30,6 +32,7 @@
    "label": "Posting Date"
   },
   {
+   "fetch_from": "pos_profile.business_branch",
    "fieldname": "business_branch",
    "fieldtype": "Link",
    "label": "Business Branch",
@@ -62,11 +65,20 @@
    "fieldtype": "Link",
    "label": "Outlet",
    "options": "Outlet"
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-08 11:39:35.927124",
+ "modified": "2023-01-13 15:30:07.043072",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Working Day",

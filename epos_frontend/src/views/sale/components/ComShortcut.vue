@@ -1,48 +1,29 @@
 <template lang="">
     <div>
-        <div>
-            <v-row v-if="shortcut_menu">
-                <v-col sm="4" v-for="(m, index) in shortcut_menu" :key="index">
-                    <v-btn @click="onClickShortcut(m.name)">
-                        {{m.pos_menu_name_en}}
-                    </v-btn>
-                </v-col>
-            </v-row>
+        <div class="flex -mx-2" v-if="shortcut.data">
+            <div v-for="(m, index) in shortcut.data" :key="m.name" class="px-2">
+                <v-btn variant="tonal" @click="onClick(m.name)">
+                    {{m.pos_menu_name_en}}
+                </v-btn>
+            </div>
         </div>
     </div>
 </template>
-<script>
-export default {
-    name: "ComShortcut",
-    inject: ["$call"],
-    data() {
-        return {
-            shortcut_menu: null,
-            menu: null
-        }
-    },
-    methods: {
-        async onLoadData() {
-            await this.$call('frappe.client.get_list', {
-                doctype: 'POS Menu',
-                fields: ['*'],
-                filters: {
-                    "shortcut_menu": 1,
-                }
-            }).then((res) => {
-                if(res.length > 0){
-                    this.shortcut_menu = res;
-                }
-                
-            })
+<script setup>
+    import { createResource, useStore } from '@/plugin'
+    const store = useStore()
+    let shortcut = createResource({
+        url: 'frappe.client.get_list',
+        params:{
+        doctype:"POS Menu",
+        fields:["name","parent_pos_menu","pos_menu_name_en","pos_menu_name_kh","text_color","background_color"],
+        filters: {
+                "shortcut_menu": 1,
+            }
         },
-        onClickShortcut(name) {
-            this.$store.commit('getPosMenu',name)
-            this.$store.commit('getPosMenuProduct',name)
-        }
-    },
-    mounted() {
-        this.onLoadData()
+        auto:true
+    })
+    function onClick(name) {
+        store.dispatch('sale/filterMenu',name)
     }
-}
 </script>

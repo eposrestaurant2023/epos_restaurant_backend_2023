@@ -1,0 +1,41 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2023-01-12 16:06:19.056033",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "photo"
+ ],
+ "fields": [
+  {
+   "fetch_from": "title.photo",
+   "fieldname": "photo",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Photo"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Title",
+   "options": "Slideshow Image"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-01-12 16:13:59.106789",
+ "modified_by": "Administrator",
+ "module": "Selling",
+ "name": "Customer Display Slideshow",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

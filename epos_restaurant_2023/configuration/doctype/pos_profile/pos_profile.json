@@ -13,7 +13,11 @@
   "outlet",
   "price_rule",
   "stock_location",
-  "tax_rule"
+  "tax_rule",
+  "pos_config",
+  "table_groups",
+  "pos_menus",
+  "payment_types"
  ],
  "fields": [
   {
@@ -38,30 +42,60 @@
    "fieldname": "outlet",
    "fieldtype": "Link",
    "label": "Outlet",
-   "options": "Outlet"
+   "options": "Outlet",
+   "reqd": 1
   },
   {
    "fieldname": "price_rule",
    "fieldtype": "Link",
    "label": "Price Rule",
-   "options": "Price Rule"
+   "options": "Price Rule",
+   "reqd": 1
   },
   {
    "fieldname": "stock_location",
    "fieldtype": "Link",
    "label": "Stock Location",
-   "options": "Stock Location"
+   "options": "Stock Location",
+   "reqd": 1
   },
   {
    "fieldname": "tax_rule",
    "fieldtype": "Link",
    "label": "Tax Rule",
    "options": "Tax Rule"
+  },
+  {
+   "fieldname": "pos_config",
+   "fieldtype": "Link",
+   "label": "POS Config",
+   "options": "POS Config",
+   "reqd": 1
+  },
+  {
+   "fieldname": "table_groups",
+   "fieldtype": "Table",
+   "label": "Table Groups",
+   "options": "POS Profile Table Group"
+  },
+  {
+   "fieldname": "pos_menus",
+   "fieldtype": "Table",
+   "label": "POS Menus",
+   "options": "POS Profile Root Menu",
+   "reqd": 1
+  },
+  {
+   "fieldname": "payment_types",
+   "fieldtype": "Table",
+   "label": "Payment Types",
+   "options": "POS Profile Payment Type",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-19 11:36:21.850345",
+ "modified": "2023-01-12 19:21:09.288916",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Profile",

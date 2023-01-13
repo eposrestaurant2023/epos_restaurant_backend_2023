@@ -1,0 +1,108 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:pos_config",
+ "creation": "2023-01-12 15:56:31.832213",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "pos_config",
+  "logo",
+  "business_branch",
+  "address",
+  "phone_number",
+  "login_background",
+  "home_background",
+  "thank_you_background",
+  "customer_display_slideshow_section",
+  "customer_display_slideshow"
+ ],
+ "fields": [
+  {
+   "fieldname": "pos_config",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "POS Config",
+   "unique": 1
+  },
+  {
+   "fieldname": "logo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Logo"
+  },
+  {
+   "fetch_from": "business_branch.address_en",
+   "fetch_if_empty": 1,
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "label": "Address"
+  },
+  {
+   "fetch_from": "business_branch.phone_number_1",
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "login_background",
+   "fieldtype": "Attach Image",
+   "label": "Login Background"
+  },
+  {
+   "fieldname": "home_background",
+   "fieldtype": "Attach Image",
+   "label": "Home Background"
+  },
+  {
+   "fieldname": "thank_you_background",
+   "fieldtype": "Attach Image",
+   "label": "Thank You Background"
+  },
+  {
+   "fieldname": "customer_display_slideshow_section",
+   "fieldtype": "Section Break",
+   "label": "Customer Display Slideshow"
+  },
+  {
+   "fieldname": "business_branch",
+   "fieldtype": "Link",
+   "label": "Business Branch",
+   "options": "Business Branch"
+  },
+  {
+   "fieldname": "customer_display_slideshow",
+   "fieldtype": "Table",
+   "label": "Customer Display Slideshow",
+   "options": "Customer Display Slideshow"
+  }
+ ],
+ "image_field": "logo",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-01-12 16:07:23.135282",
+ "modified_by": "Administrator",
+ "module": "Selling",
+ "name": "POS Config",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

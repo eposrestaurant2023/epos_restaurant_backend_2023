@@ -1,32 +1,33 @@
 <template>
     <v-app>
-        <v-app-bar :elevation="2">
+        <v-app-bar :elevation="2" color="error">
+            <v-app-bar-title>{{ appTitle }}</v-app-bar-title>
             <template #prepend>
                 <v-app-bar-nav-icon variant="text" @click.stop="onDrawer()"></v-app-bar-nav-icon>
-            </template>
-            <template #title>
-                <ComProductSearch />
             </template>
             <template #append>
                 <v-menu :location="location">
                     <template v-slot:activator="{ props }">
-                        <v-avatar image="https://pyxis.nymag.com/v1/imgs/51b/28a/622789406b8850203e2637d657d5a0e0c3-avatar-rerelease.rsquare.w700.jpg"  v-bind="props"></v-avatar>
+                        <v-avatar :image="currentUser.photo"  v-bind="props"></v-avatar>
                     </template>
                     <v-card min-width="300">
-                        <v-list>
-                            <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg"
-                                title="John Leider" subtitle="Founder of Vuetify">
-                            </v-list-item>
-                        </v-list>
+                        <ComCurrentUserAvatar/>
 
                         <v-divider></v-divider>
-
+                        
                         <v-list density="compact">
-                            <v-list-item>
+                            <v-list-item  @click="onReload()">
+                                <template v-slot:prepend class="w-12">
+                                    <v-icon icon="mdi-reload"></v-icon>
+                                </template>
+                                <v-list-item-title>Reload</v-list-item-title>
+                            </v-list-item>
+                            <v-divider></v-divider>
+                            <v-list-item  @click="$auth.logout()">
                                 <template v-slot:prepend class="w-12">
                                     <v-icon icon="mdi-logout"></v-icon>
                                 </template>
-                                <v-list-item-title  @click="$auth.logout()">Logout</v-list-item-title>
+                                <v-list-item-title>Logout</v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </v-card>
@@ -62,7 +63,14 @@
                 </v-menu>
             </template>
         </v-app-bar>
-        <v-navigation-drawer v-model="drawer">...</v-navigation-drawer>
+        <v-navigation-drawer v-model="drawer" temporary>
+            <MainLayoutDrawer/>
+            <template v-slot:append>
+                <v-btn variant="tonal" prepend-icon="mdi-arrow-left" class="w-full" @click="onDrawer">
+                    Close
+                </v-btn>
+            </template>
+        </v-navigation-drawer>
         <v-main>
             <router-view />
         </v-main>
@@ -70,20 +78,37 @@
 </template>
 <script>
 import ComProductSearch from '../../views/sale/components/ComProductSearch.vue'
+import MainLayoutDrawer from './MainLayoutDrawer.vue';
+import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue';
+import ComToolbar from '../ComToolbar.vue';
 export default {
     inject: ["$auth"],
     name: "MainLayout",
     computed: {
-        drawer(){
-            return this.$store.state.drawer;
+        appTitle(){
+            return JSON.parse(localStorage.getItem('setting')).app_name
+        },
+        currentUser(){
+            return JSON.parse(localStorage.getItem('current_user'))
+        }
+    },
+    data() {
+        return {
+            drawer: false
         }
     },
     components: {
-        ComProductSearch
-    },
+    ComProductSearch,
+    MainLayoutDrawer,
+    ComCurrentUserAvatar,
+    ComToolbar
+},
     methods: {
         onDrawer(){
-            this.$store.commit('drawer',!this.drawer)
+            this.drawer = !this.drawer;
+        },
+        onReload(){
+            location.reload()
         }
     },
 }
