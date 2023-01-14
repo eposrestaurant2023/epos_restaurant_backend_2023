@@ -16,14 +16,12 @@ namespace eAPIClient.Services
     public class AppService
     {
         public IConfiguration config { get; }
-        private readonly ApplicationDbContext db;
-        private readonly IHttpService http;
+        private readonly ApplicationDbContext db; 
         private readonly ISyncService sync;
         public AppService(ApplicationDbContext _db, IConfiguration _config, IHttpService _http, ISyncService sync)
         {
             db = _db;
-            config = _config;
-            http = _http;
+            config = _config; 
             this.sync = sync;
         }          
              

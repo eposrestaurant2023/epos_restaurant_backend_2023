@@ -6,10 +6,10 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.60776in</Width>
+              <Width>1.6131in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.20387in</Width>
+              <Width>1.2005in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -25,7 +25,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Sub Total</Value>
+                              <Value>សរុបរង</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                               </Style>
@@ -99,7 +99,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Item disc.</Value>
+                              <Value>បញ្ចុះទំនិញ</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                               </Style>
@@ -176,7 +176,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.1875in</Height>
+              <Height>0.20833in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -187,7 +187,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Sale disc.</Value>
+                              <Value>បញ្ចុះវិក្ក.</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                               </Style>
@@ -281,7 +281,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Total disc.</Value>
+                              <Value>បញ្ចុះសរុប</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                               </Style>
@@ -700,7 +700,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="coupon_voucher_amount">
+                    <Textbox Name="Textbox24">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -736,7 +736,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>coupon_voucher_amount</rd:DefaultName>
+                      <rd:DefaultName>Textbox24</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -807,10 +807,10 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Sale</DataSetName>
-        <Top>3.66019in</Top>
-        <Left>0.00626in</Left>
-        <Height>1.51042in</Height>
-        <Width>2.81163in</Width>
+        <Top>3.62894in</Top>
+        <Left>0.01312in</Left>
+        <Height>1.53125in</Height>
+        <Width>2.8136in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -821,15 +821,15 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.47709in</Width>
+              <Width>1.47677in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.32832in</Width>
+              <Width>1.33683in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.22779in</Height>
+              <Height>0.26946in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -840,10 +840,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>DRAFT ITEMS</Value>
+                              <Value>ទំនិញព្រាង</Value>
                               <Style>
-                                <FontFamily>Kh System</FontFamily>
+                                <FontFamily>Kh Muol</FontFamily>
                                 <FontSize>10.5pt</FontSize>
+                                <FontWeight>Normal</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -882,7 +883,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>ID: </Value>
+                              <Value>លេខ ID៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -924,7 +925,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=iif(IsNothing(Fields!table_name.Value),"","Table: ")</Value>
+                              <Value>=iif(IsNothing(Fields!table_name.Value),"","តុ៖ ")</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -969,7 +970,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.19792in</Height>
+              <Height>0.1875in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -980,7 +981,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Date: </Value>
+                              <Value>កាលបរិច្ឆេទ៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -1021,7 +1022,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Opened: </Value>
+                              <Value>បើក៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -1058,7 +1059,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.18612in</Height>
+              <Height>0.16529in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -1069,7 +1070,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Cashier: </Value>
+                              <Value>អ្នកគិតប្រាក់៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -1117,7 +1118,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Customer: </Value>
+                              <Value>អតិថិជន៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -1154,18 +1155,18 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.17708in</Height>
+              <Height>0.16667in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox13">
+                    <Textbox Name="Textbox7">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Seat#: </Value>
+                              <Value>កៅអី#៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -1182,7 +1183,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox13</rd:DefaultName>
+                      <rd:DefaultName>Textbox7</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1206,14 +1207,14 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox7">
+                    <Textbox Name="Textbox13">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Note: </Value>
+                              <Value>ចំណាំ៖ </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -1230,7 +1231,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox7</rd:DefaultName>
+                      <rd:DefaultName>Textbox13</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1281,10 +1282,10 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Sale</DataSetName>
-        <Top>1.23723in</Top>
-        <Left>0.01249in</Left>
-        <Height>1.33961in</Height>
-        <Width>2.80541in</Width>
+        <Top>1.21848in</Top>
+        <Left>0.01311in</Left>
+        <Height>1.33962in</Height>
+        <Width>2.8136in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -1297,16 +1298,16 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.28778in</Width>
+              <Width>1.34011in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.42237in</Width>
+              <Width>0.42222in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.50319in</Width>
+              <Width>0.50304in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.59206in</Width>
+              <Width>0.54824in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -1322,7 +1323,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Items</Value>
+                              <Value>ឈ្មោះ</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                               </Style>
@@ -1357,7 +1358,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>QTY</Value>
+                              <Value>ចំនួន</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                               </Style>
@@ -1392,7 +1393,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Price</Value>
+                              <Value>តម្លៃ</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                               </Style>
@@ -1427,7 +1428,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Amt</Value>
+                              <Value>សរុប</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                               </Style>
@@ -1467,24 +1468,24 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!product_name_en.Value</Value>
+                              <Value>=Fields!product_name_kh.Value</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>9.5pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=iif(Fields!portion_name.Value="Normal",""," (" + Fields!portion_name.Value + ")" )</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>9.5pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=iif(Fields!is_free.Value=false,""," -FREE" )</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>9.5pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1520,7 +1521,7 @@
                               <Value>=iif(Fields!is_time_charge.Value=true,Floor(Fields!quantity.Value) &amp; " : " &amp; format( CInt((Fields!quantity.Value - Floor(Fields!quantity.Value))*Fields!multiplier.Value),"00") &amp;" min",format(Fields!quantity.Value,"0.##"))</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>9.5pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1556,7 +1557,7 @@
                               <Value>=format(Fields!price.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>9.5pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1592,7 +1593,7 @@
                               <Value>=format(Fields!net_sale.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>9.5pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1634,7 +1635,7 @@
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>9.5pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1675,7 +1676,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Disc. </Value>
+                              <Value>បញ្ចុះតម្លៃ. </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -1745,7 +1746,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Note: [note]</Value>
+                              <Value>ចំណាំ: [note]</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontFamily>Kh System</FontFamily>
@@ -1817,10 +1818,10 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SaleProduct</DataSetName>
-        <Top>2.61852in</Top>
-        <Left>0.01249in</Left>
+        <Top>2.59977in</Top>
+        <Left>0.01311in</Left>
         <Height>0.96877in</Height>
-        <Width>2.8054in</Width>
+        <Width>2.81361in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -1828,12 +1829,25 @@
           </Border>
         </Style>
       </Tablix>
-      <Line Name="Line2">
-        <Top>3.60139in</Top>
-        <Left>2.81548in</Left>
+      <Line Name="Line1">
+        <Top>3.59352in</Top>
+        <Left>2.81708in</Left>
         <Height>0in</Height>
-        <Width>-2.81548in</Width>
+        <Width>-2.80043in</Width>
         <ZIndex>3</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+            <Width>0.25pt</Width>
+          </Border>
+        </Style>
+      </Line>
+      <Line Name="Line2">
+        <Top>2.82014in</Top>
+        <Left>2.8129in</Left>
+        <Height>0in</Height>
+        <Width>-2.80041in</Width>
+        <ZIndex>4</ZIndex>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -1845,15 +1859,15 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.61029in</Width>
+              <Width>1.60999in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.20846in</Width>
+              <Width>1.20362in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.20833in</Height>
+              <Height>0.21875in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -1864,9 +1878,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Grand Total (</Value>
+                              <Value>សរុប (</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -1874,6 +1889,7 @@
                               <Value>=Fields!symbol.Value</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -1881,6 +1897,7 @@
                               <Value>)</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -1918,6 +1935,7 @@
                               <Value>=format(Fields!total_amount.Value,Fields!format.Value)</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -1962,11 +1980,11 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>GrandTotal</DataSetName>
-        <Top>5.20083in</Top>
-        <Left>0.01249in</Left>
-        <Height>0.20833in</Height>
-        <Width>2.81875in</Width>
-        <ZIndex>4</ZIndex>
+        <Top>5.20708in</Top>
+        <Left>0.01311in</Left>
+        <Height>0.21875in</Height>
+        <Width>2.81361in</Width>
+        <ZIndex>5</ZIndex>
         <Visibility>
           <Hidden>=Sum(Fields!coupon_voucher_amount.Value, "Sale") &gt; 0 and Sum(Fields!total_amount.Value, "GrandTotal") &lt;=0</Hidden>
         </Visibility>
@@ -1980,7 +1998,7 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>2.82in</Width>
+              <Width>2.8136in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -2038,14 +2056,14 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="footer_en">
+                    <Textbox Name="footer_kh">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!footer_en.Value</Value>
+                              <Value>=Fields!footer_kh.Value</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontFamily>Kh System</FontFamily>
@@ -2060,7 +2078,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>footer_en</rd:DefaultName>
+                      <rd:DefaultName>footer_kh</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2143,11 +2161,11 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Setting</DataSetName>
-        <Top>6.2595in</Top>
-        <Left>0.0125in</Left>
+        <Top>6.25325in</Top>
+        <Left>0.01312in</Left>
         <Height>0.53125in</Height>
-        <Width>2.82in</Width>
-        <ZIndex>5</ZIndex>
+        <Width>2.8136in</Width>
+        <ZIndex>6</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2158,7 +2176,7 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>2.8054in</Width>
+              <Width>2.8136in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -2174,9 +2192,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!company_name_en.Value</Value>
+                              <Value>=Fields!company_name_kh.Value</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -2230,9 +2249,9 @@
                           </Paragraphs>
                           <rd:DefaultName>Textbox19</rd:DefaultName>
                           <Top>0.0125in</Top>
-                          <Left>0.38208in</Left>
+                          <Left>0.4031in</Left>
                           <Height>0.165in</Height>
-                          <Width>0.52083in</Width>
+                          <Width>0.51231in</Width>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -2267,7 +2286,7 @@
                           <Top>0.00042in</Top>
                           <Left>0.94875in</Left>
                           <Height>0.17708in</Height>
-                          <Width>1.48958in</Width>
+                          <Width>1.24584in</Width>
                           <ZIndex>1</ZIndex>
                           <Style>
                             <Border>
@@ -2301,14 +2320,14 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="address_en">
+                    <Textbox Name="address_kh">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!address_en.Value</Value>
+                              <Value>=Fields!address_kh.Value</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -2320,7 +2339,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>address_en</rd:DefaultName>
+                      <rd:DefaultName>address_kh</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2524,11 +2543,10 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Setting</DataSetName>
-        <Top>0.025in</Top>
-        <Left>0.0125in</Left>
+        <Left>0.01312in</Left>
         <Height>1.19665in</Height>
-        <Width>2.8054in</Width>
-        <ZIndex>6</ZIndex>
+        <Width>2.8136in</Width>
+        <ZIndex>7</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2539,10 +2557,10 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.61029in</Width>
+              <Width>1.60997in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.19512in</Width>
+              <Width>1.20799in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -2606,7 +2624,6 @@
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>11pt</FontSize>
-                                <FontWeight>Normal</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2647,10 +2664,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Remaining Balance: </Value>
+                              <Value>ទឹកប្រាក់ដែលនៅសល់: </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
-                                <FontSize>11pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2728,7 +2744,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Expires on: </Value>
+                              <Value>ថ្ងៃផុតកំណត់: </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                               </Style>
@@ -2821,11 +2837,11 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>CouponVoucher</DataSetName>
-        <Top>5.45672in</Top>
-        <Left>0.0125in</Left>
+        <Top>5.46204in</Top>
+        <Left>0.00875in</Left>
         <Height>0.76042in</Height>
-        <Width>2.80541in</Width>
-        <ZIndex>7</ZIndex>
+        <Width>2.81796in</Width>
+        <ZIndex>8</ZIndex>
         <Visibility>
           <Hidden>=Sum(Fields!coupon_voucher_amount.Value, "Sale") &lt;=0</Hidden>
         </Visibility>
@@ -2847,21 +2863,8 @@
           </RightBorder>
         </Style>
       </Tablix>
-      <Line Name="Line3">
-        <Top>2.84225in</Top>
-        <Left>2.82899in</Left>
-        <Height>0in</Height>
-        <Width>-2.81548in</Width>
-        <ZIndex>8</ZIndex>
-        <Style>
-          <Border>
-            <Style>Solid</Style>
-            <Width>0.25pt</Width>
-          </Border>
-        </Style>
-      </Line>
     </ReportItems>
-    <Height>6.9845in</Height>
+    <Height>7.07782in</Height>
     <Style />
   </Body>
   <Width>2.8425in</Width>
@@ -2872,60 +2875,32 @@
   </Page>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="ReportModelInterface">
+    <DataSource Name="ePOSPrintingServiceReportModel">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>8d83921d-f726-4371-9bbc-000114cf62cb</rd:DataSourceID>
-    </DataSource>
-    <DataSource Name="ReportModelInterface1">
-      <ConnectionProperties>
-        <DataProvider>System.Data.DataSet</DataProvider>
-        <ConnectString>/* Local Connection */</ConnectString>
-      </ConnectionProperties>
-      <rd:DataSourceID>fd1c9fd5-4af5-466b-b908-61902b6e952b</rd:DataSourceID>
-    </DataSource>
-    <DataSource Name="ReportModelInterface2">
-      <ConnectionProperties>
-        <DataProvider>System.Data.DataSet</DataProvider>
-        <ConnectString>/* Local Connection */</ConnectString>
-      </ConnectionProperties>
-      <rd:DataSourceID>6d2caf46-7b75-42d4-a8c7-121054f1d89d</rd:DataSourceID>
-    </DataSource>
-    <DataSource Name="ReportModelInterface3">
-      <ConnectionProperties>
-        <DataProvider>System.Data.DataSet</DataProvider>
-        <ConnectString>/* Local Connection */</ConnectString>
-      </ConnectionProperties>
-      <rd:DataSourceID>1e728e4f-2c21-4227-aa4a-25ca21c50443</rd:DataSourceID>
-    </DataSource>
-    <DataSource Name="ReportModelInterface4">
-      <ConnectionProperties>
-        <DataProvider>System.Data.DataSet</DataProvider>
-        <ConnectString>/* Local Connection */</ConnectString>
-      </ConnectionProperties>
-      <rd:DataSourceID>566cf42a-2d0f-4f82-9e35-10625b32eb35</rd:DataSourceID>
+      <rd:DataSourceID>19a847f5-9136-4283-a0ec-dab0e2930ad8</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="Sale">
       <Query>
-        <DataSourceName>ReportModelInterface</DataSourceName>
+        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
         <Field Name="balance">
           <DataField>balance</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="business_branch_id">
           <DataField>business_branch_id</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Guid</rd:TypeName>
         </Field>
         <Field Name="cashier_shift_id">
           <DataField>cashier_shift_id</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Guid</rd:TypeName>
         </Field>
         <Field Name="cashier_shift_number">
           <DataField>cashier_shift_number</DataField>
@@ -2937,7 +2912,7 @@
         </Field>
         <Field Name="check_in_date">
           <DataField>check_in_date</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="check_out_by">
           <DataField>check_out_by</DataField>
@@ -2945,7 +2920,7 @@
         </Field>
         <Field Name="check_out_date">
           <DataField>check_out_date</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="closed_by">
           <DataField>closed_by</DataField>
@@ -2953,7 +2928,7 @@
         </Field>
         <Field Name="closed_date">
           <DataField>closed_date</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="coupon_number">
           <DataField>coupon_number</DataField>
@@ -2961,7 +2936,7 @@
         </Field>
         <Field Name="coupon_voucher_amount">
           <DataField>coupon_voucher_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="created_by">
           <DataField>created_by</DataField>
@@ -2969,7 +2944,7 @@
         </Field>
         <Field Name="created_date">
           <DataField>created_date</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="currency_exchange_rate_data">
           <DataField>currency_exchange_rate_data</DataField>
@@ -2981,7 +2956,7 @@
         </Field>
         <Field Name="customer_id">
           <DataField>customer_id</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="customer_name">
           <DataField>customer_name</DataField>
@@ -2993,7 +2968,7 @@
         </Field>
         <Field Name="deleted_date">
           <DataField>deleted_date</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="deleted_note">
           <DataField>deleted_note</DataField>
@@ -3009,7 +2984,7 @@
         </Field>
         <Field Name="discountable_amount">
           <DataField>discountable_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="document_number">
           <DataField>document_number</DataField>
@@ -3021,15 +2996,15 @@
         </Field>
         <Field Name="id">
           <DataField>id</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Guid</rd:TypeName>
         </Field>
         <Field Name="is_checked_out">
           <DataField>is_checked_out</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="is_closed">
           <DataField>is_closed</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="is_deleted">
           <DataField>is_deleted</DataField>
@@ -3085,11 +3060,11 @@
         </Field>
         <Field Name="last_modified_date">
           <DataField>last_modified_date</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="outlet_id">
           <DataField>outlet_id</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Guid</rd:TypeName>
         </Field>
         <Field Name="outlet_name_en">
           <DataField>outlet_name_en</DataField>
@@ -3101,23 +3076,19 @@
         </Field>
         <Field Name="paid_amount">
           <DataField>paid_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="park_sale_id">
           <DataField>park_sale_id</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="phone_number">
           <DataField>phone_number</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="r_table_id">
-          <DataField>r_table_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="redeem_park_sale_id">
           <DataField>redeem_park_sale_id</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="rounding_amount">
           <DataField>rounding_amount</DataField>
@@ -3125,7 +3096,7 @@
         </Field>
         <Field Name="sale_discount_amount">
           <DataField>sale_discount_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="sale_discount_type">
           <DataField>sale_discount_type</DataField>
@@ -3133,7 +3104,7 @@
         </Field>
         <Field Name="sale_discount_value">
           <DataField>sale_discount_value</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="sale_note">
           <DataField>sale_note</DataField>
@@ -3145,7 +3116,7 @@
         </Field>
         <Field Name="sale_product_discount_amount">
           <DataField>sale_product_discount_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="sale_seat">
           <DataField>sale_seat</DataField>
@@ -3161,7 +3132,7 @@
         </Field>
         <Field Name="station_id">
           <DataField>station_id</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Guid</rd:TypeName>
         </Field>
         <Field Name="station_name_en">
           <DataField>station_name_en</DataField>
@@ -3181,7 +3152,11 @@
         </Field>
         <Field Name="sub_total">
           <DataField>sub_total</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="table_id">
+          <DataField>table_id</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="table_name">
           <DataField>table_name</DataField>
@@ -3189,59 +3164,59 @@
         </Field>
         <Field Name="tax_1_amount">
           <DataField>tax_1_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="tax_1_rate">
           <DataField>tax_1_rate</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="tax_2_amount">
           <DataField>tax_2_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="tax_2_rate">
           <DataField>tax_2_rate</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="tax_3_amount">
           <DataField>tax_3_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="tax_3_rate">
           <DataField>tax_3_rate</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="total_amount">
           <DataField>total_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="total_cost">
           <DataField>total_cost</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="total_credit">
           <DataField>total_credit</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="total_discount_amount">
           <DataField>total_discount_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="total_net_sale">
           <DataField>total_net_sale</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="total_profit">
           <DataField>total_profit</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="total_quantity">
           <DataField>total_quantity</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="total_tax_amount">
           <DataField>total_tax_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="waiting_number">
           <DataField>waiting_number</DataField>
@@ -3249,11 +3224,11 @@
         </Field>
         <Field Name="working_date">
           <DataField>working_date</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="working_day_id">
           <DataField>working_day_id</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Guid</rd:TypeName>
         </Field>
         <Field Name="working_day_number">
           <DataField>working_day_number</DataField>
@@ -3261,14 +3236,14 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ReportModel.Interface</rd:DataSetName>
-        <rd:TableName>ISaleReportModel</rd:TableName>
-        <rd:ObjectDataSourceType>ReportModel.Interface.ISaleReportModel, ReportModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
+        <rd:TableName>SaleModel</rd:TableName>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SaleModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="SaleProduct">
       <Query>
-        <DataSourceName>ReportModelInterface1</DataSourceName>
+        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -3290,11 +3265,11 @@
         </Field>
         <Field Name="multiplier">
           <DataField>multiplier</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="net_sale">
           <DataField>net_sale</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="note">
           <DataField>note</DataField>
@@ -3302,7 +3277,7 @@
         </Field>
         <Field Name="park_expired_date">
           <DataField>park_expired_date</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="park_note">
           <DataField>park_note</DataField>
@@ -3310,7 +3285,7 @@
         </Field>
         <Field Name="park_sale_product_id">
           <DataField>park_sale_product_id</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="portion_name">
           <DataField>portion_name</DataField>
@@ -3318,7 +3293,7 @@
         </Field>
         <Field Name="price">
           <DataField>price</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="product_category_en">
           <DataField>product_category_en</DataField>
@@ -3358,23 +3333,19 @@
         </Field>
         <Field Name="quantity">
           <DataField>quantity</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="redeem_sale_product_id">
           <DataField>redeem_sale_product_id</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="revenue_group_name">
           <DataField>revenue_group_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="sale_discount_amount">
-          <DataField>sale_discount_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
         <Field Name="sale_product_discount_amount">
           <DataField>sale_product_discount_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="sale_product_discount_type">
           <DataField>sale_product_discount_type</DataField>
@@ -3382,7 +3353,7 @@
         </Field>
         <Field Name="sale_product_discount_value">
           <DataField>sale_product_discount_value</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="sale_product_modifier_name">
           <DataField>sale_product_modifier_name</DataField>
@@ -3394,50 +3365,22 @@
         </Field>
         <Field Name="sub_total">
           <DataField>sub_total</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="tax_1_name">
-          <DataField>tax_1_name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="tax_2_name">
-          <DataField>tax_2_name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="tax_3_name">
-          <DataField>tax_3_name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="total_amount">
           <DataField>total_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="total_discount_amount">
-          <DataField>total_discount_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="total_tax_1_amount">
-          <DataField>total_tax_1_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="total_tax_2_amount">
-          <DataField>total_tax_2_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
-        <Field Name="total_tax_3_amount">
-          <DataField>total_tax_3_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ReportModel.Interface</rd:DataSetName>
-        <rd:TableName>ISaleProductReportModel</rd:TableName>
-        <rd:ObjectDataSourceType>ReportModel.Interface.ISaleProductReportModel, ReportModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
+        <rd:TableName>SaleProductModel</rd:TableName>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SaleProductModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="GrandTotal">
       <Query>
-        <DataSourceName>ReportModelInterface2</DataSourceName>
+        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -3467,11 +3410,11 @@
         </Field>
         <Field Name="show_in_receipt">
           <DataField>show_in_receipt</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="sort_order">
           <DataField>sort_order</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
         <Field Name="symbol">
           <DataField>symbol</DataField>
@@ -3483,14 +3426,14 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ReportModel.Interface</rd:DataSetName>
-        <rd:TableName>IGrandTotalReportModel</rd:TableName>
-        <rd:ObjectDataSourceType>ReportModel.Interface.IGrandTotalReportModel, ReportModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
+        <rd:TableName>GrandTotalModel</rd:TableName>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.GrandTotalModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="Setting">
       <Query>
-        <DataSourceName>ReportModelInterface3</DataSourceName>
+        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -3572,14 +3515,14 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ReportModel.Interface</rd:DataSetName>
-        <rd:TableName>ISettingReportModel</rd:TableName>
-        <rd:ObjectDataSourceType>ReportModel.Interface.ISettingReportModel, ReportModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
+        <rd:TableName>SettingModel</rd:TableName>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SettingModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="CouponVoucher">
       <Query>
-        <DataSourceName>ReportModelInterface4</DataSourceName>
+        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -3589,15 +3532,15 @@
         </Field>
         <Field Name="expiry_date">
           <DataField>expiry_date</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="registered_date">
           <DataField>registered_date</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="total_balance">
           <DataField>total_balance</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="unlimited">
           <DataField>unlimited</DataField>
@@ -3605,9 +3548,9 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ReportModel.Interface</rd:DataSetName>
-        <rd:TableName>ICouponVoucherReportModel</rd:TableName>
-        <rd:ObjectDataSourceType>ReportModel.Interface.ICouponVoucherReportModel, ReportModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
+        <rd:TableName>CouponVoucherModel</rd:TableName>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.CouponVoucherModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

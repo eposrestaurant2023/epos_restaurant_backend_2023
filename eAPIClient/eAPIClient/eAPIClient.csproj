@@ -34,5 +34,8 @@
 	  <Folder Include="BackgroundServices\" />
 	  <Folder Include="upload\" />
 	</ItemGroup>
+	<ItemGroup>
+	  <None Include="..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
 
 </Project>
