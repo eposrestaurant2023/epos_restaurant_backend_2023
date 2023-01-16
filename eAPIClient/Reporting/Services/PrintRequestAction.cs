@@ -157,7 +157,7 @@ namespace Reporting.Services
             try
             {
                 LocalReport report = new LocalReport();
-                var _file = $"{file_path}\\{setting.receipt_file_name}.rdlc";
+                var _file = $"{file_path}\\{setting.receipt_file_name??setting.invoice_file_name}.rdlc";
                 report.ReportPath = _file;
 
                 //sale data

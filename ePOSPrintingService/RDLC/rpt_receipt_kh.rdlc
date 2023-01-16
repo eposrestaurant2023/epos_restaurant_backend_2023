@@ -2296,7 +2296,11 @@
                 <Hidden>=Fields!tax_3_amount.Value = 0</Hidden>
               </Visibility>
             </TablixMember>
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=Fields!coupon_voucher_amount.Value&lt;=0</Hidden>
+              </Visibility>
+            </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Sale</DataSetName>

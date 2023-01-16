@@ -147,7 +147,7 @@ namespace eAPIClient.Controllers
         {
             var _file_path = config.GetValue<string>("terminal_pos_receipt_path");
             ReceiptSettingModel receipt = new ReceiptSettingModel();
-            var _receipts = receipts.Where(r => r.receipt_name.ToLower() == f.receipt_name.ToLower());
+            var _receipts = receipts.Where(r => r.receipt_name.ToLower() == (f.receipt_name??"").ToLower());
             if (_receipts.Any())
             {
                 receipt = _receipts.FirstOrDefault();
