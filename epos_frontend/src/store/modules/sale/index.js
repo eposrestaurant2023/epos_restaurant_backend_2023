@@ -1,7 +1,7 @@
 import {createResource, createStore} from "@/plugin";
-const store = createStore()
 const state = {
-    posMenu: [],
+    posMenu: null,
+    parentMenu: null,
     posMenuProduct: [],
     posProduct:[],
     sale:{
@@ -17,6 +17,9 @@ const state = {
       state.sale = new_value
     },
     POS_MENU(state, new_value){
+      state.posMenu = new_value;
+    },
+    PARENT_MENU(state, new_value){
       state.posMenu = new_value;
     },
     POS_MENU_PRODUCT(state, new_value){
@@ -44,50 +47,35 @@ const state = {
   }
   const actions = {
     filterMenu({dispatch}, name){
-      alert(name)
-        // dispatch('getPosMenu',name)
-        dispatch('filterPosMenuProduct',name)
+        dispatch('filterPosMenu',name)
     },
     addMenuProduct({commit}, product){
         commit('posMenuProduct',product)
     },
-    async filterPosMenuProduct({commit}, new_value){
-        if(!new_value) return;
-        createResource({
+    async onGetPosMenu({commit}){ 
+        const setting = JSON.parse(localStorage.getItem('setting'))
+        let defaultMenu = setting.default_pos_menu;
+ 
+        if(localStorage.getItem('default_menu')){
+          defaultMenu = localStorage.getItem('default_menu')
+        }
+        
+        await createResource({
             url: 'epos_restaurant_2023.api.product.get_product_by_menu',
             auto: true,
             params:{
-                root_menu: new_value
+                root_menu: defaultMenu
             },
             auto:true,
             async onSuccess(doc) {
-                commit('POS_MENU_PRODUCT',doc)
+                commit('POS_MENU',doc)
+                // store.state.app.isLoading = false
             },
             onError(x) {
-              //store.dispatch('endLoading');
+              store.dispatch('app/endLoading');
             }
           })
     },
-    // async getPosMenu({commit}, new_value){
-    //     createResource({
-    //         url: 'frappe.client.get_list',
-    //         auto: true,
-    //         params:{
-    //             doctype:"Product",
-    //             fields:["*"],
-    //             filters: {
-    //                 "parent_pos_menu": new_value
-    //             }
-    //         },
-    //         auto:true,
-    //         async onSuccess(doc) {
-    //             commit('POS_MENU_PRODUCT',doc)
-    //         },
-    //         onError(x) {
-    //           //store.dispatch('endLoading');
-    //         }
-    //       })
-    // },
   }
 
 export default {

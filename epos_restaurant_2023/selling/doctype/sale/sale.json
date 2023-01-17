@@ -84,6 +84,10 @@
   "profit",
   "section_break_74",
   "sale_type",
+  "guest_cover",
+  "sale_status",
+  "sale_status_color",
+  "sale_status_priority",
   "column_break_36",
   "note"
  ],
@@ -556,6 +560,33 @@
    "fieldtype": "Link",
    "label": "Sale Quotation",
    "options": "Sale Quotation"
+  },
+  {
+   "fieldname": "sale_status",
+   "fieldtype": "Link",
+   "label": "Sale Status",
+   "options": "Sale Status"
+  },
+  {
+   "fetch_from": "sale_status.background_color",
+   "fieldname": "sale_status_color",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Sale Status Color"
+  },
+  {
+   "default": "0",
+   "fieldname": "guest_cover",
+   "fieldtype": "Int",
+   "label": "Guest Cover"
+  },
+  {
+   "default": "0",
+   "fetch_from": "sale_status.priority",
+   "fieldname": "sale_status_priority",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Sale Status Priority"
   }
  ],
  "image_field": "photo",
@@ -568,7 +599,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-01-03 15:01:18.418321",
+ "modified": "2023-01-15 11:21:24.139006",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

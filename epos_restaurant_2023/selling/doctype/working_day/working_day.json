@@ -29,12 +29,15 @@
   {
    "fieldname": "posting_date",
    "fieldtype": "Date",
-   "label": "Posting Date"
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
   },
   {
    "fetch_from": "pos_profile.business_branch",
    "fieldname": "business_branch",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Business Branch",
    "options": "Business Branch"
   },
@@ -47,16 +50,19 @@
    "default": "0",
    "fieldname": "is_closed",
    "fieldtype": "Check",
+   "in_list_view": 1,
    "label": "Is Closed"
   },
   {
    "fieldname": "closed_date",
    "fieldtype": "Datetime",
+   "in_list_view": 1,
    "label": "Closed Date"
   },
   {
    "fieldname": "pos_profile",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "POS Profile",
    "options": "POS Profile"
   },
@@ -78,7 +84,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-13 15:30:07.043072",
+ "modified": "2023-01-14 09:37:57.521182",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Working Day",

@@ -9,6 +9,10 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
+               <slot name="centerCotent"></slot>
+            </v-toolbar-items>
+            <v-spacer></v-spacer>
+            <v-toolbar-items>
                <slot name="action"></slot>
             </v-toolbar-items>
         </v-toolbar>
@@ -40,7 +44,7 @@ const props = defineProps({
         width: 100%;
     }
     .page-full {
-        max-width: 95%;
+        max-width: calc(100% - 32px);
         width: 100%;
     }
 </style>

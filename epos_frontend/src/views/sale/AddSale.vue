@@ -1,5 +1,5 @@
 <template>
-    <div class="pa-4">
+    <div>
         <v-row>
             <v-col sm="16">
                 <ComMenu/>
@@ -35,11 +35,11 @@
 </template>
 <script setup>
 import { computed } from 'vue';
-import ComProductSearch from './components/ComProductSearch.vue';
 import ComSelectedCustomer from './components/ComSelectedCustomer.vue';
 import ComMenu from './components/ComMenu.vue';
 import { createResource } from '@/resource.js'
 import { useStore } from 'vuex'
+import PageLayout from '../../components/layout/PageLayout.vue';
 const store = useStore()
 const sale = computed(() => {
   return store.state.sale.sale
@@ -57,5 +57,10 @@ let todos = createResource({
   },
 
 })
+if(!store.state.sale.posMenu){
+    store.dispatch('sale/onGetPosMenu')
+    
+    
+}
 
 </script>

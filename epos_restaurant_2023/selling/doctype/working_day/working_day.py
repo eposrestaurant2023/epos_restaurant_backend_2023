@@ -5,5 +5,9 @@ import frappe
 from frappe.model.document import Document
 
 class WorkingDay(Document):
+    
 	def validate(self):
-		frappe.throw(frappe.session.user)
+		if self.is_new():
+			if frappe.db.exists('Working Day', {'pos_profile': self.pos_profile, 'is_closed': 0}):
+				frappe.throw("This pos profile {} is already opened".format(self.pos_profile))
+				

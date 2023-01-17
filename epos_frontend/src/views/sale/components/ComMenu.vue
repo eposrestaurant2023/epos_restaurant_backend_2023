@@ -4,57 +4,43 @@
             <ComShortcut/>
         </div>
         <div class="mt-4">
-            <v-row>
-                <!-- <v-col sm="4" v-for="(m, index) in posMenu" :key="index">
-                    <v-btn variant="outlined" @click="onClickMenu(m.name)">
-                        {{m.pos_menu_name_en}}
-                    </v-btn>
-                </v-col> -->
-                <v-col sm="4" v-for="(m, index) in menuProduct" :key="index">
-                    <ComMenuItem :data="m"></ComMenuItem>
-                    <v-btn variant="outlined" @click="onClickProduct(m)">
-                        {{m.pos_menu_name_en}}
-                    </v-btn>
-                </v-col>
-            </v-row>
+            <ComPlaceholder :is-not-empty="posMenu && posMenu.length > 0">
+                <template #default>
+                    <div class="flex -ml-1 -mr-1" v-if="posMenu && posMenu.length > 0">
+                        <div v-for="(m, index) in posMenu" :key="index" class="p-1">
+                            <ComMenuItem :data="m"/>
+                        </div>
+                    </div>
+                </template>
+            </ComPlaceholder>
         </div>
     </div>
 </template>
 <script setup>
 import ComShortcut from './ComShortcut.vue';
+import ComPlaceholder from '../../../components/layout/components/ComPlaceholder.vue';
 import ComMenuItem from './ComMenuItem.vue';
 import { useStore, computed } from '@/plugin';
 const store = useStore()
 
-const menuProduct = computed(()=>{
-    return store.state.sale.posMenuProduct
+const posMenu = computed(() => {
+    if (!store.state.sale.keyword) {
+        if (store.state.sale.parentMenu) {
+
+            return store.state.sale.posMenu.filter(r => r.parent == store.state.sale.parentMenu)
+        }
+        else {
+            const setting = JSON.parse(localStorage.getItem('setting'))
+            let defaultMenu = setting.default_pos_menu;
+
+            if (localStorage.getItem('default_menu')) {
+                defaultMenu = localStorage.getItem('default_menu')
+            }
+
+            return store.state.sale.posMenu ? store.state.sale.posMenu.filter(r => r.parent == defaultMenu) : null;
+        }
+    } else {
+        return store.state.sale.posMenu.filter(r => r.parent == store.state.sale.parentMenu)
+    }
 })
-// import { mapState } from 'vuex';
-//
-// export default {
-//     name: "ComMenu",
-//     inject: ["$call"],
-//     components: {
-//         ComShortcut
-//     },
-//     data() {
-//         return {
-//             shortcut_menu: null
-//         }
-//     },
-//     computed: {
-//         ...mapState("sale",["POS_MENU",'POS_MENU_PRODUCT'])
-//     },
-//     methods: {
-//         onClickMenu(name) {
-//             this.$store.dispatch('sale/searchMenu',name)
-//         },
-//         onClickProduct(product){
-//             this.$store.commit('sale/addPosProduct',product)
-//         }
-//     },
-//     mounted() {
-//         //
-//     }
-// }
 </script>

@@ -11,10 +11,13 @@
   "business_branch",
   "pos_profile_name",
   "outlet",
-  "price_rule",
   "stock_location",
+  "column_break_5",
+  "price_rule",
   "tax_rule",
+  "default_pos_menu",
   "pos_config",
+  "section_break_10",
   "table_groups",
   "pos_menus",
   "payment_types"
@@ -91,11 +94,25 @@
    "label": "Payment Types",
    "options": "POS Profile Payment Type",
    "reqd": 1
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_pos_menu",
+   "fieldtype": "Link",
+   "label": "Default POS Menu",
+   "options": "POS Menu"
+  },
+  {
+   "fieldname": "section_break_10",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-12 19:21:09.288916",
+ "modified": "2023-01-14 22:48:37.740509",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Profile",

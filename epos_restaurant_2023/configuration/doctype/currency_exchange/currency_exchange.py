@@ -13,3 +13,8 @@ class CurrencyExchange(Document):
 				doc = frappe.get_doc("Payment Type", d.name)
 				doc.exchange_rate = self.exchange_rate
 				doc.save()
+    
+    
+		#update to pos profile payment type
+		#sql = "update `tabPOS Profile Payment Type` set exchange_rate = {} where currency={}".format(self.exchange_rate,self.to_currency)
+	

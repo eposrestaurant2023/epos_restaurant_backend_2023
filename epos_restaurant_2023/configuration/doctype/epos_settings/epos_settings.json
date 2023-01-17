@@ -20,7 +20,9 @@
   "tax_3_name",
   "changed_payment_type",
   "price_rule",
-  "country"
+  "country",
+  "default_table_number_background_color",
+  "use_guest_cover"
  ],
  "fields": [
   {
@@ -103,6 +105,17 @@
    "fieldtype": "Attach Image",
    "hidden": 1,
    "label": "Logo"
+  },
+  {
+   "fieldname": "default_table_number_background_color",
+   "fieldtype": "Color",
+   "label": "Default Table Number Background Color"
+  },
+  {
+   "default": "1",
+   "fieldname": "use_guest_cover",
+   "fieldtype": "Check",
+   "label": "Use Guest Cover"
   }
  ],
  "image_field": "epos_logo",
@@ -110,7 +123,7 @@
  "issingle": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-01-10 09:36:38.620380",
+ "modified": "2023-01-16 20:11:38.313306",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "ePOS Settings",

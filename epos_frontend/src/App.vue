@@ -6,6 +6,7 @@
 		<MainLayout v-if="isMainLayout"/>
 		<SaleLayout v-else-if="isSaleLayout"/>
 		<BlankLayout v-else/>
+		<DialogWrapper />
 	</div>
 </template>
 <script setup>
@@ -14,6 +15,7 @@ import MainLayout from './components/layout/MainLayout.vue';
 import BlankLayout from './components/layout/BlankLayout.vue';
 import SplashScreen from './components/SplashScreen.vue';
 import SaleLayout from './components/layout/SaleLayout.vue';
+import { DialogWrapper } from 'vue3-promise-dialog';
 import { createResource } from '@/resource.js'
 import { reactive,computed,onMounted  } from 'vue'
 import { useStore } from 'vuex'
@@ -44,11 +46,14 @@ if (!localStorage.getItem("pos_profile")){
 	url: 'epos_restaurant_2023.api.api.get_system_settings',
 	params:{
 		pos_profile:localStorage.getItem("pos_profile"),
+		device_name:localStorage.getItem("device_name")
 	},
 	auto: true,
 	onSuccess(doc){
 		state.isLoading = false;
 		localStorage.setItem("setting",JSON.stringify(doc));
+	
+		localStorage.setItem("table_groups",JSON.stringify(doc.table_groups))
 	},
 	onError(x) {
 		if(x.error_text[0] === 'Invalid POS Profile name'){

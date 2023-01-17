@@ -1237,6 +1237,11 @@ vite@^4.0.0:
   optionalDependencies:
     fsevents "~2.3.2"
 
+vue-debounce@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/vue-debounce/-/vue-debounce-4.0.0.tgz#3f584dabc08a841a0182ab68d19f77f70a416fcc"
+  integrity sha512-+BrcKfLpyDpUJ58ZrAvI35irRCgYHFpnF3NJZwwaz8/kkKmEq6TWPXBIhLh2HQAsUZNwo52K/vQyiEFsJ/1RYA==
+
 vue-router@^4:
   version "4.1.6"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.1.6.tgz#b70303737e12b4814578d21d68d21618469375a1"
@@ -1244,7 +1249,24 @@ vue-router@^4:
   dependencies:
     "@vue/devtools-api" "^6.4.5"
 
-vue@^3.2.45:
+vue2-timeago@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/vue2-timeago/-/vue2-timeago-3.0.2.tgz#dfd54839d4bdd61fc3020492bf9a4c5122ed6f58"
+  integrity sha512-ihdC5bMBLLiUVBwgE+qpKeWoJSdeAfbdygh+8XVW02VueU2hDZTaSCxn6S7CWg3VI/AhTKTdzTYKLlYMnETeXQ==
+  dependencies:
+    vue "^3.2.23"
+
+vue3-draggable-resizable@^1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/vue3-draggable-resizable/-/vue3-draggable-resizable-1.6.5.tgz#021b2c00bff2885ab4fa5981e03bf4f56f12cdac"
+  integrity sha512-31142E31fGNnq3HKqvmFLSsqIbhck7TyGuQWhUKrDw6DOcGAuRx4ddRjaxvT6fe7dgeKH53qAh+i0ZlWtPLl2g==
+
+vue3-promise-dialog@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/vue3-promise-dialog/-/vue3-promise-dialog-0.3.4.tgz#d7ba9396f0c1e5ff49cc6de4fd2756ce9476bc98"
+  integrity sha512-JquYYE+1lxuGgncD8Q+8KTFAWUJsNWnhuYPSsOFRKzz3kz66Rjz5pdlEW6GLfUlV3cKak9T8b3mV49B4ouEgVg==
+
+vue@^3.2.23, vue@^3.2.45:
   version "3.2.45"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.45.tgz#94a116784447eb7dbd892167784619fef379b3c8"
   integrity sha512-9Nx/Mg2b2xWlXykmCwiTUCWHbWIj53bnkizBxKai1g61f2Xit700A1ljowpTIM11e3uipOeiPcSqnmBg6gyiaA==

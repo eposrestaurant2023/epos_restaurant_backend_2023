@@ -1,12 +1,71 @@
 <template>
-    <div class="w-28 h-28" >
-        hello
+    <div v-if="data.type == 'back'" class="w-36 h-36 rounded-lg shadow-lg cursor-pointer">
+        <div class="block relative p-2 w-full h-full" @click="onBack(data.parent)">
+            <div class="p-1 rounded-md  text-sm text-center">
+                <v-icon color="black">mdi-reply</v-icon>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="data.type == 'menu'" class="w-36 h-36 bg-cover bg-no-repeat rounded-lg shadow-lg cursor-pointer" v-bind:style="{
+        'background-color': data.background_color,
+        'color': data.text_color,
+        'background-image': 'url(' + data.photo + ')'
+    }"
+        @click="onClickMenu(data.name)"
+    >
+        <div class="block relative p-2 w-full h-full">
+           
+            <div class="absolute right-1 top-1">
+                <v-icon color="white">mdi-folder-open</v-icon>
+            </div>
+            <div class="p-1 rounded-md absolute bottom-1 right-1 left-1 bg-gray-50 bg-opacity-70 text-sm text-center">
+                <span>{{ data.name_en }}</span>
+                
+            </div>
+        </div>
+    </div>
+    <!-- Product -->
+    <div v-else-if="data.type == 'product'" class="w-36 h-36 bg-cover bg-no-repeat rounded-lg shadow-lg cursor-pointer bg-gray-300 " v-bind:style="{
+        'background-image': 'url(' + data.photo + ')'
+    }"
+        @click="onClickProduct()"
+    >
+        <div class="block relative p-2 w-full h-full">
+           
+            <div class="absolute left-0 top-0 bg-red-700 text-white p-1 rounded-tl-lg rounded-br-lg text-sm">
+                {{ data.price }}$
+            </div>
+            <div class="p-1 rounded-md absolute bottom-1 right-1 left-1 bg-gray-50 bg-opacity-70 text-sm text-center">
+                {{ data.name_en }} {{ data.type }}
+            </div>
+        </div>
     </div>
 </template>
 <script setup>
-    import { computed } from '@/plugin'
+    import { computed, useStore } from '@/plugin'
+    const store = useStore()
     const props = defineProps({data: Object })
     const data = computed(() => {
         return props.data
     })
+
+    const styleObject = computed(()=>{
+        return {
+            backgroundColor: `'${data.text_color}'`,
+            color: data.text_color
+        }
+    })
+
+    const image = computed(()=>{
+        return "'" + data.photo +"'"
+    })
+
+    function onClickMenu(menu){
+        store.state.sale.parentMenu = menu;
+    }
+    function onBack(parent) { 
+        const parent_menu = store.state.sale.posMenu.find(r=>r.name==parent).parent;
+        store.state.sale.parentMenu = parent_menu ;
+    }
 </script>

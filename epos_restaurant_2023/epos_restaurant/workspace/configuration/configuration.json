@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Configuration</span>\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"System Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Business\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Inventory Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"POS Settings\",\"col\":4}}]",
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Configuration</span>\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"System Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Sale Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Business\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Inventory Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"POS Settings\",\"col\":4}}]",
  "creation": "2022-12-05 00:50:50.260305",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -301,9 +301,27 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sale Setting",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sale Status",
+   "link_count": 0,
+   "link_to": "Sale Status",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-01-07 01:26:54.155391",
+ "modified": "2023-01-15 09:59:49.714226",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Configuration",

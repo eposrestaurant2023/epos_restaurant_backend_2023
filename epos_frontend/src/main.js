@@ -9,15 +9,21 @@ import * as directives from 'vuetify/directives';
 import '@mdi/font/css/materialdesignicons.css'
 import { vue3Debounce } from 'vue-debounce'
 
+import Vue3DraggableResizable from 'vue3-draggable-resizable'
+//default styles
+import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
+
 import router from './router';
 import call from "./utils/call";
-// import socket from "./controllers/socket";
+import socket from "./utils/socketio";
 import Auth from "./utils/auth";
 import store from "./store";
 import Toaster from "@meforma/vue-toaster";
 import {resourcesPlugin} from "./resources"
 import { setConfig, frappeRequest } from './resource'
 setConfig('resourceFetcher', frappeRequest)
+
+
 
 
 
@@ -37,6 +43,8 @@ app.use(router);
 app.use(resourcesPlugin);
 app.use(vuetify);
 app.use(store);
+app.use(socket)
+app.use(Vue3DraggableResizable)
 app.use(Toaster, {
 	position: "top",
 })

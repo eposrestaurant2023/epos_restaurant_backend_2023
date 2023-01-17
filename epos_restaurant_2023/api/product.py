@@ -6,13 +6,15 @@ def get_product_by_menu(root_menu):
     menus = []
     sql = """select 
                 name,
-                pos_menu_name_en,
-                pos_menu_name_kh,
+                pos_menu_name_en as name_en,
+                pos_menu_name_kh as name_kh,
+                parent_pos_menu as parent,
                 photo,
                 text_color,
                 background_color,
                 shortcut_menu,
                 price_rule,
+                photo,
                 'menu' as type
             from `tabPOS Menu` 
             where 
@@ -22,19 +24,25 @@ def get_product_by_menu(root_menu):
             """.format(root_menu)
     data = frappe.db.sql(sql,as_dict=1)
     for d in data:
-        children = []
-        children +=get_child_menus(d.name)
-        children +=get_products(d.name)
-        d["children"]=children
         menus.append(d)
+        
+        for m in get_child_menus(d.name):
+            menus.append(m)
+        
+        for m in get_products(d.name):
+            menus.append(m)
+        
+        
     return menus
 
 def get_child_menus(parent_menu):
     menus = []
+    menus.append({"type":"back","parent":parent_menu})
     sql = """select 
                 name,
                 pos_menu_name_en as name_en,
                 pos_menu_name_kh as name_kh,
+                parent_pos_menu as parent,
                 photo,
                 text_color,
                 background_color,
@@ -49,11 +57,16 @@ def get_child_menus(parent_menu):
             """.format(parent_menu)
     data = frappe.db.sql(sql,as_dict=1)
     for d in data:
-        children = []
-        children +=get_child_menus(d.name)
-        children +=get_products(d.name)
-        d["children"]=children
+        
         menus.append(d)
+     
+        for m in get_child_menus(d.name):
+            menus.append(m)
+        
+        for m in get_products(d.name):
+            menus.append(m)
+        
+        
     return menus
 
 
@@ -62,6 +75,7 @@ def get_products(parent_menu):
     sql = """select 
                 product_name_en as name_en,
                 product_name_kh as name_kh,
+                '{0}' as parent,
                 price,
                 unit,
                 allow_discount,
@@ -76,7 +90,7 @@ def get_products(parent_menu):
                 'product' as type
             from  `tabTemp Product Menu` 
             where 
-                pos_menu='{}' 
+                pos_menu='{0}' 
             order by  product_name_en
             """.format(parent_menu)
     data = frappe.db.sql(sql,as_dict=1)

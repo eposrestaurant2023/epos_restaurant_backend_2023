@@ -15,6 +15,8 @@
   "pos_profile",
   "column_break_5",
   "opened_note",
+  "section_break_7",
+  "cash_float",
   "close_shift_information_section",
   "is_closed",
   "closed_date",
@@ -41,14 +43,16 @@
    "fieldname": "posting_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Posting Date"
+   "label": "Posting Date",
+   "reqd": 1
   },
   {
    "fieldname": "working_day",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Working Day",
-   "options": "Working Day"
+   "options": "Working Day",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_5",
@@ -89,11 +93,21 @@
    "fieldname": "business_branch",
    "fieldtype": "Data",
    "label": "Business Branch"
+  },
+  {
+   "fieldname": "section_break_7",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "cash_float",
+   "fieldtype": "Table",
+   "label": "Cash Float",
+   "options": "Cashier Shift Cash Float"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-08 15:21:23.890203",
+ "modified": "2023-01-16 11:25:46.845854",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Cashier Shift",

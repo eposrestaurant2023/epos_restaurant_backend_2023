@@ -1,6 +1,6 @@
 <template>
   <v-row class="mt-0 mb-0 h-screen">
-    <v-col md="8" class="pa-0">
+    <v-col md="8" class="pa-0 d-sm-none d-none d-md-block">
       <div class="h-screen bg-cover bg-no-repeat bg-center" v-bind:style="{ 'background-image': 'url(' + setting.login_background + ')' }">
         <div class="h-full w-full p-10 flex justify-center items-center">
           <div>
@@ -45,6 +45,16 @@
         <form @submit.prevent="login">
           <div class="w-73">
             <div>
+              <div class="d-block d-md-none mt-4">
+                <div class="mb-3">
+                  <img class="my-0 mx-auto w-16" :src="setting.logo"/>
+                </div>
+                <div class="text-center mb-3">
+                  <h1 class="font-bold mb-1 text-2xl">{{ setting.app_name }}</h1>
+                  <p class="text-sm">{{setting.business_branch}}</p>
+                  <v-divider></v-divider>
+                </div>
+              </div>
               <div class="mb-3">
                 <div class="relative">
                   <v-text-field
@@ -101,6 +111,9 @@
               </div>
               <div class="mt-6">
                 <v-btn type="submit" :loading="isLoading" size="x-large" class="w-full" color="primary">Login</v-btn>
+              </div>
+              <div class="mt-4 text-center">
+                <p class="text-sm text-green-700">{{setting.pos_profile}}</p>
               </div>
             </div>
           </div>

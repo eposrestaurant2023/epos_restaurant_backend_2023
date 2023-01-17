@@ -1,3 +1,4 @@
+import json
 import time
 import frappe
 import base64
@@ -14,7 +15,7 @@ def check_username(pin_code):
     
 
 @frappe.whitelist(allow_guest=True)
-def get_system_settings(pos_profile=""):
+def get_system_settings(pos_profile="", device_name=''):
     if not frappe.db.exists("POS Profile",pos_profile):
         frappe.throw("Invalid POS Profile name")
     
@@ -25,14 +26,16 @@ def get_system_settings(pos_profile=""):
     table_groups = []
     for g in profile.table_groups:
         
-        table_groups.append({"table_group":g.table_group,"background":frappe.get_value("Table Group",g.table_group,"photo"),"tables":get_tables_number(g.table_group)})
+        table_groups.append({"key":g.table_group.lower().replace(" ","_"),"table_group":g.table_group,"background":frappe.get_value("Table Group",g.table_group,"photo"),"tables":get_tables_number(g.table_group, device_name),})
     pos_menus = []
     for m in profile.pos_menus:
         pos_menus.append({"pos_menu":m.pos_menu})   
         
     payment_types=[]
     for p in profile.payment_types:
-        payment_types.append({"payment_type":p.payment_type})
+        
+        payment_types.append({"payment_method":p.payment_type,"allow_cash_float":p.allow_cash_float, "input_amount":0,"exchange_rate":p.exchange_rate})
+    
     data={
         "app_name":doc.epos_app_name,
         "business_branch":profile.business_branch,
@@ -49,16 +52,34 @@ def get_system_settings(pos_profile=""):
         "thank_you_background":pos_config.thank_you_background,
         "table_groups":table_groups,
         "pos_menus":pos_menus,
-        "payment_type":payment_types
+        "default_pos_menu":profile.default_pos_menu,
+        "payment_types":payment_types,
+        "tax_1_name":doc.tax_1_name,
+        "tax_2_name":doc.tax_2_name,
+        "tax_3_name":doc.tax_3_name,
+        "use_guest_cover":doc.use_guest_cover,
+        "sale_status":frappe.db.sql("select name,background_color from `tabSale Status`", as_dict=1)
+        
         
     }
     return  data
 
-def get_tables_number(table_group):
+@frappe.whitelist(allow_guest=True)
+def get_tables_number(table_group,device_name):
     data = frappe.get_all("Tables Number",
-                fields=["tbl_number","shape","sale_type","default_discount","height","width","price_rule"],
+                fields=["name as id","tbl_number as tbl_no","shape","sale_type","default_discount","height as h","width as w","price_rule"],
                 filters={"tbl_group":table_group}
             )
+    background_color = frappe.db.get_default("default_table_number_background_color")
+    for d in data:
+        d.background_color=background_color
+        position = frappe.db.sql("select x,y,h,w from `tabePOS Table Position` where device_name='{}' and tbl_number='{}' limit 1".format(device_name,d.tbl_no ), as_dict=1)
+        if position:
+            for p in position:
+                d.x = p.x or 0
+                d.y = p.y or 0
+                d.w = p.w or 100
+                d.h = p.h or 100
     return data
 
 @frappe.whitelist(allow_guest=True)
@@ -78,6 +99,15 @@ def get_current_working_day(pos_profile):
     return
 
 @frappe.whitelist()
+def get_current_cashier_shift(pos_profile):
+   
+    sql = "select name,working_day, posting_date, pos_profile, opened_note from `tabCashier Shift` where pos_profile = '{}' and is_closed = 0 order by creation limit 1".format(pos_profile)
+    data =  frappe.db.sql(sql, as_dict=1) 
+    if data:
+        return data [0]
+    return
+
+@frappe.whitelist()
 def get_user_information():
     data = frappe.get_doc("User",frappe.session.user)
     return {
@@ -87,21 +117,36 @@ def get_user_information():
         "phone_number":data.phone,
         "photo":data.user_image
     }
-
-@frappe.whitelist()
-def get_shortcut_menu():
-    return frappe.get_list("Product", fields=["name"])
-
-
-@frappe.whitelist()
-def get_product_menu(pos_menu=''):
-    return frappe.db.sql(
-		"""
-		SELECT * FROM `tabProduct` p
-        INNER JOIN `tabProduct Menu` m
-        ON p.name = m.parent
-        WHERE m.pos_menu = '{}'
-		""".format(pos_menu),
-		as_dict=True
-	)
     
+    
+@frappe.whitelist()
+def save_table_position(device_name, table_group):
+    # frappe.throw("{}".format(table_group))
+    frappe.db.sql("delete from `tabePOS Table Position` where device_name='{}'".format(device_name) )
+    
+    for g in table_group:
+        
+        for t in g['tables']:
+            x = 0
+            if "x" in t:
+                x = t["x"]
+            y = 0
+            if "y" in t:
+                y = t["y"]
+            h = 0
+            if "h" in t:
+                h = t["h"]
+            w = 0
+            if "w" in t:
+                w = t["w"]
+            if not frappe.db.exists('ePOS Table Position', {'tbl_number': t['tbl_no'], 'device_name': device_name}):
+                doc = frappe.get_doc({
+                        'doctype': 'ePOS Table Position',
+                        'device_name':device_name,
+                        'tbl_number': t['tbl_no'],
+                        'x':x,
+                        'y':y,
+                        'h':h,
+                        'w':w
+                    })
+                doc.insert()
