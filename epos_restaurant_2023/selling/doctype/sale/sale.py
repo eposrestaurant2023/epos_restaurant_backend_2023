@@ -46,12 +46,21 @@ class Sale(Document):
 		if self.stock_location and self.business_branch:
 			if frappe.get_value("Stock Location",self.stock_location,"business_branch") != self.business_branch:
 				frappe.throw(_("The stock location {} is not belong to business branch {}".format(self.stock_location, self.business_branch)))
-			
+		
+		#validate exhcange rate
+		exchange_rate =frappe.get_last_doc('Currency Exchange', filters={"to_currency": frappe.db.get_default("second_currency")})# frappe.get_last_doc("Currency Exchange",{})
+		if exchange_rate:
+			self.exchange_rate = exchange_rate.exchange_rate
+		else:
+			self.exchange_rate =1
+   
 		#validate sale product 
 		validate_sale_product(self)
   
 		validate_pos_payment(self)
 		#validate sale summary
+  
+  
 		
 
 		total_quantity = Enumerable(self.sale_products).sum(lambda x: x.quantity or 0)

@@ -11,7 +11,10 @@
   "input_amount",
   "amount",
   "currency",
-  "exchange_rate"
+  "exchange_rate",
+  "currency_symbol",
+  "currency_precision",
+  "currency_format"
  ],
  "fields": [
   {
@@ -44,8 +47,9 @@
   {
    "fetch_from": "payment_type.currency",
    "fieldname": "currency",
-   "fieldtype": "Data",
-   "label": "Currency"
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
   },
   {
    "fetch_from": "payment_type.exchange_rate",
@@ -53,12 +57,30 @@
    "fieldtype": "Float",
    "label": "Exchange Rate",
    "precision": "9"
+  },
+  {
+   "fetch_from": "currency.symbol",
+   "fieldname": "currency_symbol",
+   "fieldtype": "Data",
+   "label": "Currency Symbol"
+  },
+  {
+   "fetch_from": "currency.currency_precision",
+   "fieldname": "currency_precision",
+   "fieldtype": "Int",
+   "label": "Currency Precision"
+  },
+  {
+   "fetch_from": "currency.pos_currency_format",
+   "fieldname": "currency_format",
+   "fieldtype": "Data",
+   "label": "Currency Format"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-12-21 18:15:46.082636",
+ "modified": "2023-01-24 09:01:56.877436",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Sale Payment",

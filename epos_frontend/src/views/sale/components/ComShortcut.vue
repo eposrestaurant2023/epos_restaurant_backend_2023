@@ -1,9 +1,9 @@
-<template lang="">
-    <div>
-        <div class="flex -mx-2" v-if="shortcut">
+<template>
+    <div class="py-2 bg-white">
+        <div class="flex -mx-2 justify-center" v-if="shortcut">
             <div v-for="(m, index) in shortcut" :key="m.name_en" class="px-2">
-                <v-btn rounded="pill" variant="tonal" :color="m.name_en == active ? 'primary' : ''" @click="onClick(m.name_en)">
-                    {{m.name_en}}
+                <v-btn rounded="pill" variant="tonal" :color="m.background_color" size="small" @click="onClick(m.name_en)">
+                    <span v-bind:style="{color:m.text_color}">{{m.name_en}}</span>
                 </v-btn>
             </div>
         </div>

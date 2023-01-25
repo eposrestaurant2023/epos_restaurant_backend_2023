@@ -17,6 +17,11 @@
   "opened_note",
   "section_break_7",
   "cash_float",
+  "section_break_10",
+  "total_opening_amount",
+  "total_system_close_amount",
+  "total_close_amount",
+  "total_different_amount",
   "close_shift_information_section",
   "is_closed",
   "closed_date",
@@ -103,11 +108,38 @@
    "fieldtype": "Table",
    "label": "Cash Float",
    "options": "Cashier Shift Cash Float"
+  },
+  {
+   "fieldname": "section_break_10",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_opening_amount",
+   "fieldtype": "Currency",
+   "label": "Total Opening Amount"
+  },
+  {
+   "fieldname": "total_system_close_amount",
+   "fieldtype": "Currency",
+   "label": "Total System Close Amount"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_different_amount",
+   "fieldtype": "Currency",
+   "label": "Total Different Amount"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_close_amount",
+   "fieldtype": "Currency",
+   "label": "Total Close Amount"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-16 11:25:46.845854",
+ "modified": "2023-01-17 20:33:20.180646",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Cashier Shift",

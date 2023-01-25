@@ -25,6 +25,8 @@
   "column_break_13",
   "outlet",
   "business_branch",
+  "working_day",
+  "cashier_shift",
   "column_break_9",
   "sale_amount",
   "total_paid",
@@ -40,8 +42,6 @@
   "attach_receipt",
   "amended_from",
   "pos_profile",
-  "working_day",
-  "cashier_shift",
   "check_valid_payment_amount"
  ],
  "fields": [
@@ -67,6 +67,7 @@
    "fieldname": "payment_type",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Payment Type",
    "options": "Payment Type",
    "reqd": 1
@@ -79,6 +80,7 @@
   {
    "fieldname": "sale",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Sale",
    "options": "Sale",
    "reqd": 1
@@ -212,14 +214,12 @@
   {
    "fieldname": "working_day",
    "fieldtype": "Link",
-   "hidden": 1,
    "label": "Working Day",
    "options": "Working Day"
   },
   {
    "fieldname": "cashier_shift",
    "fieldtype": "Link",
-   "hidden": 1,
    "label": "Cashier Shift",
    "options": "Cashier Shift"
   },
@@ -279,7 +279,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-12-27 15:14:29.068014",
+ "modified": "2023-01-23 09:05:10.184341",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Payment",

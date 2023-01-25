@@ -1,24 +1,16 @@
-<template >
-    <div v-if="menus.data">
-        {{ menus.data }}
-    
-    </div>
+<template>
 
+    <v-btn @click="onOpen">click me</v-btn>
 </template>
 <script setup>
-import {createResource,computed } from "@/plugin";
+import { comPopupDialog, printPreviewDialog } from '../utils/dialog.ts';
 
-const menus = createResource({
-url:"epos_restaurant_2023.api.product.get_product_by_menu",
-params:{
-    root_menu: "Main Menu"
-},
-auto:true
-});
+async function onOpen(){
+    const result = await comPopupDialog({
+        text: "Do you like vue-promise-dialogs?"
+    });
+   console.log(result)
+   alert(result)
+}
 
-const shortcutMenus = computed(() => {
-  menus.data.filter(r=>r.is_shortcut_menu ==1);
-
-  return  menus.data.filter(r=>r.is_shortcut_menu ==1);
-})
 </script>

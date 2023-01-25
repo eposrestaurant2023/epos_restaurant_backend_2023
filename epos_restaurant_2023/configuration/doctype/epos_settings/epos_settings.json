@@ -22,7 +22,10 @@
   "price_rule",
   "country",
   "default_table_number_background_color",
-  "use_guest_cover"
+  "use_guest_cover",
+  "print_cashier_shift_summary_after_close_shift",
+  "print_cashier_shift_sale_product_summary_after_close_shift",
+  "pos_sale_order_background_image"
  ],
  "fields": [
   {
@@ -116,6 +119,23 @@
    "fieldname": "use_guest_cover",
    "fieldtype": "Check",
    "label": "Use Guest Cover"
+  },
+  {
+   "default": "1",
+   "fieldname": "print_cashier_shift_summary_after_close_shift",
+   "fieldtype": "Check",
+   "label": "Print Cashier Shift Summary after Close Shift"
+  },
+  {
+   "default": "1",
+   "fieldname": "print_cashier_shift_sale_product_summary_after_close_shift",
+   "fieldtype": "Check",
+   "label": "Print Cashier Shift Sale Product Summary after Close Shift"
+  },
+  {
+   "fieldname": "pos_sale_order_background_image",
+   "fieldtype": "Attach Image",
+   "label": "POS Sale Order Background Image"
   }
  ],
  "image_field": "epos_logo",
@@ -123,7 +143,7 @@
  "issingle": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-01-16 20:11:38.313306",
+ "modified": "2023-01-18 09:46:11.547351",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "ePOS Settings",

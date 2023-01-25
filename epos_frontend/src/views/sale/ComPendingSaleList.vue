@@ -5,7 +5,6 @@
         <v-toolbar-title class="text">
           #: {{ s.name }} - <Timeago   :long="long" :datetime="s.creation"  /> 
         </v-toolbar-title>
-
         <template v-slot:append>
           <v-chip class="ma-2" :color="s.sale_status_color" text-color="white">
             {{ s.sale_status }}
@@ -75,9 +74,9 @@
 </template>
 <script setup>
 import { useRouter, defineProps } from "@/plugin"
-import { openDialog } from 'vue3-promise-dialog';
-import SaleDetail from "../receipt_list/SaleDetail.vue";
+
 import { Timeago } from 'vue2-timeago'
+import { saleDetailDialog } from "@/utils/dialog";
 const router = useRouter();
 const props = defineProps({
   data: {
@@ -89,6 +88,6 @@ function onOpenOrder(sale_id) {
 }
 
 async function onViewSaleOrder(sale_id){
-   await openDialog(SaleDetail, { selected: sale_id });
+  await saleDetailDialog( { name: sale_id });
 }
 </script>

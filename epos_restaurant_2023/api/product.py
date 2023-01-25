@@ -73,6 +73,7 @@ def get_child_menus(parent_menu):
 def get_products(parent_menu):
      
     sql = """select 
+                product_code as name,
                 product_name_en as name_en,
                 product_name_kh as name_kh,
                 '{0}' as parent,

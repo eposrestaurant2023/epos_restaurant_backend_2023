@@ -8,6 +8,7 @@
             <v-btn icon @click="$emit('onPrint')" v-if="isPrint">
                 <v-icon>mdi-printer</v-icon>
             </v-btn>
+            <slot name="action"></slot>
             <v-menu v-if="isMoreMenu">
                 <template v-slot:activator="{ props }">
                     <v-btn

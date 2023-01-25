@@ -17,7 +17,7 @@
  "margin_left": 10.0,
  "margin_right": 10.0,
  "margin_top": 5.0,
- "modified": "2023-01-16 15:58:32.907619",
+ "modified": "2023-01-23 14:32:31.270494",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Invoice A4",
@@ -27,6 +27,13 @@
  "print_format_builder_beta": 0,
  "print_format_type": "Jinja",
  "raw_printing": 0,
+ "receipt_height": 11.0,
+ "receipt_margin_bottom": 0.0,
+ "receipt_margin_left": 0.0,
+ "receipt_margin_right": 0.0,
+ "receipt_margin_top": 0.0,
+ "receipt_width": 3.14,
+ "show_in_pos": 1,
  "show_section_headings": 0,
  "standard": "Yes"
 }

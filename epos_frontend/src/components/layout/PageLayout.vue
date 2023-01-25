@@ -1,9 +1,8 @@
 <template>
     <div>
-        <v-toolbar color="transparent">
+        <v-toolbar color="transparent" extension-height="40" height="40">
             <v-toolbar-title>
                 <v-icon>{{ icon }}</v-icon>
-
                 {{ title }}
                 <slot name="title"></slot>
             </v-toolbar-title>

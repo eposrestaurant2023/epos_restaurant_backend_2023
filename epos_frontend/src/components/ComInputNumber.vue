@@ -1,10 +1,9 @@
 <template>
-  <v-dialog v-model="open" persistent>
+  <v-dialog v-model="open" >
     <v-card width="400" class="mx-auto my-2 py-2 ">
       <v-card-item>
         <v-card-title>{{ title }}</v-card-title>
     </v-card-item>
-
       <v-card-text>
         <v-text-field    label="Enter number" variant="solo" v-model="number" clearable maxlength="10"></v-text-field>
         <div>
@@ -45,8 +44,8 @@
             <v-btn color="error" @click="number = ''" size="x-large">
               Clear
             </v-btn>
-            <v-btn color="primary" @click="closeDialog(false)" size="x-large">Cancel</v-btn>
-            <v-btn color="success" @click="closeDialog(number)" size="x-large">OK</v-btn>
+            <v-btn color="primary" @click="onCancel" size="x-large">Cancel</v-btn>
+            <v-btn color="success" @click="onOk" size="x-large">OK</v-btn>
           </div>
         </div>
       </v-card-text>
@@ -55,15 +54,17 @@
   </v-dialog>
 </template>
 <script setup>
-import { ref, defineProps } from "@/plugin"
-import { closeDialog } from 'vue3-promise-dialog'
+import { ref } from "@/plugin"
+
 
 const props = defineProps({
-  title: {
-    type: String,
-    default: 'Input Number'
+  params: {
+    type: Object,
+    require:true
   }
 })
+const emit = defineEmits(["resolve"])
+
 const open = ref(true);
 
 const number = ref("");
@@ -81,5 +82,11 @@ function numpad_click(n) {
   number.value = number.value + n;
 }
 
+function onOk(){
+  emit('resolve', number.value)
+}
+function onCancel(){
+  emit('resolve', false);
+}
 
 </script>

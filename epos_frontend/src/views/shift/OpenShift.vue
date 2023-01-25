@@ -11,20 +11,27 @@
             <v-col md="6">
                 <v-text-field label="POS Profile" v-model="pos_profile" variant="solo" readonly></v-text-field>
             </v-col>
-            <v-textarea label="Opened Note" variant="solo" v-model="opened_note"></v-textarea>
+           
         </v-row>
-        <v-divider />
-        <h1>Cash Float</h1>
+
+        <h1 class="my-4">Cash Float</h1>
         <div v-if="payment_types">
-            <!-- <v-row>
-                <v-col md="6"> -->
-                    <v-text-field v-for="p in payment_types.filter(p => p.allow_cash_float == 1)" :label="p.payment_method"
-                        v-model="p.input_amount" variant="solo" append-inner-icon="mdi-keyboard"
+            <v-row >
+                <v-col md="6" v-for="p in payment_types.filter(p => p.allow_cash_float == 1)">
+                    <v-text-field  :label="p.payment_method"  v-model="p.input_amount" variant="solo" append-inner-icon="mdi-keyboard"
                             @click:append-inner="OpenKeyboard(p)"></v-text-field>
-                <!-- </v-col>
-            </v-row> -->
+                </v-col>
+            </v-row>
         </div>
-        {{ totalCashFloat }}
+        <v-row v-if="payment_types.filter(p => p.allow_cash_float == 1).length>1">
+            <v-col md="6">
+                <v-text-field readonly label="Total Cash Float" variant="solo" v-model="totalCashFloat"></v-text-field>
+                
+            </v-col>
+        </v-row>
+                <ComInput title="Enter Note" keyboard label="Open Note" v-model="opened_note" type="textarea" class="my-8"></ComInput>
+         
+       
         <v-btn @click="onOpenShift" :loading="addCashierShiftResource.loading" color="primary">Open Shift</v-btn>
 
     </PageLayout>
@@ -34,10 +41,13 @@
 <script setup>
 
 import PageLayout from '../../components/layout/PageLayout.vue';
-import { createResource, ref, createToaster, useRouter, reactive, computed } from '@/plugin'
+import { createResource, ref, createToaster, useRouter, reactive, computed,confirm } from '@/plugin'
 import moment from '@/utils/moment.js'
 import ComInputNumber from '../../components/ComInputNumber.vue';
 import { openDialog } from 'vue3-promise-dialog';
+import ComInput from '../../components/form/ComInput.vue';
+
+
 const opened_note = ref("")
 const working_date = ref("")
 const pos_profile = localStorage.getItem("pos_profile");
@@ -46,6 +56,7 @@ const payment_types = reactive(setting.payment_types)
 const totalCashFloat = computed(() => {
     return payment_types.reduce((n, r) => n + parseFloat(r.input_amount) / parseFloat(r.exchange_rate), 0)
 })
+
 
 const business_branch = "SR Branch"
 const router = useRouter();
@@ -78,7 +89,7 @@ createResource({
     onSuccess(data) {
         if (data) {
             toaster.warning("Shift is already opened", { position: "top" });
-            //router.push({ name: "Home" });
+            router.push({ name: "Home" });
         }
     }
 
@@ -96,8 +107,8 @@ const addCashierShiftResource = createResource({
     }
 })
 
-function onOpenShift() {
-    if (confirm("Are you sure you want to open cashier shift?")) {
+async function onOpenShift() {
+    if(await confirm('Are sure you want to close cashier shift?')){
         addCashierShiftResource.params = {
             doc: {
                 doctype: "Cashier Shift",
@@ -115,5 +126,4 @@ async function OpenKeyboard(data){
 const result =await openDialog(ComInputNumber,{"title":"Cash Float for " + data.payment_method});
 data.input_amount = result;
 }
-
 </script>

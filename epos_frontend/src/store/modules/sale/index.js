@@ -1,5 +1,6 @@
 import {createResource, createStore} from "@/plugin";
 const state = {
+    keyword: '',
     posMenu: null,
     parentMenu: null,
     posMenuProduct: [],
@@ -13,6 +14,9 @@ const state = {
     }
   }
   const mutations = {
+    keyword(state, new_value){
+      state.keyword = new_value
+    },
     sale(state, new_value){
       state.sale = new_value
     },

@@ -7,8 +7,8 @@
             <slot name="empty"></slot>
         </div>
         <div else>
-            <div class="p-8 text-center opacity-70 text-gray-400">
-                <div><v-icon :icon="icon"></v-icon></div>
+            <div class="p-6 text-center" :class="classColor">
+                <div><v-icon :icon="icon" :style="{'font-size':iconSize}"></v-icon></div>
                 <div class="text-sm italic">{{ text }}</div>
             </div>
         </div>
@@ -23,9 +23,17 @@
             type: String,
             default: 'mdi-package-variant'
         },
+        iconSize: {
+            type: String,
+            default: '60px'
+        },
         text: {
             type: String,
             default: 'Empty Data'
+        },
+        classColor:{
+            type: String,
+            default: 'text-gray-400'
         }
     })
 </script>

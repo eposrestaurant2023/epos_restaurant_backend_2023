@@ -6,6 +6,7 @@
                 <v-app-bar-nav-icon variant="text" @click.stop="onDrawer()"></v-app-bar-nav-icon>
             </template>
             <template #append>
+                <ComTimeUpdate/>
                 <v-menu :location="location">
                     <template v-slot:activator="{ props }">
                         <v-avatar :image="currentUser.photo"  v-bind="props"></v-avatar>
@@ -81,6 +82,7 @@ import ComProductSearch from '../../views/sale/components/ComProductSearch.vue'
 import MainLayoutDrawer from './MainLayoutDrawer.vue';
 import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue';
 import ComToolbar from '../ComToolbar.vue';
+import ComTimeUpdate from './components/ComTimeUpdate.vue';
 export default {
     inject: ["$auth"],
     name: "MainLayout",
@@ -101,7 +103,8 @@ export default {
     ComProductSearch,
     MainLayoutDrawer,
     ComCurrentUserAvatar,
-    ComToolbar
+    ComToolbar,
+    ComTimeUpdate
 },
     methods: {
         onDrawer(){

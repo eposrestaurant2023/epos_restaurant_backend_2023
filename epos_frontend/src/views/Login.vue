@@ -129,7 +129,7 @@ const toast = createToaster()
 const router = useRouter()
 
 let state = reactive({
-  username: "Administrator",
+  username: "",
   password: "",
 })
 const store = useStore()
@@ -141,6 +141,8 @@ const isLoading = computed(() => {
 })
 
 const auth = inject("$auth")
+
+store.state.isLoading = false;
 
 function numpad_click(n) {
   if (state.password == undefined) {

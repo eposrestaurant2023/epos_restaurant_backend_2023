@@ -39,6 +39,7 @@ import ComButton from '../components/ComButton.vue';
 import WorkingDayButton from './shift/components/WorkingDayButton.vue';
 import OpenShiftButton from './shift/components/OpenShiftButton.vue';
 const auth = inject('$auth')
+
 let setting = JSON.parse(localStorage.getItem("setting"))
 const current_working_day = createResource({
     url: "epos_restaurant_2023.api.api.get_current_working_day",
@@ -47,7 +48,6 @@ const current_working_day = createResource({
     },
     auto: true
 });
-
 
 const device_name = computed(() => {
   return  localStorage.getItem('device_name')

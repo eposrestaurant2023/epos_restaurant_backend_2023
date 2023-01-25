@@ -8,7 +8,7 @@
                 <v-text-field label="POS Profile" v-model="pos_profile" variant="solo" readonly></v-text-field>
             </v-col>
         </v-row>
-        <v-textarea label="Note" variant="solo" v-model="note"></v-textarea>
+        <ComInput title="Enter Note" keyboard label="Open Note" v-model="note" type="textarea"></ComInput>
         <!-- <v-btn @click="addNewToDo">Add New Todo</v-btn> -->
         <v-btn @click="onStartWorking" color="primary">Start Working Day</v-btn>
 
@@ -16,10 +16,10 @@
 </template>
  
 <script setup>
-
 import moment from '@/utils/moment.js'
 import { ref, createResource,useRouter,createToaster } from '@/plugin'
 import PageLayout from '../../components/layout/PageLayout.vue';
+import ComInput from '../../components/form/ComInput.vue';
 
 const router = useRouter()
 const pos_profile = localStorage.getItem("pos_profile");

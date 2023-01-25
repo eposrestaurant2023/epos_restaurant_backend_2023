@@ -11,13 +11,17 @@
   "pos_config",
   "logo",
   "business_branch",
+  "business_name_en",
+  "business_name_kh",
   "address",
+  "address_kh",
   "phone_number",
   "login_background",
   "home_background",
   "thank_you_background",
   "customer_display_slideshow_section",
-  "customer_display_slideshow"
+  "customer_display_slideshow",
+  "thank_you_message"
  ],
  "fields": [
   {
@@ -77,12 +81,32 @@
    "fieldtype": "Table",
    "label": "Customer Display Slideshow",
    "options": "Customer Display Slideshow"
+  },
+  {
+   "fieldname": "business_name_kh",
+   "fieldtype": "Data",
+   "label": "Business Name Kh"
+  },
+  {
+   "fieldname": "address_kh",
+   "fieldtype": "Data",
+   "label": "Address Kh"
+  },
+  {
+   "fieldname": "business_name_en",
+   "fieldtype": "Data",
+   "label": "Business Name En"
+  },
+  {
+   "fieldname": "thank_you_message",
+   "fieldtype": "Data",
+   "label": "Thank you message"
   }
  ],
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-12 16:07:23.135282",
+ "modified": "2023-01-24 09:10:44.791386",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Config",

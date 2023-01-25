@@ -11,7 +11,7 @@ import Customer from "../views/customer/Customer.vue";
 import TestPage from "../views/TestPage.vue";
 import ReceiptList from "@/views/receipt_list/ReceiptList.vue"
 import StartupConfig from "@/views/checking_system/StartupConfig.vue"
-import Demo from '@/views/Demo.vue'
+ 
 import authRoutes from './auth';
 
 const routes = [
@@ -27,7 +27,7 @@ const routes = [
   { path: "/close-shift", name: "CloseShift", component: CloseShift, meta: { layout: "main_layout" } },
   { path: "/start-working-day", name: "StartWorkingDay", component: StartWorkingDay, meta: { layout: "main_layout" } },
   { path: "/test-page", name: "TestPage", component: TestPage, meta: { layout: "main_layout" } },
-  { path: "/demo", name: "Demo", component: Demo, meta: { layout: "main_layout" }},
+
   ...authRoutes,
 ];
 

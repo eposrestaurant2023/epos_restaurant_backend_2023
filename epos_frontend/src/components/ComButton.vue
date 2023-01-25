@@ -1,5 +1,5 @@
 <template>
-    <div class="shadow-md text-center p-4 rounded-md cursor-pointer flex items-center justify-center" :style="{backgroundColor:backgroundColor}">
+    <div class="shadow-md text-center p-4 rounded-md cursor-pointer flex items-center justify-center h-full" :style="{backgroundColor:backgroundColor}">
         <div>
             <v-icon :color="iconColor" class="m-2" v-if="icon" :icon="icon" size="x-large" :class="iconClass"></v-icon>
             <div :style="{color:textColor}">{{ title }}</div>

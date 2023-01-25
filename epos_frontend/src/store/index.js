@@ -10,6 +10,7 @@ export default createStore({
   state: {
     isLoading: false,
     drawer: true,
+    setting: null
   },
   mutations: {
     isLoading(state, new_value) {
@@ -17,6 +18,9 @@ export default createStore({
     },
     drawer(state, new_value){
       state.drawer = new_value;
+    },
+    drawer(state, new_value){
+      state.setting = new_value;
     }
   },
   actions: {

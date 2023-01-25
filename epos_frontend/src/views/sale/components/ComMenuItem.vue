@@ -1,8 +1,9 @@
 <template>
-    <div v-if="data.type == 'back'" class="w-36 h-36 rounded-lg shadow-lg cursor-pointer">
-        <div class="block relative p-2 w-full h-full" @click="onBack(data.parent)">
-            <div class="p-1 rounded-md  text-sm text-center">
-                <v-icon color="black">mdi-reply</v-icon>
+    <div v-if="data.type == 'back'" class="w-36 h-36 rounded-lg shadow-lg cursor-pointer bg-gray-500">
+        <div class="relative p-2 w-full h-full flex justify-center items-center" @click="onBack(data.parent)">
+            <div>
+                <v-icon color="white" size="large">mdi-reply</v-icon>
+                <div class="text-white">Back</div>
             </div>
         </div>
     </div>
@@ -37,13 +38,14 @@
                 {{ data.price }}$
             </div>
             <div class="p-1 rounded-md absolute bottom-1 right-1 left-1 bg-gray-50 bg-opacity-70 text-sm text-center">
-                {{ data.name_en }} {{ data.type }}
+                {{ data.name_en }}
             </div>
         </div>
     </div>
 </template>
 <script setup>
-    import { computed, useStore } from '@/plugin'
+    import { computed, useStore,openDialog } from '@/plugin'
+    import ComAddModifier from './ComAddModifier.vue';
     const store = useStore()
     const props = defineProps({data: Object })
     const data = computed(() => {
@@ -67,5 +69,12 @@
     function onBack(parent) { 
         const parent_menu = store.state.sale.posMenu.find(r=>r.name==parent).parent;
         store.state.sale.parentMenu = parent_menu ;
+    }
+    function onClickProduct(){
+        console.log(JSON.parse(data.value.modifiers).length)
+        console.log(data.value)
+        if(JSON.parse(data.value.modifiers).length > 0){
+            openDialog(ComAddModifier, { modifiers: data.value.modifiers, prices: data.value.prices });
+        }
     }
 </script>

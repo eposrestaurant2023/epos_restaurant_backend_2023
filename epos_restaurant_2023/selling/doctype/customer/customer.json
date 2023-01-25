@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "naming_series:photo",
+ "autoname": "naming_series:",
  "creation": "2022-12-05 14:26:45.023631",
  "default_view": "List",
  "doctype": "DocType",
@@ -183,8 +183,10 @@
    "label": "Customer Code Name"
   },
   {
+   "bold": 1,
    "fieldname": "customer_group",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Customer Group",
    "options": "Customer Group"
   }
@@ -192,7 +194,8 @@
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-31 14:48:40.874556",
+ "make_attachments_public": 1,
+ "modified": "2023-01-19 20:50:37.284811",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Customer",

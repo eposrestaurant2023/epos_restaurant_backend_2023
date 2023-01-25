@@ -1,7 +1,7 @@
 <template>
     <PageLayout title="Table Layout" full icon="mdi-cart">
         <template #centerCotent>
-            <v-tabs color="deep-purple-accent-4" align-tabs="center" v-if="table_groups && table_groups.length>1" v-model="tab"  >
+            <v-tabs align-tabs="center" v-if="table_groups && table_groups.length>1" v-model="tab"  >
                 <v-tab v-for="g in table_groups" :key="g.key" :value="g.key" @click="onSaveSelectedTab(g.key)">
                     {{ g.table_group }}
                 </v-tab>
@@ -44,11 +44,10 @@
 
                             <Vue3DraggableResizable v-for="(t, index) in g.tables" :key="index" class="table"
                                 v-model:x="t.x" v-model:y="t.y" v-model:w="t.w" v-model:h="t.h" :draggable="true"
-                                :resizable="true" @activated="activatedHandle('hello table')">
+                                :resizable="true" @drag-end="onDragEnd(t)($event)">
                                 <div class="h-full"
                                     v-bind:style="{ 'background-color': 'blue', 'color': '#fff', 'overflow': 'hidden' }">
-                                    {{ t.tbl_no }}
-
+                                    {{ t.x  }} x {{ t.y  }}
                                 </div>
                             </Vue3DraggableResizable>
                         </div>
@@ -59,7 +58,7 @@
                                 <div v-bind:style="{ 'height': t.h + 'px', 'width': t.w + 'px', 'left': t.x + 'px', 'top': t.y + 'px', 'background-color': t.background_color, 'position': 'absolute', 'box-sizing': 'border-box' }"
                                     class="text-center text-gray-100" @click="onTableClick(t)">
                                     {{ t.tbl_no }}<span v-if="t.guest_cover">({{ t.guest_cover }})</span> <br />
-
+                             
                                     <span v-if="isLoading"></span>
                                     <div v-if="t.grand_total">{{ t.grand_total }} </div>
 
@@ -84,23 +83,26 @@
             </v-window>
 
         </template>
+         
 <ComSaleStatusInformation/>
     </PageLayout>
 </template>
 
 <script setup>
 import PageLayout from '../../components/layout/PageLayout.vue';
-import ComInputNumber from '../../components/ComInputNumber.vue';
+
 import ComPendingSaleList from './ComPendingSaleList.vue';
 import Vue3DraggableResizable from 'vue3-draggable-resizable'
 import { useStore, createResource, createToaster, useRouter, reactive, ref, watchEffect } from "@/plugin"
-import { openDialog } from 'vue3-promise-dialog';
-import ComSelectSaleOrder from './components/ComSelectSaleOrder.vue';
+
 import ComSaleStatusInformation from './components/ComSaleStatusInformation.vue';
+import { inputNumberDialog,selectSaleOrderDialog } from '@/utils/dialog';
+
 
 const store = useStore()
 const router = useRouter()
 
+ 
 
 let tab = ref(null);
 let isLoading = ref(false);
@@ -157,6 +159,8 @@ let table_groups = reactive(null)
 
 table_groups = JSON.parse(localStorage.getItem("table_groups"));
 
+showHiddentTable();
+
 //render data from sale resource
 saleListResource.fetch()
 
@@ -186,8 +190,10 @@ async function onTableClick(table) {
     if (table.sales.length==0) {
         let guest_cover = 0;
         if (setting.use_guest_cover == 1) {
-            let result = await openDialog(ComInputNumber, { title: "Guest Cover" });          
-            if (result || result =="") {
+            const result = await inputNumberDialog( { title: "Guest Cover" }); 
+              
+            if (result || String(result)=='') {
+              
                 guest_cover = parseInt(result);
                 if (guest_cover == undefined || isNaN(guest_cover)) {
                     guest_cover = 0;
@@ -209,7 +215,7 @@ async function onTableClick(table) {
     }else {
     store.state.sale.sale.table_id = table.id;
     store.state.sale.sale.tbl_number = table.tbl_no;
-      await  openDialog(ComSelectSaleOrder, { data: table.sales, table:table });
+      await  selectSaleOrderDialog( { data: table.sales, table:table });
     }
     return;
 
@@ -256,26 +262,23 @@ let save_table_postion_resource = createResource({
         toaster.success("Save table position successfully", { position: "top" });
         onEnableArrangeTable(false);
         localStorage.setItem("table_groups", JSON.stringify(table_groups));
+           
     }
 })
 
 function showHiddentTable() {
-    const container = document.getElementsByClassName("bg-contain");
-    const containerHeight = container[0].offsetHeight;
-    const containerWidth = container[0].offsetWidth;
+    
+    const container = document.getElementsByClassName("v-window__container");
+    const containerHeight = container[0]?.offsetHeight;
+    const containerWidth = container[0]?.offsetWidth;
 
     table_groups.forEach(function (g) {
         g.tables.forEach(function (t) {
-            if (t.x >= containerWidth - 50) {
-                t.x = t.x - t.w;
-            }
+           
             if (t.x < 0) {
                 t.x = 0;
             }
 
-            if (t.y > containerHeight - 50) {
-                t.y = t.y - t.h;
-            }
             if (t.y < 0) {
                 t.y = 0
             }
@@ -284,7 +287,7 @@ function showHiddentTable() {
     })
 }
 function onSaveTablePosition() {
-    showHiddentTable();
+ 
 
     save_table_postion_resource.params = {
         "device_name": localStorage.getItem("device_name"),
@@ -300,9 +303,21 @@ function onRefreshSale() {
     saleListResource.fetch();
 }
 
-function activatedHandle(t) {
-
-    console.log(t)
+function onDragEnd(t) {
+    const container = document.getElementsByClassName("v-window__container");
+    const containerHeight = container[0]?.offsetHeight;
+    const containerWidth = container[0]?.offsetWidth;
+ 
+    return function(position){
+        if (t.y+t.h>containerHeight){
+            t.y = containerHeight - t.h;
+        }
+        if (t.x+t.w>containerWidth){
+            t.x = containerWidth - t.w;
+        }
+        
+    }
+    
 }
 
 
