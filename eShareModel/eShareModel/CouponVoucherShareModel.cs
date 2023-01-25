@@ -45,18 +45,22 @@ namespace eShareModel
         public string station_name_en { get; set; }
         public string station_name_kh { get; set; }
 
+        public Guid? refund_cash_drawer_id { get; set; }
         public Guid cash_drawer_id { get; set; }
         public string cash_drawer_name { get; set; }
 
+        public Guid? refund_working_day_id { get; set; }
         public Guid working_day_id { get; set; }
         public string working_day_number { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime working_date { get; set; } = DateTime.Now;
 
+        public Guid? refund_cashier_shift_id { get; set; }
         public Guid cashier_shift_id { get; set; }
         public string cashier_shift_number { get; set; }
         public string shift_name { get; set; }
+
 
        
         public decimal top_up_amount { get; set; }
@@ -65,6 +69,8 @@ namespace eShareModel
         public decimal current_balance { get; set; }  
         public decimal base_current_balance { get; set; }
         public bool is_used { get; set; } = false;
+
+        public DateTime transaction_expiry_date { get; set; }
 
 
 

@@ -28,7 +28,7 @@ namespace eAPIClient.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)] 
-        public IQueryable<CouponVoucherTransactionModel> Find(string keyword)
+        public IQueryable<CouponVoucherTransactionModel> Find(string keyword, bool only_code = true)
         {              
             if (string.IsNullOrEmpty(keyword))
             {
@@ -39,8 +39,7 @@ namespace eAPIClient.Controllers
                 var data = from r in db.CouponVoucherTransactions
                            where
                                  EF.Functions.Like(
-                                     ((r.coupon_number ?? " ")     +
-                                     (r.document_number ?? " ")
+                                     ((r.coupon_number ?? " ")+(only_code ?"": (r.document_number ?? " "))
                                      ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
                            select r;
                 return data;
@@ -53,7 +52,7 @@ namespace eAPIClient.Controllers
         [Route("[action]/{code}")]
         public SingleResult<CouponVoucherTransactionModel> Get(string code)
         {
-            var s = db.CouponVoucherTransactions.Where(r => r.coupon_number == code && r.status && !r.is_deleted).AsQueryable();
+            var s = db.CouponVoucherTransactions.Where(r => r.coupon_number == code && r.status && !r.is_deleted && r.base_current_balance > 0).Take(1).AsQueryable();            
             return SingleResult.Create(s);
         }
 

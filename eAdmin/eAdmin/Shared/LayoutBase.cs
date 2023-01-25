@@ -66,7 +66,7 @@ namespace eAdmin.Shared
         {
             get
             {
-                return config["BaseUrl"] + "upload/";
+                return config["baseUrl"] + "upload/";
             }
         }
 
@@ -176,7 +176,10 @@ namespace eAdmin.Shared
             }
             var lang = await GetCurrentLanguage();
             gv.current_language = lang;
-            gv.image_base_url = config["BaseUrl"] + "upload/";
+            gv.image_base_url = config["baseUrl"] + "upload/";
+            gv.report_url = config["reportUrl"];
+            gv.report_folder = config["reportFolder"];
+
             IsLoading = false;
         }
         public async Task<LanguageModel> GetCurrentLanguage()

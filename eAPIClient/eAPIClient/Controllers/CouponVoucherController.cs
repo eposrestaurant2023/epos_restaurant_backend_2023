@@ -58,7 +58,7 @@ namespace eAPIClient.Controllers
         [Route("[action]/{code}")]
         public SingleResult<CouponVoucherModel> Code(string code)
         {
-            var s = db.CouponVouchers.Where(r => r.coupon_number == code && r.status && !r.is_deleted).AsQueryable();
+            var s = db.CouponVouchers.Where(r => r.coupon_number == code && r.status && !r.is_deleted).Take(1).AsQueryable();
             return SingleResult.Create(s);
         }
 
@@ -79,7 +79,6 @@ namespace eAPIClient.Controllers
             {
                 return BadRequest(new BadRequestModel() { message = "coupon_number_already_used" });        
             }
-
 
             model.is_synced = false;
             model.coupon_vouchers.ForEach(cv => cv.is_synced = false);
@@ -109,7 +108,7 @@ namespace eAPIClient.Controllers
         }
 
         [HttpPost("Refund")]
-        public async Task<ActionResult<string>> OnRefund(Guid id, decimal amount )
+        public async Task<ActionResult<string>> OnRefund(Guid id,Guid rf_wd_id, Guid rf_cs_id, Guid rf_cd_id, decimal amount )
         {
 
             var coupons = db.CouponVouchers.Where(r => r.id == id).AsNoTracking();
@@ -122,7 +121,7 @@ namespace eAPIClient.Controllers
                 }
                 else
                 { 
-                    string query = $"exec sp_update_coupon_refund '{id}',{amount}";
+                    string query = $"exec sp_update_coupon_refund '{id}','{rf_wd_id}','{rf_cs_id}','{rf_cd_id}',{amount}";
                     db.Database.ExecuteSqlRaw(query);
                     return Ok();
                 }

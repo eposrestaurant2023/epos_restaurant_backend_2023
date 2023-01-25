@@ -46,7 +46,7 @@ namespace eAdmin.Services
         public string ImageUrl(string image_path)
         {
             image_path = $"{(string.IsNullOrEmpty(image_path) ? "placeholder.png" : image_path)}";
-            return $"{_configuration.GetValue<string>("BaseUrl")}upload/{image_path}";
+            return $"{_configuration.GetValue<string>("baseUrl")}upload/{image_path}";
         }
 
         public async Task<GetResponse> ApiGet(string url)
@@ -119,7 +119,7 @@ namespace eAdmin.Services
 
             try
             {
-                var resp = await http.GetAsync($"{_configuration.GetValue<string>("apieSoftixUrl")}{url}");
+                var resp = await http.GetAsync($"{_configuration.GetValue<string>("licenseServerUrl")}{url}");
                 StatusCode = resp.StatusCode;
                 if (resp.IsSuccessStatusCode)
                 {
@@ -163,7 +163,7 @@ namespace eAdmin.Services
                 string base_url = _configuration.GetValue<string>("apiBaseUrl");
                 if (use_est_api)
                 {
-                    base_url = _configuration.GetValue<string>("apieSoftixUrl");
+                    base_url = _configuration.GetValue<string>("licenseServerUrl");
                 }
 
                 var resp = await http.GetAsync($"{base_url}{url}");
@@ -273,20 +273,12 @@ namespace eAdmin.Services
         public async Task<PostReponse> eSoftixApiPost(string url, object obj = null)
         {
             HttpStatusCode StatusCode = new HttpStatusCode();
-            string base_url = _configuration.GetValue<string>("apieSoftixUrl");
-
-
-
+            string base_url = _configuration.GetValue<string>("licenseServerUrl");
             http.DefaultRequestHeaders.Add("ContentType", "application/json");
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"esoftix:MN[D8beAt:AWeW5");
             string val = System.Convert.ToBase64String(plainTextBytes);
-
             http.DefaultRequestHeaders.Remove("Authorization");
             http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
-
-
-
-
 
             HttpRequestMessage requestMessage = new HttpRequestMessage();
             if (obj != null)
@@ -295,7 +287,7 @@ namespace eAdmin.Services
                 requestMessage = new HttpRequestMessage()
                 {
                     Method = new HttpMethod("POST"),
-                    RequestUri = new Uri($"{_configuration.GetValue<string>("apieSoftixUrl")}{url}"),
+                    RequestUri = new Uri($"{_configuration.GetValue<string>("licenseServerUrl")}{url}"),
                     Content = new StringContent(JsonSerializer.Serialize(obj))
                 };
             }
@@ -304,7 +296,7 @@ namespace eAdmin.Services
                 requestMessage = new HttpRequestMessage()
                 {
                     Method = new HttpMethod("POST"),
-                    RequestUri = new Uri($"{_configuration.GetValue<string>("apieSoftixUrl")}{url}"),
+                    RequestUri = new Uri($"{_configuration.GetValue<string>("licenseServerUrl")}{url}"),
                 };
             }
             if (requestMessage.Content != null)
