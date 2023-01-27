@@ -5,3 +5,4 @@ export { createToaster } from "@meforma/vue-toaster";
 export * from '@/resource.js'
 export { openDialog, closeDialog } from 'vue3-promise-dialog';
 export {confirm} from './confirm.js'
+export * from '../utils/dialog';

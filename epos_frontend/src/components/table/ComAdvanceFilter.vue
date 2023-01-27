@@ -2,7 +2,7 @@
     <div class="mr-2 mt-1 mb-1">
         <v-menu v-model="menu" :close-on-content-click="false" location="end">
             <template v-slot:activator="{ props }">
-                <v-btn color="primary" v-bind="props" size="small">
+                <v-btn color="primary" v-bind="props">
                     <v-icon icon="mdi-filter-outline" :color="advancefilters.length > 0 ? 'black' : ''"></v-icon>
                 </v-btn> 
             </template>
@@ -24,7 +24,7 @@
                     <v-btn @click="addFilter" color="primary" variant="text">Add Filter</v-btn> 
                     <v-spacer></v-spacer>
                     <v-btn @click="clearFilter" color="error">Clear All</v-btn>
-                    <v-btn color="primary" variant="tonal" @click="onFilter()" prepend-icon="mdi-filter-outline">
+                    <v-btn color="primary" variant="tonal" @click="onFilter(true)" prepend-icon="mdi-filter-outline">
                         Apply Filters
                     </v-btn>
                 </v-card-actions>
@@ -55,7 +55,7 @@ function removeFilter(item) {
     loadingFilter.value = true
     advancefilters.value.splice(advancefilters.value.indexOf(item), 1);
     setTimeout(function(){
-        onFilter()
+        onFilter(false)
         loadingFilter.value = false
     },100)
     
@@ -64,8 +64,10 @@ function clearFilter() {
     advancefilters.value= []
     onFilter()
 }
-function onFilter(){ 
+function onFilter(isFilter){ 
     emit('onApplyFilter',advancefilters.value)
+    if(isFilter)
+        menu.value = false
 }
 
 </script>

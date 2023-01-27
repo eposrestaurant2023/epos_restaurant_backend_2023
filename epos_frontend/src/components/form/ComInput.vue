@@ -43,6 +43,7 @@
         </div>
         <div v-else>
             <v-text-field
+                clearable
                 v-if="keyboard"
                 :type="type"
                 density="compact"
@@ -56,7 +57,9 @@
                 :value="data"
                 @click:append-inner="onDialog()"
                 :prepend-inner-icon="prependInnerIcon"
-                @input="updateValue">
+                @input="updateValue"
+                @click:clear="onClear"
+                >
             </v-text-field>
             <v-text-field
                 v-else
@@ -78,7 +81,7 @@
     </div>
 </template>
 <script setup>
-import {ref,openDialog} from '@/plugin'
+import {ref,keyboardDialog} from '@/plugin'
 import ComModalKeyboard from './ComModalKeyboard.vue';
 
 const props = defineProps({
@@ -139,10 +142,9 @@ const updateValue = (event) => {
 
 async function onDialog() {
  
-    const keys = await openDialog(ComModalKeyboard,{title: props.title,type: props.type, value:data.value});
+    const keys = await keyboardDialog({title: props.title,type: props.type, value:data.value});
  
     if(typeof keys == 'boolean' && keys == false){
-        
         return
     }
     else {
@@ -151,6 +153,11 @@ async function onDialog() {
         emit('update:modelValue', data.value)
     }
         
+}
+function onClear(){
+    data.value="";
+    emit('onInput',"")
+        emit('update:modelValue', "")
 }
 </script>
  

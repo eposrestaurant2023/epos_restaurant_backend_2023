@@ -1,9 +1,15 @@
 <template>
     <v-app>
         <v-app-bar :elevation="2">
+            
             <template #prepend>
                 <v-app-bar-nav-icon variant="text" @click.stop="onDrawer()"></v-app-bar-nav-icon>
+                <v-app-bar-title>
+                    POS - T001
+                     
+            </v-app-bar-title>
             </template>
+           
             <template #title>
                 <ComProductSearch />
             </template>
@@ -50,6 +56,8 @@
 import ComProductSearch from '../../views/sale/components/ComProductSearch.vue'
 import MainLayoutDrawer from './MainLayoutDrawer.vue';
 import SaleLayoutDrawer from './SaleLayoutDrawer.vue';
+import {useStore} from "@/plugin"
+ 
 export default {
     inject: ["$auth"],
     name: "MainLayout",

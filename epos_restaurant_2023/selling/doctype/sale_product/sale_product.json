@@ -24,6 +24,7 @@
   "quantity",
   "column_break_11",
   "price",
+  "modifiers_price",
   "column_break_13",
   "sub_total",
   "column_break_16",
@@ -70,8 +71,15 @@
   "allow_free",
   "allow_change_price",
   "is_inventory_product",
+  "append_quantity",
   "cost",
-  "product_photo"
+  "product_photo",
+  "note",
+  "modifiers",
+  "modifiers_data",
+  "is_free",
+  "sale_product_status",
+  "menu_product_name"
  ],
  "fields": [
   {
@@ -478,12 +486,56 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Product Photo"
+  },
+  {
+   "default": "1",
+   "fetch_from": "product_code.append_quantity",
+   "fieldname": "append_quantity",
+   "fieldtype": "Check",
+   "label": "Append Quantity"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Data",
+   "label": "Note"
+  },
+  {
+   "fieldname": "modifiers",
+   "fieldtype": "Small Text",
+   "label": "Modifiers"
+  },
+  {
+   "fieldname": "modifiers_data",
+   "fieldtype": "JSON",
+   "label": "Modifiers Data"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_free",
+   "fieldtype": "Check",
+   "label": "Is Free"
+  },
+  {
+   "fieldname": "sale_product_status",
+   "fieldtype": "Data",
+   "label": "Sale Product Status"
+  },
+  {
+   "default": "0",
+   "fieldname": "modifiers_price",
+   "fieldtype": "Currency",
+   "label": "Modifiers Price"
+  },
+  {
+   "fieldname": "menu_product_name",
+   "fieldtype": "Data",
+   "label": "Menu Product Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-01-17 08:59:41.829201",
+ "modified": "2023-01-27 11:55:33.537543",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Product",

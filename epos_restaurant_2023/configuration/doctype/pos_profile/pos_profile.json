@@ -20,7 +20,9 @@
   "section_break_10",
   "table_groups",
   "pos_menus",
-  "payment_types"
+  "payment_types",
+  "default_customer",
+  "allow_change_quantity_after_submit"
  ],
  "fields": [
   {
@@ -109,11 +111,23 @@
   {
    "fieldname": "section_break_10",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "default_customer",
+   "fieldtype": "Link",
+   "label": "Default Customer",
+   "options": "Customer"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_change_quantity_after_submit",
+   "fieldtype": "Check",
+   "label": "Allow change quantity after submit"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-21 08:49:37.280575",
+ "modified": "2023-01-27 02:59:43.405282",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Profile",

@@ -7,7 +7,7 @@
                 style="width: 100%;"
                 hide-no-data
                 hide-details
-                density="comfortable"
+                density="compact"
                 :items="fields.filter(r=>r.fieldname!='naming_series').filter((r)=> r.fieldtype=='Data' || r.fieldtype=='Date' || r.fieldtype=='Int' || r.fieldtype=='Float' || r.fieldtype=='Currency' || r.fieldtype=='Link' || r.fieldtype=='Select' || r.fieldtype=='Check')" 
                 item-title="label"
                 item-value="item"
@@ -27,7 +27,7 @@
                 <v-select
                     style="width: 100%;"
                     v-model="item.operator"
-                    density="comfortable"
+                    density="compact"
                     hide-no-data
                     hide-details
                     :items="getOperaters"
@@ -37,9 +37,9 @@
                     variant="solo"></v-select>
             </div>
         </div>
-        <div class="w-[180px] mx-1" v-if="item.fieldname">
+        <div class="w-[200px] mx-1" v-if="item.fieldname">
              <div>
-                <div class="-mx-4" v-if="selectedField?.fieldtype=='Link' && !loadingAutoComplete.value && (item.operator == '=' || item.operator == '!=')" >
+                <div v-if="selectedField?.fieldtype=='Link' && !loadingAutoComplete.value && (item.operator == '=' || item.operator == '!=')" >
                     <ComAutoComplete
                         :doctype="selectedField?.options"
                         v-model="item.value"/> 
@@ -56,7 +56,7 @@
                         v-model="item.value"/>
                     <ComInput v-else-if="showDatepick" type="date" v-model="item.value"/>
                     <v-select
-                        density="comfortable"
+                        density="compact"
                         hide-no-data
                         hide-details
                         variant="solo"
@@ -207,8 +207,8 @@ const multipleSelect = computed(()=>{
     return isTure;
 })
 
-function OnFilter(value, query, item) {
-    return String(item.label).toLocaleLowerCase().includes(query.toLocaleLowerCase())
+function OnFilter(value, query, item) { 
+    return String(item.title).toLocaleLowerCase().includes(query.toLocaleLowerCase())
 
 }
 function onSelected($event){

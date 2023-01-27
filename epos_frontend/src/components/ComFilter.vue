@@ -3,29 +3,30 @@
         <div class="flex justify-between items-end" v-if="resource.data">
             <div>
                 <div class="flex flex-wrap items-end">
-                    <div style="min-width: 140px">
-                        <!-- <comInput keyboard label="ID" v-model="name" variant="underlined"/> -->
+                    <div style="min-width: 140px"> 
+                        <ComInput keyboard placeholder="ID" v-model="name" variant="solo" class="mr-2" v-debounce="onSearch" @onInput="onSearch"/>
                     </div>
                     <template v-for="(f, index) in resource.data.fields.filter(r => r.in_standard_filter == 1)" :key="index">
-                        <div style="min-width: 160px">
-                            <comInput keyboard
+                        <div style="min-width: 200px">
+                            <ComInput keyboard
                                 v-if="f.fieldtype == 'Data' || f.fieldtype == 'Text' || f.fieldtype == 'Small Text' || f.fieldtype == 'Long Text'"
-                                v-model="f.value" :label="f.label"   variant="underlined"/>
-                            <comInput keyboard type="number"
+                                v-model="f.value" :placeholder="f.label" variant="solo" class="mr-2" />
+                            <ComInput keyboard type="number"
                                 v-if="f.fieldtype == 'Int' || f.fieldtype == 'Float' || f.fieldtype == 'Currency'" v-model="f.value"
-                                :label="f.label" variant="underlined"/>
-                            <Datepicker v-if="f.fieldtype == 'Date'" v-model="f.value" format="yyyy-MM-dd"></Datepicker>
-                            <ComAutoComplete v-model="f.value" v-if="f.fieldtype == 'Link'" :doctype="f.options"   variant="underlined"/>
+                                :placeholder="f.label" variant="solo" class="mr-2"/>
+                            <ComInput type="date" v-if="f.fieldtype == 'Date'" v-model="f.value" class="mr-2"></ComInput>
+                            <ComAutoComplete v-model="f.value" v-if="f.fieldtype == 'Link'" :doctype="f.options"   variant="solo" class="mr-2"/>
                             <v-select 
+                                density="compact"
                                 v-if="f.fieldtype == 'Select'" 
                                 v-model="f.value" 
-                                :label="f.label"
+                                :placeholder="f.label"
                                 :items="f.options.split('\n')"
                                 @click:clear="f.value=''"
                                 hide-no-data
                                 hide-details 
                                 clearable
-                                variant="underlined"
+                                variant="solo" class="mr-2"
                                 ></v-select>
                         </div>
                     </template>
@@ -34,10 +35,9 @@
             <div>
                 <div class="flex flex-wrap justify-end">
                 <!-- Advance Filter -->
-                    <v-btn @click="onDefualtFilter" prepend-icon="mdi-magnify" size="small" class="mr-4 mt-1 mb-1">Search</v-btn>
                     <ComAdvanceFilter :resource="resource" @onApplyFilter="onApplyFilter"/>
                     <ComOrderBy :fields="resource.data.fields" @onOrderby="onOrderby" :default-orderby="order_by"/>
-                    <v-btn class="ml-4 mt-1 mb-1" size="small" @click="$emit('onRefresh')" variant="tonal">
+                    <v-btn class="ml-4 mt-1 mb-1" @click="$emit('onRefresh')" variant="tonal">
                         <v-icon>mdi-refresh</v-icon>
                     </v-btn>
                 </div>
@@ -47,10 +47,10 @@
 </template>
 <script setup>
 
-import { defineProps, createResource, ref, reactive, defineEmits } from '@/plugin'
+import { defineProps, createResource, ref, reactive, defineEmits, watch } from '@/plugin'
  
 import ComAutoComplete from "./form/ComAutoComplete.vue"
-import comInput from "./form/ComInput.vue"
+import ComInput from "./form/ComInput.vue"
 import moment from '@/utils/moment.js'
 import ComOrderBy from './table/ComOrderBy.vue';
 import ComAdvanceFilter from './table/ComAdvanceFilter.vue';
@@ -62,6 +62,8 @@ const name = ref("")
 let filter = reactive({})
 let order_by = ref('modified desc')
 const advancefilters = ref([])
+let disableFirstLoading = ref(true)
+ 
 
 const resource = createResource({
     url: "epos_restaurant_2023.api.api.get_meta",
@@ -74,14 +76,14 @@ const resource = createResource({
         if(data.sort_field && data.sort_order){
             order_by.value = data.sort_field +  ' ' + data.sort_order
         }
+        
         data.fields.forEach(function (r) {
-            r.value = ""
+            r.value = null
         })
     }
 })
 
 function generateFilter() {
-    
     //check name filter
     // filter = {}
     if (name.value) {
@@ -102,6 +104,12 @@ function generateFilter() {
 
     emit('onFilter', filter, order_by.value)
 }
+watch(resource, (newValue)=>{
+    if(!disableFirstLoading.value){
+        onSearch()
+    }
+    disableFirstLoading.value = false
+})
 function getFiltervalue(d, operator="=") {
     let value ="";
     if (d.fieldtype == "Date") {
@@ -119,17 +127,14 @@ function onOrderby($event) {
     order_by.value = $event;
     emit('onFilter', filter, $event)
 }
-function onSearch(){
+function onSearch(value){
+    filter = {}
     generateFilter();
-    menu.value = false;
 }
 function onApplyFilter($event){
     filter = {}
     advancefilters.value = $event
     generateFilter()
 }
-function onDefualtFilter(){
-    filter = {} 
-    generateFilter()
-}
+ 
 </script>

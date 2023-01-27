@@ -1,51 +1,44 @@
 <template>
-    <v-dialog v-model="open" persistent max-width="800px">
+    <v-dialog v-model="open" width="100%" max-width="800px">
         <div class="bg-white rounded-md overflow-hidden">
             <ComToolbar @onClose="onClose">
                 <template #title>
                     Choose Product Portion & Modifier
                 </template>
             </ComToolbar>
-            <div class="p-4">
-                <div>
-                    <v-row>
-                        <v-col :md="priceList.length > 0 ? '6' : '12'" v-if="prices.length > 0">
-                            <v-list>
-                                <v-list-subheader>Portions</v-list-subheader>
-                                <v-list-item
-                                    v-for="(item, i) in priceList"
-                                    :key="i"
-                                    :value="item"
-                                    active-color="primary"
-                                    rounded="lg"
-                                    :title="item.portion"
-                                    :subtitle="item.price_rule"
-                                > 
-                                    <template v-slot:append>
-                                        <v-chip color="success">{{ item.price }}</v-chip>
-                                    </template>
-                                </v-list-item>
-                                </v-list>
-                        </v-col>
-                        <v-col :md="modifierList.length > 0 ? '6' : '12'" v-if="modifierList.length > 0">
-                            <v-list>
-                                <v-list-subheader>Modifiers</v-list-subheader>
-                                <v-list-item
-                                    v-for="(item, i) in modifierList"
-                                    :key="i"
-                                    :value="item"
-                                    active-color="primary"
-                                    rounded="lg"
-                                    :title="item.modifier"
-                                    :subtitle="item.category"
-                                    >
-                                    <template v-slot:append>
-                                        <v-chip color="success">{{ item.price }}</v-chip>
-                                    </template>
-                                </v-list-item>
-                            </v-list>
-                        </v-col>
-                    </v-row>
+            <div>
+                <div style="max-height: calc(100vh - 254px);" class="overflow-auto p-4">
+                    <div class="mb-4">
+                        <ComInput prepend-inner-icon="mdi-magnify" keyboard :value="keyword" v-debounce="onSearch" @onInput="onSearch" placeholder="Search Portion & Modifier"/>
+                    </div>
+                    <div>
+                        <v-expansion-panels v-model="panelPortion" multiple variant="accordion">
+                            <v-expansion-panel title="Portion" v-if="product.prices.length>1">
+                                <v-expansion-panel-text>
+                                    <div class="flex flex-wrap">
+                                        <div class="m-1" v-for="(item, i) in product.prices" :key="i">
+                                            <ComPortionItem :portion="item" @click="product.onSelectPortion(item)" />
+                                        </div>
+                                    </div>
+                                </v-expansion-panel-text>
+                            </v-expansion-panel>
+                            <template v-for="(item, index) in product.modifiers" :key="index">
+                                <v-expansion-panel v-if="product.getModifierItem(item).length>0" class="mt-2" variant="accordion">
+                                   <template #title>
+                                    <span>{{  item.category  }}</span> 
+                                    <span v-if="item.is_required" class="text-red-500 mx-2 text-xs">* Required</span>
+                                   </template>
+                                    <v-expansion-panel-text>
+                                        <div class="flex flex-wrap">
+                                            <template v-for="(m, i) in product.getModifierItem(item)" :key="i">
+                                                <ComModifierItem :modifier="m" @click="product.onSelectModifier(item,m)" />
+                                            </template>
+                                        </div>
+                                    </v-expansion-panel-text>
+                                </v-expansion-panel>
+                            </template>
+                        </v-expansion-panels>
+                    </div>
                 </div>
             </div>
             <v-divider></v-divider>
@@ -58,20 +51,50 @@
 </template>
   
 <script setup>
-import { ref,closeDialog,computed } from '@/plugin'
+import { ref,defineEmits,inject } from '@/plugin'
 import ComToolbar from '@/components/ComToolbar.vue';
-
-const props = defineProps({ prices: Array, modifiers: Array})
-const priceList = computed(()=>{
-    return JSON.parse(props.prices)
+import ComModifierItem from './ComModifierItem.vue';
+import ComInput from '../../../components/form/ComInput.vue';
+import ComPortionItem from './ComPortionItem.vue';
+const props = defineProps({
+    params: {
+        type: Object,
+        require: true
+    }
 })
-const modifierList = computed(()=>{
-    return JSON.parse(props.modifiers)
-})
-const open = ref(true);
+const product = inject("$product")
+product.keyword = "";
+let keyword = ref()
+const panelPortion = ref([0,1,2,3,4,5,6,7,8,9])
+const emit = defineEmits(["resolve","reject"])
  
+const open = ref(true);
+
+
+function onConfirm(){
+    product.validateModifier().then((value)=>{
+      if(value){
+        emit("resolve",{
+            portion:product.getSelectedPortion(),
+            modifiers:product.getSelectedModifier()
+        })
+      } 
+
+    })
+    
+}
 function onClose() {
-    closeDialog(false);
+    emit('reject',false);
+}
+function onSearch(keyword){
+    product.keyword =keyword;
 }
 </script>
-
+<style>
+.v-expansion-panel--active > .v-expansion-panel-title {
+    min-height: auto !important;
+}
+.v-expansion-panel-text__wrapper {
+    padding: 8px 8px 12px !important;
+}
+</style>

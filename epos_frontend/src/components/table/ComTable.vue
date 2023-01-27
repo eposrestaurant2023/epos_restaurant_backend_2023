@@ -2,43 +2,62 @@
     
     <div v-if="dataResource.data">
         <div class="bg-gray-50 p-2 elevation-1">
-            <ComFilter doctype="Sale" @onFilter="onFilter" @onRefresh="onRefresh"/>
+            <ComFilter :doctype="doctype" @onFilter="onFilter" @onRefresh="onRefresh"/>
         </div>
         <div>
-            <v-progress-linear v-if="dataResource.loading"  style="position: absolute; z-index: 9999999999;" indeterminate
-			color="teal"></v-progress-linear>
-            <v-data-table 
-                :headers="getHeaders()" 
-                :items="dataResource.data"
-                :items-per-page="pagerOption.itemPerPage"
-                item-value="name"
-                class="elevation-1">
-                <template v-for="h in headers" v-slot:[`item.${h.key}`]="{ item }">
-                    <template v-if="h.fieldtype == 'Currency'">
-                        <div @click="callback(h, item.raw)">
-                        
-                            <CurrencyFormat :value="item.raw[h.key]"/>
+            <v-progress-linear v-if="dataResource.loading" style="position: absolute; z-index: 9999999999;" indeterminate
+			color="blue-lighten-3"></v-progress-linear>
+            
+            <div class="relative">
+                <div v-if="dataResource.loading" class="absolute left-0 right-0 top-0 bottom-0 z-10" style="background-color: #26262661;">
+                    <div class="h-full w-full flex justify-center items-center">
+                        <div class="text-center">
+                            <v-progress-circular indeterminate></v-progress-circular>
+                            <div class="mt-1">Loading...</div>
                         </div>
-                    </template>
-                    <template v-else-if="h.fieldtype=='Date'">
-                        <span @click="callback(h, item.raw)" >
-                            {{  moment(item.raw[h.key]).format('DD-MM-YYYY') }}
-                        </span>
-                    </template>
-                    <template v-else-if="!h.fieldtype">
-                        <template v-if="h.template">
-                            <div @click="callback(h, item.raw)" v-html="getFieldValue(h, item.raw)"></div>
+                    </div>
+                </div>
+                <v-data-table 
+                    :headers="getHeaders()" 
+                    :items="dataResource.data"
+                    :items-per-page="pagerOption.itemPerPage"
+                    item-value="name"
+                    class="elevation-1">
+                    <template v-for="h in headers" v-slot:[`item.${h.key}`]="{ item }">
+                        <template v-if="h.fieldtype == 'Currency'">
+                            <div @click="callback(h, item.raw)">
+                            
+                                <CurrencyFormat :value="item.raw[h.key]"/>
+                            </div>
                         </template>
-                        <span @click="callback(h, item.raw)" v-else>
-                            {{ item.raw[h.key] }}
-                        </span>
+                        <template v-else-if="h.fieldtype=='Date'">
+                            <span @click="callback(h, item.raw)" >
+                                {{  moment(item.raw[h.key]).format('DD-MM-YYYY') }}
+                            </span>
+                        </template>
+                        <template v-else-if="h.fieldtype=='Status'">
+                    
+                            <v-chip v-if="doctype=='Sale'" :color="item.raw[h.color_field]"> {{ item.raw[h.key] }}</v-chip>
+                        
+                        
+                        </template>
+                        <template v-else-if="!h.fieldtype">
+                            <template v-if="h.template">
+                                <div @click="callback(h, item.raw)" v-html="getFieldValue(h, item.raw)"></div>
+                            </template>
+                            <span @click="callback(h, item.raw)" v-else>
+                                {{ item.raw[h.key] }}
+                            </span>
+                        </template>
+                        
                     </template>
-                </template>
-            </v-data-table>
+                </v-data-table>
+            </div>
             <div class="p-6 text-center elevation-1 text-gray-400" v-if="dataResource.data.length == 0">
                 <div><v-icon icon="mdi-package-variant" style="font-size:60px"></v-icon></div>
                 <div class="text-sm italic">There are no data.</div>
             </div>
+            
         </div>
         <div>
             <div class="text-center items-center pt-2" v-if="countResource.data"> 
@@ -59,7 +78,7 @@
                         <v-pagination
                         v-model="pagerOption.currentPage"
                         class="my-4"
-                        :length="pagerOption.totalPage"
+                        :length="totalPage"
                         total-visible="8"
                         ></v-pagination> 
                     </v-col>
@@ -67,15 +86,12 @@
                 </v-row>
             </div>
         </div>
-
     </div>
-
-
 </template>
   
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import { createResource, reactive, defineEmits, watch,inject } from '@/plugin'
+import { createResource, reactive, defineEmits, watch,inject,ref } from '@/plugin'
 import ComFilter from '../ComFilter.vue';
 
 let filter = reactive({});
@@ -95,12 +111,13 @@ const props = defineProps({
 })
  
 let pagerOption = reactive({
-    totalRecord: 0,
     itemPerPage: 20,
-    totalPage: 0,
     currentPage: 1,
     filters:{}
 })
+
+let totalRecord = ref(0)
+let totalPage = ref(0)
 
 function getHeaders(){
     let h = props.headers;
@@ -115,8 +132,8 @@ let countResource = createResource({
     params:getCountResourceParams(),
     auto: true,
     onSuccess(r) {
-        pagerOption.totalRecord = r
-        pagerOption.totalPage = Math.ceil(r/pagerOption.itemPerPage)
+        totalRecord.value = r
+        totalPage.value = Math.ceil(r/pagerOption.itemPerPage)
     }
 })
 
@@ -127,12 +144,13 @@ let dataResource = createResource({
 })
 
 function getDataResourceParams (){
-    return {   doctype: props.doctype,
+    return {  
+         doctype: props.doctype,
             fields: getFieldName(),
             filters: pagerOption.filters,
             order_by: pagerOption.orderBy,
             limit_page_length: pagerOption.itemPerPage,
-            limit_start: ( (pagerOption.currentPage -1) * pagerOption.itemPerPage )+ 1
+            limit_start: ( (pagerOption.currentPage -1) * pagerOption.itemPerPage )
         }
 }
 function getCountResourceParams (){

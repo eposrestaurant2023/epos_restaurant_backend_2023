@@ -68,8 +68,8 @@ class Product(Document):
 	
 	def on_update(self):
 		
-		add_product_to_temp_menu(self)
-		#frappe.enqueue("epos_restaurant_2023.inventory.doctype.product.product.add_product_to_temp_menu", queue='short', self=self)
+		#add_product_to_temp_menu(self)
+		frappe.enqueue("epos_restaurant_2023.inventory.doctype.product.product.add_product_to_temp_menu", queue='short', self=self)
 
 
 	@frappe.whitelist()
@@ -187,6 +187,7 @@ def get_product_cost_by_stock(product_code=None, stock_location=None):
 
 def add_product_to_temp_menu(self):
 	frappe.db.sql("delete from `tabTemp Product Menu` where product_code='{}'".format(self.name))
+
 	if self.pos_menus and not self.disabled:
 		printers = []
 		for p in self.printers:
@@ -195,11 +196,22 @@ def add_product_to_temp_menu(self):
 		prices = []
 		for p in self.product_price:
 			prices.append({"price":p.price,'branch':p.business_branch or "",'price_rule':p.price_rule, 'portion':p.portion})
-	
+		modifier_categories = Enumerable(self.product_modifiers).select(lambda x: x.modifier_category).distinct()
+
 		modifiers = []
-		for m in self.product_modifiers:
-			modifiers.append({"branch":m.business_branch or "", "category":m.modifier_category, "prefix":m.prefix, "modifier":m.modifier_code, "price":m.price })
-		
+		for c in modifier_categories:
+			doc_category = frappe.get_doc("Modifier Category",c)
+			modifier_items = []
+			for m in self.product_modifiers:
+				if m.modifier_category == c:
+					modifier_items.append({"branch":m.business_branch or "" , "prefix":m.prefix, "modifier":m.modifier_code, "price":m.price })
+			
+			modifiers.append({
+				"category":c,
+				"is_required":doc_category.is_required,
+				"is_multiple":doc_category.is_multiple,
+				"items":modifier_items
+			})
 	
 		for m in self.pos_menus:
 			doc = frappe.get_doc({
@@ -211,3 +223,13 @@ def add_product_to_temp_menu(self):
 							'modifiers':json.dumps(modifiers)
 						})
 			doc.insert() 
+   
+@frappe.whitelist()
+def update_product_to_temp_product_menu():
+	products = frappe.db.sql("select name from `tabProduct`", as_dict=1)
+	for pro in products:
+		doc = frappe.get_doc("Product", pro.name)
+		
+		add_product_to_temp_menu(doc)
+	frappe.db.commit()
+	return "Done"

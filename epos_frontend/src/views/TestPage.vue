@@ -1,16 +1,15 @@
 <template>
+    <div>{{sale}}
 
-    <v-btn @click="onOpen">click me</v-btn>
-</template>
-<script setup>
-import { comPopupDialog, printPreviewDialog } from '../utils/dialog.ts';
+        <v-btn @click="add">Add Me</v-btn>
+    </div>
+    </template>
 
-async function onOpen(){
-    const result = await comPopupDialog({
-        text: "Do you like vue-promise-dialogs?"
-    });
-   console.log(result)
-   alert(result)
+    <script setup>
+import { inject } from "vue";
+const sale = inject("$sale")
+
+function add(){
+    sale.addSaleProduct("Product 1")
 }
-
 </script>

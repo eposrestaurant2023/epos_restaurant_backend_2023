@@ -719,6 +719,11 @@ lilconfig@^2.0.5, lilconfig@^2.0.6:
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.0.6.tgz#32a384558bd58af3d4c6e077dd1ad1d397bc69d4"
   integrity sha512-9JROoBW7pobfsx+Sq2JsASvCo6Pfo6WWoUW79HuB1BCoBXD4PLWJPqDF6fNj67pqBYTbAHkE57M1kS/+L1neOg==
 
+linq@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/linq/-/linq-4.0.1.tgz#86e308203b075a758ece8f741a99589236255b6f"
+  integrity sha512-Apjyhhtra/JMcJZT+RQUGU8lO5jhfKNAKA/A8TFnL39u4JyvTAAvwe8J090St4BVFEldI2/Lh/5RdUFNALTI3g==
+
 loader-utils@^1.0.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.4.2.tgz#29a957f3a63973883eb684f10ffd3d151fec01a3"

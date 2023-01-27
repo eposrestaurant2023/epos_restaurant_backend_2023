@@ -7,8 +7,6 @@ from frappe import utils
 from frappe import _
 from frappe.utils.data import fmt_money
 from py_linq import Enumerable
-
-
 from frappe.model.document import Document
 
 class Sale(Document):
@@ -64,8 +62,9 @@ class Sale(Document):
 		
 
 		total_quantity = Enumerable(self.sale_products).sum(lambda x: x.quantity or 0)
-		sub_total = Enumerable(self.sale_products).sum(lambda x: (x.quantity or 0)* (x.price or  0))
-		sale_discountable_amount =Enumerable(self.sale_products).where(lambda x:x.allow_discount ==1 and (x.discount_amount or 0)==0).sum(lambda x: (x.quantity or 0)* (x.price or  0))
+		sub_total = Enumerable(self.sale_products).sum(lambda x: (x.quantity or 0)* (x.price or  0) + ((x.quantity or 0)*(x.modifiers_price or 0)))
+  
+		sale_discountable_amount =Enumerable(self.sale_products).where(lambda x:x.allow_discount ==1 and (x.discount_amount or 0)==0).sum(lambda x: (x.quantity or 0)* (x.price or  0) + + ((x.quantity or 0)*(x.modifiers_price or 0)))
 
 		self.total_quantity = total_quantity
 		self.sale_discountable_amount = sale_discountable_amount
@@ -106,8 +105,12 @@ class Sale(Document):
 		if self.pos_profile:
 			if self.balance<0:
 				self.balance = 0
-				self.changed_amount = self.total_paid - self.grand_total
+			self.changed_amount = self.total_paid - self.grand_total
+			if self.changed_amount< 0:
+				self.changed_amount = 0
+				
 		else:
+			self.changed_amount = 0
 			if self.total_paid > self.grand_total:
 				frappe.throw(_("Paid amount cannot greater than grand total amount"))
 
@@ -250,7 +253,7 @@ def validate_sale_product(self):
 			sale_discount=(sale_discount / discountable_amount ) * 100
  
 	for d in self.sale_products:
-		d.sub_total = (d.quantity or 0) * (d.price or 0)
+		d.sub_total = (d.quantity or 0) * (d.price or 0) + (d.quantity or 0) * (d.modifiers_price or 0)
 		if (d.discount_type or "Percent")=="Percent":
 			d.discount_amount = d.sub_total * (d.discount or 0) / 100
 		else:

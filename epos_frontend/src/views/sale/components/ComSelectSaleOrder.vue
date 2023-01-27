@@ -45,8 +45,7 @@
     </v-dialog>
 </template>
 <script setup>
-import { ref, useStore, useRouter } from '@/plugin'
-import { inputNumberDialog } from '@/utils/dialog';
+import { ref, useStore, useRouter,keyboardDialog } from '@/plugin'
 import ComToolbar from '@/components/ComToolbar.vue';
 import { Timeago } from 'vue2-timeago'
 const store = useStore()
@@ -84,7 +83,7 @@ async function onNewOrder() {
     let guest_cover = 0;
 
     if (setting.use_guest_cover == 1) {
-        const result = await inputNumberDialog({ title: "Guest Cover" });
+        const result = await keyboardDialog({ title: "Guest Cover", value: guest_cover, type: 'number' });
 
         if (result || String(result) == "") {
             guest_cover = parseInt(result);

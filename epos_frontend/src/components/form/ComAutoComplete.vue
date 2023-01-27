@@ -5,12 +5,12 @@
       v-model:search="search"
       :loading="doctypeResource.loading"
       :items="items"
-      class="mx-4"
-      density="comfortable"
+
+      density="compact"
       hide-no-data
       hide-details
       :variant="variant"
-      :label="doctype"
+      :placeholder="doctype"
       :custom-filter="OnFilter"
       :item-title="getTitleField()"
       item-value="name"

@@ -1,8 +1,6 @@
 
-
 import './index.css';
 import { createApp, reactive } from "vue";
-
 import App from "./App.vue";
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
@@ -24,6 +22,8 @@ import router from './router';
 import call from "./utils/call";
 import socket from "./utils/socketio";
 import Auth from "./utils/auth";
+import Sale from "./providers/sale";
+import Product from "./providers/product";
 import moment from "./utils/moment";
 import store from "./store";
 import Toaster from "@meforma/vue-toaster";
@@ -36,6 +36,9 @@ import '@vuepic/vue-datepicker/dist/main.css'
 
 const app = createApp(App);
 const auth = reactive(new Auth());
+const sale = reactive(new Sale());
+const product = reactive(new Product());
+
 
 const vuetify = createVuetify({
 	components,
@@ -60,6 +63,8 @@ app.use(Toaster, {
  
 // Global Properties,
 // components can inject this
+app.provide("$sale", sale);
+app.provide("$product", product);
 app.provide("$auth", auth);
 app.provide("$call", call);
 app.provide("$socket", socket);

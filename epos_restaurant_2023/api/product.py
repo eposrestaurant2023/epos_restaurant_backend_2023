@@ -73,6 +73,7 @@ def get_child_menus(parent_menu):
 def get_products(parent_menu):
      
     sql = """select 
+                name as menu_product_name,
                 product_code as name,
                 product_name_en as name_en,
                 product_name_kh as name_kh,
@@ -88,7 +89,8 @@ def get_products(parent_menu):
                 printers,
                 modifiers,
                 photo,
-                'product' as type
+                'product' as type,
+                append_quantity
             from  `tabTemp Product Menu` 
             where 
                 pos_menu='{0}' 

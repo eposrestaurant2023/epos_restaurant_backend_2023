@@ -7,11 +7,8 @@
                 </template>
                 <template #action>
                     <ComPrintButton doctype="Sale" @onPrint="onPrint"/>
-                    
                 </template>
-
                 <template #more_menu>
-
                     <v-list density="compact">
                         <v-list-item>
                             <template v-slot:prepend>
@@ -24,7 +21,6 @@
             </ComToolbar>
             <v-card-text v-if="sale.doc">
                 <v-card max-width="960" class="mx-auto my-0 pa-4">
-                    
                     <div class="float-sm-left">
                         <table class="tbl-list">
                             <tr >
@@ -77,6 +73,7 @@
                                 <th style="color: white">Unit</th>
                                 <th style="color: white">QTY</th>
                                 <th class="text-right" style="color: white">Price</th>
+                                <!-- <th class="text-right" style="color: white">Discount</th> -->
                                 <th class="text-right" style="color: white">Amount</th>
                             </tr>
                         </thead>
@@ -92,6 +89,7 @@
                                 <th>{{ p.unit }}</th>
                                 <th>{{ p.quantity }}</th> 
                                 <th class="text-right"><CurrencyFormat :value="p.price"/></th>
+                                <!-- <th class="text-right"><CurrencyFormat :value="sale.doc.total_discount"/></th> -->
                                 <th class="text-right"><CurrencyFormat :value="p.amount"/></th>
                             </tr>
                         </tbody>
@@ -110,13 +108,16 @@
                             </tr>  
                             <tr v-if="sale.doc.product_discount > 0">
                                 <td>
-                                    <span v-if="sale.doc.sale_discount > 0 ">Product</span><span> Discount</span>
+                                    <span v-if="sale.doc.sale_discount > 0 ">Product</span>
+                                    <span> Discount</span>
                                 </td>
                                 <td>:</td>
                                 <td><CurrencyFormat :value="sale.doc.product_discount"/></td>
                             </tr>
                             <tr v-if="sale.doc.sale_discount > 0">
-                                <td><span v-if="sale.doc.product_discount > 0 ">Sale</span> <span>Discount</span>({{sale.doc.discount}}%)</td>
+                                <td>
+                                    <span v-if="sale.doc.product_discount > 0 ">Sale</span>
+                                    <span>Discount</span>({{sale.doc.discount}}%)</td>
                                 <td>:</td>
                                 <td><CurrencyFormat :value="sale.doc.sale_discount"/></td>
                             </tr>
@@ -125,7 +126,6 @@
                                 <td>:</td>
                                 <td><CurrencyFormat :value="sale.doc.total_discount"/></td>
                             </tr>
-
                             <tr v-if="sale.doc.tax_1_amount > 0">
                                 <td>Service Charge({{ sale.doc.tax_1_rate }}%)</td>
                                 <td>:</td>
@@ -193,7 +193,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(["resolve"])
+const emit = defineEmits(["resolve","reject"])
 
 const store = useStore();
 
@@ -210,7 +210,7 @@ let sale = createDocumentResource({
 })
  
 function onClick() {
-    emit('resolve',false);
+    emit('reject',false);
 }
 
 async function onPrint(r) {

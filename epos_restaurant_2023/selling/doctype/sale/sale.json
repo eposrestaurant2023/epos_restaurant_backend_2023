@@ -14,6 +14,7 @@
   "pos_profile",
   "customer",
   "customer_name",
+  "customer_photo",
   "phone_number",
   "customer_group",
   "column_break_6",
@@ -601,6 +602,13 @@
    "fieldtype": "Float",
    "label": "Exchange Rate",
    "precision": "9"
+  },
+  {
+   "fetch_from": "customer.photo",
+   "fieldname": "customer_photo",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Customer Photo"
   }
  ],
  "image_field": "photo",
@@ -613,7 +621,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-01-23 18:01:09.341478",
+ "modified": "2023-01-25 21:36:41.231611",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

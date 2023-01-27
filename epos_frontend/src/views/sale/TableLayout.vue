@@ -60,8 +60,9 @@
                                     {{ t.tbl_no }}<span v-if="t.guest_cover">({{ t.guest_cover }})</span> <br />
                              
                                     <span v-if="isLoading"></span>
-                                    <div v-if="t.grand_total">{{ t.grand_total }} </div>
-
+                                    <div v-if="t.grand_total"><CurrencyFormat :value="t.grand_total"></CurrencyFormat> </div>
+                                    <div v-if="t.creation"><Timeago   :long="long" :datetime="t.creation"  /> </div>
+                                    
                                 </div>
 
                             </template>
@@ -90,14 +91,13 @@
 
 <script setup>
 import PageLayout from '../../components/layout/PageLayout.vue';
-
+import { Timeago } from 'vue2-timeago'
 import ComPendingSaleList from './ComPendingSaleList.vue';
 import Vue3DraggableResizable from 'vue3-draggable-resizable'
-import { useStore, createResource, createToaster, useRouter, reactive, ref, watchEffect } from "@/plugin"
+import { useStore, createResource, createToaster, useRouter, reactive, ref, selectSaleOrderDialog, keyboardDialog } from "@/plugin"
 
 import ComSaleStatusInformation from './components/ComSaleStatusInformation.vue';
-import { inputNumberDialog,selectSaleOrderDialog } from '@/utils/dialog';
-
+import Enumerable from 'linq'
 
 const store = useStore()
 const router = useRouter()
@@ -146,6 +146,7 @@ let saleListResource = createResource({
                     t.guest_cover = t.sales.reduce((n, r) => n + r.guest_cover, 0)
                     t.grand_total = t.sales.reduce((n, r) => n + r.grand_total, 0)
                     t.background_color = t.sales.sort((a, b) => a.sale_status_priority - b.sale_status_priority)[0].sale_status_color;
+                    t.creation = Enumerable.from(t.sales).orderBy("$.creation").select("$.creation").toArray()[0]
                 }
 
             })
@@ -190,7 +191,7 @@ async function onTableClick(table) {
     if (table.sales.length==0) {
         let guest_cover = 0;
         if (setting.use_guest_cover == 1) {
-            const result = await inputNumberDialog( { title: "Guest Cover" }); 
+            const result = await keyboardDialog( { title: "Guest Cover", type: 'number', value: guest_cover }); 
               
             if (result || String(result)=='') {
               

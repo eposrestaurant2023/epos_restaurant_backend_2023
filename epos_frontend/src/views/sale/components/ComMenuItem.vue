@@ -44,10 +44,12 @@
     </div>
 </template>
 <script setup>
-    import { computed, useStore,openDialog } from '@/plugin'
-    import ComAddModifier from './ComAddModifier.vue';
+    import { computed, useStore, addModifierDialog,inject } from '@/plugin'
     const store = useStore()
     const props = defineProps({data: Object })
+    const sale = inject("$sale");
+    const product = inject("$product");
+
     const data = computed(() => {
         return props.data
     })
@@ -66,15 +68,44 @@
     function onClickMenu(menu){
         store.state.sale.parentMenu = menu;
     }
+
     function onBack(parent) { 
         const parent_menu = store.state.sale.posMenu.find(r=>r.name==parent).parent;
         store.state.sale.parentMenu = parent_menu ;
     }
-    function onClickProduct(){
-        console.log(JSON.parse(data.value.modifiers).length)
-        console.log(data.value)
-        if(JSON.parse(data.value.modifiers).length > 0){
-            openDialog(ComAddModifier, { modifiers: data.value.modifiers, prices: data.value.prices });
+    async function onClickProduct(){
+        const p =   JSON.parse( JSON.stringify(data.value));
+
+        if(JSON.parse(p.modifiers).length > 0 || JSON.parse(p.prices).length>1 ){
+            const dt = { 
+                modifiers: p.modifiers, 
+                prices: p.prices
+            }
+            product.setSelectedProduct(data.value);
+
+            let result = await addModifierDialog({
+                data: dt
+            });
+
+            if(result){
+               if(result.portion!=undefined){
+                p.price =result.portion.price;
+                p.portion =result.portion.portion;
+               }
+                p.modifiers = result.modifiers.modifiers;
+                p.modifiers_data = result.modifiers.modifiers_data;
+                p.modifiers_price = result.modifiers.price
+                
+            }else{
+                return;
+            }
+        }else {
+            p.modifiers="";
+            data.modifiers_data = "[]";
         }
+
+        sale.addSaleProduct(p);
+        
+
     }
 </script>

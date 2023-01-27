@@ -1,17 +1,12 @@
 <template>
-  
-  <PageLayout title="Receipt List" icon="mdi-note-outline" full>
-    <ComTable :headers="headers" doctype="Sale" extra-fields="customer_name" @callback="onCallback" />
-
+    <PageLayout title="Receipt List" icon="mdi-note-outline" full>
+    <ComTable :headers="headers" doctype="Sale" extra-fields="customer_name,sale_status_color" @callback="onCallback"/>
   </PageLayout>
 </template>
 <script setup>
-import { ref, useRouter } from '@/plugin'
-import PageLayout from '../../components/layout/PageLayout.vue';
-
-import ComTable from '../../components/table/ComTable.vue';
-import { saleDetailDialog } from '../../utils/dialog';
-
+import { ref, useRouter, saleDetailDialog } from '@/plugin'
+import PageLayout from '@/components/layout/PageLayout.vue';
+import ComTable from '@/components/table/ComTable.vue';
 const router = useRouter()
 function onCallback(data) {
  if(data.fieldname=="name"){
@@ -29,13 +24,14 @@ const headers = ref([
     key: 'name',
     callback: true
   },
-  { title: 'Customer Name', align: 'center', key: 'customer', template: '<b>{customer}-{customer_name}</b>', callback: true },
+  { title: 'Customer Name', align: 'center', key: 'customer', template: '{customer}-{customer_name}', callback: true },
   { title: 'Date', align: 'center', key: 'posting_date', fieldtype: "Date" },
   { title: 'QTY', align: 'end', key: 'total_quantity', },
   { title: 'Grand Total', align: 'end', key: 'grand_total', fieldtype: "Currency" },
   { title: 'Total Discount', align: 'end', key: 'total_discount', fieldtype: "Currency" },
   { title: 'Total Paid', align: 'end', key: 'total_paid', fieldtype: "Currency" },
   { title: 'Balance', align: 'end', key: 'balance', fieldtype: "Currency", callback: true },
+  { title: 'Status', align: 'center', key: 'sale_status', fieldtype: "Status", color_field:"sale_status_color" },
 ])
 
  

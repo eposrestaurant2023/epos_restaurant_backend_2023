@@ -62,6 +62,13 @@ def get_system_settings(pos_profile="", device_name=''):
         
     }
     
+    #get default customre
+    
+    if not profile.default_customer:
+        frappe.throw("There is no default customer for pos profie {}".format(pos_profile))
+    
+    default_customer = frappe.get_doc("Customer", profile.default_customer)
+    
     
     data={
         "app_name":doc.epos_app_name,
@@ -91,7 +98,11 @@ def get_system_settings(pos_profile="", device_name=''):
         "pos_sale_order_background_image":doc.pos_sale_order_background_image,
         "currencies":currencies,
         "default_currency":frappe.db.get_default("currency"),
-        "pos_setting":pos_setting
+        "pos_setting":pos_setting,
+        "customer":default_customer.name,
+        "customer_name":default_customer.customer_name_en,
+        "customer_photo":default_customer.photo,
+        "allow_change_quantity_after_submit":profile.allow_change_quantity_after_submit
         
     }
     return  data

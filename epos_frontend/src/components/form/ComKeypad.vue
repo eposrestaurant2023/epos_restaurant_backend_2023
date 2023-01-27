@@ -44,7 +44,6 @@
   </template>
   <script setup>
   import { ref, defineProps,defineEmits } from "@/plugin"
-  import { closeDialog } from 'vue3-promise-dialog'
   
   const props = defineProps({
     input: {

@@ -11,7 +11,9 @@
   "modifier_category",
   "prefix",
   "note",
-  "is_default"
+  "is_default",
+  "is_required",
+  "is_multiple"
  ],
  "fields": [
   {
@@ -43,11 +45,23 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Prefix"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_required",
+   "fieldtype": "Check",
+   "label": "Is Required"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_multiple",
+   "fieldtype": "Check",
+   "label": "Is Multiple"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-07 01:32:38.460934",
+ "modified": "2023-01-25 15:51:44.716562",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Modifier Category",

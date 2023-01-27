@@ -8,7 +8,7 @@
             <div class="pa-2">
                 <ComPlaceholder :is-not-empty="posMenu && posMenu.length > 0" class-color="text-white">
                     <template #default>
-                        <div class="flex -ml-1 -mr-1" v-if="posMenu && posMenu.length > 0">
+                        <div class="flex flex-wrap -ml-1 -mr-1" v-if="posMenu && posMenu.length > 0">
                           
                             <div v-for="(m, index) in posMenu" :key="index" class="p-1">
                                 <ComMenuItem :data="m"/>
@@ -22,7 +22,7 @@
 </template>
 <script setup>
 import ComShortcut from './ComShortcut.vue';
-import ComPlaceholder from '../../../components/layout/components/ComPlaceholder.vue';
+import ComPlaceholder from '@/components/layout/components/ComPlaceholder.vue';
 import ComMenuItem from './ComMenuItem.vue';
 import { useStore, computed } from '@/plugin';
 const store = useStore()

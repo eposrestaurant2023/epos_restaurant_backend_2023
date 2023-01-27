@@ -5,7 +5,7 @@
     
     <v-menu>
       <template v-slot:activator="{ props }">
-        <v-btn v-bind="props" size="small" variant="tonal" class="mr-1 mb-1 mt-1">
+        <v-btn v-bind="props" variant="tonal" class="mr-1 mb-1 mt-1">
           {{ selected.label }}
         </v-btn>
       </template>
@@ -20,7 +20,7 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-btn size="small" @click="onOrder()" variant="tonal">
+    <v-btn @click="onOrder()" variant="tonal">
       <v-icon :icon="orderType == 'desc' ? 'mdi-sort-descending' : 'mdi-sort-ascending'"></v-icon>
     </v-btn>
   </div>
