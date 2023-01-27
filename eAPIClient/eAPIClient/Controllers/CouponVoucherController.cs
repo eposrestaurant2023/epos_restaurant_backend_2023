@@ -36,7 +36,6 @@ namespace eAPIClient.Controllers
             if (string.IsNullOrEmpty(keyword))
             {
                 return db.CouponVouchers;
-
             }
             else
             {
@@ -56,10 +55,23 @@ namespace eAPIClient.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 4)]
         [Route("[action]/{code}")]
-        public SingleResult<CouponVoucherModel> Code(string code)
+        public async Task<SingleResult<CouponVoucherModel>> Code(string code)
         {
-            var s = db.CouponVouchers.Where(r => r.coupon_number == code && r.status && !r.is_deleted).Take(1).AsQueryable();
-            return SingleResult.Create(s);
+
+            var value=  await Task.Factory.StartNew(async ()  =>
+             {
+                 var data = db.CouponVouchers.Where(r => r.coupon_number == code && r.status && !r.is_deleted).Take(1).AsNoTracking().AsQueryable();
+                 if (data.Any())
+                 {
+                     var d = data.FirstOrDefault();
+                    await  db.Database.ExecuteSqlRawAsync($"exec sp_update_coupon_total_current_balance '{d.id}'");
+                     var result = db.CouponVouchers.Where(r => r.id == d.id).Take(1).AsNoTracking().AsQueryable();
+                     return SingleResult.Create(result);
+                 }
+                 return SingleResult.Create(data);
+             });
+            return  value.Result;
+
         }
 
         [HttpGet]
@@ -67,7 +79,19 @@ namespace eAPIClient.Controllers
         [Route("[action]/{key}")]
         public async Task<SingleResult<CouponVoucherModel>> Get([FromODataUri] Guid key)
         {
-            return await Task.Factory.StartNew(() => SingleResult.Create<CouponVoucherModel>(db.CouponVouchers.Where(r => r.id == key).AsQueryable()));
+            var value = await Task.Factory.StartNew(async () =>
+            {
+                var data = db.CouponVouchers.Where(r => r.id == key).AsNoTracking().AsQueryable();
+                if (data.Any())
+                {
+                    var d = data.FirstOrDefault();
+                    await db.Database.ExecuteSqlRawAsync($"exec sp_update_coupon_total_current_balance '{d.id}'");
+                    var result = db.CouponVouchers.Where(r => r.id == key).AsNoTracking().AsQueryable();
+                    return SingleResult.Create(result);
+                }
+                return SingleResult.Create(data);
+            });
+            return value.Result;
         }
 
 
@@ -130,7 +154,7 @@ namespace eAPIClient.Controllers
         }  
 
 
-[HttpPost]
+        [HttpPost]
         [Route("delete/{id}")]
         public async Task<ActionResult<CouponVoucherModel>> DeleteRecord(Guid id) //Delete
         {

@@ -71,6 +71,7 @@ namespace eShareModel
         public bool is_used { get; set; } = false;
 
         public DateTime transaction_expiry_date { get; set; }
+        public bool unlimited { get; set; } = false;
 
 
 

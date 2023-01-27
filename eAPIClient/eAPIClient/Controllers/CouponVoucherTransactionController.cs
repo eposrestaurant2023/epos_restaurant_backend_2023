@@ -50,10 +50,22 @@ namespace eAPIClient.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 4)]
         [Route("[action]/{code}")]
-        public SingleResult<CouponVoucherTransactionModel> Get(string code)
+        public async Task<SingleResult<CouponVoucherTransactionModel>> Get(string code)
         {
-            var s = db.CouponVoucherTransactions.Where(r => r.coupon_number == code && r.status && !r.is_deleted && r.base_current_balance > 0).Take(1).AsQueryable();            
-            return SingleResult.Create(s);
+            var value = await Task.Factory.StartNew(async () =>
+             {
+                 var data = db.CouponVoucherTransactions.Where(r => r.coupon_number == code && r.status && !r.is_deleted && r.base_current_balance > 0).Take(1).AsNoTracking().AsQueryable();
+                 if (data.Any())
+                 {
+                     var d = data.FirstOrDefault();
+                     await db.Database.ExecuteSqlRawAsync($"exec sp_update_coupon_total_current_balance '{d.coupon_voucher_id}'");
+                     var reslut = db.CouponVoucherTransactions.Where(r => r.id == d.id).Take(1).AsNoTracking().AsQueryable();
+                     return SingleResult.Create(reslut);
+                 }
+                 return SingleResult.Create(data);
+             });
+
+            return value.Result;
         }
 
 
@@ -71,7 +83,6 @@ namespace eAPIClient.Controllers
             }
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
             sync.sendSyncRequest();
             return Ok(model);
         }
