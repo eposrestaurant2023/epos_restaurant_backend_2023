@@ -34,6 +34,7 @@ export default class Product {
 
     }
     setSelectedProduct(p){
+
         this.selectedProduct = p;
         this.prices = [];
         this.modifiers = [];
@@ -53,8 +54,31 @@ export default class Product {
         this.modifiers =modifiers;
     }
     setSelectedProductByMenuID(id){
-        const p = Enumerable.from( this.posMenu).where(`$.menu_product_id=='${id}'`).firstOrDefault();
-        setSelectedProduct(p);
+        const p = Enumerable.from( this.posMenu).where(`$.menu_product_name=='${id}'`).firstOrDefault();
+         
+        this.setSelectedProduct(p);
+    }
+    setModifierSelection(sp){
+        Enumerable.from( this.prices).where("$.selected==true").forEach("$.selected = false");
+        const portion = Enumerable.from( this.prices).where(`$.portion=='${sp.portion}'`).firstOrDefault();
+        if(portion!=undefined){
+            portion.selected = true;
+        }
+       
+        const selectedModifiers = JSON.parse(sp.modifiers_data)
+        
+        
+        const modfierItems = Enumerable.from(this.modifiers).selectMany("$.items");
+        if(selectedModifiers!=undefined){  
+                selectedModifiers.forEach((r)=>{
+            
+                    const modifierItem = modfierItems.where(`$.name=='${r.name}'`).firstOrDefault();
+                    if(modifierItem!=undefined){
+                        modifierItem.selected = true;
+                    }
+                })
+            }
+         
     }
 
     getModifierItem(category) {
@@ -94,6 +118,9 @@ export default class Product {
         }
         return selected;
     }
+    getSelectedModierList(){
+        return (Enumerable.from(this.modifiers).selectMany("$.items").where("$.selected==true").orderBy("$.modifier")).toArray();
+    }
 
     getSelectedModifier() {
       
@@ -104,7 +131,7 @@ export default class Product {
         }
              
         return {
-            modifiers_data:selected.select("x => { modifier: x['modifier'], price: x['price'] }").toJSONString(),
+            modifiers_data:selected.select("x => {name:x['name'], modifier: x['modifier'], price: x['price'] }").toJSONString(),
             modifiers:modifiers,
             price:selected.sum("$.price")
 

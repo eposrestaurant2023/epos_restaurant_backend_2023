@@ -182,11 +182,11 @@
   
 <script setup>
 
-import { useStore, createDocumentResource,ref } from '@/plugin'
+import {  createDocumentResource,ref,inject} from '@/plugin'
 import ComToolbar from '@/components/ComToolbar.vue';
 import ComPrintButton from '@/components/ComPrintButton.vue';
 import { printPreviewDialog } from '@/utils/dialog';
-
+const gv = inject("$gv")
 const props = defineProps({
     params: {
         type: Object,
@@ -195,12 +195,11 @@ const props = defineProps({
 })
 const emit = defineEmits(["resolve","reject"])
 
-const store = useStore();
+
 
  
 const open = ref(true);
 
-const setting = JSON.parse(localStorage.getItem("setting"))
 
 let sale = createDocumentResource({
     url: 'frappe.client.get',
@@ -219,7 +218,7 @@ async function onPrint(r) {
         let data = {
             action:"print_receipt",
             print_setting:r,
-            setting:store.state.setting.pos_setting,
+            setting:gv.setting.pos_setting,
             sale:sale.doc
         }
         window.chrome.webview.postMessage(JSON.stringify(data));

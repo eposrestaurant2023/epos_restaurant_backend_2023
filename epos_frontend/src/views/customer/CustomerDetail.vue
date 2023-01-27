@@ -54,7 +54,7 @@
   <v-window v-model="tab" >
     <v-window-item value="about">
       <table class="ml-10 mb-4">
-        <p class="font-weight-black">
+        <p class="text-sm">
           CONTACT IMFORMATION
         </p>
         <table class="ml-5">
@@ -74,7 +74,7 @@
             <td>{{ customer.doc?.email_address }}</td>
           </tr>
         </table>
-          <p class="font-weight-black">
+          <p class="text-sm">
             BASIC IMFORMATION
           </p>
           <table class="ml-5">
@@ -94,22 +94,20 @@
     <v-window-item value="recentOrder">
       <v-table class="ml-10 mb-4">
         <thead>
-            <tr>
-              <th>
-                No
-              </th>
-              <th>
-                Grand Total
-              </th>
-              <th>
-                Total Quantity
-              </th>
-              <th class="text-left">
-                Modified
-              </th>
-            </tr>
+          <tr>
+            <th>No</th>
+            <th>Qty</th>
+            <th>Grand Total</th>
+            <th>Modified</th>
+          </tr>
         </thead>
-      </v-table>
+        <tbody v-for=" d in recentOrder.data" :key="d.name">
+          <td>{{ d.name }}</td>
+          <td clas="text-center">{{ d.total_quantity }}</td>
+          <td><CurrencyFormat :value="d.grand_total"/></td>
+          <td>{{ d.modified }}</td>
+        </tbody>
+      </v-table>  
     </v-window-item>
   </v-window>
   </v-card>

@@ -11,8 +11,8 @@
  "field_order": [
   "category_note_name_en",
   "category_note_name_kh",
-  "note",
-  "disabled"
+  "disabled",
+  "notes"
  ],
  "fields": [
   {
@@ -30,21 +30,21 @@
   },
   {
    "allow_in_quick_entry": 1,
-   "fieldname": "note",
-   "fieldtype": "Small Text",
-   "label": "Note"
-  },
-  {
-   "allow_in_quick_entry": 1,
    "default": "0",
    "fieldname": "disabled",
    "fieldtype": "Check",
    "label": "Disabled"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Table",
+   "label": "Notes",
+   "options": "Cashier Notes"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-09 15:54:36.020889",
+ "modified": "2023-01-27 17:57:22.035241",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Category Note",

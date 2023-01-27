@@ -32,35 +32,7 @@
                             </v-list-item>
                         </v-list>
                     </v-card>
-                    <!-- 
-                    <v-list>
-                        <v-list-item
-                            prepend-avatar="https://cdn.vuetifyjs.com/images/john.png"
-                            title="John Leider"
-                            subtitle="john@google.com"
-                        >
-                            <template v-slot:append>
-                            <v-btn
-                                size="small"
-                                variant="text"
-                                icon="mdi-menu-down"
-                            ></v-btn>
-                            </template>
-                        </v-list-item>
-                    </v-list>
-                    <v-divider></v-divider>
-                    <v-list
-                    :lines="false"
-                    density="compact"
-                    nav
-                    >
-                    <v-list-item>
-                        <template v-slot:prepend>
-                        <v-icon icon="mdi-home"></v-icon>
-                        </template>
-                        <v-list-item-title v-if="$auth.isLoggedIn" @click="$auth.logout()">Logout</v-list-item-title>
-                    </v-list-item>
-                    </v-list> -->
+                    
                 </v-menu>
             </template>
         </v-app-bar>

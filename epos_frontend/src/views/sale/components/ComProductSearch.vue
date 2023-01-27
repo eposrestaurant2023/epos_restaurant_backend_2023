@@ -2,7 +2,7 @@
     <div class="px-6">
         <div class="search-box my-0 mx-auto max-w-[350px]">
             <ComInput
-                type="number"
+              
                 keyboard
                 variant="outlined"
                 placeholder="Search..."

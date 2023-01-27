@@ -16,6 +16,7 @@
   "price_rule",
   "tax_rule",
   "default_pos_menu",
+  "default_sale_type",
   "pos_config",
   "section_break_10",
   "table_groups",
@@ -123,11 +124,17 @@
    "fieldname": "allow_change_quantity_after_submit",
    "fieldtype": "Check",
    "label": "Allow change quantity after submit"
+  },
+  {
+   "fieldname": "default_sale_type",
+   "fieldtype": "Link",
+   "label": "Default Sale Type",
+   "options": "Sale Type"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-27 02:59:43.405282",
+ "modified": "2023-01-27 19:45:59.128860",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Profile",

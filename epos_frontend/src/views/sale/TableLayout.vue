@@ -94,12 +94,14 @@ import PageLayout from '../../components/layout/PageLayout.vue';
 import { Timeago } from 'vue2-timeago'
 import ComPendingSaleList from './ComPendingSaleList.vue';
 import Vue3DraggableResizable from 'vue3-draggable-resizable'
-import { useStore, createResource, createToaster, useRouter, reactive, ref, selectSaleOrderDialog, keyboardDialog } from "@/plugin"
+import { inject, createResource, createToaster, useRouter, reactive, ref, selectSaleOrderDialog, keyboardDialog } from "@/plugin"
 
 import ComSaleStatusInformation from './components/ComSaleStatusInformation.vue';
 import Enumerable from 'linq'
 
-const store = useStore()
+const sale = inject("$sale");
+
+ 
 const router = useRouter()
 
  
@@ -204,9 +206,18 @@ async function onTableClick(table) {
                 return;
             }
         }
-        store.state.sale.sale.table_id = table.id;
-        store.state.sale.sale.tbl_number = table.tbl_no;
-        store.state.sale.sale.guest_cover = guest_cover;
+        sale.newSale();
+        sale.sale.table_id = table.id;
+        sale.sale.tbl_number = table.tbl_no;
+        sale.sale.guest_cover = guest_cover;
+        
+        if(table.sale_type){
+            sale.sale.sale_type = table.sale_type
+        }
+        if(table.price_rule){
+            sale.sale.price_rule= table.price_rule;
+        }
+
         router.push({ name: "AddSale" });
 
     }else if(table.sales.length==1){
@@ -214,8 +225,8 @@ async function onTableClick(table) {
             name:table.sales[0].name
         } });
     }else {
-    store.state.sale.sale.table_id = table.id;
-    store.state.sale.sale.tbl_number = table.tbl_no;
+    sale.sale.table_id = table.id;
+    sale.sale.tbl_number = table.tbl_no;
       await  selectSaleOrderDialog( { data: table.sales, table:table });
     }
     return;

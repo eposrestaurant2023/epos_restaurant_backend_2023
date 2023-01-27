@@ -13,6 +13,7 @@ import CurrencyFormat from './components/CurrencyFormat.vue';
 import ComPlaceholder from './components/layout/components/ComPlaceholder.vue'
 import ComAutoComplete from './components/form/ComAutoComplete.vue'
 import ComPrintPreview from './components/ComPrintPreview.vue'
+import Avatar from "vue3-avatar";
 
 import Vue3DraggableResizable from 'vue3-draggable-resizable'
 //default styles
@@ -24,6 +25,7 @@ import socket from "./utils/socketio";
 import Auth from "./utils/auth";
 import Sale from "./providers/sale";
 import Product from "./providers/product";
+import Gv from "./providers/gv";
 import moment from "./utils/moment";
 import store from "./store";
 import Toaster from "@meforma/vue-toaster";
@@ -38,7 +40,7 @@ const app = createApp(App);
 const auth = reactive(new Auth());
 const sale = reactive(new Sale());
 const product = reactive(new Product());
-
+const gv = reactive(new Gv());
 
 const vuetify = createVuetify({
 	components,
@@ -65,6 +67,7 @@ app.use(Toaster, {
 // components can inject this
 app.provide("$sale", sale);
 app.provide("$product", product);
+app.provide("$gv", gv);
 app.provide("$auth", auth);
 app.provide("$call", call);
 app.provide("$socket", socket);
@@ -117,6 +120,7 @@ app.component('CurrencyFormat', CurrencyFormat);
 app.component('ComPlaceholder', ComPlaceholder);
 app.component('ComAutoComplete', ComAutoComplete);
 app.component('ComPrintPreview', ComPrintPreview);
+app.component("avatar", Avatar);
 
 
 app.mount("#app");

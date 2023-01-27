@@ -55,7 +55,7 @@
 
   const number = ref("");
   function numpad_click(n) {
-    if(n == false){
+    if(typeof n == 'boolean' && n == false){
         number.value = '';
         emit('onChange', number.value)
     }else{

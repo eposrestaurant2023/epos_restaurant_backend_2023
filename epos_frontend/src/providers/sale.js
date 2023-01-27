@@ -1,8 +1,16 @@
 import Enumerable from 'linq'
-import { keyboardDialog,createResource,createDocumentResource,addModifierDialog,inject} from "@/plugin"
+import { keyboardDialog,createResource,createDocumentResource,addModifierDialog,inject,useRouter} from "@/plugin"
+import { createToaster } from "@meforma/vue-toaster";
 const setting = JSON.parse(localStorage.getItem("setting"))
+const toaster = createToaster({ position:"top" });
+const router = useRouter();
+
 export default class Sale {
+    product = inject("$product")
+     
 	constructor() {
+      
+        
 		this.sale = {
             sale_products:[]
         };
@@ -10,7 +18,10 @@ export default class Sale {
         this.newSaleResource= createResource({
             url:"frappe.client.insert",
             onSuccess(doc){
-                alert("save done");
+                toaster.success("Submit order successfully");
+                toaster.success("Print order to kitchen");
+                
+                
             }
         })
         // this.saleResource = createDocumentResource({
@@ -42,12 +53,13 @@ export default class Sale {
             working_day : "WD2023-0003",
             cashier_shift: "CS2023-0007",
             price_rule : setting.price_rule,
-            sale_products : []
+            sale_products : [],
+            sale_type:setting.default_sale_type
         }
     }
 
     getSaleProducts(){
-        return  Enumerable.from(this.sale.sale_products).orderByDescending("$.modified")
+        return  Enumerable.from(this.sale.sale_products).orderByDescending("$.modified").toArray()
     }
 
     addSaleProduct(p) {        
@@ -61,9 +73,10 @@ export default class Sale {
         }
         let sp = Enumerable.from(this.sale.sale_products).where(strFilter).firstOrDefault()
          
-
         if (sp != undefined) {
              sp.quantity =parseFloat( sp.quantity) + 1;
+             this.clearSelected();
+             sp.selected = true;
              this.updateSaleProduct(sp);
         } else {
             this.clearSelected();
@@ -107,12 +120,10 @@ export default class Sale {
         Enumerable.from(this.sale.sale_products).where(`$.selected==true`).forEach("$.selected=false");
     }
     updateSaleProduct(sp){
-       
         sp.sub_total = sp.quantity * sp.price + sp.quantity * sp.modifiers_price;
         sp.total_discount = 0
         sp.total_tax = 0
         sp.amount = sp.sub_total - sp.total_discount + sp.total_tax;
-        
     }   
 
     updateSaleSummary(){
@@ -164,29 +175,64 @@ export default class Sale {
         
     }
     async onSaleProductFree(sp){
-        let freeQty = sp.quantity
-        const result = await keyboardDialog({title:"Change Free Quantity", type:'number', value: freeQty});
+        let freeQty = 0;
+        const result = await keyboardDialog({title:"Change Free Quantity", type:'number', value: sp.quantity});
         if (result != false){
+            // option free notice from setting system
+            let notice = await keyboardDialog({title: "Free Notice", type: 'text', value: ''})
+            if (notice == false){
+                notice = ''
+            }
+            freeQty = parseFloat(this.getNumber(result));
+            if (freeQty > sp.quantity) {
+                freeQty = sp.quantity;
+            }
 
-            freeQty = parseFloat( this.getNumber(result));
-            if(freeQty > sp.quantity)
-                reeQty = sp.quantity;
-            console.log(sp.quantity)
-            console.log(freeQty)
-            if(freeQty < sp.quantity){
-                sp.quantity = sp.quantity - freeQty;
-                alert(sp.quantity)
-                const freeSaleProduct = sp;
+            if (freeQty == sp.quantity) {
+                sp.is_free = 1;
+                sp.backup_modifier_price = sp.modifiers_price
+                sp.backup_product_price = sp.price
+                sp.price = 0;
+                sp.modifiers_price = 0;
+                this.updateSaleProduct(sp);
+                this.updateSaleSummary();
+            }
+            else {
+                let freeSaleProduct = JSON.parse(JSON.stringify(sp))
                 freeSaleProduct.quantity = freeQty;
-                freeSaleProduct.free = true
-                this.addSaleProduct(freeSaleProduct)
+                freeSaleProduct.backup_product_price = sp.price
+                freeSaleProduct.backup_modifier_price = sp.modifiers_price
+                freeSaleProduct.price = 0;
+                freeSaleProduct.modifiers_price = 0;
+                freeSaleProduct.selected = false;
+                freeSaleProduct.is_free = true
+                freeSaleProduct.free_note = notice;
+                this.updateSaleProduct(freeSaleProduct);
+                this.sale.sale_products.push(freeSaleProduct)
+
+                //old record 
+
+                sp.quantity = sp.quantity - freeQty;
+                this.updateSaleProduct(sp);
+
             }
-            else{
-                sp.free = true
-            }
-            this.updateSaleProduct(sp);
+     
             this.updateSaleSummary();
         }
+    }
+    async onSaleProductSetSeatNumber(sp){
+        const result = await keyboardDialog({title: "Set Seat Number", type: 'number', value: sp.seat_number})
+        if (result != false){
+            sp.seat_number = result
+        }
+    }
+    onSaleProductCancelFree(sp){
+        sp.is_free = 0
+        sp.price = sp.backup_product_price
+        sp.modifiers_price = sp.backup_modifier_price
+        sp.free_note = ''
+        this.updateSaleProduct(sp)
+        this.updateSaleSummary()
     }
     getNumber(val) {
         val =  (val = val == null ? 0 : val)
@@ -210,14 +256,42 @@ export default class Sale {
     
 
     async OnEditSaleProduct(sp){
-        product.setSelectedProductByMenuID(sp.menu_product_name)
-        await addModifierDialog({});
+        
+        let result = await addModifierDialog();
+        if(result){
+            if(result.portion!=undefined){
+                sp.portion = this.getString(result.portion.portion);
+                sp.price = this.getNumber(result.portion.price);
+            }
+            
+            if(result.modifiers!=undefined){
+                
+                sp.modifiers = this.getString(result.modifiers.modifiers);
+                sp.modifiers_price = this.getNumber(result.modifiers.price);
+                sp.modifiers_data= result.modifiers.modifiers_data;
+            }else{
+                sp.modifiers = "";
+                sp.modifiers_price =0;
+                sp.modifiers_data="[]";
+            }
+            
+            toaster.success("Update sale product successfully")
+
+        }
+        console.log(result.modifiers);
+
+
+
         
     }
 
-    submit(){
-       this.newSaleResource.submit({doc:this.sale})
-       //this.saleResource.setValue.submit({pos_station_name:"xx"})
+    onSubmit(){
+        if(this.sale.sale_products.length==0){
+            toaster.warning("Please select a menu item to submit order");
+            return;
+        }
+        
+        this.newSaleResource.submit({doc:this.sale})
     }
 
 }

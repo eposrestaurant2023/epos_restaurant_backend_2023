@@ -57,13 +57,6 @@
    "options": "Rectangle\nCircle"
   },
   {
-   "fieldname": "price_rule",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Price Rule",
-   "options": "Select Price Rule\nNormal Price\nVIP"
-  },
-  {
    "default": "0",
    "fieldname": "require_check_in",
    "fieldtype": "Check",
@@ -92,12 +85,18 @@
    "fieldname": "default_discount",
    "fieldtype": "Percent",
    "label": "Default Discount"
+  },
+  {
+   "fieldname": "price_rule",
+   "fieldtype": "Link",
+   "label": "Price Rule",
+   "options": "Price Rule"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-12 17:43:33.133975",
+ "modified": "2023-01-28 00:06:25.504762",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Tables Number",

@@ -204,7 +204,7 @@ def add_product_to_temp_menu(self):
 			modifier_items = []
 			for m in self.product_modifiers:
 				if m.modifier_category == c:
-					modifier_items.append({"branch":m.business_branch or "" , "prefix":m.prefix, "modifier":m.modifier_code, "price":m.price })
+					modifier_items.append({"name":m.name,"branch":m.business_branch or "" , "prefix":m.prefix, "modifier":m.modifier_code, "price":m.price })
 			
 			modifiers.append({
 				"category":c,

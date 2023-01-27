@@ -44,7 +44,7 @@ import PageLayout from '../../components/layout/PageLayout.vue';
 import { createResource, ref, createToaster, useRouter, reactive, computed,confirm } from '@/plugin'
 import moment from '@/utils/moment.js'
 import ComInputNumber from '../../components/ComInputNumber.vue';
-import { openDialog } from 'vue3-promise-dialog';
+
 import ComInput from '../../components/form/ComInput.vue';
 
 
@@ -108,7 +108,7 @@ const addCashierShiftResource = createResource({
 })
 
 async function onOpenShift() {
-    if(await confirm('Are sure you want to close cashier shift?')){
+    // if(await confirm('Are sure you want to close cashier shift?')){
         addCashierShiftResource.params = {
             doc: {
                 doctype: "Cashier Shift",
@@ -118,7 +118,7 @@ async function onOpenShift() {
             }
         };
         addCashierShiftResource.submit();
-    }
+   // }
 
 }
 

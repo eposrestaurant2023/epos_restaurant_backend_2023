@@ -3,9 +3,10 @@
 </template>
 <script setup>
 
-import { useStore, defineProps,ref } from '@/plugin';
+import { inject, defineProps,ref } from '@/plugin';
 
-const store = useStore();
+const gv = inject("$gv")
+
 const props =defineProps({
     value:Number,
     currency:{
@@ -21,9 +22,9 @@ const precision = ref(0)
 let currency_name = props.currency
 
 if (currency_name==""){
-    currency_name = store.state.setting?.default_currency
+    currency_name = gv.setting?.default_currency
 }
-const currency = store.state.setting?.currencies.find(r=>r.name==currency_name)
+const currency = gv.setting?.currencies.find(r=>r.name==currency_name)
 if (currency){
     if (currency.symbol_on_right){
         suffix.value =" " + currency.symbol;

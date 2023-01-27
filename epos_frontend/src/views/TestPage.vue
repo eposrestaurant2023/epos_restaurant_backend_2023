@@ -2,6 +2,7 @@
     <div>{{sale}}
 
         <v-btn @click="add">Add Me</v-btn>
+        <avatar name="John Doe"></avatar>
     </div>
     </template>
 

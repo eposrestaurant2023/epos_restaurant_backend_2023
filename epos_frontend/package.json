@@ -24,6 +24,7 @@
     "vue-promise-dialogs": "^2.0.0",
     "vue-router": "^4",
     "vue2-timeago": "^3.0.2",
+    "vue3-avatar": "^1.0.1",
     "vue3-draggable-resizable": "^1.6.5",
     "vue3-promise-dialog": "^0.3.4",
     "vuetify": "^3.1.2",

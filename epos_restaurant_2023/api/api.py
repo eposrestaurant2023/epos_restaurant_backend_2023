@@ -102,7 +102,8 @@ def get_system_settings(pos_profile="", device_name=''):
         "customer":default_customer.name,
         "customer_name":default_customer.customer_name_en,
         "customer_photo":default_customer.photo,
-        "allow_change_quantity_after_submit":profile.allow_change_quantity_after_submit
+        "allow_change_quantity_after_submit":profile.allow_change_quantity_after_submit,
+        "default_sale_type":profile.default_sale_type
         
     }
     return  data

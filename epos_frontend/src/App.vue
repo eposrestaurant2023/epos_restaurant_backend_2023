@@ -23,10 +23,10 @@ import { DialogWrapper } from 'vue3-promise-dialog';
 import { PromiseDialogsWrapper } from 'vue-promise-dialogs';
 
 import { createResource } from '@/resource.js'
-import { reactive, computed, onMounted } from 'vue'
+import { reactive, computed, onMounted,inject } from 'vue'
 import { useStore } from 'vuex'
-
-
+ 
+const gv = inject("$gv");
 const store = useStore()
 
 let state = reactive({
@@ -62,8 +62,9 @@ if (!localStorage.getItem("pos_profile")) {
 
 			state.isLoading = false;
 			localStorage.setItem("setting", JSON.stringify(doc));
-			store.state.setting = doc;
+			gv.setting = doc;
 			localStorage.setItem("table_groups", JSON.stringify(doc.table_groups))
+
 		},
 		onError(x) {
 

@@ -13,13 +13,16 @@
         'color': data.text_color,
         'background-image': 'url(' + data.photo + ')'
     }"
+
         @click="onClickMenu(data.name)"
     >
+
         <div class="block relative p-2 w-full h-full">
            
             <div class="absolute right-1 top-1">
                 <v-icon color="white">mdi-folder-open</v-icon>
             </div>
+            <avatar :name="data.name_en" size="100" :rounded="false"></avatar>
             <div class="p-1 rounded-md absolute bottom-1 right-1 left-1 bg-gray-50 bg-opacity-70 text-sm text-center">
                 <span>{{ data.name_en }}</span>
                 
@@ -33,7 +36,7 @@
         @click="onClickProduct()"
     >
         <div class="block relative p-2 w-full h-full">
-           
+            <avatar v-if="!data.photo" :name="data.name_en" size="125" :rounded="false"></avatar>
             <div class="absolute left-0 top-0 bg-red-700 text-white p-1 rounded-tl-lg rounded-br-lg text-sm">
                 {{ data.price }}$
             </div>
@@ -45,6 +48,7 @@
 </template>
 <script setup>
     import { computed, useStore, addModifierDialog,inject } from '@/plugin'
+ 
     const store = useStore()
     const props = defineProps({data: Object })
     const sale = inject("$sale");

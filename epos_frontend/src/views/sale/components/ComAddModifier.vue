@@ -12,6 +12,12 @@
                         <ComInput prepend-inner-icon="mdi-magnify" keyboard :value="keyword" v-debounce="onSearch" @onInput="onSearch" placeholder="Search Portion & Modifier"/>
                     </div>
                     <div>
+                        <div>
+                        <v-chip  closable  @click:close="onRemoveModifier(item)" class="ml-2 mb-2 mt-0"  v-for="(item, index) in product.getSelectedModierList()" :key="index">
+                           {{item.prefix}} {{item.modifier}} - <CurrencyFormat :value="item.price"/>
+                        </v-chip>
+ 
+                        </div>
                         <v-expansion-panels v-model="panelPortion" multiple variant="accordion">
                             <v-expansion-panel title="Portion" v-if="product.prices.length>1">
                                 <v-expansion-panel-text>
@@ -83,6 +89,11 @@ function onConfirm(){
     })
     
 }
+
+function onRemoveModifier(d){
+    d.selected = false;
+}
+
 function onClose() {
     emit('reject',false);
 }
