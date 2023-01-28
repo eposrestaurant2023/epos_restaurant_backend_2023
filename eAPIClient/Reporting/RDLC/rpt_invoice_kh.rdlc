@@ -2161,7 +2161,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Setting</DataSetName>
-        <Top>6.25325in</Top>
+        <Top>6.12825in</Top>
         <Left>0.01312in</Left>
         <Height>0.53125in</Height>
         <Width>2.8136in</Width>
@@ -2647,7 +2647,6 @@
                         <PaddingBottom>0.5pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -2733,18 +2732,18 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.21875in</Height>
+              <Height>0.0625in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox42">
+                    <Textbox Name="Textbox27">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>ថ្ងៃផុតកំណត់: </Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                               </Style>
@@ -2755,7 +2754,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox42</rd:DefaultName>
+                      <rd:DefaultName>Textbox27</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2774,22 +2773,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="expiry_date">
+                    <Textbox Name="Textbox33">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=iif(Fields!unlimited.Value=true,"UNLIMITED",format(cdate(Fields!expiry_date.Value),"dd/MM/yyyy"))</Value>
-                              <Style>
-                                <FontStyle>Italic</FontStyle>
-                                <FontFamily>Kh System</FontFamily>
-                                <FontSize>8.5pt</FontSize>
-                              </Style>
-                            </TextRun>
-                            <TextRun>
-                              <Value xml:space="preserve"> </Value>
+                              <Value />
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontFamily>Kh System</FontFamily>
@@ -2802,7 +2793,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>expiry_date</rd:DefaultName>
+                      <rd:DefaultName>Textbox33</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2839,7 +2830,7 @@
         <DataSetName>CouponVoucher</DataSetName>
         <Top>5.46204in</Top>
         <Left>0.00875in</Left>
-        <Height>0.76042in</Height>
+        <Height>0.60417in</Height>
         <Width>2.81796in</Width>
         <ZIndex>8</ZIndex>
         <Visibility>
@@ -2864,7 +2855,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>7.07782in</Height>
+    <Height>6.80699in</Height>
     <Style />
   </Body>
   <Width>2.8425in</Width>
