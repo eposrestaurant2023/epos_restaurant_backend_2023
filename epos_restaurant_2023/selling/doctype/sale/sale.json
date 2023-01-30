@@ -579,7 +579,6 @@
    "fetch_from": "sale_status.background_color",
    "fieldname": "sale_status_color",
    "fieldtype": "Data",
-   "hidden": 1,
    "label": "Sale Status Color"
   },
   {
@@ -593,7 +592,6 @@
    "fetch_from": "sale_status.priority",
    "fieldname": "sale_status_priority",
    "fieldtype": "Int",
-   "hidden": 1,
    "label": "Sale Status Priority"
   },
   {
@@ -621,7 +619,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-01-25 21:36:41.231611",
+ "modified": "2023-01-28 01:01:14.807041",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

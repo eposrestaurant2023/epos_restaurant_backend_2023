@@ -158,7 +158,8 @@
    "allow_in_quick_entry": 1,
    "fieldname": "company_name",
    "fieldtype": "Data",
-   "label": "Company Name"
+   "label": "Company Name",
+   "reqd": 1
   },
   {
    "allow_in_quick_entry": 1,
@@ -195,7 +196,7 @@
  "index_web_pages_for_search": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-01-19 20:50:37.284811",
+ "modified": "2023-01-30 09:11:26.750204",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Customer",

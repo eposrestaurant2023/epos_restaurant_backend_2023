@@ -1,19 +1,26 @@
 <template>
-    <template v-if="isNotEmpty">
-        <slot name="default"></slot>
-    </template>
-    <div v-else>
-        <div v-if="isPlaceholder">
-            <slot name="empty"></slot>
-        </div>
-        <div else>
-            <div class="p-6 text-center" :class="classColor">
-                <div><v-icon :icon="icon" :style="{'font-size':iconSize}"></v-icon></div>
-                <div class="text-sm italic">{{ text }}</div>
-            </div>
+    <div v-if="loading">
+        <div class="p-6 text-center" :class="classColor">
+            <div><v-icon icon="mdi-spin mdi-loading" style="font-size:60px"></v-icon></div>
+            <div class="text-sm italic">Loading...</div>
         </div>
     </div>
-    
+    <template v-else>
+        <template v-if="isNotEmpty">
+            <slot name="default"></slot>
+        </template>
+        <div v-else>
+            <div v-if="isPlaceholder">
+                <slot name="empty"></slot>
+            </div>
+            <div else>
+                <div class="p-6 text-center" :class="classColor">
+                    <div><v-icon :icon="icon" :style="{'font-size':iconSize}"></v-icon></div>
+                    <div class="text-sm italic">{{ text }}</div>
+                </div>
+            </div>
+        </div>
+    </template>
 </template>
 <script setup>
     const props = defineProps({
@@ -30,6 +37,10 @@
         text: {
             type: String,
             default: 'Empty Data'
+        },
+        loading: {
+            type: Boolean,
+            default: false
         },
         classColor:{
             type: String,

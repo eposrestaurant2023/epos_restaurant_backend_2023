@@ -22,8 +22,11 @@
   "table_groups",
   "pos_menus",
   "payment_types",
+  "default_payment_type",
+  "section_break_16",
   "default_customer",
-  "allow_change_quantity_after_submit"
+  "allow_change_quantity_after_submit",
+  "default_pos_receipt"
  ],
  "fields": [
   {
@@ -107,7 +110,8 @@
    "fieldname": "default_pos_menu",
    "fieldtype": "Link",
    "label": "Default POS Menu",
-   "options": "POS Menu"
+   "options": "POS Menu",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_10",
@@ -117,7 +121,8 @@
    "fieldname": "default_customer",
    "fieldtype": "Link",
    "label": "Default Customer",
-   "options": "Customer"
+   "options": "Customer",
+   "reqd": 1
   },
   {
    "default": "0",
@@ -129,12 +134,31 @@
    "fieldname": "default_sale_type",
    "fieldtype": "Link",
    "label": "Default Sale Type",
-   "options": "Sale Type"
+   "options": "Sale Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "default_payment_type",
+   "fieldtype": "Link",
+   "label": "Default Payment Type",
+   "options": "Payment Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_16",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "default_pos_receipt",
+   "fieldtype": "Link",
+   "label": "Default POS Receipt",
+   "options": "Print Format",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-27 19:45:59.128860",
+ "modified": "2023-01-28 15:01:34.446338",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Profile",

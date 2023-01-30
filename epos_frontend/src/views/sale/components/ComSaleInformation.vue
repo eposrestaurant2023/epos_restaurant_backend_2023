@@ -1,15 +1,15 @@
 <template>
-    <ComSaleTypeChip/>
-    <v-chip>{{ sale.sale.pos_profile }}</v-chip>
-    <v-chip>{{ sale.sale.working_day }}</v-chip>
-    <v-chip>{{ sale.sale.cashier_shift }}</v-chip>
-    <ComExchangeRate/>
-    <v-chip>Guest Cover: {{ sale.sale.guest_cover }}</v-chip>
-    <v-chip> Price Rule: {{ sale.sale.price_rule }}</v-chip>
+    <div class="py-2 -mx-1 flex flex-wrap">
+        <ComSaleTypeChip/>
+        <ComChip tooltip="POS Profile" prepend-icon="mdi-desktop-classic">{{ sale.sale.pos_profile }}</ComChip>
+        <ComChip tooltip="Working Day" prepend-icon="mdi-calendar">{{ sale.sale.working_day }}</ComChip>
+        <ComChip tooltip="Cashier Shift" prepend-icon="mdi-calendar-clock">{{ sale.sale.cashier_shift }}</ComChip>
+        <ComChip tooltip="Guest Cover" prepend-icon="mdi-account-multiple-outline">{{ sale.sale.guest_cover }}</ComChip>
+        <ComChip tooltip="Price Rule" prepend-icon="mdi-bulletin-board">{{ sale.sale.price_rule }}</ComChip>   
+    </div>
 </template>
 <script setup>
 import ComSaleTypeChip from './ComSaleTypeChip.vue';
-import ComExchangeRate  from './ComExchangeRate.vue';
 import { inject,useRouter,createResource } from '@/plugin';
 import { createToaster } from '@meforma/vue-toaster';
 const sale = inject("$sale")
@@ -28,9 +28,9 @@ const working_day = createResource({
             toaster.warning("Please start working day first");
             router.push({ name: "Home" });
         } else{
-            if(sale.name){  
+            if(!sale.name){  
                 sale.sale.working_day = data.name;
-                alert("set workind aday to sale")
+               
             }
         }
     }
@@ -47,7 +47,9 @@ createResource({
             toaster.warning("Please start cashier shift first.", { position: "top" });
             router.push({ name: "Home" });
         }else{
-            sale.sale.cashier_shift = data.cashier_shift;
+            if(!sale.name){ 
+            sale.sale.cashier_shift = data.name;
+            }
         }
     }
 

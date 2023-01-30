@@ -7,11 +7,6 @@
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.20.13.tgz#ddf1eb5a813588d2fb1692b70c6fce75b945c088"
   integrity sha512-gFDLKMfpiXCsjt4za2JA9oTMn70CeseCehb11kRZgvd7+F67Hih3OHOK24cRrWECJ/ljfPGac6ygXAs/C8kIvw==
 
-"@dreamonkey/vue-signalr@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@dreamonkey/vue-signalr/-/vue-signalr-1.0.1.tgz#630fae0f5bc3c2187c6c48b71eb2916f97c16df7"
-  integrity sha512-sGSF2ICftxqf7zCodMQj7TPBvQcqfNqxoD8+wiplrWIGjXVzvl86FL8FhoeurHFuB5jPSRdeY3HQZzc4wfbsBg==
-
 "@esbuild/android-arm64@0.16.17":
   version "0.16.17"
   resolved "https://registry.yarnpkg.com/@esbuild/android-arm64/-/android-arm64-0.16.17.tgz#cf91e86df127aa3d141744edafcba0abdc577d23"
@@ -1185,11 +1180,6 @@ vite@^4.0.0:
   optionalDependencies:
     fsevents "~2.3.2"
 
-vue-avatar@^2.3.3:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/vue-avatar/-/vue-avatar-2.3.3.tgz#e125bf4f4a6f4f9480da0c522020266a8609d2a8"
-  integrity sha512-Z57ILRTkFIAuCH9JiFBxX74C5zua5ub/jRDM/KZ+QKXNfscvmUOgWBs3kA2+wrpZMowIvfLHIT0gvQu1z+zpLg==
-
 vue-debounce@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/vue-debounce/-/vue-debounce-4.0.0.tgz#3f584dabc08a841a0182ab68d19f77f70a416fcc"
@@ -1219,6 +1209,11 @@ vue-router@^4:
   dependencies:
     "@vue/devtools-api" "^6.4.5"
 
+vue-screen@^2.1.0-beta.1:
+  version "2.1.0-beta.1"
+  resolved "https://registry.yarnpkg.com/vue-screen/-/vue-screen-2.1.0-beta.1.tgz#b9a3b3a893d71444d577995d6f377d9d9dcc7565"
+  integrity sha512-U1qpJ3vteECELCin8y6QTh/tDfvfn96ExzzcVY+gL4kLUiJk4rC/+vJaV9Zsd7iK33JKx8kn3wYhM1nmQmD7tQ==
+
 vue2-timeago@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/vue2-timeago/-/vue2-timeago-3.0.2.tgz#dfd54839d4bdd61fc3020492bf9a4c5122ed6f58"
@@ -1226,15 +1221,15 @@ vue2-timeago@^3.0.2:
   dependencies:
     vue "^3.2.23"
 
+vue3-avatar@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vue3-avatar/-/vue3-avatar-1.0.1.tgz#0a762db03259b3c803e70ebf982ceff179d527a5"
+  integrity sha512-9M3IXcbF1IyAfXZtOnsT0LnILVkKwmo1WoYjH6C/oCWyT1ADffOvbjkdbGO1eNsF+mWKvmIlkwt3VBNtzEophg==
+
 vue3-draggable-resizable@^1.6.5:
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/vue3-draggable-resizable/-/vue3-draggable-resizable-1.6.5.tgz#021b2c00bff2885ab4fa5981e03bf4f56f12cdac"
   integrity sha512-31142E31fGNnq3HKqvmFLSsqIbhck7TyGuQWhUKrDw6DOcGAuRx4ddRjaxvT6fe7dgeKH53qAh+i0ZlWtPLl2g==
-
-vue3-promise-dialog@^0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/vue3-promise-dialog/-/vue3-promise-dialog-0.3.4.tgz#d7ba9396f0c1e5ff49cc6de4fd2756ce9476bc98"
-  integrity sha512-JquYYE+1lxuGgncD8Q+8KTFAWUJsNWnhuYPSsOFRKzz3kz66Rjz5pdlEW6GLfUlV3cKak9T8b3mV49B4ouEgVg==
 
 vue@^3.2.23, vue@^3.2.45:
   version "3.2.45"

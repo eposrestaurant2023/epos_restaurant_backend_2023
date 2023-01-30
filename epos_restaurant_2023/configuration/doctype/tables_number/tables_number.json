@@ -15,6 +15,7 @@
   "height",
   "column_break_6",
   "shape",
+  "discount_type",
   "default_discount",
   "price_rule",
   "sale_type",
@@ -91,12 +92,19 @@
    "fieldtype": "Link",
    "label": "Price Rule",
    "options": "Price Rule"
+  },
+  {
+   "default": "Percent",
+   "fieldname": "discount_type",
+   "fieldtype": "Select",
+   "label": "Discount Type",
+   "options": "Percent\nAmount"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-28 00:06:25.504762",
+ "modified": "2023-01-30 10:19:38.891201",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Tables Number",

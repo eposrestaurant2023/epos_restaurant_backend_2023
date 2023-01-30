@@ -9,6 +9,8 @@ import ComModelKeyboard from '@/components/form/ComModalKeyboard.vue';
 import ComSelectSaleOrder from '@/views/sale/components/ComSelectSaleOrder.vue';
 import ComAddModifier from '@/views/sale/components/ComAddModifier.vue';
 import ComAddCustomer from '@/views/customer/ComAddCustomer.vue';
+import ComConfirmBackToTableLayout from '@/views/sale/components/ComConfirmBackToTableLayout.vue';
+import ComSearchCustomer from '@/views/sale/components/ComSearchCustomer.vue';
 interface params {
     doctype?:String,
     name?:String,
@@ -30,9 +32,12 @@ export  const comPopup2Dialog = createPromiseDialog<params, object>(ComPopup2);
 export  const saleDetailDialog = createPromiseDialog<params, object>(SaleDetail);
 export  const printPreviewDialog = createPromiseDialog<params, object>(ComPrintPreview);
 export  const confirm = createPromiseDialog<params, object>(ComConfirm);
+export  const confirmDialog = createPromiseDialog<params, object>(ComConfirm);
 export  const keyboardDialog = createPromiseDialog<params, object>(ComModelKeyboard);
 export  const selectSaleOrderDialog = createPromiseDialog<params, object>(ComSelectSaleOrder);
 export  const addModifierDialog = createPromiseDialog<params, object>(ComAddModifier);
 export  const customerDetailDialog = createPromiseDialog<params, object>(CustomerDetail);
 export  const addCustomerDialog = createPromiseDialog<params, object>(ComAddCustomer);
+export  const confirmBackToTableLayout = createPromiseDialog<params, object>(ComConfirmBackToTableLayout);
+export  const searchCustomerDialog = createPromiseDialog<params, object>(ComSearchCustomer);
 

@@ -13,8 +13,7 @@ def check_username(pin_code):
             return {"username":data[0]["name"]} 
         
     frappe.throw(_("Invalid pin code"))
-    
-
+ 
 @frappe.whitelist(allow_guest=True)
 def get_system_settings(pos_profile="", device_name=''):
     if not frappe.db.exists("POS Profile",pos_profile):
@@ -43,7 +42,7 @@ def get_system_settings(pos_profile="", device_name=''):
     #main currency information
     main_currency = frappe.get_doc("Currency",frappe.db.get_default("currency"))
     second_currency = frappe.get_doc("Currency",frappe.db.get_default("second_currency"))
-    
+ 
     pos_setting={
         "business_branch":profile.business_branch,
         "business_name_en":pos_config.business_name_en,
@@ -58,8 +57,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "second_currency_name":second_currency.name,
         "second_currency_symbol":second_currency.symbol,
         "second_currency_format":second_currency.pos_currency_format,
-        "thank_you_message":pos_config.thank_you_message
-        
+        "thank_you_message":pos_config.thank_you_message    
     }
     
     #get default customre
@@ -69,7 +67,12 @@ def get_system_settings(pos_profile="", device_name=''):
     
     default_customer = frappe.get_doc("Customer", profile.default_customer)
     
-    
+    #get default print format
+    print_format = frappe.db.sql("select name,print_invoice_copies, print_receipt_copies,pos_invoice_file_name, pos_receipt_file_name, receipt_height, receipt_width,receipt_margin_top, receipt_margin_left,receipt_margin_right,receipt_margin_bottom  from `tabPrint Format` where doc_type='Sale' and show_in_pos=1 and disabled=0 and name='{}'".format(profile.default_pos_receipt), as_dict=True)
+    default_pos_receipt=None
+    if print_format:
+        default_pos_receipt = print_format[0]
+        
     data={
         "app_name":doc.epos_app_name,
         "business_branch":profile.business_branch,
@@ -103,7 +106,9 @@ def get_system_settings(pos_profile="", device_name=''):
         "customer_name":default_customer.customer_name_en,
         "customer_photo":default_customer.photo,
         "allow_change_quantity_after_submit":profile.allow_change_quantity_after_submit,
-        "default_sale_type":profile.default_sale_type
+        "default_sale_type":profile.default_sale_type,
+        "default_payment_type":profile.default_payment_type,
+        "default_pos_receipt":default_pos_receipt
         
     }
     return  data
@@ -111,7 +116,7 @@ def get_system_settings(pos_profile="", device_name=''):
 @frappe.whitelist(allow_guest=True)
 def get_tables_number(table_group,device_name):
     data = frappe.get_all("Tables Number",
-                fields=["name as id","tbl_number as tbl_no","shape","sale_type","default_discount","height as h","width as w","price_rule"],
+                fields=["name as id","tbl_number as tbl_no","shape","sale_type","default_discount","height as h","width as w","price_rule","discount_type"],
                 filters={"tbl_group":table_group}
             )
     background_color = frappe.db.get_default("default_table_number_background_color")

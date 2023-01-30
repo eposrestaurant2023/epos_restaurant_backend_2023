@@ -1,6 +1,7 @@
 <template>
     <div class="px-6">
         <div class="search-box my-0 mx-auto max-w-[350px]">
+           
             <ComInput
               
                 keyboard
@@ -14,10 +15,10 @@
     </div>
 </template>
 <script setup>
-import {useStore} from '@/plugin';
+import { inject }   from '@/plugin';
 import ComInput from '../../../components/form/ComInput.vue';
-const store = useStore() 
+const product =inject("$product") 
 function onSearch(key) {
-    store.state.sale.keyword = key;
+    product.searchProductKeyweord = key;
 }
 </script>

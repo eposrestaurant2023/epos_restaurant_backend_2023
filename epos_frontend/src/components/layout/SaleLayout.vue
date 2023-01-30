@@ -5,10 +5,15 @@
             <template #prepend>
                 <v-app-bar-nav-icon variant="text" @click.stop="onDrawer()"></v-app-bar-nav-icon>
                 <v-app-bar-title>
-                    POS - 
-                    <span v-if="$sale.sale.tbl_number">{{ $sale.sale.tbl_number }}</span>
-                    <span v-if="$sale.sale.name">  - $sale.sale.name</span>
-                    <span v-else>  - New</span>
+                    POS 
+                    <span v-if="$sale.sale.tbl_number">- {{ $sale.sale.tbl_number }}</span>
+                   
+                    <span v-if="$sale.sale.sale_status=='New'">  - New</span>
+                    <span v-else>  - {{$sale.sale.name}}</span>
+
+                    <v-chip class="ml-2" variant="elevated" v-if="$sale.sale.name!=undefined" :color="$sale.sale.sale_status_color">
+                    {{ $sale.sale.sale_status }}
+                    </v-chip>
                      
             </v-app-bar-title>
             </template>

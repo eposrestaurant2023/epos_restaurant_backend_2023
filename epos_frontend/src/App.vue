@@ -1,34 +1,29 @@
 <template>
 	<SplashScreen v-if="state.isLoading" />
-	<div v-else>
+	<v-sheet v-else id="app-container" v-resize="onResize">
 		<v-progress-linear class="progress_bar" v-if="isLoading" indeterminate color="teal"></v-progress-linear>
 		<MainLayout v-if="isMainLayout" />
 		<SaleLayout v-else-if="isSaleLayout" />
 		<BlankLayout v-else />
-
-		<DialogWrapper />
-
+ 
 		<PromiseDialogsWrapper/>
 
-	</div>
+	</v-sheet>
 </template>
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
 import MainLayout from './components/layout/MainLayout.vue';
 import BlankLayout from './components/layout/BlankLayout.vue';
 import SplashScreen from './components/SplashScreen.vue';
-import SaleLayout from './components/layout/SaleLayout.vue';
-import { DialogWrapper } from 'vue3-promise-dialog';
- 
+import SaleLayout from './components/layout/SaleLayout.vue'; 
 import { PromiseDialogsWrapper } from 'vue-promise-dialogs';
-
 import { createResource } from '@/resource.js'
 import { reactive, computed, onMounted,inject } from 'vue'
 import { useStore } from 'vuex'
  
 const gv = inject("$gv");
 const store = useStore()
-
+const screen = inject('$screen')
 let state = reactive({
 	isLoading: false
 })
@@ -57,6 +52,7 @@ if (!localStorage.getItem("pos_profile")) {
 			pos_profile: localStorage.getItem("pos_profile"),
 			device_name: localStorage.getItem("device_name")
 		},
+		cache:"get_system_settings",
 		auto: true,
 		onSuccess(doc) {
 
@@ -80,12 +76,13 @@ if (!localStorage.getItem("pos_profile")) {
 			state.isLoading = false;
 
 		}
-
 	});
 
 }
 
-
+function onResize () {
+	//screen.onResizeHandle()
+}
 
 </script>
 <style>

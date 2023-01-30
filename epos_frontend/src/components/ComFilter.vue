@@ -46,9 +46,7 @@
     </div>
 </template>
 <script setup>
-
-import { defineProps, createResource, ref, reactive, defineEmits, watch } from '@/plugin'
- 
+import { defineProps, createResource, ref, reactive, defineEmits, watch, inject } from '@/plugin'
 import ComAutoComplete from "./form/ComAutoComplete.vue"
 import ComInput from "./form/ComInput.vue"
 import moment from '@/utils/moment.js'
@@ -58,7 +56,7 @@ import ComAdvanceFilter from './table/ComAdvanceFilter.vue';
 const props = defineProps({ doctype: String })
 const emit = defineEmits(['onFilter'])
 const name = ref("")
-
+const gv = inject('$gv')
 let filter = reactive({})
 let order_by = ref('modified desc')
 const advancefilters = ref([])
@@ -73,6 +71,7 @@ const resource = createResource({
     
     auto: true,
     onSuccess(data) {
+        gv.customerMeta = data;
         if(data.sort_field && data.sort_order){
             order_by.value = data.sort_field +  ' ' + data.sort_order
         }

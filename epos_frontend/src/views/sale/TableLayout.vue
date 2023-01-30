@@ -110,7 +110,7 @@ let tab = ref(null);
 let isLoading = ref(false);
 const currentView = ref("table_group")
 const canArrangeTable = ref(false)
-const toaster = createToaster();
+const toaster = createToaster({position:"top"});
 
 //read value from local storage
 const setting = JSON.parse(localStorage.getItem("setting"))
@@ -210,6 +210,16 @@ async function onTableClick(table) {
         sale.sale.table_id = table.id;
         sale.sale.tbl_number = table.tbl_no;
         sale.sale.guest_cover = guest_cover;
+        if(parseFloat( table.default_discount)>0){
+            sale.sale.discount_type = table.discount_type;
+            sale.sale.discount = parseFloat( table.default_discount);
+            
+            toaster.info("This table is discount " + table.default_discount + '%')
+        }
+
+        if (setting.price_rule != sale.sale.price_rule) {
+            toast.info("Your current price rule is " + sale.sale.price_rule);
+        }
         
         if(table.sale_type){
             sale.sale.sale_type = table.sale_type

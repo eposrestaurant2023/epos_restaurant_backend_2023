@@ -13,6 +13,7 @@ import CurrencyFormat from './components/CurrencyFormat.vue';
 import ComPlaceholder from './components/layout/components/ComPlaceholder.vue'
 import ComAutoComplete from './components/form/ComAutoComplete.vue'
 import ComPrintPreview from './components/ComPrintPreview.vue'
+import ComChip from './components/ComChip.vue'
 import Avatar from "vue3-avatar";
 
 import Vue3DraggableResizable from 'vue3-draggable-resizable'
@@ -26,6 +27,7 @@ import Auth from "./utils/auth";
 import Sale from "./providers/sale";
 import Product from "./providers/product";
 import Gv from "./providers/gv";
+import Screen from "./providers/screen";
 import moment from "./utils/moment";
 import store from "./store";
 import Toaster from "@meforma/vue-toaster";
@@ -41,6 +43,7 @@ const auth = reactive(new Auth());
 const sale = reactive(new Sale());
 const product = reactive(new Product());
 const gv = reactive(new Gv());
+const screen = reactive(new Screen())
 
 const vuetify = createVuetify({
 	components,
@@ -68,6 +71,7 @@ app.use(Toaster, {
 app.provide("$sale", sale);
 app.provide("$product", product);
 app.provide("$gv", gv);
+app.provide("$screen", screen);
 app.provide("$auth", auth);
 app.provide("$call", call);
 app.provide("$socket", socket);
@@ -77,7 +81,6 @@ app.config.globalProperties.$filter = {
         return (!str || str.trim().length === 0);
     }
 }
-
 
 
 app.use(VueNumberFormat, {prefix: '$ ', decimal: '.', thousand: ',',precision:2})
@@ -121,6 +124,7 @@ app.component('ComPlaceholder', ComPlaceholder);
 app.component('ComAutoComplete', ComAutoComplete);
 app.component('ComPrintPreview', ComPrintPreview);
 app.component("avatar", Avatar);
+app.component('ComChip',ComChip)
 
 
 app.mount("#app");

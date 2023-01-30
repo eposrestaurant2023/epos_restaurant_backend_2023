@@ -8,18 +8,19 @@ const toaster = createToaster({ position:"top" });
 export default class Product {
 	constructor() {
 		this.posMenu = []
+        this.parentMenu="";
+        this.searchProductKeyweord="";
         this.selectedProduct = {};
         this.prices = [];
         this.modifiers = [];
         this.keyword="";
 
-      this.getPOSMenu();
+      this.loadPOSMenu();
 	}
-    async getPOSMenu(){
+    async loadPOSMenu(){
         if(this.posMenu.length==0){
             const data = createResource({
                  url: 'epos_restaurant_2023.api.product.get_product_by_menu',
-          
              params:{
                  root_menu: setting.default_pos_menu
              },
@@ -31,8 +32,34 @@ export default class Product {
            
 
          }
-
     }
+    getPOSMenu(){
+        
+    if (this.getString(this.searchProductKeyweord) == "") {
+           
+            if (this.parentMenu) {
+                return this.posMenu.filter(r => r.parent == this.parentMenu)
+            }
+            else {
+                let defaultMenu = setting.default_pos_menu;
+    
+                if (localStorage.getItem('default_menu')) {
+                    defaultMenu = localStorage.getItem('default_menu')
+                }
+    
+                return this.posMenu ? this.posMenu.filter(r => r.parent == defaultMenu) : null;
+            }
+        } else {
+           
+            return this.posMenu.filter((r) => {
+                return String( r.name_en + ' ' + r.name_kh + ' ' + r.name ).toLocaleLowerCase().includes(this.searchProductKeyweord.toLocaleLowerCase())  && r.type =="product"
+            })
+    
+     
+        }
+    }
+
+
     setSelectedProduct(p){
 
         this.selectedProduct = p;
@@ -55,7 +82,6 @@ export default class Product {
     }
     setSelectedProductByMenuID(id){
         const p = Enumerable.from( this.posMenu).where(`$.menu_product_name=='${id}'`).firstOrDefault();
-         
         this.setSelectedProduct(p);
     }
     setModifierSelection(sp){
@@ -64,21 +90,16 @@ export default class Product {
         if(portion!=undefined){
             portion.selected = true;
         }
-       
         const selectedModifiers = JSON.parse(sp.modifiers_data)
-        
-        
         const modfierItems = Enumerable.from(this.modifiers).selectMany("$.items");
         if(selectedModifiers!=undefined){  
                 selectedModifiers.forEach((r)=>{
-            
                     const modifierItem = modfierItems.where(`$.name=='${r.name}'`).firstOrDefault();
                     if(modifierItem!=undefined){
                         modifierItem.selected = true;
                     }
                 })
-            }
-         
+        }
     }
 
     getModifierItem(category) {
@@ -155,5 +176,8 @@ export default class Product {
       
 
      
-     
+    getString(val) {
+        val = (val = val == null ? "" : val)
+        return val;
+    }
 }

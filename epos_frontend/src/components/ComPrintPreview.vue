@@ -1,7 +1,7 @@
 <template>
-    <v-dialog v-model="open" fullscreen>
+    <v-dialog v-model="open" fullscreen @update:modelValue="onClose">
         <v-card v-if="reportList.data">
-            <ComToolbar @onClose="onClose" :isPrint="true" @onPrint="onPrint">
+            <ComToolbar @onClose="onClose(false)" :isPrint="true" @onPrint="onPrint">
                 <template #title>
                     {{ params.title }}
                 </template>
@@ -62,6 +62,7 @@ const props = defineProps({
     }
 })
 
+ 
 
 const emit = defineEmits(["resolve"])
 
@@ -125,8 +126,8 @@ function onViewReport(isPrint =0){
 
       
 }
-function onClose() {
-    emit('resolve',false);
+function onClose(isClose) {
+    emit('resolve',isClose);
 }
 
 function onPrint() {

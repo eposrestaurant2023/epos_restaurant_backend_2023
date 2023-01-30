@@ -1,6 +1,6 @@
 <template>
   <v-autocomplete 
-  v-model="select"
+      v-model="select"
       :clearable="clearable"
       v-model:search="search"
       :loading="doctypeResource.loading"
@@ -18,9 +18,7 @@
       @click:clear="onClear"
   >
 
-
   <template v-slot:item="{ props, item }">
-  
     <v-list-item class="py-2" v-if="meta.image_field" v-bind="props" 
       :prepend-avatar="item.raw[meta.image_field]?item.raw[meta.image_field]:'files/nophoto.png'"
       :title="item.raw[meta.title_field?meta.title_field:'name']"
@@ -31,13 +29,8 @@
       :title="item.raw[meta.title_field?meta.title_field:'name']"
       :subtitle="getSubTitle(item.raw)">
     </v-list-item> 
-
-
   </template>
-
   </v-autocomplete>
-
-
 </template>
 <script setup>
 import { watch,reactive, ref, defineProps, onMounted, createResource } from '@/plugin'
@@ -61,15 +54,20 @@ let filter = reactive({})
 const fields = reactive([])
 const doctypeResource = createResource({
   url: "frappe.client.get_list",
-  params: {
+  params:doctypeParams(),
+  onSuccess(data) {
+    items.value = data;
+    
+  }
+});
+
+function  doctypeParams(){
+  return {
     doctype: props.doctype,
     fields:fields,
     or_filters:filter
-  },
-  onSuccess(data) {
-    items.value = data;
   }
-});
+}  
 
 function onClear(){
   select.value ="";
@@ -78,7 +76,7 @@ onMounted(async () => {
   let metaResource = createResource({
     url: "epos_restaurant_2023.api.api.get_meta",
     params: {
-      doctype: props.doctype,
+      doctype: props.doctype
     },
 
   })
@@ -96,29 +94,22 @@ onMounted(async () => {
     meta.value.search_fields.split(",").forEach(function(d){
       fields.push(d.trim())
     });
-    
-     
-    
- 
   }
-
-
 
   doctypeResource.fetch();
 
   watch(search, (currentValue, oldValue) => {
-    
     if(currentValue!=oldValue ){ 
-      filter = {}
+     
       fields.forEach((r)=>{
+        
         filter[r] = ["like",'%'+ currentValue + '%']
       })
-      
-     
+      doctypeResource.params = doctypeParams();
       doctypeResource.fetch();
+     
     }
   });
-
 });
 
 function getSubTitle(d){
@@ -137,14 +128,12 @@ function getSubTitle(d){
 }
 function OnFilter(value, query,item){
   let titles = []
-
     fields.forEach(function(r){
-      if(item[r]){
-        titles.push(item[r])
+      if(item.raw[r]){
+        titles.push(item.raw[r])
       }
     });
  
-  
   return String(titles.join(" ")).toLocaleLowerCase().includes(search.value.toLocaleLowerCase())
   
 }

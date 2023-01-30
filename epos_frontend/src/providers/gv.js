@@ -1,5 +1,7 @@
 export default class Gv {
 	constructor() {
-    this.setting={}
+    this.setting={},
+	this.customerMeta = {},
+	this.countries = []
 	}
 }

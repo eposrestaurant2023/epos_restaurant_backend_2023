@@ -58,7 +58,7 @@
           CONTACT IMFORMATION
         </p>
         <table class="ml-5">
-          <tr>
+          <tr v-if="customer.doc?.phone_number > 0">
             <td>Phone</td>
             <td>:</td>
             <td>{{ customer.doc?.phone_number }}</td>
@@ -96,16 +96,16 @@
         <thead>
           <tr>
             <th>No</th>
-            <th>Qty</th>
+            <th >Qty</th>
             <th>Grand Total</th>
-            <th>Modified</th>
+            <th>Date</th>
           </tr>
-        </thead>
+        </thead>  
         <tbody v-for=" d in recentOrder.data" :key="d.name">
           <td>{{ d.name }}</td>
-          <td clas="text-center">{{ d.total_quantity }}</td>
+          <td>{{ d.total_quantity }}</td>
           <td><CurrencyFormat :value="d.grand_total"/></td>
-          <td>{{ d.modified }}</td>
+          <td v-if="d.modified"><Timeago   :long="long" :datetime="d.modified"/></td>
         </tbody>
       </v-table>  
     </v-window-item>
@@ -117,7 +117,7 @@
 <script setup>
   import { ref, defineProps,defineEmits, createDocumentResource,createResource } from '@/plugin'
   import ComToolbar from '@/components/ComToolbar.vue';
-
+  import { Timeago } from 'vue2-timeago';
 
   const props = defineProps({
     params:{

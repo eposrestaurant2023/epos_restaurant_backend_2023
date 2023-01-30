@@ -1,6 +1,9 @@
 <template>
-    <v-chip>Exchange Rate {{exchange_rate }} </v-chip>
-     
+    <v-tooltip text="Exchange Rate" location="top">
+        <template v-slot:activator="{ props }">
+            <v-chip v-bind="props" color="white" class="m-1" rounded="pill" variant="elevated" size="small" ><CurrencyFormat :value="1" />  = <CurrencyFormat :value="exchange_rate" :currency="gv.setting.pos_setting.second_currency_name" /></v-chip>
+        </template>
+    </v-tooltip>
 </template>
 <script setup>
 import {inject,createResource,ref} from "@/plugin"
