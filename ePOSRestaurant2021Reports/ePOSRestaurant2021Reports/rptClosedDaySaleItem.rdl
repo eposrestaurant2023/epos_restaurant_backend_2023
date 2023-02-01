@@ -175,10 +175,10 @@ select cast(id as nvarchar(50)),station_name_en from tbl_station</CommandText>
                   <Width>1.30374in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.7725in</Width>
+                  <Width>0.67875in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.86042in</Width>
+                  <Width>0.79792in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.46458in</Width>
@@ -4927,7 +4927,7 @@ select cast(id as nvarchar(50)),station_name_en from tbl_station</CommandText>
             </TablixRowHierarchy>
             <DataSetName>sale_item</DataSetName>
             <Height>0.875in</Height>
-            <Width>14.0529in</Width>
+            <Width>13.89665in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -4941,7 +4941,7 @@ select cast(id as nvarchar(50)),station_name_en from tbl_station</CommandText>
         <Height>0.875in</Height>
         <Style />
       </Body>
-      <Width>14.1779in</Width>
+      <Width>13.89665in</Width>
       <Page>
         <PageHeight>11.69in</PageHeight>
         <PageWidth>8.27in</PageWidth>
