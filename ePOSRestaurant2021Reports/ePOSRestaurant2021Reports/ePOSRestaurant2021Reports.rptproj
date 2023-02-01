@@ -8,9 +8,9 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>ePOSESTCDemo/Reports</TargetReportFolder>
-    <TargetDatasetFolder>ePOSESTCDemo/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>ePOSESTCDemo/DataSources</TargetDatasourceFolder>
+    <TargetReportFolder>LifeSnookerReport/Reports</TargetReportFolder>
+    <TargetDatasetFolder>LifeSnookerReport/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>LifeSnookerReport/DataSources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
   </PropertyGroup>
@@ -82,6 +82,7 @@
     <Report Include="rptCashierShiftList.rdl" />
     <Report Include="rptCashierShift_SaleProduct.rdl" />
     <Report Include="rptCashierShift_SaleTransaction.rdl" />
+    <Report Include="rptClosedDaySaleItem.rdl" />
     <Report Include="rptCustomerList.rdl" />
     <Report Include="rptDailySaleSummary.rdl" />
     <Report Include="rptExpenseList.rdl" />
