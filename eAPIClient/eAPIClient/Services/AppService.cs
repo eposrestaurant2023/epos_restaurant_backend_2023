@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
 using eAPIClient.Controllers;
 using eAPIClient.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Reporting.Models;
 
 namespace eAPIClient.Services
 {
@@ -17,14 +16,12 @@ namespace eAPIClient.Services
     public class AppService
     {
         public IConfiguration config { get; }
-        private readonly ApplicationDbContext db;
-        private readonly IHttpService http;
+        private readonly ApplicationDbContext db; 
         private readonly ISyncService sync;
         public AppService(ApplicationDbContext _db, IConfiguration _config, IHttpService _http, ISyncService sync)
         {
             db = _db;
-            config = _config;
-            http = _http;
+            config = _config; 
             this.sync = sync;
         }          
              

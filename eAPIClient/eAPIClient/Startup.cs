@@ -17,6 +17,9 @@ using System.Text.Json.Serialization;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using eAPIClient.ScheduleTasks;
+using Reporting.Services;
+using Reporting.Models;
+using System.Collections.Generic;
 
 namespace eAPIClient
 {
@@ -49,6 +52,8 @@ namespace eAPIClient
 
             services.AddDbContext<ApplicationDbContext>(options => options.EnableSensitiveDataLogging().UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
+
+           
             services.AddControllersWithViews().AddNewtonsoftJson(options => {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
@@ -68,10 +73,13 @@ namespace eAPIClient
                 options.AutomaticAuthentication = false;
             });
 
+            //receipt setting                                                                                              
+            services.AddSingleton(Configuration.GetSection("terminal_pos_receipt_setting").Get<List<ReceiptSettingModel>>());
 
 
             services.AddScoped<AppService>();
-            services.AddScoped<ISyncService,SyncService>();
+            services.AddScoped<ISyncService,SyncService>();    
+            services.AddScoped<IPrintRequestAction, PrintRequestAction>();
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
             services.AddHttpClient<IHttpService, HttpService>();
@@ -144,6 +152,8 @@ namespace eAPIClient
             odataBuilder.EntitySet<HistoryModel>("History");
             odataBuilder.EntitySet<ExpenseModel>("Expense");
             odataBuilder.EntitySet<CustomerCardModel>("CustomerCard");
+            odataBuilder.EntitySet<CouponVoucherModel>("CouponVoucher");
+            odataBuilder.EntitySet<CouponVoucherTransactionModel>("CouponVoucherTransaction");
             return odataBuilder.GetEdmModel();
         }
     }

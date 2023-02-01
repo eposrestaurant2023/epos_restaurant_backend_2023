@@ -362,12 +362,13 @@ namespace ePOSPrintingService
             m_currentPageIndex++;
             ev.HasMorePages = (m_currentPageIndex < m_streams.Count);
         }
+         
+
         public static void Print(LocalReport report, ReceiptListModel receipt, string printerName, short copies=1)
         {
-
             for (int i = 0; i < copies; i++)
             {
-                Export(report, receipt.PageWidth, receipt.PageHeight, receipt.MarginTop, receipt.MarginLeft, receipt.MarginRight, receipt.MarginBottom);
+                Export(report, receipt.PageWidth, 0, receipt.MarginTop, receipt.MarginLeft, receipt.MarginRight, receipt.MarginBottom);
 
                 if (m_streams == null || m_streams.Count == 0)
                     throw new Exception("Error: no stream to print.");
@@ -376,6 +377,26 @@ namespace ePOSPrintingService
                 PrintController printControl = new StandardPrintController();
                 printDoc.PrintController = printControl;
                 printDoc.PrinterSettings.PrinterName = printerName;
+
+                var paper_sizes = printDoc.PrinterSettings.PaperSizes ;
+                int paper_size_index = -1;
+                int x=0;
+                for (x = 0; x < paper_sizes.Count; x++)
+                {
+                    if (paper_sizes[x].ToString().ToLower().Contains("epos receipt"))
+                    {
+                        paper_size_index = x;
+                        break;
+                                              
+                    }
+                }
+
+                if (paper_size_index >= 0)
+                {
+                    printDoc.DefaultPageSettings.PaperSize = printDoc.PrinterSettings.PaperSizes[paper_size_index];
+                }
+
+                
                 if (!printDoc.PrinterSettings.IsValid)
                 {
                     try { throw new Exception("Error: cannot find the default printer."); }
@@ -723,12 +744,23 @@ namespace ePOSPrintingService
                     settings = JsonSerializer.Deserialize<List<SettingModel>>(receipt_data.setting_data);
                     setting_data = CreateDataTable(settings);
 
+                    //coupon voucher data
+                    DataTable coupon_voucher_data = new DataTable();
+                    List<CouponVoucherModel> coupon_voucher_list = new List<CouponVoucherModel>();
+                    if (receipt_data.coupon_voucher_data != null)
+                    {
+                        coupon_voucher_list = JsonSerializer.Deserialize<List<CouponVoucherModel>>(receipt_data.coupon_voucher_data);
+                    }
+                    coupon_voucher_data = CreateDataTable(coupon_voucher_list);
+
+
                     report.DataSources.Add(new ReportDataSource("Sale", sale_data));
                     report.DataSources.Add(new ReportDataSource("SaleProduct", sale_product_data));
                     report.DataSources.Add(new ReportDataSource("GrandTotal", grand_total_data));
                     report.DataSources.Add(new ReportDataSource("Setting", setting_data));
+                    report.DataSources.Add(new ReportDataSource("CouponVoucher", coupon_voucher_data));
 
-          
+
 
                     Print(report, receipt, printer_name, Convert.ToInt16(copies));
 
@@ -819,7 +851,7 @@ namespace ePOSPrintingService
             };
         }
 
-       public static async Task PrintWifiPassword()
+       public static async Task PrintWifiPassword(string printer_name)
         {
             try
             {    
@@ -844,7 +876,7 @@ namespace ePOSPrintingService
                 setting_data = CreateDataTable(settings);
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
 
-                Print(report, receipt,CashierPrinter, 1);
+                Print(report, receipt,printer_name, 1);
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -901,8 +933,7 @@ namespace ePOSPrintingService
                 if (receipt_data.sale_payment_change_data != null)
                 {
                     sale_payment_change_list = JsonSerializer.Deserialize<List<SalePaymentChangeModel>>(receipt_data.sale_payment_change_data);
-                }
-                
+                }                 
                 sale_payment_change_data = CreateDataTable(sale_payment_change_list);   
 
                 //Setting data
@@ -911,14 +942,27 @@ namespace ePOSPrintingService
                 settings = JsonSerializer.Deserialize<List<SettingModel>>(receipt_data.setting_data);
                 setting_data = CreateDataTable(settings);
 
+
+                //coupon voucher data
+                DataTable coupon_voucher_data = new DataTable();
+                List<CouponVoucherModel> coupon_voucher_list = new List<CouponVoucherModel>();
+                if (receipt_data.coupon_voucher_data != null)
+                {
+                    coupon_voucher_list = JsonSerializer.Deserialize<List<CouponVoucherModel>>(receipt_data.coupon_voucher_data);
+                }
+                coupon_voucher_data = CreateDataTable(coupon_voucher_list);
+
+
+
                 report.DataSources.Add(new ReportDataSource("Sale", sale_data));
                 report.DataSources.Add(new ReportDataSource("SaleProduct", sale_product_data));
                 report.DataSources.Add(new ReportDataSource("GrandTotal", grand_total_data));
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
                 report.DataSources.Add(new ReportDataSource("SalePayment", sale_payment_data));
                 report.DataSources.Add(new ReportDataSource("SalePaymentChange", sale_payment_change_data));
+                report.DataSources.Add(new ReportDataSource("CouponVoucher", coupon_voucher_data));
 
-       
+
                 Print(report, receipt, printer_name, Convert.ToInt16(copies));
 
 
@@ -937,6 +981,52 @@ namespace ePOSPrintingService
 
                     Thread t = ThreadStart(() => SendTelegramAlert(report, is_reprint ? "RePrintReceiptService" : "PrintReceiptService", param));
                 }
+                IsPrintSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                WriteToFile(ex.Message + ex.ToString());
+                IsPrintSuccess = false;
+            };
+        }
+
+        public static async Task PrintCouponVoucherReceipt(string id, ReceiptListModel receipt, string printer_name, int copies)
+        {
+            try
+            {
+                DynamicDataModel receipt_data = new DynamicDataModel();
+                var data = await GetApiData($"sp_get_coupon_voucher_transaction_for_print", $"'{id}'");
+                if (data.Any())
+                {
+                    receipt_data = data.FirstOrDefault();
+                }
+                else
+                {
+                    return;
+                }
+                LocalReport report = new LocalReport();
+                report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
+
+                //Setting data
+                DataTable setting_data = new DataTable();
+                List<SettingModel> settings = new List<SettingModel>();
+                settings = JsonSerializer.Deserialize<List<SettingModel>>(receipt_data.setting_data);
+                setting_data = CreateDataTable(settings);
+
+                //coupon voucher data
+                DataTable coupon_voucher_data = new DataTable();
+                List<CouponVoucherTransactionModel> coupon_voucher_list = new List<CouponVoucherTransactionModel>();
+                if (receipt_data.coupon_voucher_data != null)
+                {
+                    coupon_voucher_list = JsonSerializer.Deserialize<List<CouponVoucherTransactionModel>>(receipt_data.coupon_voucher_data);
+                }
+                coupon_voucher_data = CreateDataTable(coupon_voucher_list);
+
+                report.DataSources.Add(new ReportDataSource("Setting", setting_data));
+                report.DataSources.Add(new ReportDataSource("CouponVoucher", coupon_voucher_data));
+
+                Print(report, receipt, printer_name, Convert.ToInt16(copies));
+
                 IsPrintSuccess = true;
             }
             catch (Exception ex)
@@ -1648,7 +1738,7 @@ namespace ePOSPrintingService
             catch { };
         }
 
-        public static void OpenCashDrawer()
+        public static void OpenCashDrawer(string printer_name)
         {
             try
             {                                                                                              
@@ -1675,9 +1765,8 @@ namespace ePOSPrintingService
                 }
                 else
                 {
-                    string DrawerCode = Strings.Chr(27).ToString() + Strings.Chr(112).ToString() + Strings.Chr(48).ToString() + Strings.Chr(64).ToString() + Strings.Chr(64).ToString();
-                    string PrinterName = CashierPrinter;
-                    PrintRaw(PrinterName, DrawerCode);
+                    string DrawerCode = Strings.Chr(27).ToString() + Strings.Chr(112).ToString() + Strings.Chr(48).ToString() + Strings.Chr(64).ToString() + Strings.Chr(64).ToString();                    
+                    PrintRaw(printer_name, DrawerCode);
                 }
             }
             catch (Exception ex)

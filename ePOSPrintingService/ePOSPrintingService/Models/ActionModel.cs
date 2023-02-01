@@ -26,6 +26,8 @@ namespace ePOSPrintingService.Models
 
         public string data { get; set; }
 
+        public string default_printer_name { get; set; } = "NONE";
+
 
         public DateTime created_date { get; set; }
     }

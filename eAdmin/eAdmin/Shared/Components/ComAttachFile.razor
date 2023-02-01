@@ -58,19 +58,19 @@
                     }
                     else if (f.file_extension == ".docx")
                     {
-                        <a target="_blank" href="@config["BaseUrl"]Upload/@f.file_name">
+                        <a target="_blank" href="@config["baseUrl"]Upload/@f.file_name">
                             <img src="@image_url("docx.png")" class="uk-image" width="70" />
                         </a>
                     }
                     else if (f.file_extension == ".xlsx" || f.file_extension == ".xls")
                     {
-                        <a target="_blank" href="@config["BaseUrl"]Upload/@f.file_name">
+                        <a target="_blank" href="@config["baseUrl"]Upload/@f.file_name">
                             <img src="@image_url("xls.png")" class="uk-image" width="70" />
                         </a>
                     }
                     else if (f.file_extension == ".pdf")
                     {
-                        <a target="_blank" href="@config["BaseUrl"]Upload/@f.file_name">
+                        <a target="_blank" href="@config["baseUrl"]Upload/@f.file_name">
                             <img src="@image_url("pdf.png")" class="uk-image" width="70" />
                         </a>
                     }
@@ -164,7 +164,7 @@
     string status_message = "";
     string guid = Guid.NewGuid().ToString();
     string image_url(string image_base_url) {
-        return $"{config["BaseUrl"]}Upload/{image_base_url}";
+        return $"{config["baseUrl"]}Upload/{image_base_url}";
     }
 
 

@@ -1,20 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31727.386
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ePOSPrintingService", "ePOSPrintingService\ePOSPrintingService.csproj", "{1FAFA333-602B-4AB2-9CCF-0794F4B4D832}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1FAFA333-602B-4AB2-9CCF-0794F4B4D832}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1FAFA333-602B-4AB2-9CCF-0794F4B4D832}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FAFA333-602B-4AB2-9CCF-0794F4B4D832}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{1FAFA333-602B-4AB2-9CCF-0794F4B4D832}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FAFA333-602B-4AB2-9CCF-0794F4B4D832}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FAFA333-602B-4AB2-9CCF-0794F4B4D832}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -56,10 +56,11 @@
 
                                     <MudDivider />
                                    
-                                        <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                        <table class="uk-table cus_hearder_table  view_table uk-table-small uk-table-striped uk-table-hover">
                                             <tr>
                                                 <ThAuto>@lang["Product Category"]</ThAuto>
-                                                <th>@lang["Discount %"]</th>
+                                                <th>@lang["Discount Type"]</th>
+                                                <th>@lang["Discount Value"]</th>
                                                 <th></th>
                                             </tr>
                                             @if (model.discount_promotion_items != null)
@@ -77,12 +78,14 @@
                                                                 }
                                                             </MudSelect>
                                                         </td>
+                                                        <td style="vertical-align: bottom;">
+                                                            <SelectDiscountType @bind-selected_value="@m.discount_type"></SelectDiscountType>
+                                                        </td>
                                                         <td>
-                                                            <MudTextField T="string" Value="@(m.discount_percentage.ToString("0.####")+"%")" ValueChanged="@((val)=>m.discount_percentage = Convert.ToDecimal(val??"0"))"/>
+                                                            <MudTextField T="string" Value="@(m.discount_value.ToString("0.####"))" ValueChanged="@((val)=>m.discount_value = Convert.ToDecimal(val??"0"))"/>
                                                         </td>
                                                         <td>
                                                             <Icon icon="delete" OnClick="@(()=>onDeleteRecordClick(m))" />
-                                                            
                                                         </td>
                                                     </tr>
                                                 }

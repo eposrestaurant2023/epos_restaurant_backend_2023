@@ -98,7 +98,7 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        base_image_url = _configuration.GetValue<string>("apieSoftixUrl").Replace("/api/", "/upload/");
+        base_image_url = _configuration.GetValue<string>("licenseServerUrl").Replace("/api/", "/upload/");
         title = "Photo";
         await LoadData();
         is_loading = false;

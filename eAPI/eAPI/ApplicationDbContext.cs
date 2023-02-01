@@ -172,7 +172,10 @@ namespace eAPI
         public DbSet<DefaultStockLocationProductModel> defaultStockLocationProducts{ get; set; }
         public DbSet<DiscountPromotionItemModel> DiscountPromotionItems { get; set; }
         public DbSet<DiscountPromotionModel> DiscountPromotions { get; set; }
-       
+
+        public DbSet<CouponVoucherModel> CouponVouchers { get; set; }
+        public DbSet<CouponVoucherTransactionModel> CouponVoucherTransactions { get; set; }
+
     }
 
 }

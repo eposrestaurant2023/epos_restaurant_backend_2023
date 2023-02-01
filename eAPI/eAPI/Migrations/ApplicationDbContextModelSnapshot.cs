@@ -781,6 +781,274 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_country");
                 });
 
+            modelBuilder.Entity("eModels.CouponVoucherModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("coupon_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("expiry_date")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_synced")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("last_modified_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("last_modified_date")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("registered_business_branch_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<Guid>("registered_business_branch_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("registered_business_branch_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("registered_date")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("total_balance")
+                        .HasColumnType("decimal(19,8)");
+
+                    b.Property<decimal>("total_refund_amount")
+                        .HasColumnType("decimal(19,8)");
+
+                    b.Property<bool>("unlimited")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_coupon_voucher");
+                });
+
+            modelBuilder.Entity("eModels.CouponVoucherTransactionModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("base_current_balance")
+                        .HasColumnType("decimal(19,8)");
+
+                    b.Property<decimal>("base_top_up_amount")
+                        .HasColumnType("decimal(19,8)");
+
+                    b.Property<string>("business_branch_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<Guid>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("business_branch_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<Guid>("cash_drawer_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("cash_drawer_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<Guid>("cashier_shift_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("cashier_shift_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<double>("change_exchange_rate")
+                        .HasColumnType("float");
+
+                    b.Property<string>("coupon_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<Guid>("coupon_voucher_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("currency_format")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("currency_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("currency_name_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("currency_name_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<decimal>("current_balance")
+                        .HasColumnType("decimal(19,8)");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("document_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<double>("exchange_rate")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_prefix_symbol")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_synced")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_used")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("last_modified_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("last_modified_date")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("outlet_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("outlet_name_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("outlet_name_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("payment_type_group")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("payment_type_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("payment_type_name_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("payment_type_name_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<decimal>("refund_amount")
+                        .HasColumnType("decimal(19,8)");
+
+                    b.Property<Guid?>("refund_cash_drawer_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("refund_cashier_shift_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("refund_working_day_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("shift_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<Guid>("station_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("station_name_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("station_name_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("symbol")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<decimal>("top_up_amount")
+                        .HasColumnType("decimal(19,8)");
+
+                    b.Property<DateTime>("transaction_expiry_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("unlimited")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("working_date")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("working_day_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("working_day_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("coupon_voucher_id");
+
+                    b.ToTable("tbl_coupon_voucher_transaction");
+                });
+
             modelBuilder.Entity("eModels.CurrencyModel", b =>
                 {
                     b.Property<int>("id")
@@ -896,6 +1164,10 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime");
+
+                    b.Property<string>("discount_type")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("discount_value")
                         .HasColumnType("decimal(19,8)");
@@ -1205,11 +1477,15 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime");
 
-                    b.Property<decimal>("discount_percentage")
-                        .HasColumnType("decimal(19,8)");
-
                     b.Property<Guid>("discount_promotion_id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("discount_type")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<decimal>("discount_value")
+                        .HasColumnType("decimal(19,8)");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -2763,6 +3039,9 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("allow_choose")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -4233,6 +4512,16 @@ namespace eAPI.Migrations
                     b.Property<Guid?>("closed_working_day_id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("coupon_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<decimal>("coupon_voucher_amount")
+                        .HasColumnType("decimal(19,8)");
+
+                    b.Property<Guid?>("coupon_voucher_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -4453,6 +4742,12 @@ namespace eAPI.Migrations
 
                     b.Property<decimal>("tax_3_rate")
                         .HasColumnType("decimal(19,8)");
+
+                    b.Property<decimal>("temp_coupon_voucher_amount")
+                        .HasColumnType("decimal(19,8)");
+
+                    b.Property<Guid?>("temp_coupon_voucher_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("total_amount")
                         .HasColumnType("decimal(19,8)");
@@ -5196,6 +5491,9 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_order_station")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("is_terminal_pos")
+                        .HasColumnType("bit");
+
                     b.Property<string>("last_modified_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -5203,6 +5501,9 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime>("last_modified_date")
                         .HasColumnType("datetime");
+
+                    b.Property<bool>("order_station_allow_payment")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("outlet_id")
                         .HasColumnType("uniqueidentifier");
@@ -5797,9 +6098,6 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime");
 
-                    b.Property<double>("default_discount_percentage")
-                        .HasColumnType("float");
-
                     b.Property<string>("deleted_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -5807,6 +6105,13 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime");
+
+                    b.Property<string>("discount_type")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<decimal>("discount_value")
+                        .HasColumnType("decimal(19,8)");
 
                     b.Property<double>("height")
                         .HasColumnType("float");
@@ -6750,6 +7055,17 @@ namespace eAPI.Migrations
                     b.Navigation("outlet");
 
                     b.Navigation("working_day");
+                });
+
+            modelBuilder.Entity("eModels.CouponVoucherTransactionModel", b =>
+                {
+                    b.HasOne("eModels.CouponVoucherModel", "coupon_voucher")
+                        .WithMany("coupon_vouchers")
+                        .HasForeignKey("coupon_voucher_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("coupon_voucher");
                 });
 
             modelBuilder.Entity("eModels.CustomerBusinessBranchModel", b =>
@@ -7878,6 +8194,11 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.CategoryNoteModel", b =>
                 {
                     b.Navigation("notes");
+                });
+
+            modelBuilder.Entity("eModels.CouponVoucherModel", b =>
+                {
+                    b.Navigation("coupon_vouchers");
                 });
 
             modelBuilder.Entity("eModels.CurrencyModel", b =>

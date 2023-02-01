@@ -9,7 +9,7 @@ namespace eShareModel
         public string sale_number { get; set; }
         public string waiting_number { get; set; }
 
-        public Guid outlet_id { get; set; }
+        public Guid outlet_id { get; set; } 
  
         public Guid station_id { get; set; }
         public Guid? closed_station_id { get; set; }
@@ -135,6 +135,15 @@ namespace eShareModel
         public string kitchen_message_text { get; set; }
 
         public string sale_seat { get; set; }
+
+
+        //coupon voucher 
+
+        public Guid? coupon_voucher_id { get; set; }     
+        public Guid? temp_coupon_voucher_id { get; set; }
+        public string coupon_number { get; set; } = string.Empty;
+        public decimal coupon_voucher_amount { get; set; } = 0;
+        public decimal temp_coupon_voucher_amount { get; set; } = 0;
 
 
     }

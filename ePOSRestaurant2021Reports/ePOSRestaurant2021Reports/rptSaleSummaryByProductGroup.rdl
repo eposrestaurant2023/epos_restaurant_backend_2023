@@ -2293,7 +2293,7 @@ select * from #tbl_sale_product order by shift_name
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>1.17709in</Height>
+          <Height>0.22917in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>

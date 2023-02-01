@@ -82,6 +82,8 @@ namespace eAPIClient
         public DbSet<ExpenseModel> Expenses { get; set; }
         public DbSet<CustomerCardModel> CustomerCards { get; set; }
         public DbSet<eShareModel.TranslateTextModel> TranslateTexts{ get; set; }
+        public DbSet<CouponVoucherModel> CouponVouchers { get; set; }
+        public DbSet<CouponVoucherTransactionModel> CouponVoucherTransactions { get; set; }
 
 
     }

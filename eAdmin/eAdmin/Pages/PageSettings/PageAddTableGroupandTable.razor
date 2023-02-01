@@ -76,7 +76,8 @@
                                     <ThCenter width="100px">@lang["Width"]</ThCenter>
                                     <ThCenter width="100px">@lang["Height"]</ThCenter>
                                     <th>@lang["Shape"]</th>
-                                    <th>@lang["Disc.(%)"]</th>
+                                    <th>@lang["Disc. Type"]</th>
+                                    <th>@lang["Disc. Value"]</th>
                                     <th>@lang["Price Rule"]</th>
                                     <Th>@lang["Sale Type"]</Th>
                                     @if (is_table_require_check_in)
@@ -99,7 +100,7 @@
                                     <th>
                                         <SelectShape @bind-selected_value="@shape" />
                                     </th>
-                                    <ThCenter> - </ThCenter>
+                                    <ThCenter colspan="2"> - </ThCenter>
                                     <th>
                                         <SelectPriceRule @bind-selected_value="@price_rule" outlet="@model.outlet" is_inline="true" show_empty="true" width="100px" />
                                     </th>
@@ -133,8 +134,11 @@
                                 <td>
                                     <SelectShape @bind-selected_value="@s.shape" />
                                 </td>
+                                <td>
+                                    <SelectDiscountType @bind-selected_value="@s.discount_type"></SelectDiscountType>
+                                </td>
                                 <TdCenter>
-                                    <NumberInputDouble @bind-text="@s.default_discount_percentage" />%
+                                    <NumberInputDecimal @bind-text="@s.discount_value" />                                    
                                 </TdCenter>
                                 <td>
                                     <SelectPriceRule @bind-selected_value="@s.price_rule_id" outlet="@model.outlet" is_inline="true" show_empty="true" width="100px" />
@@ -292,7 +296,7 @@
         api_url += $"({id})?";
         api_url += "$expand=outlet($select=id,outlet_name_en,outlet_name_kh,business_branch_id;$expand=business_branch";
         api_url += "($select=id,business_branch_name_en,business_branch_name_kh);$filter= is_deleted  eq false),";
-        api_url +=  "tables($select = id,sort_order,table_name,height,width,position_x_percent,sale_type,shape,position_y_percent,price_rule_id,require_check_in,status,default_discount_percentage;";
+        api_url += "tables($select = id,sort_order,table_name,height,width,position_x_percent,sale_type,shape,position_y_percent,price_rule_id,require_check_in,status,discount_type,discount_value;";
         api_url += "$filter= is_deleted eq false;$orderby=sort_order desc)";
 
 

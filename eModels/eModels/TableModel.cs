@@ -30,6 +30,8 @@ namespace eModels
         public int sort_order { get; set; }     
         public string shape { get; set; } = "Rectangle";
         public bool require_check_in { get; set; } = false;
-        public double default_discount_percentage { get; set; } = 0;      //0->100
+
+        public decimal discount_value { get; set; } = 0;      
+        public string discount_type { get; set; } = "Percent";     
     }
 }

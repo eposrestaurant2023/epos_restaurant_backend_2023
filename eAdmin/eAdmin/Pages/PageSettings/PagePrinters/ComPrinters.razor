@@ -7,21 +7,24 @@
                 <ThAuto>@lang["Group Item Type"]</ThAuto>
                 <ThCenter>IP Address</ThCenter>
                 <ThCenter>Port</ThCenter>
+                <ThCenter>@lang["Show in POS"]</ThCenter>
                 <Th></Th>
             </tr>
             @foreach (var p in printers.Where(r => r.is_deleted == false))
             {
-                <tr>
-                    <td><TextInput @bind-text="@p.printer_name" placeholder="Printer Name" /></td>
-                    <TdCenter><SelectGroupItemType @bind-selected_value="@p.group_item_type_id" /></TdCenter>
-                    <TdCenter><TextInput @bind-text="@p.ip_address" placeholder="IP Address" width="120px" /></TdCenter>
-                    <TdCenter><NumberInputInt @bind-text="@p.port" placeholder="Port" width="60px" /></TdCenter>
+        <tr>
+            <td><TextInput @bind-text="@p.printer_name" placeholder="Printer Name" /></td>
+            <TdCenter><SelectGroupItemType @bind-selected_value="@p.group_item_type_id" /></TdCenter>
+            <TdCenter><TextInput @bind-text="@p.ip_address" placeholder="IP Address" width="120px" /></TdCenter>
+            <TdCenter><NumberInputInt @bind-text="@p.port" placeholder="Port" width="60px" /></TdCenter>
+            <TdCenter>
+                <ComInputCheckBox label="" @bind-value="@p.allow_choose" />
+            </TdCenter>
+            <TdCenter>
+                <Icon icon="delete" OnClick="@(()=>DeletePrinter(p))" />
+            </TdCenter>
 
-                    <TdCenter>
-                        <Icon icon="delete" OnClick="@(()=>DeletePrinter(p))" />
-                    </TdCenter>
-
-                </tr>
+</tr>
             }
 
         </table>

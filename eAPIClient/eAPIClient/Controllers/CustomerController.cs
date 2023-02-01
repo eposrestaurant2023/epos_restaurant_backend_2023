@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System;                       
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using eAPIClient;
+using System.Threading.Tasks;    
 using eAPIClient.Models;
 using eAPIClient.Services;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NETCore.Encrypt;
+using Microsoft.EntityFrameworkCore;      
 
 
 
@@ -22,14 +19,12 @@ namespace eAPIClient.Controllers
     public class CustomerController : ODataController
     {
 
-        private readonly ApplicationDbContext db;
-        private readonly AppService app;
+        private readonly ApplicationDbContext db;      
         private readonly ISyncService sync;
 
-        public CustomerController(ApplicationDbContext _db, AppService _app,ISyncService sync)
+        public CustomerController(ApplicationDbContext _db,ISyncService sync)
         {
-            db = _db;
-            app = _app;
+            db = _db;     
             this.sync = sync;
         }
 
@@ -92,9 +87,12 @@ namespace eAPIClient.Controllers
         public async Task<ActionResult<CustomerModel>> DeleteRecord(Guid id) //Delete
         {
             var u = await db.Customers.FindAsync(id);
+            u.is_synced = false;
             u.is_deleted = !u.is_deleted;
             db.Customers.Update(u);
             await db.SaveChangesAsync();
+
+            sync.sendSyncRequest();
             return Ok(u);
         }
 

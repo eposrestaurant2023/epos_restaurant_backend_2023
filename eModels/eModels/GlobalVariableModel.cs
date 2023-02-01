@@ -185,13 +185,25 @@ namespace eModels
                 return get_setting_value(52);
             }
         }
-        public string report_url
-        {
-            get
-            {
-                return get_setting_value(2);
-            }
-        }
+        //public string report_url
+        //{
+        //    get
+        //    {
+
+
+        //        return get_setting_value(2);
+        //    }
+        //}
+        //public string report_folder
+        //{
+        //    get
+        //    {
+        //        return get_setting_value(3);
+        //    }
+        //}
+        public string report_url { get; set; }
+        public string report_folder { get; set; }
+
         public int product_id_item_charge
         {
             get
@@ -206,13 +218,7 @@ namespace eModels
                 }
             }
         }
-        public string report_folder
-        {
-            get
-            {
-                return get_setting_value(3);
-            }
-        }
+      
 
         public string server_id
         {

@@ -115,7 +115,7 @@
  select 
 	s.working_date,
 	sum(s.sub_total) as sub_total,
-	sum(s.total_amount) as total_amount,
+	sum(s.total_amount + s.coupon_voucher_amount) as total_amount,
 	sum(s.total_discount_amount) as total_discount_amount,
 	sum(s.tax_1_amount) as tax_1_amount,
 	sum(s.tax_2_amount) as tax_2_amount,

@@ -5,6 +5,7 @@
     <LabelPartiallyPaid is_visible="@(sale.is_partially_paid && !sale.is_deleted)" />
     <LabelPaid is_visible="@(sale.is_paid && !sale.is_deleted)" />
     <LabelUnpaid is_visible="@(!sale.is_deleted && !sale.is_paid && (sale.total_amount > 0) && (sale.balance == sale.total_amount) && (@sale?.sale_status?.status_name != "Open Order"))" />
+   
     <Com is_visible="@(!string.IsNullOrEmpty(sale.discount_code))">
         <Label Background="#f48024" Color="#fff" TextTooltip="@lang["Free Of Charge"]" is_visible="@(sale.discount_code.ToLower() == "foc")">@lang["FOC"]</Label>
     </Com>

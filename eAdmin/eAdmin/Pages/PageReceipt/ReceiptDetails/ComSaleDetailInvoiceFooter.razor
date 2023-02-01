@@ -37,7 +37,16 @@
 {
     <ComSaleDetailInvoiceTax sale="@sale" />
 }
-@if (sale.total_amount > 0)
+@if (sale.coupon_voucher_amount > 0)
+{
+    <tr>
+        <td colspan="7" class="uk-text-right">@lang["Coupon"]</td>
+        <td class="uk-text-right bg_hightlight">
+            @("- " +sale.coupon_voucher_amount.ToString(gv.currency_format))
+        </td>
+    </tr>
+}
+@if (sale.total_amount > 0 || sale.coupon_voucher_amount > 0)
 {
     <tr>
         <td colspan="7" class="uk-text-right">@lang["Grand Total"]</td>

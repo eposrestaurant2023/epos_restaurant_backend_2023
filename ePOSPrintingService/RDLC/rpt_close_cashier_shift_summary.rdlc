@@ -1016,7 +1016,7 @@
         </TablixRowHierarchy>
         <DataSetName>CashierShiftData</DataSetName>
         <Top>1.07473in</Top>
-        <Height>2.33432in</Height>
+        <Height>2.33433in</Height>
         <Width>2.77708in</Width>
         <ZIndex>1</ZIndex>
         <Style>
@@ -1029,10 +1029,10 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>3.52688cm</Width>
+              <Width>4.10896cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.52688cm</Width>
+              <Width>2.9448cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>

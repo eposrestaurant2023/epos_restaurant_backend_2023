@@ -11,7 +11,7 @@
                         <div uk-dropdown="mode: click; pos: bottom-right">
                             <div class="uk-navbar-dropdown-grid uk-child-width-expand mega-dropdown filter-select-product" uk-grid>
                                 <PageFilter use_list="false" title="@lang["Categories"]">
-                                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Category"]" />
+                                    <SelectProductCategory is_included_ingredient="true" @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Category"]" />
                                 </PageFilter>
                             </div>
                             <div class="uk-text-right" style="padding: 0px 14px 14px 14px">

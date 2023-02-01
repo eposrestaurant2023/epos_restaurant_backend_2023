@@ -158,7 +158,7 @@ select
 	s.closed_working_day_id,
 	count(s.id) as total_sale_order,
 	sum(s.sub_total) as sub_total,
-	sum(s.total_amount) as total_amount,
+	sum(s.total_amount + s.coupon_voucher_amount) as total_amount,
 	sum( s.total_discount_amount) as total_discount,
 	sum(s.total_tax_amount) as total_tax_amount
 	into #tbl_sale
@@ -482,10 +482,7 @@ from #tbl </CommandText>
                   <Width>0.94423in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.87375in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.72063in</Width>
+                  <Width>1.59438in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.0132in</Width>
@@ -657,39 +654,16 @@ from #tbl </CommandText>
                                 <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox38</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox41">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=First(Fields!Outlet.Value, "translate")</Value>
                                   <Style>
+                                    <FontStyle>Italic</FontStyle>
                                     <FontFamily>kh system</FontFamily>
-                                    <FontSize>9pt</FontSize>
+                                    <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Color>Gray</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -698,7 +672,7 @@ from #tbl </CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox41</rd:DefaultName>
+                          <rd:DefaultName>Textbox38</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1217,34 +1191,15 @@ from #tbl </CommandText>
                                 <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>business_branch_name_en1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="outlet_name_en">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!outlet_name_en.Value</Value>
                                   <Style>
+                                    <FontStyle>Italic</FontStyle>
                                     <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>7.5pt</FontSize>
+                                    <Color>Gray</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1253,7 +1208,7 @@ from #tbl </CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>outlet_name_en</rd:DefaultName>
+                          <rd:DefaultName>business_branch_name_en1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1748,46 +1703,6 @@ from #tbl </CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox75">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox43</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
                         <Textbox Name="Textbox23">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -2124,7 +2039,6 @@ from #tbl </CommandText>
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
-                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -2353,7 +2267,7 @@ from #tbl </CommandText>
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>0.28819in</Height>
+          <Height>0.19444in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -2413,7 +2327,7 @@ from #tbl </CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox4</rd:DefaultName>
-              <Top>0.06944in</Top>
+              <Top>0.00694in</Top>
               <Height>0.1875in</Height>
               <Width>4in</Width>
               <Style>
@@ -2483,7 +2397,7 @@ from #tbl </CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox5</rd:DefaultName>
-              <Top>0.06944in</Top>
+              <Top>0.00694in</Top>
               <Left>4.14583in</Left>
               <Height>0.1875in</Height>
               <Width>6.93417in</Width>

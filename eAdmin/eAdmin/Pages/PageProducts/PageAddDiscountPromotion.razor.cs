@@ -92,7 +92,7 @@ namespace eAdmin.Pages.PageProducts
             }
             if(model.discount_promotion_items != null)
             {
-                if(model.discount_promotion_items.Where(r=>(r.product_category_id<=0 || r.discount_percentage<0) && !r.is_deleted ).Any())
+                if(model.discount_promotion_items.Where(r=>(r.product_category_id<=0 || r.discount_value<0) && !r.is_deleted ).Any())
                 {
                     toast.Add(lang["Please verify discount of product category"], MudBlazor.Severity.Warning);
                     return;
@@ -122,7 +122,7 @@ namespace eAdmin.Pages.PageProducts
             }
             model.discount_promotion_items.Add(new DiscountPromotionItemModel()
             {
-                discount_percentage = 0
+                discount_value = 0
             }) ;
         }
 

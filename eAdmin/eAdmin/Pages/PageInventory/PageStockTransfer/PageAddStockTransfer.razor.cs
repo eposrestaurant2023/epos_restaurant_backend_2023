@@ -38,6 +38,15 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                 {
                     await CloneRecord();
                 }
+                else
+                {
+                    var busi = gv.business_branch_by_role;
+                    if (busi.Any())
+                    {
+                        await OnFormBusinessBranchSeletedChange(busi.FirstOrDefault().id);
+                        await OnToBusinessBranchSeletedChange(busi.FirstOrDefault().id);
+                    }
+                }
             }
 
             if (model.is_fulfilled)

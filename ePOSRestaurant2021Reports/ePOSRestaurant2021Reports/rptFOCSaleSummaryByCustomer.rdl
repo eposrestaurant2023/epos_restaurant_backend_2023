@@ -114,7 +114,7 @@
 	count(s.id) as total_document,
 	sum(s.total_quantity) as total_quantity,
 	sum(s.sub_total) as sub_total,
-	sum(s.total_amount) as total_amount,
+	sum(s.total_amount + s.coupon_voucher_amount) as total_amount,
 	sum(s.total_discount_amount) as total_discount_amount,
 	sum(s.total_cost) as total_cost,
 	sum(s.total_profit) as total_profit,
