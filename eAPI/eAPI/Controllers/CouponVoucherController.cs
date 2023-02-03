@@ -65,6 +65,19 @@ namespace eAPI.Controllers
                         if (coupon_transactions.Any())
                         {
                             db.Entry(cp).State = EntityState.Modified;
+
+                            foreach (var t in cp.refund_transactions)
+                            {
+                                db.Entry(t).State = EntityState.Added;
+                                if (t.id != Guid.Empty)
+                                {
+                                    var tr = db.RefundTransactions.Where(r => r.id == t.id).AsNoTracking();
+                                    if (tr.Any())
+                                    {
+                                        db.Entry(t).State = EntityState.Modified;
+                                    }
+                                }
+                            }
                         }
                     }
                 }

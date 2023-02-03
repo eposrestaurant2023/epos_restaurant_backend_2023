@@ -19,8 +19,16 @@ namespace eAPIClient.Models
     {
         [ForeignKey("coupon_voucher_id")]
         public CouponVoucherModel coupon_voucher { get; set; }
+        public List<RefundTransactionModel> refund_transactions { get; set; }
 
 
+    }
+
+    [Table("tbl_refund_transaction")]
+    public class RefundTransactionModel : RefundTransactionShareModel
+    {
+        [ForeignKey("coupon_transaction_id")]
+        public CouponVoucherTransactionModel coupon_transaction { get; set; }
     }
 
 }

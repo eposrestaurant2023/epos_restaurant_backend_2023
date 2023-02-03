@@ -348,6 +348,7 @@ namespace eAPIClient.Controllers
             {
                 var _data = db.CouponVouchers.Where(r => r.id == id)
                      .Include(r => r.coupon_vouchers)
+                     .ThenInclude(x=>x.refund_transactions)
                      .AsNoTrackingWithIdentityResolution();
                 if (_data.Count() > 0)
                 {

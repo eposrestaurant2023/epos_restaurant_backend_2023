@@ -175,6 +175,7 @@ namespace eAPI
 
         public DbSet<CouponVoucherModel> CouponVouchers { get; set; }
         public DbSet<CouponVoucherTransactionModel> CouponVoucherTransactions { get; set; }
+        public DbSet<RefundTransactionModel> RefundTransactions { get; set; }
 
     }
 

@@ -141,15 +141,18 @@ namespace eAPIClient.Controllers
                 var coupon = coupons.FirstOrDefault();
                 if(coupon.total_balance + coupon.total_refund_amount < amount )
                 {
-                     return BadRequest(new BadRequestModel { message = "you_cannot_to_refund_amount_over"});
+                    sync.sendSyncRequest();
+                    return BadRequest(new BadRequestModel { message = "you_cannot_to_refund_amount_over"});
                 }
                 else
                 { 
                     string query = $"exec sp_update_coupon_refund '{id}','{rf_wd_id}','{rf_cs_id}','{rf_cd_id}',{amount}";
                     db.Database.ExecuteSqlRaw(query);
+                    sync.sendSyncRequest();
                     return Ok();
                 }
             }
+            sync.sendSyncRequest();
             return BadRequest(new BadRequestModel { message = "error" });
         }  
 

@@ -96,4 +96,13 @@ namespace eShareModel
         public bool is_synced { get; set; } = false;
 
     }   
+
+    public class RefundTransactionShareModel: CoreGUIDModel
+    {
+        public Guid coupon_transaction_id { get; set; }
+        public Guid working_day_id { get; set; }
+        public Guid cash_drawer_id { get; set; }
+        public Guid cashier_shift_id { get; set; }
+        public decimal amount { get; set; }
+    }
 }
