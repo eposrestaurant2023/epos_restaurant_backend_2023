@@ -12,6 +12,7 @@
                             <ComSelectCustomer/>
                         </div>
                         <div class="overflow-auto"> 
+                            {{ sale.deletedSaleProducts }}
                             <ComPlaceholder :is-not-empty="sale.getSaleProducts().length > 0" icon="mdi-cart-outline" text="Empty Product">
                                 <div v-for="(g, index) in sale.getSaleProductGroupByKey()" :key="index">
                                     <div class="bg-red-700 text-white flex items-center justify-between" style="font-size: 10px; padding: 2px;">
@@ -20,8 +21,8 @@
                                     </div>
                                     <v-list class="!p-0">
                                         <v-list-item v-for="sp,index in sale.getSaleProducts(g)" :key="index" @click="sale.onSelectSaleProduct(sp)"
-                                            class="!border-t !border-gray-300 !mb-0 !p-2"
-                                            :class="sp.selected ? 'selected' : ''">
+                                            class="!border-t !border-gray-300 !mb-0 !p-2 item-list"
+                                            :class="{'selected' : sp.selected, 'submitted':sp.sale_product_status == 'Submitted'}">
                                             <template v-slot:prepend>
                                                 <v-avatar v-if="sp.product_photo">
                                                     <v-img :src="sp.product_photo"></v-img>
@@ -29,6 +30,7 @@
                                                 <avatar v-else :name="sp.product_name" class="mr-4" size="40"></avatar>
                                             </template>
                                             <template v-slot:default>
+                                            
                                                 <div class="text-sm">
                                                     <div class="flex">
                                                         <div class="grow">
@@ -59,8 +61,8 @@
                                                     
                                                     <div v-if="sp.selected" class="-mx-1 flex pt-1" >
                                                         <v-chip color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small" @click="onChangePrice(sp)">Price</v-chip>
-                                                        <v-chip color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small" @click="sale.onChangeQuantity(sp)">Qty</v-chip>
-                                                        <v-chip color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small" @click="onEditSaleProduct(sp)">Edit</v-chip>
+                                                        <v-chip :disabled="sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status=='Submitted'" color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small" @click="sale.onChangeQuantity(sp)">Qty</v-chip>
+                                                        <v-chip :disabled="sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status=='Submitted'" color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small" @click="onEditSaleProduct(sp)">Edit</v-chip>
                                                         <ComSaleProductButtonMore :sale-product="sp"/>
                                                     </div>
                                                 
@@ -99,6 +101,7 @@ const toaster = createToaster({position:"top"})
 
 const route = useRoute()
 sale.orderTime = null;
+sale.deletedSaleProducts = []
 if(sale.orderBy==null){
     sale.orderBy =JSON.parse(localStorage.getItem("current_user")).full_name;
 }
@@ -125,18 +128,18 @@ if(!store.state.sale.posMenu){
     
     
 }
-function onEditSaleProduct(sp){
-    if (!sale.isBillRequested()){ 
-        if(sp.sale_product_status=="New" || sale.setting.pos_setting.allow_change_quantity_after_submit==1){
+function onEditSaleProduct(sp) {
+    if (!sale.isBillRequested()) {
+        if (sp.sale_product_status == "New" || sale.setting.pos_setting.allow_change_quantity_after_submit == 1) {
             product.setSelectedProductByMenuID(sp.menu_product_name);
- 
- product.setModifierSelection(sp)
 
- sale.OnEditSaleProduct(sp)
-        }else{
+            product.setModifierSelection(sp)
+
+            sale.OnEditSaleProduct(sp)
+        } else {
             toaster.warning("Submitted order is not allow to edit.");
         }
- 
+
     }
 }
 
@@ -158,7 +161,10 @@ document.onkeydown = function (e) {
 }; 
 </script>
 <style scoped>
-.selected {
+.selected,.item-list:hover {
     background-color: #ffebcc !important;
+}
+.item-list.submitted::before {
+    content: '';
 }
 </style>

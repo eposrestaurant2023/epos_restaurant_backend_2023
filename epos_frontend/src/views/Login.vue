@@ -40,7 +40,7 @@
         </div>
       </div>
     </v-col>
-    <v-col sm="12" md="4" class="pa-0">
+    <v-col sm="12" md="4" class="pa-0 relative">
       <div class="h-full flex items-center justify-center bg-gray-100">
         <form @submit.prevent="login">
           <div class="w-73">
@@ -61,6 +61,7 @@
                     type="password"
                     density="compact"
                     variant="solo"
+                    autofocus
                     label="Password"
                     append-inner-icon="mdi-arrow-left"
                     single-line
@@ -118,6 +119,9 @@
             </div>
           </div>
         </form>
+        <div class="fixed bottom-2 right-2">
+          <v-btn prepend-icon="mdi-window-close" color="error" @click="onExitWindow()">exit</v-btn>
+        </div>
       </div>
     </v-col>
   </v-row>
@@ -206,6 +210,9 @@ function getCurrentUserInfo(user){
         store.dispatch('endLoading');
       }
     })
+}
+function onExitWindow(){
+  window.close();
 }
 </script>
 <style scoped>

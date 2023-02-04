@@ -9,7 +9,8 @@
                 <ComTimeUpdate/>
                 <v-menu :location="location">
                     <template v-slot:activator="{ props }">
-                        <v-avatar :image="currentUser.photo"  v-bind="props"></v-avatar>
+                        <v-avatar :image="currentUser.photo"  v-bind="props" v-if="currentUser.photo" class="cursor-pointer"></v-avatar>
+                        <avatar v-else :name="currentUser.full_name" v-bind="props" class="cursor-pointer" size="40"></avatar>
                     </template>
                     <v-card min-width="300">
                         <ComCurrentUserAvatar/>

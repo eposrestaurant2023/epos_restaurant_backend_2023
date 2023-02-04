@@ -30,8 +30,10 @@ export default class Sale {
 
         //user this variable to temporary store product that need to send to kitchen pritner 
         //before submit order or close order
-
         this.productPrinters = [];
+
+        this.deletedSaleProducts = []
+
         
 
         this.createNewSaleResource();
@@ -298,7 +300,7 @@ export default class Sale {
             const result = await keyboardDialog({ title: "Change Quantity", type: 'number', value: sp.quantity });
             if (result) {
                 let quantity = this.getNumber(result);
-                alert(this.setting.pos_setting.allow_change_quantity_after_submit == 1)
+               
                 
                 if (this.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status=="New") {
                     if (quantity == 0) {
@@ -431,11 +433,25 @@ export default class Sale {
 
     onRemoveSaleProduct(sp, quantity) { 
         if (sp.quantity == quantity) {
+            if(sp.sale_product_status=='Submitted'){
+                this.deletedSaleProducts.push(sp)
+            }
+            
             this.sale.sale_products.splice(this.sale.sale_products.indexOf(sp), 1);
         } else {
             sp.quantity = sp.quantity - quantity;
+
+            if(sp.sale_product_status=='Submitted'){
+                let deletedRecord = JSON.parse(JSON.stringify(sp))
+                deletedRecord.quantity = quantity;
+            
+                this.deletedSaleProducts.push(deletedRecord)
+            }
+           
+            
         }
         this.updateSaleSummary();
+        
     }
 
 
@@ -638,6 +654,28 @@ export default class Sale {
                 })
             });
         });
+
+        //generate deleted product to product printer list
+        this.deletedSaleProducts.filter(r=>JSON.parse(r.printers).length>0).forEach((r)=>{
+            const pritners = JSON.parse(r.printers) ;
+             pritners.forEach((p)=>{
+                 this.productPrinters.push({
+                     printer:p.printer,
+                     group_item_type:p.group_item_type,
+                     product_code:r.product_code,
+                     product_name_en:r.product_name,
+                     product_name_kh:r.product_name_kh,
+                     portion:r.portion,
+                     unit:r.unit,
+                     modifiers:r.modifiers,
+                     note:r.note,
+                     quantity:r.quantity,
+                     is_deleted:true,
+                     is_free:r.is_free ==1,
+                     deleted_note:r.deleted_item_note
+                 })
+             });
+         });
     }
 
 

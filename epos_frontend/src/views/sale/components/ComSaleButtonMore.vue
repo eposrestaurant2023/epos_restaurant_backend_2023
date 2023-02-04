@@ -6,7 +6,7 @@
             </div>
         </template>
         <v-list>
-            <v-list-item prepend-icon="mdi-eye-outline" title="View Bill" @click="onViewInvoice()"/>
+            <v-list-item prepend-icon="mdi-eye-outline" title="View Bill" @click="onViewBill()"/>
             <v-list-item prepend-icon="mdi-bulletin-board" title="Change Price Rule" @click="onViewInvoice()"/>
             <v-list-item prepend-icon="mdi-cash-100" title="Open Cash Drawer" @click="onViewInvoice()"/>
             <v-divider inset></v-divider>
@@ -20,5 +20,8 @@
     </v-menu>       
 </template>
 <script setup>
-    import {defineProps,defineEmits, createResource} from "@/plugin"
+    import {viewBillModelModel} from "@/plugin"
+    async function onViewBill(){
+        const result = await viewBillModelModel({})
+    }
 </script>

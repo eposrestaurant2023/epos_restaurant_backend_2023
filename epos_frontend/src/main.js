@@ -12,6 +12,8 @@ import VueNumberFormat from 'vue-number-format'
 import CurrencyFormat from './components/CurrencyFormat.vue';
 import ComPlaceholder from './components/layout/components/ComPlaceholder.vue'
 import ComAutoComplete from './components/form/ComAutoComplete.vue'
+import ComTableView from './components/table/table_view/ComTableView.vue'
+import ComTdImage from './components/table/table_view/ComTdImage.vue'
 import ComInput from './components/form/ComInput.vue'
 import ComPrintPreview from './components/ComPrintPreview.vue'
 import ComChip from './components/ComChip.vue'
@@ -127,6 +129,8 @@ app.component('ComPrintPreview', ComPrintPreview);
 app.component("avatar", Avatar);
 app.component('ComChip',ComChip)
 app.component('ComInput',ComInput)
+app.component('ComTableView',ComTableView)
+app.component('ComTdImage',ComTdImage)
 
 
 app.mount("#app");

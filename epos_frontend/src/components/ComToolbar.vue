@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar :color="color" height="40">
+    <v-toolbar :color="color" height="60">
         <v-toolbar-title>
             <slot name="title"></slot>
         </v-toolbar-title>

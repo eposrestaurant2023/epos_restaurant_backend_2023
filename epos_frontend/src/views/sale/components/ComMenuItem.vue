@@ -1,6 +1,6 @@
 <template>
     <div v-if="data.type == 'back'" class="h-full rounded-lg shadow-lg cursor-pointer bg-gray-500">
-        <div class="relative p-2 w-full h-full flex justify-center items-center" @click="onBack(data.parent)">
+        <div v-ripple class="relative p-2 w-full h-full flex justify-center items-center" @click="onBack(data.parent)">
             <div>
                 <v-icon color="white" size="large">mdi-reply</v-icon>
                 <div class="text-white">Back</div>
@@ -9,6 +9,7 @@
     </div>
 
     <div v-if="data.type == 'menu'"
+    v-ripple
         class="relative h-full bg-cover bg-no-repeat rounded-lg shadow-lg cursor-pointer overflow-auto" v-bind:style="{
             'background-color': data.background_color,
             'color': data.text_color,
@@ -31,6 +32,7 @@
     </div>
     <!-- Product -->
     <div v-else-if="data.type == 'product'"
+    v-ripple
         class="relative overflow-hidden h-full bg-cover bg-no-repeat rounded-lg shadow-lg cursor-pointer bg-gray-300 "
         v-bind:style="{ 'background-image': 'url(' + data.photo + ')' }" @click="onClickProduct()">
         <div class="absolute top-0 bottom-0 right-0 left-0" v-if="!data.photo">

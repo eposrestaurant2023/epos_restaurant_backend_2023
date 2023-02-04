@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="h-60 bg-no-repeat" v-bind:style="{ 'background-image': 'url(' + setting.login_background + ')' }">
+        <div class="h-60 bg-no-repeat bg-cover" v-bind:style="{ 'background-image': 'url(' + setting.login_background + ')' }">
             <div class="wrap-overlay w-full h-full flex items-end justify-center">
                 <div>
                     <div class="text-center text-white mb-3">
@@ -19,6 +19,7 @@
         </div>
         <v-container>
             <div class="mx-auto mt-4 mb-0 md:w-[600px]">
+ 
                 <div class="grid md:grid-cols-4 grid-cols-3" style="grid-gap: 20px;">
                     
                     <WorkingDayButton />
@@ -39,8 +40,8 @@ import { useRouter, createResource, inject,computed } from '@/plugin'
 import ComButton from '../components/ComButton.vue';
 import WorkingDayButton from './shift/components/WorkingDayButton.vue';
 import OpenShiftButton from './shift/components/OpenShiftButton.vue';
-const auth = inject('$auth')
 
+const auth = inject('$auth') 
 let setting = JSON.parse(localStorage.getItem("setting"))
 const current_working_day = createResource({
     url: "epos_restaurant_2023.api.api.get_current_working_day",

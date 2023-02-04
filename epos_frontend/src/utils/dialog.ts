@@ -18,6 +18,8 @@ import ComScanCustomerCode from '@/views/sale/components/ComScanCustomerCode.vue
 import ComSaleProductDiscountModal from '@/views/sale/components/ComSaleProductDiscountModal.vue';
 import ComPayment from '@/views/sale/components/ComPayment.vue';
 import ComOpenMenu from '@/views/sale/components/ComOpenMenu.vue';
+import ComViewBillModel from '@/views/sale/components/ComViewBillModel.vue';
+
 interface params {
     doctype?:String,
     name?:String,
@@ -55,4 +57,6 @@ export  const noteDialog= createPromiseDialog<params, object>(ComNote);
 export  const saleProductDiscountDialog = createPromiseDialog<params, object>(ComSaleProductDiscountModal);
 export  const paymentDialog = createPromiseDialog<params, object>(ComPayment);
 export  const openMenuDialog = createPromiseDialog<params, object>(ComOpenMenu);
+export  const viewBillModelModel = createPromiseDialog<params, object>(ComViewBillModel);
+
 
