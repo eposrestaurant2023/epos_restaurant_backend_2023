@@ -1,24 +1,42 @@
 import Enumerable from 'linq'
-import { printPreviewDialog, keyboardDialog, createResource, createDocumentResource, addModifierDialog, inject, useRouter, confirmDialog } from "@/plugin"
+import moment from '@/utils/moment.js';
+import {noteDialog, printPreviewDialog, keyboardDialog, createResource, createDocumentResource, addModifierDialog, useRouter, confirmDialog,saleProductDiscountDialog } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
-const setting = JSON.parse(localStorage.getItem("setting"))
+import { webserver_port } from "../../../../../sites/common_site_config.json"
+ 
 const toaster = createToaster({ position: "top" });
 
 export default class Sale {
-
     constructor() {
+        this.setting = null;
+        this.orderBy = null;
+        this.orderTime = undefined;
         this.router = useRouter();
         this.name = "";
         this.action = "";
         this.pos_receipt = undefined;
+
         this.sale = {
             sale_products: []
         };
 
         this.newSaleResource = null;
         this.saleResource = null;
+        this.paymentInputNumber="";
+        this.isPrintReceipt = false;
+        
+        //use this variable to show toast after database submit in resource
+        this.message = undefined; 
+
+        //user this variable to temporary store product that need to send to kitchen pritner 
+        //before submit order or close order
+
+        this.productPrinters = [];
+        
 
         this.createNewSaleResource();
+
+        this.newSale();
     }
     createNewSaleResource() {
         const parent = this;
@@ -28,6 +46,13 @@ export default class Sale {
                 parent.sale = doc;
                 parent.onProcessTaskAfterSubmit(doc);
                 parent.action = "";
+                if(parent.message!=undefined){
+                    toaster.success(parent.message);
+                    parent.message = undefined;
+                }
+                else {
+                    toaster.success("Updated");
+                }
             }
         })
     }
@@ -35,15 +60,18 @@ export default class Sale {
         this.sale = {
             doctype: "Sale",
             sale_status: "New",
-            pos_profile: setting.pos_profile,
-            customer: setting.customer,
-            customer_photo: setting.customer_photo,
-            customer_name: setting.customer_name,
-            price_rule: setting.price_rule,
+            pos_profile: this.setting?.pos_profile,
+            customer: this.setting?.customer,
+            customer_photo: this.setting?.customer_photo,
+            customer_name: this.setting?.customer_name,
+            price_rule: this.setting?.price_rule,
+            business_branch: this.setting?.business_branch,
             sale_products: [],
-            sale_type: setting.default_sale_type,
+            sale_type: this.setting?.default_sale_type,
             discount_type: "Percent",
-            discount: 0
+            discount: 0,
+            sub_total: 0,
+            payment:[]
         }
     }
 
@@ -66,16 +94,37 @@ export default class Sale {
                     parent.sale = doc;
                     parent.onProcessTaskAfterSubmit(doc);
                     parent.action = "";
-                    toaster.success("Updated");
+                    if(parent.message!=undefined){
+                        toaster.success(parent.message);
+                        parent.message = undefined;
+                    }
+                    else {
+                        toaster.success("Updated");
+                    }
                 },
 
             },
         })
 
     }
-
-    getSaleProducts() {
-        return Enumerable.from(this.sale.sale_products).orderByDescending("$.modified").toArray()
+    getSaleProductGroupByKey(){
+       
+        if(!this.sale.sale_products){
+             
+            return []
+        }else { 
+            const group =  Enumerable.from(this.sale.sale_products).groupBy("{order_by:$.order_by,order_time:$.order_time}","","{order_by:$.order_by,order_time:$.order_time}","$.order_by+','+$.order_time");
+            return group.orderByDescending("$.order_time").toArray();
+        }
+    }
+    getSaleProducts(groupByKey) {
+        if(groupByKey){
+            return Enumerable.from(this.sale.sale_products).where(`$.order_by=='${groupByKey.order_by}' && $.order_time=='${groupByKey.order_time}'`).orderByDescending("$.modified").toArray()
+        }else{
+            return Enumerable.from(this.sale.sale_products).orderByDescending("$.modified").toArray()
+        }
+        
+        
     }
 
     addSaleProduct(p) {
@@ -85,7 +134,7 @@ export default class Sale {
 
         let strFilter = `$.product_code=='${p.name}' && $.append_quantity ==1 && $.price==${p.price} && $.portion=='${this.getString(p.portion)}'  && $.modifiers=='${p.modifiers}'  && $.unit=='${p.unit}'  && $.is_free==0`
     
-        if (!setting.allow_change_quantity_after_submit) {
+        if (!this.setting?.pos_setting?.allow_change_quantity_after_submit) {
             strFilter = strFilter + ` && $.sale_product_status == 'New'`
         }
         let sp = Enumerable.from(this.sale.sale_products).where(strFilter).firstOrDefault()
@@ -97,7 +146,8 @@ export default class Sale {
             this.updateSaleProduct(sp);
         } else {
             this.clearSelected();
-
+           
+           
             var saleProduct = {
                 menu_product_name: p.menu_product_name,
                 product_code: p.name,
@@ -105,11 +155,17 @@ export default class Sale {
                 product_name_kh: p.name_kh,
                 unit: p.unit,
                 quantity: 1,
+                sub_total: 0,
+                total_discount: 0,
+                total_tax: 0,
+                discount_amount:0,
+                sale_discount_amount:0,
+                note: '',
                 price: p.price,
                 modifiers_price: this.getNumber(p.modifiers_price),
                 product_photo: p.photo,
                 selected: true,
-                modified: (new Date()),
+                modified: moment(new Date()).format('yyyy-MM-DD HH:mm:ss.SSS'),
                 append_quantity: p.append_quantity,
                 allow_discount: p.allow_discount,
                 allow_free: p.allow_free,
@@ -122,6 +178,10 @@ export default class Sale {
                 sale_product_status: "New",
                 discount_type: "Percent",
                 discount: 0,
+                order_by : this.orderBy,
+                order_time : this.getOrderTime(),
+                printers:p.printers,
+
                 
             }
             this.sale.sale_products.push(saleProduct);
@@ -130,6 +190,32 @@ export default class Sale {
         }
         this.updateSaleSummary()
     }
+    
+    cloneSaleProduct(sp,quantity){
+      
+        let sp_copy = JSON.parse(JSON.stringify(sp));
+        sp_copy.selected = true;
+        sp_copy.quantity = quantity - sp_copy.quantity;
+        sp_copy.sale_product_status = "New";
+        sp_copy.name = "";
+        sp_copy.order_by = this.orderBy;
+        sp_copy.order_time = this.getOrderTime();
+        this.updateSaleProduct(sp_copy);
+        this.sale.sale_products.push(sp_copy);
+        this.updateSaleSummary()
+        
+    }
+
+    getOrderTime(){
+        if(!this.orderTime){   
+            this.orderTime=  moment(new Date()).format('yyyy-MM-DD HH:mm:ss.SSS');
+            return this.orderTime;
+        }else {
+            return this.orderTime;
+        }
+        
+    }
+
 
     onSelectSaleProduct(sp) {
         this.clearSelected();
@@ -141,7 +227,24 @@ export default class Sale {
     }
     updateSaleProduct(sp) {
         sp.sub_total = sp.quantity * sp.price + sp.quantity * sp.modifiers_price;
-        sp.total_discount = 0
+        if(sp.discount){ 
+            if (sp.discount_type=="Percent"){
+                sp.discount_amount = (sp.sub_total * sp.discount/100); 
+            }else {
+                sp.discount_amount = sp.discount;
+            }
+            sp.sale_discount_percent = 0;
+            sp.sale_discount_amount = 0;
+        }else {
+            sp.discount_amount = 0;
+            //check if sale have discount then add discount to sale
+            
+        }
+        if(sp.sale_discount_percent){
+            sp.sale_discount_amount = (sp.sub_total * sp.sale_discount_percent/100); 
+             
+        }
+        sp.total_discount = sp.discount_amount + sp.sale_discount_amount;
         sp.total_tax = 0
         sp.amount = sp.sub_total - sp.total_discount + sp.total_tax;
     }
@@ -150,11 +253,10 @@ export default class Sale {
         const sp = Enumerable.from(this.sale.sale_products);
         this.sale.total_quantity = this.getNumber(sp.sum("$.quantity"));
         this.sale.sub_total = this.getNumber(sp.sum("$.sub_total"));
-
         //calculate sale discount
         this.sale.sale_discountable_amount = this.getNumber(sp.where("$.allow_discount==1 && $.discount==0").sum("$.sub_total"));
-      
         this.sale.discount = this.getNumber(this.sale.discount);
+        this.sale.sale_discount = 0;
         if (this.sale.discount_type=="Percent"){  
             this.sale.sale_discount = this.sale.sale_discountable_amount * (this.sale.discount / 100);
         }else {
@@ -172,6 +274,7 @@ export default class Sale {
 
         //grand_total
         this.sale.grand_total = (this.sale.sub_total - this.sale.total_discount) + this.sale.total_tax
+        this.sale.balance = this.sale.grand_total;
     }
 
     updateQuantity(sp, n) {
@@ -180,30 +283,47 @@ export default class Sale {
         this.updateSaleSummary();
     }
     async onChangePrice(sp) {
-        if (!this.isBillRequested()) {
-            const result = await keyboardDialog({ title: "Change price", type: 'number', value: sp.price });
-            if (result != false) {
-                sp.price = parseFloat(this.getNumber(result));
-                this.updateSaleProduct();
-                this.updateSaleSummary();
-            }
+ 
+        const result = await keyboardDialog({ title: "Change price", type: 'number', value: sp.price });
+        if (result != false) {
+            sp.price = parseFloat(this.getNumber(result));
+            this.updateSaleProduct(sp);
+            this.updateSaleSummary();
         }
+ 
 
     }
     async onChangeQuantity(sp) {
-        if(!this.isBillRequested()){  
+        if (!this.isBillRequested()) {
             const result = await keyboardDialog({ title: "Change Quantity", type: 'number', value: sp.quantity });
-            if (result != false) {
-                sp.quantity = parseFloat(this.getNumber(result));
-                this.updateSaleProduct();
-                this.updateSaleSummary();
+            if (result) {
+                let quantity = this.getNumber(result);
+                alert(this.setting.pos_setting.allow_change_quantity_after_submit == 1)
+                
+                if (this.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status=="New") {
+                    if (quantity == 0) {
+                        quantity = 1
+                    }
+                    this.updateQuantity(sp, quantity);
+                } else {
+                    sp.selected = false;
+                    //do add record
+                    if(quantity>sp.quantity){
+                        this.cloneSaleProduct(sp,quantity);
+                    }
+                    
+    
+                    //do delete record
+    
+                }
+    
             }
         }
-
+    
     }
     async onSaleProductNote(sp) {
-        if(!this.isBillRequested()){ 
-        const result = await keyboardDialog({ title: "Notice", type: 'text', value: sp.note });
+        if(!this.isBillRequested()){
+        const result = await noteDialog({ title: "Note", name: 'Items Note', data: sp });
 
         if (result != false) {
             sp.note = result
@@ -212,61 +332,79 @@ export default class Sale {
 
     }
     async onSaleProductFree(sp) {
-        if(!this.isBillRequested()){ 
-        let freeQty = 0;
-        const result = await keyboardDialog({ title: "Change Free Quantity", type: 'number', value: sp.quantity });
-        if (result != false) {
-            // option free notice from setting system
-            let notice = await keyboardDialog({ title: "Free Notice", type: 'text', value: '' })
-            if (notice == false) {
-                notice = ''
-            }
-            freeQty = parseFloat(this.getNumber(result));
-            if (freeQty > sp.quantity) {
-                freeQty = sp.quantity;
-            }
+            let freeQty = 0;
+            const result = sp.quantity == 1 ? 1 : await keyboardDialog({ title: "Change Free Quantity", type: 'number', value: sp.quantity });
+            if (result != false) {
+                freeQty = parseFloat(this.getNumber(result));
+                if (freeQty > sp.quantity) {
+                    freeQty = sp.quantity;
+                }
 
-            if (freeQty == sp.quantity) {
-                sp.is_free = 1;
-                sp.backup_modifier_price = sp.modifiers_price
-                sp.backup_product_price = sp.price
-                sp.price = 0;
-                sp.modifiers_price = 0;
-                this.updateSaleProduct(sp);
+                if (freeQty == sp.quantity) {
+                    sp.is_free = 1;
+                    sp.backup_modifier_price = sp.modifiers_price
+                    sp.backup_product_price = sp.price
+                    sp.price = 0;
+                    sp.modifiers_price = 0;
+                    this.updateSaleProduct(sp);
+                    this.updateSaleSummary();
+                }
+                else {
+                    let freeSaleProduct = JSON.parse(JSON.stringify(sp))
+                    freeSaleProduct.quantity = freeQty;
+                    freeSaleProduct.backup_product_price = sp.price
+                    freeSaleProduct.backup_modifier_price = sp.modifiers_price
+                    freeSaleProduct.price = 0;
+                    freeSaleProduct.modifiers_price = 0;
+                    freeSaleProduct.selected = false;
+                    freeSaleProduct.is_free = true
+                    this.updateSaleProduct(freeSaleProduct);
+                    this.sale.sale_products.push(freeSaleProduct)
+
+                    //old record 
+
+                    sp.quantity = sp.quantity - freeQty;
+                    this.updateSaleProduct(sp);
+
+                }
+
                 this.updateSaleSummary();
             }
-            else {
-                let freeSaleProduct = JSON.parse(JSON.stringify(sp))
-                freeSaleProduct.quantity = freeQty;
-                freeSaleProduct.backup_product_price = sp.price
-                freeSaleProduct.backup_modifier_price = sp.modifiers_price
-                freeSaleProduct.price = 0;
-                freeSaleProduct.modifiers_price = 0;
-                freeSaleProduct.selected = false;
-                freeSaleProduct.is_free = true
-                freeSaleProduct.free_note = notice;
-                this.updateSaleProduct(freeSaleProduct);
-                this.sale.sale_products.push(freeSaleProduct)
-
-                //old record 
-
-                sp.quantity = sp.quantity - freeQty;
-                this.updateSaleProduct(sp);
-
-            }
-
-            this.updateSaleSummary();
-        }
+        
     }
+    async onDiscount(title,amount,discount_value,discount_type, discount_codes, sp){
+   
+        const result = await saleProductDiscountDialog({
+            title: title,
+            value: amount,
+            data: {
+                discount_value: discount_value,
+                discount_type: discount_type,
+                discount_codes: discount_codes,
+                sale_product: sp
+            }
+        })
+        if(result != false){
+            if(sp){
+                sp.discount = result.discount
+                sp.discount_type = result.discount_type
+                this.updateSaleProduct(sp)
+            }else{
+                this.sale.discount =  result.discount
+                this.sale.discount_type =  result.discount_type
+            }
+            this.updateSaleSummary()
+        }
     }
     async onSaleProductSetSeatNumber(sp) {
         if(!this.isBillRequested()){ 
-        const result = await keyboardDialog({ title: "Set Seat Number", type: 'number', value: sp.seat_number })
-        if (result != false) {
-            sp.seat_number = result
+            const result = await keyboardDialog({ title: "Set Seat Number", type: 'number', value: sp.seat_number })
+            if (result != false) {
+                sp.seat_number = result
+            }
         }
     }
-    }
+    
     onSaleProductCancelFree(sp) {
         if(!this.isBillRequested()){ 
         sp.is_free = 0
@@ -289,8 +427,7 @@ export default class Sale {
         return val;
     }
 
-    onRemoveSaleProduct(sp, quantity) {
-        if(!this.isBillRequested()){ 
+    onRemoveSaleProduct(sp, quantity) { 
         if (sp.quantity == quantity) {
             this.sale.sale_products.splice(this.sale.sale_products.indexOf(sp), 1);
         } else {
@@ -298,11 +435,9 @@ export default class Sale {
         }
         this.updateSaleSummary();
     }
-    }
 
 
     async OnEditSaleProduct(sp) {
-
         let result = await addModifierDialog();
         if (result) {
             if (result.portion != undefined) {
@@ -324,11 +459,22 @@ export default class Sale {
             toaster.success("Update sale product successfully")
 
         }
-        console.log(result.modifiers);
-
-
     }
     
+    onCheckPriceSmallerThanZero(){
+        
+        if (this.sale.sale_products.filter(r=>r.amount < 0).length > 0){
+            toaster.warning("Product price cannot smaller than zero");
+            return true
+        }
+        else if(this.sale.grand_total < 0){
+            toaster.warning("Sale price cannot smaller than zero");
+            return true
+        }
+        else{
+            return false
+        }
+    }
 
     onSubmit() {
         return new Promise(async (resolve) => {
@@ -336,12 +482,20 @@ export default class Sale {
             if (this.sale.sale_products.length == 0) {
                 toaster.warning("Please select a menu item to submit order");
                 resolve(false);
-            } else {
+            }
+            else if(this.onCheckPriceSmallerThanZero()){ 
+                resolve(false);
+            }
+            else {
                 let doc = JSON.parse(JSON.stringify(this.sale));
-                doc.sale_products.filter(r=>r.sale_product_status=="New").forEach(x=>{
-                    x.sale_product_status = "Submitted";
-                })
+                this.generateProductPrinters();
 
+                if(this.sale.sale_status!="Hold Order"){ 
+                    doc.sale_products.filter(r=>r.sale_product_status=="New").forEach(x=>{
+                        x.sale_product_status = "Submitted";
+                    })
+                }
+                
                 if (this.getString(this.sale.name) == "") {
                     
                     await this.newSaleResource.submit({ doc: doc })
@@ -353,8 +507,6 @@ export default class Sale {
                 }
                 resolve(true);
             }
-
-
 
         })
 
@@ -371,7 +523,7 @@ export default class Sale {
                 if (await confirmDialog({ title: "Quick Pay", text: "Are you sure you process quick pay and close order?" })) {
                     this.sale.payment = [];
                     this.sale.payment.push({
-                        payment_type: setting.default_payment_type,
+                        payment_type: this.setting?.default_payment_type,
                         input_amount: this.sale.grand_total,
                         amount: this.sale.grand_total
                     })
@@ -395,45 +547,129 @@ export default class Sale {
         })
     }
 
+    async onSubmitPayment(isPrint=true) {
+        this.isPrintReceipt = isPrint;
+        return new Promise(async (resolve) => {
+                if(this.sale.balance>0){
+                    toaster.warning("Please enter all payment amount.");
+                    resolve(false);
+                }else { 
+                if (await confirmDialog({ title: "Payment", text: "Are you sure you process payment and close order?" })) {
+                    
+                    this.sale.sale_status = "Closed";
+                    this.sale.docstatus = 1;
+                    this.action = "payment";
+                    if (this.getString(this.sale.name) == "") {
+                        await this.newSaleResource.submit({ doc: this.sale })
+                    } else {
+                        await this.saleResource.setValue.submit(this.sale);
+                    }
+
+                    resolve(true);
+                }
+
+            }
+
+          
+
+
+
+        })
+    }
+
+
+
     onProcessTaskAfterSubmit(doc) {
         if (this.action == "submit_order") {
-            toaster.success("Submit order successfully");
-
+           
+            this.onPrintToKitchen(doc);
         } else if (this.action == "print_bill") {
-            toaster.success("Print order to kitchen");
             if (this.pos_receipt == undefined || this.pos_receipt == null) {
-                this.pos_receipt = setting.default_pos_receipt;
+                this.pos_receipt = this.setting?.default_pos_receipt;
             }
             this.onPrintReceipt(this.pos_receipt, "print_receipt", doc);
+            this.onPrintToKitchen(doc);
         }
         else if (this.action == "quick_pay") {
-            toaster.success("Print order to kitchen");
-
-            this.onPrintReceipt(setting.default_pos_receipt, "print_receipt", doc);
-
+            this.onPrintReceipt(this.setting?.default_pos_receipt, "print_receipt", doc);
+            this.onPrintToKitchen(doc);
+        }else if(this.action=="payment"){
+            if(this.isPrintReceipt==true){
+                this.onPrintReceipt(this.pos_receipt, "print_receipt", doc);
+            }
+            this.onPrintToKitchen(doc);
         }
     }
 
-    async onPrintReceipt(receipt, action, doc) {
+    onPrintToKitchen(doc){
+        if(localStorage.getItem("is_window")==1){
+            const data ={
+                action: "print_to_kitchen",
+                setting: this.setting?.pos_setting,
+                sale: doc,
+                product_printers:this.productPrinters
+            }
+            window.chrome.webview.postMessage(JSON.stringify(data));
+            this.productPrinters=[];
+        }
+    }
 
+    generateProductPrinters(){
+        this.productPrinters=[];
+        this.sale.sale_products.filter(r=>r.sale_product_status=='New' &&  JSON.parse(r.printers).length>0).forEach((r)=>{
+           const pritners = JSON.parse(r.printers) ;
+            pritners.forEach((p)=>{
+                this.productPrinters.push({
+                    printer:p.printer,
+                    group_item_type:p.group_item_type,
+                    product_code:r.product_code,
+                    product_name_en:r.product_name,
+                    product_name_kh:r.product_name_kh,
+                    portion:r.portion,
+                    unit:r.unit,
+                    modifiers:r.modifiers,
+                    note:r.note,
+                    quantity:r.quantity,
+                    is_deleted:false,
+                    is_free:r.is_free ==1
+
+                })
+            });
+        });
+    }
+
+
+    getPrintReportPath(doctype,name,reportName, isPrint=0){
+		let url = "";
+		const serverUrl = window.location.protocol + "//" +  window.location.hostname + ":" +  webserver_port;
+		url  = serverUrl + "/printview?doctype=" + doctype + "&name=" + name + "&format="+ reportName +"&no_letterhead=0&letterhead=Defualt%20Letter%20Head&settings=%7B%7D&_lang=en&d=" + new Date()
+		if(isPrint){
+			url = url + "&trigger_print=" + isPrint
+		}
+        return url;
+	}
+
+    async onPrintReceipt(receipt, action, doc) {
+        const parent = this;
         if (receipt.pos_receipt_file_name && localStorage.getItem("is_window")) {
             let data = {
                 action: action,
                 print_setting: receipt,
-                setting: setting.pos_setting,
+                setting: this.setting?.pos_setting,
                 sale: doc
             }
             window.chrome.webview.postMessage(JSON.stringify(data));
 
         } else {
-
-            await printPreviewDialog({
-                title: "Sale #: " + doc.name,
-                doctype: "Sale",
-                name: doc.name,
-                "report": receipt.name,
-                print: true
-            });
+            window.open(parent.getPrintReportPath("Sale",doc.name,receipt.name,1)).print();
+            window.close();
+            // await printPreviewDialog({
+            //     title: "Sale #: " + doc.name,
+            //     doctype: "Sale",
+            //     name: doc.name,
+            //     "report": receipt.name,
+            //     print: true
+            // });
         }
 
     }
@@ -444,5 +680,44 @@ export default class Sale {
         } else {
             return false;
         }
+    }
+    onAddPayment(paymentType,amount){
+        if(paymentType.is_single_payment_type==1){
+            this.sale.payment=[];
+            amount =parseFloat( this.sale.grand_total);
+           
+        }
+        if(!this.getNumber(amount)==0){
+            this.sale.payment.push({
+                payment_type: paymentType.payment_method,
+                input_amount: parseFloat(amount),
+                amount: parseFloat(amount/paymentType.exchange_rate),
+                currency:paymentType.currency
+              });
+              this.updatePaymentAmount();
+              this.paymentInputNumber = this.sale.balance;
+        }else{
+            toaster.warning("Please enter payment amount");
+        }
+        
+    }
+    updatePaymentAmount(){
+        const payments = Enumerable.from(this.sale.payment);
+        const total_payment  = payments.sum("$.amount") ;
+        this.sale.total_paid = total_payment ;
+        
+        this.sale.balance =  this.sale.grand_total - total_payment  ;
+        
+        if(this.sale.balance<0){
+            this.sale.balance = 0;
+        }
+        
+        this.sale.changed_amount = total_payment - this.sale.grand_total;
+        if(this.sale.changed_amount<=0){
+            this.sale.changed_amount = 0;
+        }
+
+        this.action
+        
     }
 }
