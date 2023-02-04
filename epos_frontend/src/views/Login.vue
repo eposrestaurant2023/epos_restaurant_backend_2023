@@ -119,8 +119,10 @@
             </div>
           </div>
         </form>
-        <div class="fixed bottom-2 right-2">
-          <v-btn prepend-icon="mdi-window-close" color="error" @click="onExitWindow()">exit</v-btn>
+        
+        <div class="fixed bottom-2 right-2 " v-if="isWindow()" >
+
+          <v-btn block prepend-icon="mdi-window-close" color="error" @click="onExitWindow()">exit</v-btn>
         </div>
       </div>
     </v-col>
@@ -158,6 +160,12 @@ function clear_password() {
   state.password = "";
 
 }
+
+function isWindow(){
+  return localStorage.getItem("is_window")=="1";
+
+}
+
 function onDeleteBack(){
   state.password = state.password.substring(0,state.password.length-1);
 }
@@ -212,7 +220,10 @@ function getCurrentUserInfo(user){
     })
 }
 function onExitWindow(){
-  window.close();
+  const data ={
+                action: "exit",
+            }
+  window.chrome.webview.postMessage(JSON.stringify(data));
 }
 </script>
 <style scoped>
