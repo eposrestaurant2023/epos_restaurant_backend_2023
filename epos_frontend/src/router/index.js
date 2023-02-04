@@ -15,9 +15,9 @@ import StartupConfig from "@/views/checking_system/StartupConfig.vue"
 import authRoutes from './auth';
 
 const routes = [
-  { path: "/", name: "Home", component: Home, meta: { layout: 'main_layout' } },
-  {path: '/startup-config', name: 'StartupConfig',component: StartupConfig, meta: { isStartupConfig: true }, props: true},
-  { path: "/add-sale/:name?", name: "AddSale", component: AddSale, meta: { layout: 'sale_layout' }},
+  { path: "/epos_frontend", name: "Home", component: Home, meta: { layout: 'main_layout' } },
+  {path: '/epos_frontend/startup-config', name: 'StartupConfig',component: StartupConfig, meta: { isStartupConfig: true }, props: true},
+  { path: "/epos_frontend/add-sale/:name?", name: "AddSale", component: AddSale, meta: { layout: 'sale_layout' }},
   { path: "/customer-detail/:name?", name: "CustomerDetail", component: CustomerDetail, },
   { path: "/customer", name: "Customer", component: Customer,meta: { layout: 'main_layout' }},
   { path: "/sale", name: "Sale", component: Sale, },

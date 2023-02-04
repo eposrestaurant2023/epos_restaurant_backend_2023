@@ -101,6 +101,9 @@ function onOK(){
     else if(discount_type.value == 'Amount' && discountAmount.value < discount.value){
         toaster.warning(`This product can max discount ${maxDiscountPercent.value * 100}% : ${discountAmount.value}$ `);
     }
+    else if(categoryNoteName.value && !discount_note.value){
+        toaster.warning("Please select note");
+    }
     else{
         const result = {
             discount: discount.value,

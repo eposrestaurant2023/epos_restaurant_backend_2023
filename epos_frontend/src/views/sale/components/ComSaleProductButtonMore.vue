@@ -86,8 +86,6 @@ function onRemoveSaleProduct() {
 function onSaleProductDiscount(discount_type) {
     if (!sale.isBillRequested()) {
         gv.authorize("discount_item_required_password", "discount_item", "discount_item_required_note","Discount Item Note","",true).then((v) => {
-            console.log(v)
- 
             if (v) {
                 sale.onDiscount(
                     `${props.saleProduct.product_name} Discount`,

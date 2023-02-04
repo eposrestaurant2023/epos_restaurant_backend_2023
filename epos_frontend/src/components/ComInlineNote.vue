@@ -2,8 +2,8 @@
  
     <v-card>
         <v-card-title>Note</v-card-title>
-        <v-card-text>
-            <div class="mb-2">
+        <v-card-text class="!pb-0">
+            <div>
                 <div class="mb-2">
                     <ComInput autofocus placeholder="Search or Add Note" keyboard v-model="search"
                         v-debounce="onSearch" />
@@ -51,7 +51,6 @@
 </template>
 <script setup>
 import { defineEmits, ref, createDocumentResource, confirmDialog, } from '@/plugin'
-import { createToaster } from '@meforma/vue-toaster';
 import Enumerable from 'linq'
 const emit = defineEmits(['resolve','update:modelValue'])
 const props = defineProps({
@@ -59,11 +58,9 @@ const props = defineProps({
     product_code: String,
     modelValue: String
 })
-const toast = createToaster({position:"top"})
-const open = true;
+
 let search = ref()
 const isDeleteNote = ref(false);
-let selectedNotes = ref([]);
 
 const noteResource = createDocumentResource({
     url: "frappe.client.get_list",
@@ -73,8 +70,7 @@ const noteResource = createDocumentResource({
     cache: ['category_note', props.category_note],
     setValue: {
     onSuccess() {
-toast.success("Success");
-
+        //
     },
   },
     transform(doc) {

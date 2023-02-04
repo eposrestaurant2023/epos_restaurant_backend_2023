@@ -389,6 +389,7 @@ export default class Sale {
             if(sp){
                 sp.discount = result.discount
                 sp.discount_type = result.discount_type
+                sp.discount_note = result.discount_note
                 this.updateSaleProduct(sp)
             }else{
                 this.sale.discount =  result.discount

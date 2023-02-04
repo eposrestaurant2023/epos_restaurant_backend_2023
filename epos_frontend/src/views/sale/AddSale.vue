@@ -32,7 +32,6 @@
                                                 <div class="text-sm">
                                                     <div class="flex">
                                                         <div class="grow">
-                                                        
                                                             <div>  {{ sp.product_name }} {{ sp.sale_product_status }} <v-chip size="x-small" color="error" variant="outlined" v-if="sp.portion">{{ sp.portion }}</v-chip> <v-chip v-if="sp.is_free" size="x-small" color="success" variant="outlined">Free</v-chip></div>
                                                             <div>
                                                                 {{ sp.quantity }} x <CurrencyFormat :value="sp.price"/>
