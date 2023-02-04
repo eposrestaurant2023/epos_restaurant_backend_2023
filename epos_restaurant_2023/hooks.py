@@ -186,4 +186,7 @@ app_license = "MIT"
 #	"epos_restaurant_2023.auth.validate"
 # ]
 
-website_route_rules = [{'from_route': '/epos_frontend/<path:app_path>', 'to_route': 'epos_frontend'},]
+website_route_rules = [
+        {'from_route': '/epos_frontend/<path:app_path>', 'to_route': 'epos_frontend'},
+        {'from_route': '/epos_frontend/login', 'to_route': 'epos_frontend/login'},
+]

@@ -61,9 +61,11 @@
 import { defineEmits, ref, createDocumentResource, confirmDialog, } from '@/plugin'
 import { createToaster } from '@meforma/vue-toaster';
 import Enumerable from 'linq'
-const emit = defineEmits(['resolve'])
+const emit = defineEmits(['resolve','update:modelValue'])
 const props = defineProps({
-    params: Object
+    category_note: String,
+    product_code: String,
+    modelValue: String
 })
 const toast = createToaster({position:"top"})
 const open = true;
@@ -74,9 +76,9 @@ let selectedNotes = ref([]);
 const noteResource = createDocumentResource({
     url: "frappe.client.get_list",
     doctype: "Category Note",
-    name: props.params.name,
+    name: props.category_note,
     auto: true,
-    cache: ['category_note', props.params.name],
+    cache: ['category_note', props.category_note],
     setValue: {
     onSuccess() {
 toast.success("Success");
@@ -103,17 +105,17 @@ function getNote() {
     if (noteResource.doc !== null) {
         let notes = noteResource.doc.notes;
 
-        if (props.params.data.product_code) {
+        if (props.product_code) {
             notes =
                 notes.filter((r) => {
-                    return (r.product_code == props.params.data.product_code || r.product_code == '' || r.product_code == null)
+                    return (r.product_code == props.product_code || r.product_code == '' || r.product_code == null)
                 })
                 ;
         } else {
  
             notes =
                 noteResource.doc?.notes.filter((r) => {
-                    return (!r.product_code || props.params.data.product_code)
+                    return (!r.product_code || props.product_code)
                 })
                 ;
         }
@@ -130,12 +132,8 @@ function getSelectedNote() {
     }
 }
 
-function onClose() {
-    emit('resolve', false)
-}
 function onOK() {
     let selectedNote = getSelectedNote();
-    
     if(!selectedNote){
       
         selectedNote = search.value;
@@ -144,10 +142,7 @@ function onOK() {
         toast.warning("Please select or enter note");
         return;
     }
-
-
-    emit('resolve', selectedNote)
-
+    emit('update:modelValue', selectedNote)
 }
 
 function onSelected(value) {
@@ -157,6 +152,7 @@ function onSelected(value) {
             Enumerable.from(noteResource.doc?.notes).where(`$.selected==true`).forEach("$.selected=false");
         }
         value.selected = !selected;
+        onOK()
     }
 
 }
@@ -166,20 +162,18 @@ function onEnableDeleteNote() {
     noteResource.doc.notes.forEach((r) => {
         r.selected = false;
     })
+    emit('update:modelValue', '')
 }
 function onCancelDeleteNote() {
     isDeleteNote.value = false;
     noteResource.doc.notes.forEach((r) => {
         r.chip = true;
     })
-
-
 }
 async function onDeleteNote() {
     if (await confirmDialog({ title: "Delete Note", text: "Are you sure you want to delete note?" })) {
         const notes = noteResource.doc.notes.filter(r => r.chip == true);
         noteResource.doc.notes = notes
-
         noteResource.setValue.submit({ notes: notes });
         onCancelDeleteNote()
     }

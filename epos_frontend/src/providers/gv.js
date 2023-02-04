@@ -22,7 +22,7 @@ export default class Gv {
 		}
 	}
 
-	async authorize(settingKey, permissionCode,requiredNoteKey="",categoryNoteName="", product_code = "") {
+	async authorize(settingKey, permissionCode,requiredNoteKey="",categoryNoteName="", product_code = "", inlineNote = false) {
 	
 		return new Promise(async (resolve,reject) => {
 			if (this.setting.pos_setting[settingKey] == 1) {
@@ -31,13 +31,18 @@ export default class Gv {
 				if (result) {
 					if(requiredNoteKey && categoryNoteName){
 						//check if require note 
-						if(this.setting.pos_setting[requiredNoteKey] == 1){ 
-							const resultNote = await noteDialog({name:categoryNoteName,data:{product_code:product_code}}) ;
-							if(resultNote){
-								resolve({user:result.name, discount_codes:result.discount_codes,note:resultNote});
+						if(this.setting.pos_setting[requiredNoteKey] == 1){
+							if(inlineNote){
+								resolve({category_note_name: categoryNoteName,discount_codes:result.discount_codes})
 							}else{
-								resolve(false);
+								const resultNote = await noteDialog({name:categoryNoteName,data:{product_code:product_code}}) ;
+								if(resultNote){
+									resolve({user:result.name, discount_codes:result.discount_codes,note:resultNote});
+								}else{
+									resolve(false);
+								}
 							}
+							
 						}else{
 							resolve({user:result.name, discount_codes:result.discount_codes,note:""});	
 						}

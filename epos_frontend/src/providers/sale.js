@@ -372,7 +372,7 @@ export default class Sale {
             }
         
     }
-    async onDiscount(title,amount,discount_value,discount_type, discount_codes, sp){
+    async onDiscount(title,amount,discount_value,discount_type, discount_codes, sp, category_note_name){
    
         const result = await saleProductDiscountDialog({
             title: title,
@@ -381,7 +381,8 @@ export default class Sale {
                 discount_value: discount_value,
                 discount_type: discount_type,
                 discount_codes: discount_codes,
-                sale_product: sp
+                sale_product: sp, 
+                category_note_name: category_note_name
             }
         })
         if(result != false){

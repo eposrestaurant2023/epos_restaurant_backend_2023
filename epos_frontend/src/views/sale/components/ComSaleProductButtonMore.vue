@@ -85,16 +85,19 @@ function onRemoveSaleProduct() {
 
 function onSaleProductDiscount(discount_type) {
     if (!sale.isBillRequested()) {
-        gv.authorize("discount_item_required_password", "discount_item").then((v) => {
+        gv.authorize("discount_item_required_password", "discount_item", "discount_item_required_note","Discount Item Note","",true).then((v) => {
+            console.log(v)
+ 
             if (v) {
-                props.saleProduct.discount_note = v.note
                 sale.onDiscount(
                     `${props.saleProduct.product_name} Discount`,
                     props.saleProduct.amount,
                     props.saleProduct.discount,
                     discount_type,
                     v.discount_codes,
-                    props.saleProduct);
+                    props.saleProduct,
+                    v.category_note_name
+                );
             }
         });
 
