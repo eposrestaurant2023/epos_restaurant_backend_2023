@@ -44,7 +44,7 @@
                 </v-btn>
             </template>
         </v-navigation-drawer>
-        <v-main>
+        <v-main class="overflow-auto h-screen">
             <router-view />
         </v-main>
     </v-app>

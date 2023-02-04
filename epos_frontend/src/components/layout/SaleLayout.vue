@@ -25,11 +25,7 @@
               
                 <ComTimeUpdate/>
                
-                <v-btn class="text-none" stacked>
-                    <v-badge content="9" color="success">
-                        <v-icon>mdi-cart</v-icon>
-                    </v-badge>
-                </v-btn>
+                <ComSaleNotivication/>
                 
                 
                 <v-menu :location="location">
@@ -81,6 +77,7 @@ import SaleLayoutDrawer from './SaleLayoutDrawer.vue';
 import ComTimeUpdate from './components/ComTimeUpdate.vue';
 import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue';
 import {useStore} from "@/plugin"
+import ComSaleNotivication from './ComSaleNotivication.vue';
 
  
 export default {
@@ -92,7 +89,8 @@ export default {
     SaleLayoutDrawer,
     MainLayoutDrawer,
     ComTimeUpdate,
-    ComCurrentUserAvatar
+    ComCurrentUserAvatar,
+    ComSaleNotivication
 },
 computed: {
         currentUser(){
@@ -114,6 +112,3 @@ computed: {
     },
 }
 </script>
-<style lang="">
-    
-</style>

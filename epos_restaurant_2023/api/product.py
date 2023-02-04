@@ -1,39 +1,42 @@
 
 import frappe
 
-@frappe.whitelist()
-def get_product_by_menu(root_menu):
-    menus = []
-    sql = """select 
-                name,
-                pos_menu_name_en as name_en,
-                pos_menu_name_kh as name_kh,
-                parent_pos_menu as parent,
-                photo,
-                text_color,
-                background_color,
-                shortcut_menu,
-                price_rule,
-                photo,
-                'menu' as type
-            from `tabPOS Menu` 
-            where 
-                parent_pos_menu='{}' and
-                disabled = 0 
-            order by sort_order, name
-            """.format(root_menu)
-    data = frappe.db.sql(sql,as_dict=1)
-    for d in data:
-        menus.append(d)
-        
-        for m in get_child_menus(d.name):
-            menus.append(m)
-        
-        for m in get_products(d.name):
-            menus.append(m)
-        
-        
-    return menus
+@frappe.whitelist(allow_guest=True)
+def get_product_by_menu(root_menu=""):
+    if root_menu=="":
+        return []
+    else:
+        menus = []
+        sql = """select 
+                    name,
+                    pos_menu_name_en as name_en,
+                    pos_menu_name_kh as name_kh,
+                    parent_pos_menu as parent,
+                    photo,
+                    text_color,
+                    background_color,
+                    shortcut_menu,
+                    price_rule,
+                    photo,
+                    'menu' as type
+                from `tabPOS Menu` 
+                where 
+                    parent_pos_menu='{}' and
+                    disabled = 0 
+                order by sort_order, name
+                """.format(root_menu)
+        data = frappe.db.sql(sql,as_dict=1)
+        for d in data:
+            menus.append(d)
+            
+            for m in get_child_menus(d.name):
+                menus.append(m)
+            
+            for m in get_products(d.name):
+                menus.append(m)
+            
+            
+        return menus
 
 def get_child_menus(parent_menu):
     menus = []

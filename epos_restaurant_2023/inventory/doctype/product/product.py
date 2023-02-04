@@ -191,7 +191,7 @@ def add_product_to_temp_menu(self):
 	if self.pos_menus and not self.disabled:
 		printers = []
 		for p in self.printers:
-			printers.append({"printer":p.printer})
+			printers.append({"printer":p.printer_name,"group_item_type":p.group_item_type})
 	
 		prices = []
 		for p in self.product_price:

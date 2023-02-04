@@ -3,7 +3,8 @@
         <template v-slot:activator="{props}">
             <v-chip 
                 v-bind="props" 
-                class="m-1" 
+                style="margin: 1px;" 
+                :size="screen.chipSize"
                 :rounded="rounded" 
                 :variant="variant"
                 :prepend-icon="prependIcon"
@@ -16,7 +17,8 @@
     </v-tooltip>
 </template>
 <script setup>
-    import { defineProps } from 'vue'
+    import { defineProps, inject } from 'vue'
+    const screen = inject('$screen')
     const props = defineProps({
         tooltip: String,
         rounded: {

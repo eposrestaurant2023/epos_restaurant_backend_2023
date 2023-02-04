@@ -1,10 +1,10 @@
 <template>
-    <div class="py-2 -mx-1 flex flex-wrap">
+    <div class="py-2 flex flex-wrap">
         <ComSaleTypeChip/>
-        <ComChip tooltip="POS Profile" prepend-icon="mdi-desktop-classic">{{ sale.sale.pos_profile }}</ComChip>
+    <ComChip tooltip="POS Profile" prepend-icon="mdi-desktop-classic">{{ sale.sale.pos_profile }}</ComChip>
         <ComChip tooltip="Working Day" prepend-icon="mdi-calendar">{{ sale.sale.working_day }}</ComChip>
         <ComChip tooltip="Cashier Shift" prepend-icon="mdi-calendar-clock">{{ sale.sale.cashier_shift }}</ComChip>
-        <ComChip tooltip="Guest Cover" prepend-icon="mdi-account-multiple-outline">{{ sale.sale.guest_cover }}</ComChip>
+        <ComChip tooltip="Guest Cover" prepend-icon="mdi-account-multiple-outline" @onClick="onUpdateGuestCover()">{{ sale.sale.guest_cover }}</ComChip>
         <ComChip tooltip="Price Rule" prepend-icon="mdi-bulletin-board">{{ sale.sale.price_rule }}</ComChip>   
     </div>
 </template>
@@ -54,4 +54,8 @@ createResource({
     }
 
 })
+
+function onUpdateGuestCover(){
+    alert(1)
+}
 </script>

@@ -21,7 +21,36 @@
   "thank_you_background",
   "customer_display_slideshow_section",
   "customer_display_slideshow",
-  "thank_you_message"
+  "thank_you_message",
+  "main_currency_predefine_payment_amount",
+  "second_currency_predefine_payment_amount",
+  "permission_and_note_tab",
+  "cancel_print_bill_required_password",
+  "column_break_17",
+  "cancel_print_bill_required_note",
+  "allow_change_quantity_after_submit",
+  "section_break_20",
+  "free_item_required_password",
+  "column_break_22",
+  "free_item_required_note",
+  "section_break_26",
+  "change_item_price_required_password",
+  "column_break_28",
+  "change_item_price_required_note",
+  "section_break_30",
+  "delete_item_required_password",
+  "section_break_32",
+  "delete_item_required_note",
+  "section_break_34",
+  "discount_item_required_password",
+  "section_break_36",
+  "discount_item_required_note",
+  "section_break_38",
+  "discount_sale_required_password",
+  "column_break_40",
+  "discount_sale_required_note",
+  "section_break_42",
+  "open_order_required_password"
  ],
  "fields": [
   {
@@ -101,12 +130,161 @@
    "fieldname": "thank_you_message",
    "fieldtype": "Data",
    "label": "Thank you message"
+  },
+  {
+   "fieldname": "permission_and_note_tab",
+   "fieldtype": "Tab Break",
+   "label": "Permission and Note"
+  },
+  {
+   "fieldname": "column_break_17",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "cancel_print_bill_required_password",
+   "fieldtype": "Check",
+   "label": "Cancel Print Bill Required Password"
+  },
+  {
+   "default": "1",
+   "fieldname": "cancel_print_bill_required_note",
+   "fieldtype": "Check",
+   "label": "Cancel Print Bill Required Note"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_change_quantity_after_submit",
+   "fieldtype": "Check",
+   "label": "Allow change quantity after submit"
+  },
+  {
+   "fieldname": "section_break_20",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_22",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "free_item_required_note",
+   "fieldtype": "Check",
+   "label": "Free Item Required Note"
+  },
+  {
+   "default": "0",
+   "fieldname": "free_item_required_password",
+   "fieldtype": "Check",
+   "label": "Free Item Required Password"
+  },
+  {
+   "fieldname": "main_currency_predefine_payment_amount",
+   "fieldtype": "Data",
+   "label": "Main currency predefine payment amount ",
+   "length": 250
+  },
+  {
+   "fieldname": "second_currency_predefine_payment_amount",
+   "fieldtype": "Data",
+   "label": "Second currency predefine payment amount ",
+   "length": 500
+  },
+  {
+   "fieldname": "section_break_26",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "change_item_price_required_password",
+   "fieldtype": "Check",
+   "label": "Change Item Price Required Password"
+  },
+  {
+   "fieldname": "column_break_28",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "change_item_price_required_note",
+   "fieldtype": "Check",
+   "label": "Change Item Price Required Note"
+  },
+  {
+   "fieldname": "section_break_30",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "delete_item_required_password",
+   "fieldtype": "Check",
+   "label": "Delete Item Required Password"
+  },
+  {
+   "fieldname": "section_break_32",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "delete_item_required_note",
+   "fieldtype": "Check",
+   "label": "Delete Item Required Note"
+  },
+  {
+   "fieldname": "section_break_34",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "discount_item_required_password",
+   "fieldtype": "Check",
+   "label": "Discount Item Required Password"
+  },
+  {
+   "fieldname": "section_break_36",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "discount_item_required_note",
+   "fieldtype": "Check",
+   "label": "Discount Item Required Note"
+  },
+  {
+   "fieldname": "section_break_38",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "discount_sale_required_password",
+   "fieldtype": "Check",
+   "label": "Discount Sale Required Password"
+  },
+  {
+   "fieldname": "column_break_40",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "discount_sale_required_note",
+   "fieldtype": "Check",
+   "label": "Discount Sale Required Note"
+  },
+  {
+   "default": "0",
+   "fieldname": "open_order_required_password",
+   "fieldtype": "Check",
+   "label": "Open Order Required Password"
+  },
+  {
+   "fieldname": "section_break_42",
+   "fieldtype": "Section Break"
   }
  ],
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-24 09:10:44.791386",
+ "modified": "2023-02-02 10:40:02.496469",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Config",

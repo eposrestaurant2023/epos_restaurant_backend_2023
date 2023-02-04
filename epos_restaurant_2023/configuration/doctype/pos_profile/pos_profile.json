@@ -23,9 +23,9 @@
   "pos_menus",
   "payment_types",
   "default_payment_type",
+  "second_currency_payment_type",
   "section_break_16",
   "default_customer",
-  "allow_change_quantity_after_submit",
   "default_pos_receipt"
  ],
  "fields": [
@@ -125,12 +125,6 @@
    "reqd": 1
   },
   {
-   "default": "0",
-   "fieldname": "allow_change_quantity_after_submit",
-   "fieldtype": "Check",
-   "label": "Allow change quantity after submit"
-  },
-  {
    "fieldname": "default_sale_type",
    "fieldtype": "Link",
    "label": "Default Sale Type",
@@ -154,11 +148,17 @@
    "label": "Default POS Receipt",
    "options": "Print Format",
    "reqd": 1
+  },
+  {
+   "fieldname": "second_currency_payment_type",
+   "fieldtype": "Link",
+   "label": "Second Currency Payment Type",
+   "options": "Payment Type"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-28 15:01:34.446338",
+ "modified": "2023-01-31 17:10:21.294360",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Profile",

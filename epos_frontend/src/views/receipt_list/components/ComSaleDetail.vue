@@ -73,7 +73,6 @@
                                 <th style="color: white">Unit</th>
                                 <th style="color: white">QTY</th>
                                 <th class="text-right" style="color: white">Price</th>
-                                <!-- <th class="text-right" style="color: white">Discount</th> -->
                                 <th class="text-right" style="color: white">Amount</th>
                             </tr>
                         </thead>
@@ -89,7 +88,6 @@
                                 <th>{{ p.unit }}</th>
                                 <th>{{ p.quantity }}</th> 
                                 <th class="text-right"><CurrencyFormat :value="p.price"/></th>
-                                <!-- <th class="text-right"><CurrencyFormat :value="sale.doc.total_discount"/></th> -->
                                 <th class="text-right"><CurrencyFormat :value="p.amount"/></th>
                             </tr>
                         </tbody>

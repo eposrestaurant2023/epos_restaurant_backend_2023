@@ -1,7 +1,7 @@
 <template>
   <v-menu>
     <template v-slot:activator="{ props }">
-      <v-chip v-bind="props" class="m-1" rounded="pill" variant="tonal" append-icon="mdi-arrow-down-drop-circle-outline"
+      <v-chip v-bind="props" style="margin: 1px;" :size="screen.chipSize" rounded="pill" variant="tonal" append-icon="mdi-arrow-down-drop-circle-outline"
         :color="saleType?.color">
         {{ sale.sale.sale_type }}
       </v-chip>
@@ -18,6 +18,7 @@
 <script setup>
 import { createResource, inject, computed } from "@/plugin";
 const sale = inject("$sale")
+const screen = inject("$screen")
 let saleTypeResource = createResource({
   url: "frappe.client.get_list",
   params: {

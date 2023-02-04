@@ -1,11 +1,12 @@
 <template>
     <div>
-        
+  
         <div v-if="type=='textarea'">
             <v-textarea
                 v-if="keyboard"
+                :required="required"
                 :type="type"
-                density="compact"
+                :density="density"
                 :variant="variant"
                 :label="label"
                 :single-line = "!label"
@@ -16,15 +17,16 @@
                 hide-details
                 :placeholder="placeholder"
                 append-inner-icon="mdi-keyboard"
-                :value="data"
+                :value="modelValue"
                 @click:append-inner="onDialog()"
                 :prepend-inner-icon="prependInnerIcon"
                 @input="updateValue">
             </v-textarea>
             <v-textarea
                 v-else
+                :required="required"
                 :type="type"
-                density="compact"
+                :density="density"
                 :variant="variant"
                 :label="label"
                 :single-line = "!label"
@@ -34,7 +36,7 @@
                 :rows = "row"
                 hide-details
                 :append-inner-icon="appendInnerIcon"
-                :value="data"
+                :value="modelValue"
                 @click:append-inner="emit('onClickAppendInner')"
                 :prepend-inner-icon="prependInnerIcon"
                 @click:prepend-inner="emit('onClickPrependInner')"
@@ -43,10 +45,12 @@
         </div>
         <div v-else>
             <v-text-field
+                autofocus
                 clearable
+                :required="required"
                 v-if="keyboard"
                 :type="type"
-                density="compact"
+                :density="density"
                 :variant="variant"
                 :label="label"
                 :single-line = "!label"
@@ -54,7 +58,7 @@
                 hide-details
                 :placeholder="placeholder"
                 append-inner-icon="mdi-keyboard"
-                :value="data"
+                :value="modelValue"
                 @click:append-inner="onDialog()"
                 :prepend-inner-icon="prependInnerIcon"
                 @input="updateValue"
@@ -63,15 +67,18 @@
             </v-text-field>
             <v-text-field
                 v-else
+                autofocus
+                :required="required"
                 :type="type"
-                density="compact"
+                :density="density"
                 :variant="variant"
                 :label="label"
                 :single-line = "!label"
                 :disabled="disabled"
                 hide-details
                 :append-inner-icon="appendInnerIcon"
-                :value="data"
+                :value="modelValue"
+                :placeholder="placeholder"
                 @click:append-inner="emit('onClickAppendInner')"
                 :prepend-inner-icon="prependInnerIcon"
                 @click:prepend-inner="emit('onClickPrependInner')"
@@ -82,7 +89,6 @@
 </template>
 <script setup>
 import {ref,keyboardDialog} from '@/plugin'
-import ComModalKeyboard from './ComModalKeyboard.vue';
 
 const props = defineProps({
     modelValue: [String, Number],
@@ -101,6 +107,10 @@ const props = defineProps({
     variant: {
         type: String,
         default: 'solo'
+    },
+    density: {
+        type: String,
+        default: 'compact'
     },
     placeholder: {
         type: String,
@@ -129,35 +139,39 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    keyboard: Boolean
+    required: {
+        type: Boolean,
+        default: false
+    },
+    keyboard: Boolean,
+    autofocus:Boolean
 })
 
-let data = ref(props.modelValue)
+// let data = ref(props.modelValue)
 const emit = defineEmits(['update:modelValue'])
 
 const updateValue = (event) => {
-    data.value = event.target.value;
-    emit('update:modelValue', data.value)
+    // props.modelValue = event.target.value;
+    emit('update:modelValue', event.target.value)
 }
 
 async function onDialog() {
  
-    const keys = await keyboardDialog({title: props.title,type: props.type, value:data.value});
+    const keys = await keyboardDialog({title: props.title,type: props.type, value:props.modelValue});
  
     if(typeof keys == 'boolean' && keys == false){
         return
     }
     else {
-        data.value = keys;
-        emit('onInput',data.value)
-        emit('update:modelValue', data.value)
+         
+        emit('onInput',keys)
+        emit('update:modelValue', keys)
     }
         
 }
-function onClear(){
-    data.value="";
+function onClear(){ 
     emit('onInput',"")
-        emit('update:modelValue', "")
+    emit('update:modelValue', "")
 }
 </script>
  

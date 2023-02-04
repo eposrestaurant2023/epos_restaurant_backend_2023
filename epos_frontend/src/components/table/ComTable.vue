@@ -36,10 +36,11 @@
                             </span>
                         </template>
                         <template v-else-if="h.fieldtype=='Status'">
-                    
-                            <v-chip v-if="doctype=='Sale'" :color="item.raw[h.color_field]"> {{ item.raw[h.key] }}</v-chip>
-                        
-                        
+                            <v-chip v-if="doctype=='Sale'" :color="item.raw[h.color_field]" size="small"> {{ item.raw[h.key] }}</v-chip>
+                            <template v-else>
+                                <v-chip v-if="item.raw[h.key]" color="success" size="small">Enabled</v-chip>
+                                <v-chip v-else color="error" size="small">Disabled</v-chip>
+                            </template>
                         </template>
                         <template v-else-if="!h.fieldtype">
                             <template v-if="h.template">

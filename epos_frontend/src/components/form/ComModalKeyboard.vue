@@ -79,8 +79,7 @@ function onClose() {
     emit('resolve',false)
 }
 function onOK(value){
-
-    emit('resolve', value != 'boolean' && value != false ? value : false)
+    emit('resolve', value)
 }
 function onInputChange($event) {
     input.value = $event.target.value;

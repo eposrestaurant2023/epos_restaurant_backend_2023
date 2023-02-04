@@ -1,12 +1,12 @@
 <template>
-    <div class="cursor-pointer p-2 grow bg-blue-600 text-white" v-if="printFormatResource.loading">Print Bill</div>
+    <div class="cursor-pointer p-2 grow bg-blue-600 text-white  hover:bg-blue-700" v-if="printFormatResource.loading">Print Bill</div>
     <template v-else>
-        <div class="cursor-pointer p-2 grow bg-blue-600 text-white" v-if="printFormatResource.data.length==1" @click="onPrintReport(printFormatResource.data[0])" >
+        <div class="cursor-pointer p-2 grow bg-blue-600 text-white hover:bg-blue-700" v-if="printFormatResource.data.length==1" @click="onPrintReport(printFormatResource.data[0])" >
             <v-icon icon="mdi-printer"></v-icon>
         </div>
         <v-menu v-else>
         <template v-slot:activator="{ props }">
-            <div class="cursor-pointer p-2 grow bg-blue-600 text-white" @click="$emit('onClose')" :loading="printFormatResource.loading" v-bind="props">
+            <div class="cursor-pointer p-2 grow bg-blue-600 text-white hover:bg-blue-700" @click="$emit('onClose')" :loading="printFormatResource.loading" v-bind="props">
                 Print Bill
             </div>
         </template>
@@ -36,7 +36,7 @@
         params: {
             doctype:props.doctype
         },
-        cache:"sale_get_pos_print_format",
+        cache:["print_format",props.doctype],
         auto: true,
     })
 

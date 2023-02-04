@@ -1,7 +1,9 @@
 <template>
     <PageLayout title="Customer" icon="mdi-account-multiple" full>
         <template #action>
-                <ComButton @click="onAddCustomer" title="Add Customer" class="bg-green-600"/>
+            <v-btn  prepend-icon="mdi-account-plus" type="button" @click="onAddCustomer">
+               Add Customer
+            </v-btn>
         </template>
     <ComTable :headers="headers" doctype="Customer" extra-fields="name" @callback="onCallback"/>
   </PageLayout>
@@ -23,7 +25,7 @@ async function onCallback(data) {
     }
 }
 async function onAddCustomer() {
-    await addCustomerDialog ({});
+    await addCustomerDialog ({title: "New Customer", value:  ''});
 }
 const headers = ref([
     { title: 'Customer', align: 'start', key: 'customer_code_name', callback: true },
@@ -31,13 +33,13 @@ const headers = ref([
     { title: 'Name Kh', align: 'start', key: 'customer_name_kh' },
     { title: 'Gender', align: 'center', key: 'gender'},
     { title: 'Group', align: 'start', key: 'customer_group' },
-    { title: 'Date of Birth', align: 'start', key: 'date_of_birth', fieldtype: "Date" },
+    { title: 'Date of Birth', align: 'start', key: 'date_of_birth', fieldtype: "Date"},
     { title: 'Phone Number', align: 'start', key: 'phone_number'},
     { title: 'Company Name', align: 'start', key: 'company_name'},
     { title: 'Location', align: 'start', key: 'province'},
+    
 ])
 
- 
  
 
 </script>

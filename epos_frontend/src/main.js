@@ -12,6 +12,7 @@ import VueNumberFormat from 'vue-number-format'
 import CurrencyFormat from './components/CurrencyFormat.vue';
 import ComPlaceholder from './components/layout/components/ComPlaceholder.vue'
 import ComAutoComplete from './components/form/ComAutoComplete.vue'
+import ComInput from './components/form/ComInput.vue'
 import ComPrintPreview from './components/ComPrintPreview.vue'
 import ComChip from './components/ComChip.vue'
 import Avatar from "vue3-avatar";
@@ -25,8 +26,8 @@ import call from "./utils/call";
 import socket from "./utils/socketio";
 import Auth from "./utils/auth";
 import Sale from "./providers/sale";
-import Product from "./providers/product";
 import Gv from "./providers/gv";
+import Product from "./providers/product";
 import Screen from "./providers/screen";
 import moment from "./utils/moment";
 import store from "./store";
@@ -40,9 +41,9 @@ import '@vuepic/vue-datepicker/dist/main.css'
 
 const app = createApp(App);
 const auth = reactive(new Auth());
+const gv = reactive(new Gv());
 const sale = reactive(new Sale());
 const product = reactive(new Product());
-const gv = reactive(new Gv());
 const screen = reactive(new Screen())
 
 const vuetify = createVuetify({
@@ -68,9 +69,10 @@ app.use(Toaster, {
  
 // Global Properties,
 // components can inject this
+app.provide("$gv", gv);
 app.provide("$sale", sale);
 app.provide("$product", product);
-app.provide("$gv", gv);
+
 app.provide("$screen", screen);
 app.provide("$auth", auth);
 app.provide("$call", call);
@@ -90,8 +92,7 @@ app.directive('debounce', vue3Debounce({ lock: true }))
 // Configure route gaurds
 router.beforeEach(async (to, from, next) => {
 	if(!localStorage.getItem("pos_profile"))
-	{
-
+	{ 
 		if (to.matched.some((record) => !record.meta.isStartupConfig)){
 			next({name:"StartupConfig", query: { route: to.path }})
 		}else{
@@ -125,6 +126,7 @@ app.component('ComAutoComplete', ComAutoComplete);
 app.component('ComPrintPreview', ComPrintPreview);
 app.component("avatar", Avatar);
 app.component('ComChip',ComChip)
+app.component('ComInput',ComInput)
 
 
 app.mount("#app");

@@ -8,9 +8,10 @@ from frappe import _
 def check_username(pin_code):
     if pin_code:    
         pin_code = (str( base64.b64encode(pin_code.encode("utf-8")).decode("utf-8")))
-        data = frappe.db.sql("select name from `tabUser` where pos_pin_code='{}' and allow_login_to_pos=1 limit 1".format(pin_code),as_dict=1)
+        data = frappe.db.sql("select name,full_name,pos_user_permission from `tabUser` where pos_pin_code='{}' and allow_login_to_pos=1 limit 1".format(pin_code),as_dict=1)
         if data:
-            return {"username":data[0]["name"]} 
+            permission= frappe.get_doc("POS User Permission",data[0]["pos_user_permission"])      
+            return {"username":data[0]["name"],"full_name":data[0]["full_name"],"permission":permission} 
         
     frappe.throw(_("Invalid pin code"))
  
@@ -34,7 +35,7 @@ def get_system_settings(pos_profile="", device_name=''):
     payment_types=[]
     for p in profile.payment_types:
         
-        payment_types.append({"payment_method":p.payment_type,"allow_cash_float":p.allow_cash_float, "input_amount":0,"exchange_rate":p.exchange_rate})
+        payment_types.append({ "payment_method":p.payment_type,"currency":p.currency,"is_single_payment_type":p.is_single_payment_type,"allow_cash_float":p.allow_cash_float, "input_amount":0,"exchange_rate":p.exchange_rate})
     
     #get currency
     currencies = frappe.db.sql("select name,symbol,currency_precision,symbol_on_right from `tabCurrency` where enabled=1", as_dict=1)
@@ -57,14 +58,30 @@ def get_system_settings(pos_profile="", device_name=''):
         "second_currency_name":second_currency.name,
         "second_currency_symbol":second_currency.symbol,
         "second_currency_format":second_currency.pos_currency_format,
-        "thank_you_message":pos_config.thank_you_message    
-    }
+        "thank_you_message":pos_config.thank_you_message,
+        "cancel_print_bill_required_password":pos_config.cancel_print_bill_required_password,
+        "cancel_print_bill_required_note":pos_config.cancel_print_bill_required_note,
+        "free_item_required_password":pos_config.free_item_required_password,
+        "free_item_required_note":pos_config.free_item_required_note,
+        "change_item_price_required_password":pos_config.change_item_price_required_password,
+        "change_item_price_required_note":pos_config.change_item_price_required_note,
+        "delete_item_required_password":pos_config.delete_item_required_password,
+        "delete_item_required_note":pos_config.delete_item_required_note,
+        "discount_item_required_password":pos_config.discount_item_required_password,
+        "discount_item_required_note":pos_config.discount_item_required_note,
+        "discount_sale_required_password":pos_config.discount_sale_required_password,
+        "discount_sale_required_note":pos_config.discount_sale_required_note,
+        "allow_change_quantity_after_submit":pos_config.allow_change_quantity_after_submit,
+        "main_currency_predefine_payment_amount":pos_config.main_currency_predefine_payment_amount,
+        "second_currency_predefine_payment_amount":pos_config.second_currency_predefine_payment_amount,
+        "open_order_required_password":pos_config.open_order_required_password,
+        }
     
     #get default customre
     
     if not profile.default_customer:
         frappe.throw("There is no default customer for pos profie {}".format(pos_profile))
-    
+
     default_customer = frappe.get_doc("Customer", profile.default_customer)
     
     #get default print format
@@ -105,10 +122,10 @@ def get_system_settings(pos_profile="", device_name=''):
         "customer":default_customer.name,
         "customer_name":default_customer.customer_name_en,
         "customer_photo":default_customer.photo,
-        "allow_change_quantity_after_submit":profile.allow_change_quantity_after_submit,
         "default_sale_type":profile.default_sale_type,
         "default_payment_type":profile.default_payment_type,
-        "default_pos_receipt":default_pos_receipt
+        "default_pos_receipt":default_pos_receipt,
+        "second_currency_payment_type":profile.second_currency_payment_type
         
     }
     return  data

@@ -176,7 +176,7 @@ const login = async () => {
         if (state.username && state.password) {
           let res = await auth.login(state.username, state.password);
           if (res) {
-            getCurrentUserInfo()
+            getCurrentUserInfo(doc)
             
           } else {
             toast.warning(`Login fail. Invalid username or password.`);
@@ -192,11 +192,12 @@ const login = async () => {
     
 }
 
-function getCurrentUserInfo(){
+function getCurrentUserInfo(user){
   createResource({
       url: 'epos_restaurant_2023.api.api.get_user_information',
       auto: true,
       async onSuccess(doc) {
+        doc.permission = user.permission;
         localStorage.setItem('current_user',JSON.stringify(doc))
         router.push({ name: "Home" });
         store.dispatch('endLoading')

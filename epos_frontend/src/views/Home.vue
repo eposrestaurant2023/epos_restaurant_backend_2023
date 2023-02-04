@@ -20,6 +20,7 @@
         <v-container>
             <div class="mx-auto mt-4 mb-0 md:w-[600px]">
                 <div class="grid md:grid-cols-4 grid-cols-3" style="grid-gap: 20px;">
+                    
                     <WorkingDayButton />
                     <OpenShiftButton />
                     <ComButton @click="onPOS()" title="POS" icon="mdi-cart" class="bg-green-600 text-white" icon-color="#fff"/>

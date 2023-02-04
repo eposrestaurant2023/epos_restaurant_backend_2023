@@ -22,7 +22,7 @@
        
 </template>
 <script setup>
-    import {defineProps,defineEmits, createResource} from "@/plugin"
+    import {defineProps,defineEmits, createResource,inject} from "@/plugin"
     const props = defineProps({
         doctype:String,
         title:{
@@ -37,6 +37,7 @@
         params: {
             doctype:props.doctype
         },
+        cache:["print_format",props.doctype],
         auto: true,
     })
 

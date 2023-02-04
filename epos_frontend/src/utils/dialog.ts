@@ -5,12 +5,19 @@ import ComPrintPreview from '@/components/ComPrintPreview.vue'
 import SaleDetail from '@/views/receipt_list/components/ComSaleDetail.vue';
 import CustomerDetail from '@/views/customer/CustomerDetail.vue';
 import ComConfirm from '@/components/ComConfirm.vue';
+import ComAuthorize from '@/components/ComAuthorize.vue';
+import ComNote from '@/components/ComNote.vue';
 import ComModelKeyboard from '@/components/form/ComModalKeyboard.vue';
 import ComSelectSaleOrder from '@/views/sale/components/ComSelectSaleOrder.vue';
+import ComSaleProductNoteModal from '@/views/sale/components/ComSaleProductNoteModal.vue';
 import ComAddModifier from '@/views/sale/components/ComAddModifier.vue';
 import ComAddCustomer from '@/views/customer/ComAddCustomer.vue';
 import ComConfirmBackToTableLayout from '@/views/sale/components/ComConfirmBackToTableLayout.vue';
 import ComSearchCustomer from '@/views/sale/components/ComSearchCustomer.vue';
+import ComScanCustomerCode from '@/views/sale/components/ComScanCustomerCode.vue';
+import ComSaleProductDiscountModal from '@/views/sale/components/ComSaleProductDiscountModal.vue';
+import ComPayment from '@/views/sale/components/ComPayment.vue';
+import ComOpenMenu from '@/views/sale/components/ComOpenMenu.vue';
 interface params {
     doctype?:String,
     name?:String,
@@ -24,7 +31,8 @@ interface params {
             default:0
         },
     data:Object,//use in comSelectSaleOrder
-    table:Object //use in comSelectSaleOrder
+    table:Object, //use in comSelectSaleOrder
+    permissionCode:String
 }
 
 export  const comPopupDialog = createPromiseDialog<params, object>(ComPopup);
@@ -40,4 +48,11 @@ export  const customerDetailDialog = createPromiseDialog<params, object>(Custome
 export  const addCustomerDialog = createPromiseDialog<params, object>(ComAddCustomer);
 export  const confirmBackToTableLayout = createPromiseDialog<params, object>(ComConfirmBackToTableLayout);
 export  const searchCustomerDialog = createPromiseDialog<params, object>(ComSearchCustomer);
+export  const saleProductNoteModalDialog = createPromiseDialog<params, object>(ComSaleProductNoteModal);
+export  const scanCustomerCodeDialog= createPromiseDialog<params, object>(ComScanCustomerCode);
+export  const authorizeDialog= createPromiseDialog<params, object>(ComAuthorize);
+export  const noteDialog= createPromiseDialog<params, object>(ComNote);
+export  const saleProductDiscountDialog = createPromiseDialog<params, object>(ComSaleProductDiscountModal);
+export  const paymentDialog = createPromiseDialog<params, object>(ComPayment);
+export  const openMenuDialog = createPromiseDialog<params, object>(ComOpenMenu);
 

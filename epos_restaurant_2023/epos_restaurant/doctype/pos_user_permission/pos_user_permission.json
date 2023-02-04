@@ -1,0 +1,112 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:pos_user_permission",
+ "creation": "2023-01-30 20:44:44.609499",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "pos_user_permission",
+  "cancel_print_bill",
+  "discount_sale",
+  "free_item",
+  "change_item_price",
+  "delete_item",
+  "discount_item",
+  "column_break_8",
+  "make_order",
+  "section_break_7",
+  "discount_codes"
+ ],
+ "fields": [
+  {
+   "fieldname": "pos_user_permission",
+   "fieldtype": "Data",
+   "label": "POS User Permission",
+   "unique": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "cancel_print_bill",
+   "fieldtype": "Check",
+   "label": "Cancel Print Bill"
+  },
+  {
+   "default": "1",
+   "fieldname": "free_item",
+   "fieldtype": "Check",
+   "label": "Free Item"
+  },
+  {
+   "default": "1",
+   "fieldname": "change_item_price",
+   "fieldtype": "Check",
+   "label": "Change Item Price"
+  },
+  {
+   "default": "1",
+   "fieldname": "delete_item",
+   "fieldtype": "Check",
+   "label": "Delete Item"
+  },
+  {
+   "default": "1",
+   "fieldname": "discount_item",
+   "fieldtype": "Check",
+   "label": "Discount Item"
+  },
+  {
+   "fieldname": "section_break_7",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "discount_codes",
+   "fieldtype": "Table",
+   "label": "Discount Codes",
+   "options": "Discount Code"
+  },
+  {
+   "default": "0",
+   "fieldname": "discount_sale",
+   "fieldtype": "Check",
+   "label": "Discount Sale"
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "make_order",
+   "fieldtype": "Check",
+   "label": "Make Order"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-02-02 10:41:29.280079",
+ "modified_by": "Administrator",
+ "module": "ePOS Restaurant",
+ "name": "POS User Permission",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

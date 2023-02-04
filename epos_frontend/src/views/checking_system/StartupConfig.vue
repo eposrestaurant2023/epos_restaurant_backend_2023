@@ -19,26 +19,28 @@
             <v-card-text>
 
                 <form @submit.prevent="onSave()">
-                    <v-text-field
+                    <ComInput
                         class="mb-2"
                         density="compact"
                         variant="solo"
                         label="Device Name"
-                        append-inner-icon="mdi-cellphone-link"
+                        prepend-inner-icon="mdi-cellphone-link"
                         single-line
                         hide-details
                         v-model="state.device_name"
-                    ></v-text-field>
-                    <v-text-field
+                        keyboard
+                    ></ComInput> 
+                    <ComInput
                         class="mb-6"
                         density="compact"
                         variant="solo"
                         label="POS Profile"
-                        append-inner-icon="mdi-account"
+                        prepend-inner-icon="mdi-account"
                         single-line
                         hide-details
                         v-model="state.pos_profile"
-                    ></v-text-field>
+                        keyboard
+                    ></ComInput>
                     <div class="text-right">
                         <v-btn type="sumbit" class="w-full" color="primary" :loading="store.state.isLoading">Save</v-btn>
                     </div>

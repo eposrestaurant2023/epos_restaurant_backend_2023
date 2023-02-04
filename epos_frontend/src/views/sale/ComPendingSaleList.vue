@@ -1,6 +1,6 @@
 <template>
-  <v-row v-if="data" align="start" no-gutters>
-    <v-card class="ma-4" v-for="(s, index) in data" :key="index">
+  <div v-if="data" class="grid gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
+    <v-card v-for="(s, index) in data" :key="index">
       <v-toolbar height="55">
         <v-toolbar-title class="text">
           #: {{ s.name }} - <Timeago   :long="long" :datetime="s.creation"  /> 
@@ -12,8 +12,6 @@
         </template>
       </v-toolbar>
       <v-card-title>
-
-
       </v-card-title>
       <v-card-text  class="pa-0">
         <v-list :lines="false"
@@ -47,8 +45,8 @@
             </template>
           </v-list-item>
           <v-list-item title="Grand Total">
-            <template v-slot:append>
-              {{ s.grand_total }}
+            <template v-slot:append> 
+              <CurrencyFormat :value="s.grand_total"/>
             </template>
           </v-list-item>
 
@@ -56,18 +54,16 @@
          
       
       </v-card-text>
-      <v-card-actions class="pt-0">
+      <v-card-actions class="pt-0 flex items-center justify-between">
         <v-btn color="primary" @click="onViewSaleOrder(s.name)">
           View Sale Detail
         </v-btn>
         <v-btn color="success" @click="onOpenOrder(s.name)">
           Open Order
         </v-btn>
-
-
       </v-card-actions>
     </v-card>
-  </v-row>
+  </div>
   <div v-else>
     No Pending order
   </div>

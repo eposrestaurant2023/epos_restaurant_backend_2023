@@ -12,7 +12,8 @@
   "category_note_name_en",
   "category_note_name_kh",
   "disabled",
-  "notes"
+  "notes",
+  "multiple_selected"
  ],
  "fields": [
   {
@@ -40,11 +41,17 @@
    "fieldtype": "Table",
    "label": "Notes",
    "options": "Cashier Notes"
+  },
+  {
+   "default": "0",
+   "fieldname": "multiple_selected",
+   "fieldtype": "Check",
+   "label": "Multiple Selected"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-27 17:57:22.035241",
+ "modified": "2023-01-30 15:45:31.417559",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Category Note",

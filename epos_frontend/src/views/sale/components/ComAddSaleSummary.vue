@@ -1,6 +1,7 @@
 <template>
-  <div class="-mx-3 bg-blue-100 rounded-tl-md rounded-tr-md text-sm">
-    <div class="px-3 py-2" v-if="(sale.sale.total_discount + sale.sale.total_tax) > 0">
+  <div class="-mx-1 bg-blue-100 rounded-tl-md rounded-tr-md text-xs">
+    <div class="px-2" v-if="(sale.sale.total_discount + sale.sale.total_tax) > 0">
+     
       <div class="flex justify-between my-1">
         <div>
           Sub Total
@@ -17,9 +18,10 @@
       </div>
       <div class="flex justify-between mb-1" v-if="sale.sale.sale_discount > 0">
         <div>Sale Discount
-          <span v-if="sale.sale.discount && sale.sale.discount_type=='Percent'"> - {{ sale.sale.discount }}%</span>
+          <span v-if="sale.sale.discount && sale.sale.discount_type == 'Percent'"> - {{ sale.sale.discount }}%</span>
         </div>
         <div class="font-bold">
+
           <CurrencyFormat :value="sale.sale.sale_discount" />
         </div>
       </div>
@@ -62,30 +64,33 @@
       <div class="button-group">
         <div class="d-flex text-center">
           <div class="cursor-pointer bg-red-800 p-2" @click="onToTableLayout">
-            <v-icon icon="mdi-reply" color="white"/>
+            <v-icon icon="mdi-reply" color="white" />
           </div>
           <!-- <v-btn color="error" round="0" icon="mdi-reply" class="btn-back-layout" @click="onToTableLayout"></v-btn> -->
-          
-          <ComPrintBillButton v-if="sale.sale.sale_status!='Bill Requested'" doctype="Sale" title="Print Bill" @onPrint="onPrintBill" />
-          <div class="bg-red-600 text-white cursor-pointer grow p-2 hover:bg-red-700" v-else @click="onCancelPrintBill">Cancel Print Bill</div>
-          
+
+          <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" doctype="Sale" title="Print Bill"
+            @onPrint="onPrintBill" />
+          <div class="bg-red-600 text-white cursor-pointer grow p-2 hover:bg-red-700" v-else @click="onCancelPrintBill">
+            Cancel Print Bill</div>
+
           <ComDiscountButton />
-          <div class="cursor-pointer p-2 grow bg-orange-600 text-white hover:bg-orange-700" @click="onQuickPay">Quick Pay</div>
+          <div class="cursor-pointer p-2 grow bg-orange-600 text-white hover:bg-orange-700" @click="onQuickPay">Quick
+            Pay</div>
           <ComSaleButtonMore />
         </div>
       </div>
     </div>
     <div>
       <div class="flex">
-        <div class="w-4/5 cursor-pointer bg-green-600 text-white p-3 hover:bg-green-700" @click="onPayment()">
-          <div class="flex justify-between mb-2 text-xl">
+        <div class="w-4/5 cursor-pointer bg-green-600 text-white p-2 hover:bg-green-700" @click="onPayment()">
+          <div class="flex justify-between mb-2 text-lg">
             <div>Payment</div>
             <div>
               <CurrencyFormat :value="sale.sale.grand_total" />
             </div>
           </div>
-          <div class="flex justify-between text-xl">
-            <div>Total Quantity : <span>{{ sale.sale.total_quantity }}</span></div>
+          <div class="flex justify-between">
+            <div>Total Qty : <span>{{ sale.sale.total_quantity }}</span></div>
             <div>
               <ComExchangeRate />
               <CurrencyFormat :value="sale.sale.grand_total * sale.sale.exchange_rate"
@@ -109,25 +114,27 @@
 
 </template>
 <script setup>
-import { inject, useRouter, confirmBackToTableLayout } from '@/plugin';
+import { inject, useRouter, confirmBackToTableLayout,paymentDialog } from '@/plugin';
 import ComDiscountButton from './ComDiscountButton.vue';
 import ComExchangeRate from './ComExchangeRate.vue';
 import ComPrintBillButton from './ComPrintBillButton.vue';
 import ComSaleButtonMore from './ComSaleButtonMore.vue';
 import Enumerable from 'linq';
-import {createToaster} from '@meforma/vue-toaster';
+import { createToaster } from '@meforma/vue-toaster';
+
 const router = useRouter()
 const sale = inject("$sale")
 const gv = inject("$gv")
 const setting = gv.setting;
-const toaster = createToaster({position:"top"})
+const toaster = createToaster({ position: "top" })
 
 
 async function onSubmit() {
   if (!sale.isBillRequested()) {
+    sale.action = "submit_order";
+    sale.message = "Submit Order Successfully";
     sale.sale.sale_status = "Submitted";
     await sale.onSubmit().then((value) => {
-
       if (value) {
         router.push({ name: "TableLayout" });
       }
@@ -160,20 +167,35 @@ async function onQuickPay() {
   });
 }
 
-function onCancelPrintBill(){
-  alert("authorize")
-  alert("note")
- 
- 
-  sale.sale.sale_status = "Submitted";
-  sale.sale.sale_status_color = setting.sale_status.find(r=>r.name=='Submitted').background_color;
-  alert("writ to audit trail");
+async function onCancelPrintBill() {
+  gv.authorize("cancel_print_bill_required_password", "cancel_print_bill","cancel_print_bill_required_note","Cancel Print Bill Note").then((v) => {
+    if (v) {
+      sale.sale.sale_status = "Submitted";
+      sale.sale.sale_status_color = setting.sale_status.find(r => r.name == 'Submitted').background_color;
+      alert("writ to audit trail");
+    }
+  })
 
+}
+
+async function onPayment(){
+  if(sale.sale.sale_products.length == 0){
+    toaster.warning("Please select a menu item to submit order");
+    return
+  }
+  else if(sale.onCheckPriceSmallerThanZero()){
+    return;
+  }
+  const result = await paymentDialog({})
+  if(result){
+    router.push({ name: "TableLayout" });
+  }
+  
 }
 
 function onNote() {
   if (!sale.isBillRequested()) {
-  alert('submit')
+    alert('submit')
   }
 }
 function onSave() {
@@ -181,7 +203,7 @@ function onSave() {
 }
 function onDiscount() {
   if (!sale.isBillRequested()) {
-  alert('submit')
+    alert('submit')
   }
 }
 
@@ -204,17 +226,16 @@ async function onToTableLayout() {
             router.push({ name: "TableLayout" });
           }
         });
-      }else{
+      } else {
         //continue
         router.push({ name: "TableLayout" })
       }
     }
-  }else{ 
+  } else {
     router.push({ name: "TableLayout" })
   }
 
 }
-
 
 
 </script>

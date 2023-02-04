@@ -39,7 +39,7 @@
                 <template v-for="g in table_groups">
                     <v-window-item :value="g.key"
                         v-bind:style="{ 'background-image': 'url(' + g.background + ')', 'min-height': 'calc(100vh - 200px)' }"
-                        class="bg-contain bg-center">
+                        class="bg-contain bg-center overflow-auto">
                         <div v-if="canArrangeTable">
 
                             <Vue3DraggableResizable v-for="(t, index) in g.tables" :key="index" class="table"
@@ -82,10 +82,8 @@
             </v-window-item>
             </template>
             </v-window>
-
         </template>
-         
-<ComSaleStatusInformation/>
+        <ComSaleStatusInformation/>
     </PageLayout>
 </template>
 
@@ -99,7 +97,9 @@ import { inject, createResource, createToaster, useRouter, reactive, ref, select
 import ComSaleStatusInformation from './components/ComSaleStatusInformation.vue';
 import Enumerable from 'linq'
 
+
 const sale = inject("$sale");
+const gv = inject("$gv");
 
  
 const router = useRouter()
@@ -188,63 +188,73 @@ function loading() {
     }, 5000)
 }
 
-async function onTableClick(table) {
-     
-    if (table.sales.length==0) {
-        let guest_cover = 0;
-        if (setting.use_guest_cover == 1) {
-            const result = await keyboardDialog( { title: "Guest Cover", type: 'number', value: guest_cover }); 
-              
-            if (result || String(result)=='') {
-              
-                guest_cover = parseInt(result);
-                if (guest_cover == undefined || isNaN(guest_cover)) {
-                    guest_cover = 0;
+function onTableClick(table) {
+    gv.authorize("open_order_required_password", "make_order").then(async (v) => {
+        if (v) {
+            sale.orderBy = v.user;
+            if (table.sales.length == 0) {
+                let guest_cover = 0;
+                if (setting.use_guest_cover == 1) {
+                    const result = await keyboardDialog({ title: "Guest Cover", type: 'number', value: guest_cover });
+
+                    if (result || String(result) == '' || result == 0) {
+
+                        guest_cover = parseInt(result);
+                        if (guest_cover == undefined || isNaN(guest_cover)) {
+                            guest_cover = 0;
+                        }
+
+                    } else {
+                        return;
+                    }
                 }
-                
+                sale.newSale();
+                sale.sale.table_id = table.id;
+                sale.sale.tbl_number = table.tbl_no;
+                sale.sale.guest_cover = guest_cover;
+                if (parseFloat(table.default_discount) > 0) {
+                    sale.sale.discount_type = table.discount_type;
+                    sale.sale.discount = parseFloat(table.default_discount);
+                    if (table.discount_type == "Percent") {
+                        toaster.info("This table is discount " + table.default_discount + '%')
+                    } else {
+                        toaster.info("This table is discount " + table.default_discount + ' ' + setting.pos_setting.main_currency_name)
+                    }
+                }
+
+              
+                if (table.sale_type) {
+                    sale.sale.sale_type = table.sale_type
+                }
+                if (table.price_rule) {
+                    sale.sale.price_rule = table.price_rule;
+                }
+                if (gv.setting.price_rule != sale.sale.price_rule) {
+                    toaster.info("Your current price rule is " + sale.sale.price_rule);
+                }
+
+                router.push({ name: "AddSale" });
+
+            } else if (table.sales.length == 1) {
+                router.push({
+                    name: "AddSale", params: {
+                        name: table.sales[0].name
+                    }
+                });
             } else {
-                return;
+                sale.sale.table_id = table.id;
+                sale.sale.tbl_number = table.tbl_no;
+                await selectSaleOrderDialog({ data: table.sales, table: table });
             }
+            return;
+
+
+
+
+
+
         }
-        sale.newSale();
-        sale.sale.table_id = table.id;
-        sale.sale.tbl_number = table.tbl_no;
-        sale.sale.guest_cover = guest_cover;
-        if(parseFloat( table.default_discount)>0){
-            sale.sale.discount_type = table.discount_type;
-            sale.sale.discount = parseFloat( table.default_discount);
-            
-            toaster.info("This table is discount " + table.default_discount + '%')
-        }
-
-        if (setting.price_rule != sale.sale.price_rule) {
-            toast.info("Your current price rule is " + sale.sale.price_rule);
-        }
-        
-        if(table.sale_type){
-            sale.sale.sale_type = table.sale_type
-        }
-        if(table.price_rule){
-            sale.sale.price_rule= table.price_rule;
-        }
-
-        router.push({ name: "AddSale" });
-
-    }else if(table.sales.length==1){
-        router.push({ name: "AddSale",params:{
-            name:table.sales[0].name
-        } });
-    }else {
-    sale.sale.table_id = table.id;
-    sale.sale.tbl_number = table.tbl_no;
-      await  selectSaleOrderDialog( { data: table.sales, table:table });
-    }
-    return;
-
-
-
-    
-
+    })
 
 
 }

@@ -1,4 +1,5 @@
 <template>
+ 
     <div class="py-2 bg-white" id="shortcut_menu">
         <div class="flex flex-wrap -mx-2 justify-center" v-if="shortcut">
             <div v-for="(m, index) in shortcut" :key="m.name_en" class="px-2">
@@ -16,10 +17,11 @@
     const active = ref('')
  
     const shortcut = computed(()=>{
-        return product.posMenu ? product.posMenu.filter(r=>r.shortcut_menu == 1) : null
+        return product.posMenuResource.data?.filter(r=>r.shortcut_menu == 1) 
     })
   
     function onClick(name) {
+        product.searchProductKeyweord="";
         active.value = name;
         product.parentMenu = name;
     

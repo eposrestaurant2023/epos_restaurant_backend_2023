@@ -22,6 +22,8 @@ import { reactive, computed, onMounted,inject } from 'vue'
 import { useStore } from 'vuex'
  
 const gv = inject("$gv");
+const sale = inject("$sale");
+const product = inject("$product");
 const store = useStore()
 const screen = inject('$screen')
 let state = reactive({
@@ -39,7 +41,6 @@ const isSaleLayout = computed(() => {
 const isLoading = computed(() => {
 	return store.state.isLoading
 })
-
 if (!localStorage.getItem("pos_profile")) {
 	state.isLoading = false
 	router.push({ name: 'StartupConfig' })
@@ -59,13 +60,14 @@ if (!localStorage.getItem("pos_profile")) {
 			state.isLoading = false;
 			localStorage.setItem("setting", JSON.stringify(doc));
 			gv.setting = doc;
+			sale.setting = doc;
+			product.setting = doc;
 			localStorage.setItem("table_groups", JSON.stringify(doc.table_groups))
 
 		},
 		onError(x) {
-
 			if (x.error_text == undefined) {
-				localStorage.removeItem("pos_profile")
+				//localStorage.removeItem("pos_profile")
 				location.reload()
 			} else {
 				if (x.error_text[0] === 'Invalid POS Profile name') {
@@ -81,13 +83,32 @@ if (!localStorage.getItem("pos_profile")) {
 }
 
 function onResize () {
-	//screen.onResizeHandle()
+	screen.onResizeHandle()
 }
-
+onMounted(() => {
+  onResize()
+})
 </script>
 <style>
 .progress_bar {
 	position: absolute !important;
 	z-index: 9999 !important;
 }
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(206, 206, 206); 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(165, 165, 165); 
+  border-radius: 10px;
+}
+
 </style>

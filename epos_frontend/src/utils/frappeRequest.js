@@ -101,6 +101,9 @@ export function frappeRequest(options) {
         const toaster = createToaster({ /* options */ });
         
         if (options.onError || error_text) {
+          if(error_text=="Not permitted"){
+            //location.reload();
+          }
           toaster.error(error_text,{position:"top"});
           options.onError({
             error_text:error_text,
