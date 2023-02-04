@@ -22,38 +22,30 @@
                     </template>
                 </div>
             </div>
-            <div>
-                <div class="text-right pt-4">
-                    <v-btn class="mr-2"  v-if="search" variant="flat" @click="onSaveNote" color="success">
+        </v-card-text>
+        <v-card-actions class="justify-end">
+                <div>
+                    <v-btn size="small" class="mr-2"  v-if="search" variant="flat" @click="onSaveNote" color="success">
                             Save Note
                     </v-btn>
                     <template v-if="isDeleteNote">
-                        <v-btn class="mr-2" variant="flat" @click="onCancelDeleteNote" color="warning">
+                        <v-btn size="small" class="mr-2" variant="flat" @click="onCancelDeleteNote" color="warning">
                             Cancel
                         </v-btn>
-                        <v-btn class="mr-2" v-if="noteResource.doc.notes.filter(r => r.chip == false).length > 0"
+                        <v-btn size="small" class="mr-2" v-if="noteResource.doc.notes.filter(r => r.chip == false).length > 0"
                             variant="flat" @click="onDeleteNote" color="error">
                             Delete
                         </v-btn>
 
                     </template>
                     <template v-else>
-                        <v-btn class="mr-2" variant="flat" @click="onEnableDeleteNote" color="error">
+                        <v-btn size="small" class="mr-2" variant="flat" @click="onEnableDeleteNote" color="error">
                             Delete Note
-                        </v-btn>
-
-                        <v-btn class="mr-2" variant="flat" @click="onClose(false)" color="error">
-                            Close
-                        </v-btn>
-
-                        <v-btn variant="flat" @click="onOK()" color="primary">
-                            OK
                         </v-btn>
                     </template>
 
                 </div>
-            </div>
-        </v-card-text>
+            </v-card-actions>
     </v-card>
  
 </template>
@@ -135,12 +127,7 @@ function getSelectedNote() {
 function onOK() {
     let selectedNote = getSelectedNote();
     if(!selectedNote){
-      
         selectedNote = search.value;
-    }
-    if (selectedNote=="" || selectedNote==undefined ){
-        toast.warning("Please select or enter note");
-        return;
     }
     emit('update:modelValue', selectedNote)
 }
