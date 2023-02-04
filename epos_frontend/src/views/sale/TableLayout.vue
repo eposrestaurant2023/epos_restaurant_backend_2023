@@ -53,20 +53,20 @@
                         </div>
                         <div v-else>
                             <template v-for="(t, index) in g.tables" :key="index">
-
-
                                 <div v-bind:style="{ 'height': t.h + 'px', 'width': t.w + 'px', 'left': t.x + 'px', 'top': t.y + 'px', 'background-color': t.background_color, 'position': 'absolute', 'box-sizing': 'border-box' }"
-                                    class="text-center text-gray-100" @click="onTableClick(t)">
-                                    {{ t.tbl_no }}<span v-if="t.guest_cover">({{ t.guest_cover }})</span> <br />
-                             
-                                    <span v-if="isLoading"></span>
-                                    <div v-if="t.grand_total"><CurrencyFormat :value="t.grand_total"></CurrencyFormat> </div>
-                                    <div v-if="t.creation"><Timeago   :long="long" :datetime="t.creation"  /> </div>
-                                    
+                                    class="text-center text-gray-100 cursor-pointer" @click="onTableClick(t)">
+                                    <div class="flex items-center justify-center h-full">
+                                        <div>
+                                            <div><span class="font-bold">{{ t.tbl_no }}</span><span v-if="t.guest_cover">({{ t.guest_cover }})</span></div>
+                                            <span v-if="isLoading"></span>
+                                            <div v-if="t.grand_total"><CurrencyFormat :value="t.grand_total"></CurrencyFormat> </div>
+                                            <div v-if="t.creation" class="text-xs">
+                                                <v-icon icon="mdi-clock" size="x-small"></v-icon> <Timeago :long="long" :datetime="t.creation"  />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-
                             </template>
-
                         </div>
 
                     </v-window-item>
