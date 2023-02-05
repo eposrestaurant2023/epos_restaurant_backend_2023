@@ -15,12 +15,21 @@
 
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item>
-          <v-list-item active-color="primary" @click="onRoute('StartWorkingDay')">
+          
+          <v-list-item v-if="workingDayResource.data" active-color="primary" @click="onRoute('CloseWorkingDay')">
+            <template v-slot:prepend>
+              <v-icon>mdi-calendar-clock</v-icon>
+            </template>
+            <v-list-item-title>Close Working Day</v-list-item-title>
+          </v-list-item>
+          <v-list-item v-else active-color="primary" @click="onRoute('StartWorkingDay')">
             <template v-slot:prepend>
               <v-icon>mdi-calendar-clock</v-icon>
             </template>
             <v-list-item-title>Start Working Day</v-list-item-title>
           </v-list-item>
+
+        
 
           
 
@@ -115,6 +124,15 @@ let cashierShiftResource = createResource({
     },
     auto: true,
 })
+
+const workingDayResource = createResource({
+    url: "epos_restaurant_2023.api.api.get_current_working_day",
+    params: {
+        pos_profile: localStorage.getItem("pos_profile")
+    },
+    auto: true
+})
+
 
 </script>
 <style lang="">

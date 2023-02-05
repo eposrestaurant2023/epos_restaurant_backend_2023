@@ -6,6 +6,7 @@ import TableLayout from "../views/sale/TableLayout.vue";
 import OpenShift from "../views/shift/OpenShift.vue";
 import CloseShift from "../views/shift/CloseShift.vue";
 import StartWorkingDay from "../views/shift/StartWorkingDay.vue";
+import CloseWorkingDay from "../views/shift/CloseWorkingDay.vue";
 import CustomerDetail from "../views/customer/CustomerDetail.vue";
 import Customer from "../views/customer/Customer.vue";
 import TestPage from "../views/TestPage.vue";
@@ -26,6 +27,7 @@ const routes = [
   { path: "/epos_frontend/open-shift", name: "OpenShift", component: OpenShift, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/close-shift", name: "CloseShift", component: CloseShift, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/start-working-day", name: "StartWorkingDay", component: StartWorkingDay, meta: { layout: "main_layout" } },
+  { path: "/epos_frontend/close-working-day", name: "CloseWorkingDay", component: CloseWorkingDay, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/test-page", name: "TestPage", component: TestPage, meta: { layout: "main_layout" } },
 
   ...authRoutes,
