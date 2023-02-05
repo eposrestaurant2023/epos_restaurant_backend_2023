@@ -23,6 +23,7 @@ namespace eAPIClient.Services
         Task<bool> SyncAllData();
 
         void sendSyncRequest(string extension="txt");
+        void createLog(string msg);
       
 
         void OnCreatedAsync(object sender, FileSystemEventArgs e);
@@ -1103,6 +1104,28 @@ namespace eAPIClient.Services
                 }
             }
 
+        }
+
+        public void createLog(string msg)
+        {
+            try
+            {
+               
+                path = environment.ContentRootPath + $"\\logs\\db\\{string.Format("{0:yyyyMMdd}",DateTime.Now)}\\{string.Format("{0:HH}", DateTime.Now)}";
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
+                using (FileStream fs = File.Create(Path.Combine(path, $"{Guid.NewGuid()}.txt")))
+                {
+                    // Add some text to file    
+                    Byte[] title = new System.Text.UTF8Encoding(true).GetBytes(msg);
+                    fs.Write(title, 0, title.Length);
+                    //fs.Write(item.File, 0, item.File.Length);
+                }
+            }
+            catch { }
         }
     }
 }

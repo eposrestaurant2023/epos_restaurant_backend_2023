@@ -147,7 +147,10 @@ namespace eAPIClient.Controllers
                 else
                 { 
                     string query = $"exec sp_update_coupon_refund '{id}','{rf_wd_id}','{rf_cs_id}','{rf_cd_id}',{amount}";
-                    db.Database.ExecuteSqlRaw(query);
+                    await   db.Database.ExecuteSqlRawAsync(query);
+
+
+                    sync.createLog(query);
                     sync.sendSyncRequest();
                     return Ok();
                 }
