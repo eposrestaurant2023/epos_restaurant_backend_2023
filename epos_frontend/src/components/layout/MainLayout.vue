@@ -6,26 +6,28 @@
                 <v-app-bar-nav-icon variant="text" @click.stop="onDrawer()"></v-app-bar-nav-icon>
             </template>
             <template #append>
-                <ComTimeUpdate/>
+                <ComTimeUpdate />
                 <v-menu :location="location">
                     <template v-slot:activator="{ props }">
-                        <v-avatar :image="currentUser.photo"  v-bind="props" v-if="currentUser.photo" class="cursor-pointer"></v-avatar>
-                        <avatar v-else :name="currentUser.full_name" v-bind="props" class="cursor-pointer" size="40"></avatar>
+                        <v-avatar :image="currentUser.photo" v-bind="props" v-if="currentUser.photo"
+                            class="cursor-pointer"></v-avatar>
+                        <avatar v-else :name="currentUser.full_name" v-bind="props" class="cursor-pointer" size="40">
+                        </avatar>
                     </template>
                     <v-card min-width="300">
-                        <ComCurrentUserAvatar/>
+                        <ComCurrentUserAvatar />
 
                         <v-divider></v-divider>
-                        
+
                         <v-list density="compact">
-                            <v-list-item  @click="onReload()">
+                            <v-list-item @click="onReload()">
                                 <template v-slot:prepend class="w-12">
                                     <v-icon icon="mdi-reload"></v-icon>
                                 </template>
                                 <v-list-item-title>Reload</v-list-item-title>
                             </v-list-item>
                             <v-divider></v-divider>
-                            <v-list-item  @click="$auth.logout()">
+                            <v-list-item @click="$auth.logout()">
                                 <template v-slot:prepend class="w-12">
                                     <v-icon icon="mdi-logout"></v-icon>
                                 </template>
@@ -33,12 +35,12 @@
                             </v-list-item>
                         </v-list>
                     </v-card>
-                    
+
                 </v-menu>
             </template>
         </v-app-bar>
         <v-navigation-drawer v-model="drawer" temporary>
-            <MainLayoutDrawer/>
+            <MainLayoutDrawer />
             <template v-slot:append>
                 <v-btn variant="tonal" prepend-icon="mdi-arrow-left" class="w-full" @click="onDrawer">
                     Close
@@ -60,10 +62,10 @@ export default {
     inject: ["$auth"],
     name: "MainLayout",
     computed: {
-        appTitle(){
+        appTitle() {
             return JSON.parse(localStorage.getItem('setting')).app_name
         },
-        currentUser(){
+        currentUser() {
             return JSON.parse(localStorage.getItem('current_user'))
         }
     },
@@ -73,17 +75,17 @@ export default {
         }
     },
     components: {
-    ComProductSearch,
-    MainLayoutDrawer,
-    ComCurrentUserAvatar,
-    ComToolbar,
-    ComTimeUpdate
-},
+        ComProductSearch,
+        MainLayoutDrawer,
+        ComCurrentUserAvatar,
+        ComToolbar,
+        ComTimeUpdate
+    },
     methods: {
-        onDrawer(){
+        onDrawer() {
             this.drawer = !this.drawer;
         },
-        onReload(){
+        onReload() {
             location.reload()
         }
     },

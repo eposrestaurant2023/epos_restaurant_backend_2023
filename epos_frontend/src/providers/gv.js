@@ -14,7 +14,8 @@ export default class Gv {
 	
 	getPrintReportPath(doctype,name,reportName, isPrint=false){
 		let url = "";
-		const serverUrl = window.location.protocol + "//" +  window.location.host;
+		const serverUrl = window.location.protoco
+		l + "//" +  window.location.host;
 		url  = serverUrl + "/printview?doctype=" + doctype + "&name=" + name + "&format="+ reportName +"&no_letterhead=0&letterhead=Defualt%20Letter%20Head&settings=%7B%7D&_lang=en&d=" + new Date()
 		if(isPrint){
 			serverUrl = serverUrl + "&trigger_print=" + triggerPrint
