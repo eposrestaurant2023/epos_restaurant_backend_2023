@@ -17,7 +17,7 @@
                 hide-details
                 :placeholder="placeholder"
                 append-inner-icon="mdi-keyboard"
-                :value="modelValue"
+                v-model="value"
                 @click:append-inner="onDialog()"
                 :prepend-inner-icon="prependInnerIcon"
                 @input="updateValue">
@@ -44,6 +44,7 @@
             </v-textarea>
         </div>
         <div v-else>
+           
             <v-text-field
                 autofocus
                 clearable
@@ -58,7 +59,7 @@
                 hide-details
                 :placeholder="placeholder"
                 append-inner-icon="mdi-keyboard"
-                :value="modelValue"
+                v-model="value"
                 @click:append-inner="onDialog()"
                 :prepend-inner-icon="prependInnerIcon"
                 @input="updateValue"
@@ -77,7 +78,7 @@
                 :disabled="disabled"
                 hide-details
                 :append-inner-icon="appendInnerIcon"
-                :value="modelValue"
+                v-model="value"
                 :placeholder="placeholder"
                 @click:append-inner="emit('onClickAppendInner')"
                 :prepend-inner-icon="prependInnerIcon"
@@ -147,12 +148,18 @@ const props = defineProps({
     autofocus:Boolean
 })
 
+const value = ref();
+
+value.value =props.modelValue;
+
 // let data = ref(props.modelValue)
 const emit = defineEmits(['update:modelValue'])
 
 const updateValue = (event) => {
     // props.modelValue = event.target.value;
+    value.value = event.target.value;
     emit('update:modelValue', event.target.value)
+
 }
 
 async function onDialog() {
@@ -163,13 +170,14 @@ async function onDialog() {
         return
     }
     else {
-         
+        value.value = keys;
         emit('onInput',keys)
         emit('update:modelValue', keys)
     }
         
 }
 function onClear(){ 
+    value.value = "";
     emit('onInput',"")
     emit('update:modelValue', "")
 }

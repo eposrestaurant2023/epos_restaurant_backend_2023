@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="open">
+  <v-dialog v-model="open" persistent>
       <v-card 
         class="mx-auto my-2 py-2"
         :title="params.title"

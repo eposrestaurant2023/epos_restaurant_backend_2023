@@ -3,7 +3,7 @@
         <v-avatar v-if="photo">
             <v-img :src="photo"></v-img>
         </v-avatar>
-        <avatar v-else :name="title" size="40"></avatar>
+        <avatar v-else :name="title" class="my-0 mx-auto" size="40"></avatar>
     </td>
 </template>
 <script setup>

@@ -1,5 +1,5 @@
 <template>
-    <div class="overflow-scroll">
+    <div>
         <div class="h-60 bg-no-repeat bg-cover"
             v-bind:style="{ 'background-image': 'url(' + setting.login_background + ')' }">
             <div class="wrap-overlay w-full h-full flex items-end justify-center">
@@ -18,11 +18,9 @@
                 </div>
             </div>
         </div>
-        <v-container>
+        <div>
             <div class="mx-auto mt-4 mb-0 md:w-[600px]">
-
                 <div class="grid xs:grid-cols-2 md:grid-cols-4 grid-cols-2" style="grid-gap: 20px;">
-
                     <WorkingDayButton />
                     <OpenShiftButton />
                     <ComButton @click="onPOS()" title="POS" icon="mdi-cart" class="bg-green-600 text-white"
@@ -38,7 +36,7 @@
                         background-color="#b00020" />
                 </div>
             </div>
-        </v-container>
+        </div>
     </div>
 </template>
 <script setup>

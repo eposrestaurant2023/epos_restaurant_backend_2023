@@ -1,8 +1,10 @@
 <template>
     <ComLoadingDialog v-if="sale.newSaleResource?.loading || (sale.saleResource!=null && sale.saleResource?.get.loading) ||   (sale.saleResource!=null && sale.saleResource?.setValue.loading)"/>
     <div style="height: calc(100vh - 64px)" id="tst">
+        <ComProductSearch v-if="mobile" />
         <v-row class="h-full ma-0">
             <v-col sm="7" md="7" lg="8" class="pa-0 h-full">
+               
                 <ComMenu :background-image="gv.setting.pos_sale_order_background_image"/>
             </v-col>
             <v-col sm="5" md="5" lg="4" class="h-full pa-0">
@@ -12,8 +14,9 @@
                             <ComSelectCustomer/>
                         </div>
                         <div class="overflow-auto"> 
-                            {{ sale.deletedSaleProducts }}
+                         
                             <ComPlaceholder :is-not-empty="sale.getSaleProducts().length > 0" icon="mdi-cart-outline" text="Empty Product">
+                      
                                 <div v-for="(g, index) in sale.getSaleProductGroupByKey()" :key="index">
                                     <div class="bg-red-700 text-white flex items-center justify-between" style="font-size: 10px; padding: 2px;">
                                         <div><v-icon icon="mdi-clock" size="small" class="mr-1"></v-icon>{{  moment(g.order_time).format('HH:mm:ss') }}</div>
@@ -91,7 +94,12 @@ import ComSaleInformation from '@/views/sale/components/ComSaleInformation.vue';
 import { createToaster } from "@meforma/vue-toaster";
 import ComSaleProductButtonMore from './components/ComSaleProductButtonMore.vue';
 import ComLoadingDialog from '../../components/ComLoadingDialog.vue';
+import ComProductSearch from './components/ComProductSearch.vue';
 import moment from '@/utils/moment.js';
+import { useDisplay } from 'vuetify'
+
+const { mobile,name,platform } = useDisplay()
+
 const store = useStore()
 
 const sale = inject("$sale")

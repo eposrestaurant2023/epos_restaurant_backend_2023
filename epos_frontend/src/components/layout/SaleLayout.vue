@@ -18,7 +18,7 @@
             </v-app-bar-title>
             </template>
            
-            <template #title>
+            <template #title v-if="!mobile"> 
                 <ComProductSearch />
             </template>
             <template #append>
@@ -76,10 +76,10 @@ import MainLayoutDrawer from './MainLayoutDrawer.vue';
 import SaleLayoutDrawer from './SaleLayoutDrawer.vue';
 import ComTimeUpdate from './components/ComTimeUpdate.vue';
 import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue';
-import {useStore} from "@/plugin"
-import ComSaleNotivication from './ComSaleNotivication.vue';
-
  
+import ComSaleNotivication from './ComSaleNotivication.vue';
+import { useDisplay } from 'vuetify'
+
 export default {
     inject: ["$auth","$sale"],
     
@@ -91,6 +91,13 @@ export default {
     ComTimeUpdate,
     ComCurrentUserAvatar,
     ComSaleNotivication
+},
+setup(){
+    const { mobile } = useDisplay()
+
+    return {
+        mobile
+    }
 },
 computed: {
         currentUser(){

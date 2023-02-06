@@ -11,6 +11,7 @@
                 
                     <v-row>
                         <v-col cols="10" sm="8"  md="6" >
+                            
                             <ComInput :value="customer.customer_name_en" v-model="customer.customer_name_en" :required="true" keyboard label="Customer Name En"/>    
                         </v-col>
                         <v-col cols="10" sm="8"  md="6">
@@ -120,9 +121,7 @@ let customerResource = createResource({
 })
 
 
-
 const open = ref(true);
-
 const customer = ref({})
 const data = ref({})
 const gender = computed(()=>{

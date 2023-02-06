@@ -47,12 +47,13 @@
         color="deep-purple-accent-4"
         align-tabs="start"
         class="ma-4"
+        
       >
         <v-tab value="about">About</v-tab>   
         <v-tab value="recentOrder">Recent Order</v-tab>
         
   </v-tabs>
-  <v-window v-model="tab" >
+  <v-window v-model="tab">
     <v-window-item value="about">
       <v-table class="pl-10">
         <p class="font-weight-bold pb-2">
@@ -92,6 +93,16 @@
                 <td>:</td>
                 <td>{{ customer.doc?.gender }}</td>
               </tr>
+              <tr v-if="customer.doc?.company_name">
+                <td>Company Name</td>
+                <td>:</td>
+                <td>{{ customer.doc?.company_name }}</td>
+              </tr>
+              <tr v-if="customer.doc?.customer_group">
+                <td>Customer Group</td>
+                <td>:</td>
+                <td>{{ customer.doc?.customer_group }}</td>
+              </tr>
         </table>
       </v-table>
     </v-window-item>
@@ -104,15 +115,15 @@
             <th>Grand Total</th>
             <th>Date</th>
           </tr>
-        </thead>  
+        </thead> 
         <tbody v-for=" d in recentOrder.data" :key="d.name">
           <td>{{ d.name }}</td>
-          <td class="pl-6">{{ d.total_quantity }}</td>
-          <td class="pl-6"><CurrencyFormat :value="d.grand_total"/></td>
+          <td class="pl-4">{{ d.total_quantity }}</td>
+          <td class="pl-4"><CurrencyFormat :value="d.grand_total"/></td>
           <td v-if="d.modified"><Timeago   :long="long" :datetime="d.modified"/></td>
         </tbody>
-      </v-table>  
-    </v-window-item>
+      </v-table>
+    </v-window-item>    
   </v-window>
   </v-card>
   </v-dialog>
@@ -122,7 +133,7 @@
   import { ref, defineProps,defineEmits, createDocumentResource,createResource, addCustomerDialog } from '@/plugin'
   import ComToolbar from '@/components/ComToolbar.vue';
   import { Timeago } from 'vue2-timeago';
-
+  
   const props = defineProps({
     params:{
       type:Object,
@@ -171,4 +182,5 @@
   async function onAddCustomer() { 
     await addCustomerDialog ({title:  customer.doc?.name+ ' - ' +  customer.doc?.customer_name_en, name: customer.doc?.name});
 }
+
 </script>

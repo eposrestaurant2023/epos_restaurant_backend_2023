@@ -1,6 +1,6 @@
 <template>
-    <div class="overflow-auto wrap-table-view">
-        <table class="view_table">
+    <div>
+        <v-table fixed-header>
             <thead>
                 <slot name="header"></slot>
             </thead>
@@ -10,7 +10,7 @@
             <tfoot>
                 <slot name="footer"></slot>
             </tfoot>
-        </table>
+        </v-table>
     </div>
 </template>
 <script>

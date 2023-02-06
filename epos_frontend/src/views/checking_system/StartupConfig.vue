@@ -52,7 +52,6 @@
 <script setup>
     import {reactive, createResource, createToaster, useStore, inject} from '@/plugin'
     import ComToolbar from '@/components/ComToolbar.vue';
-
     const auth = inject('$auth')
     const toast = createToaster()
     const store = useStore()

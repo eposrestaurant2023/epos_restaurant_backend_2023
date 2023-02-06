@@ -10,6 +10,7 @@ import CloseWorkingDay from "../views/shift/CloseWorkingDay.vue";
 import CustomerDetail from "../views/customer/CustomerDetail.vue";
 import Customer from "../views/customer/Customer.vue";
 import TestPage from "../views/TestPage.vue";
+import ToDo from "../views/ToDo.vue";
 import ReceiptList from "@/views/receipt_list/ReceiptList.vue"
 import StartupConfig from "@/views/checking_system/StartupConfig.vue"
  
@@ -29,6 +30,7 @@ const routes = [
   { path: "/epos_frontend/start-working-day", name: "StartWorkingDay", component: StartWorkingDay, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/close-working-day", name: "CloseWorkingDay", component: CloseWorkingDay, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/test-page", name: "TestPage", component: TestPage, meta: { layout: "main_layout" } },
+  { path: "/epos_frontend/todo", name: "ToDo", component: ToDo, meta: { layout: "main_layout" } },
 
   ...authRoutes,
 ];
