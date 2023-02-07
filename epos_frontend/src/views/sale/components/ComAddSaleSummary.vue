@@ -10,6 +10,16 @@
           <CurrencyFormat :value="sale.sale.sub_total" />
         </div>
       </div>
+      
+      <div class="flex justify-between my-1" >
+        <div>
+          Discountable Amount
+        </div>
+        <div class="font-bold">
+          <CurrencyFormat :value="sale.sale.sale_discountable_amount" />
+        </div>
+      </div>
+
       <div class="flex justify-between mb-1" v-if="sale.sale.product_discount > 0">
         <div>Product Discount</div>
         <div class="font-bold">
@@ -150,6 +160,18 @@ async function onPrintBill(r) {
     sale.action = "print_bill";
     sale.pos_receipt = r;
 
+    //add to auddit trail
+    sale.auditTrailLogs.push({
+        doctype:"Comment",
+        subject:"Print Bill",
+        comment_type:"Comment",
+        reference_doctype:"Sale",
+        reference_name:"New",
+        comment_by:"cashier@mail.com",
+        content:`User sengho print bill. Amount:100$, Total Qty:5`
+              
+      });
+
     await sale.onSubmit().then(async (value) => {
       if (value) {
         router.push({ name: "TableLayout" });
@@ -170,9 +192,21 @@ async function onQuickPay() {
 async function onCancelPrintBill() {
   gv.authorize("cancel_print_bill_required_password", "cancel_print_bill","cancel_print_bill_required_note","Cancel Print Bill Note").then((v) => {
     if (v) {
+      alert(JSON.stringify(v))
       sale.sale.sale_status = "Submitted";
       sale.sale.sale_status_color = setting.sale_status.find(r => r.name == 'Submitted').background_color;
-      alert("writ to audit trail");
+      
+      sale.auditTrailLogs.push({
+        doctype:"Comment",
+        subject:"Cancel Print Bill",
+        comment_type:"Comment",
+        reference_doctype:"Sale",
+        reference_name:"New",
+        comment_by:"cashier@mail.com",
+        content:`User sengho cancel print bill. Amount:100$, Total Qty:5, Reason:Test Note`
+              
+      });
+
     }
   })
 
