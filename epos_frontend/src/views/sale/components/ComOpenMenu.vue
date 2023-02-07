@@ -11,7 +11,7 @@
                     <v-col cols="12" md="7">
                         <div class="mb-2">
                             <div class="mb-2">
-                                <ComInput keyboard v-model="price" type="number" var class="mb-2" label="Enter Price" :required-autofocus="true"/>
+                                <ComInput keyboard v-model="price" type="number" class="mb-2" label="Enter Price" :required-autofocus="true"/>
                                 <ComInput :autofocus="!mobile" keyboard v-model="search" v-debounce="onSearch" label="Search or Add Note"/>
                                 <v-alert class="mt-4" v-if="getSelectedNote() != ''"
                                     :text="getSelectedNote()"></v-alert>

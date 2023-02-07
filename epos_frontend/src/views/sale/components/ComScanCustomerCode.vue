@@ -1,6 +1,6 @@
 <template>
-    <v-dialog v-model="open">
-      <v-card width="700" class="mx-auto my-0">
+    <v-dialog :fullscreen="mobile" v-model="open" @update:modelValue="onClose" :style="mobile ? '' : 'width: 100%;max-width:800px'">
+      <v-card   class="mx-auto my-0">
             <ComToolbar @onClose="onClose" >
                 <template #title>
                     Scan Membership Card Number
@@ -42,7 +42,9 @@
       import { ref, defineProps,defineEmits, createDocumentResource,onUnmounted,watch} from '@/plugin'
       import ComToolbar from '@/components/ComToolbar.vue';
 import ComInput from '../../../components/form/ComInput.vue';
-
+import { useDisplay } from 'vuetify'
+ 
+ const { mobile } = useDisplay()
       let customerCode = ref("");
       let resource = ref(createDocumentResource({  url: 'frappe.client.get',
             doctype: 'Customer',}));

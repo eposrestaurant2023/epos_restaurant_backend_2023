@@ -40,24 +40,24 @@
           </v-card>
         </ComPlaceholder>
         <div v-else>
-    <v-alert
-      title="Customer not found"
-      variant="tonal"
-    >
-      <div class="d-flex flex-row align-center justify-space-between">
-        <div>
-          There's no customer with keyword <strong>{{ search }}</strong>.
-        </div>
+          <v-alert v-if="!customerResource.loading"
+            title="Customer not found"
+            variant="tonal"
+          >
+            <div class="d-flex flex-row align-center justify-space-between">
+              <div>
+                There's no customer with keyword <strong>{{ search }}</strong>.
+              </div>
 
-        <v-btn
-          color="info"
-          variant="outlined"
-          @click="addCustomer"
-        >
-          Add New Customer
-        </v-btn>
-      </div>
-    </v-alert>
+              <v-btn
+                color="info"
+                variant="outlined"
+                @click="addCustomer"
+              >
+                Add New Customer
+              </v-btn>
+            </div>
+          </v-alert>
         </div>
       </div>
     </v-card>
