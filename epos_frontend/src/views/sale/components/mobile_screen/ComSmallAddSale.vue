@@ -2,6 +2,10 @@
 <template>
     <div class="overflow-auto" style="height: calc(100vh - 128px);">
         <div class="pt-2">
+            <div class="px-2 pb-2">
+                <ComSelectCustomer  />
+            </div>
+            
             <ComProductSearch :small="true" />
             <ComMenu />
             <div style="height:80px"></div>
@@ -23,8 +27,9 @@
 </template>
 <script setup>
 import { inject,computed  } from 'vue'
-import Enumerable from 'linq'
+
 import ComMenu from '../ComMenu.vue';
+import ComSelectCustomer from '../ComSelectCustomer.vue';
 import ComProductSearch from '../ComProductSearch.vue';
 const sale = inject('$sale')
 const lastProduct = computed(()=>{

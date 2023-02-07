@@ -1,6 +1,6 @@
 <template>
-  <v-dialog v-model="open" @update:modelValue="onClose">
-    <v-card width="700" class="mx-auto my-0">
+  <v-dialog :fullscreen="mobile" v-model="open" @update:modelValue="onClose" :style="mobile ? '' : 'width: 100%;max-width:800px'">
+    <v-card class="mx-auto my-0">
       <ComToolbar @onClose="onClose">
         <template #title>
           Select Customer
@@ -17,7 +17,7 @@
           v-debounce="onSearch"
           @onInput="onSearch"/>
       </div>
-      <div style="max-height: calc(100vh - 254px);" class="overflow-auto px-4 pb-4">
+      <div class="overflow-auto px-4 pb-4">
         <ComPlaceholder v-if="customerResource.data?.length>0"  :is-not-empty="customerResource.data"
           text="There is not customer" icon="mdi-account-outline">
           <v-card v-for="(c, index) in customerResource.data.filter(r=>r.disabled == 0)" :key="index" :title="c.customer_name_en"
@@ -69,6 +69,10 @@
   import { addCustomerDialog, ref, defineProps, defineEmits, createResource,inject } from '@/plugin'
   import ComToolbar from '@/components/ComToolbar.vue';
   import ComInput from '@/components/form/ComInput.vue';
+  import { useDisplay } from 'vuetify'
+ 
+ const { mobile } = useDisplay()
+
   const gv = inject("$gv");
   const searchTextField = ref(null)
   const props = defineProps({
