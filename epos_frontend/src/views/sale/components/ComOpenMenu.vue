@@ -203,7 +203,7 @@ async function onDeleteNote() {
 
 }
 function onSaveNote() {
-
+    search.value = ''
     const notes = noteResource.doc.notes;
     notes.push({ note: search.value, product_code: props.params.data.product_code })
     noteResource.setValue.submit({ notes: notes });

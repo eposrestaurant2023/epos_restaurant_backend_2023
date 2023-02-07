@@ -12,8 +12,8 @@
                             <span class="font-bold">Outlet</span> : {{ setting.outlet }} /
                             <span class="font-bold">Device Name</span> :{{ device_name }}
                         </p>
-                        <p class="text-sm"><span class="font-bold">Phone</span> : {{ setting.phone_number }} / <span
-                                class="font-bold">Address</span> : {{ setting.address }}</p>
+                        <p class="text-sm"><span class="font-bold">Phone</span> : {{ setting.phone_number }} 
+                            </p>
                     </div>
                 </div>
             </div>

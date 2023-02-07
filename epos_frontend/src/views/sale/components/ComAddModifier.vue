@@ -18,7 +18,7 @@
                             </v-chip>
                         </div>
                         <v-expansion-panels v-model="panelPortion" multiple variant="accordion">
-                            <v-expansion-panel title="Portion" v-if="product.prices.length>1">
+                            <v-expansion-panel title="Portion" v-if="product.prices.length>1" :class="mobile ? 'panel-small' : ''">
                                 <v-expansion-panel-text>
                                     <div class="flex flex-wrap">
                                         <div class="m-1" v-for="(item, i) in product.prices" :key="i">
@@ -28,7 +28,7 @@
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
                             <template v-for="(item, index) in product.modifiers" :key="index">
-                                <v-expansion-panel v-if="product.getModifierItem(item).length>0" class="mt-2" variant="accordion">
+                                <v-expansion-panel v-if="product.getModifierItem(item).length>0" class="mt-2" variant="accordion" :class="mobile ? 'panel-small' : ''">
                                    <template #title>
                                     <span>{{  item.category  }}</span> 
                                     <span v-if="item.is_required" class="text-red-500 mx-2 text-xs">* Required</span>
@@ -109,5 +109,8 @@ function onSearch(keyword){
 }
 .v-expansion-panel-text__wrapper {
     padding: 8px 8px 12px !important;
+}
+.v-expansion-panel-title {
+    padding: 12px !important;
 }
 </style>
