@@ -1,8 +1,7 @@
 <template>
- 
     <div class="py-2 bg-white" id="shortcut_menu">
-        <div class="flex flex-wrap -mx-2 justify-center" v-if="shortcut">
-            <div v-for="(m, index) in shortcut" :key="m.name_en" class="px-2">
+        <div class="flex flex-wrap -my-1 justify-center" v-if="shortcut">
+            <div v-for="(m, index) in shortcut" :key="m.name_en" class="px-1 py-1">
                 <!-- :size="$screen.width > 1024 ? 'small' : 'x-small'" -->
                 <v-btn rounded="pill" variant="tonal" size="small" :color="m.background_color"  @click="onClick(m.name_en)">
                     <span v-bind:style="{color:m.text_color}">{{m.name_en}}</span>

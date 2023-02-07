@@ -1,19 +1,18 @@
 <template>
-    <v-dialog v-model="open" @update:modelValue="onClose">
-        <v-card max-width="960" width="960" class="mx-auto my-0">
+    <v-dialog :scrollable="false" v-model="open" :fullscreen="mobile" :style="mobile ? '' : 'width: 100%;max-width:800px'" @update:modelValue="onClose">
+        <v-card class="mx-auto my-0">
             <ComToolBar @onClose="onClose">
                 <template #title>
                     {{ params.data.product_name }}
                 </template>
-
             </ComToolbar>
-            <v-card-text>
+            <v-card-text class="!px-2">
                 <v-row>
-                    <v-col md="7">
+                    <v-col cols="12" md="7">
                         <div class="mb-2">
                             <div class="mb-2">
-                                <ComInput autofocus placeholder="Search or Add Note" keyboard v-model="search"
-                                    v-debounce="onSearch" />
+                                <ComInput autofocus placeholder="Price" keyboard v-model="price" type="number" var class="mb-2" label="Enter Price"/>
+                                <ComInput autofocus placeholder="Search or Add Note" keyboard v-model="search" v-debounce="onSearch" label="Search or Add Note"/>
                                 <v-alert class="mt-4" v-if="getSelectedNote() != ''"
                                     :text="getSelectedNote()"></v-alert>
                             </div>
@@ -33,43 +32,42 @@
                             </div>
                         </div>
                     </v-col>
-                    <v-col md="5">
-                        <ComInlineInputNumber :disabled="isDeleteNote"/>
+                    <v-col cols="12" md="5" v-if="!mobile">
+                        <ComInlineInputNumber v-model="item.price" :disabled="isDeleteNote"/>
                     </v-col>
                 </v-row>
-
-                <div>
-                    <div class="text-right pt-4">
-                        <v-btn class="mr-2" v-if="search" variant="flat" @click="onSaveNote" color="success">
-                            Save Note
+                <div class="p-2">
+                    <v-btn class="mr-2" v-if="search" variant="flat" @click="onSaveNote" color="success">
+                        Save Note
+                    </v-btn>
+                    <template v-if="isDeleteNote">
+                        <v-btn class="mr-2" variant="flat" @click="onCancelDeleteNote" color="warning">
+                            Cancel
                         </v-btn>
-                        <template v-if="isDeleteNote">
-                            <v-btn class="mr-2" variant="flat" @click="onCancelDeleteNote" color="warning">
-                                Cancel
-                            </v-btn>
-                            <v-btn class="mr-2" v-if="noteResource.doc.notes.filter(r => r.chip == false).length > 0"
-                                variant="flat" @click="onDeleteNote" color="primary">
-                                Confirm
-                            </v-btn>
+                        <v-btn class="mr-2" v-if="noteResource.doc.notes.filter(r => r.chip == false).length > 0"
+                            variant="flat" @click="onDeleteNote" color="primary">
+                            Confirm
+                        </v-btn>
 
-                        </template>
-                        <template v-else>
-                            <v-btn class="mr-2" variant="flat" @click="onEnableDeleteNote" color="error">
-                                Delete Note
-                            </v-btn>
-
-                            <v-btn class="mr-2" variant="flat" @click="onClose(false)" color="error">
-                                Close
-                            </v-btn>
-
-                            <v-btn variant="flat" @click="onOK()" color="primary">
-                                OK
-                            </v-btn>
-                        </template>
-
-                    </div>
+                    </template>
                 </div>
             </v-card-text>
+            <div>
+                <div class="text-right p-2">
+                    <template v-if="!search">
+                        <v-btn class="mr-2" variant="flat" @click="onEnableDeleteNote" color="error">
+                            Delete Note
+                        </v-btn>
+                        <v-btn class="mr-2" variant="flat" @click="onClose(false)" color="error">
+                            Close
+                        </v-btn>
+
+                        <v-btn variant="flat" @click="onOK()" color="primary">
+                            OK
+                        </v-btn>
+                    </template>
+                </div>
+            </div>
         </v-card>
     </v-dialog>
 </template>
@@ -79,6 +77,8 @@ import { createToaster } from '@meforma/vue-toaster';
 import ComInlineInputNumber from '../../../components/ComInlineInputNumber.vue';
 import ComToolBar from "../../../components/ComToolbar.vue"
 import Enumerable from 'linq'
+import { useDisplay } from 'vuetify'
+const { mobile } = useDisplay()
 const emit = defineEmits(['resolve'])
 const props = defineProps({
     params: Object
@@ -88,7 +88,7 @@ const open = true;
 let search = ref()
 const isDeleteNote = ref(false);
 let selectedNotes = ref([]);
-const price = ref(10);
+const price = ref(0);
 
 const noteResource = createDocumentResource({
     url: "frappe.client.get_list",

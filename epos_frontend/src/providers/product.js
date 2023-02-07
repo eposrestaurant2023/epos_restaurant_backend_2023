@@ -56,8 +56,6 @@ export default class Product {
             return this.posMenuResource.data?.filter((r) => {
                 return String( r.name_en + ' ' + r.name_kh + ' ' + r.name ).toLocaleLowerCase().includes(this.searchProductKeyweord.toLocaleLowerCase())  && r.type =="product"
             })
-    
-     
         }
     }
 

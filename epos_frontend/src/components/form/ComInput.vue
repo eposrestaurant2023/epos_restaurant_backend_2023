@@ -1,5 +1,6 @@
 <template>
     <div>
+      
   
         <div v-if="type=='textarea'">
             <v-textarea
@@ -45,10 +46,10 @@
         </div>
         <div v-else>
             <v-text-field
-                :autofocus="autofocus"
+                :autofocus="autofocus && !mobile"
                 clearable
                 :required="required"
-                v-if="keyboard"
+                v-if="keyboard && !mobile"
                 :type="type"
                 :density="density"
                 :variant="variant"
@@ -67,7 +68,7 @@
             </v-text-field>
             <v-text-field
                 v-else
-                :autofocus="autofocus"
+                :autofocus="autofocus && !mobile"
                 :required="required"
                 :type="type"
                 :density="density"
@@ -89,6 +90,8 @@
 </template>
 <script setup>
 import {computed,keyboardDialog} from '@/plugin'
+import { useDisplay } from 'vuetify'
+const { mobile } = useDisplay()
 
 const props = defineProps({
     modelValue: [String, Number],

@@ -1,22 +1,21 @@
 <template>
-    <v-dialog v-model="open" width="100%" max-width="800px">
-        <div class="bg-white rounded-md overflow-hidden">
+    <v-dialog :scrollable="false" v-model="open" :fullscreen="mobile" :style="mobile ? '' : 'width: 100%;max-width:800px'">
+        <v-card> 
             <ComToolbar @onClose="onClose">
                 <template #title>
                     Choose Product Portion & Modifier
                 </template>
-            </ComToolbar>
-            <div>
-                <div style="max-height: calc(100vh - 254px);" class="overflow-auto p-4">
+            </ComToolbar>  
+                <div class="overflow-auto p-4 h-full">
+                <div>
                     <div class="mb-4">
                         <ComInput prepend-inner-icon="mdi-magnify" keyboard :value="keyword" v-debounce="onSearch" @onInput="onSearch" placeholder="Search Portion & Modifier"/>
                     </div>
                     <div>
                         <div>
-                        <v-chip  closable  @click:close="onRemoveModifier(item)" class="ml-2 mb-2 mt-0"  v-for="(item, index) in product.getSelectedModierList()" :key="index">
-                           {{item.prefix}} {{item.modifier}} - <CurrencyFormat :value="item.price"/>
-                        </v-chip>
- 
+                            <v-chip :size="mobile ? 'small' : ''" closable  @click:close="onRemoveModifier(item)" class="m-1"  v-for="(item, index) in product.getSelectedModierList()" :key="index">
+                            {{item.prefix}} {{item.modifier}} - <CurrencyFormat :value="item.price"/>
+                            </v-chip>
                         </div>
                         <v-expansion-panels v-model="panelPortion" multiple variant="accordion">
                             <v-expansion-panel title="Portion" v-if="product.prices.length>1">
@@ -47,12 +46,13 @@
                     </div>
                 </div>
             </div>
-            <v-divider></v-divider>
+            
             <div class="text-right p-2">
                 <v-btn color="error" @click="onClose" class="mr-2">Close</v-btn>
                 <v-btn color="primary" @click="onConfirm">OK</v-btn>
-            </div>
-        </div>
+            </div> 
+        </v-card>
+ 
     </v-dialog>
 </template>
   
@@ -62,6 +62,8 @@ import ComToolbar from '@/components/ComToolbar.vue';
 import ComModifierItem from './ComModifierItem.vue';
 import ComInput from '../../../components/form/ComInput.vue';
 import ComPortionItem from './ComPortionItem.vue';
+import { useDisplay } from 'vuetify'
+const { mobile } = useDisplay()
 const props = defineProps({
     params: {
         type: Object,

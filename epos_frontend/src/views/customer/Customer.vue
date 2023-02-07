@@ -28,7 +28,7 @@ async function onAddCustomer() {
     await addCustomerDialog ({title: "New Customer", value:  ''});
 }
 const headers = ref([
-    { title: 'Photo', align: 'center', key: 'photo', fieldtype: 'Image', placeholder: 'customer_name_en'},
+    // { title: 'Photo', align: 'center', key: 'photo', fieldtype: 'Image', placeholder: 'customer_name_en'},
     { title: 'Customer', align: 'start', key: 'customer_code_name', callback: true },
     { title: 'Name En', align: 'start', key: 'customer_name_en' },
     { title: 'Name Kh', align: 'start', key: 'customer_name_kh' },

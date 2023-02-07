@@ -1,7 +1,8 @@
 <template>
     <v-chip 
         class="m-1"
-        @click="onClick" >
+        @click="onClick"
+        :size="mobile ? 'small' : ''" >
         <v-icon start icon="mdi-checkbox-marked-circle-outline" v-if="modifier.selected" color="orange"></v-icon>
         <span>
             {{ modifier.modifier }} <CurrencyFormat :value="modifier.price"></CurrencyFormat>
@@ -10,6 +11,8 @@
 </template>
 <script setup>
 import { defineProps,defineEmits } from 'vue'
+import { useDisplay } from 'vuetify'
+const { mobile } = useDisplay()
 const props = defineProps({
     modifier:Object
 })

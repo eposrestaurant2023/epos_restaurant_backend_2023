@@ -124,7 +124,7 @@
             </tr>
           </thead>
           <tbody v-for=" d in recentOrder.data" :key="name">
-            <td>{{ d.name }}</td>
+            <td >{{ d.name }}</td>
             <td class="pl-4">{{ d.total_quantity }}</td>
             <td class="pl-4"><CurrencyFormat :value="d.grand_total"/></td>
             <td v-if="d.modified"><Timeago   :long="long" :datetime="d.modified"/></td>
@@ -137,7 +137,7 @@
 
 </template>
 <script setup>
-  import { ref, defineProps,defineEmits, createDocumentResource,createResource, addCustomerDialog, saleDetailDialog, useRouter} from '@/plugin'
+  import { ref, defineProps,defineEmits, createDocumentResource,createResource, addCustomerDialog,} from '@/plugin'
   import ComToolbar from '@/components/ComToolbar.vue';
   import { Timeago } from 'vue2-timeago';
   
@@ -188,9 +188,6 @@
   )
   async function onAddCustomer() { 
     await addCustomerDialog ({title:  customer.doc?.name+ ' - ' +  customer.doc?.customer_name_en, name: customer.doc?.name});
-}
-function onCustomer(customer) {
-  router.push({ name: "CustomerDetail", params: { name: customer } });
 }
 
 </script>

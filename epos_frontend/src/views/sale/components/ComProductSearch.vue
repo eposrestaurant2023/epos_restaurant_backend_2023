@@ -1,7 +1,6 @@
 <template>
-    <div class="px-6">
-        <div class="search-box my-0 mx-auto max-w-[350px]">
-
+    <div :class="small ? 'px-2' : 'px-6'">
+        <div class="search-box my-0 mx-auto" :class="small ? 'w-full' : 'max-w-[350px]'">
             <ComInput
                 autofocus
                 keyboard
@@ -16,11 +15,18 @@
     </div>
 </template>
 <script setup>
-import { inject,ref }   from '@/plugin';
+import { inject,ref, defineProps }   from '@/plugin';
 import ComInput from '../../../components/form/ComInput.vue';
 const product =inject("$product") 
 let search = ref('')
+const props = defineProps({
+    small: {
+        type: Boolean,
+        default: false
+    }
+});
 function onSearch(key) {
     product.searchProductKeyweord = key;
 }
+
 </script>

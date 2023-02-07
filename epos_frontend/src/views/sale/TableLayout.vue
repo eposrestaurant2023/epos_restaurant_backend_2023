@@ -34,14 +34,12 @@
             </v-menu>
         </template>
         <template v-if="table_groups">
-            
             <v-window v-model="tab" v-if="currentView=='table_group'">
                 <template v-for="g in table_groups">
                     <v-window-item :value="g.key"
                         v-bind:style="{ 'background-image': 'url(' + g.background + ')', 'min-height': 'calc(100vh - 200px)' }"
                         class="bg-contain bg-center overflow-auto">
                         <div v-if="canArrangeTable">
-
                             <Vue3DraggableResizable v-for="(t, index) in g.tables" :key="index" class="table"
                                 v-model:x="t.x" v-model:y="t.y" v-model:w="t.w" v-model:h="t.h" :draggable="true"
                                 :resizable="true" @drag-end="onDragEnd(t)($event)">
@@ -96,12 +94,9 @@ import { inject, createResource, createToaster, useRouter, reactive, ref, select
 
 import ComSaleStatusInformation from './components/ComSaleStatusInformation.vue';
 import Enumerable from 'linq'
-
-
 const sale = inject("$sale");
 const gv = inject("$gv");
 
- 
 const router = useRouter()
 
  
@@ -261,8 +256,6 @@ function onTableClick(table) {
 
 
 function onOpenSaleScreen(table, guest_cover) {
-
-
     router.push({ name: "AddSale", "table_number": table.tbl_number })
 }
 

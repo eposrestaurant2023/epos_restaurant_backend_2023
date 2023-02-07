@@ -1,6 +1,6 @@
 <template>
     <v-toolbar :color="color" height="60">
-        <v-toolbar-title>
+        <v-toolbar-title :class="mobile ? '!text-ms' : ''">
             <slot name="title"></slot>
         </v-toolbar-title>
         <v-spacer></v-spacer>
@@ -28,6 +28,8 @@
     </v-toolbar>
 </template>
 <script setup>
+import { useDisplay } from 'vuetify'
+const { mobile } = useDisplay()
 const props = defineProps({
     color: {
         type: String,

@@ -11,8 +11,7 @@
                 
                     <v-row>
                         <v-col cols="10" sm="8"  md="6" >
-                            
-                            <ComInput :value="customer.customer_name_en" v-model="customer.customer_name_en" :required="true" keyboard label="Customer Name En"/>    
+                            <ComInput v-model="customer.customer_name_en" :required="true" keyboard label="Customer Name En"/>    
                         </v-col>
                         <v-col cols="10" sm="8"  md="6">
                             <ComAutoComplete v-model="customer.customer_group" doctype="Customer Group" variant="solo" class="mr-2"/> 

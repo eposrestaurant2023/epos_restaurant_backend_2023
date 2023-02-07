@@ -4,6 +4,9 @@ import {noteDialog, printPreviewDialog, keyboardDialog, createResource, createDo
 import { createToaster } from "@meforma/vue-toaster";
 import { webserver_port } from "../../../../../sites/common_site_config.json"
  
+
+ 
+ 
 const toaster = createToaster({ position: "top" });
 
 export default class Sale {
@@ -120,9 +123,7 @@ export default class Sale {
 
     }
     getSaleProductGroupByKey(){
-       
         if(!this.sale.sale_products){
-             
             return []
         }else { 
             const group =  Enumerable.from(this.sale.sale_products).groupBy("{order_by:$.order_by,order_time:$.order_time}","","{order_by:$.order_by,order_time:$.order_time}","$.order_by+','+$.order_time");
@@ -571,6 +572,9 @@ export default class Sale {
                     this.sale.sale_status = "Submitted";
                     this.sale.docstatus = 1;
                     this.action = "quick_pay";
+                    
+                    this.generateProductPrinters();
+
                     if (this.getString(this.sale.name) == "") {
                         await this.newSaleResource.submit({ doc: this.sale })
                     } else {
@@ -597,6 +601,11 @@ export default class Sale {
                 }else { 
                 if (await confirmDialog({ title: "Payment", text: "Are you sure you process payment and close order?" })) {
                     
+
+                    
+                    this.generateProductPrinters();
+
+
                     this.sale.sale_status = "Closed";
                     this.sale.docstatus = 1;
                     this.action = "payment";
@@ -620,6 +629,7 @@ export default class Sale {
 
 
     onProcessTaskAfterSubmit(doc) {
+       
         if (this.action == "submit_order") {
             this.onPrintToKitchen(doc);
         } else if (this.action == "print_bill") {
@@ -636,6 +646,7 @@ export default class Sale {
             if(this.isPrintReceipt==true){
                 this.onPrintReceipt(this.pos_receipt, "print_receipt", doc);
             }
+           
             this.onPrintToKitchen(doc);
         }
 
@@ -654,13 +665,16 @@ export default class Sale {
 
     onPrintToKitchen(doc){
         if(localStorage.getItem("is_window")==1){
+             
             const data ={
                 action: "print_to_kitchen",
                 setting: this.setting?.pos_setting,
                 sale: doc,
                 product_printers:this.productPrinters
             }
+
             window.chrome.webview.postMessage(JSON.stringify(data));
+
             this.productPrinters=[];
         }
     }

@@ -25,7 +25,7 @@
             </div>
 
             <div class="p-1 rounded-md absolute bottom-1 right-1 left-1 bg-gray-50 bg-opacity-70 text-sm text-center">
-                <span>{{ data.name_en }}</span>
+                <span>{{data.name}} - {{ data.name_en }}</span>
 
             </div>
         </div>
@@ -43,7 +43,7 @@
                 <CurrencyFormat :value="data.price"></CurrencyFormat>
             </div>
             <div class="p-1 rounded-md absolute bottom-1 right-1 left-1 bg-gray-50 bg-opacity-70 text-sm text-center">
-                {{ data.name_en }}
+                {{data.name}} - {{ data.name_en }}
             </div>
         </div>
     </div>

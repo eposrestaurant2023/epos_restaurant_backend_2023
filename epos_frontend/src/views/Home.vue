@@ -18,25 +18,27 @@
                 </div>
             </div>
         </div>
-        <div>
-            <div class="mx-auto mt-4 mb-0 md:w-[600px]">
-                <div class="grid xs:grid-cols-2 md:grid-cols-4 grid-cols-2" style="grid-gap: 20px;">
-                    <WorkingDayButton />
-                    <OpenShiftButton />
-                    <ComButton @click="onPOS()" title="POS" icon="mdi-cart" class="bg-green-600 text-white"
-                        icon-color="#fff" />
-                    <ComButton @click="onRoute('ReceiptList')" title="Recept List" icon="mdi-receipt"
-                        icon-color="#e99417" />
-                    <ComButton @click="onRoute('Customer')" title="Customer" icon-color="#e99417"
-                        icon="mdi-calendar-clock" />
-                    <ComButton @click="onRoute('TestPage')" title="Test Page" icon-color="#e99417"
-                        icon="mdi-calendar-clock" />
-                    <ComButton title="Report" icon="mdi-calendar-clock" icon-color="#e99417" />
-                    <ComButton @click="onLogout()" text-color="#fff" icon-color="#fff" title="Logout" icon="mdi-logout"
-                        background-color="#b00020" />
+        <v-container>
+            <div class="pb-16">
+                <div class="mx-auto mt-4 mb-0 md:w-[600px]">
+                    <div class="grid xs:grid-cols-2 md:grid-cols-4 grid-cols-2" style="grid-gap: 20px;">
+                        <WorkingDayButton />
+                        <OpenShiftButton />
+                        <ComButton @click="onPOS()" title="POS" icon="mdi-cart" class="bg-green-600 text-white"
+                            icon-color="#fff" />
+                        <ComButton @click="onRoute('ReceiptList')" title="Recept List" icon="mdi-receipt"
+                            icon-color="#e99417" />
+                        <ComButton @click="onRoute('Customer')" title="Customer" icon-color="#e99417"
+                            icon="mdi-calendar-clock" />
+                        <ComButton @click="onRoute('TestPage')" title="Test Page" icon-color="#e99417"
+                            icon="mdi-calendar-clock" />
+                        <ComButton title="Report" icon="mdi-calendar-clock" icon-color="#e99417" />
+                        <ComButton @click="onLogout()" text-color="#fff" icon-color="#fff" title="Logout" icon="mdi-logout"
+                            background-color="#b00020" />
+                    </div>
                 </div>
             </div>
-        </div>
+        </v-container>
     </div>
 </template>
 <script setup>
