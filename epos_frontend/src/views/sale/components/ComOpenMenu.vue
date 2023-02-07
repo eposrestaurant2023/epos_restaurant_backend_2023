@@ -11,8 +11,8 @@
                     <v-col cols="12" md="7">
                         <div class="mb-2">
                             <div class="mb-2">
-                                <ComInput autofocus placeholder="Price" keyboard v-model="price" type="number" var class="mb-2" label="Enter Price"/>
-                                <ComInput autofocus placeholder="Search or Add Note" keyboard v-model="search" v-debounce="onSearch" label="Search or Add Note"/>
+                                <ComInput keyboard v-model="price" type="number" var class="mb-2" label="Enter Price" :required-autofocus="true"/>
+                                <ComInput :autofocus="!mobile" keyboard v-model="search" v-debounce="onSearch" label="Search or Add Note"/>
                                 <v-alert class="mt-4" v-if="getSelectedNote() != ''"
                                     :text="getSelectedNote()"></v-alert>
                             </div>
@@ -203,10 +203,10 @@ async function onDeleteNote() {
 
 }
 function onSaveNote() {
-    search.value = ''
+    
     const notes = noteResource.doc.notes;
     notes.push({ note: search.value, product_code: props.params.data.product_code })
     noteResource.setValue.submit({ notes: notes });
-    // search.value = "";
+    search.value = "";
 }
 </script>
