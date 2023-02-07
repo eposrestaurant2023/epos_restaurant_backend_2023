@@ -36,7 +36,7 @@
                 :rows = "row"
                 hide-details
                 :append-inner-icon="appendInnerIcon"
-                :value="modelValue"
+                v-model="value"
                 @click:append-inner="emit('onClickAppendInner')"
                 :prepend-inner-icon="prependInnerIcon"
                 @click:prepend-inner="emit('onClickPrependInner')"
@@ -44,9 +44,8 @@
             </v-textarea>
         </div>
         <div v-else>
-           
             <v-text-field
-                autofocus
+                :autofocus="autofocus"
                 clearable
                 :required="required"
                 v-if="keyboard"
@@ -68,7 +67,7 @@
             </v-text-field>
             <v-text-field
                 v-else
-                autofocus
+                :autofocus="autofocus"
                 :required="required"
                 :type="type"
                 :density="density"
@@ -89,7 +88,7 @@
     </div>
 </template>
 <script setup>
-import {ref,keyboardDialog} from '@/plugin'
+import {computed,keyboardDialog} from '@/plugin'
 
 const props = defineProps({
     modelValue: [String, Number],
@@ -148,18 +147,20 @@ const props = defineProps({
     autofocus:Boolean
 })
 
-const value = ref();
-
-value.value =props.modelValue;
-
+let value = computed({
+    get(){
+        return props.modelValue
+    },
+    set(newValue){
+        return newValue
+    }
+})
 // let data = ref(props.modelValue)
 const emit = defineEmits(['update:modelValue'])
 
 const updateValue = (event) => {
     // props.modelValue = event.target.value;
-    value.value = event.target.value;
     emit('update:modelValue', event.target.value)
-
 }
 
 async function onDialog() {
@@ -170,14 +171,13 @@ async function onDialog() {
         return
     }
     else {
-        value.value = keys;
+         
         emit('onInput',keys)
         emit('update:modelValue', keys)
     }
         
 }
 function onClear(){ 
-    value.value = "";
     emit('onInput',"")
     emit('update:modelValue', "")
 }

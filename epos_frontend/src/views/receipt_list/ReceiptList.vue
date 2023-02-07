@@ -7,6 +7,7 @@
 import { ref, useRouter, saleDetailDialog } from '@/plugin'
 import PageLayout from '@/components/layout/PageLayout.vue';
 import ComTable from '@/components/table/ComTable.vue';
+
 const router = useRouter()
 function onCallback(data) {
  if(data.fieldname=="name"){
@@ -38,6 +39,5 @@ const headers = ref([
 function onCustomer(customer) {
   router.push({ name: "CustomerDetail", params: { name: customer } });
 }
-
 
 </script>

@@ -31,6 +31,7 @@
                             <ComInput v-model="customer.company_name" keyboard label="Company Name"/>
                         </v-col>
                         <v-col cols="10" sm="8"  md="6">
+ 
                             <v-select 
                                 density="compact"
                                 v-model="customer.gender" 
@@ -40,10 +41,10 @@
                                 hide-details 
                                 clearable
                                 variant="solo" class="mr-2"
-                            ></v-select>    
+                            ></v-select>
                         </v-col> 
                     </v-row>
-                    <p class="font-weight-bold pt-6 pl-4 pb-2">
+                    <p class="font-weight-bold pt-6 pb-2">
                         Contact Information
                     </p>
                     <v-row>
@@ -56,9 +57,9 @@
                     </v-row>
                     <v-row>
                         <v-col cols="10" sm="8"  md="6">
-                            <ComInput v-model="customer.phone_number" keyboard label="Phone Number 2"/>
+                            <ComInput v-model="customer.phone_number_2" keyboard label="Phone Number 2"/>
                         </v-col>
-                        <v-col>
+                        <v-col> 
                             <ComAutoComplete v-model="customer.province" feild="province" doctype="Province" variant="solo" class="mr-2"/>
                        </v-col>
                     </v-row>
@@ -70,7 +71,7 @@
                             
                         </v-col>
                     </v-row>
-                    <p class="font-weight-bold pt-6 pl-4 pb-2">
+                    <p class="font-weight-bold pt-6 pb-2">
                         Address & Note
                     </p>
                     <v-row>

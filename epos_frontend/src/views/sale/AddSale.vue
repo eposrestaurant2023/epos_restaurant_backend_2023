@@ -2,9 +2,9 @@
     <ComLoadingDialog v-if="sale.newSaleResource?.loading || (sale.saleResource!=null && sale.saleResource?.get.loading) ||   (sale.saleResource!=null && sale.saleResource?.setValue.loading)"/>
     <div style="height: calc(100vh - 64px)" id="tst">
         <ComProductSearch v-if="mobile" />
+        {{ sale.auditTrailLogs }}
         <v-row class="h-full ma-0">
             <v-col sm="7" md="7" lg="8" class="pa-0 h-full">
-               
                 <ComMenu :background-image="gv.setting.pos_sale_order_background_image"/>
             </v-col>
             <v-col sm="5" md="5" lg="4" class="h-full pa-0">

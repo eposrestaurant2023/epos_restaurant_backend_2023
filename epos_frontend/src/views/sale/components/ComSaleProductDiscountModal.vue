@@ -10,7 +10,6 @@
             </v-toolbar>
             <v-card-text class="p-0">
                 <div>
-                    {{ discount_note }}
                     <v-row>
                         <v-col :md="categoryNoteName ? 6 : 12">
                             <div class="mb-2">

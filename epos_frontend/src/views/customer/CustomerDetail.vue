@@ -1,7 +1,7 @@
 <template>
 <v-dialog v-model="open">
   <v-card width="700" class="mx-auto my-0">
-        <ComToolbar @onClose="onClose" >
+        <ComToolbar @onClose="onClose">
             <template #title>
                 Customer Detail - {{params.name}}
             </template>
@@ -47,7 +47,6 @@
         color="deep-purple-accent-4"
         align-tabs="start"
         class="ma-4"
-        
       >
         <v-tab value="about">About</v-tab>   
         <v-tab value="recentOrder">Recent Order</v-tab>
@@ -107,22 +106,30 @@
       </v-table>
     </v-window-item>
     <v-window-item value="recentOrder">
-      <v-table class="px-8 pb-8">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Qty</th>
-            <th>Grand Total</th>
-            <th>Date</th>
-          </tr>
-        </thead> 
-        <tbody v-for=" d in recentOrder.data" :key="d.name">
-          <td>{{ d.name }}</td>
-          <td class="pl-4">{{ d.total_quantity }}</td>
-          <td class="pl-4"><CurrencyFormat :value="d.grand_total"/></td>
-          <td v-if="d.modified"><Timeago   :long="long" :datetime="d.modified"/></td>
-        </tbody>
-      </v-table>
+        <v-table fixed-header height="200px" class="ml-8">
+          <thead>
+            <tr>
+              <th class="text-left">
+                No
+              </th>
+              <th class="text-left">
+                Qty
+              </th>
+              <th class="text-left">
+                Grand Total
+              </th>
+              <th class="text-left">
+                Date
+              </th>
+            </tr>
+          </thead>
+          <tbody v-for=" d in recentOrder.data" :key="name">
+            <td>{{ d.name }}</td>
+            <td class="pl-4">{{ d.total_quantity }}</td>
+            <td class="pl-4"><CurrencyFormat :value="d.grand_total"/></td>
+            <td v-if="d.modified"><Timeago   :long="long" :datetime="d.modified"/></td>
+          </tbody>
+        </v-table>
     </v-window-item>    
   </v-window>
   </v-card>
@@ -130,7 +137,7 @@
 
 </template>
 <script setup>
-  import { ref, defineProps,defineEmits, createDocumentResource,createResource, addCustomerDialog } from '@/plugin'
+  import { ref, defineProps,defineEmits, createDocumentResource,createResource, addCustomerDialog, saleDetailDialog, useRouter} from '@/plugin'
   import ComToolbar from '@/components/ComToolbar.vue';
   import { Timeago } from 'vue2-timeago';
   
@@ -181,6 +188,9 @@
   )
   async function onAddCustomer() { 
     await addCustomerDialog ({title:  customer.doc?.name+ ' - ' +  customer.doc?.customer_name_en, name: customer.doc?.name});
+}
+function onCustomer(customer) {
+  router.push({ name: "CustomerDetail", params: { name: customer } });
 }
 
 </script>

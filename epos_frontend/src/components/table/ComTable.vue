@@ -24,9 +24,16 @@
                     item-value="name"
                     class="elevation-1">
                     <template v-for="h in headers" v-slot:[`item.${h.key}`]="{ item }">
+                        <template v-if="h.fieldtype == 'Image'">
+                            <div class="text-center">
+                                <v-avatar v-if="item.raw[h.key]">
+                                    <v-img :src="item.raw[h.key]"></v-img>
+                                </v-avatar>
+                                <avatar v-else :name="item.raw[h.placeholder]" class="my-0 mx-auto" size="40"></avatar>
+                            </div>
+                        </template>
                         <template v-if="h.fieldtype == 'Currency'">
                             <div @click="callback(h, item.raw)">
-                            
                                 <CurrencyFormat :value="item.raw[h.key]"/>
                             </div>
                         </template>

@@ -1,11 +1,10 @@
-<template>
+<template> 
   <v-autocomplete 
       v-model="select"
       :clearable="clearable"
       v-model:search="search"
       :loading="doctypeResource.loading"
       :items="items"
-
       density="compact"
       hide-no-data
       hide-details
@@ -30,7 +29,7 @@
       :subtitle="getSubTitle(item.raw)">
     </v-list-item> 
   </template>
-  </v-autocomplete>
+  </v-autocomplete> 
 </template>
 <script setup>
 import { watch,reactive, ref, defineProps, onMounted, createResource } from '@/plugin'

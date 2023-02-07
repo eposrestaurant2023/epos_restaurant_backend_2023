@@ -94,9 +94,9 @@
                     <v-col class="!p-0" md="8">
                         <div class="h-full flex items-center">
                             <div class="mx-2" v-if="printFormatResource.data?.length > 1">
-                                <v-chip class="m-1" @click="onSelectedReceipt(item)"
+                                <v-chip :color="item.name == selectedReceipt.name?'warning':''" class="m-1" @click="onSelectedReceipt(item)"
                                     v-for="(item, index) in printFormatResource.data" :key="index">{{ item.name }}
-                                    selected {{ item.name == selectedReceipt.name }}</v-chip>
+                                </v-chip>
                             </div>
                         </div>
                     </v-col>
@@ -104,13 +104,13 @@
                         <v-row class="!m-0">
                             <v-col class="!p-0" cols="6">
                                 <div class="p-1">
-                                    <v-btn size="small" class="w-full" color="primary" @click="onPayment" stacked
+                                    <v-btn size="small" class="w-full" color="primary" @click="onPaymentWithoutPrint" stacked
                                         prepend-icon="mdi-currency-usd">Payment</v-btn>
                                 </div>
                             </v-col>
                             <v-col class="!p-0" cols="6">
                                 <div class="p-1">
-                                    <v-btn size="small" class="w-full" color="primary" @click="onPaymentWithoutPrint"
+                                    <v-btn size="small" class="w-full" color="primary" @click="onPayment"
                                         stacked prepend-icon="mdi-printer">
                                         <span>Payment with Print</span>
                                     </v-btn>
@@ -137,6 +137,7 @@ const sale = inject("$sale")
 const gv = inject("$gv")
 
 const emit = defineEmits(['resolve'])
+
 const props = defineProps({
     params: Object
 })

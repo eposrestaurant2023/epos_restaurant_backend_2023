@@ -32,11 +32,21 @@ export default class Sale {
         //before submit order or close order
         this.productPrinters = [];
 
+        //temporary all deleted sale product, we use this for send data to kitchen printers
         this.deletedSaleProducts = []
+
+        //tempporary store autditrail list and will submit to database after submit
+        //auditrail login is store in tabComment
+        this.auditTrailLogs = [];
+        this.auditTrailResource = createResource({
+            url: "frappe.client.insert"
+            }
+        );
 
         
 
         this.createNewSaleResource();
+        
 
         this.newSale();
     }
@@ -229,6 +239,7 @@ export default class Sale {
     }
     updateSaleProduct(sp) {
         sp.sub_total = sp.quantity * sp.price + sp.quantity * sp.modifiers_price;
+        sp.discount = parseFloat(sp.discount)
         if(sp.discount){ 
             if (sp.discount_type=="Percent"){
                 sp.discount_amount = (sp.sub_total * sp.discount/100); 
@@ -435,6 +446,15 @@ export default class Sale {
         if (sp.quantity == quantity) {
             if(sp.sale_product_status=='Submitted'){
                 this.deletedSaleProducts.push(sp)
+                this.auditTrailLogs.push({
+                    doctype:"Comment",
+                    subject:"Delete Sale Product",
+                    comment_type:"Comment",
+                    reference_doctype:"Sale",
+                    reference_name:"New",
+                    comment_by:"cashier@mail.com",
+                    content:`User sengho delete sale prodcut. Product Name: ABC 001, Qty:1, Amount:15.50, Reason:Wrong Order`
+                })
             }
             
             this.sale.sale_products.splice(this.sale.sale_products.indexOf(sp), 1);
@@ -443,6 +463,9 @@ export default class Sale {
 
             if(sp.sale_product_status=='Submitted'){
                 let deletedRecord = JSON.parse(JSON.stringify(sp))
+               
+             
+
                 deletedRecord.quantity = quantity;
             
                 this.deletedSaleProducts.push(deletedRecord)
@@ -598,7 +621,6 @@ export default class Sale {
 
     onProcessTaskAfterSubmit(doc) {
         if (this.action == "submit_order") {
-           
             this.onPrintToKitchen(doc);
         } else if (this.action == "print_bill") {
             if (this.pos_receipt == undefined || this.pos_receipt == null) {
@@ -616,6 +638,18 @@ export default class Sale {
             }
             this.onPrintToKitchen(doc);
         }
+
+        this.submitToAuditTrail(doc);
+    }
+
+    submitToAuditTrail(d){
+        this.auditTrailLogs.forEach((r)=>{
+           
+            r.reference_name =d.name;
+            this.auditTrailResource.submit({doc:r})
+        });
+        this.auditTrailLogs=[];
+
     }
 
     onPrintToKitchen(doc){
