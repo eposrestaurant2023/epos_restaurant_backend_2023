@@ -84,6 +84,7 @@
     <Report Include="rptCashierShift_SaleTransaction.rdl" />
     <Report Include="rptClosedDaySaleItem.rdl" />
     <Report Include="rptCustomerList.rdl" />
+    <Report Include="rptDailySaleCouponTransaction.rdl" />
     <Report Include="rptDailySaleSummary.rdl" />
     <Report Include="rptExpenseList.rdl" />
     <Report Include="rptFOCSaleSummaryByCustomer.rdl" />
