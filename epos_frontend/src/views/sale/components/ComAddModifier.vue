@@ -13,7 +13,7 @@
                     </div>
                     <div>
                         <div>
-                            <v-chip :size="mobile ? 'small' : ''" closable  @click:close="onRemoveModifier(item)" class="m-1"  v-for="(item, index) in product.getSelectedModierList()" :key="index">
+                            <v-chip :size="mobile ? 'small' : 'default'" closable  @click:close="onRemoveModifier(item)" class="m-1"  v-for="(item, index) in product.getSelectedModierList()" :key="index">
                             {{item.prefix}} {{item.modifier}} - <CurrencyFormat :value="item.price"/>
                             </v-chip>
                         </div>

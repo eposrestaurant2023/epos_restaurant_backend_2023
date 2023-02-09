@@ -2,7 +2,7 @@
     <v-chip 
         class="m-1"
         @click="onClick"
-        :size="mobile ? 'small' : ''" >
+        :size="mobile ? 'small' : 'default'" >
         <v-icon start icon="mdi-checkbox-marked-circle-outline" v-if="modifier.selected" color="orange"></v-icon>
         <span>
             {{ modifier.modifier }} <CurrencyFormat :value="modifier.price"></CurrencyFormat>

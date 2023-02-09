@@ -6,7 +6,7 @@
                     {{ params.data.product_name }}
                 </template>
             </ComToolbar>
-            <v-card-text class="!px-2">
+            <v-card-text class="!px-2 overflex-y-auto">
                 <v-row>
                     <v-col cols="12" md="7">
                         <div class="mb-2">
@@ -18,56 +18,44 @@
                             </div>
                             <div class="-m-1">
                                 <template v-for="(item, index) in getNote()" :key="index">
-
                                     <v-chip :closable="isDeleteNote" v-if="item.chip" @click:close="item.chip = false"
                                         class="m-1" @click="onSelected(item)">
-                                        <v-icon start icon="mdi-checkbox-marked-circle-outline" v-if="item.selected"
-                                            color="orange"></v-icon>
+                                        <v-icon start icon="mdi-checkbox-marked-circle-outline" v-if="item.selected" color="orange"></v-icon>
                                         <span>
                                             {{ item.note }}
                                         </span>
                                     </v-chip>
-
                                 </template>
                             </div>
                         </div>
                     </v-col>
                     <v-col cols="12" md="5" v-if="!mobile">
-                        <ComInlineInputNumber v-model="item.price" :disabled="isDeleteNote"/>
+                        <ComInlineInputNumber v-model="price" :disabled="isDeleteNote"/>
                     </v-col>
-                </v-row>
-                <div class="p-2">
-                    <v-btn class="mr-2" v-if="search" variant="flat" @click="onSaveNote" color="success">
-                        Save Note
-                    </v-btn>
-                    <template v-if="isDeleteNote">
-                        <v-btn class="mr-2" variant="flat" @click="onCancelDeleteNote" color="warning">
-                            Cancel
-                        </v-btn>
-                        <v-btn class="mr-2" v-if="noteResource.doc.notes.filter(r => r.chip == false).length > 0"
-                            variant="flat" @click="onDeleteNote" color="primary">
-                            Confirm
-                        </v-btn>
-
-                    </template>
-                </div>
+                </v-row> 
             </v-card-text>
-            <div>
-                <div class="text-right p-2">
-                    <template v-if="!search">
-                        <v-btn class="mr-2" variant="flat" @click="onEnableDeleteNote" color="error">
-                            Delete Note
-                        </v-btn>
-                        <v-btn class="mr-2" variant="flat" @click="onClose(false)" color="error">
-                            Close
-                        </v-btn>
-
-                        <v-btn variant="flat" @click="onOK()" color="primary">
-                            OK
-                        </v-btn>
-                    </template>
-                </div>
-            </div>
+            <v-card-actions class="justify-end">
+                <v-btn v-if="search && !isDeleteNote" variant="flat" @click="onSaveNote" color="success">
+                        Save
+                </v-btn>
+                <template v-if="isDeleteNote">
+                    <v-btn variant="flat" @click="onCancelDeleteNote" color="warning">
+                        Cancel
+                    </v-btn>
+                    <v-btn v-if="noteResource.doc.notes.filter(r => r.chip == false).length > 0"
+                        variant="flat" @click="onDeleteNote" color="primary">
+                        Confirm
+                    </v-btn>
+                </template>
+                <template v-else>
+                    <v-btn class="mr-2" variant="flat" @click="onEnableDeleteNote" color="error">
+                        Delete
+                    </v-btn>
+                    <v-btn variant="flat" @click="onOK()" color="primary">
+                        OK
+                    </v-btn>
+                </template>
+            </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
@@ -121,7 +109,6 @@ function getNote() {
     if (search.value == undefined) search.value = "";
     if (noteResource.doc !== null) {
         let notes = noteResource.doc.notes;
-
         if (props.params.data.product_code) {
             notes =
                 notes.filter((r) => {
@@ -130,11 +117,9 @@ function getNote() {
                 ;
         } else {
 
-            notes =
-                noteResource.doc?.notes.filter((r) => {
+            notes = noteResource.doc?.notes.filter((r) => {
                     return (!r.product_code || props.params.data.product_code)
-                })
-                ;
+                });
         }
         return notes.filter((r) => {
             return String(r.note).toLocaleLowerCase().includes(search.value.toLocaleLowerCase());
@@ -189,7 +174,6 @@ function onCancelDeleteNote() {
     noteResource.doc.notes.forEach((r) => {
         r.chip = true;
     })
-
 
 }
 async function onDeleteNote() {

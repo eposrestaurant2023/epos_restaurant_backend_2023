@@ -40,4 +40,5 @@ function onCustomer(customer) {
   router.push({ name: "CustomerDetail", params: { name: customer } });
 }
 
+
 </script>

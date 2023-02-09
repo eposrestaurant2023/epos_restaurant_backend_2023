@@ -28,6 +28,7 @@ import call from "./utils/call";
 import socket from "./utils/socketio";
 import Auth from "./utils/auth";
 import Sale from "./providers/sale";
+import TableLayout from "./providers/table_layout";
 import Gv from "./providers/gv";
 import Product from "./providers/product";
 import Screen from "./providers/screen";
@@ -45,6 +46,7 @@ const app = createApp(App);
 const auth = reactive(new Auth());
 const gv = reactive(new Gv());
 const sale = reactive(new Sale());
+const tableLayout = reactive(new TableLayout());
 const product = reactive(new Product());
 const screen = reactive(new Screen())
 
@@ -77,6 +79,7 @@ app.use(Toaster, {
 // components can inject this
 app.provide("$gv", gv);
 app.provide("$sale", sale);
+app.provide("$tableLayout", tableLayout);
 app.provide("$product", product);
 
 app.provide("$screen", screen);

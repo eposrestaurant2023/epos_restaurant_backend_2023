@@ -51,15 +51,8 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-4  mb-2 -m-1 border rounded-sm p-1">
-        <!-- <v-btn 
-          class="m-1 flex-grow"
-          variant="tonal"
-          v-for="(n, index) in gv.setting.pos_setting.main_currency_predefine_payment_amount.split(',')"
-          :key="index" 
-          @click="onMainCurrencyPrefineClick(n)">
-            <CurrencyFormat :value="parseFloat(n)" />
-        </v-btn> -->
+      <ComPaymentCurrencyPrefine/>
+      <!-- <div class="grid grid-cols-4  mb-2 -m-1 border rounded-sm p-1">
         <div 
           class="flex items-center justify-center cursor-pointer border border-stone-500 rounded-sm text-center hover:bg-slate-300"
           :class="screen.small ? 'text-sm p-2' : 'p-3'"
@@ -78,26 +71,7 @@
           @click="onSecondCurrencyPrefineClick(n)">
           <CurrencyFormat :value="n" :currency="gv.setting?.pos_setting?.second_currency_name" />
         </div>
-      </div>
-      <!-- <div class="grid grid-cols-4 mb-2 -m-1 border rounded-sm p-1">
-          <v-btn 
-          class="m-1 flex-grow"
-          v-for="(n, index) in gv.setting.pos_setting.second_currency_predefine_payment_amount.split(',')"
-          :key="index"
-          variant="tonal"
-          @click="onSecondCurrencyPrefineClick(n)">
-            <CurrencyFormat :value="n" :currency="gv.setting?.pos_setting?.second_currency_name" />
-        </v-btn>
-        <div 
-          class="flex items-center justify-center cursor-pointer border border-stone-500 rounded-sm text-sm text-center hover:bg-slate-300"
-          :class="screen.small ? 'text-sm p-2' : 'p-3'"
-          style="margin: 1px;"
-          :key="index"
-          v-for="(n, index) in gv.setting.pos_setting.second_currency_predefine_payment_amount.split(',')"
-          @click="onSecondCurrencyPrefineClick(n)">
-          <CurrencyFormat :value="n" :currency="gv.setting?.pos_setting?.second_currency_name" />
-        </div>
-      </div>  -->
+      </div> -->
     </div>
   </div>
 </template>
@@ -105,6 +79,7 @@
 import { inject, ref,onMounted } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
 import Enumerable from "linq";
+import ComPaymentCurrencyPrefine from "./ComPaymentCurrencyPrefine.vue";
 const sale = inject("$sale")
 const gv = inject("$gv")
 const screen = inject("$screen")
@@ -120,33 +95,5 @@ function numpad_click(n) {
   }
   sale.paymentInputNumber = sale.paymentInputNumber + n;
 }
-
-function onMainCurrencyPrefineClick(n) {
-  //get exchange rate
-  const paymentType = Enumerable.from(gv.setting.payment_types).where(`$.payment_method=='${gv.setting.default_payment_type}'`).firstOrDefault();
-  sale.onAddPayment(paymentType,n);
-}
-
-function onSecondCurrencyPrefineClick(n) {
-  //get exchange rate
-  const secondCurrencyPaymentType = gv.setting.second_currency_payment_type;
-
-  if (secondCurrencyPaymentType) {
-    const paymentType = Enumerable.from(gv.setting.payment_types).where(`$.payment_method=='${secondCurrencyPaymentType}'`).firstOrDefault();
-   
-    if (paymentType) {
-     
-      sale.onAddPayment(paymentType,n);
-    } else {
-      toaster.warning("There is no default payment for second currency");
-    }
-
-  } else {
-    toaster.warning("There is no default payment for second currency");
-  }
-}
-
-
-
 
 </script>

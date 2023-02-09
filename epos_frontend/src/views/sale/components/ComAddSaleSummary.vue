@@ -1,85 +1,16 @@
 <template>
   <div class="-mx-1 bg-blue-100 rounded-tl-md rounded-tr-md text-xs">
-    <div class="px-2" v-if="(sale.sale.total_discount + sale.sale.total_tax) > 0">
-     
-      <div class="flex justify-between my-1">
-        <div>
-          Sub Total
-        </div>
-        <div class="font-bold">
-          <CurrencyFormat :value="sale.sale.sub_total" />
-        </div>
-      </div>
-      
-      <div class="flex justify-between my-1" >
-        <div>
-          Discountable Amount
-        </div>
-        <div class="font-bold">
-          <CurrencyFormat :value="sale.sale.sale_discountable_amount" />
-        </div>
-      </div>
-
-      <div class="flex justify-between mb-1" v-if="sale.sale.product_discount > 0">
-        <div>Product Discount</div>
-        <div class="font-bold">
-          <CurrencyFormat :value="sale.sale.product_discount" />
-        </div>
-      </div>
-      <div class="flex justify-between mb-1" v-if="sale.sale.sale_discount > 0">
-        <div>Sale Discount
-          <span v-if="sale.sale.discount && sale.sale.discount_type == 'Percent'"> - {{ sale.sale.discount }}%</span>
-        </div>
-        <div class="font-bold">
-
-          <CurrencyFormat :value="sale.sale.sale_discount" />
-        </div>
-      </div>
-      <div class="flex justify-between mb-1" v-if="sale.sale.sale_discount > 0 && sale.sale.product_discount > 0">
-        <div>Total Discount</div>
-        <div class="font-bold">
-          <CurrencyFormat :value="sale.sale.total_discount" />
-        </div>
-      </div>
-      <div class="flex justify-between mb-1" v-if="sale.sale.tax_1_amount > 0">
-        <div>
-          {{ setting.tax_1_name }}
-        </div>
-        <div class="font-bold">
-          <CurrencyFormat :value="sale.sale.tax_1_amount" />
-        </div>
-      </div>
-      <div class="flex justify-between mb-1" v-if="sale.sale.tax_2_amount > 0">
-        <div>{{ setting.tax_2_name }}</div>
-        <div class="font-bold">
-          <CurrencyFormat :value="sale.sale.tax_2_amount" />
-        </div>
-      </div>
-      <div class="flex justify-between mb-1" v-if="sale.sale.tax_3_amount > 0">
-        <div>
-          {{ setting.tax_3_name }}
-        </div>
-        <div class="font-bold">
-          <CurrencyFormat :value="sale.sale.tax_3_amount" />
-        </div>
-      </div>
-      <div class="flex justify-between" v-if="sale.sale.total_tax > 0">
-        <div>Total Tax</div>
-        <div class="font-bold">
-          <CurrencyFormat :value="sale.sale.total_tax" />
-        </div>
-      </div>
-    </div>
+    <ComSaleSummaryList/>
     <div class="overflow-hidden">
       <div class="button-group">
         <div class="d-flex text-center">
-          <div class="cursor-pointer bg-red-800 p-2" @click="onToTableLayout">
+          <ComButtonToTableLayout :is-mobile="false"/>
+          <!-- <div class="cursor-pointer bg-red-800 p-2" @click="onToTableLayout">
             <v-icon icon="mdi-reply" color="white" />
-          </div>
+          </div> -->
           <!-- <v-btn color="error" round="0" icon="mdi-reply" class="btn-back-layout" @click="onToTableLayout"></v-btn> -->
 
-          <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" doctype="Sale" title="Print Bill"
-            @onPrint="onPrintBill" />
+          <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" doctype="Sale" title="Print Bill" />
           <div class="bg-red-600 text-white cursor-pointer grow p-2 hover:bg-red-700" v-else @click="onCancelPrintBill">
             Cancel Print Bill</div>
 
@@ -129,8 +60,9 @@ import ComDiscountButton from './ComDiscountButton.vue';
 import ComExchangeRate from './ComExchangeRate.vue';
 import ComPrintBillButton from './ComPrintBillButton.vue';
 import ComSaleButtonMore from './ComSaleButtonMore.vue';
-import Enumerable from 'linq';
 import { createToaster } from '@meforma/vue-toaster';
+import ComButtonToTableLayout from './ComButtonToTableLayout.vue';
+import ComSaleSummaryList from './ComSaleSummaryList.vue';
 
 const router = useRouter()
 const sale = inject("$sale")
@@ -152,33 +84,33 @@ async function onSubmit() {
   }
 }
 
-async function onPrintBill(r) {
-  if (sale.sale.sale_products.length == 0) {
-    toaster.warning("Please select a menu item to submit order");
-  } else {
-    sale.sale.sale_status = "Bill Requested";
-    sale.action = "print_bill";
-    sale.pos_receipt = r;
+// async function onPrintBill(r) {
+//   if (sale.sale.sale_products.length == 0) {
+//     toaster.warning("Please select a menu item to submit order");
+//   } else {
+//     sale.sale.sale_status = "Bill Requested";
+//     sale.action = "print_bill";
+//     sale.pos_receipt = r;
 
-    //add to auddit trail
-    sale.auditTrailLogs.push({
-        doctype:"Comment",
-        subject:"Print Bill",
-        comment_type:"Comment",
-        reference_doctype:"Sale",
-        reference_name:"New",
-        comment_by:"cashier@mail.com",
-        content:`User sengho print bill. Amount:100$, Total Qty:5`
+//     //add to auddit trail
+//     sale.auditTrailLogs.push({
+//         doctype:"Comment",
+//         subject:"Print Bill",
+//         comment_type:"Comment",
+//         reference_doctype:"Sale",
+//         reference_name:"New",
+//         comment_by:"cashier@mail.com",
+//         content:`User sengho print bill. Amount:100$, Total Qty:5`
               
-      });
+//       });
 
-    await sale.onSubmit().then(async (value) => {
-      if (value) {
-        router.push({ name: "TableLayout" });
-      }
-    });
-  }
-}
+//     await sale.onSubmit().then(async (value) => {
+//       if (value) {
+//         router.push({ name: "TableLayout" });
+//       }
+//     });
+//   }
+// }
 
 async function onQuickPay() {
 
@@ -241,35 +173,35 @@ function onDiscount() {
   }
 }
 
-async function onToTableLayout() {
-  const sp = Enumerable.from(sale.sale.sale_products);
+// async function onToTableLayout() {
+//   const sp = Enumerable.from(sale.sale.sale_products);
 
-  if (sp.where("$.name==undefined").toArray().length > 0) {
-    let result = await confirmBackToTableLayout({});
-    if (result) {
-      if (result == "hold" || result == "submit") {
-        if (result == "hold") {
-          sale.sale.sale_status = "Hold Order";
-          sale.action = "hold_order";
-        } else {
-          sale.sale.sale_status = "Submitted";
-          sale.action = "submit_order";
-        }
-        await sale.onSubmit().then(async (value) => {
-          if (value) {
-            router.push({ name: "TableLayout" });
-          }
-        });
-      } else {
-        //continue
-        router.push({ name: "TableLayout" })
-      }
-    }
-  } else {
-    router.push({ name: "TableLayout" })
-  }
+//   if (sp.where("$.name==undefined").toArray().length > 0) {
+//     let result = await confirmBackToTableLayout({});
+//     if (result) {
+//       if (result == "hold" || result == "submit") {
+//         if (result == "hold") {
+//           sale.sale.sale_status = "Hold Order";
+//           sale.action = "hold_order";
+//         } else {
+//           sale.sale.sale_status = "Submitted";
+//           sale.action = "submit_order";
+//         }
+//         await sale.onSubmit().then(async (value) => {
+//           if (value) {
+//             router.push({ name: "TableLayout" });
+//           }
+//         });
+//       } else {
+//         //continue
+//         router.push({ name: "TableLayout" })
+//       }
+//     }
+//   } else {
+//     router.push({ name: "TableLayout" })
+//   }
 
-}
+// }
 
 
 </script>

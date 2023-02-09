@@ -19,6 +19,8 @@ import ComSaleProductDiscountModal from '@/views/sale/components/ComSaleProductD
 import ComPayment from '@/views/sale/components/ComPayment.vue';
 import ComOpenMenu from '@/views/sale/components/ComOpenMenu.vue';
 import ComViewBillModel from '@/views/sale/components/ComViewBillModel.vue';
+import ComSmallViewSaleProductListModel from '@/views/sale/components/mobile_screen/ComSmallViewSaleProductListModel.vue';
+import ComSmallCurrencyPrefineModel from '@/views/sale/components/mobile_screen/ComSmallCurrencyPrefineModel.vue';
 
 interface params {
     doctype?:String,
@@ -58,5 +60,7 @@ export  const saleProductDiscountDialog = createPromiseDialog<params, object>(Co
 export  const paymentDialog = createPromiseDialog<params, object>(ComPayment);
 export  const openMenuDialog = createPromiseDialog<params, object>(ComOpenMenu);
 export  const viewBillModelModel = createPromiseDialog<params, object>(ComViewBillModel);
+export  const smallViewSaleProductListModel = createPromiseDialog<params, object>(ComSmallViewSaleProductListModel);
+export  const smallCurrencyPrefineModel = createPromiseDialog<params, object>(ComSmallCurrencyPrefineModel);
 
 

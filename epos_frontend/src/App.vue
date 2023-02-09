@@ -24,6 +24,7 @@ import { useStore } from 'vuex'
 const gv = inject("$gv");
 const sale = inject("$sale");
 const product = inject("$product");
+const tableLayout = inject("$tableLayout");
 const store = useStore()
 const screen = inject('$screen')
 let state = reactive({
@@ -62,6 +63,7 @@ if (!localStorage.getItem("pos_profile")) {
 			gv.setting = doc;
 			sale.setting = doc;
 			product.setting = doc;
+			tableLayout.setting = doc;
 			localStorage.setItem("table_groups", JSON.stringify(doc.table_groups))
 
 		},

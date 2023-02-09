@@ -18,6 +18,7 @@ export default class Sale {
         this.name = "";
         this.action = "";
         this.pos_receipt = undefined;
+        this.mobile_view_sale_product = true;
 
         this.sale = {
             sale_products: []

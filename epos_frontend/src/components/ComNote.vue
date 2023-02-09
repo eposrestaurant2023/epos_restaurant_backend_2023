@@ -1,6 +1,6 @@
 <template>
-    <v-dialog v-model="open" persistent style="max-width: 800px;">
-    <v-card>
+    <v-dialog v-model="open" persistent :scrollable="false" :fullscreen="mobile" :style="mobile ? '' : 'width: 100%;max-width:800px'">
+    <v-card class="mx-auto my-0">
         <v-toolbar color="default" title="Notice">
             <v-toolbar-items>
                 <v-btn icon @click="onClose()">
@@ -8,12 +8,12 @@
                 </v-btn>
             </v-toolbar-items>
         </v-toolbar>
-        <v-card-text>
+        <v-card-text class="!p-2 overflow-auto">
             <div class="mb-2">
                 <div class="mb-2">
                     <ComInput autofocus placeholder="Search or Add Note" keyboard v-model="search"
                         v-debounce="onSearch" />
-                    <v-alert class="mt-4" v-if="getSelectedNote() != ''" :text="getSelectedNote()"></v-alert>
+                    <v-alert class="mt-4 !p-2" v-if="getSelectedNote() != ''" :text="getSelectedNote()"></v-alert>
                 </div>
                 <div class="-m-1">
                     <template v-for="(item, index) in getNote()" :key="index">
@@ -28,38 +28,30 @@
                     </template>
                 </div>
             </div>
-            <div>
-                <div class="text-right pt-4">
-                    <v-btn class="mr-2"  v-if="search" variant="flat" @click="onSaveNote" color="success">
-                            Save Note
-                    </v-btn>
-                    <template v-if="isDeleteNote">
-                        <v-btn class="mr-2" variant="flat" @click="onCancelDeleteNote" color="warning">
-                            Cancel
-                        </v-btn>
-                        <v-btn class="mr-2" v-if="noteResource.doc.notes.filter(r => r.chip == false).length > 0"
-                            variant="flat" @click="onDeleteNote" color="error">
-                            Delete
-                        </v-btn>
-
-                    </template>
-                    <template v-else>
-                        <v-btn class="mr-2" variant="flat" @click="onEnableDeleteNote" color="error">
-                            Delete Note
-                        </v-btn>
-
-                        <v-btn class="mr-2" variant="flat" @click="onClose(false)" color="error">
-                            Close
-                        </v-btn>
-
-                        <v-btn variant="flat" @click="onOK()" color="primary">
-                            OK
-                        </v-btn>
-                    </template>
-
-                </div>
-            </div>
         </v-card-text>
+        <v-card-actions class="justify-end">
+            <v-btn v-if="search && !isDeleteNote" variant="flat" @click="onSaveNote" color="success">
+                Save
+            </v-btn>
+ 
+            <template v-if="isDeleteNote">
+                <v-btn variant="flat" @click="onCancelDeleteNote" color="warning">
+                    Cancel
+                </v-btn>
+                <v-btn v-if="noteResource.doc.notes.filter(r => r.chip == false).length > 0"
+                    variant="flat" @click="onDeleteNote" color="primary">
+                    Confirm
+                </v-btn>
+            </template>
+            <template v-else>
+                <v-btn variant="flat" @click="onEnableDeleteNote" color="error">
+                    Delete
+                </v-btn>
+                <v-btn variant="flat" @click="onOK()" color="primary">
+                    OK
+                </v-btn>
+            </template>
+        </v-card-actions>
     </v-card>
     </v-dialog>
 </template>
@@ -67,7 +59,9 @@
 import { defineEmits, ref, createDocumentResource, confirmDialog, } from '@/plugin'
 import { createToaster } from '@meforma/vue-toaster';
 import Enumerable from 'linq'
+import { useDisplay } from 'vuetify'
 const emit = defineEmits(['resolve'])
+const { mobile } = useDisplay()  
 const props = defineProps({
     params: Object
 })
@@ -178,8 +172,6 @@ function onCancelDeleteNote() {
     noteResource.doc.notes.forEach((r) => {
         r.chip = true;
     })
-
-
 }
 async function onDeleteNote() {
     if (await confirmDialog({ title: "Delete Note", text: "Are you sure you want to delete note?" })) {
@@ -196,6 +188,6 @@ function onSaveNote(){
     const notes = noteResource.doc.notes;
     notes.push({note:search.value})
     noteResource.setValue.submit({ notes: notes });
-   // search.value = "";
+    search.value = "";
 }
 </script>

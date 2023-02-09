@@ -1,20 +1,20 @@
 <template>
     <v-app>
         <v-app-bar :elevation="2" color="error">
-            
             <template #prepend>
-                <v-app-bar-nav-icon variant="text" @click.stop="onDrawer()"></v-app-bar-nav-icon>
+                <v-app-bar-nav-icon size="small" variant="text" @click.stop="onDrawer()"></v-app-bar-nav-icon>
                 <v-app-bar-title>
-                    POS 
-                    <span v-if="$sale.sale.tbl_number">- {{ $sale.sale.tbl_number }}</span>
-                   
-                    <span v-if="$sale.sale.sale_status=='New'">  - New</span>
-                    <span v-else>  - {{$sale.sale.name}}</span>
+                    <div :class="mobile ? 'text-xs' : ''">
+                        POS 
+                        <span v-if="$sale.sale.tbl_number">- {{ $sale.sale.tbl_number }}</span>
+                    
+                        <span v-if="$sale.sale.sale_status=='New'">  - New</span>
+                        <span v-else>  - {{$sale.sale.name}}</span>
 
-                    <v-chip class="ml-2" variant="elevated" v-if="$sale.sale.name!=undefined" :color="$sale.sale.sale_status_color">
-                    {{ $sale.sale.sale_status }}
-                    </v-chip>
-                     
+                        <v-chip class="ml-2" variant="elevated" v-if="$sale.sale.name!=undefined" :color="$sale.sale.sale_status_color" :size="mobile ? 'x-small' : 'defualt'">
+                        {{ $sale.sale.sale_status }}
+                        </v-chip>
+                    </div>
             </v-app-bar-title>
             </template>
            

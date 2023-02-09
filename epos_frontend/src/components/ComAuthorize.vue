@@ -1,6 +1,6 @@
 <template>
-  <v-dialog v-model="open">
-    <v-card width="400" class="mx-auto my-2 py-2 ">
+  <v-dialog v-model="open" persistent max-width="400">
+    <v-card>
       <v-card-item>
         <v-card-title>Enter Your Pin Code</v-card-title>
       </v-card-item>
@@ -9,44 +9,52 @@
           maxlength="10"></v-text-field>
         <div>
           <div class="grid grid-cols-3 gap-3">
-            <v-btn @click="numpad_click('1')" size="x-large">
+            <v-btn @click="numpad_click('1')" size="large">
               1
             </v-btn>
-            <v-btn @click="numpad_click('2')" size="x-large">
+            <v-btn @click="numpad_click('2')" size="large">
               2
             </v-btn>
-            <v-btn @click="numpad_click('3')" size="x-large">
+            <v-btn @click="numpad_click('3')" size="large">
               3
             </v-btn>
-            <v-btn @click="numpad_click('4')" size="x-large">
+            <v-btn @click="numpad_click('4')" size="large">
               4
             </v-btn>
-            <v-btn @click="numpad_click('5')" size="x-large">
+            <v-btn @click="numpad_click('5')" size="large">
               5
             </v-btn>
-            <v-btn @click="numpad_click('6')" size="x-large">
+            <v-btn @click="numpad_click('6')" size="large">
               6
             </v-btn>
-            <v-btn @click="numpad_click('7')" size="x-large">
+            <v-btn @click="numpad_click('7')" size="large">
               7
             </v-btn>
-            <v-btn @click="numpad_click('8')" size="x-large">
+            <v-btn @click="numpad_click('8')" size="large">
               8
             </v-btn>
-            <v-btn @click="numpad_click('9')" size="x-large">
+            <v-btn @click="numpad_click('9')" size="large">
               9
             </v-btn>
-            <v-btn @click="numpad_click('0')" size="x-large">
+            <v-btn @click="numpad_click('0')" size="large">
               0
             </v-btn>
-            <v-btn @click="numpad_click('.')" size="x-large">
+            <v-btn @click="numpad_click('.')" size="large">
               .
             </v-btn>
-            <v-btn color="error" @click="number = ''" size="x-large">
+            <v-btn color="error" @click="number = ''" size="large">
               Clear
             </v-btn>
-            <v-btn color="primary" @click="onCancel" size="x-large">Cancel</v-btn>
-            <v-btn color="success" @click="onOk" size="x-large">OK</v-btn>
+          </div>
+          <div>
+              <div class="text-right pt-4">
+                  <v-btn class="mr-2" variant="flat" @click="onCancel()" color="error">
+                      Close
+                  </v-btn>
+                  <v-btn variant="flat" @click="onOk()" color="primary">
+                      OK
+                  </v-btn>
+              </div>
           </div>
         </div>
       </v-card-text>

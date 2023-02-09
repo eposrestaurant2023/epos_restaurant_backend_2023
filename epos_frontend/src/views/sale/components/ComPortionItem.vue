@@ -2,7 +2,7 @@
     <v-chip 
         class="m-1"
         @click="onClick"
-        :size="mobile ? 'small' : ''"
+        :size="mobile ? 'small' : 'default'"
         >
         <v-icon start icon="mdi-checkbox-marked-circle-outline" v-if="portion.selected" color="orange"></v-icon>
         <span>
