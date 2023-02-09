@@ -47,7 +47,7 @@ const emit = defineEmits(['resolve'])
 const props = defineProps({
     params: Object
 })
-const open = true;
+let open = true;
 let search = ref()
 
 const noteResource = createDocumentResource({

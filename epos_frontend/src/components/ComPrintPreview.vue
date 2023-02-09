@@ -67,7 +67,7 @@ const props = defineProps({
 const emit = defineEmits(["resolve"])
 
 
-const open = ref(true);
+let open = ref(true);
 const selectedReport = ref("");
 const selectedLetterhead = ref("");
  

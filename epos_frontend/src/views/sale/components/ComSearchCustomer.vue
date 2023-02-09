@@ -84,7 +84,7 @@
 
   const emit = defineEmits(["resolve", "reject"])
 
-  const open = ref(true);
+  let open = ref(true);
   let search = ref('')
   const searchFields = ref(["name"]);
 

@@ -129,7 +129,7 @@
 
   const emit = defineEmits(["resolve","reject"]) 
 
-  const open = ref(true);
+  let open = ref(true);
   const tab = ref(null);
 
   function onClose(){
@@ -184,15 +184,10 @@ function onCallback(data) {
 }
 const headers = ref([
   {
-    title: 'No',
-    align: 'start',
-    key: 'name',
-    callback: true
+    title: 'No', align: 'start', key: 'name', callback: true
   },
-  { title: 'Customer Name', align: 'center', key: 'customer', template: '{customer}-{customer_name}', callback: true },
-  { title: 'Date', align: 'center', key: 'posting_date', fieldtype: "Date" },
-  { title: 'QTY', align: 'end', key: 'total_quantity', },
-  
+  { title: 'Qty', align: 'center', key: 'total_quantity'},
+  { title: 'Qty', align: 'center', key: 'grand_total', },
 ])
 
 function onCustomer(customer) {

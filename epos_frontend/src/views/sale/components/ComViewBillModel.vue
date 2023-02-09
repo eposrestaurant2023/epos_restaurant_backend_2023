@@ -186,7 +186,7 @@ const setting = computed(()=>{
     return JSON.parse(localStorage.getItem('setting'))
 })
 const sale = inject('$sale')
-const open = ref(true);
+let open = ref(true);
 const saleProducts = computed(() => {
     return Enumerable.from(sale.sale.sale_products).groupBy(
         "{product_code:$.product_code,modifiers_price:$.modifiers_price,portion:$.portion,modifiers:$.modifiers,product_name:$.product_name,product_name_kh:$.product_name_kh,unit:$.unit,discount:$.discount,discount_type:$.discount_type,product_photo:$.product_photo,is_free:$.is_free,price:$.price}",

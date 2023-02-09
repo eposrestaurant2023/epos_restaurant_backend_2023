@@ -121,7 +121,7 @@ let customerResource = createResource({
 })
 
 
-const open = ref(true);
+let open = ref(true);
 const customer = ref({})
 const data = ref({})
 const gender = computed(()=>{

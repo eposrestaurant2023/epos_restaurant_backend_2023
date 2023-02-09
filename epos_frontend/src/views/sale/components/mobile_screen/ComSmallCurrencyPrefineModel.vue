@@ -21,7 +21,7 @@
 import { defineProps, defineEmits,inject } from '@/plugin'
 import ComToolbar from '../../../../components/ComToolbar.vue';
 import ComPaymentCurrencyPrefine from '../ComPaymentCurrencyPrefine.vue';
-const open = true
+let open = true
 const props = defineProps({
     params: Object
 }) 

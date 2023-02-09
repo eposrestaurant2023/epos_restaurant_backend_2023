@@ -96,12 +96,12 @@
                         <table class="ml-auto">
                             <tr v-if="sale.doc.total_quantity !=0">
                                 <td class="pb-2">Total Quantity</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right">{{ sale.doc.total_quantity }}</td>
                             </tr>
                             <tr>
                                 <td class="pb-2">Sub Total</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.sub_total"/></td>
                             </tr>  
                             <tr v-if="sale.doc.product_discount">
@@ -109,64 +109,64 @@
                                     <span v-if="sale.doc.sale_discount">Product</span>
                                     <span> Discount</span>
                                 </td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.product_discount"/></td>
                             </tr>
                             <tr v-if="sale.doc.sale_discount">
                                 <td class="pb-2">
                                     <span v-if="sale.doc.product_discount">Sale</span>
                                     <span>Discount</span> ({{sale.doc.discount}}%)</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.sale_discount"/></td>
                             </tr>
                             <tr v-if="sale.doc.total_discount != sale.doc.product_discount && sale.doc.total_discount != sale.doc.sale_discount">
                                 <td class="pb-2">Total Discount</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.total_discount"/></td>
                             </tr>
                             <tr v-if="sale.doc.tax_1_amount ">
                                 <td class="pb-2">{{ setting.tax_1_name }} ({{ sale.doc.tax_1_rate }}%)</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.tax_1_amount"/></td>
                             </tr>
                             <tr v-if="sale.doc.tax_2_amount " >
                                 <td class="pb-2">{{ setting.tax_2_name }} ({{ sale.doc.tax_2_rate }}%)</td>
-                                <td class="pb-2 px-2 px-2">:</td>   
+                                <td class="pb-2 px-2">:</td>   
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.tax_2_amount"/></td>
                             </tr>
                             <tr v-if="sale.doc.tax_3_amount ">
                                 <td class="pb-2">{{ setting.tax_3_name }} ({{ sale.doc.tax_3_rate }}%)</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.tax_3_amount"/></td>
                             </tr>
                             <tr v-if="sale.doc.total_tax !=0 && sale.doc.total_tax > 1">
                                 <td class="pb-2">Total Tax</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.total_tax"/></td>
                             </tr>
                             <tr>
                                 <td class="pb-2">Grand Total</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.grand_total"/></td>
                             </tr>
                             <tr v-for="d in sale.doc.payment" :key="d.name">
                                 <td class="pb-2">Paid by {{ d.payment_type }}</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :currency="d.currency" :value="d.input_amount"/></td>
                             </tr>
                             <tr v-if="sale.doc.payment.length > 1">
                                 <td class="pb-2">Total Paid</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.total_paid"/></td>
                             </tr>                   
                             <tr v-if="sale.doc.balance !=0">
                                 <td class="pb-2">Balance</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.balance"/></td>
                             </tr>
                             <tr v-if="sale.doc.changed_amount !=0">
                                 <td class="pb-2">Changed Amount</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.changed_amount"/></td>
                             </tr>
                         </table>
@@ -198,7 +198,7 @@ const setting = computed(()=>{
 })
 
  
-const open = ref(true);
+let open = ref(true);
 
 
 let sale = createDocumentResource({

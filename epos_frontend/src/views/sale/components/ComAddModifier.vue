@@ -76,7 +76,7 @@ let keyword = ref()
 const panelPortion = ref([0,1,2,3,4,5,6,7,8,9])
 const emit = defineEmits(["resolve","reject"])
  
-const open = ref(true);
+let open = ref(true);
 
 
 function onConfirm(){

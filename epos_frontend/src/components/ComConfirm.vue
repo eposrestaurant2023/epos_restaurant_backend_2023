@@ -28,7 +28,7 @@ const props = defineProps({
   }
 })
 const emit = defineEmits(["resolve"])
-const open = ref(true)
+let open = ref(true)
 
 function onClose(){
   emit('resolve', false);

@@ -72,7 +72,7 @@ const props = defineProps({
     params: Object
 })
 const toast = createToaster({ position: "top" })
-const open = true;
+let open = true;
 let search = ref()
 const isDeleteNote = ref(false);
 let selectedNotes = ref([]);

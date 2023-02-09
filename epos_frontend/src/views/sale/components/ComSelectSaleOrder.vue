@@ -1,3 +1,4 @@
+
 <template>
     <v-dialog v-model="open" width="960">
         <v-card>
@@ -64,7 +65,7 @@ const props = defineProps({
 const emit = defineEmits(["resolve"])
 
 
-const open = ref(true);
+let open = ref(true);
 const setting = JSON.parse(localStorage.getItem("setting"));
 function onPrintAllBill() {
     props.params.data.forEach((d) => {

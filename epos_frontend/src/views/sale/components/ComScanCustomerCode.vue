@@ -63,7 +63,7 @@ watch(() => resource.value?.doc, (d) => {
 
       const emit = defineEmits(["resolve","reject"]) 
     
-      const open = ref(true);
+      let open = ref(true);
    
     
       function onClose(){

@@ -29,17 +29,20 @@
                                 <div class="overflow-auto h-full">
                                     <ComSalePaymentList/>
                                 </div>
-                                <ComPaymentSummaryInformation/>
+                                <ComPaymentSummaryInformation />
                             </div>
                         </div>
                     </v-col>
                 </v-row>
             </v-card-text>
-            <div>
+            <v-card-action>
                 <v-row class="!m-0">
                     <v-col class="!p-0" cols="12" md="8">
-                        <div class="h-full flex items-center">
-                            <ComSelectPaymentPrinter @onClick="onSelectedReceipt" :selected="selectedReceipt.name" v-if="!mobile"/>
+                        <div class="h-full flex items-center" v-if="!mobile">
+                            <ComSelectPaymentPrinter @onClick="onSelectedReceipt" :selected="selectedReceipt.name"/>
+                        </div>
+                        <div v-else>
+                            <ComPaymentSummaryInformation />
                         </div>
                     </v-col>
                     <v-col class="!p-0" cols="12" md="4">
@@ -61,7 +64,7 @@
                         </v-row>
                     </v-col>
                 </v-row>
-            </div>
+            </v-card-action>
         </v-card>
     </v-dialog>
 </template>
@@ -79,7 +82,7 @@ import ComSelectPaymentPrinter from './ComSelectPaymentPrinter.vue';
 import ComPaymentSummaryInformation from './ComPaymentSummaryInformation.vue';
 const { mobile } = useDisplay()
 
-const open = ref(true)
+let open = ref(true)
 const sale = inject("$sale")
 const gv = inject("$gv")
 
