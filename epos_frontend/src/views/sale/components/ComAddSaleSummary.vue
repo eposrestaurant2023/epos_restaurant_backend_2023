@@ -73,6 +73,8 @@ const toaster = createToaster({ position: "top" })
 
 async function onSubmit() {
   if (!sale.isBillRequested()) {
+ 
+
     sale.action = "submit_order";
     sale.message = "Submit Order Successfully";
     sale.sale.sale_status = "Submitted";

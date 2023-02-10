@@ -21,6 +21,7 @@ import ComOpenMenu from '@/views/sale/components/ComOpenMenu.vue';
 import ComViewBillModel from '@/views/sale/components/ComViewBillModel.vue';
 import ComSmallViewSaleProductListModel from '@/views/sale/components/mobile_screen/ComSmallViewSaleProductListModel.vue';
 import ComSmallCurrencyPrefineModel from '@/views/sale/components/mobile_screen/ComSmallCurrencyPrefineModel.vue';
+import ComChangeTable from '@/views/sale/components/ComChangeTable.vue';
 
 interface params {
     doctype?:String,
@@ -62,5 +63,6 @@ export  const openMenuDialog = createPromiseDialog<params, object>(ComOpenMenu);
 export  const viewBillModelModel = createPromiseDialog<params, object>(ComViewBillModel);
 export  const smallViewSaleProductListModel = createPromiseDialog<params, object>(ComSmallViewSaleProductListModel);
 export  const smallCurrencyPrefineModel = createPromiseDialog<params, object>(ComSmallCurrencyPrefineModel);
+export  const changeTableDialog = createPromiseDialog<params, object>(ComChangeTable);
 
 

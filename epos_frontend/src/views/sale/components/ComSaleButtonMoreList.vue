@@ -3,10 +3,10 @@
     <v-list-item prepend-icon="mdi-eye-outline" title="View Bill" @click="onViewBill()"/>
     <v-list-item prepend-icon="mdi-bulletin-board" title="Change Price Rule" @click="onViewInvoice()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Open Cash Drawer" @click="onViewInvoice()"/>
-    <v-list-item prepend-icon="mdi-account-multiple-outline" :title="`Change Table (${sale.sale.guest_cover ? sale.sale.guest_cover : 0})`" @click="onUpdateGuestCover()"/>
+    <v-list-item prepend-icon="mdi-account-multiple-outline" title="Change Table" @click="onChangeTable()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Merge Table/Bill" @click="onViewInvoice()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Split Bill" @click="onViewInvoice()"/>
-    <v-list-item prepend-icon="mdi-cash-100" title="Change Guest Cover" @click="onViewInvoice()"/>
+    <v-list-item prepend-icon="mdi-account-multiple-outline" :title="`Change Guest Cover (${sale.sale.guest_cover ? sale.sale.guest_cover : 0})`" @click="onUpdateGuestCover()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Change Sale Type" @click="onViewInvoice()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Tax Setting" @click="onViewInvoice()"/>
     <v-divider inset></v-divider>
@@ -19,7 +19,8 @@
      
 </template>
 <script setup>
-    import {viewBillModelModel, inject,keyboardDialog} from "@/plugin"
+    import {viewBillModelModel, inject,keyboardDialog, changeTableDialog} from "@/plugin"
+
     const sale = inject('$sale')
     const setting = JSON.parse(localStorage.getItem("setting"))
     async function onViewBill(){
@@ -38,5 +39,13 @@
             return;
         }
     }
+}
+
+async function onChangeTable(){
+    if (!sale.isBillRequested()) {
+    const result =await changeTableDialog({});
+    }
+   
+
 }
 </script>
