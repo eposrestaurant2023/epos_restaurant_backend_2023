@@ -10,7 +10,7 @@
             <div class="overflow-auto p-4 h-full">
               
                 <v-tabs align-tabs="center"
-                    v-if="tableLayout.table_groups && tableLayout.table_groups.length > 1 && !mobile"
+                    v-if="tableLayout.table_groups && tableLayout.table_groups.length > 1"
                     v-model="tableLayout.tab">
                     <v-tab v-for="g in tableLayout.table_groups" :key="g.key" :value="g.key">
                         {{ g.table_group }}
