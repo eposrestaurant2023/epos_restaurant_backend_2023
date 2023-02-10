@@ -48,6 +48,7 @@
 
   <hr/>
   <v-btn @click="AddRow" class="mt-4">Add Row</v-btn>
+  <v-btn @click="AddRow" class="mt-4">Add Row 2</v-btn>
 </template>
 
 <script setup>
