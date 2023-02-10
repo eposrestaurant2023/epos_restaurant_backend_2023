@@ -3,7 +3,7 @@
     <v-list-item prepend-icon="mdi-eye-outline" title="View Bill" @click="onViewBill()"/>
     <v-list-item prepend-icon="mdi-bulletin-board" title="Change Price Rule" @click="onViewInvoice()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Open Cash Drawer" @click="onViewInvoice()"/>
-    <v-list-item prepend-icon="mdi-cash-100" title="Change Table" @click="onViewInvoice()"/>
+    <v-list-item prepend-icon="mdi-account-multiple-outline" :title="`Change Table (${sale.sale.guest_cover ? sale.sale.guest_cover : 0})`" @click="onUpdateGuestCover()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Merge Table/Bill" @click="onViewInvoice()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Split Bill" @click="onViewInvoice()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Change Guest Cover" @click="onViewInvoice()"/>
@@ -19,8 +19,24 @@
      
 </template>
 <script setup>
-    import {viewBillModelModel} from "@/plugin"
+    import {viewBillModelModel, inject,keyboardDialog} from "@/plugin"
+    const sale = inject('$sale')
+    const setting = JSON.parse(localStorage.getItem("setting"))
     async function onViewBill(){
         const result = await viewBillModelModel({})
     }
+    async function onUpdateGuestCover(){
+    if (setting.use_guest_cover == 1) {
+        const result = await keyboardDialog({ title: "Guest Cover", type: 'number', value: sale.sale.guest_cover });
+        if (typeof result != 'boolean' && result == false) {
+            sale.sale.guest_cover = parseInt(result);
+            if (sale.sale.guest_cover == undefined || isNaN(sale.sale.guest_cover)) {
+                sale.sale.guest_cover = 0;
+            }
+
+        } else { 
+            return;
+        }
+    }
+}
 </script>

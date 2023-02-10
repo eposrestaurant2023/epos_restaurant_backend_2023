@@ -54,7 +54,7 @@
   </v-tabs>
   <v-window v-model="tab">
     <v-window-item value="about">
-      <v-table class="pl-10">
+      <v-table fixed-header height="200px" class="ml-8">
         <p class="font-weight-bold pb-2">
           CONTACT INFORMATION
         </p>
@@ -106,7 +106,32 @@
       </v-table>
     </v-window-item>
     <v-window-item value="recentOrder">
-      <ComTable :headers="headers" doctype="Sale" @callback="onCallback"/>
+        <v-table fixed-header height="200px" class="ml-8">
+          <thead>
+            <tr>
+              <th class="text-left">
+                No
+              </th>
+              <th class="text-left">
+                Qty
+              </th>
+              <th class="text-left">
+                Grand Total
+              </th>
+              <th class="text-left">
+                Date
+              </th>
+            </tr>
+          </thead>
+          <tbody v-for=" d in recentOrder.data" :key="name">
+            <tr>
+            <td @click="onSaleDetail(d.name)">{{ d.name }}</td>
+            <td class="pl-4">{{ d.total_quantity }}</td>
+            <td class="pl-4"><CurrencyFormat :value="d.grand_total"/></td>
+            <td v-if="d.modified"><Timeago   :long="long" :datetime="d.modified"/></td>
+          </tr>
+          </tbody>
+        </v-table>
     </v-window-item>    
   </v-window>
   </v-card>
@@ -117,8 +142,6 @@
   import { ref, defineProps,defineEmits, createDocumentResource,createResource, addCustomerDialog, useRouter, saleDetailDialog} from '@/plugin'
   import ComToolbar from '@/components/ComToolbar.vue';
   import { Timeago } from 'vue2-timeago';
-  import ComTable from '@/components/table/ComTable.vue';
-  import CustomerDetail from './CustomerDetail.vue';
   
   const props = defineProps({
     params:{
@@ -168,30 +191,12 @@
   async function onAddCustomer() { 
     await addCustomerDialog ({title:  customer.doc?.name+ ' - ' +  customer.doc?.customer_name_en, name: customer.doc?.name});
 }
-function onSaleDetailDialog(customer) {
-  router.push({ name: "CustomerDetail", params: { name: customer } });
-}
 
 const router = useRouter()
-function onCallback(data) {
- if(data.fieldname=="name"){
-  const name =  data.data.name;
+function onSaleDetail(data) {
     saleDetailDialog({
-      name:name
+      name:data
     });
-
-  }
-}
-const headers = ref([
-  {
-    title: 'No', align: 'start', key: 'name', callback: true
-  },
-  { title: 'Qty', align: 'center', key: 'total_quantity'},
-  { title: 'Qty', align: 'center', key: 'grand_total', },
-])
-
-function onCustomer(customer) {
-  router.push({ name: "CustomerDetail", params: { name: customer } });
 }
 
 </script>

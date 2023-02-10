@@ -11,7 +11,7 @@
                         <span v-if="$sale.sale.sale_status=='New'">  - New</span>
                         <span v-else>  - {{$sale.sale.name}}</span>
 
-                        <v-chip class="ml-2" variant="elevated" v-if="$sale.sale.name!=undefined" :color="$sale.sale.sale_status_color" :size="mobile ? 'x-small' : 'defualt'">
+                        <v-chip class="ml-2" variant="elevated" v-if="$sale.sale.name!=undefined" :color="$sale.sale.sale_status_color" :size="mobile ? 'x-small' : 'default'">
                         {{ $sale.sale.sale_status }}
                         </v-chip>
                     </div>
@@ -22,9 +22,8 @@
                 <ComProductSearch />
             </template>
             <template #append>
-              
                 <ComTimeUpdate/>
-               
+
                 <ComSaleNotivication/>
                 
                 

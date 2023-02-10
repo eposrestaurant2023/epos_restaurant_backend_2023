@@ -83,12 +83,12 @@
         
                             <tr  v-if="sale.sale.total_quantity !=0">
                                 <td class="pb-2">Total Quantity</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right">{{ sale.sale.total_quantity }}</td>
                             </tr>
                             <tr >
                                 <td class="pb-2">Sub Total</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.sale.sub_total"/></td>
                             </tr>  
                             <tr  v-if="sale.sale.product_discount > 0">
@@ -96,64 +96,64 @@
                                     <span v-if="sale.sale.sale_discount > 0 ">Product</span>
                                     <span> Discount</span>
                                 </td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.sale.product_discount"/></td>
                             </tr>
                             <tr  v-if="sale.sale.sale_discount > 0">
                                 <td class="pb-2">
                                     <span v-if="sale.sale.product_discount > 0 ">Sale</span>
                                     <span>Discount</span>({{sale.sale.discount}}%)</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.sale.sale_discount"/></td>
                             </tr>
                             <tr  v-if="sale.sale.total_discount != sale.sale.product_discount && sale.sale.total_discount != sale.sale.sale_discount">
                                 <td class="pb-2">Total Discount</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.sale.total_discount"/></td>
                             </tr>
                             <tr  v-if="sale.sale.tax_1_amount > 0">
                                 <td class="pb-2">{{ setting.tax_1_name }}({{ sale.sale.tax_1_rate }}%)</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.sale.tax_1_amount"/></td>
                             </tr>
                             <tr  v-if="sale.sale.tax_2_amount > 0" >
                                 <td class="pb-2">{{ setting.tax_2_name }}({{ sale.sale.tax_2_rate }}%)</td>
-                                <td class="pb-2 px-2 px-2">:</td>   
+                                <td class="pb-2 px-2">:</td>   
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.sale.tax_2_amount"/></td>
                             </tr>
                             <tr  v-if="sale.sale.tax_3_amount > 0">
                                 <td class="pb-2">{{ setting.tax_3_name }}({{ sale.sale.tax_3_rate }}%)</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.sale.tax_3_amount"/></td>
                             </tr>
                             <tr  v-if="sale.sale.total_tax !=0 && sale.sale.total_tax > 1">
                                 <td class="pb-2">Total Tax</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2"><CurrencyFormat :value="sale.sale.total_tax"/></td>
                             </tr>
                             <tr  >
                                 <td class="pb-2">Grand Total</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.sale.grand_total"/></td>
                             </tr>
                             <tr  v-for="d in sale.sale.payment" :key="d.name">
                                 <td class="pb-2">Paid by {{ d.payment_type }}</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :currency="d.currency" :value="d.input_amount"/></td>
                             </tr>
                             <tr  v-if="sale.sale.payment.length > 1">
                                 <td class="pb-2">Total Paid</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.sale.total_paid"/></td>
                             </tr>                   
                             <tr class="font-bold" v-if="sale.sale.balance !=0">
                                 <td class="pb-2">Balance</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.sale.balance"/></td>
                             </tr>
                             <tr  v-if="sale.sale.changed_amount !=0">
                                 <td class="pb-2">Changed Amount</td>
-                                <td class="pb-2 px-2 px-2">:</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.sale.changed_amount"/></td>
                             </tr> 
                         </table>

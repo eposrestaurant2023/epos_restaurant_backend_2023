@@ -43,7 +43,7 @@
                             ></v-select>
                         </v-col> 
                     </v-row>
-                    <p class="font-weight-bold pt-6 pb-2">
+                    <p class="font-weight-bold  pt-6 pb-2">
                         Contact Information
                     </p>
                     <v-row>

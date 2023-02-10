@@ -24,18 +24,18 @@
                     <div class="float-sm-left">
                         <table class="tbl-list">
                             <tr >
-                                <td>Customer Code</td>
-                                <td>:</td>
+                                <td class="pb-2">Customer Code</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td>{{ sale.doc.customer }}</td>
                             </tr>
                             <tr >
-                                <td>Customer Name</td>
-                                <td>:</td>
+                                <td class="pb-2">Customer Name</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td>{{ sale.doc.customer_name }}</td>
                             </tr>
                             <tr v-if="sale.doc.phone_number">
-                                <td>Phone Number</td>
-                                <td>:</td>
+                                <td class="pb-2">Phone Number</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td>{{ sale.doc.phone_number }}</td>
                             </tr>
                         </table>
@@ -43,37 +43,37 @@
                     <div>
                         <table class="tbl-list ml-auto tbl-list-right">
                             <tr>
-                                <td>Sale #</td>
-                                <td>:</td>
+                                <td class="pb-2">Sale #</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right">{{ sale.name }}</td>
                             </tr>
                             <tr>
-                                <td>Date</td>
-                                <td>:</td>
+                                <td class="pb-2">Date</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right">{{ sale.doc.posting_date }}</td>
                             </tr>
                             <tr >
-                                <td>Branch</td>
-                                <td>:</td>
+                                <td class="pb-2">Branch</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right">{{ sale.doc.business_branch }}</td>
                             </tr>
                             <tr >
-                                <td>Stock Location</td>
-                                <td>:</td>
+                                <td class="pb-2">Stock Location</td>
+                                <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right">{{ sale.doc.stock_location }}</td>
                             </tr>
                         </table>
                     </div>
                     <v-table class="bg">
-                        <thead class="bg-blue-400">
+                        <thead>
                             <tr>
-                                <th style="color: white">No</th>
-                                <th style="color: white">Image</th>
-                                <th style="color: white">Description</th>
-                                <th style="color: white">Unit</th>
-                                <th style="color: white">QTY</th>
-                                <th class="text-right" style="color: white">Price</th>
-                                <th class="text-right" style="color: white">Amount</th>
+                                <th>No</th>
+                                <th>Image</th>
+                                <th>Description</th>
+                                <th>Unit</th>
+                                <th>QTY</th>
+                                <th class="text-center">Price</th>
+                                <th class="text-right">Amount</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -237,10 +237,10 @@ async function onPrint(r) {
 }
 const saleProducts = computed(() => {
     return Enumerable.from(sale.doc.sale_products).groupBy(
-        "{product_code:$.product_code,portion:$.portion,modifiers:$.modifiers,product_name:$.product_name,product_name_kh:$.product_name_kh,unit:$.unit,discount:$.discount,discount_type:$.discount_type,product_photo:$.product_photo,is_free:$.is_free,price:$.price}",
+        "{product_code:$.product_code,portion:$.portion,modifiers:$.modifiers,product_name:$.product_name,product_name_kh:$.product_name_kh,unit:$.unit,discount:$.discount,discount_type:$.discount_type,product_photo:$.product_photo,price:$.price}",
         "{quantity:$.quantity, amount: $.amount}",
-        "{product_code:$.product_code,product_name:$.product_name,product_name_kh:$.product_name_kh,modifiers_price:$.modifiers_price,portion:$.portion,modifiers:$.modifiers,unit:$.unit,discount:$.discount,discount_type:$.discount_type,product_photo:$.product_photo,price:$.price,is_free:$.is_free, quantity: $$.sum('$.quantity'), amount: $$.sum('$.amount')}",
-        "$.product_code+','+$.unit+','+$.quantity+','+$.is_free+','+$.portion+','+$.modifiers+',' + $.discount + ',' + $.discount_type + ',' + $.price + ',' + $.modifiers_price"
+        "{product_code:$.product_code,product_name:$.product_name,product_name_kh:$.product_name_kh,modifiers_price:$.modifiers_price,portion:$.portion,modifiers:$.modifiers,unit:$.unit,discount:$.discount,discount_type:$.discount_type,product_photo:$.product_photo,price:$.price, quantity: $$.sum('$.quantity'), amount: $$.sum('$.amount')}",
+        "$.product_code+','+$.unit+','+$.quantity+','+$.portion+','+$.modifiers+',' + $.discount + ',' + $.discount_type + ',' + $.price + ',' + $.modifiers_price"
         ).toArray()
 })
 </script>

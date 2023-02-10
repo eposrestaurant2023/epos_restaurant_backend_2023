@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ComSalePaymentGrandTotalInformation/>
+        <ComSalePaymentGrandTotalInformation @onClick="onShowCurrencyPrefine()"/>
         <div>
             <v-text-field 
             label="Enter number"
@@ -8,8 +8,6 @@
             v-model="sale.paymentInputNumber"
             clearable 
             maxlength="10"
-            append-inner-icon="mdi-selection"
-            @click:append-inner="onShowCurrencyPrefine()"
             ></v-text-field>
         </div>
         <ComSalePaymentMethodList/>

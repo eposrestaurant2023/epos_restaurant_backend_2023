@@ -9,7 +9,7 @@
                     <ComSelectPaymentPrinter @onClick="onSelectedReceipt" :selected="selectedReceipt.name" v-if="mobile"/>
                 </template>
             </ComToolbar>
-            <v-card-text v-if="mobile" class="!p-2 overflow-auto">
+            <v-card-text v-if="mobile" class="!p-1 overflow-auto">
                 <ComSmallSalePayment/>
             </v-card-text>
             <v-card-text v-else class="!px-0 !pt-1 !pb-0 overflow-hidden">

@@ -1,6 +1,6 @@
 <template>
     <v-dialog v-model="open" persistent :scrollable="false" :fullscreen="mobile" :style="mobile ? '' : 'width: 100%;max-width:800px'">
-    <v-card class="mx-auto my-0">
+    <v-card class="mx-auto my-0 w-full">
         <v-toolbar color="default" title="Notice">
             <v-toolbar-items>
                 <v-btn icon @click="onClose()">

@@ -13,8 +13,6 @@
 import { ref, useRouter, customerDetailDialog, addCustomerDialog } from '@/plugin'
 import PageLayout from '@/components/layout/PageLayout.vue';
 import ComTable from '@/components/table/ComTable.vue';
-import ComButton from '@/components/ComButton.vue';
-import CustomerDetail from './CustomerDetail.vue';
 const router = useRouter()
 
 async function onCallback(data) {
