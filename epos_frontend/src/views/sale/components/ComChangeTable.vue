@@ -26,7 +26,7 @@
                                     <v-btn :disabled="sale.sale.table_id==t.id" :color="t.background_color" @click="onSelectTable(t)" class="ma-4" width="150" height="100">{{
                                         t.tbl_no 
                                     }} 
-                                    {{ t.sales?.length }}    
+                                  
                                 </v-btn>
                                 </template>
 
