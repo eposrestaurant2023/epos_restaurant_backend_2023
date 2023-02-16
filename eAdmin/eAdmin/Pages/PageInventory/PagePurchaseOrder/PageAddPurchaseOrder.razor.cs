@@ -106,6 +106,20 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             model = _model;
         }
 
+        public void OnModelChanged(PurchaseOrderModel _model)
+        { 
+            model = _model;
+            List<PurchaseOrderProductModel> purchase_order_products = new List<PurchaseOrderProductModel>();
+            _model.purchase_order_products.ForEach((p) =>
+            {
+                if(!(p.is_deleted && p.id == 0))
+                {
+                    purchase_order_products.Add(p);
+                } 
+            }); 
+            model.purchase_order_products = purchase_order_products;
+            model.total_amount = model.sub_total - model.grand_total_discount; 
+        }
         public async Task LoadValidateVendor()
         {
             if (vendor_id > 0)

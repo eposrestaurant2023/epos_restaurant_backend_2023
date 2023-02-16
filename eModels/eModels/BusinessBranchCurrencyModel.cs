@@ -23,5 +23,12 @@ namespace eModels
 
         [NotMapped]
         public bool is_selected { get; set; }
+
+
+        [NotMapped]
+        public decimal purchase_order_cost { get; set; }
+
+        [NotMapped]
+        public decimal purchase_order_total_cost { get; set; }
     }
 }

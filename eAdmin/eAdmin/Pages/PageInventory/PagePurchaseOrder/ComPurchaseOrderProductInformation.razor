@@ -46,7 +46,7 @@
     {
         if (sp.id == 0)
         {
-            model.purchase_order_products.Remove(sp);
+            sp.is_deleted = true;  
         }
         else
         {

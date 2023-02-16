@@ -24,6 +24,7 @@ namespace eModels
         public int sort_order { get; set; }
         public string setting_value { get; set; }
         public string group_name { get; set; }
+        public int group_sort_order { get; set; } = 0;
         public bool status { get; set; }
         public bool is_public { get; set; }
         public string setting_option { get; set; }
