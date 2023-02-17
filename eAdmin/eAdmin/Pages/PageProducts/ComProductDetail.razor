@@ -36,7 +36,7 @@
                         <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="edit" is_visible="@(!model.is_deleted)" OnClick="@(()=>nav.NavigateTo($"product/edit/{model.id}"))">@lang["Edit"]</MoreButtonItem>
                     </MudHidden>
                     <MoreButtonItem roles="@gv.GetRole("product_add")" icon="file_copy" url="@($"product/clone/{model.id}")">@lang["Clone"]</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="block" OnClick="OnChangeStatus">@lang["Block"]</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="block" OnClick="@(()=>is_open_block_product = true)">@lang["Block"]</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="highlight_off" is_visible="@(!model.is_deleted && model.status)" OnClick="OnChangeStatus">@lang["Inactive"]</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="check" is_visible="@(!model.is_deleted && !model.status)" OnClick="OnChangeStatus">@lang["Active"]</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("product_delete")" icon="delete" is_visible="@(!model.is_deleted)" OnClick="@OnDelete">@lang["Delete"]</MoreButtonItem>
@@ -151,6 +151,9 @@
             </MudTabs>
         </PageBody>
     </PageContainer>
+    <EditFormContext model="@model" Save_Click="@onSaveBlock" Cancel_Click="@(()=>is_open_block_product=false)" modal_width="800px" is_opened="@is_open_block_product" title="@block_title" is_submitting="@is_saving">
+        Block Product
+    </EditFormContext>
 }
 @if (is_error)
 {
@@ -159,26 +162,28 @@
     </Error>
 }
 @code{
-        [Parameter] public int id { get; set; }
-        public ProductModel model { get; set; }
-        bool show_production, show_comment_tab, show_recipe_tab, show_composite_product_tab, show_purchase_history, show_sale_history, show_stock_stransfer, show_stock_take, show_inventory_strasation, show_association_products;
-        bool is_open_attach_file;
-        public string api_url
+    [Parameter] public int id { get; set; }
+    public ProductModel model { get; set; }
+    bool show_production, show_comment_tab, show_recipe_tab, show_composite_product_tab, show_purchase_history, show_sale_history, show_stock_stransfer, show_stock_take, show_inventory_strasation, show_association_products;
+    bool is_open_attach_file, is_open_block_product;
+    string block_title = "Block Product";
+    public string api_url
+    {
+        get
         {
-            get
-            {
-                string url = $"Product({id})";
-                url = url + "?$expand=kitchen_group,vendor($select=id,vendor_name,vendor_code),product_category($select=product_category_en;$expand=product_group($select=product_group_en)),unit($select=unit_name)";
-                return url;
-            }
+            string url = $"Product({id})";
+            url = url + "?$expand=kitchen_group,vendor($select=id,vendor_name,vendor_code),product_category($select=product_category_en;$expand=product_group($select=product_group_en)),unit($select=unit_name)";
+            return url;
         }
+    }
 
-        protected override async Task OnInitializedAsync()
-        {
-            is_loading = true;
-            await LoadData();
-            is_loading = false;
-        }
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        block_title = lang["Block Product"];
+        is_loading = false;
+    }
 
     async Task LoadData()
     {
@@ -241,6 +246,11 @@
         }
         model.is_change_status = false;
     }
+    async Task onSaveBlock()
+    {
+        is_saving = true;
 
+        is_saving = false;
+    }
 
 }

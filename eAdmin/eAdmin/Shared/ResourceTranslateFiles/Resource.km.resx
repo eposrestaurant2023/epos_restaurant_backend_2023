@@ -2946,4 +2946,7 @@
   <data name="Telegram Alert" xml:space="preserve">
     <value>កំណត់សារ Telegram</value>
   </data>
+  <data name="Block Product" xml:space="preserve">
+    <value>បិទទំនិញ</value>
+  </data>
 </root>
