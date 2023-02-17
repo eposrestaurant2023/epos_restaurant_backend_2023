@@ -87,7 +87,8 @@ export default class Sale {
             discount_type: "Percent",
             discount: 0,
             sub_total: 0,
-            payment:[]
+            payment:[],
+            posting_date: moment(new Date()).format('yyyy-MM-DD'),
         }
     }
 
@@ -195,8 +196,6 @@ export default class Sale {
                 order_by : this.orderBy,
                 order_time : this.getOrderTime(),
                 printers:p.printers,
-
-                
             }
             this.sale.sale_products.push(saleProduct);
 
@@ -763,7 +762,7 @@ export default class Sale {
     }
     isBillRequested() {
         if (this.sale.sale_status == 'Bill Requested') {
-            toaster.warning("This sale order is already print bill. Please cancell print bill first.");
+            toaster.warning("This sale order is already print bill. Please cancel print bill first.");
             return true;
         } else {
             return false;

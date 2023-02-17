@@ -102,7 +102,7 @@ export function frappeRequest(options) {
         
         if (options.onError || error_text) {
           if(error_text=="Not permitted"){
-            //location.reload();
+            location.reload();
           }
           toaster.error(error_text,{position:"top"});
           options.onError({

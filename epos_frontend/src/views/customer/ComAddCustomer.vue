@@ -1,35 +1,33 @@
 <template>
-    <v-dialog v-model="open">
-        <v-card width="960" class="mx-auto my-0">
+    <v-dialog v-model="open" style="max-width: 900px; width: 100%;" scrollable="false">
+        <v-card class="mx-auto my-0 w-full">
             <ComToolbar @onClose="onClick">
                 <template #title>
                     {{ params.title }}
                 </template>
             </ComToolbar>
-            <v-card-text>  
+            <v-card-text class="!px-3 overflow-auto ">  
                 <form @submit.prevent="onSave">
                 
                     <v-row>
-                        <v-col cols="10" sm="8"  md="6" >
+                        <v-col cols="12" sm="6"  md="6" >
                             <ComInput v-model="customer.customer_name_en" :required="true" keyboard label="Customer Name En"/>    
                         </v-col>
-                        <v-col cols="10" sm="8"  md="6">
-                            <ComAutoComplete v-model="customer.customer_group" doctype="Customer Group" variant="solo" class="mr-2"/> 
+                        <v-col cols="12" sm="6"  md="6">
+                            <ComAutoComplete v-model="customer.customer_group" doctype="Customer Group" variant="solo"/> 
                         </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
+                        <v-col cols="12" sm="6"  md="6">
                             <ComInput v-model="customer.customer_name_kh" keyboard label="Customer Name Kh"/>
                         </v-col>
-                        <v-col pr="8">
-                            <ComInput v-model="customer.date_of_birth" type="date" class="pr-3" label="Date of Birth"/>
+                        <v-col>
+                            <ComInput v-model="customer.date_of_birth" type="date" label="Date of Birth"/>
                         </v-col>
                     </v-row>
                     <v-row>
-                        <v-col cols="10" sm="8"  md="6">
+                        <v-col cols="12" sm="6"  md="6">
                             <ComInput v-model="customer.company_name" keyboard label="Company Name"/>
                         </v-col>
-                        <v-col cols="10" sm="8"  md="6">
+                        <v-col cols="12" sm="6"  md="6">
  
                             <v-select 
                                 density="compact"
@@ -39,7 +37,7 @@
                                 hide-no-data
                                 hide-details 
                                 clearable
-                                variant="solo" class="mr-2"
+                                variant="solo"
                             ></v-select>
                         </v-col> 
                     </v-row>
@@ -47,53 +45,49 @@
                         Contact Information
                     </p>
                     <v-row>
-                        <v-col cols="10" sm="8"  md="6">
+                        <v-col cols="12" sm="6"  md="6">
                             <ComInput v-model="customer.phone_number" keyboard label="Phone Number 1"/>
                         </v-col>
-                        <v-col cols="10" sm="8"  md="6">
-                            <ComAutoComplete v-model="customer.country" feild="country_name" doctype="Country" variant="solo" class="mr-2"/>
+                        <v-col cols="12" sm="6"  md="6">
+                            <ComAutoComplete v-model="customer.country" feild="country_name" doctype="Country" variant="solo"/>
                         </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col cols="10" sm="8"  md="6">
+                        <v-col cols="12" sm="6"  md="6">
                             <ComInput v-model="customer.phone_number_2" keyboard label="Phone Number 2"/>
                         </v-col>
-                        <v-col> 
-                            <ComAutoComplete v-model="customer.province" feild="province" doctype="Province" variant="solo" class="mr-2"/>
+                        <v-col cols="12" sm="6"  md="6"> 
+                            <ComAutoComplete v-model="customer.province" feild="province" doctype="Province" variant="solo"/>
                        </v-col>
-                    </v-row>
-                    <v-row>
                         <v-col>
                             <ComInput v-model="customer.email_address" keyboard label="Email Address"/> 
                         </v-col>
-                        <v-col>
-                            
+                        <v-col cols="12" sm="6"  md="6">
+
                         </v-col>
                     </v-row>
                     <p class="font-weight-bold pt-6 pb-2">
                         Address & Note
                     </p>
                     <v-row>
-                        <v-col>
-                            <ComInput v-model="customer.address" cols="10" sm="8"  md="6" title="Enter Note" keyboard label="Address" type="textarea"></ComInput>
+                        <v-col cols="12" sm="6"  md="6">
+                            <ComInput v-model="customer.address" title="Enter Note" keyboard label="Address" type="textarea"></ComInput>
                         </v-col>
-                        <v-col>
-                            <ComInput v-model="customer.note" cols="10" sm="8"  md="6" title="Enter Note" class="pr-3" keyboard label="Note" type="textarea"></ComInput>
+                        <v-col cols="12" sm="6"  md="6">
+                            <ComInput v-model="customer.note" title="Enter Note" keyboard label="Note" type="textarea"></ComInput>
                         </v-col>
                     </v-row>
-            
-                    <div>
-                    <div class="text-right pt-4">
-                        <v-btn class="mr-2" variant="flat" type="button" @click="onClose" color="error">
-                            Close
-                        </v-btn>
-                        <v-btn variant="flat" type="sumbit" color="primary">
-                            Save
-                        </v-btn>
-                    </div>
+                    
+                    <div> 
                 </div>   
             </form>
             </v-card-text>
+            <v-card-actions class="justify-end">
+                <v-btn variant="flat" type="button" @click="onClose" color="error">
+                    Close
+                </v-btn>
+                <v-btn variant="flat" type="sumbit" color="primary">
+                    Save
+                </v-btn>
+            </v-card-actions>
         </v-card>
     </v-dialog>
 </template>

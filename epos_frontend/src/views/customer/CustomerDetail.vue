@@ -1,13 +1,13 @@
 <template>
-<v-dialog v-model="open">
-  <v-card width="700" class="mx-auto my-0">
+<v-dialog v-model="open" style="max-width: 900px; width: 100%;">
+  <v-card class="mx-auto my-0 w-full">
         <ComToolbar @onClose="onClose">
             <template #title>
                 Customer Detail - {{params.name}}
             </template>
         </ComToolbar>
         <v-img
-        height="200"
+        height="100"
         src="https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"
         cover
         class="text-white"
@@ -19,26 +19,26 @@
         <avatar v-else :name="customer.doc.customer_name_en" class="-mt-14 mx-auto z-50" size="100"></avatar>
       </template>
       <div class="text-h5 mx-auto mt-2">{{ customer.doc?.name }} - {{ customer.doc?.customer_name_en }} 
-        <v-icon icon="mdi-account-edit" @click="onAddCustomer"></v-icon>
+        <v-icon icon="mdi-account-edit" @click="onAddCustomer" size="small"></v-icon>
         
       </div>
       <v-row no-gutters>
         <v-col >
-          <v-card class="pa-2 ma-6" elevation="2" color="primary">
+          <v-card class="pa-2 ma-2" elevation="2" color="primary">
             <div class="text-h6 text-center" >{{ orderSummary.data?.total_visit }}</div>
-            <div class="text-body-1 text-center mt-2" >Total Visit</div>
+            <div class="text-body-1 text-center mt-2  text-sm" >Total Visit</div>
           </v-card>
         </v-col>
         <v-col>
-          <v-card class="pa-2 ma-6" elevation="2" color="warning">
+          <v-card class="pa-2 ma-2" elevation="2" color="warning">
             <div class="text-h6 text-center" ><CurrencyFormat :value="orderSummary.data?.total_annual_order"/></div>
-            <div class="text-body-1 text-center mt-2" >Total Annual Order</div>
+            <div class="text-body-1 text-center mt-2 text-sm" >Total Annual Order</div>
           </v-card>
         </v-col>
         <v-col>
-          <v-card class="pa-2 ma-6" elevation="2" color="success">
+          <v-card class="pa-2 ma-2" elevation="2" color="success">
             <div class="text-h6 text-center" ><CurrencyFormat :value="orderSummary.data?.total_order"/></div>
-            <div class="text-body-1 text-center mt-2" >Total Order</div>
+            <div class="text-body-1 text-center mt-2 text-sm" >Total Order</div>
           </v-card>
         </v-col>
       </v-row>
@@ -46,7 +46,7 @@
         v-model="tab"
         color="deep-purple-accent-4"
         align-tabs="start"
-        class="ma-4"
+        class="ma-2"
       >
         <v-tab value="about">About</v-tab>   
         <v-tab value="recentOrder">Recent Order</v-tab>
@@ -54,11 +54,11 @@
   </v-tabs>
   <v-window v-model="tab">
     <v-window-item value="about">
-      <v-table fixed-header height="200px" class="ml-8">
-        <p class="font-weight-bold pb-2">
+      <v-table fixed-header class="ma-2">
+        <p class="font-weight-bold pb-1">
           CONTACT INFORMATION
         </p>
-        <table class="ml-5">
+        <table class="ml-2">
           <tr v-if="customer.doc?.phone_number || customer.doc?.phone_number_2">
             <td class="pr-4">Phone Number</td>
             <td class="pr-4">:</td>
@@ -81,7 +81,7 @@
         <p class="font-weight-bold py-2 pt-4">
             BASIC INFORMATION
         </p>
-        <table class="ml-5">
+        <table class="ml-2">
             <tr v-if="customer.doc?.date_of_birth">
                 <td class="pr-8">Date of Birth</td>
                 <td class="pr-4">:</td>
@@ -106,7 +106,7 @@
       </v-table>
     </v-window-item>
     <v-window-item value="recentOrder">
-        <v-table fixed-header height="200px" class="ml-8">
+        <v-table fixed-header class="ma-2">
           <thead>
             <tr>
               <th class="text-left">

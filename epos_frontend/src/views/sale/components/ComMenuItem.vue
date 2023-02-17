@@ -40,7 +40,7 @@
         </div>
         <div class="block relative p-2 w-full h-full">
             <div class="absolute left-0 top-0 bg-red-700 text-white p-1 rounded-tl-lg rounded-br-lg text-sm">
-                <CurrencyFormat :value="data.price"></CurrencyFormat>
+                <ComPriceOnMenu v-if="data.prices" :prices="data.prices" :price="data.price"/>
             </div>
             <div class="p-1 rounded-md absolute bottom-1 right-1 left-1 bg-gray-50 bg-opacity-70 text-sm text-center">
                 {{data.name}} - {{ data.name_en }}
@@ -51,6 +51,7 @@
 <script setup>
 import { computed, addModifierDialog, inject } from '@/plugin'
 import { openMenuDialog } from '../../../utils/dialog';
+import ComPriceOnMenu from '../ComPriceOnMenu.vue';
 const props = defineProps({ data: Object })
 const sale = inject("$sale");
 const product = inject("$product");
@@ -58,18 +59,7 @@ const product = inject("$product");
 const data = computed(() => {
     return props.data
 })
-
-const styleObject = computed(() => {
-    return {
-        backgroundColor: `'${data.text_color}'`,
-        color: data.text_color
-    }
-})
-
-const image = computed(() => {
-    return "'" + data.photo + "'"
-})
-
+ 
 function onClickMenu(menu) {
     product.parentMenu = menu;
 }
@@ -93,6 +83,7 @@ async function onClickProduct() {
             }
 
         } else {
+            
             const portions = JSON.parse(p.prices).filter(r=>r.branch == sale.sale.business_branch && r.price_rule == sale.sale.price_rule);
             if (JSON.parse(p.modifiers).length > 0 || portions.length > 1) {
                 const dt = {

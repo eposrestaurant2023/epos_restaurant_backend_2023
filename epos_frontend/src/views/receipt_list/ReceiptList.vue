@@ -1,21 +1,30 @@
 <template>
     <PageLayout title="Receipt List" icon="mdi-note-outline" full>
-    <ComTable :headers="headers" doctype="Sale" extra-fields="customer_name,sale_status_color" @callback="onCallback"/>
+      <ComReceiptListCard :headers="headers" doctype="Sale" extra-fields="customer_name,sale_status_color" @callback="onCallback" v-if="mobile"/>
+    <ComTable :headers="headers" doctype="Sale" extra-fields="customer_name,sale_status_color" @callback="onCallback" v-else/>
   </PageLayout>
 </template>
 <script setup>
-import { ref, useRouter, saleDetailDialog } from '@/plugin'
+import { ref, useRouter, saleDetailDialog, customerDetailDialog } from '@/plugin'
 import PageLayout from '@/components/layout/PageLayout.vue';
 import ComTable from '@/components/table/ComTable.vue';
-
+import {useDisplay} from 'vuetify' 
+import ComReceiptListCard from './components/ComReceiptListCard.vue';
+const {mobile} = useDisplay()
 const router = useRouter()
 function onCallback(data) {
+ 
  if(data.fieldname=="name"){
   const name =  data.data.name;
     saleDetailDialog({
       name:name
     });
-
+   
+  }
+  else if(data.fieldname == "customer"){
+     customerDetailDialog({
+        name: data.data.customer
+    })
   }
 }
 const headers = ref([
@@ -36,9 +45,4 @@ const headers = ref([
 ])
 
  
-function onCustomer(customer) {
-  router.push({ name: "CustomerDetail", params: { name: customer } });
-}
-
-
 </script>

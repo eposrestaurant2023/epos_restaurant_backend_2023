@@ -1,12 +1,12 @@
 <template> 
  
     <v-list-item prepend-icon="mdi-eye-outline" title="View Bill" @click="onViewBill()"/>
-    <v-list-item prepend-icon="mdi-bulletin-board" title="Change Price Rule" @click="onViewInvoice()"/>
+    <v-list-item prepend-icon="mdi-bulletin-board" title="Change Price Rule" @click="onChangePriceRule()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Open Cash Drawer" @click="onViewInvoice()"/>
     <v-list-item prepend-icon="mdi-account-multiple-outline" title="Change Table" @click="onChangeTable()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Merge Table/Bill" @click="onViewInvoice()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Split Bill" @click="onViewInvoice()"/>
-    <v-list-item prepend-icon="mdi-account-multiple-outline" :title="`Change Guest Cover (${sale.sale.guest_cover ? sale.sale.guest_cover : 0})`" @click="onUpdateGuestCover()"/>
+    <v-list-item prepend-icon="mdi-account-multiple-outline" :title="`Change Guest Cover (${sale.sale.guest_cover})`" @click="onUpdateGuestCover()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Change Sale Type" @click="onViewInvoice()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Tax Setting" @click="onViewInvoice()"/>
     <v-divider inset></v-divider>
@@ -19,7 +19,7 @@
      
 </template>
 <script setup>
-    import {viewBillModelModel, inject,keyboardDialog, changeTableDialog} from "@/plugin"
+    import {viewBillModelModel, inject,keyboardDialog, changeTableDialog, changePriceRuleDialog} from "@/plugin"
 
     const sale = inject('$sale')
     const setting = JSON.parse(localStorage.getItem("setting"))
@@ -29,7 +29,7 @@
     async function onUpdateGuestCover(){
     if (setting.use_guest_cover == 1) {
         const result = await keyboardDialog({ title: "Guest Cover", type: 'number', value: sale.sale.guest_cover });
-        if (typeof result != 'boolean' && result == false) {
+        if (typeof result != 'boolean' && result != false) {
             sale.sale.guest_cover = parseInt(result);
             if (sale.sale.guest_cover == undefined || isNaN(sale.sale.guest_cover)) {
                 sale.sale.guest_cover = 0;
@@ -43,9 +43,12 @@
 
 async function onChangeTable(){
     if (!sale.isBillRequested()) {
-    const result =await changeTableDialog({});
+        const result =await changeTableDialog({});
     }
-   
-
+}
+async function onChangePriceRule(){
+    if(!sale.isBillRequested()){
+        const result = await changePriceRuleDialog({})
+    }
 }
 </script>

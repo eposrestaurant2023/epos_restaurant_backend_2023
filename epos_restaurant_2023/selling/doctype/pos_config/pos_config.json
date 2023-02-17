@@ -50,7 +50,9 @@
   "column_break_40",
   "discount_sale_required_note",
   "section_break_42",
-  "open_order_required_password"
+  "open_order_required_password",
+  "section_break_44",
+  "change_price_rule_require_password"
  ],
  "fields": [
   {
@@ -279,12 +281,22 @@
   {
    "fieldname": "section_break_42",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_44",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "change_price_rule_require_password",
+   "fieldtype": "Check",
+   "label": "Change Price Rule Require Password"
   }
  ],
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-02-02 10:40:02.496469",
+ "modified": "2023-02-17 11:26:04.723692",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Config",

@@ -1,7 +1,7 @@
 <template>
     <div class="pb-3">
         <div class="flex justify-between items-end" v-if="resource.data">
-            <div>
+            <div v-if="!mobile">
                 <div class="flex flex-wrap items-end">
                     <div style="min-width: 140px"> 
                         <ComInput keyboard placeholder="ID" v-model="name" variant="solo" class="mr-2" v-debounce="onSearch" @onInput="onSearch"/>
@@ -52,7 +52,8 @@ import ComInput from "./form/ComInput.vue"
 import moment from '@/utils/moment.js'
 import ComOrderBy from './table/ComOrderBy.vue';
 import ComAdvanceFilter from './table/ComAdvanceFilter.vue';
-
+import { useDisplay } from 'vuetify'
+const {mobile} = useDisplay()
 const props = defineProps({ doctype: String })
 const emit = defineEmits(['onFilter'])
 const name = ref("")

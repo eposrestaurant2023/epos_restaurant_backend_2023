@@ -1,6 +1,6 @@
 <template>
   <v-dialog :fullscreen="mobile" v-model="open" @update:modelValue="onClose" :style="mobile ? '' : 'width: 100%;max-width:800px'">
-    <v-card class="mx-auto my-0">
+    <v-card class="mx-auto my-0 w-full">
       <ComToolbar @onClose="onClose">
         <template #title>
           Select Customer
@@ -100,6 +100,7 @@
     onSuccess(doc){
       gv.customerMeta = doc;
       if(doc.search_fields){
+        console.log(doc.search_fields)
         doc.search_fields.split(",").forEach(function(d){
           searchFields.value.push(d.trim())
         });

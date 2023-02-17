@@ -109,10 +109,12 @@ router.beforeEach(async (to, from, next) => {
 		}
 	}
 	else{
+		
 		if (to.matched.some((record) => !record.meta.isLoginPage)) {
 			// this route requires auth, check if logged in
 			// if not, redirect to login page.
 			if (!auth.isLoggedIn) {
+				
 				next({ name: 'Login', query: { route: to.path } });
 			} else {
 				next();

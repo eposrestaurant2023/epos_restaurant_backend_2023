@@ -5,18 +5,20 @@
                Add Customer
             </v-btn>
         </template>
-    <ComTable :headers="headers" doctype="Customer" extra-fields="name" @callback="onCallback"/>
+        <ComCustomerCard :headers="headers" doctype="Customer" extra-fields="name,photo" @callback="onCallback" v-if="mobile"/>
+        <ComTable :headers="headers" doctype="Customer" extra-fields="name" @callback="onCallback" v-else/>
   </PageLayout>
-  <!-- <CustomerDetail :params="{name:'C2022-0003'}"/> -->
 </template>
 <script setup>
-import { ref, useRouter, customerDetailDialog, addCustomerDialog } from '@/plugin'
+import { ref, customerDetailDialog, addCustomerDialog } from '@/plugin'
 import PageLayout from '@/components/layout/PageLayout.vue';
 import ComTable from '@/components/table/ComTable.vue';
-const router = useRouter()
-
-async function onCallback(data) {
+import ComCustomerCard from './ComCustomerCard.vue'
+import {useDisplay} from 'vuetify'
+const {mobile} = useDisplay()
+async function onCallback(data) { 
     if (data.fieldname == "customer_code_name") {
+        console.log(data.data)
         const result = await customerDetailDialog({
             name: data.data.name
         });

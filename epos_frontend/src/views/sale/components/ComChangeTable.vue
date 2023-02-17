@@ -7,8 +7,7 @@
                     Change / Merge Table
                 </template>
             </ComToolbar>
-            <div class="overflow-auto p-4 h-full">
-              
+            <div class="overflow-auto p-3 h-full">
                 <v-tabs align-tabs="center"
                     v-if="tableLayout.table_groups && tableLayout.table_groups.length > 1"
                     v-model="tableLayout.tab">
@@ -16,38 +15,32 @@
                         {{ g.table_group }}   {{ g.search_table_keyword }}
                     </v-tab>
                 </v-tabs>
-
                 <template v-if="tableLayout.table_groups">
                     <v-window v-model="tableLayout.tab">
                         <template v-for="g in tableLayout.table_groups">
-                           
                             <v-window-item :value="g.key">
-                                <ComInput 
-                                v-model="g.search_table_keyword"
-        
-                                autofocus ref="searchTextField" keyboard class="m-4" placeholder="Search Table" />
-                           
-                                <template v-for="(t, index) in getTable(g.tables, g.search_table_keyword)" :key="index">
-                                    <v-btn :disabled="sale.sale.table_id==t.id" :color="t.background_color" @click="onSelectTable(t)" class="ma-4" width="150" height="100">{{
-                                        t.tbl_no 
-                                    }} 
-                                  
-                                </v-btn>
-                                </template>
-
-
+                                <div class="pa-1">
+                                    <ComInput 
+                                    v-model="g.search_table_keyword"
+                                    autofocus
+                                    ref="searchTextField"
+                                    keyboard
+                                    class="my-2"
+                                    placeholder="Search Table" />
+                                    <div class="grid gap-2 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6">
+                                    <template v-for="(t, index) in getTable(g.tables, g.search_table_keyword)" :key="index">
+                                        <v-btn :disabled="sale.sale.table_id==t.id" :color="t.background_color" @click="onSelectTable(t)" width="100%" height="100">
+                                        {{ t.tbl_no }}
+                                        </v-btn>
+                                    </template>
+                                </div>
+                            </div>
                             </v-window-item>
-
                         </template>
-
                     </v-window>
                 </template>
-
             </div>
-
-
         </v-card>
-
     </v-dialog>
 </template>
   

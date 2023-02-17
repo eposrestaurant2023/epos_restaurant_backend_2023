@@ -68,7 +68,7 @@ createResource({
 async function onUpdateGuestCover(){
     if (setting.use_guest_cover == 1) {
         const result = await keyboardDialog({ title: "Guest Cover", type: 'number', value: sale.sale.guest_cover });
-        if (typeof result != 'boolean' && result == false) {
+        if (typeof result != 'boolean' && result != false) {
             sale.sale.guest_cover = parseInt(result);
             if (sale.sale.guest_cover == undefined || isNaN(sale.sale.guest_cover)) {
                 sale.sale.guest_cover = 0;

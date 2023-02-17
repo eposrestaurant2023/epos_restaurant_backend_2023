@@ -75,6 +75,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "main_currency_predefine_payment_amount":pos_config.main_currency_predefine_payment_amount,
         "second_currency_predefine_payment_amount":pos_config.second_currency_predefine_payment_amount,
         "open_order_required_password":pos_config.open_order_required_password,
+        "change_price_rule_require_password":pos_config.change_price_rule_require_password,
         }
     
     #get default customre

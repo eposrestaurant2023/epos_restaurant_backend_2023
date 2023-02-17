@@ -63,7 +63,7 @@
   </v-dialog>
 </template>
 <script setup>
-import { ref, createResource, inject,  } from "@/plugin"
+import { ref, createResource, inject  } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
 const gv = inject("$gv")
 const toaster = createToaster({ position: "top" })

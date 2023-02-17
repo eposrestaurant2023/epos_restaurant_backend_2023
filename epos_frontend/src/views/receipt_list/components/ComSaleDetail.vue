@@ -1,12 +1,12 @@
 <template>
     <v-dialog v-model="open" fullscreen>
         <v-card>
-            <ComToolbar @onClose="onClick"   :isMoreMenu="true" >
+            <ComToolbar @onClose="onClick"   :isMoreMenu="true">
                 <template #title>
                     Sale # : {{ sale.name }}
                 </template>
                 <template #action>
-                    <ComPrintButton doctype="Sale" @onPrint="onPrint"/>
+                    <ComPrintButton doctype="Sale" @onPrint="onPrint"/> 
                 </template>
                 <template #more_menu>
                     <v-list density="compact">
@@ -19,24 +19,24 @@
                     </v-list>
                 </template>
             </ComToolbar>
-            <v-card-text v-if="sale.doc">
+            <v-card-text v-if="sale.doc && !mobile">
                 <v-card max-width="960" class="mx-auto my-0 pa-4">
                     <div class="float-sm-left">
                         <table class="tbl-list">
                             <tr >
                                 <td class="pb-2">Customer Code</td>
                                 <td class="pb-2 px-2">:</td>
-                                <td>{{ sale.doc.customer }}</td>
+                                <td class="pb-2">{{ sale.doc.customer }}</td>
                             </tr>
                             <tr >
                                 <td class="pb-2">Customer Name</td>
                                 <td class="pb-2 px-2">:</td>
-                                <td>{{ sale.doc.customer_name }}</td>
+                                <td class="pb-2">{{ sale.doc.customer_name }}</td>
                             </tr>
                             <tr v-if="sale.doc.phone_number">
                                 <td class="pb-2">Phone Number</td>
                                 <td class="pb-2 px-2">:</td>
-                                <td>{{ sale.doc.phone_number }}</td>
+                                <td class="pb-2">{{ sale.doc.phone_number }}</td>
                             </tr>
                         </table>
                     </div>
@@ -91,7 +91,7 @@
                                 <th class="text-right"><CurrencyFormat :value="p.amount"/></th>
                             </tr>
                         </tbody>
-                    </v-table>   
+                    </v-table> 
                     <div>
                         <table class="ml-auto">
                             <tr v-if="sale.doc.total_quantity !=0">
@@ -114,7 +114,7 @@
                             </tr>
                             <tr v-if="sale.doc.sale_discount">
                                 <td class="pb-2">
-                                    <span v-if="sale.doc.product_discount">Sale</span>
+                                    <span v-if="sale.doc.product_discount">Sale </span>
                                     <span>Discount</span> ({{sale.doc.discount}}%)</td>
                                 <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.sale_discount"/></td>
@@ -128,7 +128,7 @@
                                 <td class="pb-2">{{ setting.tax_1_name }} ({{ sale.doc.tax_1_rate }}%)</td>
                                 <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.tax_1_amount"/></td>
-                            </tr>
+                            </tr>  
                             <tr v-if="sale.doc.tax_2_amount " >
                                 <td class="pb-2">{{ setting.tax_2_name }} ({{ sale.doc.tax_2_rate }}%)</td>
                                 <td class="pb-2 px-2">:</td>   
@@ -173,11 +173,29 @@
                     </div>
                 </v-card>
             </v-card-text>
+            <v-table class="bg" v-else>
+                <table class="tbl-list">
+                            <tr >
+                                <td class="pb-2">Customer Code</td>
+                                <td class="pb-2 px-2">:</td>
+                                <td class="pb-2">{{ sale.doc.customer }}</td>
+                            </tr>
+                            <tr >
+                                <td class="pb-2">Customer Name</td>
+                                <td class="pb-2 px-2">:</td>
+                                <td class="pb-2">{{ sale.doc.customer_name }}</td>
+                            </tr>
+                            <tr v-if="sale.doc.phone_number">
+                                <td class="pb-2">Phone Number</td>
+                                <td class="pb-2 px-2">:</td>
+                                <td class="pb-2">{{ sale.doc.phone_number }}</td>
+                            </tr>
+                        </table>
+            </v-table>
         </v-card>
     </v-dialog>
-   
 </template>
-  
+
 <script setup>
 
 import {  createDocumentResource,ref,inject, computed } from '@/plugin'
@@ -185,6 +203,10 @@ import ComToolbar from '@/components/ComToolbar.vue';
 import ComPrintButton from '@/components/ComPrintButton.vue';
 import { printPreviewDialog } from '@/utils/dialog';
 import Enumerable from 'linq';
+import {useDisplay} from 'vuetify'
+
+const {mobile} = useDisplay()
+
 const gv = inject("$gv")
 const props = defineProps({
     params: {
