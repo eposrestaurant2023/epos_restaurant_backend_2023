@@ -36,7 +36,7 @@
                         <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="edit" is_visible="@(!model.is_deleted)" OnClick="@(()=>nav.NavigateTo($"product/edit/{model.id}"))">@lang["Edit"]</MoreButtonItem>
                     </MudHidden>
                     <MoreButtonItem roles="@gv.GetRole("product_add")" icon="file_copy" url="@($"product/clone/{model.id}")">@lang["Clone"]</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="block" OnClick="@(()=>is_open_block_product = true)">@lang["Block"]</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="block" OnClick="@OnBlockProductClick">@lang["Block"]</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="highlight_off" is_visible="@(!model.is_deleted && model.status)" OnClick="OnChangeStatus">@lang["Inactive"]</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="check" is_visible="@(!model.is_deleted && !model.status)" OnClick="OnChangeStatus">@lang["Active"]</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("product_delete")" icon="delete" is_visible="@(!model.is_deleted)" OnClick="@OnDelete">@lang["Delete"]</MoreButtonItem>
@@ -151,9 +151,18 @@
             </MudTabs>
         </PageBody>
     </PageContainer>
-    <EditFormContext model="@model" Save_Click="@onSaveBlock" Cancel_Click="@(()=>is_open_block_product=false)" modal_width="800px" is_opened="@is_open_block_product" title="@block_title" is_submitting="@is_saving">
-        Block Product
-    </EditFormContext>
+    @if (is_open_block_product)
+    {
+<EditFormContext model="@model" Save_Click="@onSaveBlockClick" Cancel_Click="@(() => is_open_block_product = false)" modal_width="800px" is_opened="@is_open_block_product" title="@block_title" is_submitting="@is_saving">
+    @foreach (var bb in gv.bussiness_branches)
+    {
+    <div> 
+            <ComInputCheckBox label="@bb.business_branch_name_en"  value="@(business_branch_ids.Where(r=>r.ToUpper() ==bb.id.ToString().ToUpper()).Any())" valueChanged="@((v)=>OnValueChanged(v,bb.id.ToString()))"/>
+       
+    </div>
+    }
+</EditFormContext>
+    }
 }
 @if (is_error)
 {
@@ -162,8 +171,10 @@
     </Error>
 }
 @code{
-    [Parameter] public int id { get; set; }
+        [Parameter] public int id { get; set; }
     public ProductModel model { get; set; }
+    public BlockBusinessBranchId bbIds = new BlockBusinessBranchId();
+
     bool show_production, show_comment_tab, show_recipe_tab, show_composite_product_tab, show_purchase_history, show_sale_history, show_stock_stransfer, show_stock_take, show_inventory_strasation, show_association_products;
     bool is_open_attach_file, is_open_block_product;
     string block_title = "Block Product";
@@ -176,6 +187,9 @@
             return url;
         }
     }
+
+    string[] business_branch_ids  ;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -192,6 +206,8 @@
         if (resp.IsSuccess)
         {
             model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
+            business_branch_ids = (model.block_to_business_branch_ids ?? "").Split(',');
+            bbIds.id = model.block_to_business_branch_ids ?? "";
         }
         else
         {
@@ -204,8 +220,6 @@
 
     async Task OnDelete()
     {
-
-
         model.is_deleting = true;
         if (await js.Confirm(lang["Delete Product"], lang["Are you sure you want to delete this product?"], SweetAlertMessageType.question))
         {
@@ -216,8 +230,6 @@
                 model.is_deleted = true;
             }
         }
-
-
         model.is_deleting = false;
     }
     async Task OnRestore()
@@ -235,6 +247,7 @@
         }
         model.is_restoring = false;
     }
+
     async Task OnChangeStatus()
     {
         model.is_change_status = true;
@@ -246,11 +259,76 @@
         }
         model.is_change_status = false;
     }
-    async Task onSaveBlock()
+
+    async Task OnBlockProductClick()
+    {
+
+        if (gv.bussiness_branches.Count() > 1)
+        {
+
+            is_open_block_product = true;
+        }
+        else
+        {
+            bbIds = new BlockBusinessBranchId();
+            bbIds.id = "";
+            bbIds.id = (model.block_to_business_branch_ids ?? "") != "" ? "" : gv.bussiness_branches.FirstOrDefault().id.ToString();
+            await _onSave(bbIds, false);
+        }
+    }
+    async Task _onSave(BlockBusinessBranchId bbIds, bool is_modal)
     {
         is_saving = true;
-
+        var resp = await http.ApiPost("Product/BlockProduct?id=" + id, bbIds);
+        if (resp.IsSuccess)
+        {
+            toast.Add(lang["successfully"], MudBlazor.Severity.Success);
+            model.block_to_business_branch_ids = bbIds.id;
+            business_branch_ids = (model.block_to_business_branch_ids ?? "").Split(',');
+            if (is_modal)
+            {
+                is_open_block_product = false;
+            }
+        }
         is_saving = false;
     }
+
+    async Task onSaveBlockClick()
+    {
+
+        bbIds = new BlockBusinessBranchId();
+        bbIds.id = "";
+
+        business_branch_ids.ToList().Where(r=>r!="").ToList().ForEach((r) =>
+        {
+            bbIds.id += (r+",");
+        });
+        if (bbIds.id != "")
+        {
+            bbIds.id = bbIds.id.Substring(0, bbIds.id.Length - 1);
+        }
+
+        await _onSave(bbIds,true);
+
+    }
+
+    void OnValueChanged(bool value, string _id)
+    {
+        if (!value)
+        {
+            business_branch_ids = business_branch_ids.Where(r => r.ToLower() != _id.ToLower()).ToArray();
+        }
+        else
+        {
+            //
+            business_branch_ids = business_branch_ids.Append(_id).ToArray();
+        }
+    }
+
+    public class BlockBusinessBranchId
+    {
+        public string id { get; set; }
+    }
+
 
 }

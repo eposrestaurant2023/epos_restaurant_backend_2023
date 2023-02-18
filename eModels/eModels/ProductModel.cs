@@ -96,7 +96,8 @@ namespace eModels
 
         private bool _is_auto_generate_code = false;
 
-        public string business_branch_ids { get; set; } 
+        public string business_branch_ids { get; set; }
+        public string block_to_business_branch_ids { get; set; } = "";
         public bool is_auto_generate_code
         {
             get { return _is_auto_generate_code; }

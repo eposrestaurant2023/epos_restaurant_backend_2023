@@ -322,6 +322,19 @@ namespace eAPI.Controllers
             
             return Ok();
         }
+        [HttpPost]
+        [Route("BlockProduct")]
+        public async Task<ActionResult> BlockProduct([FromBody] BlockBusinessBranchId value, [FromODataUri] int id) 
+        {
+            var u = await db.Products.FindAsync(id);
+            u.block_to_business_branch_ids = value.id;
+            db.Products.Update(u);
+            await db.SaveChangesAsync();
+            db.Database.ExecuteSqlRaw("exec sp_update_product_information " + u.id);
+            return Ok();
+        }
+
+        
 
         [HttpPost]
         [Route("ChangeStatus/{id}")]
@@ -405,6 +418,10 @@ namespace eAPI.Controllers
             s.histories.Add(h);
         }
 
+    }
+    public class BlockBusinessBranchId
+    {
+        public string id { get; set; }
     }
 
 }

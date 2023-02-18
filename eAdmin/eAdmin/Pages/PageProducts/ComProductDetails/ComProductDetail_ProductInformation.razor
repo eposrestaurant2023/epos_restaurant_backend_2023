@@ -48,27 +48,53 @@
                     <ComVendorInfo vendor="@model.vendor" />
                 </div>
             }
-            <table>
+        <table>
+            <tr>
+                <th>@lang["Cost"]</th>
+                <td>@model.cost.ToString(gv.currency_format)</td>
+            </tr>
+            <tr>
+                <th>@lang["Open Product"]</th>
+                <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_open_product" /></td>
+            </tr>
+            <tr>
+                <th>@lang["Allow Discount"]</th>
+                <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_discount" /></td>
+            </tr>
+            <tr>
+                <th>@lang["Allow Free"]</th>
+                <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_free" /></td>
+            </tr>
+            <tr>
+                <th>@lang["Allow Change Price"]</th>
+                <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_change_price" /></td>
+            </tr>
+
+            @foreach (var bb in gv.bussiness_branches)
+            {
                 <tr>
-                    <th>@lang["Cost"]</th>
-                    <td>@model.cost.ToString(gv.currency_format)</td>
+                    <th>@bb.business_branch_name_en</th>
+                    <Spacing Number="10"/>
+                    @if (business_branch_ids.Where(r => r.ToUpper() == bb.id.ToString().ToUpper()).Any())
+                    { 
+                        <td>
+                            <label class="uk-label inactive">
+                                Blocked
+                            </label>
+                        </td>
+
+                    }
+                    else
+                    {
+                        <td>
+                            <label class="uk-label active">
+                                No Block
+                            </label>
+                        </td>
+
+                    }
                 </tr>
-                <tr>
-                    <th>@lang["Open Product"]</th>
-                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_open_product" /></td>
-                </tr>
-                <tr>
-                    <th>@lang["Allow Discount"]</th>
-                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_discount" /></td>
-                </tr> 
-                <tr>
-                    <th>@lang["Allow Free"]</th>
-                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_free" /></td>
-                </tr>
-                <tr>
-                    <th>@lang["Allow Change Price"]</th>
-                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_change_price" /></td>
-                </tr>
+            }
 
             </table>
         </ContentRight>
@@ -116,4 +142,12 @@
 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public ProductModel model { get; set; }
+
+    string[] business_branch_ids
+    {
+        get
+        {
+            return (model.block_to_business_branch_ids ?? "").Split(',');
+        }
+    }
 }
