@@ -611,7 +611,7 @@ namespace eAPIClient.Controllers
             is_get_remote_data_success = false;
             string _select_product_modifier = "$select=id,parent_id,product_id,modifier_name,price,section_name,is_required,is_multiple_select,is_section,sort_order,modifier_id";
 
-            string url = $"product?$select=revenue_group_name,product_group_id,product_tax_value,product_category_id,product_category_en,product_category_kh,id,is_open_product,";
+            string url = $"product?$select=revenue_group_name,block_to_business_branch_ids,product_group_id,product_tax_value,product_category_id,product_category_en,product_category_kh,id,is_open_product,";
             url += "product_code,allow_append_quantity,product_name_en,product_name_kh,photo,note,is_allow_discount,is_allow_change_price,is_allow_free,is_open_product,is_inventory_product,kitchen_group_name,kitchen_group_sort_order";
             url += $"&$expand=product_printers($select=id,product_id,printer_name,ip_address,port,group_item_type_id;$filter=is_deleted eq false and printer/business_branch_id eq {business_branch_id}),";
             url += $"product_modifiers({_select_product_modifier};$expand=children({_select_product_modifier};$filter=is_deleted eq false);$filter=is_deleted eq false),";
@@ -644,7 +644,23 @@ namespace eAPIClient.Controllers
                     else
                     {
                         p.product_tax_value = JsonSerializer.Serialize(new ProductTaxConfigModel());
-                    } 
+                    }
+
+                    //block order 
+                    p.block_to_business_branch_ids = p.block_to_business_branch_ids ?? "";
+                    if (p.block_to_business_branch_ids != "")
+                    {
+                        var z = p.block_to_business_branch_ids.Split(',');
+                        var chkZ = z.Where(x => x.ToLower() == business_branch_id.ToString().ToLower()).ToList();
+                        if (chkZ.Any())
+                        {
+                            p.block_to_business_branch_ids = business_branch_id.ToString();
+                        }
+                        else
+                        {
+                            p.block_to_business_branch_ids = "";
+                        }
+                    }
                 });
 
                 return _products;

@@ -871,10 +871,14 @@ namespace eAPIClient.Services
                     if (p.block_to_business_branch_ids != "")
                     {
                         var z = p.block_to_business_branch_ids.Split(',');
-                        var chkZ = z.Where(x => x == business_branch_id.ToString());
+                        var chkZ = z.Where(x => x.ToLower() == business_branch_id.ToString().ToLower()).ToList();
                         if (chkZ.Any())
                         {
                             p.block_to_business_branch_ids = business_branch_id.ToString();
+                        }
+                        else
+                        {
+                            p.block_to_business_branch_ids = "";
                         }
                     }
 
