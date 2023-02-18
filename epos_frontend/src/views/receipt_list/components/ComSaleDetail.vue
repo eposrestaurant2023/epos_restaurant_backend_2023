@@ -94,7 +94,7 @@
                     </v-table> 
                     <div>
                         <table class="ml-auto">
-                            <tr v-if="sale.doc.total_quantity !=0">
+                            <tr v-if="sale.doc.total_quantity">
                                 <td class="pb-2">Total Quantity</td>
                                 <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right">{{ sale.doc.total_quantity }}</td>
@@ -139,7 +139,7 @@
                                 <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.tax_3_amount"/></td>
                             </tr>
-                            <tr v-if="sale.doc.total_tax !=0 && sale.doc.total_tax > 1">
+                            <tr v-if="sale.doc.total_tax && sale.doc.total_tax > 1">
                                 <td class="pb-2">Total Tax</td>
                                 <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.total_tax"/></td>
@@ -159,12 +159,12 @@
                                 <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.total_paid"/></td>
                             </tr>                   
-                            <tr v-if="sale.doc.balance !=0">
+                            <tr v-if="sale.doc.balance">
                                 <td class="pb-2">Balance</td>
                                 <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.balance"/></td>
                             </tr>
-                            <tr v-if="sale.doc.changed_amount !=0">
+                            <tr v-if="sale.doc.changed_amount">
                                 <td class="pb-2">Changed Amount</td>
                                 <td class="pb-2 px-2">:</td>
                                 <td class="pb-2 text-right"><CurrencyFormat :value="sale.doc.changed_amount"/></td>
@@ -173,28 +173,169 @@
                     </div>
                 </v-card>
             </v-card-text>
-            <v-table class="bg" v-else>
-                <table class="tbl-list">
-                            <tr >
-                                <td class="pb-2">Customer Code</td>
-                                <td class="pb-2 px-2">:</td>
-                                <td class="pb-2">{{ sale.doc.customer }}</td>
+            <v-card-text v-else>
+                <v-card class="text-sm text-gray-500" v-if="sale.doc">
+                    <v-row no-gutters>
+                        <v-col>
+                            <v-sheet class="pa-2">
+                                <table class="min-w-full">   
+                                    <tr>
+                                        <tr >
+                                            <td>Code</td>
+                                            <td class="px-2">:</td>
+                                            <td>{{ sale.doc.customer }}</td>
+                                        </tr>
+                                        <tr >
+                                            <td>Name</td>
+                                            <td class="px-2">:</td>
+                                            <td>{{ sale.doc.customer_name }}</td>
+                                        </tr>
+                                        <tr v-if="sale.doc.phone_number">
+                                            <td>Phone</td>
+                                            <td class="px-2">:</td>
+                                            <td>{{ sale.doc.phone_number }}</td>
+                                        </tr>
+                                    </tr> 
+                                </table>
+                            </v-sheet>
+                        </v-col>
+                        <v-col>
+                            <v-sheet class="pa-2">
+                                <table class="min-w-full">   
+                                    <tr>
+                                        <tr>
+                                            <td>Sale #</td>
+                                            <td class="px-2">:</td>
+                                            <td class="text-right">{{ sale.doc.name }}</td>
+                                        </tr>
+                                        <tr >
+                                            <td>Date</td>
+                                            <td class="px-2">:</td>
+                                            <td class="text-right">{{ sale.doc.posting_date }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Branch</td>
+                                            <td class="px-2">:</td>
+                                            <td class="text-right">{{ sale.doc.business_branch }}</td>
+                                        </tr>
+                                        <tr v-if="sale.doc.phone_number">
+                                            <td>Stock</td>
+                                            <td class="px-2">:</td>
+                                            <td class="text-right">{{ sale.doc.stock_location }}</td>
+                                        </tr>
+                                    </tr> 
+                                </table>  
+                            </v-sheet>
+                        </v-col>
+                    </v-row>
+                    <v-table class="text-sm text-gray-500">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>    
+                                <th>QTY</th>
+                                <th class="text-left">Price</th>
+                                <th class="text-left">Amount</th>
                             </tr>
-                            <tr >
-                                <td class="pb-2">Customer Name</td>
-                                <td class="pb-2 px-2">:</td>
-                                <td class="pb-2">{{ sale.doc.customer_name }}</td>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(p, index) in saleProducts" :key="index">
+                                <th class="text-center">
+                                    <div class="w-8 h-8 overflow-hidden rounded-full bg-gray-200">
+                                        <img :src="p.product_photo" />
+                                    </div>
+                                </th>
+                                <td>{{ p.product_name }}</td>
+                                <th class="text-center">{{ p.quantity }}</th> 
+                                <th class="text-left"><CurrencyFormat :value="p.price"/></th>
+                                <th class="text-left"><CurrencyFormat :value="p.amount"/></th>
                             </tr>
-                            <tr v-if="sale.doc.phone_number">
-                                <td class="pb-2">Phone Number</td>
-                                <td class="pb-2 px-2">:</td>
-                                <td class="pb-2">{{ sale.doc.phone_number }}</td>
+                        </tbody>
+                    </v-table>
+                    <div>
+                        <table class="ml-auto">
+                            <tr v-if="sale.doc.total_quantity">
+                                <td>Total Quantity</td>
+                                <td class="px-2">:</td>
+                                <td class="text-right">{{ sale.doc.total_quantity }}</td>
+                            </tr>
+                            <tr>
+                                <td>Sub Total</td>
+                                <td class="px-2">:</td>
+                                <td class="text-right"><CurrencyFormat :value="sale.doc.sub_total"/></td>
+                            </tr>  
+                            <tr v-if="sale.doc.product_discount">
+                                <td>
+                                    <span v-if="sale.doc.sale_discount">Product</span>
+                                    <span> Discount</span>
+                                </td>
+                                <td class="px-2">:</td>
+                                <td class="text-right"><CurrencyFormat :value="sale.doc.product_discount"/></td>
+                            </tr>
+                            <tr v-if="sale.doc.sale_discount">
+                                <td>
+                                    <span v-if="sale.doc.product_discount">Sale </span>
+                                    <span>Discount</span> ({{sale.doc.discount}}%)</td>
+                                <td class="px-2">:</td>
+                                <td class="text-right"><CurrencyFormat :value="sale.doc.sale_discount"/></td>
+                            </tr>
+                            <tr v-if="sale.doc.total_discount != sale.doc.product_discount && sale.doc.total_discount != sale.doc.sale_discount">
+                                <td>Total Discount</td>
+                                <td class="px-2">:</td>
+                                <td class="text-right"><CurrencyFormat :value="sale.doc.total_discount"/></td>
+                            </tr>
+                            <tr v-if="sale.doc.tax_1_amount ">
+                                <td>{{ setting.tax_1_name }} ({{ sale.doc.tax_1_rate }}%)</td>
+                                <td class="px-2">:</td>
+                                <td class="text-right"><CurrencyFormat :value="sale.doc.tax_1_amount"/></td>
+                            </tr>  
+                            <tr v-if="sale.doc.tax_2_amount " >
+                                <td>{{ setting.tax_2_name }} ({{ sale.doc.tax_2_rate }}%)</td>
+                                <td class="px-2">:</td>   
+                                <td class="text-right"><CurrencyFormat :value="sale.doc.tax_2_amount"/></td>
+                            </tr>
+                            <tr v-if="sale.doc.tax_3_amount ">
+                                <td>{{ setting.tax_3_name }} ({{ sale.doc.tax_3_rate }}%)</td>
+                                <td class="px-2">:</td>
+                                <td class="text-right"><CurrencyFormat :value="sale.doc.tax_3_amount"/></td>
+                            </tr>
+                            <tr v-if="sale.doc.total_tax && sale.doc.total_tax > 1">
+                                <td>Total Tax</td>
+                                <td class="px-2">:</td>
+                                <td class="text-right"><CurrencyFormat :value="sale.doc.total_tax"/></td>
+                            </tr>
+                            <tr>
+                                <td>Grand Total</td>
+                                <td class="px-2">:</td>
+                                <td class="text-right"><CurrencyFormat :value="sale.doc.grand_total"/></td>
+                            </tr>
+                            <tr v-for="d in sale.doc.payment" :key="d.name">
+                                <td>Paid by {{ d.payment_type }}</td>
+                                <td class="px-2">:</td>
+                                <td class="text-right"><CurrencyFormat :currency="d.currency" :value="d.input_amount"/></td>
+                            </tr>
+                            <tr v-if="sale.doc.payment.length > 1">
+                                <td>Total Paid</td>
+                                <td class="px-2">:</td>
+                                <td class="text-right"><CurrencyFormat :value="sale.doc.total_paid"/></td>
+                            </tr>                   
+                            <tr v-if="sale.doc.balance">
+                                <td>Balance</td>
+                                <td class="px-2">:</td>
+                                <td class="text-right"><CurrencyFormat :value="sale.doc.balance"/></td>
+                            </tr>
+                            <tr v-if="sale.doc.changed_amount">
+                                <td>Changed Amount</td>
+                                <td class="px-2">:</td>
+                                <td class="text-right"><CurrencyFormat :value="sale.doc.changed_amount"/></td>
                             </tr>
                         </table>
-            </v-table>
+                    </div> 
+                </v-card>
+            </v-card-text>
         </v-card>
     </v-dialog>
-</template>
+</template >
 
 <script setup>
 

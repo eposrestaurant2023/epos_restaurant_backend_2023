@@ -1,5 +1,4 @@
 <template>
-    
     <div v-if="dataResource.data">
         <div class="bg-gray-50 p-2 elevation-1">
             <ComFilter :doctype="doctype" @onFilter="onFilter" @onRefresh="onRefresh"/>
