@@ -18,7 +18,7 @@
    "label": "Table Group",
    "options": "Table Group",
    "reqd": 1,
-   "unique": 1
+   "unique": 0
   }
  ],
  "index_web_pages_for_search": 1,
