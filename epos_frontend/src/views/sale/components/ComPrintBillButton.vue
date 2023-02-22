@@ -29,8 +29,9 @@
        
 </template>
 <script setup>
-    import {defineProps,defineEmits, createResource, createToaster,inject} from "@/plugin"
+    import {defineProps,defineEmits, createResource, createToaster,inject,useRouter} from "@/plugin"
     import { useDisplay } from 'vuetify'
+    const router = useRouter();
     const { mobile } = useDisplay()  
     const sale = inject('$sale')
     const props = defineProps({
@@ -75,6 +76,7 @@
 
     await sale.onSubmit().then(async (value) => {
       if (value) {
+      
         router.push({ name: "TableLayout" });
       }
     });

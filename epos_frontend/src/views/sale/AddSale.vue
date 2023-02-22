@@ -5,7 +5,9 @@
         <ComSmallAddSale v-if="mobile"/>
         <v-row class="h-full ma-0" v-else>
             <v-col cols="12" sm="7" md="7" lg="8" class="pa-0 h-full d-none d-sm-block">
+               
                 <ComMenu :background-image="gv.setting.pos_sale_order_background_image" />
+              
             </v-col>
             <v-col cols="12" sm="5" md="5" lg="4" class="h-full pa-0">
                 <div class="h-full grid px-1" style="grid-template-rows: max-content;">
@@ -21,12 +23,15 @@
                             </div>
                         </div>
                         <ComSelectCustomer />
+                     
                     </div>
                     <div class="overflow-auto">
+                       
                         <ComGroupSaleProductList/>
                     </div>
                     <div class="mt-auto">
                         <ComAddSaleSummary />
+                        
                     </div>
                 </div>
             </v-col>
@@ -68,9 +73,13 @@ if (product.posMenuResource.data?.length == 0) {
 //check if new sale
 if (route.params.name == "") {
     sale.newSale()
+    sale.getTableSaleList();
 } else {
+   
     sale.LoadSaleData(route.params.name);
 }
+
+
 document.onkeydown = function (e) {
     if (e.keyCode === 116) {
         return false;

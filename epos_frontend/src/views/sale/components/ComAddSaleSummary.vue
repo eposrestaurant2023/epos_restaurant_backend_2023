@@ -1,20 +1,17 @@
 <template>
   <div class="-mx-1 bg-blue-100 rounded-tl-md rounded-tr-md text-xs">
-    <ComSaleSummaryList/>
+    <ComSaleSummaryList />
     <div class="overflow-hidden">
       <div class="button-group">
         <div class="d-flex text-center">
-          <ComButtonToTableLayout :is-mobile="false"/>
-          <!-- <div class="cursor-pointer bg-red-800 p-2" @click="onToTableLayout">
-            <v-icon icon="mdi-reply" color="white" />
-          </div> -->
-          <!-- <v-btn color="error" round="0" icon="mdi-reply" class="btn-back-layout" @click="onToTableLayout"></v-btn> -->
+          <ComButtonToTableLayout :is-mobile="false" />
 
           <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" doctype="Sale" title="Print Bill" />
           <div class="bg-red-600 text-white cursor-pointer grow p-2 hover:bg-red-700" v-else @click="onCancelPrintBill">
             Cancel Print Bill</div>
 
           <ComDiscountButton />
+          <v-btn @click="onSubmitAndNew">Submit & New</v-btn>
           <div class="cursor-pointer p-2 grow bg-orange-600 text-white hover:bg-orange-700" @click="onQuickPay">Quick
             Pay</div>
           <ComSaleButtonMore />
@@ -52,10 +49,9 @@
       </div>
     </div>
   </div>
-
 </template>
 <script setup>
-import { inject, useRouter, confirmBackToTableLayout,paymentDialog } from '@/plugin';
+import { inject, useRouter, confirmBackToTableLayout, paymentDialog } from '@/plugin';
 import ComDiscountButton from './ComDiscountButton.vue';
 import ComExchangeRate from './ComExchangeRate.vue';
 import ComPrintBillButton from './ComPrintBillButton.vue';
@@ -78,8 +74,8 @@ async function onSubmit() {
     sale.sale.sale_status = "Submitted";
     await sale.onSubmit().then((value) => {
       if (value) {
-        if(sale.sale.table_id)
-          router.push({name: 'TableLayout'})
+        if (sale.sale.table_id)
+          router.push({ name: 'TableLayout' })
         else
           sale.newSale()
       }
@@ -104,7 +100,7 @@ async function onSubmit() {
 //         reference_name:"New",
 //         comment_by:"cashier@mail.com",
 //         content:`User sengho print bill. Amount:100$, Total Qty:5`
-              
+
 //       });
 
 //     await sale.onSubmit().then(async (value) => {
@@ -125,21 +121,21 @@ async function onQuickPay() {
 }
 
 async function onCancelPrintBill() {
-  gv.authorize("cancel_print_bill_required_password", "cancel_print_bill","cancel_print_bill_required_note","Cancel Print Bill Note").then((v) => {
+  gv.authorize("cancel_print_bill_required_password", "cancel_print_bill", "cancel_print_bill_required_note", "Cancel Print Bill Note").then((v) => {
     if (v) {
-      alert(JSON.stringify(v))
+
       sale.sale.sale_status = "Submitted";
       sale.sale.sale_status_color = setting.sale_status.find(r => r.name == 'Submitted').background_color;
-      
+
       sale.auditTrailLogs.push({
-        doctype:"Comment",
-        subject:"Cancel Print Bill",
-        comment_type:"Comment",
-        reference_doctype:"Sale",
-        reference_name:"New",
-        comment_by:"cashier@mail.com",
-        content:`User sengho cancel print bill. Amount:100$, Total Qty:5, Reason:Test Note`
-              
+        doctype: "Comment",
+        subject: "Cancel Print Bill",
+        comment_type: "Comment",
+        reference_doctype: "Sale",
+        reference_name: "New",
+        comment_by: "cashier@mail.com",
+        content: `User sengho cancel print bill. Amount:100$, Total Qty:5, Reason:Test Note`
+
       });
 
     }
@@ -147,19 +143,19 @@ async function onCancelPrintBill() {
 
 }
 
-async function onPayment(){
-  if(sale.sale.sale_products.length == 0){
+async function onPayment() {
+  if (sale.sale.sale_products.length == 0) {
     toaster.warning("Please select a menu item to submit order");
     return
   }
-  else if(sale.onCheckPriceSmallerThanZero()){
+  else if (sale.onCheckPriceSmallerThanZero()) {
     return;
   }
   const result = await paymentDialog({})
-  if(result){
+  if (result) {
     router.push({ name: "TableLayout" });
   }
-  
+
 }
 
 function onNote() {
@@ -176,35 +172,41 @@ function onDiscount() {
   }
 }
 
-// async function onToTableLayout() {
-//   const sp = Enumerable.from(sale.sale.sale_products);
+async function onSubmitAndNew() {
 
-//   if (sp.where("$.name==undefined").toArray().length > 0) {
-//     let result = await confirmBackToTableLayout({});
-//     if (result) {
-//       if (result == "hold" || result == "submit") {
-//         if (result == "hold") {
-//           sale.sale.sale_status = "Hold Order";
-//           sale.action = "hold_order";
-//         } else {
-//           sale.sale.sale_status = "Submitted";
-//           sale.action = "submit_order";
-//         }
-//         await sale.onSubmit().then(async (value) => {
-//           if (value) {
-//             router.push({ name: "TableLayout" });
-//           }
-//         });
-//       } else {
-//         //continue
-//         router.push({ name: "TableLayout" })
-//       }
-//     }
-//   } else {
-//     router.push({ name: "TableLayout" })
-//   }
+  if (sale.sale.sale_products.length == 0) {
+    toaster.warning("There's no item to submit");
+    return;
+  }
 
-// }
+  if (!sale.isBillRequested()) {
+    sale.action = "submit_order";
+    sale.message = "Submit Order Successfully";
+    sale.sale.sale_status = "Submitted";
+    await sale.onSubmit().then((value) => {
+      if (value) {
+        router.push({ name: "AddSale" });
+        newSale();
+      }
+    });
+  } else {
+    router.push({ name: "AddSale" });
+    newSale();
+  }
+
+  sale.getTableSaleList();
+
+}
+
+function newSale() {
+  sale.sale.sale_products = [],
+    sale.sale.name = "";
+  sale.sale.creation = "";
+  sale.sale.modified = "";
+  sale.sale.sale_status = "New";
+  sale.updateSaleSummary();
+
+}
 
 
 </script>

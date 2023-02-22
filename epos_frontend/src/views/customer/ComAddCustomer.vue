@@ -1,13 +1,13 @@
 <template>
     <v-dialog v-model="open" style="max-width: 900px; width: 100%;" scrollable="false">
+        <form @submit.prevent="onSave"> 
         <v-card class="mx-auto my-0 w-full">
-            <ComToolbar @onClose="onClick">
+            <ComToolbar @onClose="onClose">
                 <template #title>
                     {{ params.title }}
                 </template>
             </ComToolbar>
             <v-card-text class="!px-3 overflow-auto ">  
-                <form @submit.prevent="onSave">
                 
                     <v-row>
                         <v-col cols="12" sm="6"  md="6" >
@@ -77,8 +77,7 @@
                     </v-row>
                     
                     <div> 
-                </div>   
-            </form>
+                </div>
             </v-card-text>
             <v-card-actions class="justify-end">
                 <v-btn variant="flat" type="button" @click="onClose" color="error">
@@ -89,6 +88,7 @@
                 </v-btn>
             </v-card-actions>
         </v-card>
+    </form>
     </v-dialog>
 </template>
 <script setup>
@@ -151,6 +151,7 @@ if(props.params.name){
 } 
 
 function onSave(){
+    alert()
     if(props.params.name){
         const saved = JSON.parse(JSON.stringify(customer.value))
         data.value.setValue.submit(saved);
@@ -162,19 +163,15 @@ function onSave(){
 }
 
 function onAddNew() {
+    
     customer.value.doctype = 'Customer'
     customerResource.submit({doc:customer.value}).then((res)=>{
         
         toaster.success("Add Customer is Successful");
         emit('resolve',res);
     })
-    console.log(customer.value);
 }
 function onClose() {
-    emit('resolve',false);
-}
- 
-function onClick() {
     emit('resolve',false);
 }
 </script>

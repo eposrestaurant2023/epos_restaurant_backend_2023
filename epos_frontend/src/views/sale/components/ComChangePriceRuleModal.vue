@@ -10,26 +10,15 @@
             </v-toolbar>
             <v-card-text class="p-0">
                 <div>
-                    <ComInput 
-                    autofocus
-                    ref="searchTextField"
-                    keyboard
-                    class="mb-4"
-                    v-model="search"
-                    placeholder="Search Price Rule"
-                    v-debounce="onSearch"
-                    @onInput="onSearch"/>
-                    <ComPlaceholder :is-not-empty="dataResource.data && dataResource.data.length > 0">
+                    {{ setting }}
+                    <ComPlaceholder :is-not-empty="setting.price_rules.length > 0">
                         <div>
-                            <v-chip 
-                                v-for="(item, index) in dataResource.data" 
+                            <v-card
+                                v-for="(item, index) in setting.price_rules" 
                                 :key="index"
-                                class="m-1" 
-                                @click="onSelect(item.name)"
-                                :size="mobile ? 'small' : 'default'">
-                                <v-icon start icon="mdi-checkbox-marked-circle-outline" v-if="selectedPriceRule == item.name" color="orange"></v-icon>
-                                {{ item.rule_name }}
-                            </v-chip>
+                                @click="onSelect(item)"
+                                :title="item">
+                            </v-card>
                         </div>
                     </ComPlaceholder>
                 </div>
@@ -46,7 +35,7 @@
     </v-dialog>
 </template>
 <script setup>
-import { ref, defineEmits, createToaster, createResource, inject } from '@/plugin'
+import { ref, defineEmits, createToaster, inject } from '@/plugin'
 import ComPlaceholder from '../../../components/layout/components/ComPlaceholder.vue';
 import { useDisplay } from 'vuetify'
 const {mobile} = useDisplay()
@@ -57,47 +46,10 @@ const props = defineProps({
 const toaster = createToaster({ position: "top" })
 
 const sale  = inject('$sale')
+const setting  = inject('$setting')
 let open = ref(true)
 let selectedPriceRule = ref(sale.setting.price_rule)
-let search = ref('')
-const searchFields = ref(["name","rule_name","note"]);
-
-
-  const dataResource = createResource({
-    url: "frappe.client.get_list",
-    params: getDataResourceParams(),
-    auto: true
-  });
-
  
-  function getDataResourceParams (){
-    return {  
-        doctype: "Price Rule",
-        fields: ["name", "rule_name", "note"],
-        order_by: "modified desc",
-        or_filters: getFilter(),
-        limit_page_length: 20
-    }
-  }
-
-  function getFilter(){
-    let filters = {};
-     searchFields.value.forEach((r)=>{
-      filters[r] = ["like",'%'+ search.value + '%']
-     })
-    
-     return filters;
-  }
-
-
-  function onSearch(keyword) {
-    search.value = keyword;
-    dataResource.params = getDataResourceParams()
-    dataResource.fetch()
-  }
-  function onSelect(name){
-    alert(name)
-  }
 function onClose() {
     emit('resolve',false)
 }

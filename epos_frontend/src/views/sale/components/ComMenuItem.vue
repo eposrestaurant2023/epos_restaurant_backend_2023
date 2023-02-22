@@ -36,7 +36,7 @@
         class="relative overflow-hidden h-full bg-cover bg-no-repeat rounded-lg shadow-lg cursor-pointer bg-gray-300 "
         v-bind:style="{ 'background-image': 'url(' + data.photo + ')' }" @click="onClickProduct()">
         <div class="absolute top-0 bottom-0 right-0 left-0" v-if="!data.photo">
-            <avatar class="!h-full !w-full" :name="data.name_en" :rounded="false"></avatar>
+            <avatar class="!h-full !w-full" :name="data.name_en" :rounded="false" background="#f1f1f1"></avatar>
         </div>
         <div class="block relative p-2 w-full h-full">
             <div class="absolute left-0 top-0 bg-red-700 text-white p-1 rounded-tl-lg rounded-br-lg text-sm">

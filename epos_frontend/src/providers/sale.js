@@ -47,6 +47,10 @@ export default class Sale {
             }
         );
 
+        //use this resource to load sale list in current table number
+        this.tableSaleListResource = null;
+
+
         
 
         this.createNewSaleResource();
@@ -59,7 +63,7 @@ export default class Sale {
         this.newSaleResource = createResource({
             url: "frappe.client.insert",
             onSuccess(doc) {
-                parent.sale = doc;
+               
                 parent.onProcessTaskAfterSubmit(doc);
                 parent.action = "";
                 if(parent.message!=undefined){
@@ -72,6 +76,7 @@ export default class Sale {
             }
         })
     }
+
     async newSale() {
         this.sale = {
             doctype: "Sale",
@@ -96,6 +101,7 @@ export default class Sale {
         // get current shift
         await this.getCashierShift()
     }
+
     getWorkingDay(saleName){
         const parent = this
         parent.working_day_resource = createResource({
@@ -150,6 +156,11 @@ export default class Sale {
                 parent.sale = doc;
                 parent.onProcessTaskAfterSubmit(doc);
                 parent.action = "";
+                //check if current table dont hanve any sale list data then load it
+                if(!parent.tableSaleListResource?.data){
+                   
+                    parent.getTableSaleList();
+                }
             },
             setValue: {
                 onSuccess(doc) {
@@ -163,11 +174,34 @@ export default class Sale {
                     else {
                         toaster.success("Updated");
                     }
+ 
+                 
                 },
 
             },
         })
 
+    }
+
+    getTableSaleList(){
+        if(this.sale.table_id){ 
+        const parent = this;
+      
+        this.tableSaleListResource = createResource({
+            url: "frappe.client.get_list",
+            params: {
+                doctype: "Sale",
+                fields: ["name", "creation", "grand_total", "total_quantity", "tbl_group", "tbl_number", "guest_cover", "grand_total", "sale_status", "sale_status_color", "sale_status_priority", "customer", "customer_name", "phone_number","customer_photo"],
+                filters: {
+                    pos_profile: localStorage.getItem("pos_profile"),
+                    table_id:parent.sale.table_id,
+                    docstatus: 0
+                },
+                limit_page_length:500,
+            },
+            auto:true,
+        })
+    }
     }
     getSaleProductGroupByKey(){
         if(!this.sale.sale_products){
@@ -382,13 +416,19 @@ export default class Sale {
     }
     async onSaleProductNote(sp) {
         if(!this.isBillRequested()){
-        const result = await noteDialog({ title: "Note", name: 'Items Note', data: sp });
-
-        if (result != false) {
-            sp.note = result
+            const result = await noteDialog({ title: "Note", name: 'Items Note', data: sp });
+            if (result != false) {
+                sp.note = result
+            }
         }
     }
-
+    async onSaleNote(p) {
+        if(!this.isBillRequested()){
+        const result = await noteDialog({ title: "Note", name: 'Sale Note', data: p });
+            if (result != false) {
+                p.note = result
+            }
+        }
     }
     async onSaleProductFree(sp) {
             let freeQty = 0;
@@ -584,7 +624,7 @@ export default class Sale {
                 }
                 
                 if (this.getString(this.sale.name) == "") {
-                    
+                
                     await this.newSaleResource.submit({ doc: doc })
                   
                 } else {
@@ -839,7 +879,6 @@ export default class Sale {
         const payments = Enumerable.from(this.sale.payment);
         const total_payment  = payments.sum("$.amount") ;
         this.sale.total_paid = total_payment ;
-        
         this.sale.balance =  this.sale.grand_total - total_payment  ;
         
         if(this.sale.balance<0){
@@ -852,6 +891,7 @@ export default class Sale {
         }
 
         this.action
-        
     }
+
+   
 }

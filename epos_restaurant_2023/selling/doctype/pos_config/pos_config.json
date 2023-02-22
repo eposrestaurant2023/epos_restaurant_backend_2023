@@ -21,6 +21,8 @@
   "second_currency_predefine_payment_amount",
   "table_groups_section",
   "table_groups",
+  "price_rules_section",
+  "price_rules",
   "pos_branding_tab",
   "login_background",
   "home_background",
@@ -229,7 +231,7 @@
   },
   {
    "fieldname": "section_break_32",
-   "fieldtype": "Section Break"
+   "fieldtype": "Column Break"
   },
   {
    "default": "1",
@@ -320,12 +322,23 @@
    "fieldtype": "Table",
    "label": "Table Group",
    "options": "POS Table Group"
+  },
+  {
+   "fieldname": "price_rules",
+   "fieldtype": "Table",
+   "label": "Price Rules",
+   "options": "POS Price Rule"
+  },
+  {
+   "fieldname": "price_rules_section",
+   "fieldtype": "Section Break",
+   "label": "Price Rules"
   }
  ],
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-02-21 22:53:53.383542",
+ "modified": "2023-02-22 12:02:19.021386",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Config",

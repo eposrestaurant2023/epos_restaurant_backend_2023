@@ -44,7 +44,7 @@
               </div>
               <div class="mb-3">
                 <div class="relative">
-                  <v-text-field type="password" density="compact" variant="solo" autofocus label="Password"
+                  <v-text-field :readonly="mobile" type="password" density="compact" variant="solo" autofocus label="Password"
                     append-inner-icon="mdi-arrow-left" single-line hide-details v-model="state.password" height="200"
                     @click:append-inner="onDeleteBack()"></v-text-field>
                 </div>
@@ -109,6 +109,9 @@
 </template>
 <script setup>
 import { reactive, inject, computed, useStore, useRouter, createResource, createToaster } from '@/plugin'
+import { useDisplay } from 'vuetify'
+ 
+const { mobile } = useDisplay()
 const toast = createToaster()
 const router = useRouter()
 

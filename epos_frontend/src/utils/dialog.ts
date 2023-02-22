@@ -24,6 +24,7 @@ import ComSmallCurrencyPrefineModel from '@/views/sale/components/mobile_screen/
 import ComChangeTable from '@/views/sale/components/ComChangeTable.vue';
 import ComChangePriceRuleModal from '@/views/sale/components/ComChangePriceRuleModal.vue';
 import ComSearchSaleModal from '@/views/sale/components/ComSearchSaleModal.vue'
+import ComChangeSaleTypeModal from '@/views/sale/components/ComChangeSaleTypeModal.vue'
 
 interface params {
     doctype?:String,
@@ -68,4 +69,5 @@ export  const smallCurrencyPrefineModel = createPromiseDialog<params, object>(Co
 export  const changeTableDialog = createPromiseDialog<params, object>(ComChangeTable);
 export  const changePriceRuleDialog = createPromiseDialog<params, object>(ComChangePriceRuleModal);
 export  const searchSaleDialog = createPromiseDialog<params, object>(ComSearchSaleModal);
+export  const changeSaleTypeModalDialog = createPromiseDialog<params, object>(ComChangeSaleTypeModal);
 

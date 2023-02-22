@@ -17,14 +17,18 @@
                 </div>
             </div>
             <div class="flex-none" v-if="sale.sale.customer != setting.customer">
+                <v-btn size="small" variant="text" color="primary" icon="mdi-account-plus"
+                    @click="onAddCustomer()"></v-btn>
                 <v-btn size="small" variant="text" color="primary" icon="mdi-account-edit"
                     @click="onViewCustomerDetail()"></v-btn>
                 <v-btn size="small" variant="text" color="error" icon="mdi-delete" @click="onRemove()"></v-btn>
 
             </div>
             <div class="flex-none" v-else>
-                <v-btn size="small" variant="text" color="primary" icon="mdi-magnify"
+                    <v-btn size="small" variant="text" color="primary" icon="mdi-magnify"
                     @click="onSearchCustomer()"></v-btn>
+                    <v-btn size="small" variant="text" color="primary" icon="mdi-account-plus"
+                    @click="onAddCustomer()"></v-btn>
                 <v-btn size="small" variant="text" color="primary" icon="mdi-qrcode-scan"
                     @click="onScanCustomerCode()"></v-btn>
             </div>
@@ -33,7 +37,7 @@
     </div>
 </template>
 <script setup>
-import { computed, inject, searchCustomerDialog, customerDetailDialog, scanCustomerCodeDialog, confirmDialog, onMounted,createToaster } from "@/plugin"
+import { computed, inject, searchCustomerDialog, customerDetailDialog, scanCustomerCodeDialog, confirmDialog, onMounted,createToaster,addCustomerDialog } from "@/plugin"
 const sale = inject("$sale")
 const toaster = createToaster({ position: "top" });
 async function onSearchCustomer() {
@@ -97,6 +101,16 @@ async function onRemove() {
     sale.sale.customer = setting.value.customer
     sale.sale.customer_name = setting.value.customer_name
     sale.sale.customer_photo = setting.value.customer_photo
+}
+async function onAddCustomer() {
+    const result = await addCustomerDialog ({title: "New Customer", value:  ''});
+    if(result != false){
+        sale.sale.customer = result.name
+        sale.sale.customer_name = result.customer_name_en
+        sale.sale.customer_photo = result.photo
+        sale.sale.phone_number = result.phone_number && result.phone_number_2 ? result.phone_number + ' / ' + result.phone_number_2 : (result.phone_number ? result.phone_number : result.phone_number_2)
+        sale.sale.customer_group = result.customer_group
+    }
 }
 
 onMounted(() => {

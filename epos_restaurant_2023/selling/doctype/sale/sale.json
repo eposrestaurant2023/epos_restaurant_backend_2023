@@ -90,8 +90,8 @@
   "sale_status_color",
   "sale_status_priority",
   "column_break_36",
-  "note",
-  "exchange_rate"
+  "exchange_rate",
+  "note"
  ],
  "fields": [
   {
@@ -619,7 +619,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-02-20 16:33:19.691159",
+ "modified": "2023-02-22 09:54:41.467062",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

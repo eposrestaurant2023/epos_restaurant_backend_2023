@@ -10,8 +10,8 @@
                     
                         <span v-if="$sale.sale.sale_status=='New'">  - New</span>
                         <span v-else>  - {{$sale.sale.name}}</span>
-
-                        <v-chip class="ml-2" variant="elevated" v-if="$sale.sale.name!=undefined" :color="$sale.sale.sale_status_color" :size="mobile ? 'x-small' : 'default'">
+                      
+                        <v-chip class="ml-2" variant="elevated" v-if="$sale.sale.name" :color="$sale.sale.sale_status_color" :size="mobile ? 'x-small' : 'default'">
                         {{ $sale.sale.sale_status }}
                         </v-chip>
                     </div>
@@ -76,7 +76,7 @@ import SaleLayoutDrawer from './SaleLayoutDrawer.vue';
 import ComTimeUpdate from './components/ComTimeUpdate.vue';
 import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue';
  
-import ComSaleNotivication from './ComSaleNotivication.vue';
+import ComSaleNotivication from './ComSaleNotification.vue';
 import { useDisplay } from 'vuetify'
 
 export default {

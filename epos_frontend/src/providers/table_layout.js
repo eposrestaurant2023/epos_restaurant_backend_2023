@@ -44,6 +44,7 @@ export default class TableLayout {
                     pos_profile: localStorage.getItem("pos_profile"),
                     docstatus: 0
                 },
+                limit_page_length:500,
             },
             auto:true,
             onSuccess(data) {

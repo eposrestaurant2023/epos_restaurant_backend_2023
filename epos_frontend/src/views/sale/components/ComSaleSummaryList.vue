@@ -1,5 +1,6 @@
 <template lang="">
-    <div class="px-2" v-if="(sale.sale.total_discount + sale.sale.total_tax) > 0">
+  <div class="px-2">
+    <template v-if="(sale.sale.total_discount + sale.sale.total_tax) > 0">
       <div class="flex justify-between my-1">
         <div>
           Sub Total
@@ -67,7 +68,18 @@
           <CurrencyFormat :value="sale.sale.total_tax" />
         </div>
       </div>
-    </div>
+    </template>
+ 
+      <div class="flex justify-between my-1" v-if="sale.sale.note">
+        <div>
+          Note
+        </div>
+        <div>
+          {{sale.sale.note}}
+        </div>
+      </div>
+ 
+  </div>
 </template>
 <script setup>
 import { inject } from 'vue'

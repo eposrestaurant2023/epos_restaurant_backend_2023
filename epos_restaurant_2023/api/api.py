@@ -23,6 +23,7 @@ def get_system_settings(pos_profile="", device_name=''):
     profile = frappe.get_doc("POS Profile",pos_profile)
     pos_config = frappe.get_doc("POS Config",profile.pos_config)
 
+
     doc = frappe.get_doc('ePOS Settings')
     table_groups = []
     for g in pos_config.table_groups:
@@ -43,6 +44,11 @@ def get_system_settings(pos_profile="", device_name=''):
     #main currency information
     main_currency = frappe.get_doc("Currency",frappe.db.get_default("currency"))
     second_currency = frappe.get_doc("Currency",frappe.db.get_default("second_currency"))
+
+    #get price rule
+    price_rules = []
+    for pr in pos_config.price_rules:
+        price_rules.append({"price_rule":pr.price_rule})
  
     pos_setting={
         "business_branch":profile.business_branch,
@@ -126,7 +132,8 @@ def get_system_settings(pos_profile="", device_name=''):
         "default_sale_type":profile.default_sale_type,
         "default_payment_type":profile.default_payment_type,
         "default_pos_receipt":default_pos_receipt,
-        "second_currency_payment_type":profile.second_currency_payment_type
+        "second_currency_payment_type":profile.second_currency_payment_type,
+        "price_rules":price_rules
         
     }
     return  data
