@@ -21,7 +21,7 @@
             </v-btn>
         </template>
         <v-list>
-            <v-list-item v-if="!mobile" @click="onX">
+            <v-list-item v-if="!mobile" @click="onEnableArrageTable">
                 <v-list-item-title>Arrange Table Layout</v-list-item-title>
             </v-list-item>
             <template v-if="mobile">
@@ -50,7 +50,7 @@ function onRefreshSale() {
     tableLayout.saleListResource.fetch();
 }
 
-function onX(){
+function onEnableArrageTable(){
     tableLayout.canArrangeTable = true;
 }
 function onChangeCurrentView() {
@@ -59,13 +59,12 @@ function onChangeCurrentView() {
 
 
 function onSaveTablePosition() {
-
-
     tableLayout.saveTablePositionResource.params = {
         "device_name": localStorage.getItem("device_name"),
         "table_group": JSON.parse(JSON.stringify(tableLayout.table_groups))
     };
     tableLayout.saveTablePositionResource.submit();
+    tableLayout.canArrangeTable = false;
 
 }
 

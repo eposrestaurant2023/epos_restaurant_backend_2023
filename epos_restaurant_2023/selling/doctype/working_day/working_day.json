@@ -10,7 +10,6 @@
  "field_order": [
   "naming_series",
   "posting_date",
-  "pos_profile",
   "business_branch",
   "column_break_5",
   "note",
@@ -60,13 +59,6 @@
    "label": "Closed Date"
   },
   {
-   "fieldname": "pos_profile",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "POS Profile",
-   "options": "POS Profile"
-  },
-  {
    "fieldname": "outlet",
    "fieldtype": "Link",
    "label": "Outlet",
@@ -84,7 +76,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-14 09:37:57.521182",
+ "modified": "2023-02-21 18:34:09.197864",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Working Day",

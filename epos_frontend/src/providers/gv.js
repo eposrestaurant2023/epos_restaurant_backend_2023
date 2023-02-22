@@ -6,6 +6,7 @@ export default class Gv {
 	constructor() {
 		this.setting = {},
 			this.customerMeta = null,
+			this.saleMeta = null,
 			this.countries = []
 
 			 

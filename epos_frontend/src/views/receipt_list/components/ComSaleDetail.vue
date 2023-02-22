@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="open" fullscreen>
+    <v-dialog v-model="open" fullscreen scrollable>
         <v-card>
             <ComToolbar @onClose="onClick"   :isMoreMenu="true">
                 <template #title>
@@ -41,7 +41,7 @@
                         </table>
                     </div>
                     <div>
-                        <table class="tbl-list ml-auto tbl-list-right">
+                        <table class="ml-auto tbl-list-right">
                             <tr>
                                 <td>Sale #</td>
                                 <td class="px-2">:</td>
@@ -84,7 +84,7 @@
                                         <img :src="p.product_photo" />
                                     </div>
                                 </th>
-                                <td>{{ p.product_code }} - {{ p.product_name }}</td>
+                                <th>{{ p.product_code }} - {{ p.product_name }}</th>
                                 <th>{{ p.unit }}</th>
                                 <th>{{ p.quantity }}</th> 
                                 <th class="text-right"><CurrencyFormat :value="p.price"/></th>
@@ -93,7 +93,7 @@
                         </tbody>
                     </v-table> 
                     <div>
-                        <table class="ml-auto">
+                        <table class="ml-auto tbl-list-right">
                             <tr v-if="sale.doc.total_quantity">
                                 <td>Total Quantity</td>
                                 <td class="px-2">:</td>
@@ -174,78 +174,77 @@
                 </v-card>
             </v-card-text>
             <v-card-text v-else>
-                <v-card class="text-sm text-gray-500" v-if="sale.doc">
-                    <v-row no-gutters>
+                <div v-if="sale.doc" class="text-sm">
+                    <v-row no-gutters >
                         <v-col>
-                            <v-sheet class="pa-2">
-                                <table class="min-w-full">   
-                                    <tr>
-                                        <tr >
-                                            <td>Code</td>
-                                            <td class="px-2">:</td>
-                                            <td>{{ sale.doc.customer }}</td>
-                                        </tr>
-                                        <tr >
-                                            <td>Name</td>
-                                            <td class="px-2">:</td>
-                                            <td>{{ sale.doc.customer_name }}</td>
-                                        </tr>
-                                        <tr v-if="sale.doc.phone_number">
-                                            <td>Phone</td>
-                                            <td class="px-2">:</td>
-                                            <td>{{ sale.doc.phone_number }}</td>
-                                        </tr>
-                                    </tr> 
+                            <v-sheet >
+                                <table>   
+                                    <tr >
+                                        <td>Code</td>
+                                        <td class="px-2">:</td>
+                                        <td>{{ sale.doc.customer }}</td>
+                                    </tr>
+                                    <tr >
+                                        <td>Name</td>
+                                        <td class="px-2">:</td>
+                                        <td>{{ sale.doc.customer_name }}</td>
+                                    </tr>
+                                    <tr v-if="sale.doc.phone_number">
+                                        <td>Phone</td>
+                                        <td class="px-2">:</td>
+                                        <td>{{ sale.doc.phone_number }}</td>
+                                    </tr>
                                 </table>
                             </v-sheet>
                         </v-col>
                         <v-col>
-                            <v-sheet class="pa-2">
-                                <table class="min-w-full">   
+                            <v-sheet>
+                                <table class="ml-auto">   
+                                     <tr>
+                                        <td>Sale #</td>
+                                        <td class="px-2">:</td>
+                                        <td class="text-right">{{ sale.doc.name }}</td>
+                                    </tr>
+                                    <tr >
+                                        <td>Date</td>
+                                        <td class="px-2">:</td>
+                                        <td class="text-right">{{ sale.doc.posting_date }}</td>
+                                    </tr>
                                     <tr>
-                                        <tr>
-                                            <td>Sale #</td>
-                                            <td class="px-2">:</td>
-                                            <td class="text-right">{{ sale.doc.name }}</td>
-                                        </tr>
-                                        <tr >
-                                            <td>Date</td>
-                                            <td class="px-2">:</td>
-                                            <td class="text-right">{{ sale.doc.posting_date }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Branch</td>
-                                            <td class="px-2">:</td>
-                                            <td class="text-right">{{ sale.doc.business_branch }}</td>
-                                        </tr>
-                                        <tr v-if="sale.doc.phone_number">
-                                            <td>Stock</td>
-                                            <td class="px-2">:</td>
-                                            <td class="text-right">{{ sale.doc.stock_location }}</td>
-                                        </tr>
-                                    </tr> 
+                                        <td>Branch</td>
+                                        <td class="px-2">:</td>
+                                        <td class="text-right">{{ sale.doc.business_branch }}</td>
+                                    </tr>
+                                    <tr v-if="sale.doc.phone_number">
+                                        <td>Stock</td>
+                                        <td class="px-2">:</td>
+                                        <td class="text-right">{{ sale.doc.stock_location }}</td>
+                                    </tr>
                                 </table>  
                             </v-sheet>
                         </v-col>
                     </v-row>
-                    <v-table class="text-sm text-gray-500">
-                        <thead>
+                    <v-table class="text-gray-500">
+                      
+                        <thead class="text-center">
                             <tr>
+                                <th>No</th>
                                 <th>Image</th>
                                 <th>Name</th>    
                                 <th>QTY</th>
-                                <th class="text-left">Price</th>
-                                <th class="text-left">Amount</th>
+                                <th>Price</th>
+                                <th>Amount</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody>                            
                             <tr v-for="(p, index) in saleProducts" :key="index">
-                                <th class="text-center">
+                                <th>{{ index + 1}}</th>
+                                <th class="text-left">
                                     <div class="w-8 h-8 overflow-hidden rounded-full bg-gray-200">
                                         <img :src="p.product_photo" />
                                     </div>
                                 </th>
-                                <td>{{ p.product_name }}</td>
+                                <th class="text-left">{{ p.product_name }}</th>
                                 <th class="text-center">{{ p.quantity }}</th> 
                                 <th class="text-left"><CurrencyFormat :value="p.price"/></th>
                                 <th class="text-left"><CurrencyFormat :value="p.amount"/></th>
@@ -331,7 +330,7 @@
                             </tr>
                         </table>
                     </div> 
-                </v-card>
+                </div>
             </v-card-text>
         </v-card>
     </v-dialog>

@@ -22,7 +22,8 @@ import ComViewBillModel from '@/views/sale/components/ComViewBillModel.vue';
 import ComSmallViewSaleProductListModel from '@/views/sale/components/mobile_screen/ComSmallViewSaleProductListModel.vue';
 import ComSmallCurrencyPrefineModel from '@/views/sale/components/mobile_screen/ComSmallCurrencyPrefineModel.vue';
 import ComChangeTable from '@/views/sale/components/ComChangeTable.vue';
-import ComChangePriceRuleModal from '@/views/sale/components/ComChangePriceRuleModal.vue'
+import ComChangePriceRuleModal from '@/views/sale/components/ComChangePriceRuleModal.vue';
+import ComSearchSaleModal from '@/views/sale/components/ComSearchSaleModal.vue'
 
 interface params {
     doctype?:String,
@@ -66,5 +67,5 @@ export  const smallViewSaleProductListModel = createPromiseDialog<params, object
 export  const smallCurrencyPrefineModel = createPromiseDialog<params, object>(ComSmallCurrencyPrefineModel);
 export  const changeTableDialog = createPromiseDialog<params, object>(ComChangeTable);
 export  const changePriceRuleDialog = createPromiseDialog<params, object>(ComChangePriceRuleModal);
-
+export  const searchSaleDialog = createPromiseDialog<params, object>(ComSearchSaleModal);
 

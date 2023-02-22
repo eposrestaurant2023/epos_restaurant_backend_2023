@@ -6,7 +6,7 @@
             {{ g.table_group }}
         </v-tab>
     </v-tabs>
-    <v-bottom-navigation  v-model="tableLayout.tab" v-else>
+    <v-bottom-navigation  v-model="tableLayout.tab"  v-if="tableLayout.table_groups && tableLayout.table_groups.length > 1 && mobile">
         <v-btn   v-for="g in tableLayout.table_groups" :key="g.key" :value="g.key" >
              
             {{ g.table_group }}

@@ -48,13 +48,7 @@ import OpenShiftButton from './shift/components/OpenShiftButton.vue';
 
 const auth = inject('$auth')
 let setting = JSON.parse(localStorage.getItem("setting"))
-const current_working_day = createResource({
-    url: "epos_restaurant_2023.api.api.get_current_working_day",
-    params: {
-        pos_profile: localStorage.getItem("pos_profile")
-    },
-    auto: true
-});
+ 
 
 const device_name = computed(() => {
     return localStorage.getItem('device_name')

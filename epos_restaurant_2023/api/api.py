@@ -25,7 +25,7 @@ def get_system_settings(pos_profile="", device_name=''):
 
     doc = frappe.get_doc('ePOS Settings')
     table_groups = []
-    for g in profile.table_groups:
+    for g in pos_config.table_groups:
         
         table_groups.append({"key":g.table_group.lower().replace(" ","_"),"table_group":g.table_group,"background":frappe.get_value("Table Group",g.table_group,"photo"),"tables":get_tables_number(g.table_group, device_name),"search_table_keyword":""})
     pos_menus = []
@@ -139,7 +139,8 @@ def get_tables_number(table_group,device_name):
             )
     background_color = frappe.db.get_default("default_table_number_background_color")
     for d in data:
-        d.background_color=background_color
+        d.background_color=background_color,
+        d.default_bg_color=background_color
         position = frappe.db.sql("select x,y,h,w from `tabePOS Table Position` where device_name='{}' and tbl_number='{}' limit 1".format(device_name,d.tbl_no ), as_dict=1)
         if position:
             for p in position:
@@ -163,9 +164,9 @@ def check_pos_profile(pos_profile_name):
 
 
 @frappe.whitelist()
-def get_current_working_day(pos_profile):
+def get_current_working_day(business_branch):
    
-    sql = "select name, posting_date, pos_profile, note from `tabWorking Day` where pos_profile = '{}' and is_closed = 0 order by creation limit 1".format(pos_profile)
+    sql = "select name, posting_date, pos_profile, note from `tabWorking Day` where business_branch = '{}' and is_closed = 0 order by creation limit 1".format(business_branch)
     data =  frappe.db.sql(sql, as_dict=1) 
     if data:
         return data [0]

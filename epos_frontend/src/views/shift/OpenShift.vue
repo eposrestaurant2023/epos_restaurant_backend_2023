@@ -41,12 +41,13 @@
 <script setup>
 
 import PageLayout from '../../components/layout/PageLayout.vue';
-import { createResource, ref, createToaster, useRouter, reactive, computed,confirm } from '@/plugin'
+import { createResource, ref, createToaster, useRouter, reactive, computed,inject } from '@/plugin'
 import moment from '@/utils/moment.js'
 import ComInputNumber from '../../components/ComInputNumber.vue';
 
 import ComInput from '../../components/form/ComInput.vue';
 
+const gv = inject("$gv")
 
 const opened_note = ref("")
 const working_date = ref("")
@@ -58,14 +59,14 @@ const totalCashFloat = computed(() => {
 })
 
 
-const business_branch = "SR Branch"
+ 
 const router = useRouter();
 const toaster = createToaster();
 
 const working_day = createResource({
     url: "epos_restaurant_2023.api.api.get_current_working_day",
     params: {
-        pos_profile: localStorage.getItem("pos_profile")
+        business_branch:gv.setting.business_branch
     },
     auto: true,
     onSuccess(data) {

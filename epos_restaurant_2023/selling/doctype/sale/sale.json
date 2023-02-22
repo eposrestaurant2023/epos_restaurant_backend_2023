@@ -619,7 +619,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-01-28 01:01:14.807041",
+ "modified": "2023-02-20 16:33:19.691159",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",
@@ -639,7 +639,7 @@
    "write": 1
   }
  ],
- "search_fields": "customer_name, posting_date",
+ "search_fields": "customer_name, phone_number",
  "show_name_in_global_search": 1,
  "sort_field": "modified",
  "sort_order": "DESC",

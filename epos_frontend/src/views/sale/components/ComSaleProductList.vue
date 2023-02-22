@@ -2,7 +2,7 @@
     <v-list class="!p-0">
         <v-list-item v-for="sp, index in sale.getSaleProducts(groupKey)" :key="index" @click="sale.onSelectSaleProduct(sp)"
             class="!border-t !border-gray-300 !mb-0 !p-2 item-list"
-            :class="{ 'selected': sp.selected, 'submitted': sp.sale_product_status == 'Submitted' }">
+            :class="{ 'selected': sp.selected, 'submitted relative': sp.sale_product_status == 'Submitted' }">
             <template v-slot:prepend>
                 <v-avatar v-if="sp.product_photo">
                     <v-img :src="sp.product_photo"></v-img>
@@ -113,7 +113,28 @@ function onChangePrice(sp) {
     background-color: #ffebcc !important;
 }
 
-.item-list.submitted::before {
+/* .item-list.submitted::after {
+    content: '*';
+    width: 12px;
+    background-color: #75c34a;
+    height: 12px;
+    position: absolute;
+    bottom: 2px;
+    left: 0px;
+    top: -1px;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    border-bottom-right-radius: 5px;
+} */
+.item-list.submitted::before{
     content: '';
+    position: absolute;
+    top: 1px; 
+    bottom: 1px;
+    left: 0px;
+    width: 2px;
+    background: #75c34a;
+    border-radius: 12px;
 }
 </style>

@@ -67,18 +67,10 @@ if (product.posMenuResource.data?.length == 0) {
 
 //check if new sale
 if (route.params.name == "") {
-    //
+    sale.newSale()
 } else {
     sale.LoadSaleData(route.params.name);
-
 }
-
-if (!store.state.sale.posMenu) {
-    store.dispatch('sale/onGetPosMenu')
-
-
-}
-
 document.onkeydown = function (e) {
     if (e.keyCode === 116) {
         return false;

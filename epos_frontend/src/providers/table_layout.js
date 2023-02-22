@@ -1,6 +1,6 @@
 import Enumerable from 'linq'
-import moment from '@/utils/moment.js';
-import {  keyboardDialog, createResource, createDocumentResource, addModifierDialog, useRouter, confirmDialog,saleProductDiscountDialog } from "@/plugin"
+
+import {  createResource } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
 
  
@@ -26,8 +26,9 @@ export default class TableLayout {
             url: "epos_restaurant_2023.api.api.save_table_position",
             onSuccess(d) {
                 toaster.success("Save table position successfully");
-                this.onEnableArrangeTable(false);
-                localStorage.setItem("table_groups", JSON.stringify(table_groups));
+               
+                localStorage.setItem("table_groups", JSON.stringify(parent.table_groups));
+                parent.onEnableArrangeTable(false);
         
             }
         })
@@ -48,17 +49,25 @@ export default class TableLayout {
             onSuccess(data) {
                 parent.table_groups.forEach(function (g) {
                     g.tables.forEach(function (t) {
+                    
                         t.sales = data.filter(r => r.tbl_group == g.table_group && r.tbl_number == t.tbl_no)
+                     
                         if (t.sales.length > 0) {
                             t.guest_cover = t.sales.reduce((n, r) => n + r.guest_cover, 0)
                             t.grand_total = t.sales.reduce((n, r) => n + r.grand_total, 0)
                             t.background_color = t.sales.sort((a, b) => a.sale_status_priority - b.sale_status_priority)[0].sale_status_color;
                             t.creation = Enumerable.from(t.sales).orderBy("$.creation").select("$.creation").toArray()[0]
+                        }else{
+                            t.guest_cover = 0;
+                            t.grand_total = 0;
+                            t.creation = null;
+                            t.background_color = t.default_bg_color;
+      
                         }
 
                     })
                 })
-                //loading()
+              
             }
         });
     }
@@ -70,27 +79,21 @@ export default class TableLayout {
          
     }
     
+    onResizeEnd(t) { 
+        return function (d) {
+            t.h = d.h;
+            t.w = d.w;
+            t.x = d.x;
+            t.y = d.y;
     
+        }
+    }
 
     onEnableArrangeTable(status) {
-        if (status) {
-            this.isLoading = true;
-        }
-        this.canArrangeTable =!this.canArrangeTable ;// status;
-        // this.table_groups.forEach((d) => {
+      
+                this.canArrangeTable = status;
 
-        //     d.tables.forEach((t) => {
-        //         alert(t.w)
-        //         t.dragable = status;
-        //         t.resizable = status;
-        //     })
-        // });
-        // if (status) {
-        //     setTimeout(() => {
-        //         this.isLoading= false;
-
-        //     }, 100);
-        // }
+        
 
     }
     

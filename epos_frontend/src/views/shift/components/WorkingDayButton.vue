@@ -8,14 +8,17 @@
 </template>
 <script setup>
     import ComButton from '../../../components/ComButton.vue';
-    import {createResource,useRouter } from "@/plugin"
+    import {createResource,useRouter,inject } from "@/plugin"
+
+    const gv = inject("$gv")
+
     
     const router = useRouter();
     
     const current_working_day = createResource({
         url: "epos_restaurant_2023.api.api.get_current_working_day",
         params: {
-            pos_profile: localStorage.getItem("pos_profile")
+            business_branch: gv.setting.business_branch
         },
         auto: true,
         

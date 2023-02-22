@@ -15,15 +15,20 @@
   "business_name_kh",
   "address",
   "address_kh",
+  "column_break_8",
   "phone_number",
-  "login_background",
-  "home_background",
-  "thank_you_background",
-  "customer_display_slideshow_section",
-  "customer_display_slideshow",
-  "thank_you_message",
   "main_currency_predefine_payment_amount",
   "second_currency_predefine_payment_amount",
+  "table_groups_section",
+  "table_groups",
+  "pos_branding_tab",
+  "login_background",
+  "home_background",
+  "column_break_15",
+  "thank_you_background",
+  "thank_you_message",
+  "customer_display_slideshow_section",
+  "customer_display_slideshow",
   "permission_and_note_tab",
   "cancel_print_bill_required_password",
   "column_break_17",
@@ -291,12 +296,36 @@
    "fieldname": "change_price_rule_require_password",
    "fieldtype": "Check",
    "label": "Change Price Rule Require Password"
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pos_branding_tab",
+   "fieldtype": "Tab Break",
+   "label": "POS Branding"
+  },
+  {
+   "fieldname": "column_break_15",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "table_groups_section",
+   "fieldtype": "Section Break",
+   "label": "Table Groups"
+  },
+  {
+   "fieldname": "table_groups",
+   "fieldtype": "Table",
+   "label": "Table Group",
+   "options": "POS Table Group"
   }
  ],
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-02-17 11:26:04.723692",
+ "modified": "2023-02-21 22:53:53.383542",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Config",

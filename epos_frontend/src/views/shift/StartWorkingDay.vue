@@ -17,10 +17,10 @@
  
 <script setup>
 import moment from '@/utils/moment.js'
-import { ref, createResource,useRouter,createToaster } from '@/plugin'
+import { ref, createResource,useRouter,createToaster,inject } from '@/plugin'
 import PageLayout from '../../components/layout/PageLayout.vue';
 import ComInput from '../../components/form/ComInput.vue';
-
+const gv = inject("$gv")
 const router = useRouter()
 const pos_profile = localStorage.getItem("pos_profile");
 const note = ref("")
@@ -31,7 +31,7 @@ const toaster = createToaster({ /* options */ });
 createResource({
     url: "epos_restaurant_2023.api.api.get_current_working_day",
     params: {
-        pos_profile: localStorage.getItem("pos_profile")
+        business_branch: gv.setting.business_branch
     },
     auto: true,
     onSuccess(data){

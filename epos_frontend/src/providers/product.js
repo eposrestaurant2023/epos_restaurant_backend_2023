@@ -14,6 +14,9 @@ export default class Product {
         this.prices = [];
         this.modifiers = [];
         this.keyword="";
+        this.currentRootPOSMenu = null
+
+        
 
      this.posMenuResource = createResource({
         url: 'epos_restaurant_2023.api.product.get_product_by_menu',
@@ -23,14 +26,13 @@ export default class Product {
         auto:true,
         cache:["pos_menu"]
     })
-
 	}
     
     loadPOSMenu(){
        
         this.posMenuResource.update({
             params:{
-                root_menu:this.setting?.default_pos_menu
+                root_menu: this.currentRootPOSMenu?? this.setting?.default_pos_menu
             }
         });
         this.posMenuResource.reload();

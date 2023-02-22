@@ -102,7 +102,10 @@ function onClose() {
     emit('resolve',false)
 }
 function onOK(){
-    emit('resolve', result)
+    sale.sale.price_rule = result;
+    sale.setting.price_rule = result;
+
+    emit('resolve', true)
 }
  
 </script>

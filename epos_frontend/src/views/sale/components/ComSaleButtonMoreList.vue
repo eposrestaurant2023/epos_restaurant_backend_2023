@@ -10,7 +10,7 @@
     <v-list-item prepend-icon="mdi-cash-100" title="Change Sale Type" @click="onViewInvoice()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Tax Setting" @click="onViewInvoice()"/>
     <v-divider inset></v-divider>
-    <v-list-item @click="onViewInvoice()">
+    <v-list-item v-if="sale.sale.name" @click="onViewInvoice()">
         <template #prepend>
             <v-icon color="error" icon="mdi-delete"></v-icon>
         </template>

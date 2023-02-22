@@ -1,17 +1,17 @@
 <template>
-    <v-dialog :scrollable="false" v-model="open" :fullscreen="mobile" :style="mobile ? '' : 'width: 100%;max-width:800px'" @update:modelValue="onClose">
+    <v-dialog :scrollable="false" v-model="open" :fullscreen="mobile" :style="mobile ? '' : 'width: 100%;max-width:900px'" @update:modelValue="onClose">
         <v-card class="mx-auto my-0">
             <ComToolBar @onClose="onClose">
                 <template #title>
                     {{ params.data.product_name }}
                 </template>
             </ComToolbar>
-            <v-card-text class="!px-2 overflex-y-auto">
+            <v-card-text class="overflex-y-auto">
                 <v-row>
                     <v-col cols="12" md="7">
                         <div class="mb-2">
                             <div class="mb-2">
-                                <ComInput keyboard v-model="price" type="number" class="mb-2" label="Enter Price" :required-autofocus="true"/>
+                                <ComInput v-model="price" type="number" keyboard class="mb-2" label="Enter Price" :required-autofocus="true"/>
                                 <ComInput :autofocus="!mobile" keyboard v-model="search" v-debounce="onSearch" label="Search or Add Note"/>
                                 <v-alert class="mt-4" v-if="getSelectedNote() != ''"
                                     :text="getSelectedNote()"></v-alert>
@@ -29,8 +29,8 @@
                             </div>
                         </div>
                     </v-col>
-                    <v-col cols="12" md="5" v-if="!mobile">
-                        <ComInlineInputNumber v-model="price" :disabled="isDeleteNote"/>
+                    <v-col cols="12" md="5" v-if="!mobile"> 
+                        <ComInlineInputNumber :hide-input="true" title="Enter Price" v-model="price" :disabled="isDeleteNote"/>
                     </v-col>
                 </v-row> 
             </v-card-text>
@@ -148,7 +148,7 @@ function onOK() {
         toast.warning("Please select or enter note");
         return;
     }
-    emit('resolve', { product_name: selectedNote, price: price.value })
+    emit('resolve', { product_name: selectedNote, price: parseFloat(price.value) })
 
 }
 
