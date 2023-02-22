@@ -8,9 +8,9 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>POS/PenhHousePhnomPenh/2023/Reports</TargetReportFolder>
-    <TargetDatasetFolder>POS/PenhHousePhnomPenh/2023/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>POS/PenhHousePhnomPenh/2023/DataSources</TargetDatasourceFolder>
+    <TargetReportFolder>POS/SoupMares/2023/Reports</TargetReportFolder>
+    <TargetDatasetFolder>POS/SoupMares/2023/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>POS/SoupMares/2023/DataSources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://192.168.10.20:31401/reportserver</TargetServerURL>
   </PropertyGroup>

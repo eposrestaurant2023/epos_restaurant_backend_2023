@@ -30,5 +30,6 @@ namespace eModels
 
         [NotMapped]
         public decimal purchase_order_total_cost { get; set; }
+
     }
 }
