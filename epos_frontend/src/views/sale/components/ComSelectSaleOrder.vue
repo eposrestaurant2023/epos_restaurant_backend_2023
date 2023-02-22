@@ -1,6 +1,6 @@
 
 <template>
-    <v-dialog v-model="open" width="960">
+    <v-dialog v-model="open" width="960" :fullscreen="mobile"  @update:modelValue="onClose">
         <v-card>
 
             <ComToolbar @onClose="onClose">
@@ -49,6 +49,9 @@
 import { ref, useStore, useRouter,keyboardDialog } from '@/plugin'
 import ComToolbar from '@/components/ComToolbar.vue';
 import { Timeago } from 'vue2-timeago'
+import { useDisplay } from 'vuetify'
+ 
+ const { mobile } = useDisplay()
 const store = useStore()
 const router = useRouter()
 

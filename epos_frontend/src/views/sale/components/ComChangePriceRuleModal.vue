@@ -9,16 +9,17 @@
                 </v-toolbar-items>
             </v-toolbar>
             <v-card-text class="p-0">
-                <div>
-                    {{ setting }}
-                    <ComPlaceholder :is-not-empty="setting.price_rules.length > 0">
-                        <div>
-                            <v-card
-                                v-for="(item, index) in setting.price_rules" 
+                <div> 
+                    <ComPlaceholder :is-not-empty="price_rules.length > 0">
+                        <div class="p-1">
+                            <v-list color="primary">
+                                <v-list-item
+                                v-for="(item, index) in price_rules" 
                                 :key="index"
-                                @click="onSelect(item)"
-                                :title="item">
-                            </v-card>
+                                @click="onSelect(item.price_rule)"
+                                :title="item.price_rule">
+                                </v-list-item>
+                            </v-list> 
                         </div>
                     </ComPlaceholder>
                 </div>
@@ -46,7 +47,7 @@ const props = defineProps({
 const toaster = createToaster({ position: "top" })
 
 const sale  = inject('$sale')
-const setting  = inject('$setting')
+const price_rules  = JSON.parse(localStorage.getItem('setting')).price_rules;
 let open = ref(true)
 let selectedPriceRule = ref(sale.setting.price_rule)
  
