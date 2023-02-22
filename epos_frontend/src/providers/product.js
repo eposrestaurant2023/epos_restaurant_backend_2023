@@ -9,23 +9,21 @@ export default class Product {
 	constructor() {
 		this.setting = null;
         this.parentMenu="";
-        this.searchProductKeyweord="";
+        this.searchProductKeyword="";
+        this.searchProductKeywordStore="";
         this.selectedProduct = {};
         this.prices = [];
         this.modifiers = [];
         this.keyword="";
         this.currentRootPOSMenu = null
-
-        
-
-     this.posMenuResource = createResource({
-        url: 'epos_restaurant_2023.api.product.get_product_by_menu',
-        params: {
-            root_menu: this.setting?.default_pos_menu
-        },
-        auto:true,
-        cache:["pos_menu"]
-    })
+        this.posMenuResource = createResource({
+            url: 'epos_restaurant_2023.api.product.get_product_by_menu',
+            params: {
+                root_menu: this.setting?.default_pos_menu
+            },
+            auto:true,
+            cache:["pos_menu"]
+        })
 	}
     
     loadPOSMenu(){
@@ -39,7 +37,7 @@ export default class Product {
     }
     getPOSMenu(){
         
-    if (this.getString(this.searchProductKeyweord) == "") {
+    if (this.getString(this.searchProductKeyword) == "") {
            
             if (this.parentMenu) {
                 return this.posMenuResource.data?.filter(r => r.parent == this.parentMenu)
@@ -56,7 +54,7 @@ export default class Product {
         } else {
            
             return this.posMenuResource.data?.filter((r) => {
-                return String( r.name_en + ' ' + r.name_kh + ' ' + r.name ).toLocaleLowerCase().includes(this.searchProductKeyweord.toLocaleLowerCase())  && r.type =="product"
+                return String( r.name_en + ' ' + r.name_kh + ' ' + r.name ).toLocaleLowerCase().includes(this.searchProductKeyword.toLocaleLowerCase())  && r.type =="product"
             })
         }
     }

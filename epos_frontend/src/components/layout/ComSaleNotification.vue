@@ -20,9 +20,7 @@ async function onSearchSale(){
 if (sp.where("$.name==undefined").toArray().length > 0) {
     toaster.warning("Please submit your current order first");
     
-}else { 
-
-
+}else {
     const result = await searchSaleDialog({ })
     if(result != false){ 
         router.push({

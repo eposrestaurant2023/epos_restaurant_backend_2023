@@ -27,9 +27,10 @@
      
 </template>
 <script setup>
-    import {viewBillModelModel, inject,keyboardDialog, changeTableDialog, changePriceRuleDialog,changeSaleTypeModalDialog} from "@/plugin"
-
+    import {viewBillModelModel, inject,keyboardDialog, changeTableDialog, changePriceRuleDialog,changeSaleTypeModalDialog, createToaster} from "@/plugin"
+    const toaster = createToaster({position: 'top'})
     const sale = inject('$sale')
+    const product = inject('$product')
     const setting = JSON.parse(localStorage.getItem("setting"))
     async function onViewBill(){
         const result = await viewBillModelModel({})
@@ -55,14 +56,23 @@ async function onChangeTable(){
     }
 }
 async function onChangePriceRule(){
+    if(sale.sale.sale_status != 'New'){
+        toaster.warning("This sale order is not new order.");
+        return;
+    }
     if(!sale.isBillRequested()){
         const result = await changePriceRuleDialog({})
+        if(result == true){
+            product.loadPOSMenu()
+            toaster.success("Price Rule Was Change Successfull");
+        }
     }
 }
 function onRemoveSaleNote(){
     sale.sale.note = ''
 }
 async function onChangeSaleType(){
+    
     const result = await changeSaleTypeModalDialog({})
 }
 </script>

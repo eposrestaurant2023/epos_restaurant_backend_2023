@@ -1,6 +1,6 @@
 <template>
   <v-dialog :fullscreen="mobile" v-model="open" @update:modelValue="onClose"
-    :style="mobile ? '' : 'width: 100%;max-width:800px'">
+    :style="mobile ? '' : 'width: 100%;max-width:1200px'">
     <v-card class="mx-auto my-0 w-full">
       <ComToolbar @onClose="onClose">
         <template #title>
@@ -8,33 +8,28 @@
         </template>
       </ComToolbar>
       <div>
-        <ComInput autofocus ref="searchTextField" keyboard class="m-4" v-model="search" placeholder="Search Sale"
-         />
+        <ComInput autofocus ref="searchTextField" keyboard class="m-2" v-model="search" placeholder="Search Sale"/>
       </div>
-      <div class="overflow-auto px-4 pb-4">
-        <v-row>
-          <v-col sm="12" md="6" v-for="(s, index) in getSaleList()" :key="index">
-            <v-card class="mx-auto" prepend-icon="mdi-home" :color="s.sale_status_color" @click="onSelect(s)">
-              <template v-slot:title>
-                This is a title
-              </template>
-
-              <v-card-text>
-                {{ s }}
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+      <div class="overflow-auto px-2 pb-2">
+        <ComPlaceholder :is-not-empty="getSaleList().length > 0">
+          <v-row class="!-m-1">
+            <v-col class="!p-0" cols="12" md="6" v-for="(s, index) in getSaleList()" :key="index">
+              <ComSaleListItem :sale="s" @click="onSelect(s)"/>
+            </v-col>
+          </v-row> 
+        </ComPlaceholder>
       </div>
     </v-card>
   </v-dialog>
 </template>
 <script setup>
-import moment from '@/utils/moment.js';
+
 import { ref, defineProps, defineEmits, inject } from '@/plugin'
 import ComToolbar from '@/components/ComToolbar.vue';
 import ComInput from '@/components/form/ComInput.vue';
 import { useDisplay } from 'vuetify'
+import ComSaleListItem from './ComSaleListItem.vue';
+import ComPlaceholder from '../../../components/layout/components/ComPlaceholder.vue';
 
 const { mobile } = useDisplay()
 

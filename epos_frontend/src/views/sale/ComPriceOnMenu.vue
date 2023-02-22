@@ -15,7 +15,8 @@
     })
     const sale = inject('$sale')
 
-    const prices = JSON.parse(props.prices).filter(r=>r.branch == sale.sale.business_branch && r.price_rule == sale.sale.price_rule)
+    const prices = JSON.parse(props.prices).filter(r=>(r.branch == sale.sale.business_branch || r.branch == '') && r.price_rule == sale.sale.price_rule)
+ 
     const showPrice = computed(()=>{
         if(prices.length == 1){
             return prices[0].price

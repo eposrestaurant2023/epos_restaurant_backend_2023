@@ -19,8 +19,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Business Branch",
-   "options": "Business Branch",
-   "reqd": 1
+   "options": "Business Branch"
   },
   {
    "fieldname": "price_rule",
@@ -63,7 +62,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-12-08 10:28:04.485683",
+ "modified": "2023-02-22 14:43:32.212868",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Product Price",

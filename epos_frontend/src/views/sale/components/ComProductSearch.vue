@@ -7,7 +7,7 @@
                 variant="outlined"
                 placeholder="Search..."
                 prepend-inner-icon="mdi-magnify"
-                v-model="search"
+                v-model="product.searchProductKeywordStore"
                 v-debounce="onSearch"
                 @onInput="onSearch"
                 />
@@ -18,7 +18,7 @@
 import { inject,ref, defineProps }   from '@/plugin';
 import ComInput from '../../../components/form/ComInput.vue';
 const product =inject("$product") 
-let search = ref('')
+ 
 const props = defineProps({
     small: {
         type: Boolean,
@@ -26,7 +26,7 @@ const props = defineProps({
     }
 });
 function onSearch(key) {
-    product.searchProductKeyweord = key;
+    product.searchProductKeyword = key;
 }
-
+ 
 </script>

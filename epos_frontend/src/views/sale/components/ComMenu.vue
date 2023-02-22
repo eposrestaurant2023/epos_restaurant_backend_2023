@@ -1,11 +1,11 @@
 <template>
     <div class="h-full">
         <div class="grid h-full" style="grid-template-rows: max-content;">
-            <div>
+            <div> 
                 <ComShortcut/>
             </div>
             <div class="pa-2 h-full bg-cover bg-no-repeat bg-center overflow-y-auto" v-bind:style="{'background-image': 'url(' + backgroundImage + ')' }" id="wrap_menu">
-                <ComPlaceholder v-if="!product.posMenuResource.loading" :is-not-empty="product.posMenuResource.data?.length > 0" class-color="text-white" :is-placeholder="true">
+                <ComPlaceholder :loading="product.posMenuResource.loading" :is-not-empty="product.posMenuResource.data?.length > 0" class-color="text-white" :is-placeholder="true">
                     <template #default>
                         <div class="grid gap-2" :class="mobile ? 'grid-cols-2' : 'sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'" v-if="product.posMenuResource.data?.length > 0">
                             <div v-for="(m, index) in product.getPOSMenu()" :key="index" class="h-36">
