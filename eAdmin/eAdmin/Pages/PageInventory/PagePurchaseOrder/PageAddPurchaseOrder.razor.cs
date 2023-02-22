@@ -119,6 +119,9 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             }); 
             model.purchase_order_products = purchase_order_products;
             model.total_amount = model.sub_total - model.grand_total_discount; 
+
+
+
         }
         public async Task LoadValidateVendor()
         {

@@ -140,7 +140,16 @@
     {
         get
         {
-            return gv.currencies.Where((r => !r.is_main)).ToList().SelectMany(x => x.business_branch_currencies.Where(r => r.business_branch_id == model.business_branch_id)).ToList();
+            var val = gv.currencies.Where((r => !r.is_main)).ToList().SelectMany(x => x.business_branch_currencies.Where(r => r.business_branch_id == model.business_branch_id)).ToList();
+            var data = JsonSerializer.Deserialize<List<BusinessBranchCurrencyModel>>(JsonSerializer.Serialize(val));
+
+            data.ForEach((x) =>
+            {
+                x.purchase_order_cost = Convert.ToDecimal(Convert.ToDouble(purchase_order_product.cost) * x.exchange_rate);
+                x.purchase_order_total_cost = (x.purchase_order_cost * purchase_order_product.quantity) - Convert.ToDecimal(Convert.ToDouble(purchase_order_product.total_discount) * x.exchange_rate);
+            });
+
+            return data;
         }
     }
 
