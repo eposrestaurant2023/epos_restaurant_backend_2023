@@ -1,16 +1,16 @@
 <template> 
- 
-    <v-list-item prepend-icon="mdi-eye-outline" title="View Bill" @click="onViewBill()"/>
-    <v-list-item @click="onRemoveSaleNote()"  v-if="sale.sale.note">
-        <template v-slot:prepend>
-            <v-icon icon="mdi-note-outline" color="error"></v-icon>
-        </template>
-        <v-list-item-title class="text-red-700">Remove Note</v-list-item-title>
-    </v-list-item>
-    <v-list-item prepend-icon="mdi-note-outline" title="Note" @click="sale.onSaleNote(sale.sale)" v-else/>
-    
+     <v-list-item prepend-icon="mdi-eye-outline" title="View Bill" @click="onViewBill()"/>
+    <template v-if="mobile">
+        <v-list-item @click="onRemoveSaleNote()"  v-if="sale.sale.note">
+            <template v-slot:prepend>
+                <v-icon icon="mdi-note-outline" color="error"></v-icon>
+            </template>
+            <v-list-item-title class="text-red-700">Remove Note</v-list-item-title>
+        </v-list-item>
+        <v-list-item prepend-icon="mdi-note-outline" title="Note" @click="sale.onSaleNote(sale.sale)" v-else/>
+    </template>
     <v-list-item prepend-icon="mdi-bulletin-board" title="Change Price Rule" @click="onChangePriceRule()"/>
-    <v-list-item prepend-icon="mdi-cash-100" title="Open Cash Drawer" @click="onViewInvoice()"/>
+    <v-list-item v-if="localStorage.getItem('is_window')==1" prepend-icon="mdi-cash-100" title="Open Cash Drawer" @click="onOpenCashDrawer()"/>
     <v-list-item prepend-icon="mdi-account-multiple-outline" title="Change Table" @click="onChangeTable()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Merge Table/Bill" @click="onViewInvoice()"/>
     <v-list-item prepend-icon="mdi-cash-100" title="Split Bill" @click="onViewInvoice()"/>
@@ -28,8 +28,11 @@
 </template>
 <script setup>
     import {viewBillModelModel, inject,keyboardDialog, changeTableDialog, changePriceRuleDialog,changeSaleTypeModalDialog, createToaster} from "@/plugin"
+    import { useDisplay } from 'vuetify'
+    const {mobile} = useDisplay()
     const toaster = createToaster({position: 'top'})
     const sale = inject('$sale')
+    const gv = inject('$gv')
     const product = inject('$product')
     const setting = JSON.parse(localStorage.getItem("setting"))
     async function onViewBill(){
@@ -43,7 +46,6 @@
             if (sale.sale.guest_cover == undefined || isNaN(sale.sale.guest_cover)) {
                 sale.sale.guest_cover = 0;
             }
-
         } else { 
             return;
         }
@@ -75,4 +77,14 @@ async function onChangeSaleType(){
     
     const result = await changeSaleTypeModalDialog({})
 }
+
+function onOpenCashDrawer(){
+    gv.authorize("open_cashdrawer_require_password", "open_cashdrawer").then((v) => {
+                if (v) {
+                  window.chrome.webview.postMessage(JSON.stringify({action:"open_cashdrawer"}));
+                }
+            });
+
+}
+
 </script>

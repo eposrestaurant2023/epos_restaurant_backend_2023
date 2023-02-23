@@ -25,6 +25,7 @@ import ComChangeTable from '@/views/sale/components/ComChangeTable.vue';
 import ComChangePriceRuleModal from '@/views/sale/components/ComChangePriceRuleModal.vue';
 import ComSearchSaleModal from '@/views/sale/components/ComSearchSaleModal.vue'
 import ComChangeSaleTypeModal from '@/views/sale/components/ComChangeSaleTypeModal.vue'
+import ComAddCashDrawerModal from '@/views/cash_drawer/components/ComAddCashDrawerModal.vue'
 
 interface params {
     doctype?:String,
@@ -70,4 +71,5 @@ export  const changeTableDialog = createPromiseDialog<params, object>(ComChangeT
 export  const changePriceRuleDialog = createPromiseDialog<params, object>(ComChangePriceRuleModal);
 export  const searchSaleDialog = createPromiseDialog<params, object>(ComSearchSaleModal);
 export  const changeSaleTypeModalDialog = createPromiseDialog<params, object>(ComChangeSaleTypeModal);
+export  const addCashDrawerModalDialog = createPromiseDialog<params, object>(ComAddCashDrawerModal);
 

@@ -13,6 +13,7 @@ import TestPage from "../views/TestPage.vue";
 import ToDo from "../views/ToDo.vue";
 import ReceiptList from "@/views/receipt_list/ReceiptList.vue"
 import StartupConfig from "@/views/checking_system/StartupConfig.vue"
+import CashDrawer from "@/views/cash_drawer/CashDrawer.vue"
  
 import authRoutes from './auth';
 
@@ -30,6 +31,7 @@ const routes = [
   { path: "/epos_frontend/close-shift", name: "CloseShift", component: CloseShift, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/start-working-day", name: "StartWorkingDay", component: StartWorkingDay, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/close-working-day", name: "CloseWorkingDay", component: CloseWorkingDay, meta: { layout: "main_layout" } },
+  { path: "/epos_frontend/cash-drawer", name: "CashDrawer", component: CashDrawer, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/test-page", name: "TestPage", component: TestPage, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/todo", name: "ToDo", component: ToDo, meta: { layout: "main_layout" } },
 

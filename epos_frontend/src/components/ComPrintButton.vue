@@ -5,8 +5,11 @@
         <v-menu v-else>
         <template v-slot:activator="{ props }">
 
-            <v-btn icon @click="$emit('onClose')" :loading="printFormatResource.loading" v-bind="props">
+            <v-btn v-if="title==''" icon @click="$emit('onClose')" :loading="printFormatResource.loading" v-bind="props">
                 <v-icon>mdi-printer</v-icon>
+            </v-btn>
+            <v-btn v-else  @click="$emit('onClose')" :loading="printFormatResource.loading" v-bind="props">
+                {{ title }}
             </v-btn>
 
             

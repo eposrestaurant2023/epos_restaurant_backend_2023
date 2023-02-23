@@ -1,5 +1,5 @@
 <template>
-    <v-card class="m-1" :color="sale.sale_status_color">
+    <v-card class="m-2" >
         <v-card-text class="!p-2">
             <div class="flex">
                 <div class="flex-none flex items-center">
@@ -15,7 +15,7 @@
                                 <span :class="mobile ? '' : 'text-lg'">{{ sale.customer }} - {{ sale.customer_name }}</span>
                                 <v-chip class="mx-1" prepend-icon="mdi-account-multiple-outline" size="x-small"
                                     v-if="sale.guest_cover > 0">{{ sale.guest_cover }}</v-chip>
-                                <v-chip class="mx-1" size="x-small" v-if="sale.sale_status">{{ sale.sale_status
+                                <v-chip :color="sale.sale_status_color" class="mx-1" size="x-small" v-if="sale.sale_status">{{ sale.sale_status
                                 }}</v-chip>
                             </div>
                             <div class="text-xs">

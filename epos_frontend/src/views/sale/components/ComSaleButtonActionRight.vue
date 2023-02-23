@@ -2,9 +2,8 @@
     <div class="overflow-hidden">
       <div class="button-group">
         <div class="d-flex text-center">
-          <div class="cursor-pointer p-2 grow bg-white hover:bg-gray-400">Submit & New</div>
-          <div class="cursor-pointer p-2 grow bg-orange-600 text-white hover:bg-orange-700">Quick
-            Pay</div>
+          <div class="cursor-pointer p-2 grow bg-red-600 text-white hover:bg-red-700" v-if="sale.sale.note" @click="sale.sale.note = ''">Remove Note</div>
+          <div class="cursor-pointer p-2 grow bg-white hover:bg-gray-400" @click="sale.onSaleNote(sale.sale)" v-else>Note</div>
           <ComSaleButtonMore />
         </div>
       </div>

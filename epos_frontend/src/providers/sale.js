@@ -731,6 +731,10 @@ export default class Sale {
             if(this.isPrintReceipt==true){
                 this.onPrintReceipt(this.pos_receipt, "print_receipt", doc);
             }
+            //open cashdrawer
+            if(localStorage.getItem("is_window")=="1"){
+                window.chrome.webview.postMessage(JSON.stringify({action:"open_cashdrawer"}));
+            }
            
             this.onPrintToKitchen(doc);
         }

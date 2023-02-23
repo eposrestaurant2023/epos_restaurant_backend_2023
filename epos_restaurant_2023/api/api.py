@@ -82,6 +82,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "second_currency_predefine_payment_amount":pos_config.second_currency_predefine_payment_amount,
         "open_order_required_password":pos_config.open_order_required_password,
         "change_price_rule_require_password":pos_config.change_price_rule_require_password,
+        "open_cashdrawer_require_password":pos_config.open_cashdrawer_require_password
         }
     
     #get default customre
@@ -298,7 +299,11 @@ def get_close_shift_summary(cashier_shift):
     
         
     return data
-
+@frappe.whitelist()
+def get_payment_cash(cashier_shift):
+    sql = "select payment_type, currency, SUM(payment_amount) as payment_amount from `tabSale Payment` where cashier_shift='{}' AND payment_type_group = 'Cash' and docstatus=1 group by payment_type, currency".format(cashier_shift)
+    data = frappe.db.sql(sql, as_dict=1)
+    return data
 @frappe.whitelist()
 def get_meta(doctype):
     data =  frappe.get_meta(doctype)

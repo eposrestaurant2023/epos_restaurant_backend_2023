@@ -6,7 +6,6 @@
                 {{ title }}
                 <slot name="title"></slot>
             </v-toolbar-title>
-            <v-spacer></v-spacer>
             <v-toolbar-items>
                <slot name="centerCotent"></slot>
             </v-toolbar-items>

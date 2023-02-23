@@ -7,7 +7,7 @@
                           
                                 <div v-bind:style="{ 'height': t.h + 'px', 'width': t.w + 'px', 'left': t.x + 'px', 'top': t.y + 'px', 'background-color': t.background_color, 'position': 'absolute', 'box-sizing': 'border-box' }"
                                     class="text-center text-gray-100 cursor-pointer" @click="onTableClick(t)">
-                                    <v-badge :content="t.sales.length" color="error" style="float: right;" v-if="t.sales.length>1"></v-badge>
+                                    <v-badge :content="t.sales?.length" color="error" style="float: right;" v-if="t.sales?.length>1"></v-badge>
                                     <div class="flex items-center justify-center h-full">
                                         <div>
                                             
@@ -79,12 +79,38 @@
     const router = useRouter()
 
     
-function onTableClick(table) {
+function onTableClick(table,guest_cover ) {
     gv.authorize("open_order_required_password", "make_order").then(async (v) => {
         if (v) {
             sale.orderBy = v.user;
             if (table.sales.length == 0) {
-                let guest_cover = 0;
+               newSale(table);
+
+            } else if (table.sales.length == 1) {
+                router.push({
+                    name: "AddSale", params: {
+                        name: table.sales[0].name
+                    }
+                });
+            } else {
+                sale.sale.table_id = table.id;
+                sale.sale.tbl_number = table.tbl_no;
+                const result =  await selectSaleOrderDialog({ data: table.sales, table: table });
+                if(result){
+                    if(result.action=="new_sale"){
+                        newSale(table);
+                    }
+                }
+            }
+            return;
+        }
+    })
+
+
+}
+
+async function newSale(table ){
+    let guest_cover = 0;
                 if (gv.setting.use_guest_cover == 1) {
                     const result = await keyboardDialog({ title: "Guest Cover", type: 'number', value: guest_cover });
 
@@ -99,7 +125,8 @@ function onTableClick(table) {
                         return;
                     }
                 }
-                sale.newSale();
+                
+    sale.newSale();
                 sale.sale.table_id = table.id;
                 sale.sale.tbl_number = table.tbl_no;
                 sale.sale.guest_cover = guest_cover;
@@ -123,27 +150,8 @@ function onTableClick(table) {
                 if (gv.setting.price_rule != sale.sale.price_rule) {
                     toaster.info("Your current price rule is " + sale.sale.price_rule);
                 }
-
                 router.push({ name: "AddSale" });
-
-            } else if (table.sales.length == 1) {
-                router.push({
-                    name: "AddSale", params: {
-                        name: table.sales[0].name
-                    }
-                });
-            } else {
-                sale.sale.table_id = table.id;
-                sale.sale.tbl_number = table.tbl_no;
-                await selectSaleOrderDialog({ data: table.sales, table: table });
-            }
-            return;
-        }
-    })
-
-
 }
-
 
 
 </script>

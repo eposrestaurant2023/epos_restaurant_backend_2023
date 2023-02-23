@@ -17,7 +17,8 @@
                 </ComPlaceholder>
             </v-card-text>
             <v-card-actions class="justify-end">
-                <v-btn variant="flat" color="primary" @click="onPrintAllBill">Print All Bill</v-btn>
+                <ComPrintButton doctype="Sale" title="Print All Bill" @onPrint="onPrintAllBill"/>
+                 
                 <v-btn variant="flat" color="primary">Quick Pay</v-btn>
                 <v-btn variant="flat" color="primary">Quick Pay without Print</v-btn>
                 <v-btn variant="flat" color="success" @click="onNewOrder">New Sale Order</v-btn>
@@ -27,13 +28,15 @@
     </v-dialog>
 </template>
 <script setup>
-import { ref, useStore, useRouter,keyboardDialog } from '@/plugin'
+import { inject, ref, useStore, useRouter,keyboardDialog,createDocumentResource } from '@/plugin'
 import ComToolbar from '@/components/ComToolbar.vue';
 import { useDisplay } from 'vuetify'
 import ComSaleListItem from './ComSaleListItem.vue';
+import ComPrintButton from '@/components/ComPrintButton.vue';
  
  const { mobile } = useDisplay()
 const store = useStore()
+const gv = inject("$gv")
 const router = useRouter()
 
 const props = defineProps({
@@ -46,16 +49,45 @@ const props = defineProps({
 // table: Object,
 // data:Object
 
+ 
+
 const emit = defineEmits(["resolve"])
 
 
 let open = ref(true);
 const setting = JSON.parse(localStorage.getItem("setting"));
-function onPrintAllBill() {
+function onPrintAllBill(r) {
+   
     props.params.data.forEach((d) => {
-        window.chrome.webview.postMessage(d);
+        createDocumentResource({
+            url: 'frappe.client.get',
+            doctype: 'Sale',
+            name:d.name,
+            onSuccess(d){
+               onPrintReceipt(r,d)
+            },
+            auto:true
+        })
+        
     })
 
+}
+
+function onPrintReceipt(r, doc){
+
+if (doc.sale_products.length >0){
+    const data = {
+                action: "print_receipt",
+                print_setting: r,
+                setting: gv.setting?.pos_setting,
+                sale: doc
+            }
+            if(localStorage.getItem("is_window")=="1"){ 
+                window.chrome.webview.postMessage(JSON.stringify(data));
+            }
+
+ 
+  }
 }
 
 function openOrder(sale_id) {
@@ -65,25 +97,8 @@ function openOrder(sale_id) {
 
 async function onNewOrder() {
 
-    let guest_cover = 0;
-
-    if (setting.use_guest_cover == 1) {
-        const result = await keyboardDialog({ title: "Guest Cover", value: guest_cover, type: 'number' });
-
-        if (result || String(result) == "") {
-            guest_cover = parseInt(result);
-            if (guest_cover == undefined || isNaN(guest_cover)) {
-                guest_cover = 0;
-            }
-        } else {
-            return;
-        }
-    }
-
-
-    store.state.sale.sale.guest_cover = guest_cover;
-    emit('resolve', false)
-    router.push({ name: "AddSale" });
+    emit('resolve', {action:"new_sale"});
+  
 
 }
 function onClose() {

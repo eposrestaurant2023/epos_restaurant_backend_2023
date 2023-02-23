@@ -15,7 +15,7 @@
             <div>
               <ComExchangeRate />
               <CurrencyFormat :value="sale.sale.grand_total * sale.sale.exchange_rate"
-                :currency="setting.pos_setting.second_currency_name" />
+                :currency="sale.setting.pos_setting.second_currency_name" />
             </div>
           </div>
         </div>
@@ -37,15 +37,22 @@
 import { inject, useRouter, confirmBackToTableLayout, paymentDialog } from '@/plugin';
 import ComExchangeRate from './ComExchangeRate.vue';
 const sale = inject("$sale")
+const router = useRouter();
+
+
 async function onSubmit() {
+  
   if (!sale.isBillRequested()) {
     sale.action = "submit_order";
     sale.message = "Submit Order Successfully";
     sale.sale.sale_status = "Submitted";
     await sale.onSubmit().then((value) => {
       if (value) {
-        if (sale.sale.table_id)
+     
+        if (sale.sale.table_id){ 
+      
           router.push({ name: 'TableLayout' })
+        }
         else
           sale.newSale()
       }
@@ -68,5 +75,5 @@ async function onPayment() {
 }
 </script>
 <style lang="">
-    
+
 </style>

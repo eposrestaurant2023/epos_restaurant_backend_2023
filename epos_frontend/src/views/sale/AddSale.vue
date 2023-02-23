@@ -27,9 +27,10 @@
                         <ComGroupSaleProductList/>
                     </div>
                     <div class="mt-auto">
-                        <div class="-mx-1 -mb-1 bg-blue-100 rounded-tl-md rounded-tr-md text-xs">
+                        <div class="-mx-1 bg-blue-100 rounded-tl-md rounded-tr-md text-xs">
                             <ComSaleSummaryList/>
                             <ComSaleButtonActionRight/>
+                            <ComSaleButtonPaymentSubmit/>
                         </div>
                     </div>
                 </div>
@@ -38,7 +39,7 @@
     </div>
 </template>
 <script setup>
-import { useStore, inject, useRoute, ref } from '@/plugin';
+import { useStore, inject, useRoute, ref, onUnmounted } from '@/plugin';
 import ComMenu from './components/ComMenu.vue';
 import ComSelectCustomer from './components/ComSelectCustomer.vue';
 import ComSaleInformation from '@/views/sale/components/ComSaleInformation.vue';
@@ -48,6 +49,7 @@ import ComSmallAddSale from './components/mobile_screen/ComSmallAddSale.vue';
 import ComGroupSaleProductList from './components/ComGroupSaleProductList.vue';
 import ComSaleButtonActionRight from './components/ComSaleButtonActionRight.vue';
 import ComSaleSummaryList from './components/ComSaleSummaryList.vue';
+import ComSaleButtonPaymentSubmit from './components/ComSaleButtonPaymentSubmit.vue';
 const { mobile, name, platform } = useDisplay()
 const store = useStore()
 const sale = inject("$sale")
@@ -74,8 +76,9 @@ if (product.posMenuResource.data?.length == 0) {
 if (route.params.name == "") {
     sale.newSale()
 } else {
-   
+ 
     sale.LoadSaleData(route.params.name);
+    
 }
 sale.getTableSaleList();
 
@@ -88,4 +91,9 @@ document.onkeydown = function (e) {
 function onSearchProduct(open){
     openSearch.value = open
 }
+
+onUnmounted(() => {
+    sale.sale = {}
+})
+
 </script>

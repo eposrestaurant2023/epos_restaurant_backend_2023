@@ -59,7 +59,9 @@
   "section_break_42",
   "open_order_required_password",
   "section_break_44",
-  "change_price_rule_require_password"
+  "change_price_rule_require_password",
+  "section_break_53",
+  "open_cashdrawer_require_password"
  ],
  "fields": [
   {
@@ -333,12 +335,22 @@
    "fieldname": "price_rules_section",
    "fieldtype": "Section Break",
    "label": "Price Rules"
+  },
+  {
+   "fieldname": "section_break_53",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "open_cashdrawer_require_password",
+   "fieldtype": "Check",
+   "label": "Open Cashdrawer Require Password"
   }
  ],
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-02-22 12:02:19.021386",
+ "modified": "2023-02-23 14:44:02.234791",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Config",

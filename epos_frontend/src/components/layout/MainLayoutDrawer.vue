@@ -65,7 +65,7 @@
             </template>
             <v-list-item-title>Customer</v-list-item-title>
           </v-list-item>
-          <v-list-item active-color="primary" @click="onRoute('Customer')">
+          <v-list-item active-color="primary" @click="onRoute('CashDrawer')">
             <template v-slot:prepend>
               <v-icon>mdi-currency-usd</v-icon>
             </template>
