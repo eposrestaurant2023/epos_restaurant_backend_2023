@@ -151,7 +151,6 @@ if(props.params.name){
 } 
 
 function onSave(){
-    alert()
     if(props.params.name){
         const saved = JSON.parse(JSON.stringify(customer.value))
         data.value.setValue.submit(saved);

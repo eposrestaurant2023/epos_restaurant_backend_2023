@@ -64,6 +64,8 @@ if (!localStorage.getItem("pos_profile")) {
 			sale.setting = doc;
 			product.setting = doc;
 			tableLayout.setting = doc;
+			tableLayout.table_groups = doc.table_groups;
+			
 			localStorage.setItem("table_groups", JSON.stringify(doc.table_groups))
 
 		},

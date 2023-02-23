@@ -6,6 +6,7 @@
         <template #action>
             <ComTableLayoutActionButton/>
         </template>
+       
         <template v-if="tableLayout.table_groups">
     
             <v-window v-model="tableLayout.tab" v-if="tableLayout.currentView == 'table_group'">

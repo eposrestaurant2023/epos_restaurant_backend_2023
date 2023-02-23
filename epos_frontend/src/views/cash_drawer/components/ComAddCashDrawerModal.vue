@@ -63,27 +63,33 @@
     </v-dialog>
 </template>
 <script setup>
-import { defineEmits, ref, createResource, onMounted, createDocumentResource, watch} from '@/plugin'
+import { defineEmits, ref, createResource, onMounted, createDocumentResource, watch, createToaster} from '@/plugin'
 const emit = defineEmits(["resolve"])
 const props = defineProps({
     params: Object
 })
 let open = true
+const toaster = createToaster()
 const payment_types = JSON.parse(localStorage.getItem('setting')).payment_types;
+const default_payment_type = JSON.parse(localStorage.getItem('setting')).default_payment_type;
+
 const cashierShiftResource = ref({});
 let cash = ref({
     transaction_status: props.params.name,
     input_amount: 0,
-    amount: 0,
-    created_by: ''
+    amount: 0
 });
 let paymentInCash = ref({});
+let cashResource = createResource({
+  url: 'frappe.client.insert', 
+})
 let cashierShiftInfo = createResource({
     url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
     params: {
         pos_profile: localStorage.getItem("pos_profile")
     },
     onSuccess(doc){
+        console.log(doc)
         paymentInCash = createResource({
             url: "epos_restaurant_2023.api.api.get_payment_cash",
             auto:true,
@@ -91,11 +97,10 @@ let cashierShiftInfo = createResource({
                 cashier_shift: doc.name
             },
             onSuccess(payment){
-                if(1 != 2){
-                    if(payment.length > 0){
-                        cash.value.payment_type = payment[0].payment_type
-                    }
-                        
+                // new
+                if(1 != 2){ 
+                    cash.value.payment_type = default_payment_type
+                    
                 }
             }
         })
@@ -139,7 +144,33 @@ function onClose() {
     emit('resolve',false);
 }
 function onOK() {
+    if(cash.value.amount <= 0){
+        toaster.warning("Amount cannot smaller than or equal zero", {
+            position: "top",
+        });
+        return
+    }
+    else if(!cash.value.note){
+        toaster.warning("Please note your reason.", {
+            position: "top",
+        });
+        return
+    }
+    if(!cash.value.name){
+        onAddNew()
+    }
+
     emit('resolve', true)
 }
-
+function onAddNew() {
+    
+    cash.value.doctype = 'Cash Transaction'
+    cash.value.input_amount = parseFloat(cash.value.input_amount)
+    cash.value.amount = parseFloat(cash.value.amount)
+    cashResource.submit({doc:cash.value}).then((res)=>{
+        
+        toaster.success(`Add ${props.params.name} is Successful`);
+        emit('resolve',res);
+    })
+}
 </script>
