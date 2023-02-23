@@ -64,14 +64,17 @@
 </template>
 <script setup>
 import { defineEmits, ref, createResource, onMounted, createDocumentResource, watch, createToaster} from '@/plugin'
+import moment from '@/utils/moment.js';
+
 const emit = defineEmits(["resolve"])
 const props = defineProps({
     params: Object
 })
 let open = true
-const toaster = createToaster()
+const toaster = createToaster({position: 'top'})
 const payment_types = JSON.parse(localStorage.getItem('setting')).payment_types;
 const default_payment_type = JSON.parse(localStorage.getItem('setting')).default_payment_type;
+const current_date = moment(new Date).format('DD-MM-YYYY');
 
 const cashierShiftResource = ref({});
 let cash = ref({
@@ -100,7 +103,13 @@ let cashierShiftInfo = createResource({
                 // new
                 if(1 != 2){ 
                     cash.value.payment_type = default_payment_type
-                    
+                    cash.value.pos_profile = doc.pos_profile
+                    cash.value.cashier_shift = doc.name
+                    cash.value.working_day = doc.working_day
+                    cash.value.post_date = current_date
+                    cash.value.business_branch = doc.business_branch
+                    cash.value.created_by = ''
+
                 }
             }
         })

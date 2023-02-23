@@ -828,7 +828,7 @@ export default class Sale {
 	}
 
     async onPrintReceipt(receipt, action, doc) {
-        const parent = this;
+        
         if (receipt.pos_receipt_file_name && localStorage.getItem("is_window")) {
             let data = {
                 action: action,
@@ -839,18 +839,17 @@ export default class Sale {
             window.chrome.webview.postMessage(JSON.stringify(data));
 
         } else {
-            window.open(parent.getPrintReportPath("Sale",doc.name,receipt.name,1)).print();
-            window.close();
-            // await printPreviewDialog({
-            //     title: "Sale #: " + doc.name,
-            //     doctype: "Sale",
-            //     name: doc.name,
-            //     "report": receipt.name,
-            //     print: true
-            // });
+            this.onOpenBrowserPrint("Sale",doc.name, receipt.name)
+         
         }
 
     }
+
+    onOpenBrowserPrint(doctype, docname, filename){
+        window.open(this.getPrintReportPath(doctype,docname,filename,1)).print();
+            window.close();
+    }
+
     isBillRequested() {
         if (this.sale.sale_status == 'Bill Requested') {
             toaster.warning("This sale order is already print bill. Please cancel print bill first.");

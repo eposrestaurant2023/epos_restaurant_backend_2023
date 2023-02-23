@@ -96,6 +96,7 @@
   {
    "fieldname": "transaction_status",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Transaction Status",
    "options": "Cash In\nCash Out"
   },
@@ -119,6 +120,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Created by",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -142,6 +144,7 @@
    "fetch_from": "cashier_shift.pos_profile",
    "fieldname": "pos_profile",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "POS Profile",
    "options": "POS Profile"
   },
@@ -187,7 +190,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-02-23 14:35:15.545929",
+ "modified": "2023-02-23 19:32:42.385148",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Cash Transaction",

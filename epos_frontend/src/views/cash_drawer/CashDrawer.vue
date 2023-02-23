@@ -53,7 +53,6 @@ const {mobile} = useDisplay()
 
 async function onCash(cash_type){
     const result = await addCashDrawerModalDialog({name: cash_type})
-    alert(result)
 }
 
 </script> 

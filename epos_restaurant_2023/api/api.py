@@ -183,7 +183,7 @@ def get_current_working_day(business_branch):
 @frappe.whitelist()
 def get_current_cashier_shift(pos_profile):
    
-    sql = "select name,working_day, posting_date, pos_profile, opened_note from `tabCashier Shift` where pos_profile = '{}' and is_closed = 0 order by creation limit 1".format(pos_profile)
+    sql = "select name,working_day, posting_date, pos_profile, opened_note,business_branch from `tabCashier Shift` where pos_profile = '{}' and is_closed = 0 order by creation limit 1".format(pos_profile)
     data =  frappe.db.sql(sql, as_dict=1) 
     if data:
         return data [0]
@@ -308,3 +308,9 @@ def get_payment_cash(cashier_shift):
 def get_meta(doctype):
     data =  frappe.get_meta(doctype)
     return data
+
+@frappe.whitelist()
+def update_print_bill_requested(name):
+    doc = frappe.get_doc("Sale",name)
+    doc.sale_status = 'Bill Requested'
+    doc.save()

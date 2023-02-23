@@ -1,6 +1,7 @@
 
 <template>
-    <v-dialog :fullscreen="mobile" v-model="open" @update:modelValue="onClose" :style="mobile ? '' : 'width: 100%;max-width:1200px'"> 
+    <v-dialog :fullscreen="mobile" v-model="open" @update:modelValue="onClose"
+        :style="mobile ? '' : 'width: 100%;max-width:1200px'">
         <v-card>
             <ComToolbar @onClose="onClose">
                 <template #title>
@@ -11,15 +12,15 @@
                 <ComPlaceholder :is-not-empty="params.data.length > 0">
                     <v-row class="!-m-1">
                         <v-col class="!p-0" cols="12" md="6" v-for="(s, index) in params.data" :key="index">
-                     
-                            <ComSaleListItem :sale="s" @click="openOrder(s.name)"/>
+
+                            <ComSaleListItem :sale="s" @click="openOrder(s.name)" />
                         </v-col>
-                    </v-row> 
+                    </v-row>
                 </ComPlaceholder>
             </v-card-text>
             <v-card-actions class="justify-end">
-                <ComPrintButton doctype="Sale" title="Print All Bill" @onPrint="onPrintAllBill"/>
-                 
+                <ComPrintButton v-if="isDesktop" doctype="Sale" title="Print All Bill" @onPrint="onPrintAllBill" />
+
                 <v-btn variant="flat" color="primary">Quick Pay</v-btn>
                 <v-btn variant="flat" color="primary">Quick Pay without Print</v-btn>
                 <v-btn variant="flat" color="success" @click="onNewOrder">New Sale Order</v-btn>
@@ -29,15 +30,15 @@
     </v-dialog>
 </template>
 <script setup>
-import { inject, ref, useStore, useRouter,keyboardDialog,createDocumentResource } from '@/plugin'
+import { inject, ref, useRouter, keyboardDialog, createDocumentResource,createResource } from '@/plugin'
 import ComToolbar from '@/components/ComToolbar.vue';
 import { useDisplay } from 'vuetify'
 import ComSaleListItem from './ComSaleListItem.vue';
 import ComPrintButton from '@/components/ComPrintButton.vue';
- 
- const { mobile } = useDisplay()
-const store = useStore()
-const gv = inject("$gv")
+
+const { mobile } = useDisplay()
+
+const sale = inject("$sale")
 const router = useRouter()
 
 const props = defineProps({
@@ -50,45 +51,62 @@ const props = defineProps({
 // table: Object,
 // data:Object
 
+const isDesktop = localStorage.getItem('is_window');
  
 
 const emit = defineEmits(["resolve"])
 
 
 let open = ref(true);
-const setting = JSON.parse(localStorage.getItem("setting"));
+
 function onPrintAllBill(r) {
-   
-    props.params.data.forEach((d) => {
+
+    props.params.data.forEach(async (d) => {
         createDocumentResource({
             url: 'frappe.client.get',
             doctype: 'Sale',
-            name:d.name,
-            onSuccess(d){
-               onPrintReceipt(r,d)
+            name: d.name,
+            onSuccess(doc) {
+                
+                onPrintReceipt(r, doc);
+                d.sale_status = "Bill Requested";
+
+                
+
             },
-            auto:true
+            
         })
         
+      
+ 
+
     })
 
 }
 
-function onPrintReceipt(r, doc){
+function onPrintReceipt(r, doc) {
 
-if (doc.sale_products.length >0){
-    const data = {
-                action: "print_receipt",
-                print_setting: r,
-                setting: gv.setting?.pos_setting,
-                sale: doc
-            }
-            if(localStorage.getItem("is_window")=="1"){ 
-                window.chrome.webview.postMessage(JSON.stringify(data));
-            }
-
- 
-  }
+    if (doc.sale_products.length > 0) {
+        const data = {
+            action: "print_receipt",
+            print_setting: r,
+            setting: sale.setting?.pos_setting,
+            sale: doc
+        }
+        if (localStorage.getItem("is_window") == "1") {
+            window.chrome.webview.postMessage(JSON.stringify(data));
+        }
+        
+        //update is bill request
+        createResource({
+            url: 'epos_restaurant_2023.api.api.update_print_bill_requested',
+            params: {
+                name:doc.name
+            },
+            auto: true,
+		 
+	});
+    }
 }
 
 function openOrder(sale_id) {
@@ -98,8 +116,8 @@ function openOrder(sale_id) {
 
 async function onNewOrder() {
 
-    emit('resolve', {action:"new_sale"});
-  
+    emit('resolve', { action: "new_sale" });
+
 
 }
 function onClose() {
