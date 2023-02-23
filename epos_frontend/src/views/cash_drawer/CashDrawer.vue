@@ -51,8 +51,9 @@ import {addCashDrawerModalDialog} from '@/plugin'
 import {useDisplay} from 'vuetify'
 const {mobile} = useDisplay()
 
-function onCash(cash_type){
-    const result = addCashDrawerModalDialog({name: cash_type})
+async function onCash(cash_type){
+    const result = await addCashDrawerModalDialog({name: cash_type})
+    alert(result)
 }
 
 </script> 

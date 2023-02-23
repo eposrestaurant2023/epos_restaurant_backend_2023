@@ -56,7 +56,6 @@ export default class Sale {
         this.createNewSaleResource();
         
 
-        this.newSale();
     }
     createNewSaleResource() {
         const parent = this;
@@ -104,10 +103,11 @@ export default class Sale {
 
     getWorkingDay(saleName){
         const parent = this
+        console.log(this.setting)
         parent.working_day_resource = createResource({
             url: "epos_restaurant_2023.api.api.get_current_working_day",
             params: {
-                business_branch: parent.setting.business_branch
+                business_branch: parent.setting?.business_branch
             },
             auto: true,
             onSuccess(data) { 

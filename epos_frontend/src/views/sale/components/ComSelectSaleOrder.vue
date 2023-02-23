@@ -11,7 +11,8 @@
                 <ComPlaceholder :is-not-empty="params.data.length > 0">
                     <v-row class="!-m-1">
                         <v-col class="!p-0" cols="12" md="6" v-for="(s, index) in params.data" :key="index">
-                        <ComSaleListItem :sale="s" @click="openOrder(s.name)"/>
+                     
+                            <ComSaleListItem :sale="s" @click="openOrder(s.name)"/>
                         </v-col>
                     </v-row> 
                 </ComPlaceholder>

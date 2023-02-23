@@ -1,7 +1,7 @@
 <template>
-    <v-dialog v-model="open" persistent style="max-width: 800px;">
+    <v-dialog v-model="open" style="max-width: 800px;">
         <v-card>
-            <v-toolbar color="default" title="Notice">
+            <v-toolbar color="default" :title="params.name">
                 <v-toolbar-items>
                     <v-btn icon @click="onClose()">
                         <v-icon>mdi-close</v-icon>
@@ -11,25 +11,9 @@
             <v-card-text>
                 <div class="mb-2">
                     <v-row v-if="cashierShiftResource.doc">
-                        <!-- <v-col md="6">
-                            <v-text-field label="Working Day" v-model="cashierShiftResource.doc.working_day" variant="solo"
-                                readonly hide-details></v-text-field>
-                        </v-col>
-                        <v-col md="6">
-                            <v-text-field label="Cashier Shift" v-model="cashierShiftResource.doc.name" variant="solo"
-                                readonly hide-details></v-text-field>
-                        </v-col>
-
-                        <v-col md="6">
-                            <v-text-field hide-details label="Close Date" v-model="current_date" variant="solo"
-                                readonly></v-text-field>
-                        </v-col>
-                        <v-col md="6">
-                            <v-text-field hide-details label="POS Profile" v-model="cashierShiftResource.doc.pos_profile"
-                                variant="solo" readonly></v-text-field>
-                        </v-col> -->
                         <v-col md="6">
                             <v-select
+                                v-if="paymentInCash.data"
                                 height="100%"
                                 density="comfortable"
                                 label="Payment Type"
@@ -37,7 +21,6 @@
                                 :items="paymentInCash.data"
                                 item-value="payment_type"
                                 item-title="payment_type"
-                                @click="onSelectPaymentType"
                                 hide-details 
                                 hide-no-data
                                 clearable
@@ -48,25 +31,20 @@
                             <v-card>
                                 <v-card-subtitle class="!pt-1 !pb-0 !text-xs">Cash Drawer Balance</v-card-subtitle>
                                 <v-card-text class="!pt-0 !pb-1">
-                                    <div style="font-size: 17px;" v-if="paymentInCash.data.find(r=>r.payment_type == cash.payment_type)">
+                                    <div style="font-size: 17px;" v-if="paymentInCash.data">
                                         <CurrencyFormat :value="paymentInCash.data.find(r=>r.payment_type == cash.payment_type).payment_amount ?? 0"/>
                                     </div>
                                 </v-card-text>
                             </v-card>
                         </v-col>
                         <v-col cols="12" md="6">
-                            <v-text-field hide-details label="Input Amount" v-model="cash.input_amount"
-                                variant="solo"></v-text-field>
+                            <ComInput v-model="cash.input_amount" keyboard type="number" label="Input Amount"/>
                         </v-col>
                         <v-col cols="12" md="6">
-                            <v-text-field hide-details label="Amount" v-model="cash.amount"
-                                variant="solo" readonly></v-text-field>
-                        </v-col>
-                        <v-col cols="12"> 
-                            <ComInput type="textarea" v-model="cash.created_by" label="Created By"/>
+                            <ComInput disabled v-model="cash.amount" label="Amount"/>
                         </v-col>
                         <v-col cols="12">
-                            <ComInput type="textarea" label="Note" v-model="cash.note"/>
+                            <ComInput keyboard type="textarea" label="Note" v-model="cash.note"/>
                         </v-col>
                     </v-row>
                 </div>
@@ -76,7 +54,7 @@
                             Close
                         </v-btn>
                         <v-btn variant="flat" @click="onOK()" color="primary">
-                            OK
+                            Save
                         </v-btn>
                     </div>
                 </div>
@@ -85,32 +63,21 @@
     </v-dialog>
 </template>
 <script setup>
-import { defineEmits, ref, createResource, onMounted, createDocumentResource} from '@/plugin'
-import moment from '@/utils/moment.js';
-const emit = defineEmits(['resolve'])
+import { defineEmits, ref, createResource, onMounted, createDocumentResource, watch} from '@/plugin'
+const emit = defineEmits(["resolve"])
 const props = defineProps({
     params: Object
 })
-
 let open = true
-const setting = JSON.parse(localStorage.getItem("setting"))
-const current_date = moment(new Date).format('DD-MM-YYYY');
-let doc = ref({
-    closed_note: "",
-    is_closed: 1,
-    closed_date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-    cash_float: []
-})
-
+const payment_types = JSON.parse(localStorage.getItem('setting')).payment_types;
 const cashierShiftResource = ref({});
-let cash = ref({});
-let paymentInCash = ref({
+let cash = ref({
+    transaction_status: props.params.name,
     input_amount: 0,
-    amount: 0
+    amount: 0,
+    created_by: ''
 });
-
- 
-
+let paymentInCash = ref({});
 let cashierShiftInfo = createResource({
     url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
     params: {
@@ -135,7 +102,14 @@ let cashierShiftInfo = createResource({
     }
  
 });
-
+watch(cash.value , (currentValue,oldValue) => { 
+        if(payment_types.length > 0){
+            const exchange_rate = payment_types.find(r=>r.payment_method == cash.value.payment_type).exchange_rate
+            cash.value.amount = cash.value.input_amount / exchange_rate;
+        }
+ 
+    
+})
 onMounted(async () => {
     await cashierShiftInfo.fetch(); 
     if (!cashierShiftInfo.data) {
@@ -159,11 +133,10 @@ onMounted(async () => {
     });
 
 })
-function onSelectPaymentType($event){
-    console.log($event)
-}
+
+
 function onClose() {
-    emit('resolve', false)
+    emit('resolve',false);
 }
 function onOK() {
     emit('resolve', true)
