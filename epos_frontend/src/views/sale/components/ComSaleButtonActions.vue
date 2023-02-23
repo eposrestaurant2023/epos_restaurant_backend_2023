@@ -1,64 +1,26 @@
 <template>
-  <div class="-mx-1 bg-blue-100 rounded-tl-md rounded-tr-md text-xs">
-    <ComSaleSummaryList />
-    <div class="overflow-hidden">
+    <div class="overflow-hidden absolute left-0 right-0 bottom-0 top-auto">
       <div class="button-group">
         <div class="d-flex text-center">
           <ComButtonToTableLayout :is-mobile="false" />
-
           <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" doctype="Sale" title="Print Bill" />
-          <div class="bg-red-600 text-white cursor-pointer grow p-2 hover:bg-red-700" v-else @click="onCancelPrintBill">
+          <div class="bg-red-600 text-white cursor-pointer grow m-1 rounded-md p-2 hover:bg-red-700" v-else @click="onCancelPrintBill">
             Cancel Print Bill</div>
-
           <ComDiscountButton />
-          <v-btn @click="onSubmitAndNew">Submit & New</v-btn>
-          <div class="cursor-pointer p-2 grow bg-orange-600 text-white hover:bg-orange-700" @click="onQuickPay">Quick
+          <div class="m-1 rounded-md cursor-pointer p-2 grow bg-white hover:bg-gray-400" @click="onSubmitAndNew">Submit & New</div>
+          <div class="m-1 rounded-md cursor-pointer p-2 grow bg-orange-600 text-white hover:bg-orange-700" @click="onQuickPay">Quick
             Pay</div>
-          <ComSaleButtonMore />
         </div>
       </div>
     </div>
-    <div>
-      <div class="flex">
-        <div class="w-4/5 cursor-pointer bg-green-600 text-white p-2 hover:bg-green-700" @click="onPayment()">
-          <div class="flex justify-between mb-2 text-lg">
-            <div>Payment</div>
-            <div>
-              <CurrencyFormat :value="sale.sale.grand_total" />
-            </div>
-          </div>
-          <div class="flex justify-between">
-            <div>Total Qty : <span>{{ sale.sale.total_quantity }}</span></div>
-            <div>
-              <ComExchangeRate />
-              <CurrencyFormat :value="sale.sale.grand_total * sale.sale.exchange_rate"
-                :currency="setting.pos_setting.second_currency_name" />
-            </div>
-          </div>
-        </div>
-        <div class="w-1/5">
-          <div
-            class="w-full h-full cursor-pointer flex justify-center items-center bg-blue-600 text-white p-3 hover:bg-blue-700 text-center"
-            @click="onSubmit()">
-            <div>
-              <v-icon icon="mdi-arrow-right-thick"></v-icon>
-              <div>Submit Order</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  
 </template>
 <script setup>
-import { inject, useRouter, confirmBackToTableLayout, paymentDialog } from '@/plugin';
+import { inject, useRouter } from '@/plugin';
 import ComDiscountButton from './ComDiscountButton.vue';
-import ComExchangeRate from './ComExchangeRate.vue';
 import ComPrintBillButton from './ComPrintBillButton.vue';
-import ComSaleButtonMore from './ComSaleButtonMore.vue';
 import { createToaster } from '@meforma/vue-toaster';
 import ComButtonToTableLayout from './ComButtonToTableLayout.vue';
-import ComSaleSummaryList from './ComSaleSummaryList.vue';
 
 const router = useRouter()
 const sale = inject("$sale")
@@ -67,21 +29,7 @@ const setting = gv.setting;
 const toaster = createToaster({ position: "top" })
 
 
-async function onSubmit() {
-  if (!sale.isBillRequested()) {
-    sale.action = "submit_order";
-    sale.message = "Submit Order Successfully";
-    sale.sale.sale_status = "Submitted";
-    await sale.onSubmit().then((value) => {
-      if (value) {
-        if (sale.sale.table_id)
-          router.push({ name: 'TableLayout' })
-        else
-          sale.newSale()
-      }
-    });
-  }
-}
+
 
 // async function onPrintBill(r) {
 //   if (sale.sale.sale_products.length == 0) {
@@ -141,35 +89,6 @@ async function onCancelPrintBill() {
     }
   })
 
-}
-
-async function onPayment() {
-  if (sale.sale.sale_products.length == 0) {
-    toaster.warning("Please select a menu item to submit order");
-    return
-  }
-  else if (sale.onCheckPriceSmallerThanZero()) {
-    return;
-  }
-  const result = await paymentDialog({})
-  if (result) {
-    router.push({ name: "TableLayout" });
-  }
-
-}
-
-function onNote() {
-  if (!sale.isBillRequested()) {
-    alert('submit')
-  }
-}
-function onSave() {
-  alert('submit')
-}
-function onDiscount() {
-  if (!sale.isBillRequested()) {
-    alert('submit')
-  }
 }
 
 async function onSubmitAndNew() {

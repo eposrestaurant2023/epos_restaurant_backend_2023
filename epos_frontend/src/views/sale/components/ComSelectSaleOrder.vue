@@ -1,55 +1,36 @@
 
 <template>
-    <v-dialog v-model="open" width="960" :fullscreen="mobile"  @update:modelValue="onClose">
+    <v-dialog :fullscreen="mobile" v-model="open" @update:modelValue="onClose" :style="mobile ? '' : 'width: 100%;max-width:1200px'"> 
         <v-card>
-
             <ComToolbar @onClose="onClose">
                 <template #title>
                     Table No: {{ params.table.tbl_no }}
                 </template>
-
             </ComToolbar>
-            <v-card-text>
-                
-                <v-row no-gutters>
-                    <v-col v-for="s in params.data">
-
-                        <v-card :color="s.sale_status_color" class="pa-2 ma-2" @click="openOrder(s.name)">
-                            <v-card-text>
-                                {{ s.name }} <br /> <CurrencyFormat :value="s.grand_total" /> <br /> {{ s.customer }} - {{ s.customer_name }} 
-                                <span v-if="s.guest_cover>0">
-                                    ({{ s.guest_cover }})
-                                </span>
-                                <br/>
-                                <Timeago   :long="long" :datetime="s.creation"/>
-                               
-                            </v-card-text>
-
-                        </v-card>
-                    </v-col>
-
-                </v-row>
-
-
-
-
+            <v-card-text class="p-2">
+                <ComPlaceholder :is-not-empty="params.data.length > 0">
+                    <v-row class="!-m-1">
+                        <v-col class="!p-0" cols="12" md="6" v-for="(s, index) in params.data" :key="index">
+                        <ComSaleListItem :sale="s" @click="openOrder(s.name)"/>
+                        </v-col>
+                    </v-row> 
+                </ComPlaceholder>
             </v-card-text>
-            <v-card-action class="text-right">
-                <v-btn @click="onPrintAllBill">Print All Bill</v-btn>
-                <v-btn>Quick Pay</v-btn>
-                <v-btn>Quick Pay without Print</v-btn>
-                <v-btn @click="onNewOrder">New Sale Order</v-btn>
-                <v-btn @click="onClose">Cancel</v-btn>
-            </v-card-action>
-
+            <v-card-actions class="justify-end">
+                <v-btn variant="flat" color="primary" @click="onPrintAllBill">Print All Bill</v-btn>
+                <v-btn variant="flat" color="primary">Quick Pay</v-btn>
+                <v-btn variant="flat" color="primary">Quick Pay without Print</v-btn>
+                <v-btn variant="flat" color="success" @click="onNewOrder">New Sale Order</v-btn>
+                <v-btn variant="flat" color="error" @click="onClose">Cancel</v-btn>
+            </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
 <script setup>
 import { ref, useStore, useRouter,keyboardDialog } from '@/plugin'
 import ComToolbar from '@/components/ComToolbar.vue';
-import { Timeago } from 'vue2-timeago'
 import { useDisplay } from 'vuetify'
+import ComSaleListItem from './ComSaleListItem.vue';
  
  const { mobile } = useDisplay()
 const store = useStore()

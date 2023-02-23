@@ -23,9 +23,10 @@
                             </div>
                             <div class="text-sm">
                                 <div>Sale#: {{ sale.name }}</div>
-                                <div>Tbl#: {{ sale.tbl_number }} <v-chip size="x-small" v-if="sale.tbl_group">{{
-                                    sale.tbl_group
-                                }}</v-chip></div>
+                               
+                                <div>
+                                    <Timeago :long="long" :datetime="sale.creation" />
+                                </div>
                             </div>
                         </div>
                         <div class="flex-none text-right">
@@ -37,7 +38,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="text-xs text-right">Created: {{ moment(sale.creation).format('MM-DD-YYYY h:mm:ss A') }}</div>
+                   
                 </div>
 
             </div>
@@ -46,6 +47,7 @@
 </template>
 <script setup>
 import moment from '@/utils/moment.js';
+import { Timeago } from 'vue2-timeago'
 import { defineProps } from 'vue'
 import { useDisplay } from 'vuetify'
 const {mobile} = useDisplay()

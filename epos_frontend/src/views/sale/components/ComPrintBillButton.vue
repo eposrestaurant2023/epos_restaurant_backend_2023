@@ -3,10 +3,10 @@
       <v-btn icon v-if="mobile">
           <v-icon>mdi-printer</v-icon>
       </v-btn> 
-      <div class="cursor-pointer p-2 grow bg-blue-600 text-white  hover:bg-blue-700" v-else >Print Bill</div>
+      <div class="cursor-pointer m-1 rounded-md p-2 grow bg-blue-600 text-white  hover:bg-blue-700" v-else >Print Bill</div>
     </template>
     <template v-else>
-        <div class="cursor-pointer p-2 grow bg-blue-600 text-white hover:bg-blue-700" v-if="printFormatResource.data.length==1" @click="onPrintReport(printFormatResource.data[0])" >
+        <div class="cursor-pointer m-1 rounded-md p-2 grow bg-blue-600 text-white hover:bg-blue-700" v-if="printFormatResource.data.length==1" @click="onPrintReport(printFormatResource.data[0])" >
             <v-icon icon="mdi-printer"></v-icon>
         </div>
         <v-menu v-else>
@@ -14,7 +14,7 @@
           <v-btn icon v-if="mobile" @click="$emit('onClose')" v-bind="props">
             <v-icon>mdi-printer</v-icon>
         </v-btn>
-            <div v-else class="cursor-pointer p-2 grow bg-blue-600 text-white hover:bg-blue-700" @click="$emit('onClose')" :loading="printFormatResource.loading" v-bind="props">
+            <div v-else class="cursor-pointer m-1 rounded-md p-2 grow bg-blue-600 text-white hover:bg-blue-700" @click="$emit('onClose')" :loading="printFormatResource.loading" v-bind="props">
                 Print Bill
             </div>
         </template>
