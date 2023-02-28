@@ -1,5 +1,55 @@
 <template>
-    <v-dialog v-model="open" persistent :scrollable="false" :fullscreen="mobile" :style="mobile ? '' : 'width: 100%;max-width:800px'">
+    <ComModal :persistent="true" :fullscreen="mobile" @onClose="onClose()" :hide-ok-button="true" :hide-close-button="true">
+        <template #title>
+            <div>Notice</div>
+        </template>
+        <template #content>
+            <div>
+                <div class="mb-2">
+                    <ComInput autofocus placeholder="Search or Add Note" keyboard v-model="search"
+                        v-debounce="onSearch" />
+                    <v-alert class="mt-4 !p-2" v-if="getSelectedNote() != ''" :text="getSelectedNote()"></v-alert>
+                </div>
+                <div class="-m-1">
+                    <template v-for="(item, index) in getNote()" :key="index">
+                        <v-chip :closable="isDeleteNote" v-if="item.chip" @click:close="item.chip = false" class="m-1"
+                            @click="onSelected(item)">
+                            <v-icon start icon="mdi-checkbox-marked-circle-outline" v-if="item.selected"
+                                color="orange"></v-icon>
+                            <span>
+                                {{ item.note }}
+                            </span>
+                        </v-chip>
+                    </template>
+                </div>
+            </div>
+        </template>
+        <template #action>
+
+            <v-btn v-if="search && !isDeleteNote" variant="flat" @click="onSaveNote" color="success">
+                Save
+            </v-btn>
+ 
+            <template v-if="isDeleteNote">
+                <v-btn variant="flat" @click="onCancelDeleteNote" color="warning">
+                    Cancel
+                </v-btn>
+                <v-btn v-if="noteResource.doc.notes.filter(r => r.chip == false).length > 0"
+                    variant="flat" @click="onDeleteNote" color="primary">
+                    Confirm
+                </v-btn>
+            </template>
+            <template v-else>
+                <v-btn variant="flat" @click="onEnableDeleteNote" color="error">
+                    Delete
+                </v-btn>
+                <v-btn variant="flat" @click="onOK()" color="primary">
+                    OK
+                </v-btn>
+            </template>
+        </template>
+    </ComModal>
+    <!-- <v-dialog v-model="open" persistent :scrollable="false" :fullscreen="mobile" :style="mobile ? '' : 'width: 100%;max-width:800px'">
     <v-card class="mx-auto my-0 w-full">
         <v-toolbar color="default" title="Notice">
             <v-toolbar-items>
@@ -53,7 +103,7 @@
             </template>
         </v-card-actions>
     </v-card>
-    </v-dialog>
+    </v-dialog> -->
 </template>
 <script setup>
 import { defineEmits, ref, createDocumentResource, confirmDialog, } from '@/plugin'

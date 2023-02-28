@@ -1,21 +1,12 @@
 <template>
-    <v-dialog :scrollable="false" v-model="open" fullscreen @update:modelValue="onClose">
-        <v-card class="mx-auto my-0" >
-            <ComToolbar @onClose="onClose">
-                <template #title>
-                    Currency Prefine
-                </template>
-            </ComToolbar>
-            <v-card-text class="overflow-y-auto !p-2">
-                <ComPaymentCurrencyPrefine @onSelected="onClose()" :is-mobile="true"/>
-            </v-card-text>
-            <v-card-actions class="justify-end">
-                <v-btn class="mr-2" variant="flat" @click="onClose()" color="error">
-                    Close
-                </v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
+    <ComModal :fullscreen="true" @onClose="onClose()" :hideCloseButton="true">
+        <template #title>
+            Currency Prefine
+        </template>
+        <template #content>
+            <ComPaymentCurrencyPrefine @onSelected="onClose()" :is-mobile="true"/>
+        </template> 
+    </ComModal>
 </template>
 <script setup>
 import { defineProps, defineEmits,inject } from '@/plugin'

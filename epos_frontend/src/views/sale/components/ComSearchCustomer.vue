@@ -1,12 +1,11 @@
 <template>
-  <v-dialog :fullscreen="mobile" v-model="open" @update:modelValue="onClose" :style="mobile ? '' : 'width: 100%;max-width:800px'">
-    <v-card class="mx-auto my-0 w-full">
-      <ComToolbar @onClose="onClose">
-        <template #title>
+  <ComModal :fullscreen="mobile" @onClose="onClose">
+    <template #title>
           Select Customer
-        </template>
-      </ComToolbar>
+    </template>
+    <template #content>
       <div>
+        <div>
         <ComInput 
           autofocus
           ref="searchTextField"
@@ -17,7 +16,7 @@
           v-debounce="onSearch"
           @onInput="onSearch"/>
       </div>
-      <div class="overflow-auto px-4 pb-4">
+      <div class="px-4 pb-4">
         <ComPlaceholder v-if="customerResource.data?.length>0"  :is-not-empty="customerResource.data"
           text="There is not customer" icon="mdi-account-outline">
           <v-card v-for="(c, index) in customerResource.data.filter(r=>r.disabled == 0)" :key="index" :title="c.customer_name_en"
@@ -60,10 +59,9 @@
           </v-alert>
         </div>
       </div>
-    </v-card>
-  </v-dialog>
-
-
+      </div>
+    </template>
+  </ComModal>
 </template>
 <script setup>
   import { addCustomerDialog, ref, defineProps, defineEmits, createResource,inject } from '@/plugin'

@@ -1,102 +1,91 @@
 <template>
-    <v-dialog v-model="open" style="max-width: 900px; width: 100%;" scrollable="false">
-        <form @submit.prevent="onSave"> 
-        <v-card class="mx-auto my-0 w-full">
-            <ComToolbar @onClose="onClose">
-                <template #title>
-                    {{ params.title }}
-                </template>
-            </ComToolbar>
-            <v-card-text class="!px-3 overflow-auto ">  
-                
-                    <v-row>
-                        <v-col cols="12" sm="6"  md="6" >
-                            <ComInput v-model="customer.customer_name_en" :required="true" keyboard label="Customer Name En"/>    
-                        </v-col>
-                        <v-col cols="12" sm="6"  md="6">
-                            <ComAutoComplete v-model="customer.customer_group" doctype="Customer Group" variant="solo"/> 
-                        </v-col>
-                        <v-col cols="12" sm="6"  md="6">
-                            <ComInput v-model="customer.customer_name_kh" keyboard label="Customer Name Kh"/>
-                        </v-col>
-                        <v-col>
-                            <ComInput v-model="customer.date_of_birth" type="date" label="Date of Birth"/>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col cols="12" sm="6"  md="6">
-                            <ComInput v-model="customer.company_name" keyboard label="Company Name"/>
-                        </v-col>
-                        <v-col cols="12" sm="6"  md="6">
- 
-                            <v-select 
-                                density="compact"
-                                v-model="customer.gender" 
-                                placeholder="Gender"
-                                :items="gender?.options?.split('\n')"
-                                hide-no-data
-                                hide-details 
-                                clearable
-                                variant="solo"
-                            ></v-select>
-                        </v-col> 
-                    </v-row>
-                    <p class="font-weight-bold  pt-6 pb-2">
-                        Contact Information
-                    </p>
-                    <v-row>
-                        <v-col cols="12" sm="6"  md="6">
-                            <ComInput v-model="customer.phone_number" keyboard label="Phone Number 1"/>
-                        </v-col>
-                        <v-col cols="12" sm="6"  md="6">
-                            <ComAutoComplete v-model="customer.country" feild="country_name" doctype="Country" variant="solo"/>
-                        </v-col>
-                        <v-col cols="12" sm="6"  md="6">
-                            <ComInput v-model="customer.phone_number_2" keyboard label="Phone Number 2"/>
-                        </v-col>
-                        <v-col cols="12" sm="6"  md="6"> 
-                            <ComAutoComplete v-model="customer.province" feild="province" doctype="Province" variant="solo"/>
-                       </v-col>
-                        <v-col>
-                            <ComInput v-model="customer.email_address" keyboard label="Email Address"/> 
-                        </v-col>
-                        <v-col cols="12" sm="6"  md="6">
+    <ComModal @onPrint="onPrint"  width="900px" @onClose="onClose" @onOk="onSave">
+        <template #title>
+            {{ params.title }}
+        </template>
+        <template #content>
+            <div>         
+                <v-row>
+                    <v-col cols="12" sm="6"  md="6" >
+                        <ComInput v-model="customer.customer_name_en" :required="true" keyboard label="Customer Name En"/>    
+                    </v-col>
+                    <v-col cols="12" sm="6"  md="6">
+                        <ComAutoComplete v-model="customer.customer_group" doctype="Customer Group" variant="solo"/> 
+                    </v-col>
+                    <v-col cols="12" sm="6"  md="6">
+                        <ComInput v-model="customer.customer_name_kh" keyboard label="Customer Name Kh"/>
+                    </v-col>
+                    <v-col>
+                        <ComInput v-model="customer.date_of_birth" type="date" label="Date of Birth"/>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="12" sm="6"  md="6">
+                        <ComInput v-model="customer.company_name" keyboard label="Company Name"/>
+                    </v-col>
+                    <v-col cols="12" sm="6"  md="6">
 
-                        </v-col>
-                    </v-row>
-                    <p class="font-weight-bold pt-6 pb-2">
-                        Address & Note
-                    </p>
-                    <v-row>
-                        <v-col cols="12" sm="6"  md="6">
-                            <ComInput v-model="customer.address" title="Enter Note" keyboard label="Address" type="textarea"></ComInput>
-                        </v-col>
-                        <v-col cols="12" sm="6"  md="6">
-                            <ComInput v-model="customer.note" title="Enter Note" keyboard label="Note" type="textarea"></ComInput>
-                        </v-col>
-                    </v-row>
-                    
-                    <div> 
-                </div>
-            </v-card-text>
-            <v-card-actions class="justify-end">
-                <v-btn variant="flat" type="button" @click="onClose" color="error">
-                    Close
-                </v-btn>
-                <v-btn variant="flat" type="sumbit" color="primary">
-                    Save
-                </v-btn>
-            </v-card-actions>
-        </v-card>
-    </form>
-    </v-dialog>
+                        <v-select 
+                            density="compact"
+                            v-model="customer.gender" 
+                            placeholder="Gender"
+                            :items="gender?.options?.split('\n')"
+                            hide-no-data
+                            hide-details 
+                            clearable
+                            variant="solo"
+                        ></v-select>
+                    </v-col> 
+                </v-row>
+                <p class="font-weight-bold  pt-6 pb-2">
+                    Contact Information
+                </p>
+                <v-row>
+                    <v-col cols="12" sm="6"  md="6">
+                        <ComInput v-model="customer.phone_number" keyboard label="Phone Number 1"/>
+                    </v-col>
+                    <v-col cols="12" sm="6"  md="6">
+                        <ComAutoComplete v-model="customer.country" feild="country_name" doctype="Country" variant="solo"/>
+                    </v-col>
+                    <v-col cols="12" sm="6"  md="6">
+                        <ComInput v-model="customer.phone_number_2" keyboard label="Phone Number 2"/>
+                    </v-col>
+                    <v-col cols="12" sm="6"  md="6"> 
+                        <ComAutoComplete v-model="customer.province" feild="province" doctype="Province" variant="solo"/>
+                   </v-col>
+                    <v-col>
+                        <ComInput v-model="customer.email_address" keyboard label="Email Address"/> 
+                    </v-col>
+                    <v-col cols="12" sm="6"  md="6">
+
+                    </v-col>
+                </v-row>
+                <p class="font-weight-bold pt-6 pb-2">
+                    Address & Note
+                </p>
+                <v-row>
+                    <v-col cols="12" sm="6"  md="6">
+                        <ComInput v-model="customer.address" title="Enter Note" keyboard label="Address" type="textarea"></ComInput>
+                    </v-col>
+                    <v-col cols="12" sm="6"  md="6">
+                        <ComInput v-model="customer.note" title="Enter Note" keyboard label="Note" type="textarea"></ComInput>
+                    </v-col>
+                </v-row>
+                
+                <div> 
+            </div>
+        </div>
+        </template> 
+    </ComModal>
 </template>
+
 <script setup>
 import Enumerable from 'linq'
 import { createResource,ref, inject, computed,createDocumentResource, onMounted } from '@/plugin'
 import ComToolbar from '@/components/ComToolbar.vue';
 import { createToaster } from "@meforma/vue-toaster";
 import ComInput from '../../components/form/ComInput.vue';
+import ComModal from '../../components/ComModal.vue';
  
 const toaster = createToaster({ position: "top" });
 const gv = inject('$gv')

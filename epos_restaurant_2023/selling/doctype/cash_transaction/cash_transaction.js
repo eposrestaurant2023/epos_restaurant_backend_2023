@@ -3,21 +3,6 @@
 
 frappe.ui.form.on("Cash Transaction", {
 	setup(frm) {
-        frm.set_query('working_day', () => {
-            return {
-                filters: {
-                    is_closed: 0,
-                    business_branch: ['=',frm.doc.business_branch]
-                }
-            }
-        })
-        frm.set_query('cashier_shift', () => {
-            return {
-                filters: {
-                    working_day: ['=', frm.doc.working_day]
-                }
-            }
-        })
         frm.set_query('payment_type', () => {
             return {
                 filters: {
@@ -31,7 +16,7 @@ frappe.ui.form.on("Cash Transaction", {
     },
     payment_type(frm){ 
         update_amount(frm)
-    }
+    },
 });
 
 function update_amount(frm) {

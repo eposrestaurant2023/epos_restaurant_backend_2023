@@ -1,15 +1,10 @@
 <template>
-    <v-dialog v-model="open" persistent :max-width="categoryNoteName ? 1200 : 800">
-        <v-card>
-            <v-toolbar color="default" :title="params.title ? params.title : 'Product Discount'">
-                <v-toolbar-items>
-                    <v-btn icon @click="onClose()">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                </v-toolbar-items>
-            </v-toolbar>
-            <v-card-text class="p-0">
-                <div>
+    <ComModal :persistent="true" :width="categoryNoteName ? '1200px' : '800px'" @onClose="onClose()" @onOk="onOK()" title-ok-button="OK">
+        <template #title>
+            <div>Product Discount</div>
+        </template>
+        <template #content>
+            <div>
                     <v-row>
                         <v-col :md="categoryNoteName ? 6 : 12">
                             <div class="mb-2">
@@ -44,19 +39,8 @@
                         </v-col>
                     </v-row>
                 </div>
-                <div>
-                    <div class="text-right pt-4">
-                        <v-btn class="mr-2" variant="flat" @click="onClose(false)" color="error">
-                            Close
-                        </v-btn>
-                        <v-btn variant="flat" @click="onOK()" color="primary">
-                            OK
-                        </v-btn>
-                    </div>
-                </div>
-            </v-card-text>
-        </v-card>
-    </v-dialog>
+        </template>
+    </ComModal>
 </template>
 <script setup>
 import { ref, defineEmits, createToaster, computed } from '@/plugin'

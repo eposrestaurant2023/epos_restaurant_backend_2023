@@ -1,5 +1,66 @@
 <template>
-    <v-dialog :scrollable="false" v-model="open" :fullscreen="mobile" :style="mobile ? '' : 'width: 100%;max-width:900px'" @update:modelValue="onClose">
+    <ComModal :mobileFullscreen="true" width="900px" @onClose="onClose()" :hide-ok-button="true" :hide-close-button="true">
+        <template #title>
+            {{ params.data.product_name }}
+        </template>
+        <template #content>
+            <div class="p-2">
+            <v-row>
+                <v-col cols="12" md="5">
+                    <div class="mb-2">
+                        <div class="mb-2">
+                            <ComInput v-model="price" type="number" keyboard class="mb-2" label="Enter Price"
+                                :required-autofocus="true" />
+                            <ComInlineInputNumber :hide-input="true" v-model="price" :disabled="isDeleteNote"
+                                v-if="!mobile" />
+                        </div>
+                    </div>
+                </v-col>
+                <v-col cols="12" md="7">
+
+                    <ComInput :autofocus="!mobile" keyboard v-model="search" v-debounce="onSearch"
+                        label="Search or Add Note" />
+                    <v-alert class="mt-4" v-if="getSelectedNote() != ''" :text="getSelectedNote()"></v-alert>
+                    <div class="-mx-1">
+                        <template v-for="(item, index) in getNote()" :key="index">
+                            <v-chip :closable="isDeleteNote" v-if="item.chip" @click:close="item.chip = false" class="m-1"
+                                @click="onSelected(item)">
+                                <v-icon start icon="mdi-checkbox-marked-circle-outline" v-if="item.selected"
+                                    color="orange"></v-icon>
+                                <span>
+                                    {{ item.note }}
+                                </span>
+                            </v-chip>
+                        </template>
+                    </div>
+                </v-col>
+            </v-row>
+        </div>
+        </template>
+        <template #action>
+            <v-btn v-if="search && !isDeleteNote" variant="flat" @click="onSaveNote" color="success">
+                Save
+            </v-btn>
+            <template v-if="isDeleteNote">
+                <v-btn variant="flat" @click="onCancelDeleteNote" color="warning">
+                    Cancel
+                </v-btn>
+                <v-btn v-if="noteResource.doc.notes.filter(r => r.chip == false).length > 0" variant="flat"
+                    @click="onDeleteNote" color="primary">
+                    Confirm
+                </v-btn>
+            </template>
+            <template v-else>
+                <v-btn class="mr-2" variant="flat" @click="onEnableDeleteNote" color="error">
+                    Delete
+                </v-btn>
+                <v-btn variant="flat" @click="onOK()" color="primary">
+                    OK
+                </v-btn>
+            </template>
+        </template>
+    </ComModal>
+    <!-- <v-dialog :scrollable="false" v-model="open" :fullscreen="mobile" :style="mobile ? '' : 'width: 100%;max-width:900px'" @update:modelValue="onClose">
         <v-card class="mx-auto my-0">
             <ComToolBar @onClose="onClose">
                 <template #title>
@@ -57,7 +118,7 @@
                 </template>
             </v-card-actions>
         </v-card>
-    </v-dialog>
+    </v-dialog> -->
 </template>
 <script setup>
 import { defineEmits, ref, createDocumentResource, confirmDialog } from '@/plugin'
@@ -118,8 +179,8 @@ function getNote() {
         } else {
 
             notes = noteResource.doc?.notes.filter((r) => {
-                    return (!r.product_code || props.params.data.product_code)
-                });
+                return (!r.product_code || props.params.data.product_code)
+            });
         }
         return notes.filter((r) => {
             return String(r.note).toLocaleLowerCase().includes(search.value.toLocaleLowerCase());
@@ -187,7 +248,7 @@ async function onDeleteNote() {
 
 }
 function onSaveNote() {
-    
+
     const notes = noteResource.doc.notes;
     notes.push({ note: search.value, product_code: props.params.data.product_code })
     noteResource.setValue.submit({ notes: notes });

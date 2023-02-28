@@ -1,20 +1,13 @@
 <template>
   <div class="pa-8">
-    <v-text-field v-model="n1" /> + <v-text-field v-model="n2"/> <v-btn @click="AddNumber">=</v-btn> <v-text-field v-model="result"/> 
+    <v-btn @click="test()">test on mobile</v-btn>
   </div>
-
 </template>
-<script setup>
-import { ref } from '@/plugin';
-const n1 = ref(0)
-const n2 = ref(0)
-const result = ref(0)
+<script setup> 
 
-function AddNumber(){
-  result.value = parseFloat(n1.value) + parseFloat( n2.value);
-}
-
-
-
-
+import Enumerable from 'linq';
+ function test(){
+  alert(123)
+ 
+ }
 </script>

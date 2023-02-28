@@ -1,4 +1,5 @@
 <template>
+    
     <ComLoadingDialog
         v-if="sale.newSaleResource?.loading || (sale.saleResource != null && sale.saleResource?.get.loading) || (sale.saleResource != null && sale.saleResource?.setValue.loading)" />
     <div style="height: calc(100vh - 64px)" id="tst">
@@ -6,7 +7,6 @@
         <v-row class="h-full ma-0" v-else>
             <v-col cols="12" sm="7" md="7" lg="8" class="pa-0 h-full d-none d-sm-block">
                 <ComMenu :background-image="gv.setting.pos_sale_order_background_image" />
-                
             </v-col>
             <v-col cols="12" sm="5" md="5" lg="4" class="h-full pa-0">
                 <div class="h-full grid px-1" style="grid-template-rows: max-content;">
@@ -28,8 +28,7 @@
                     </div>
                     <div class="mt-auto">
                         <div class="-mx-1 bg-blue-100 rounded-tl-md rounded-tr-md text-xs">
-                            <ComSaleSummaryList/>
-                            <ComSaleButtonActionRight/>
+                            <ComSaleSummaryList/> 
                             <ComSaleButtonPaymentSubmit/>
                         </div>
                     </div>
@@ -39,19 +38,18 @@
     </div>
 </template>
 <script setup>
-import { useStore, inject, useRoute, ref, onUnmounted } from '@/plugin';
+import {  inject, useRoute, ref, onUnmounted } from '@/plugin';
 import ComMenu from './components/ComMenu.vue';
 import ComSelectCustomer from './components/ComSelectCustomer.vue';
 import ComSaleInformation from '@/views/sale/components/ComSaleInformation.vue';
 import ComLoadingDialog from '../../components/ComLoadingDialog.vue';
 import { useDisplay } from 'vuetify'
 import ComSmallAddSale from './components/mobile_screen/ComSmallAddSale.vue';
-import ComGroupSaleProductList from './components/ComGroupSaleProductList.vue';
-import ComSaleButtonActionRight from './components/ComSaleButtonActionRight.vue';
+import ComGroupSaleProductList from './components/ComGroupSaleProductList.vue'; 
 import ComSaleSummaryList from './components/ComSaleSummaryList.vue';
 import ComSaleButtonPaymentSubmit from './components/ComSaleButtonPaymentSubmit.vue';
 const { mobile, name, platform } = useDisplay()
-const store = useStore()
+
 const sale = inject("$sale")
 const gv = inject("$gv")
 const product = inject("$product")
@@ -63,22 +61,17 @@ if (sale.orderBy == null) {
     sale.orderBy = JSON.parse(localStorage.getItem("current_user")).full_name;
 }
 
-
 sale.orderTime = "";
 
-
 if (product.posMenuResource.data?.length == 0) {
-
     product.loadPOSMenu();
 }
 
-//check if new sale
-if (route.params.name == "") {
-    sale.newSale()
-} else {
+ 
+if (!sale.getString(route.params.name)=="") {
  
     sale.LoadSaleData(route.params.name);
-    
+
 }
 sale.getTableSaleList();
 
@@ -93,7 +86,15 @@ function onSearchProduct(open){
 }
 
 onUnmounted(() => {
+   
     sale.sale = {}
+    sale.working_day_resource = null;
+        sale.cashier_shift_resource = null;
+        sale.newSaleResource = null;
+        sale.saleResource = null;
+        sale.tableSaleListResource = null;
+    
+
 })
 
 </script>

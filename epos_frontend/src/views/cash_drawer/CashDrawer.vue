@@ -1,58 +1,179 @@
 <template lang="">
     <PageLayout class="pb-4" title="Cash Drawer" icon="mdi-currency-usd">
         <v-container class="!py-0">
-        <div class="bg-gray-100 mb-2 rounded-sm" :class="mobile ? 'p-2' : 'p-4 text-lg'">
-            <div class="text-center text-gray-400 mb-2 text-sm">Cash Drawer Balance</div>
-            <div class="mb-5 text-center">
-                <div class="mb-2">
-                    $ 2,322,255
-                    <!-- <CurrencyFormat :value="2555" /> -->
-                </div>
-                <div>
-                    ៛ 120,200,000.00
-                    <!-- <CurrencyFormat :value="0205" /> -->
-                </div>
-            </div>
-            <div class="flex justify-around">
-                <div>
-                    <v-btn color="primary" @click="onCash('Cash In')">Cash In</v-btn>
-                </div>
-                <div>
-                    <v-btn color="error" @click="onCash('Cash Out')">Cash Out</v-btn>
-                </div>
+        <div> 
+            <div class="mb-4 grid grid-cols-2 gap-2">
+                <ComCashDrawerKPI :loading="cashierShiftInfo.loading" backgroundColor="primary" title="Opening Amount" :value="openingAmount"/>
+                <ComCashDrawerKPI backgroundColor="secondary" title="Cash Sale Amount" :value="cashDrawerShiftBalance.total_amount_cash"/>
+                <ComCashDrawerKPI backgroundColor="success" title="Cash In Amount" :value="cashDrawerShiftBalance.total_amount_cash_in"/>
+                <ComCashDrawerKPI backgroundColor="error" title="Cash Out Amount" :value="cashDrawerShiftBalance.total_amount_cash_out"/>
+                <ComCashDrawerKPI class="col-span-2" backgroundColor="info" title="Cash Drawer Balance" :value="balanceInCash"/>
             </div>
         </div>
         <div>
-            <v-timeline>
-                <v-timeline-item size="large">
-                <template v-slot:icon>
-                    <v-avatar v-if="false" image="https://i.pravatar.cc/64"></v-avatar>
-                    <avatar v-else name="title" size="40"></avatar>
-                </template>
-                <template v-slot:opposite>
-                    <span>12:00 AM</span>
-                </template>
-                <v-card class="elevation-2">
-                    <v-card-title class="text-h5">
-                    Lorem ipsum
-                    </v-card-title>
-                    <v-card-text>Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at. Est et nobis iisque percipit, an vim zril disputando voluptatibus, vix an salutandi sententiae.</v-card-text>
-                </v-card>
-                </v-timeline-item>
-            </v-timeline>
+            <div class="font-bold py-2">
+                <div :class="mobile ? '' : 'flex justify-between'">
+                    <div>Today's Cash Transaction</div>
+                    <div class="text-right">
+                        <v-btn class="mr-1" color="success" @click="onCash('Cash In')" :size="mobile ? 'small' : 'default'">Cash In</v-btn>
+                        <v-btn color="error" @click="onCash('Cash Out')" :size="mobile ? 'small' : 'default'">Cash Out</v-btn>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-2">
+                <v-divider></v-divider>
+            </div>
+            <ComPlaceholder :loading="dataResource.loading" :is-not-empty="transactions.length > 0">
+                <v-timeline density="comfortable">
+                    <v-timeline-item 
+                        v-for="(t, index) in transactions" 
+                        :key="index" 
+                        :dot-color="t.transaction_status == 'Cash Out' ? '#b00020' : '#4caf50'" 
+                        size="small" 
+                        :hide-opposite="mobile"
+                        width="100%"
+                        > 
+                    <v-card>
+                        <v-card-text>
+                            <div class="grid" :class="mobile ? '' : 'grid-cols-2'">
+                                <div> 
+                                    <div class="font-bold text-lg">
+                                        <CurrencyFormat :value="t.input_amount" v-if="t.currency == 'USD'"/>
+                                        <span v-else>{{t.input_amount}} <span>{{t.currency}}</span></span>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm text-gray-400">{{t.name}}</div>
+                                        <v-icon icon="mdi-clock" size="x-small"/> {{moment(t.creation).format('HH:mm A')}}
+                                    </div>
+                                </div>
+                                <div class="text-right text-sm">
+                                    <div><v-icon icon="mdi-account" size="x-small"/> {{t.owner}}</div>
+                                    <div>
+                                        <v-chip size="x-small" v-if="t.transaction_status == 'Cash Out'" color="error">Cash Out</v-chip>
+                                        <v-chip size="x-small" v-else-if="t.transaction_status == 'Cash In'" color="success">Cash In</v-chip>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-gray-600 text-sm"> 
+                                <div class="pt-1 whitespace-pre-wrap">
+                                    {{t.note}}
+                                </div>
+                            </div>
+                        
+                        </v-card-text>
+                        <!-- <v-card-actions class="justify-end">
+                            <v-btn variant="flat" color="primary" size="small" @click="onCash(t.transaction_status, t.name)">
+                                Edit
+                            </v-btn>
+                            <v-btn variant="flat" color="error" size="small" @click="onDelete(t.name)">
+                                Delete
+                            </v-btn>
+                        </v-card-actions> -->
+                    </v-card>
+                    </v-timeline-item>
+                </v-timeline>
+            </ComPlaceholder>
         </div>
         </v-container>
     </PageLayout>
     
 </template>
 <script setup>
+import moment from '@/utils/moment.js';
 import PageLayout from '@/components/layout/PageLayout.vue';
-import {addCashDrawerModalDialog} from '@/plugin'
-import {useDisplay} from 'vuetify'
-const {mobile} = useDisplay()
+import ComCashDrawerKPI from './components/ComCashDrawerKPI.vue';
+import { addCashDrawerModalDialog, createResource, ref, onMounted, computed, createDocumentResource, createToaster, confirmDialog } from '@/plugin'
+import { useDisplay } from 'vuetify'
+const { mobile } = useDisplay()
+const toaster = createToaster({ position: 'top' })
+let transactions = ref({})
+let dataResource = {};
+let cashBalanceResource = {};
+let cashDrawerShiftBalance = ref({})
+let openingAmount = ref(0)
 
-async function onCash(cash_type){
-    const result = await addCashDrawerModalDialog({name: cash_type})
+const balanceInCash = computed(() => {
+    if (cashDrawerShiftBalance.value)
+        return cashDrawerShiftBalance.value.total_amount_cash - cashDrawerShiftBalance.value.total_amount_cash_out + cashDrawerShiftBalance.value.total_amount_cash_in + openingAmount.value
+    return 0
+})
+async function onCash(cash_type, name) {
+    const result = await addCashDrawerModalDialog({ name: name, data: { cash_type: cash_type, cashier_shift_info: cashierShiftInfo.data } })
+
+    if (result == true) {
+        cashierShiftInfo.fetch()
+    }
 }
+
+
+let cashierShiftInfo = createResource({
+    url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
+    params: {
+        pos_profile: localStorage.getItem("pos_profile")
+    },
+    async onSuccess(doc) {
+        openingAmount.value = doc.total_opening_amount
+        await onLoadCashDrawerShiftBalance(doc.name)
+        await onLoadTrancation(doc.name)
+    }
+});
+
+onMounted(() => {
+    cashierShiftInfo.fetch()
+})
+function onLoadCashDrawerShiftBalance(cashier_shift) {
+    cashBalanceResource = createResource({
+        url: "epos_restaurant_2023.api.api.get_cash_drawer_balance",
+        params: {
+            cashier_shift: cashier_shift
+        },
+        auto: true,
+        onSuccess(doc) {
+            cashDrawerShiftBalance.value = doc
+        }
+    });
+}
+function onLoadTrancation(cashier_shift) {
+    dataResource = createResource({
+        url: 'frappe.client.get_list',
+        params: {
+            doctype: "Cash Transaction",
+            fields: ['*'],
+            filters: {
+                cashier_shift: cashier_shift
+            },
+            order_by: 'creation desc'
+        },
+        auto: true,
+        onSuccess(data) {
+            transactions.value = data
+        },
+
+    })
+}
+
+// async function onDelete(name) {
+//     const confirmDelete = await confirmDialog({title: 'Are you sure to deleted record?'})
+//     if (confirmDelete == true) {
+//         const deleted = createDocumentResource({
+//             url: "frappe.client.get",
+//             doctype: "Cash Transaction",
+//             name: name,
+//             delete: {
+//                 onSuccess() {
+//                     toaster.success(`Deleted Successful`);
+//                     dataResource.fetch()
+//                     cashBalanceResource.fetch()
+//                 },
+//                 onError(r) {
+//                     toaster.error(JSON.stringify(r))
+//                 },
+//             },
+//         })
+
+//         deleted.delete.submit()
+//     }
+
+// }
 
 </script> 

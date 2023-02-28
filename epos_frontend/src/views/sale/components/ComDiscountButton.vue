@@ -1,9 +1,12 @@
 <template>
     <v-menu>
         <template v-slot:activator="{ props }">
-            <div class="cursor-pointer m-1 rounded-md p-2 grow bg-blue-600 hover:bg-blue-700 text-white" v-bind="props">
+            <!-- <div class="cursor-pointer m-1 rounded-md p-2 grow bg-blue-600 hover:bg-blue-700 text-white" v-bind="props">
                 Discount
-            </div>
+            </div> -->
+            <v-btn stacked color="primary" size="small" class="m-1 grow" prepend-icon="mdi-tag-outline"  v-bind="props">
+                Discount
+            </v-btn>
         </template>
         <v-list>
             <ComDiscountButtonList/>

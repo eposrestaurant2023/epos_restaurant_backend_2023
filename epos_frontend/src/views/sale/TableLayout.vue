@@ -40,11 +40,8 @@ import ComSaleStatusInformation from './components/ComSaleStatusInformation.vue'
 import ComTableLayoutActionButton from './components/table_layouts/ComTableLayoutActionButton.vue';
 import ComArrangeTable from './components/table_layouts/ComArrangeTable.vue';
 import ComRenderTableNumber from './components/table_layouts/ComRenderTableNumber.vue';
- 
-
 
 const tableLayout = inject("$tableLayout");
-
 
 const router = useRouter()
 

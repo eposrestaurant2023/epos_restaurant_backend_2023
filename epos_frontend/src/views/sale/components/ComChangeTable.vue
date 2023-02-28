@@ -1,4 +1,47 @@
 <template>
+    <!-- <ComModal :mobileFullscreen="true" width="800px" @onClose="onClose" :hideCloseButton="true" :hideOkButton="true">
+        <template #title>
+            Change / Merge Table
+        </template>
+        <template #content>
+                <v-tabs align-tabs="center"
+                    v-if="tableLayout.table_groups && tableLayout.table_groups.length > 1"
+                    v-model="tableLayout.tab">
+                    <v-tab v-for="g in tableLayout.table_groups" :key="g.key" :value="g.key">
+                        {{ g.table_group }}   {{ g.search_table_keyword }}
+                    </v-tab>
+                </v-tabs>
+                <template v-if="tableLayout.table_groups">
+                    <v-window v-model="tableLayout.tab">
+                        <template v-for="g in tableLayout.table_groups">
+                            <v-window-item :value="g.key">
+                                <div class="pa-4">
+                                    <ComInput 
+                                    v-model="g.search_table_keyword"
+                                    autofocus
+                                    ref="searchTextField"
+                                    keyboard
+                                    class="my-2 mb-4"
+                                    placeholder="Search Table" />
+                                    <div class="grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6">
+                                    <template v-for="(t, index) in getTable(g.tables, g.search_table_keyword)" :key="index">
+                                        <v-badge :content="t.sales.length" color="error" v-if="t.sales.length>0">
+                                            <v-btn  :color="t.background_color" @click="onSelectTable(t)" width="100%" height="100">
+                                            {{ t.tbl_no }}
+                                            </v-btn>
+                                    </v-badge>
+                                    <v-btn v-else   :color="t.background_color" @click="onSelectTable(t)" width="100%" height="100">
+                                            {{ t.tbl_no }}
+                                            </v-btn>
+                                    </template>
+                                </div>
+                            </div>
+                            </v-window-item>
+                        </template>
+                    </v-window>
+                </template>
+            </template>
+    </ComModal> -->
     <v-dialog :scrollable="false" v-model="open" :fullscreen="mobile"
         :style="mobile ? '' : 'width: 100%;max-width:800px'">
         <v-card>
@@ -19,19 +62,24 @@
                     <v-window v-model="tableLayout.tab">
                         <template v-for="g in tableLayout.table_groups">
                             <v-window-item :value="g.key">
-                                <div class="pa-1">
+                                <div class="pa-4">
                                     <ComInput 
                                     v-model="g.search_table_keyword"
                                     autofocus
                                     ref="searchTextField"
                                     keyboard
-                                    class="my-2"
+                                    class="my-2 mb-4"
                                     placeholder="Search Table" />
-                                    <div class="grid gap-2 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6">
+                                    <div class="grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6">
                                     <template v-for="(t, index) in getTable(g.tables, g.search_table_keyword)" :key="index">
-                                        <v-btn :disabled="sale.sale.table_id==t.id" :color="t.background_color" @click="onSelectTable(t)" width="100%" height="100">
-                                        {{ t.tbl_no }}
-                                        </v-btn>
+                                        <v-badge :content="t.sales?.length" color="error" v-if="t.sales?.length>0">
+                                            <v-btn  :color="t.background_color" @click="onSelectTable(t)" width="100%" height="100">
+                                            {{ t.tbl_no }}
+                                            </v-btn>
+                                    </v-badge>
+                                    <v-btn v-else   :color="t.background_color" @click="onSelectTable(t)" width="100%" height="100">
+                                            {{ t.tbl_no }}
+                                            </v-btn>
                                     </template>
                                 </div>
                             </div>
@@ -45,7 +93,7 @@
 </template>
   
 <script setup>
-import { ref, defineEmits, inject } from '@/plugin'
+import { ref, defineEmits, inject,changeTableSelectSaleOrderDialog } from '@/plugin'
 import ComToolbar from '@/components/ComToolbar.vue';
 import { createToaster } from '@meforma/vue-toaster';
 import ComInput from '../../../components/form/ComInput.vue';
@@ -88,7 +136,7 @@ function getTable(tables,keyword) {
 
 
 
-function onSelectTable(t) {
+async function onSelectTable(t) {
    if(t.sales?.length==0){
 
     
@@ -100,7 +148,19 @@ function onSelectTable(t) {
  
    }
    else {
-    alert("popup select sale")
+    const result = await changeTableSelectSaleOrderDialog({data:t});
+    if(result){
+        if(result.action=="create_new_bill"){
+            sale.sale.table_id = t.id;
+            sale.sale.tbl_number = t.tbl_no;
+            toaster.success("Change to table: " + t.tbl_no);
+            emit("resolve", true)
+        }else if(result.action=="reload_sale"){
+            emit("resolve", result)
+        }
+        
+       
+    }
    }
 }
 

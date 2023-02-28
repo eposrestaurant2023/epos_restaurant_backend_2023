@@ -1,23 +1,18 @@
 <template>
-  <v-dialog v-model="open" @update:modelValue="onClose">
-    <v-card class="mx-auto my-2 py-2 w-80 max-w-sm" title="Change Sale Type">
-      <v-card-text> 
-        <v-list>
+  <ComModal @onClose="onClose()" :hide-ok-button="true">
+    <template #title>
+      <div>Change Sale Type</div>
+    </template>
+    <template #content>
+      <v-list>
           <v-list-item v-for="(item, index) in saleTypeResource.data" :key="index" class="!p-0">
             <v-btn class="w-full text-white" variant="flat"  @click="onChangeSaleType(item)" :color="item.color">
               {{ item.name }}
             </v-btn>
           </v-list-item>
         </v-list>
-      </v-card-text>
-      <v-card-actions class="text-right">
-        <v-spacer></v-spacer>
-        <v-btn variant="flat" @click="onClose" color="error">
-          Cancel
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+    </template>
+  </ComModal>
 </template>
   
 <script setup>

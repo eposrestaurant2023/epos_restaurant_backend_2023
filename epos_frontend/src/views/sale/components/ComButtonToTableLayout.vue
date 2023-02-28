@@ -5,9 +5,9 @@
         </template>
         <v-list-item-title>Table Layout</v-list-item-title>
     </v-list-item>
-    <div class="cursor-pointer bg-red-800 m-1 rounded-md p-2 flex items-center" @click="onToTableLayout()" v-else>
-        <v-icon icon="mdi-view-dashboard" color="white" /> <span class="text-white ml-1">Table Layout</span>
-    </div>
+    <v-btn stacked color="error" size="small" class="m-1 grow" prepend-icon="mdi-view-dashboard" @click="onToTableLayout()" v-else>
+      Table Layou
+    </v-btn>
 </template>
 <script setup>
 import { inject, defineProps,confirmBackToTableLayout, useRouter, defineEmits } from '@/plugin'

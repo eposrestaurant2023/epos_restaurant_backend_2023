@@ -1,13 +1,10 @@
 <template>
-    <v-dialog v-model="open" fullscreen scrollable>
-        <v-card>
-            <ComToolbar @onClose="onClose">
-                <template #title>
-                    <span>Sale # : <span v-if="sale.sale.sale_status=='New'">New</span><span v-else>{{ sale.sale.name }}</span></span>
-                </template>
-            </ComToolbar>
-            <v-card-text>
-                <v-container>
+    <ComModal :fullscreen="true" @onClose="onClose" @onOk="onConfirm()" title-ok-button="OK">
+        <template #title>
+            <span>Sale # : <span v-if="sale.sale.sale_status=='New'">New</span><span v-else>{{ sale.sale.name }}</span></span>
+        </template>
+        <template #content>
+            <v-container>
                     <v-card style="width: 100%; max-width: 800px; margin: 0 auto;">
                         <v-card-text>
                             <div class="sm:flex sm:justify-between pb-2">
@@ -184,29 +181,20 @@
                                         <div class="mr-16">
                                             <span>Changed Amount</span>
                                         </div>
-                                        <span class="ml-auto"><CurrencyFormat :value="d.changed_amount"/></span>
+                                        <span class="ml-auto"><CurrencyFormat :value="sale.sale.changed_amount"/></span>
                                     </li>
                                 </ul>
                             </div>
                         </v-card-text>
                     </v-card>
                 </v-container>
-            </v-card-text>
-            <div>
-                <v-divider></v-divider>
-                <div class="text-right p-2">
-                    <v-btn color="error" @click="onClose" class="mr-2">Close</v-btn>
-                    <v-btn color="primary" @click="onConfirm">OK</v-btn>
-                </div>
-            </div>
-        </v-card>
-    </v-dialog>
+        </template>
+    </ComModal>
 </template>
   
 <script setup>
 import Enumerable from 'linq'
 import { ref, defineEmits, inject, computed } from '@/plugin'
-import ComToolbar from '@/components/ComToolbar.vue'; 
 const props = defineProps({
     params: {
         type: Object,

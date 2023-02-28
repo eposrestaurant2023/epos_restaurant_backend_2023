@@ -1,7 +1,7 @@
 <template>
-  <v-card class="mx-auto my-2 py-2">
+  <v-card class="mx-auto my-2 py-2" :elevation="hideInput ? '0' : '2'">
     <v-card-title v-if="title">{{ title }}</v-card-title>
-    <v-card-text>
+    <v-card-text :class="hideInput ? '!p-1' : ''">
       <v-text-field v-if="!hideInput" label="Enter Price" variant="solo" v-model="number" clearable maxlength="10" :disabled="disabled"></v-text-field>
       <div>
         <div class="grid grid-cols-3 gap-3">

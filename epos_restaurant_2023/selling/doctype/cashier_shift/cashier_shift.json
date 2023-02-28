@@ -26,7 +26,8 @@
   "is_closed",
   "closed_date",
   "column_break_10",
-  "closed_note"
+  "closed_note",
+  "outlet"
  ],
  "fields": [
   {
@@ -135,11 +136,18 @@
    "fieldname": "total_close_amount",
    "fieldtype": "Currency",
    "label": "Total Close Amount"
+  },
+  {
+   "fetch_from": "working_day.outlet",
+   "fieldname": "outlet",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Outlet"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-17 20:33:20.180646",
+ "modified": "2023-02-25 16:42:18.657792",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Cashier Shift",

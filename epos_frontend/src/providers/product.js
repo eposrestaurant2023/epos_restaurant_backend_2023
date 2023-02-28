@@ -27,10 +27,9 @@ export default class Product {
 	}
     
     loadPOSMenu(){
-       
         this.posMenuResource.update({
             params:{
-                root_menu: this.currentRootPOSMenu?? this.setting?.default_pos_menu
+                root_menu: this.currentRootPOSMenu? this.currentRootPOSMenu : this.setting?.default_pos_menu
             }
         });
         this.posMenuResource.reload();

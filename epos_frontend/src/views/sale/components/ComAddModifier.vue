@@ -1,14 +1,15 @@
 <template>
-    <v-dialog :scrollable="false" v-model="open" :fullscreen="mobile" :style="mobile ? '' : 'width: 100%;max-width:800px'">
-        <v-card> 
-            <ComToolbar @onClose="onClose">
-                <template #title>
-                    Choose Product Portion & Modifier
-                </template>
-            </ComToolbar>  
-                <div class="overflow-auto p-4 h-full">
-                <div>
-                    <div class="mb-4">
+    <ComModal
+        :mobileFullscreen="true"
+        @onClose="onClose"
+        @onOk="onConfirm"
+        titleButtonOk="OK"
+        >
+        <template #title>
+            Choose Product Portion & Modifier
+        </template>
+        <template #content>
+            <div class="mb-4">
                         <ComInput prepend-inner-icon="mdi-magnify" keyboard :value="keyword" v-debounce="onSearch" @onInput="onSearch" placeholder="Search Portion & Modifier"/>
                     </div>
                     <div>
@@ -44,16 +45,8 @@
                             </template>
                         </v-expansion-panels>
                     </div>
-                </div>
-            </div>
-            
-            <div class="text-right p-2">
-                <v-btn color="error" @click="onClose" class="mr-2">Close</v-btn>
-                <v-btn color="primary" @click="onConfirm">OK</v-btn>
-            </div> 
-        </v-card>
- 
-    </v-dialog>
+        </template>
+    </ComModal>
 </template>
   
 <script setup>

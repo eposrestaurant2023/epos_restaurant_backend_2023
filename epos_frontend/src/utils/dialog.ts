@@ -23,9 +23,11 @@ import ComSmallViewSaleProductListModel from '@/views/sale/components/mobile_scr
 import ComSmallCurrencyPrefineModel from '@/views/sale/components/mobile_screen/ComSmallCurrencyPrefineModel.vue';
 import ComChangeTable from '@/views/sale/components/ComChangeTable.vue';
 import ComChangePriceRuleModal from '@/views/sale/components/ComChangePriceRuleModal.vue';
+import ComChangePOSMenuModal from '@/views/sale/components/ComChangePOSMenuModal.vue';
 import ComSearchSaleModal from '@/views/sale/components/ComSearchSaleModal.vue'
 import ComChangeSaleTypeModal from '@/views/sale/components/ComChangeSaleTypeModal.vue'
 import ComAddCashDrawerModal from '@/views/cash_drawer/components/ComAddCashDrawerModal.vue'
+import ComChangeTableSelectSaleOrder from '@/views/sale/components/ComChangeTableSelectSaleOrder.vue'
 
 interface params {
     doctype?:String,
@@ -72,4 +74,6 @@ export  const changePriceRuleDialog = createPromiseDialog<params, object>(ComCha
 export  const searchSaleDialog = createPromiseDialog<params, object>(ComSearchSaleModal);
 export  const changeSaleTypeModalDialog = createPromiseDialog<params, object>(ComChangeSaleTypeModal);
 export  const addCashDrawerModalDialog = createPromiseDialog<params, object>(ComAddCashDrawerModal);
+export  const changeTableSelectSaleOrderDialog = createPromiseDialog<params, object>(ComChangeTableSelectSaleOrder);
+export  const changePOSMenuDialog = createPromiseDialog<params, object>(ComChangePOSMenuModal);
 

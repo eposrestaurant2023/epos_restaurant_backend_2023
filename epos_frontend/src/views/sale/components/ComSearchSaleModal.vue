@@ -1,26 +1,25 @@
 <template>
-  <v-dialog :fullscreen="mobile" v-model="open" @update:modelValue="onClose"
-    :style="mobile ? '' : 'width: 100%;max-width:1200px'">
-    <v-card class="mx-auto my-0 w-full">
-      <ComToolbar @onClose="onClose">
-        <template #title>
-          Select Sale
-        </template>
-      </ComToolbar>
+  <ComModal :mobileFullscreen="true" @onClose="onClose()">
+    <template #title>
+      Select Sale
+    </template>
+    <template #content>
       <div>
-        <ComInput autofocus ref="searchTextField" keyboard class="m-2" v-model="search" placeholder="Search Sale"/>
+        <div>
+          <ComInput autofocus ref="searchTextField" keyboard class="m-2" v-model="search" placeholder="Search Sale" />
+        </div>
+        <div class="overflow-auto px-2 pb-2">
+          <ComPlaceholder :is-not-empty="getSaleList().length > 0">
+            <v-row class="!-m-1">
+              <v-col class="!p-0" cols="12" md="6" v-for="(s, index) in getSaleList()" :key="index">
+                <ComSaleListItem :sale="s" @click="onSelect(s)" />
+              </v-col>
+            </v-row>
+          </ComPlaceholder>
+        </div>
       </div>
-      <div class="overflow-auto px-2 pb-2">
-        <ComPlaceholder :is-not-empty="getSaleList().length > 0">
-          <v-row class="!-m-1">
-            <v-col class="!p-0" cols="12" md="6" v-for="(s, index) in getSaleList()" :key="index">
-              <ComSaleListItem :sale="s" @click="onSelect(s)"/>
-            </v-col>
-          </v-row> 
-        </ComPlaceholder>
-      </div>
-    </v-card>
-  </v-dialog>
+    </template>
+  </ComModal>
 </template>
 <script setup>
 
@@ -50,7 +49,7 @@ const search = ref('')
 function getSaleList() {
   if (search.value) {
     return sale.tableSaleListResource?.data?.filter((r) => {
-      return  (String(r.name) + ' ' + String(r.customer_name) + String(r.phone_number) ) .toLocaleLowerCase().includes(search.value.toLocaleLowerCase());
+      return (String(r.name) + ' ' + String(r.customer_name) + String(r.phone_number)).toLocaleLowerCase().includes(search.value.toLocaleLowerCase());
     });
   } else {
     return sale.tableSaleListResource?.data;

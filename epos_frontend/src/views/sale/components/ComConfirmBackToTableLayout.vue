@@ -1,11 +1,11 @@
 <template>
-    <v-dialog v-model="open" @update:modelValue="onClose" >
-        <v-card 
-          class="mx-auto my-2 py-2"
-          title="Back to table layout"
-          subtitle="Your have unsubmited sale order."
-          >
-          <v-card-text>
+    <ComModal @onClose="onClose" width="350px" :hide-ok-button="true">
+      <template #title>
+        Back to table layout
+      </template>
+      <template #content>
+        <p class="text-gray-400 text-sm px-2">Your have unsubmited sale order.</p>
+        <div class="-mx-2">
             <v-list>
               <!-- <v-list-item prepend-icon="mdi-cash-100" title="Hold Order" @click="onOk('hold')"/>
               <v-list-item prepend-icon="mdi-cash-100" title="Submit Order" @click="onOk('submit')"/>
@@ -26,24 +26,9 @@
               </v-btn>
               </v-list-item>
             </v-list>
-          </v-card-text>
-          <v-card-actions class="text-right">
-              <v-spacer></v-spacer>
-              <v-btn variant="flat" @click="onClose" color="error">
-                Cancel
-              </v-btn>
-              <!-- <v-btn variant="flat" @click="onOk('hold')" color="primary">
-                  Hold Order
-              </v-btn>
-              <v-btn variant="flat" @click="onOk('submit')" color="success">
-                  Submit Order
-              </v-btn>
-              <v-btn variant="flat" @click="onOk('continue')" color="warning">
-                  Continue
-              </v-btn> -->
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+          </div>
+      </template>
+    </ComModal>
   </template>
   
   <script setup>

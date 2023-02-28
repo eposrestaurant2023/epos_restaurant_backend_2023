@@ -11,12 +11,12 @@
   "naming_series",
   "posting_date",
   "column_break_3",
+  "cashier_shift",
+  "column_break_11",
   "business_branch",
   "section_break_5",
   "working_day",
   "column_break_7",
-  "cashier_shift",
-  "column_break_11",
   "pos_profile",
   "column_break_9",
   "outlet",
@@ -33,7 +33,8 @@
   "column_break_13",
   "created_by",
   "notice_section",
-  "note"
+  "note",
+  "currency"
  ],
  "fields": [
   {
@@ -58,6 +59,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "cashier_shift.business_branch",
    "fieldname": "business_branch",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -70,6 +72,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "fetch_from": "cashier_shift.working_day",
    "fieldname": "working_day",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -149,11 +152,10 @@
    "options": "POS Profile"
   },
   {
-   "fetch_from": "pos_profile.outlet",
+   "fetch_from": "cashier_shift.outlet",
    "fieldname": "outlet",
-   "fieldtype": "Link",
-   "label": "Outlet",
-   "options": "Outlet"
+   "fieldtype": "Data",
+   "label": "Outlet"
   },
   {
    "fetch_from": "payment_type.exchange_rate",
@@ -186,11 +188,18 @@
   {
    "fieldname": "column_break_21",
    "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "payment_type.currency",
+   "fieldname": "currency",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Currency"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-02-23 19:32:42.385148",
+ "modified": "2023-02-25 17:46:35.225628",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Cash Transaction",

@@ -17,6 +17,7 @@ import ComTdImage from './components/table/table_view/ComTdImage.vue'
 import ComInput from './components/form/ComInput.vue'
 import ComPrintPreview from './components/ComPrintPreview.vue'
 import ComChip from './components/ComChip.vue'
+import ComModal from './components/ComModal.vue'
 import Avatar from "vue3-avatar";
 
 import Vue3DraggableResizable from 'vue3-draggable-resizable'
@@ -140,7 +141,7 @@ app.component('ComChip',ComChip)
 app.component('ComInput',ComInput)
 app.component('ComTableView',ComTableView)
 app.component('ComTdImage',ComTdImage)
-
+app.component('ComModal', ComModal)
 
 app.mount("#app");
 

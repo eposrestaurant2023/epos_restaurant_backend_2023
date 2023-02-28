@@ -7,8 +7,7 @@
             </div>
             
             <ComProductSearch :small="true" />
-            <ComMenu />
-            <div style="height:80px"></div>
+            <ComMenu /> 
         </div>
         <div class="bg-red-500 text-white fixed bottom-0 right-0 left-0 text-sm p-2" v-ripple @click="onViewDetail">
             <div>

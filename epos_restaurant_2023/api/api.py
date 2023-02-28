@@ -183,7 +183,7 @@ def get_current_working_day(business_branch):
 @frappe.whitelist()
 def get_current_cashier_shift(pos_profile):
    
-    sql = "select name,working_day, posting_date, pos_profile, opened_note,business_branch from `tabCashier Shift` where pos_profile = '{}' and is_closed = 0 order by creation limit 1".format(pos_profile)
+    sql = "select name,working_day, posting_date, pos_profile, opened_note,business_branch,total_opening_amount from `tabCashier Shift` where pos_profile = '{}' and is_closed = 0 order by creation limit 1".format(pos_profile)
     data =  frappe.db.sql(sql, as_dict=1) 
     if data:
         return data [0]
@@ -304,6 +304,23 @@ def get_payment_cash(cashier_shift):
     sql = "select payment_type, currency, SUM(payment_amount) as payment_amount from `tabSale Payment` where cashier_shift='{}' AND payment_type_group = 'Cash' and docstatus=1 group by payment_type, currency".format(cashier_shift)
     data = frappe.db.sql(sql, as_dict=1)
     return data
+@frappe.whitelist()
+def get_cash_drawer_balance(cashier_shift):
+    sql = """
+    SELECT SUM(total_amount) AS total_amount_cash,SUM(total_amount_cash_out) AS total_amount_cash_out,SUM(total_amount_cash_in) AS total_amount_cash_in from(
+        SELECT SUM(payment_amount) as total_amount,0 total_amount_cash_out,0 total_amount_cash_in FROM `tabSale Payment` where cashier_shift='{0}' AND payment_type_group = 'Cash' and docstatus=1
+        UNION all
+        SELECT total_opening_amount as total_amount,0 total_amount_cash_out,0 total_amount_cash_in FROM `tabCashier Shift` WHERE name = '{0}'
+        UNION all
+        SELECT 0 total_amount, SUM(amount) AS total_amount_cash_out,0 total_amount_cash_in FROM `tabCash Transaction` WHERE cashier_shift = '{0}' AND transaction_status = 'Cash Out'
+        UNION all
+        SELECT 0 total_amount,0 total_amount_cash_out,SUM(amount) as total_amount_cash_in FROM `tabCash Transaction` WHERE cashier_shift = '{0}' AND transaction_status = 'Cash In'
+		)totals
+    """.format(cashier_shift)
+    frappe.msgprint(sql)
+    data = frappe.db.sql(sql, as_dict=1)
+    return data[0]
+
 @frappe.whitelist()
 def get_meta(doctype):
     data =  frappe.get_meta(doctype)

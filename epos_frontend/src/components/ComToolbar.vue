@@ -4,7 +4,7 @@
             <slot name="title"></slot> 
         </v-toolbar-title>
         <v-toolbar-items>
-            <v-btn icon @click="$emit('onPrint')" v-if="isPrint">
+            <v-btn icon @click="$emit('onPrint')" v-if="isPrint" :disabled="disabled">
                 <v-icon>mdi-printer</v-icon>
             </v-btn> 
             <slot name="action"></slot>
@@ -19,7 +19,7 @@
                 </template>
                 <slot name="more_menu"></slot>
             </v-menu>
-            <v-btn icon @click="$emit('onClose')" v-if="isClose">
+            <v-btn icon @click="$emit('onClose')" v-if="isClose" :disabled="disabled">
                 <v-icon>mdi-close</v-icon>
             </v-btn>
         </v-toolbar-items>
@@ -32,6 +32,10 @@ const props = defineProps({
     color: {
         type: String,
         default: "red"
+    },
+    disabled: {
+        type: Boolean,
+        default: false
     },
     isMoreMenu: {
         type: Boolean,

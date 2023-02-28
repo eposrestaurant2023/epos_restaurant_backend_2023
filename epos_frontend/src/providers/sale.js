@@ -5,7 +5,6 @@ import { createToaster } from "@meforma/vue-toaster";
 import { webserver_port } from "../../../../../sites/common_site_config.json"
  
 
-  
 const toaster = createToaster({ position: "top" });
 
 export default class Sale {
@@ -70,6 +69,7 @@ export default class Sale {
                     parent.message = undefined;
                 }
                 else {
+                    alert("new sale resource")
                     toaster.success("Updated");
                 }
             }
@@ -103,7 +103,7 @@ export default class Sale {
 
     getWorkingDay(saleName){
         const parent = this
-        console.log(this.setting)
+
         parent.working_day_resource = createResource({
             url: "epos_restaurant_2023.api.api.get_current_working_day",
             params: {
@@ -140,27 +140,18 @@ export default class Sale {
                     }
                 }
             }
-        
         })
     }
+
     async LoadSaleData(name) {
+        console.log("load sale data", name)
         const parent = this;
-        this.saleResource = await createDocumentResource({
+        this.saleResource = createDocumentResource({
             url: "frappe.client.get",
             doctype: "Sale",
             name: name,
             onError(err) {
-
-            },
-            onSuccess(doc) {
-                parent.sale = doc;
-                parent.onProcessTaskAfterSubmit(doc);
-                parent.action = "";
-                //check if current table dont hanve any sale list data then load it
-                if(!parent.tableSaleListResource?.data){
-                   
-                    parent.getTableSaleList();
-                }
+                console.log(err);
             },
             setValue: {
                 onSuccess(doc) {
@@ -179,7 +170,19 @@ export default class Sale {
                 },
 
             },
-        })
+        });
+
+        await this.saleResource.get.fetch().then(async (doc)=>{
+           
+            this.sale = doc;
+            this.action = "";
+            //check if current table dont hanve any sale list data then load it
+            if(!this.tableSaleListResource?.data){
+                this.getTableSaleList();
+            }
+
+        });
+       
 
     }
 
@@ -624,13 +627,13 @@ export default class Sale {
                 }
                 
                 if (this.getString(this.sale.name) == "") {
-                
+                    if(this.newSaleResource==null){
+                        this.createNewSaleResource();
+                    }
                     await this.newSaleResource.submit({ doc: doc })
                   
                 } else {
-
                     await this.saleResource.setValue.submit(doc);
-                   
                 }
                 resolve(true);
             }
@@ -661,10 +664,12 @@ export default class Sale {
                     this.generateProductPrinters();
 
                     if (this.getString(this.sale.name) == "") {
+                        if(this.newSaleResource==null){
+                          this.createNewSaleResource();
+                        }
                         await this.newSaleResource.submit({ doc: this.sale })
                     } else {
                         await this.saleResource.setValue.submit(this.sale);
-
                     }
 
                     resolve(true);
@@ -695,6 +700,9 @@ export default class Sale {
                     this.sale.docstatus = 1;
                     this.action = "payment";
                     if (this.getString(this.sale.name) == "") {
+                        if(this.newSaleResource==null){
+                            this.createNewSaleResource();
+                        }
                         await this.newSaleResource.submit({ doc: this.sale })
                     } else {
                         await this.saleResource.setValue.submit(this.sale);

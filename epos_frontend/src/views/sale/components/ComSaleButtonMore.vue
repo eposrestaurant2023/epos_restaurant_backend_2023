@@ -1,9 +1,9 @@
 <template> 
     <v-menu>
         <template v-slot:activator="{ props }">
-            <div class="cursor-pointer p-2 grow bg-gray-400 hover:bg-gray-500 text-white" v-bind="props">
+            <v-btn stacked  size="small"  class="m-1 grow" prepend-icon="mdi-menu" v-bind="props">
                 More
-            </div>
+            </v-btn>
         </template>
         <v-list>
             <ComSaleButtonMoreList/>

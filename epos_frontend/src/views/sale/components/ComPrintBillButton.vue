@@ -2,8 +2,10 @@
     <template v-if="printFormatResource.loading">
       <v-btn icon v-if="mobile">
           <v-icon>mdi-printer</v-icon>
-      </v-btn> 
-      <div class="cursor-pointer m-1 rounded-md p-2 grow bg-blue-600 text-white  hover:bg-blue-700" v-else >Print Bill</div>
+      </v-btn>
+      <v-btn stacked color="primary" size="small" class="m-1 grow" prepend-icon="mdi-printer" v-else>
+        Print Bill
+      </v-btn>
     </template>
     <template v-else>
         <div class="cursor-pointer m-1 rounded-md p-2 grow bg-blue-600 text-white hover:bg-blue-700" v-if="printFormatResource.data.length==1" @click="onPrintReport(printFormatResource.data[0])" >
@@ -13,10 +15,10 @@
         <template v-slot:activator="{ props }">
           <v-btn icon v-if="mobile" @click="$emit('onClose')" v-bind="props">
             <v-icon>mdi-printer</v-icon>
-        </v-btn>
-            <div v-else class="cursor-pointer m-1 rounded-md p-2 grow bg-blue-600 text-white hover:bg-blue-700" @click="$emit('onClose')" :loading="printFormatResource.loading" v-bind="props">
-                Print Bill
-            </div>
+          </v-btn>
+            <v-btn v-else stacked color="primary" size="small" class="m-1 grow" prepend-icon="mdi-printer"  @click="$emit('onClose')" :loading="printFormatResource.loading" v-bind="props">
+              Print Bill
+            </v-btn>
         </template>
         <v-list v-if="printFormatResource.data">
             <v-list-item v-for="(r, index) in printFormatResource.data" :key="index"  @click="onPrintReport(r)">
@@ -31,14 +33,17 @@
 <script setup>
     import {defineProps,defineEmits, createResource, createToaster,inject,useRouter} from "@/plugin"
     import { useDisplay } from 'vuetify'
-    const router = useRouter();
-    const { mobile } = useDisplay()  
+ 
     const sale = inject('$sale')
     const props = defineProps({
         doctype:String,
         title:{
             type:String,
             default:""
+        },
+        mobile: {
+          type: Boolean,
+          default: false
         }
     });
     const emit = defineEmits(["onPrint"])
@@ -55,7 +60,7 @@
 
 
     async function onPrintReport(r) {
-  if (sale.sale.sale_products.length == 0) {
+  if (sale.sale.sale_products?.length == 0) {
     toaster.warning("Please select a menu item to submit order");
   } else {
     sale.sale.sale_status = "Bill Requested";

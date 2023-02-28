@@ -10,9 +10,10 @@
         <v-list-item prepend-icon="mdi-note-outline" title="Note" @click="sale.onSaleNote(sale.sale)" v-else/>
     </template>
     <v-list-item prepend-icon="mdi-bulletin-board" title="Change Price Rule" @click="onChangePriceRule()"/>
-    <v-list-item v-if="localStorage.getItem('is_window')==1" prepend-icon="mdi-cash-100" title="Open Cash Drawer" @click="onOpenCashDrawer()"/>
-    <v-list-item prepend-icon="mdi-account-multiple-outline" title="Change Table" @click="onChangeTable()"/>
-    <v-list-item prepend-icon="mdi-cash-100" title="Merge Table/Bill" @click="onViewInvoice()"/>
+    <v-list-item prepend-icon="mdi-silverware" title="Change POS Menu" @click="onChangePOSMenu()"/>
+    <v-list-item v-if="isWindow" prepend-icon="mdi-cash-100" title="Open Cash Drawer" @click="onOpenCashDrawer()"/>
+    <v-list-item prepend-icon="mdi-grid-large" title="Change/Merge Table" @click="onChangeTable()"/>
+    <!-- <v-list-item prepend-icon="mdi-cash-100" title="Merge Table/Bill" @click="onViewInvoice()"/> -->
     <v-list-item prepend-icon="mdi-cash-100" title="Split Bill" @click="onViewInvoice()"/>
     <v-list-item prepend-icon="mdi-account-multiple-outline" :title="`Change Guest Cover (${sale.sale.guest_cover})`" @click="onUpdateGuestCover()"/>
     <v-list-item prepend-icon="mdi-cart" title="Change Sale Type" @click="onChangeSaleType()"/>
@@ -27,7 +28,7 @@
      
 </template>
 <script setup>
-    import {viewBillModelModel, inject,keyboardDialog, changeTableDialog, changePriceRuleDialog,changeSaleTypeModalDialog, createToaster} from "@/plugin"
+    import {viewBillModelModel, inject,keyboardDialog, changeTableDialog, changePriceRuleDialog,changeSaleTypeModalDialog, createToaster,changePOSMenuDialog } from "@/plugin"
     import { useDisplay } from 'vuetify'
     const {mobile} = useDisplay()
     const toaster = createToaster({position: 'top'})
@@ -35,6 +36,7 @@
     const gv = inject('$gv')
     const product = inject('$product')
     const setting = JSON.parse(localStorage.getItem("setting"))
+    const isWindow = localStorage.getItem('is_window')==1
     async function onViewBill(){
         const result = await viewBillModelModel({})
     }
@@ -55,6 +57,12 @@
 async function onChangeTable(){
     if (!sale.isBillRequested()) {
         const result =await changeTableDialog({});
+        if(result){
+            if(result.action =="reload_sale"){
+               
+              await   sale.LoadSaleData(result.name);
+            }
+        }
     }
 }
 async function onChangePriceRule(){
@@ -69,6 +77,15 @@ async function onChangePriceRule(){
             toaster.success("Price Rule Was Change Successfull");
         }
     }
+}
+async function onChangePOSMenu(){
+
+    const result = await changePOSMenuDialog({})
+    if(result == true){
+        product.loadPOSMenu()
+        toaster.success("POS Menu Was Change Successfull");
+    }
+
 }
 function onRemoveSaleNote(){
     sale.sale.note = ''

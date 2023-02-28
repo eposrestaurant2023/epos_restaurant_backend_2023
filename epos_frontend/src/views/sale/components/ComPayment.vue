@@ -1,18 +1,16 @@
 <template>
-    <v-dialog v-model="open" fullscreen persistent @update:modelValue="onClose">
-        <v-card>
-            <ComToolbar @onClose="onClose">
-                <template #title>
-                    Payment
-                </template>
-                <template #action>
-                    <ComSelectPaymentPrinter @onClick="onSelectedReceipt" :selected="selectedReceipt.name" v-if="mobile"/>
-                </template>
-            </ComToolbar>
-            <v-card-text v-if="mobile" class="!p-1 overflow-auto">
+    <ComModal :fullscreen="true" :persistent="true" @onClose="onClose" :hide-close-button="true" :hide-ok-button="true" :fill="true">
+        <template #title>
+            Payment
+        </template>
+        <template #bar_custom>
+            <ComSelectPaymentPrinter @onClick="onSelectedReceipt" :selected="selectedReceipt.name" v-if="mobile"/>
+        </template>
+        <template #content>
+            <div v-if="mobile" class="!p-1 overflow-auto">
                 <ComSmallSalePayment/>
-            </v-card-text>
-            <v-card-text v-else class="!px-0 !pt-1 !pb-0 overflow-hidden">
+            </div>
+            <div v-else class="!px-0 !pt-1 !pb-0 overflow-hidden">
                 <v-row class="!m-0 h-full">
                     <v-col class="!p-1 h-full" md="4">
                         <ComPaymentInputNumber />
@@ -34,8 +32,9 @@
                         </div>
                     </v-col>
                 </v-row>
-            </v-card-text>
-            <v-card-action>
+            </div>
+        </template>
+        <template #action>
                 <v-row class="!m-0">
                     <v-col class="!p-0" cols="12" md="8">
                         <div class="h-full flex items-center" v-if="!mobile">
@@ -64,13 +63,12 @@
                         </v-row>
                     </v-col>
                 </v-row>
-            </v-card-action>
-        </v-card>
-    </v-dialog>
+            </template>
+    </ComModal>
 </template>
 <script setup>
 
-import { inject, createResource, ref } from '@/plugin';
+import { inject, createResource, ref ,onUnmounted} from '@/plugin';
 import ComPaymentInputNumber from "./ComPaymentInputNumber.vue"
 import ComSmallSalePayment from "./mobile_screen/ComSmallSalePayment.vue"
 import { useDisplay } from 'vuetify'
@@ -124,4 +122,7 @@ async function onPaymentWithoutPrint() {
         }
     })
 }
+onUnmounted(() => {
+    sale.sale.payment=[];
+})
 </script>
