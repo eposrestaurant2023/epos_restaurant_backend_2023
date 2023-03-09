@@ -122,6 +122,7 @@
     <Report Include="rptSaleSummaryByPaymentType.rdl" />
     <Report Include="rptSaleSummaryByProductCategory.rdl" />
     <Report Include="rptSaleSummaryByProductGroup.rdl" />
+    <Report Include="rptSaleTaxReverseSummary.rdl" />
     <Report Include="rptSaleTaxSummary.rdl" />
     <Report Include="rptSaleTransaction.rdl" />
     <Report Include="rptStockTakeList.rdl" />
