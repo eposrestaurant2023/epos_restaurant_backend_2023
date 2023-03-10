@@ -78,12 +78,6 @@
             </template>
             <v-list-item-title>Report</v-list-item-title>
           </v-list-item>
-          <v-list-item active-color="primary" @click="onRoute('Setting')">
-            <template v-slot:prepend>
-              <v-icon>mdi-wrench</v-icon>
-            </template>
-            <v-list-item-title>Setting</v-list-item-title>
-          </v-list-item>
           <v-divider class="my-4"></v-divider>
           <v-list-item color="error" @click="onLogout()">
             <template v-slot:prepend>

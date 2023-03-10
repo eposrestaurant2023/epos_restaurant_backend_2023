@@ -73,7 +73,6 @@ const number = ref("");
 
 function numpad_click(n) {
   if (n == "." && number.value.includes(".")) {
-
     return;
   }
   if (!number.value) {

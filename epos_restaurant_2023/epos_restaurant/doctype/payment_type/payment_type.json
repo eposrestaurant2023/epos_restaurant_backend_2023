@@ -15,7 +15,8 @@
   "column_break_4",
   "sort_order",
   "disabled",
-  "photo"
+  "photo",
+  "is_foc"
  ],
  "fields": [
   {
@@ -77,6 +78,12 @@
    "in_list_view": 1,
    "label": "Payment Type Group",
    "options": "Payment Type Group"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_foc",
+   "fieldtype": "Check",
+   "label": "Is Foc"
   }
  ],
  "image_field": "photo",
@@ -88,7 +95,7 @@
    "link_fieldname": "to_currency"
   }
  ],
- "modified": "2022-12-23 17:48:51.797260",
+ "modified": "2023-03-09 15:15:13.384642",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Payment Type",

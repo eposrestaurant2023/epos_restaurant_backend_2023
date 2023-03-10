@@ -91,7 +91,8 @@
   "sale_status_priority",
   "column_break_36",
   "exchange_rate",
-  "note"
+  "note",
+  "is_foc"
  ],
  "fields": [
   {
@@ -607,6 +608,12 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Customer Photo"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_foc",
+   "fieldtype": "Check",
+   "label": "Is Foc"
   }
  ],
  "image_field": "photo",
@@ -619,7 +626,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-02-22 09:54:41.467062",
+ "modified": "2023-03-09 15:39:52.258414",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

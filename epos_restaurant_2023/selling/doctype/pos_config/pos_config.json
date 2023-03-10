@@ -32,9 +32,12 @@
   "customer_display_slideshow_section",
   "customer_display_slideshow",
   "permission_and_note_tab",
-  "cancel_print_bill_required_password",
+  "delete_bill_required_password",
   "column_break_17",
+  "delete_bill_required_note",
+  "section_break_28",
   "cancel_print_bill_required_note",
+  "column_break_30",
   "allow_change_quantity_after_submit",
   "section_break_20",
   "free_item_required_password",
@@ -150,12 +153,6 @@
   {
    "fieldname": "column_break_17",
    "fieldtype": "Column Break"
-  },
-  {
-   "default": "0",
-   "fieldname": "cancel_print_bill_required_password",
-   "fieldtype": "Check",
-   "label": "Cancel Print Bill Required Password"
   },
   {
    "default": "1",
@@ -345,12 +342,32 @@
    "fieldname": "open_cashdrawer_require_password",
    "fieldtype": "Check",
    "label": "Open Cashdrawer Require Password"
+  },
+  {
+   "default": "0",
+   "fieldname": "delete_bill_required_password",
+   "fieldtype": "Check",
+   "label": "Delete Bill Required Password"
+  },
+  {
+   "fieldname": "section_break_28",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "delete_bill_required_note",
+   "fieldtype": "Check",
+   "label": "Delete Bill Required Note"
+  },
+  {
+   "fieldname": "column_break_30",
+   "fieldtype": "Column Break"
   }
  ],
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-02-23 14:44:02.234791",
+ "modified": "2023-03-07 12:07:00.451323",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Config",

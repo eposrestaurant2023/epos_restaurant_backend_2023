@@ -57,6 +57,11 @@ class Sale(Document):
   
 		validate_pos_payment(self)
 		#validate sale summary
+
+		#set is foc by check payment pyment if have is_foc payment type
+		self.is_foc = 0
+		if Enumerable(self.payment).where(lambda x: x.is_foc ==1):
+			self.is_foc = 1
   
   
 		
@@ -251,7 +256,9 @@ def validate_sale_product(self):
 	if sale_discount>0:
 		if self.discount_type=="Amount":
 			discountable_amount = Enumerable(self.sale_products).where(lambda x: x.allow_discount==1 and x.discount==0).sum(lambda x: (x.quantity or 0)* (x.price or  0))
-			sale_discount=(sale_discount / discountable_amount ) * 100
+			sale_discount = 0
+			if discountable_amount>0:
+				sale_discount=(sale_discount / discountable_amount ) * 100
  
 	for d in self.sale_products:
 		d.sub_total = (d.quantity or 0) * (d.price or 0) + (d.quantity or 0) * (d.modifiers_price or 0)

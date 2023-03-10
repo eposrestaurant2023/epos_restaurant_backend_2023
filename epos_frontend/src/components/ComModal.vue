@@ -15,9 +15,7 @@
                 </template>
             </ComToolbar>
             <v-card-text :class="fill ? '!p-0' : '!p-2'" class="!overflow-x-hidden"> 
-                <div>
-                    <slot name="content"></slot>
-                </div>
+                <slot name="content"></slot>
             </v-card-text>
             <v-card-actions class="justify-end flex-wrap" :class="{'!p-0' : fill}">
                 <slot name="action"></slot>

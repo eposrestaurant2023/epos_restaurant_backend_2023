@@ -16,7 +16,6 @@ class Customer(Document):
 		if not self.customer_name_kh:
 			self.customer_name_kh = self.customer_name_en
    
-	def on_update(self):
 		self.customer_code_name = "{} - {}".format(self.name,self.customer_name_en)
   
 @frappe.whitelist()

@@ -1,7 +1,7 @@
 <template>
  
     <div class="flex flex-nowrap items-center -mx-1 my-1" v-if="item">
-        <div class="w-[200px] mx-1"> 
+        <div class="w-[200px] mx-1">  
             <v-autocomplete
                 v-model="item.fieldname"
                 style="width: 100%;"
@@ -66,7 +66,7 @@
                         :items="getSelectOptions"
                         item-title="label"
                         item-value="value"
-                        ></v-select>
+                        ></v-select> 
                 </div>
              </div>
         </div>
@@ -95,7 +95,7 @@ const operators = reactive([
     {label : 'Not Like', operator: 'not like', link: true, text:true},
     {label : 'In', operator: 'in', link: true, text:true, select: true},
     {label : 'Not In', operator: 'not in', link: true, text:true, select: true},
-    {label : 'Is', operator: 'is', link: true, text:true, select: true},
+    // {label : 'Is', operator: 'is', link: true, text:true, select: true},
     {label : '>', operator:'>', date: true, text:true, select: true, number: true},
     {label : '>=', operator:'>=', date: true, text:true, select: true, number: true},
     {label : '<',operator:'<', date: true, text:true, select: true, number: true},

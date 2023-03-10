@@ -11,6 +11,7 @@ export default class Sale {
     constructor() {
         this.setting = null;
         this.orderBy = null;
+        this.exchange_rate = 1;
         this.orderTime = undefined;
         this.router = useRouter();
         this.name = "";
@@ -80,6 +81,7 @@ export default class Sale {
         this.sale = {
             doctype: "Sale",
             sale_status: "New",
+            exchange_rate: this.exchange_rate,
             pos_profile: this.setting?.pos_profile,
             customer: this.setting?.customer,
             customer_photo: this.setting?.customer_photo,
@@ -89,6 +91,7 @@ export default class Sale {
             sale_products: [],
             sale_type: this.setting?.default_sale_type,
             discount_type: "Percent",
+            grand_total: 0,
             guest_cover: 0,
             discount: 0,
             sub_total: 0,
@@ -187,9 +190,8 @@ export default class Sale {
     }
 
     getTableSaleList(){
-        if(this.sale.table_id){ 
+        // if(this.sale.table_id){ 
         const parent = this;
-      
         this.tableSaleListResource = createResource({
             url: "frappe.client.get_list",
             params: {
@@ -197,14 +199,14 @@ export default class Sale {
                 fields: ["name", "creation", "grand_total", "total_quantity", "tbl_group", "tbl_number", "guest_cover", "grand_total", "sale_status", "sale_status_color", "sale_status_priority", "customer", "customer_name", "phone_number","customer_photo"],
                 filters: {
                     pos_profile: localStorage.getItem("pos_profile"),
-                    table_id:parent.sale.table_id,
+                    table_id:parent.sale.table_id || '',
                     docstatus: 0
                 },
                 limit_page_length:500,
             },
             auto:true,
         })
-    }
+        // }
     }
     getSaleProductGroupByKey(){
         if(!this.sale.sale_products){
@@ -243,8 +245,7 @@ export default class Sale {
             this.updateSaleProduct(sp);
         } else {
             this.clearSelected();
-           
-           
+
             var saleProduct = {
                 menu_product_name: p.menu_product_name,
                 product_code: p.name,
@@ -862,28 +863,36 @@ export default class Sale {
         if (this.sale.sale_status == 'Bill Requested') {
             toaster.warning("This sale order is already print bill. Please cancel print bill first.");
             return true;
-        } else {
+    } else {
             return false;
         }
     }
     onAddPayment(paymentType,amount){
-        if(paymentType.is_single_payment_type==1){
-            this.sale.payment=[];
-            amount =parseFloat( this.sale.grand_total);
-           
-        }
-        if(!this.getNumber(amount)==0){
-            this.sale.payment.push({
-                payment_type: paymentType.payment_method,
-                input_amount: parseFloat(amount),
-                amount: parseFloat(amount/paymentType.exchange_rate),
-                currency:paymentType.currency
-              });
-              this.updatePaymentAmount();
-              this.paymentInputNumber = this.sale.balance;
-        }else{
-            toaster.warning("Please enter payment amount");
-        }
+        const single_payment_type = this.sale.payment.find(r=>r.is_single_payment_type==1);
+        console.log(paymentType)
+        if(single_payment_type){
+            toaster.warning("You cannot add other payment type with " + single_payment_type.payment_type);
+        }else { 
+            if(paymentType.is_single_payment_type==1){
+                this.sale.payment=[];
+                amount =parseFloat( this.sale.grand_total);
+            
+            }
+            if(!this.getNumber(amount)==0){
+                this.sale.payment.push({
+                    payment_type: paymentType.payment_method,
+                    input_amount: parseFloat(amount),
+                    amount: parseFloat(amount/paymentType.exchange_rate),
+                    currency:paymentType.currency,
+                    is_single_payment_type:paymentType.is_single_payment_type,
+                    required_customer:paymentType.required_customer
+                });
+                this.updatePaymentAmount();
+                this.paymentInputNumber = this.sale.balance;
+            }else{
+                toaster.warning("Please enter payment amount");
+            }
+    }
         
     }
     updatePaymentAmount(){

@@ -13,6 +13,7 @@ import Enumerable from 'linq'
 const { mobile } = useDisplay()
 const sale = inject('$sale')
 const router = useRouter();
+const socket = inject('$socket');
 const toaster = createToaster({position:"top"});
 async function onSearchSale(){
     const sp = Enumerable.from(sale.sale.sale_products);
@@ -24,13 +25,14 @@ if (sp.where("$.name==undefined").toArray().length > 0) {
     const result = await searchSaleDialog({ })
     if(result != false){ 
         router.push({
-                    name: "AddSale", params: {
-                        name: result.name
-                    }
-                });
+            name: "AddSale", params: {
+                name: result.name
+            }
+        });
 
         sale.LoadSaleData(result.name)
     }
 }
 }
+console.log(socket)
 </script>

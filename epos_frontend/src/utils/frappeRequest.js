@@ -31,6 +31,7 @@ export function frappeRequest(options) {
     transformResponse: async (response, options) => {
       let url = options.url
       if (response.ok) {
+
         const data = await response.json()
         if (data.docs || url === 'login') {
           return data
@@ -38,7 +39,6 @@ export function frappeRequest(options) {
         if (data.exc) {
           try {
             console.groupCollapsed(url)
-            console.log(options)
             let warning = JSON.parse(data.exc)
             for (let text of warning) {
               console.log(text)
@@ -97,9 +97,12 @@ export function frappeRequest(options) {
         
         let error_text =  e.messages;
         const toaster = createToaster({ /* options */ });
+
         if (options.onError || error_text) {
-          if(error_text=="Not permitted"){
-            //location.reload();
+          if(error_text[0]=="Not permitted"){
+           location.reload("/login");
+          } else if(error_text[0] == 'Internal Server Error'){
+            //location.reload("/server-error")
           }
           toaster.error(error_text,{position:"top"});
           options.onError({

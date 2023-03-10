@@ -7,6 +7,7 @@
         <ComChip v-if="sale.cashier_shift_resource?.loading" tooltip="Cashier Shift" prepend-icon="mdi-spin mdi-loading">loading...</ComChip>
         <ComChip v-else tooltip="Cashier Shift" prepend-icon="mdi-calendar-clock">{{ sale.sale.cashier_shift }}</ComChip>
         <v-chip  
+                v-if="sale.sale.table_id"
                 style="margin: 1px;" 
                 :size="screen.chipSize"
                 rounded="pill" 

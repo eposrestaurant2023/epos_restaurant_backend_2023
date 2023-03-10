@@ -15,6 +15,7 @@
     "@vuepic/vue-datepicker": "^3.6.5",
     "idb-keyval": "^6.2.0",
     "linq": "^4.0.1",
+    "number-format.js": "^2.0.9",
     "simple-keyboard": "^3.5.12",
     "socket.io-client": "^4.5.4",
     "vue": "^3.2.45",

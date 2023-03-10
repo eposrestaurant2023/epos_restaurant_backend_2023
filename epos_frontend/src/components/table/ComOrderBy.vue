@@ -1,11 +1,8 @@
 <template>
-
-
   <div>
-    
     <v-menu>
       <template v-slot:activator="{ props }">
-        <v-btn v-bind="props" variant="tonal" class="mr-1 mb-1 mt-1">
+        <v-btn v-bind="props" variant="tonal" class="mr-1 mb-1 mt-1" :size="mdAndDown ? 'small' : 'default'">
           {{ selected.label }}
         </v-btn>
       </template>
@@ -20,13 +17,15 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-btn @click="onOrder()" variant="tonal">
+    <v-btn @click="onOrder()" variant="tonal" :size="mdAndDown ? 'small' : 'default'">
       <v-icon :icon="orderType == 'desc' ? 'mdi-sort-descending' : 'mdi-sort-ascending'"></v-icon>
     </v-btn>
   </div>
 </template>
 <script setup>
 import { ref, defineProps, reactive, defineEmits, computed } from '@/plugin'
+import {useDisplay} from 'vuetify'
+const {mdAndDown} = useDisplay()
 const props = defineProps({
   fields: Array,
   defaultOrderby: String

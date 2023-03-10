@@ -26,4 +26,8 @@ class CashierShift(Document):
 		self.total_system_close_amount = Enumerable(self.cash_float).sum(lambda x: x.system_close_amount)
 		self.total_close_amount = Enumerable(self.cash_float).sum(lambda x: x.close_amount)
 		self.total_different_amount = self.total_close_amount -  self.total_system_close_amount
-		
+	def on_update(self):
+		count = frappe.db.count('Cashier Shift')
+		frappe.db.set_value('Working Day', self.working_day, {
+			'total_cashier_shift': count
+		})

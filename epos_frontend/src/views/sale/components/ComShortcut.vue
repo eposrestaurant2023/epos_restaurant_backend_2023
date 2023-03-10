@@ -20,7 +20,7 @@
     })
   
     function onClick(name) {
-        product.searchProductKeyweord="";
+        product.searchProductKeyword="";
         active.value = name;
         product.parentMenu = name;
     

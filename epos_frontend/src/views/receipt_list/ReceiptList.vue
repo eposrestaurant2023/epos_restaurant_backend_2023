@@ -40,7 +40,7 @@ const headers = ref([
   { title: 'Grand Total', align: 'end', key: 'grand_total', fieldtype: "Currency" },
   { title: 'Total Discount', align: 'end', key: 'total_discount', fieldtype: "Currency" },
   { title: 'Total Paid', align: 'end', key: 'total_paid', fieldtype: "Currency" },
-  { title: 'Balance', align: 'end', key: 'balance', fieldtype: "Currency", callback: true },
+  { title: 'Balance', align: 'end', key: 'balance', fieldtype: "Currency" },
   { title: 'Status', align: 'center', key: 'sale_status', fieldtype: "Status", color_field:"sale_status_color" },
 ])
 

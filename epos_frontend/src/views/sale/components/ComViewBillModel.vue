@@ -171,11 +171,11 @@
                                         </div>
                                         <span class="ml-auto"><CurrencyFormat :value="d.total_paid"/></span>
                                     </li>
-                                    <li class="py-1 flex justify-between items-center" v-if="sale.sale.balance > 0">
+                                    <li class="py-1 flex justify-between items-center text-red-500" v-if="sale.sale.balance > 0">
                                         <div class="mr-16">
                                             <span>Balance</span>
                                         </div>
-                                        <span class="ml-auto text-red-500 font-bold"><CurrencyFormat :value="sale.sale.balance"/></span>
+                                        <span class="ml-auto  font-bold"><CurrencyFormat :value="sale.sale.balance"/></span>
                                     </li>
                                     <li class="py-1 flex justify-between items-center" v-if="sale.sale.changed_amount > 0">
                                         <div class="mr-16">

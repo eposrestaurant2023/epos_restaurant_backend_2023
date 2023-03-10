@@ -3,6 +3,7 @@ import time
 import frappe
 import base64
 from py_linq import Enumerable
+from frappe.utils import today, add_to_date
 from frappe import _
 @frappe.whitelist(allow_guest=True)
 def check_username(pin_code):
@@ -22,8 +23,7 @@ def get_system_settings(pos_profile="", device_name=''):
     
     profile = frappe.get_doc("POS Profile",pos_profile)
     pos_config = frappe.get_doc("POS Config",profile.pos_config)
-
-
+    
     doc = frappe.get_doc('ePOS Settings')
     table_groups = []
     for g in pos_config.table_groups:
@@ -36,10 +36,10 @@ def get_system_settings(pos_profile="", device_name=''):
     payment_types=[]
     for p in profile.payment_types:
         
-        payment_types.append({ "payment_method":p.payment_type,"currency":p.currency,"is_single_payment_type":p.is_single_payment_type,"allow_cash_float":p.allow_cash_float, "input_amount":0,"exchange_rate":p.exchange_rate})
+        payment_types.append({ "payment_method":p.payment_type,"currency":p.currency,"is_single_payment_type":p.is_single_payment_type,"allow_cash_float":p.allow_cash_float, "input_amount":0,"exchange_rate":p.exchange_rate,"required_customer":p.required_customer,"is_foc":p.is_foc})
     
     #get currency
-    currencies = frappe.db.sql("select name,symbol,currency_precision,symbol_on_right from `tabCurrency` where enabled=1", as_dict=1)
+    currencies = frappe.db.sql("select name,symbol,currency_precision,symbol_on_right,pos_currency_format from `tabCurrency` where enabled=1", as_dict=1)
     
     #main currency information
     main_currency = frappe.get_doc("Currency",frappe.db.get_default("currency"))
@@ -77,6 +77,8 @@ def get_system_settings(pos_profile="", device_name=''):
         "discount_item_required_note":pos_config.discount_item_required_note,
         "discount_sale_required_password":pos_config.discount_sale_required_password,
         "discount_sale_required_note":pos_config.discount_sale_required_note,
+        "delete_bill_require_password":pos_config.delete_bill_required_password,
+        "delete_bill_required_note":pos_config.delete_bill_required_note,
         "allow_change_quantity_after_submit":pos_config.allow_change_quantity_after_submit,
         "main_currency_predefine_payment_amount":pos_config.main_currency_predefine_payment_amount,
         "second_currency_predefine_payment_amount":pos_config.second_currency_predefine_payment_amount,
@@ -331,3 +333,28 @@ def update_print_bill_requested(name):
     doc = frappe.get_doc("Sale",name)
     doc.sale_status = 'Bill Requested'
     doc.save()
+@frappe.whitelist()
+def get_working_day_list_report():
+    days = int(frappe.db.get_default("number_of_day_cashier_can_view_report"))
+    date = add_to_date(today(),days=days*-1)
+    working_day =frappe.db.get_list('Working Day',
+        filters={
+            "posting_date":[">=", date]
+        },
+        fields=["name","posting_date","creation","modified_by","total_cashier_shift","owner"],
+        order_by='posting_date desc',
+        page_length=100,
+        
+    )
+    for w in working_day:
+        cashier_shift =frappe.db.get_list('Cashier Shift',
+            filters={
+                "working_day": w.name
+            },
+            fields=["name","posting_date","creation","modified_by"]
+            
+        )
+        w.cashier_shifts = cashier_shift
+    
+    data = working_day
+    return data

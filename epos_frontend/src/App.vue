@@ -56,15 +56,14 @@ if (!localStorage.getItem("pos_profile")) {
 		},
 		cache:"get_system_settings",
 		auto: true,
-		onSuccess(doc) {
-
+		onSuccess(doc) { 
 			state.isLoading = false;
 			localStorage.setItem("setting", JSON.stringify(doc));
 			gv.setting = doc;
 			sale.setting = doc;
 			product.setting = doc;
 			tableLayout.setting = doc;
-			tableLayout.table_groups = doc.table_groups;
+			tableLayout.table_groups = doc.table_groups || '';
 			
 			localStorage.setItem("table_groups", JSON.stringify(doc.table_groups))
 
@@ -72,11 +71,11 @@ if (!localStorage.getItem("pos_profile")) {
 		onError(x) {
 			if (x.error_text == undefined) {
 				//localStorage.removeItem("pos_profile")
-				location.reload()
+				//location.reload()
 			} else {
 				if (x.error_text[0] === 'Invalid POS Profile name') {
 					localStorage.removeItem("pos_profile")
-					location.reload()
+					//location.reload()
 				}
 			}
 			state.isLoading = false;

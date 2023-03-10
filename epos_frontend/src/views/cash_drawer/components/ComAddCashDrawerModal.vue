@@ -93,7 +93,6 @@ function onClose(value) {
     emit('resolve', value);
 }
 function onOk() {
-    alert()
     if (cash.value.amount <= 0) {
         toaster.warning("Amount cannot smaller than or equal zero", {
             position: "top",

@@ -8,7 +8,8 @@ import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import '@mdi/font/css/materialdesignicons.css'
 import { vue3Debounce } from 'vue-debounce'
-import VueNumberFormat from 'vue-number-format'
+//import VueNumberFormat from 'vue-number-format'
+import NumberFormat from 'number-format.js'
 import CurrencyFormat from './components/CurrencyFormat.vue';
 import ComPlaceholder from './components/layout/components/ComPlaceholder.vue'
 import ComAutoComplete from './components/form/ComAutoComplete.vue'
@@ -82,6 +83,7 @@ app.provide("$gv", gv);
 app.provide("$sale", sale);
 app.provide("$tableLayout", tableLayout);
 app.provide("$product", product);
+app.provide("$numberFormat",NumberFormat)
 
 app.provide("$screen", screen);
 app.provide("$auth", auth);
@@ -95,7 +97,7 @@ app.config.globalProperties.$filter = {
 }
 
 
-app.use(VueNumberFormat, {prefix: '$ ', decimal: '.', thousand: ',',precision:2})
+//app.use(VueNumberFormat, {prefix: '$ ', decimal: '.', thousand: ',',precision:2})
 
  
 app.directive('debounce', vue3Debounce({ lock: true }))

@@ -11,12 +11,14 @@
   "naming_series",
   "posting_date",
   "business_branch",
+  "pos_profile",
   "column_break_5",
   "note",
   "closing_information_section",
   "is_closed",
   "closed_date",
-  "outlet"
+  "outlet",
+  "total_cashier_shift"
  ],
  "fields": [
   {
@@ -72,11 +74,24 @@
    "fieldname": "note",
    "fieldtype": "Small Text",
    "label": "Note"
+  },
+  {
+   "fieldname": "pos_profile",
+   "fieldtype": "Link",
+   "label": "POS Profile",
+   "options": "POS Profile"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_cashier_shift",
+   "fieldtype": "Int",
+   "label": "Total Cashier Shift",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-02-21 18:34:09.197864",
+ "modified": "2023-03-09 16:18:28.627289",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Working Day",

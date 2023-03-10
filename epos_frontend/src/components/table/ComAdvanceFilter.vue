@@ -2,11 +2,11 @@
     <div class="mr-2 mt-1 mb-1">
         <v-menu v-model="menu" :close-on-content-click="false" location="end">
             <template v-slot:activator="{ props }">
-                <v-btn color="primary" v-bind="props">
+                <v-btn color="primary" v-bind="props" :size="mdAndDown ? 'small' : 'default'">
                     <v-icon icon="mdi-filter-outline" :color="advancefilters.length > 0 ? 'black' : ''"></v-icon>
                 </v-btn> 
             </template>
-            <v-card width="600" min-width="300">
+            <v-card style="width: 100%; max-width:600px; min-width:300px">
                 <v-card-text>
                     <ComPlaceholder text="Please add filter button to set filter" :is-not-empty="advancefilters.length > 0" icon-size="40px" class-color="text-gray-300" icon="mdi-filter-outline">
                         <div v-if="!loadingFilter">
@@ -35,6 +35,8 @@
 <script setup>
 import ComAdvanceFilterKey from '../form/ComAdvanceFilterKey.vue';
 import {  ref,defineProps, defineEmits  } from '@/plugin'
+import {useDisplay} from 'vuetify'
+const {mdAndDown} = useDisplay()
 const props = defineProps({
     resource: {
         type: Object

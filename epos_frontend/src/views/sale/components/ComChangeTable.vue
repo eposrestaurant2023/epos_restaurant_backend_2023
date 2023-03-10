@@ -42,6 +42,7 @@
                 </template>
             </template>
     </ComModal> -->
+    
     <v-dialog :scrollable="false" v-model="open" :fullscreen="mobile"
         :style="mobile ? '' : 'width: 100%;max-width:800px'">
         <v-card>

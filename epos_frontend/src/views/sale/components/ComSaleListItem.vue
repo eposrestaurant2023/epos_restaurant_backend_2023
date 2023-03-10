@@ -55,7 +55,3 @@ const props = defineProps({
     sale: Object
 })
 </script>
-
-<style lang="">
-    
-</style>

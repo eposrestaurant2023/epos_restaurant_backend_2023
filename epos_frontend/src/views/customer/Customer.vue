@@ -5,7 +5,7 @@
                Add Customer
             </v-btn>
         </template>
-        <ComCustomerCard :headers="headers" doctype="Customer" extra-fields="name,photo" @callback="onCallback" v-if="mobile"/>
+        <ComCustomerCard :headers="headers" doctype="Customer" extra-fields="name,photo,customer_name_en" @callback="onCallback" v-if="mobile"/>
         <ComTable :headers="headers" doctype="Customer" extra-fields="name" @callback="onCallback" v-else/>
   </PageLayout>
 </template>
@@ -18,7 +18,6 @@ import {useDisplay} from 'vuetify'
 const {mobile} = useDisplay()
 async function onCallback(data) { 
     if (data.fieldname == "customer_code_name") {
-        console.log(data.data)
         const result = await customerDetailDialog({
             name: data.data.name
         });
@@ -30,7 +29,7 @@ async function onAddCustomer() {
 const headers = ref([
     // { title: 'Photo', align: 'center', key: 'photo', fieldtype: 'Image', placeholder: 'customer_name_en'},
     { title: 'Customer', align: 'start', key: 'customer_code_name', callback: true },
-    { title: 'Name En', align: 'start', key: 'customer_name_en' },
+   
     { title: 'Name Kh', align: 'start', key: 'customer_name_kh' },
     { title: 'Gender', align: 'center', key: 'gender'},
     { title: 'Group', align: 'start', key: 'customer_group' },

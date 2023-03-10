@@ -27,7 +27,7 @@
                                 <v-list-item-title>Reload</v-list-item-title>
                             </v-list-item>
                             <v-divider></v-divider>
-                            <v-list-item @click="$auth.logout()">
+                            <v-list-item @click="onLogout">
                                 <template v-slot:prepend class="w-12">
                                     <v-icon icon="mdi-logout"></v-icon>
                                 </template>
@@ -87,6 +87,11 @@ export default {
         },
         onReload() {
             location.reload()
+        },
+        onLogout(){
+            this.$auth.logout().then((r)=>{
+                this.$router.push({name: 'Login'})
+            })
         }
     },
 }

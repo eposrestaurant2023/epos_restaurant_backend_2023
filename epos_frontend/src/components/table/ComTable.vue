@@ -1,97 +1,103 @@
 <template>
-    
-    <div v-if="dataResource.data">
-        <div class="bg-gray-50 p-2 elevation-1">
-            <ComFilter :doctype="doctype" @onFilter="onFilter" @onRefresh="onRefresh"/>
-        </div>
+    <div>
+        <v-progress-linear v-if="dataResource.loading" style="position: absolute; z-index: 9999999999;" indeterminate
+                color="blue-lighten-3"></v-progress-linear>
         <div>
-            <v-progress-linear v-if="dataResource.loading" style="position: absolute; z-index: 9999999999;" indeterminate
-			color="blue-lighten-3"></v-progress-linear>
-            
-            <div class="relative">
-                <div v-if="dataResource.loading" class="absolute left-0 right-0 top-0 bottom-0 z-10" style="background-color: #26262661;">
-                    <div class="h-full w-full flex justify-center items-center">
-                        <div class="text-center">
-                            <v-progress-circular indeterminate></v-progress-circular>
-                            <div class="mt-1">Loading...</div>
+            <div class="bg-gray-50 p-2 elevation-1">
+                <ComFilter v-if="!meta.loading" :meta="meta" @onFilter="onFilter" @onRefresh="onRefresh"/>
+                <div v-else class="h-12"></div>
+            </div>
+            <div>
+                <div class="relative">
+                    <div v-if="!dataResource.data || dataResource.loading" class="absolute left-0 right-0 top-0 bottom-0 z-10" style="background-color: #26262661;">
+                        <div class="h-full w-full flex justify-center items-center">
+                            <div class="text-center">
+                                <v-progress-circular indeterminate></v-progress-circular>
+                                <div class="mt-1">Loading...</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <v-data-table
+                            v-if="dataResource?.data?.length > 0 && !dataResource.loading"
+                            :headers="getHeaders()" 
+                            :items="dataResource.data"
+                            :items-per-page="pagerOption.itemPerPage"
+                            item-value="name"
+                            class="elevation-1">
+                            <template v-for="h in headers" v-slot:[`item.${h.key}`]="{ item }">
+                                <template v-if="h.fieldtype == 'Image'">
+                                    <div class="text-center">
+                                        <v-avatar v-if="item.raw[h.key]">
+                                            <v-img :src="item.raw[h.key]"></v-img>
+                                        </v-avatar>
+                                        <avatar v-else :name="item.raw[h.placeholder]" class="my-0 mx-auto" size="40"></avatar>
+                                    </div>
+                                </template>
+                                <template v-if="h.fieldtype == 'Currency'">
+                                    <div @click="callback(h, item.raw)" :class="{'text-blue-600 cursor-pointer':h.callback}">
+                                        <CurrencyFormat :value="item.raw[h.key]"/>
+                                    </div>
+                                </template>
+                                <template v-else-if="h.fieldtype=='Date'">
+
+                                    <span @click="callback(h, item.raw)" :class="{'text-blue-600 cursor-pointer':h.callback}">
+                                        {{  moment(item.raw[h.key]).format('DD-MM-YYYY') }}
+                                    </span>
+                                </template>
+                                <template v-else-if="h.fieldtype=='Status'">
+                                    <v-chip v-if="doctype=='Sale'" :color="item.raw[h.color_field]" size="small"> {{ item.raw[h.key] }}</v-chip>
+                                    <template v-else>
+                                        <v-chip v-if="item.raw[h.key]" color="success" size="small">Enabled</v-chip>
+                                        <v-chip v-else color="error" size="small">Disabled</v-chip>
+                                    </template>
+                                </template>
+                                <template v-else-if="!h.fieldtype">
+                                    <template v-if="h.template">
+                                        <div @click="callback(h, item.raw)" v-html="getFieldValue(h, item.raw)"  :class="{'text-blue-600 cursor-pointer':h.callback}"></div>
+                                    </template>
+                                    <span @click="callback(h, item.raw)" :class="{'text-blue-600 cursor-pointer':h.callback}" v-else>
+                                        {{ item.raw[h.key] }}
+                                    </span>
+                                </template>
+                                
+                            </template>
+                        </v-data-table>
+                        <div class="p-6 text-center elevation-1 text-gray-400" v-else>
+                            <div><v-icon icon="mdi-package-variant" style="font-size:60px"></v-icon></div>
+                            <div class="text-sm italic">There are no data.</div>
                         </div>
                     </div>
                 </div>
-                <v-data-table 
-                    :headers="getHeaders()" 
-                    :items="dataResource.data"
-                    :items-per-page="pagerOption.itemPerPage"
-                    item-value="name"
-                    class="elevation-1">
-                    <template v-for="h in headers" v-slot:[`item.${h.key}`]="{ item }">
-                        <template v-if="h.fieldtype == 'Image'">
-                            <div class="text-center">
-                                <v-avatar v-if="item.raw[h.key]">
-                                    <v-img :src="item.raw[h.key]"></v-img>
-                                </v-avatar>
-                                <avatar v-else :name="item.raw[h.placeholder]" class="my-0 mx-auto" size="40"></avatar>
-                            </div>
-                        </template>
-                        <template v-if="h.fieldtype == 'Currency'">
-                            <div @click="callback(h, item.raw)">
-                                <CurrencyFormat :value="item.raw[h.key]"/>
-                            </div>
-                        </template>
-                        <template v-else-if="h.fieldtype=='Date'">
-                            <span @click="callback(h, item.raw)" >
-                                {{  moment(item.raw[h.key]).format('DD-MM-YYYY') }}
-                            </span>
-                        </template>
-                        <template v-else-if="h.fieldtype=='Status'">
-                            <v-chip v-if="doctype=='Sale'" :color="item.raw[h.color_field]" size="small"> {{ item.raw[h.key] }}</v-chip>
-                            <template v-else>
-                                <v-chip v-if="item.raw[h.key]" color="success" size="small">Enabled</v-chip>
-                                <v-chip v-else color="error" size="small">Disabled</v-chip>
-                            </template>
-                        </template>
-                        <template v-else-if="!h.fieldtype">
-                            <template v-if="h.template">
-                                <div @click="callback(h, item.raw)" v-html="getFieldValue(h, item.raw)"></div>
-                            </template>
-                            <span @click="callback(h, item.raw)" v-else>
-                                {{ item.raw[h.key] }}
-                            </span>
-                        </template>
-                        
-                    </template>
-                </v-data-table>
             </div>
-            <div class="p-6 text-center elevation-1 text-gray-400" v-if="dataResource.data.length == 0">
-                <div><v-icon icon="mdi-package-variant" style="font-size:60px"></v-icon></div>
-                <div class="text-sm italic">There are no data.</div>
-            </div>
-            
-        </div>
-        <div>
-            <div class="text-center items-center pt-2" v-if="countResource.data"> 
-                <v-row justify="center" align="center" class="m-0">
-                    <v-col cols="2">
-                        <div class="w-24">
-                            <v-select
-                            label="Select"
-                            :items="[5,10,20,30,40,50,100]"
-                            v-model="pagerOption.itemPerPage"
-                            hide-no-data
-                            hide-details
-                            variant="underlined"
-                            ></v-select>
-                        </div>
-                    </v-col>
-                    <v-col cols="8"> 
-                        <v-pagination
-                        v-model="pagerOption.currentPage"
-                        class="my-4"
-                        :length="totalPage"
-                        total-visible="8"
-                        ></v-pagination> 
-                    </v-col>
-                    <v-col cols="2"></v-col>
-                </v-row>
+            <div>
+                <div class="text-center items-center pt-2" v-if="countResource.data"> 
+                    <v-row justify="center" align="center" class="m-0">
+                        <v-col cols="2">
+                            <div class="w-24">
+                                <v-select
+                                size="small"
+                                label="Select"
+                                :items="[5,10,20,30,40,50,100]"
+                                v-model="pagerOption.itemPerPage"
+                                hide-no-data
+                                hide-details
+                                variant="underlined"
+                                ></v-select>
+                            </div>
+                        </v-col>
+                        <v-col cols="8"> 
+                            <v-pagination
+                            size="small"
+                            v-model="pagerOption.currentPage"
+                            class="my-4"
+                            :length="totalPage"
+                            total-visible="8"
+                            ></v-pagination> 
+                        </v-col>
+                        <v-col cols="2"></v-col>
+                    </v-row>
+                </div>
             </div>
         </div>
     </div>
@@ -105,6 +111,8 @@ import ComFilter from '../ComFilter.vue';
 let filter = reactive({});
 const emit = defineEmits(['callback'])
 const moment = inject('$moment')
+const gv = inject('$gv')
+const order = ref({})
 const props = defineProps({
     headers: {
         type: Array,
@@ -121,6 +129,7 @@ const props = defineProps({
 let pagerOption = reactive({
     itemPerPage: 20,
     currentPage: 1,
+    orderBy: '',
     filters:{}
 })
 
@@ -134,6 +143,22 @@ function getHeaders(){
     });
     return h;
 }
+const meta = createResource({
+    url: "epos_restaurant_2023.api.api.get_meta",
+    params:{
+        doctype: props.doctype,
+    },
+    
+    auto: true,
+    async onSuccess(data) {
+        order.value = data;
+        data.fields.forEach(function (r) {
+            r.value = null
+        })
+
+        await countResource.fetch()
+    }
+})
 
 let countResource = createResource({
     url: 'frappe.client.get_count',
@@ -142,13 +167,14 @@ let countResource = createResource({
     onSuccess(r) {
         totalRecord.value = r
         totalPage.value = Math.ceil(r/pagerOption.itemPerPage)
+        dataResource.params =   getDataResourceParams()
+        dataResource.fetch()
     }
 })
 
 let dataResource = createResource({
     url: 'frappe.client.get_list',
-    params: getDataResourceParams(),
-    
+    params: getDataResourceParams(),      
 })
 
 function getDataResourceParams (){
@@ -156,7 +182,7 @@ function getDataResourceParams (){
          doctype: props.doctype,
             fields: getFieldName(),
             filters: pagerOption.filters,
-            order_by: pagerOption.orderBy,
+            order_by: pagerOption.orderBy ? pagerOption.orderBy : order.value.sort_field && order.value.sort_order ? order.value?.sort_field + ' ' + order.value?.sort_order : '',
             limit_page_length: pagerOption.itemPerPage,
             limit_start: ( (pagerOption.currentPage -1) * pagerOption.itemPerPage )
         }
@@ -176,8 +202,6 @@ watch(pagerOption , (currentValue) => {
         countResource.params = getCountResourceParams()
         countResource.fetch()
     },500);
-
-   
 })
 function getFieldName() {
     let fieldnames = []
@@ -192,7 +216,10 @@ function getFieldName() {
     return fieldnames;
 
 }
-dataResource.fetch();
+
+
+ 
+
 
 
 function getFieldFromTemplate(str) {

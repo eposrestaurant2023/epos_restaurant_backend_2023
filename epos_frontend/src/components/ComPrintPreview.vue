@@ -31,11 +31,13 @@
 <script setup>
 
 import { createResource, ref } from '@/plugin'
-
+import { createToaster } from '@meforma/vue-toaster';
 import ComToolbar from './ComToolbar.vue';
 import { webserver_port } from "../../../../../sites/common_site_config.json"
 
 const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + webserver_port;
+
+const toaster = createToaster({position:"top"})
 
 const props = defineProps({
     params: {
@@ -62,8 +64,6 @@ if (props.params.print) {
 } else {
     triggerPrint.value = 0;
 }
-
-
 
 const setting = JSON.parse(localStorage.getItem("setting"))
 
@@ -120,5 +120,10 @@ function onPrint() {
     }
 
 }
+
+window.addEventListener('message', function (e) {
+    toaster.warning("hello form i frame")
+});
+
 </script>
 

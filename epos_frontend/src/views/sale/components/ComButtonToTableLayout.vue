@@ -1,4 +1,5 @@
 <template lang="">
+  <template v-if="sale.sale.table_id">
     <v-list-item @click="onToTableLayout()" v-if="isMobile">
         <template v-slot:prepend class="w-12">
             <v-icon icon="mdi-view-dashboard"></v-icon>
@@ -8,6 +9,7 @@
     <v-btn stacked color="error" size="small" class="m-1 grow" prepend-icon="mdi-view-dashboard" @click="onToTableLayout()" v-else>
       Table Layou
     </v-btn>
+  </template>
 </template>
 <script setup>
 import { inject, defineProps,confirmBackToTableLayout, useRouter, defineEmits } from '@/plugin'

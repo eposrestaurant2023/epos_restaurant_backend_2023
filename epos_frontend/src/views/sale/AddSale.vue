@@ -1,9 +1,8 @@
 <template>
-    
     <ComLoadingDialog
         v-if="sale.newSaleResource?.loading || (sale.saleResource != null && sale.saleResource?.get.loading) || (sale.saleResource != null && sale.saleResource?.setValue.loading)" />
     <div style="height: calc(100vh - 64px)" id="tst">
-        <ComSmallAddSale v-if="mobile"/>
+        <ComSmallAddSale v-if="mobile" />
         <v-row class="h-full ma-0" v-else>
             <v-col cols="12" sm="7" md="7" lg="8" class="pa-0 h-full d-none d-sm-block">
                 <ComMenu :background-image="gv.setting.pos_sale_order_background_image" />
@@ -24,12 +23,12 @@
                         <ComSelectCustomer />
                     </div>
                     <div class="overflow-auto">
-                        <ComGroupSaleProductList/>
+                        <ComGroupSaleProductList />
                     </div>
                     <div class="mt-auto">
                         <div class="-mx-1 bg-blue-100 rounded-tl-md rounded-tr-md text-xs">
-                            <ComSaleSummaryList/> 
-                            <ComSaleButtonPaymentSubmit/>
+                            <ComSaleSummaryList />
+                            <ComSaleButtonPaymentSubmit />
                         </div>
                     </div>
                 </div>
@@ -38,16 +37,18 @@
     </div>
 </template>
 <script setup>
-import {  inject, useRoute, ref, onUnmounted } from '@/plugin';
+import { inject, useRoute, useRouter, ref, onMounted, onUnmounted,onBeforeRouteLeave  } from '@/plugin';
+import Enumerable from 'linq';
 import ComMenu from './components/ComMenu.vue';
 import ComSelectCustomer from './components/ComSelectCustomer.vue';
 import ComSaleInformation from '@/views/sale/components/ComSaleInformation.vue';
 import ComLoadingDialog from '../../components/ComLoadingDialog.vue';
 import { useDisplay } from 'vuetify'
 import ComSmallAddSale from './components/mobile_screen/ComSmallAddSale.vue';
-import ComGroupSaleProductList from './components/ComGroupSaleProductList.vue'; 
+import ComGroupSaleProductList from './components/ComGroupSaleProductList.vue';
 import ComSaleSummaryList from './components/ComSaleSummaryList.vue';
 import ComSaleButtonPaymentSubmit from './components/ComSaleButtonPaymentSubmit.vue';
+import { createToaster } from '@meforma/vue-toaster';
 const { mobile, name, platform } = useDisplay()
 
 const sale = inject("$sale")
@@ -55,6 +56,10 @@ const gv = inject("$gv")
 const product = inject("$product")
 let openSearch = ref(false)
 const route = useRoute()
+const router = useRouter()
+
+const toaster = createToaster({position:"top"})
+
 sale.orderTime = null;
 sale.deletedSaleProducts = []
 if (sale.orderBy == null) {
@@ -67,33 +72,60 @@ if (product.posMenuResource.data?.length == 0) {
     product.loadPOSMenu();
 }
 
- 
-if (!sale.getString(route.params.name)=="") {
- 
+if (!sale.getString(route.params.name) == "") {
+
     sale.LoadSaleData(route.params.name);
 
 }
+
+
 sale.getTableSaleList();
 
 document.onkeydown = function (e) {
     if (e.keyCode === 116) {
         return false;
     }
-}; 
+};
 // small device
-function onSearchProduct(open){
+function onSearchProduct(open) {
     openSearch.value = open
 }
 
-onUnmounted(() => {
+onMounted(() => {
+    if (sale.getString(route.params.name) == "") {
+    if (sale.sale.sale_status == undefined) {
+       
+            if (sale.setting.table_groups.length > 0) {
+                router.push({ name: 'TableLayout' })
+            }
+            else {
+               sale.newSale();
+            }
+        }
+    }
+})
+
+onBeforeRouteLeave(() => {
    
+    const sp = Enumerable.from(sale.sale.sale_products);
+
+if (sp.where("$.name==undefined").toArray().length > 0) {
+    toaster.warning("Please save or submit your current order.");
+    return false;
+}else{
+    return true;
+}
+});
+
+onUnmounted(() => {
+
     sale.sale = {}
     sale.working_day_resource = null;
-        sale.cashier_shift_resource = null;
-        sale.newSaleResource = null;
-        sale.saleResource = null;
-        sale.tableSaleListResource = null;
-    
+    sale.cashier_shift_resource = null;
+    sale.newSaleResource = null;
+    sale.saleResource = null;
+    sale.tableSaleListResource = null;
+
 
 })
 

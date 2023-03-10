@@ -2,7 +2,7 @@
     
     <div v-if="dataResource.data">
         <div class="bg-gray-50 p-2 elevation-1">
-            <ComFilter :doctype="doctype" @onFilter="onFilter" @onRefresh="onRefresh"/>
+            <ComFilter v-if="!meta.loading" :meta="meta" @onFilter="onFilter" @onRefresh="onRefresh"/>
         </div>
         <div>
             <v-progress-linear v-if="dataResource.loading" style="position: absolute; z-index: 9999999999;" indeterminate
@@ -70,9 +70,10 @@
         <div>
             <div class="text-center items-center pt-2" v-if="countResource.data"> 
                 <v-row justify="center" align="center" class="m-0">
-                    <v-col cols="2">
+                    <v-col cols="12">
                         <div class="w-24">
                             <v-select
+                            size="x-small"
                             label="Select"
                             :items="[5,10,20,30,40,50,100]"
                             v-model="pagerOption.itemPerPage"
@@ -82,15 +83,15 @@
                             ></v-select>
                         </div>
                     </v-col>
-                    <v-col cols="8"> 
+                    <v-col cols="12"> 
                         <v-pagination
                         v-model="pagerOption.currentPage"
+                        size="x-small"
                         class="my-4"
                         :length="totalPage"
                         total-visible="8"
                         ></v-pagination> 
-                    </v-col>
-                    <v-col cols="2"></v-col>
+                    </v-col> 
                 </v-row>
             </div>
         </div>
@@ -100,11 +101,12 @@
 <script setup>
 import { createResource, reactive, defineEmits, watch,inject,ref } from '@/plugin'
 import ComFilter from '../../components/ComFilter.vue';
- 
+
 
 let filter = reactive({});
 const emit = defineEmits(['callback'])
 const moment = inject('$moment')
+const gv = inject('$gv')
 const props = defineProps({
     headers: {
         type: Array,
@@ -117,10 +119,11 @@ const props = defineProps({
     extraFields: String,
   
 })
-
+ 
 let pagerOption = reactive({
     itemPerPage: 20,
     currentPage: 1,
+    orderBy: '',
     filters:{}
 })
 
@@ -134,6 +137,26 @@ function getHeaders(){
     });
     return h;
 }
+const meta = createResource({
+    url: "epos_restaurant_2023.api.api.get_meta",
+    params:{
+        doctype: props.doctype,
+    },
+    
+    auto: true,
+    async onSuccess(data) {
+        gv.customerMeta = data;
+        if(data.sort_field && data.sort_order){
+            getDataResourceParams(data.sort_field +  ' ' + data.sort_order)
+        }
+        
+        data.fields.forEach(function (r) {
+            r.value = null
+        })
+
+        await countResource.fetch()
+    }
+})
 
 let countResource = createResource({
     url: 'frappe.client.get_count',
@@ -142,13 +165,14 @@ let countResource = createResource({
     onSuccess(r) {
         totalRecord.value = r
         totalPage.value = Math.ceil(r/pagerOption.itemPerPage)
+        dataResource.params =   getDataResourceParams()
+        dataResource.fetch()
     }
 })
 
 let dataResource = createResource({
     url: 'frappe.client.get_list',
-    params: getDataResourceParams(),
-    
+    params: getDataResourceParams(),      
 })
 
 function getDataResourceParams (){
@@ -156,7 +180,7 @@ function getDataResourceParams (){
          doctype: props.doctype,
             fields: getFieldName(),
             filters: pagerOption.filters,
-            order_by: pagerOption.orderBy,
+            order_by: pagerOption.orderBy ? pagerOption.orderBy : gv.customerMeta?.sort_field + ' ' + gv.customerMeta?.sort_order,
             limit_page_length: pagerOption.itemPerPage,
             limit_start: ( (pagerOption.currentPage -1) * pagerOption.itemPerPage )
         }
@@ -176,8 +200,6 @@ watch(pagerOption , (currentValue) => {
         countResource.params = getCountResourceParams()
         countResource.fetch()
     },500);
-
-   
 })
 function getFieldName() {
     let fieldnames = []
@@ -192,7 +214,10 @@ function getFieldName() {
     return fieldnames;
 
 }
-dataResource.fetch();
+
+
+ 
+
 
 
 function getFieldFromTemplate(str) {
@@ -204,14 +229,12 @@ function getFieldFromTemplate(str) {
     return results;
 }
 
-function getFieldValue(header, data) {
-    const fields = getFieldFromTemplate(header.template);
-    let value = header.template;
-    fields.forEach((r) => {
-        value = value.replace(`{${r}}`, data[r])
-    });
-    return value;
-
+function callback(data) {
+    var obj = {
+        fieldname: 'customer_code_name',
+        data: data
+    }
+    emit('callback', obj)
 }
 
 function onFilter($event, orderBy){ 
@@ -237,10 +260,7 @@ function onSearch(key, operator) {
 function onRefresh() {
     dataResource.fetch()
 }
-function callback(data) {
-    const paramsCallBack = {fieldname: 'customer_code_name', data: data}
-    emit('callback', paramsCallBack)
-}
+
 
 </script>
 <style>

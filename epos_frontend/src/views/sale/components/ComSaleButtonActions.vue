@@ -2,13 +2,15 @@
   <div class="overflow-hidden flex items-end">
 
     <div class="flex flex-wrap w-full">
-      <ComButtonToTableLayout :is-mobile="false" />
-      <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" doctype="Sale" title="Print Bill" />
-      <v-btn v-else stacked color="error" size="small" class="m-1 grow" prepend-icon="mdi-printer" @click="onCancelPrintBill">
-        Cancel Print Bill
-      </v-btn>
+      <ComButtonToTableLayout  :is-mobile="false" />
+      <template v-if="sale.sale.table_id">
+        <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" doctype="Sale" title="Print Bill" />
+        <v-btn v-else stacked color="error" size="small" class="m-1 grow" prepend-icon="mdi-printer" @click="onCancelPrintBill">
+          Cancel Print Bill
+        </v-btn>
+      </template>
       <ComDiscountButton />
-      <v-btn stacked size="small" class="m-1 grow" prepend-icon="mdi-plus" @click="onSubmitAndNew">
+      <v-btn v-if="sale.sale.table_id" stacked size="small" class="m-1 grow" prepend-icon="mdi-plus" @click="onSubmitAndNew">
         Submit & New
       </v-btn>
       <v-btn stacked size="small" color="error" class="m-1 grow" prepend-icon="mdi-currency-usd" @click="onQuickPay">

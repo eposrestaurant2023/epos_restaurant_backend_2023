@@ -1,5 +1,5 @@
 <template>
-  <ComModal :mobileFullscreen="true" @onClose="onClose()">
+  <ComModal :mobileFullscreen="true" @onClose="onClose()" width="1200px">
     <template #title>
       Select Sale
     </template>
@@ -52,11 +52,8 @@ function getSaleList() {
       return (String(r.name) + ' ' + String(r.customer_name) + String(r.phone_number)).toLocaleLowerCase().includes(search.value.toLocaleLowerCase());
     });
   } else {
-    return sale.tableSaleListResource?.data;
+    return sale.tableSaleListResource?.data || [];
   }
-
-
-
 }
 
 

@@ -28,12 +28,14 @@
                         <ComButton @click="onRoute('ReceiptList')" title="Recept List" icon="mdi-receipt"
                             icon-color="#e99417" />
                         <ComButton @click="onRoute('Customer')" title="Customer" icon-color="#e99417"
-                            icon="mdi-calendar-clock" />
-                        <ComButton @click="onRoute('TestPage')" title="Test Page" icon-color="#e99417"
-                            icon="mdi-calendar-clock" />
-                        <ComButton title="Report" icon="mdi-calendar-clock" icon-color="#e99417" />
+                            icon="mdi-account-multiple-outline" />
+                        <ComButton @click="onRoute('CashDrawer')" title="Cash Drawer" icon-color="#e99417"
+                            icon="mdi-currency-usd" />
+                        <ComButton title="Report" icon="mdi-chart-bar" icon-color="#e99417" />
                         <ComButton @click="onLogout()" text-color="#fff" icon-color="#fff" title="Logout" icon="mdi-logout"
                             background-color="#b00020" />
+                        <ComButton @click="onRoute('TestPage')" title="Test Page" icon-color="#e99417"
+                            icon="mdi-calendar-clock" />
                     </div>
                 </div>
             </div>
@@ -69,7 +71,10 @@ function onPOS() {
     }
 }
 function onLogout() {
-    auth.logout()
+
+    auth.logout().then((r)=>{
+        router.push({name: 'Login'})
+    })
 }
 
 </script>

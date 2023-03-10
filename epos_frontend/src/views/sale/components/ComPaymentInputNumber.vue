@@ -52,26 +52,7 @@
         </div>
       </div>
       <ComPaymentCurrencyPrefine/>
-      <!-- <div class="grid grid-cols-4  mb-2 -m-1 border rounded-sm p-1">
-        <div 
-          class="flex items-center justify-center cursor-pointer border border-stone-500 rounded-sm text-center hover:bg-slate-300"
-          :class="screen.small ? 'text-sm p-2' : 'p-3'"
-          style="margin: 1px;"
-          :key="index"
-          v-for="(n, index) in gv.setting.pos_setting.main_currency_predefine_payment_amount.split(',')"
-          @click="onMainCurrencyPrefineClick(n)">
-          <CurrencyFormat :value="parseFloat(n)" />
-        </div>
-        <div 
-          class="flex items-center justify-center cursor-pointer border border-stone-500 rounded-sm text-sm text-center hover:bg-slate-300"
-          :class="screen.small ? 'text-sm p-2' : 'p-3'"
-          style="margin: 1px;"
-          :key="index"
-          v-for="(n, index) in gv.setting.pos_setting.second_currency_predefine_payment_amount.split(',')"
-          @click="onSecondCurrencyPrefineClick(n)">
-          <CurrencyFormat :value="n" :currency="gv.setting?.pos_setting?.second_currency_name" />
-        </div>
-      </div> -->
+    
     </div>
   </div>
 </template>
@@ -86,7 +67,6 @@ const screen = inject("$screen")
 const toaster = createToaster({ position: "top" });
  
 function numpad_click(n) {
-  alert(n)
   if (n == "." && sale.paymentInputNumber.includes(".")) {
     return;
   }

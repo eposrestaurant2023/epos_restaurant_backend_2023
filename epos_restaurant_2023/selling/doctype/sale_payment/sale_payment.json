@@ -42,7 +42,8 @@
   "attach_receipt",
   "amended_from",
   "pos_profile",
-  "check_valid_payment_amount"
+  "check_valid_payment_amount",
+  "is_foc"
  ],
  "fields": [
   {
@@ -274,12 +275,19 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Payment Type Group"
+  },
+  {
+   "default": "0",
+   "fetch_from": "payment_type.is_foc",
+   "fieldname": "is_foc",
+   "fieldtype": "Check",
+   "label": "Is Foc"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-01-23 09:05:10.184341",
+ "modified": "2023-03-09 15:51:02.321522",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Payment",

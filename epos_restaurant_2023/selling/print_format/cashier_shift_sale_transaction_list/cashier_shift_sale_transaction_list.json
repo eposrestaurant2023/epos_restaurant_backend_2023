@@ -17,7 +17,7 @@
  "margin_left": 0.0,
  "margin_right": 0.0,
  "margin_top": 0.0,
- "modified": "2023-02-22 14:52:31.618933",
+ "modified": "2023-03-10 14:12:52.804182",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Cashier Shift Sale Transaction List",
@@ -36,6 +36,9 @@
  "receipt_margin_top": 0.0,
  "receipt_width": 3.14,
  "show_in_pos": 1,
+ "show_in_pos_report": 1,
  "show_section_headings": 0,
- "standard": "Yes"
+ "sort_order": 1,
+ "standard": "Yes",
+ "title": "Sale Transaction"
 }

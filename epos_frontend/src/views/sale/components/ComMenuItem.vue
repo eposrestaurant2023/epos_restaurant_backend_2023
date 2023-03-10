@@ -85,6 +85,7 @@ async function onClickProduct() {
         } else {
             
             const portions = JSON.parse(p.prices).filter(r=>(r.branch == sale.sale.business_branch || r.branch == '')  && r.price_rule == sale.sale.price_rule);
+            console.log(portions)
             if (JSON.parse(p.modifiers).length > 0 || portions.length > 1) {
                 const dt = {
                     modifiers: p.modifiers,

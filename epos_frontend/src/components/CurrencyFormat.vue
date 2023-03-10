@@ -1,12 +1,11 @@
 <template>
-        {{ vueNumberFormat(value,{prefix:prefix,suffix:suffix, precision:precision}) }} 
+    {{ numberFormat(format,value) }}
 </template>
 <script setup>
 
 import { inject, defineProps,ref } from '@/plugin';
-
 const gv = inject("$gv")
-
+const numberFormat = inject("$numberFormat")
 const props =defineProps({
     value:Number,
     currency:{
@@ -15,9 +14,8 @@ const props =defineProps({
     }
 })
 
-const prefix = ref("")
-const suffix = ref("")
-const precision = ref(0)
+const format = ref("#,###,##0.00##")
+ 
 
 let currency_name = props.currency
 
@@ -26,12 +24,7 @@ if (currency_name==""){
 }
 const currency = gv.setting?.currencies.find(r=>r.name==currency_name)
 if (currency){
-    if (currency.symbol_on_right){
-        suffix.value =" " + currency.symbol;
-    }else {
-        prefix.value = currency.symbol + " ";
-    }
-    precision.value = currency.currency_precision
+   format.value = currency.pos_currency_format
 }
 
 

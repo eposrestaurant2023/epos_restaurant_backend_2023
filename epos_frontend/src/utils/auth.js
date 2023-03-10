@@ -31,9 +31,12 @@ export default class Auth {
 	}
 
 	async logout() {
-		await call('logout');
-		this.isLoggedIn = false;
-		window.location.reload();
+		return new Promise(async (resolve) => {
+
+			await call('logout');
+			this.isLoggedIn = false;
+			resolve(true);
+		});
 	}
 
 	async resetPassword(email) {

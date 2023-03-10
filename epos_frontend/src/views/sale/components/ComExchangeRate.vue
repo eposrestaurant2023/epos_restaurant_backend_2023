@@ -33,8 +33,9 @@ const exchangeRateResource = createResource({
             exchange_rate.value=1;
             
         }
+        sale.exchange_rate = exchange_rate.value;
         sale.sale.exchange_rate = exchange_rate.value;
-       
+        
         if(exchange_rate.value<=1){
             toaster.warning("Invalid Exchange Rate")
         }
