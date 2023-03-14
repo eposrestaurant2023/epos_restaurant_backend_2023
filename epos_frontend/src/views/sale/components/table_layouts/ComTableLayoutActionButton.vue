@@ -3,12 +3,10 @@
         <v-icon>mdi-cached</v-icon>
     </v-btn>
     <template v-if="!mobile">
-        <v-btn @click="onChangeCurrentView" v-if="tableLayout.currentView == 'table_group'">
+        <v-btn @click="onViewPendingOrder">
             Pending order
         </v-btn>
-        <v-btn @click="onChangeCurrentView" v-else>
-            Table Layout
-        </v-btn>
+         
     </template>
     <v-btn :loading="tableLayout.saveTablePositionResource.loading" v-if="tableLayout.canArrangeTable"
         @click="onSaveTablePosition">
@@ -25,13 +23,10 @@
                 <v-list-item-title>Arrange Table Layout</v-list-item-title>
             </v-list-item>
             <template v-if="mobile">
-                <v-list-item @click="onChangeCurrentView" v-if="tableLayout.currentView == 'table_group'">
+                <v-list-item @click="onViewPendingOrder">
                     <v-list-item-title>Pending Order</v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="onChangeCurrentView" v-else>
-
-                    <v-list-item-title> Table Layout</v-list-item-title>
-                </v-list-item>
+                
 
             </template>
 
@@ -53,8 +48,9 @@ function onRefreshSale() {
 function onEnableArrageTable(){
     tableLayout.canArrangeTable = true;
 }
-function onChangeCurrentView() {
-    tableLayout.currentView = tableLayout.currentView == "table_group" ? "pending_order" : "table_group";
+
+function onViewPendingOrder() {
+    alert("open pending order dialog box");
 }
 
 

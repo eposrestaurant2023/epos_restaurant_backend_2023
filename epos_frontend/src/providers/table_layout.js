@@ -12,13 +12,14 @@ export default class TableLayout {
         this.tab = null;
         this.currentView = "table_group";
         this.table_groups = [];
+        this.tableGroupTabs = [];
         this.canArrangeTable = false;
         this.getTableGroups();
         this.saleListResource = null;
         this.saveTablePositionResource = null;
         this.initSaveTablePositionResource()
-
     }
+
     //end constructor
     initSaveTablePositionResource(){
         const parent = this;
@@ -33,6 +34,7 @@ export default class TableLayout {
             }
         })
     }
+
     getSaleList(){
         const parent = this;
         this.saleListResource = createResource({
@@ -68,16 +70,16 @@ export default class TableLayout {
 
                     })
                 })
-              
+                 
             }
         });
     }
-    
-
 
     getTableGroups(){
-        this.table_groups = JSON.parse(localStorage.getItem("table_groups"));
-         
+        if(localStorage.getItem("table_groups")!=null){
+            this.table_groups = JSON.parse(localStorage.getItem("table_groups"));
+        }
+        
     }
     
     onResizeEnd(t) { 

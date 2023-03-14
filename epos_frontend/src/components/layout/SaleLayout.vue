@@ -79,6 +79,7 @@ import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue';
 
 import ComSaleNotivication from './ComSaleNotification.vue';
 import { useDisplay } from 'vuetify'
+import { useRouter } from '@/plugin';
 
 export default {
     inject: ["$auth", "$sale"],
@@ -96,7 +97,8 @@ export default {
         const { mobile } = useDisplay()
 
         return {
-            mobile
+            mobile,
+    
         }
     },
     computed: {

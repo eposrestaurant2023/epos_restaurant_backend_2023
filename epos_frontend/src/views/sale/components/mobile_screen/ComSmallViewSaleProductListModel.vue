@@ -25,26 +25,26 @@
             <ComGroupSaleProductList />
         </template>
         <template #action>
-            <ComSmallSaleSummary />
+            <ComSmallSaleSummary @onClose="onGoHome()" />
         </template>
     </ComModal>
 </template>
 <script setup>
-import { defineProps, defineEmits, inject } from '@/plugin'
-import { useDisplay } from 'vuetify'
-import ComToolbar from '../../../../components/ComToolbar.vue';
+import { defineProps, defineEmits, inject,useRouter } from '@/plugin'
+ 
 import ComButtonToTableLayout from '../ComButtonToTableLayout.vue';
 import ComDiscountButtonList from '../ComDiscountButtonList.vue';
 import ComGroupSaleProductList from '../ComGroupSaleProductList.vue';
 import ComPrintBillButton from '../ComPrintBillButton.vue';
 import ComSaleButtonMoreList from '../ComSaleButtonMoreList.vue';
 import ComSmallSaleSummary from './ComSmallSaleSummary.vue';
-const { mobile } = useDisplay()
+
 const props = defineProps({
     params: Object
 })
 const sale = inject('$sale')
 const emit = defineEmits(['resolve'])
+const router = useRouter();
 async function onQuickPay() {
 
     await sale.onSubmitQuickPay().then((value) => {
@@ -54,6 +54,13 @@ async function onQuickPay() {
         }
     });
 }
+
+function onGoHome(){
+    
+    router.push({ name: "TableLayout" });
+    emit('resolve', false)
+}
+
 function onClose() {
     sale.mobile_view_sale_product = false
     emit('resolve', false)

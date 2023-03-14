@@ -6,11 +6,11 @@ from frappe.model.document import Document
 
 class CashierShift(Document):
 	def validate(self):
-		#if close shift check current bill open 
-		if self.is_closed==1:
-			pending_orders = frappe.db.sql("select name from `tabSale` where docstatus = 0 and cashier_shift = '{}'".format(self.name), as_dict=1)
-			if pending_orders:
-				frappe.throw("Please close all pending order before close cashier shift.")
+		# #if close shift check current bill open 
+		# if self.is_closed==1:
+		# 	pending_orders = frappe.db.sql("select name from `tabSale` where docstatus = 0 and cashier_shift = '{}'".format(self.name), as_dict=1)
+		# 	if pending_orders:
+		# 		frappe.throw("Please close all pending order before close cashier shift.")
 
 		
 		for c in self.cash_float:
@@ -26,8 +26,10 @@ class CashierShift(Document):
 		self.total_system_close_amount = Enumerable(self.cash_float).sum(lambda x: x.system_close_amount)
 		self.total_close_amount = Enumerable(self.cash_float).sum(lambda x: x.close_amount)
 		self.total_different_amount = self.total_close_amount -  self.total_system_close_amount
-	def on_update(self):
-		count = frappe.db.count('Cashier Shift')
-		frappe.db.set_value('Working Day', self.working_day, {
-			'total_cashier_shift': count
-		})
+
+	def after_insert(self):
+		
+		frappe.db.sql("update `tabSale` set cashier_shift='{}' where docstatus = 0 and pos_profile = '{}'".format(self.name, self.pos_profile))
+
+
+		

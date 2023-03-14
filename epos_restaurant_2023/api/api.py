@@ -49,7 +49,10 @@ def get_system_settings(pos_profile="", device_name=''):
     price_rules = []
     for pr in pos_config.price_rules:
         price_rules.append({"price_rule":pr.price_rule})
- 
+    # get lang
+    lang = frappe.get_list('Language',fields=['language_code', 'language_name'],filters={
+        'enabled': 1
+    })
     pos_setting={
         "business_branch":profile.business_branch,
         "business_name_en":pos_config.business_name_en,
@@ -136,7 +139,8 @@ def get_system_settings(pos_profile="", device_name=''):
         "default_payment_type":profile.default_payment_type,
         "default_pos_receipt":default_pos_receipt,
         "second_currency_payment_type":profile.second_currency_payment_type,
-        "price_rules":price_rules
+        "price_rules":price_rules,
+        "lang": lang
         
     }
     return  data
@@ -183,6 +187,13 @@ def get_current_working_day(business_branch):
     return
 
 @frappe.whitelist()
+def get_current_shift_information(business_branch, pos_profile):
+    return {
+    "working_day":get_current_working_day(business_branch),
+    "cashier_shift":get_current_cashier_shift(pos_profile)
+    }
+
+@frappe.whitelist()
 def get_current_cashier_shift(pos_profile):
    
     sql = "select name,working_day, posting_date, pos_profile, opened_note,business_branch,total_opening_amount from `tabCashier Shift` where pos_profile = '{}' and is_closed = 0 order by creation limit 1".format(pos_profile)
@@ -190,6 +201,8 @@ def get_current_cashier_shift(pos_profile):
     if data:
         return data [0]
     return
+
+
 
 @frappe.whitelist()
 def get_user_information():
@@ -267,9 +280,13 @@ def get_close_shift_summary(cashier_shift):
     sql = "select payment_type, currency,sum(input_amount) as input_amount, sum(payment_amount) as payment_amount from `tabSale Payment` where cashier_shift='{}' and docstatus=1 group by payment_type, currency".format(cashier_shift)
     payments = frappe.db.sql(sql, as_dict=1)
     
+    #get cash in out 
+    sql = "select  payment_type, sum(if(transaction_status='Cash Out',amount*-1,amount)) as total_amount from `tabCash Transaction`   where cashier_shift='{}'    group by  payment_type".format(cashier_shift)
+    cash_transactions = frappe.db.sql(sql, as_dict=1)
     
+
     for d in doc.cash_float:
-        
+        cash_transaction = Enumerable( cash_transactions).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.total_amount or 0 )
         data.append({
             "name":d.name,
             "payment_method":d.payment_method,
@@ -277,8 +294,8 @@ def get_close_shift_summary(cashier_shift):
             "input_amount":d.input_amount,
             "opening_amount":d.opening_amount,
             "input_close_amount":0,
-            "input_system_close_amount":d.input_amount +  Enumerable(payments).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.input_amount or 0 ),
-            "system_close_amount": d.opening_amount +  Enumerable(payments).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.payment_amount or 0 ),
+            "input_system_close_amount":d.input_amount +  Enumerable(payments).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.input_amount or 0 ) + cash_transaction,
+            "system_close_amount": d.opening_amount +  Enumerable(payments).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.payment_amount or 0 ) + cash_transaction,
             "different_amount":0,
             "currency":d.currency
         })
@@ -341,7 +358,7 @@ def get_working_day_list_report():
         filters={
             "posting_date":[">=", date]
         },
-        fields=["name","posting_date","creation","modified_by","total_cashier_shift","owner"],
+        fields=["name","posting_date","creation","modified_by","owner","is_closed","closed_date"],
         order_by='posting_date desc',
         page_length=100,
         

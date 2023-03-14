@@ -15,11 +15,13 @@ import ReceiptList from "@/views/receipt_list/ReceiptList.vue"
 import StartupConfig from "@/views/checking_system/StartupConfig.vue"
 import CashDrawer from "@/views/cash_drawer/CashDrawer.vue"
 import Report from "@/views/report/Report.vue"
+import ServerError from "@/views/checking_system/ServerError.vue"
  
 import authRoutes from './auth';
 
 const routes = [
   { path: "/", redirect: '/epos_frontend'},
+  { path: "/server-error", redirect: '/epos_frontend/server-error'},
   { path: "/epos_frontend", name: "Home", component: Home, meta: { layout: 'main_layout' } },
   {path: '/epos_frontend/startup-config', name: 'StartupConfig',component: StartupConfig, meta: { isStartupConfig: true }, props: true},
   { path: "/epos_frontend/add-sale/:name?", name: "AddSale", component: AddSale, meta: { layout: 'sale_layout' }},
@@ -36,6 +38,7 @@ const routes = [
   { path: "/epos_frontend/test-page", name: "TestPage", component: TestPage, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/todo", name: "ToDo", component: ToDo, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/report", name: "Report", component: Report, meta: { layout: "main_layout"}},
+  { path: "/epos_frontend/server-error", name: "ServerError", component: ServerError},
   ...authRoutes,
 ];
 

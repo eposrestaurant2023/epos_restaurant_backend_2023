@@ -32,10 +32,11 @@ import ComSelectCustomer from '../ComSelectCustomer.vue';
 import ComProductSearch from '../ComProductSearch.vue';
 const sale = inject('$sale')
 const lastProduct = computed(()=>{
-    return sale.sale.sale_products.find(r=>r.selected == true)
+    return sale.sale?.sale_products?.find(r=>r.selected == true)
 })
 async function onViewDetail(){
-    sale.mobile_view_sale_product = true
-    await smallViewSaleProductListModel ({title: sale.sale.name ? sale.sale.name : 'New Sale', value:  ''});
+  
+ const result =    await smallViewSaleProductListModel ({title: sale.sale.name ? sale.sale.name : 'New Sale', value:  ''});
+   
 }
 </script> 

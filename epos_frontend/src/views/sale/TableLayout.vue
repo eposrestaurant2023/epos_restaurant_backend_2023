@@ -6,24 +6,15 @@
         <template #action>
             <ComTableLayoutActionButton/>
         </template>
-       
+    
         <template v-if="tableLayout.table_groups">
     
-            <v-window v-model="tableLayout.tab" v-if="tableLayout.currentView == 'table_group'">
+            <v-window v-model="tableLayout.tab">
                 <ComArrangeTable  v-if="tableLayout.canArrangeTable"/>
                 <ComRenderTableNumber v-else/>
 
             </v-window>
-            <v-window v-model="tableLayout.tab" v-else>
-               
-                <template v-for="g in tableLayout.table_groups">
-                    
-                    <v-window-item :value="g.key" v-bind:style="{ 'min-height': 'calc(100vh - 200px)' }">
-                    
-                        <ComPendingSaleList :data="tableLayout.saleListResource?.data?.filter(r => r.tbl_group == g.table_group)" />
-                    </v-window-item>
-                </template>
-            </v-window>
+            
         </template>
         <ComSaleStatusInformation />
     </PageLayout>

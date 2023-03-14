@@ -60,7 +60,9 @@ class Sale(Document):
 
 		#set is foc by check payment pyment if have is_foc payment type
 		self.is_foc = 0
-		if Enumerable(self.payment).where(lambda x: x.is_foc ==1):
+
+		
+		if Enumerable(self.payment).where(lambda x: (x.is_foc or 0) ==1).count()>=1:
 			self.is_foc = 1
   
   

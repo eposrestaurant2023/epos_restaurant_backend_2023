@@ -162,6 +162,7 @@ onMounted(async () => {
                     position: "top",
                 });
                 //check from setting if system will need to print after close shift
+                if(localStorage.getItem("is_window")==1){ 
                 if (setting.print_cashier_shift_summary_after_close_shift == 1) {
                     window.chrome.webview.postMessage("hello");
                 }
@@ -169,6 +170,7 @@ onMounted(async () => {
                 if (setting.print_cashier_shift_sale_product_summary_after_close_shift == 1) {
                     window.chrome.webview.postMessage("hello");
                 }
+            }
                 await printPreviewDialog(
                     { title: "Cashier Shift Report #" + doc.name, doctype: "Cashier Shift", name: doc.name }
                 )

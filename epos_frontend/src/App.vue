@@ -71,11 +71,9 @@ if (!localStorage.getItem("pos_profile")) {
 		onError(x) {
 			if (x.error_text == undefined) {
 				//localStorage.removeItem("pos_profile")
-				//location.reload()
 			} else {
 				if (x.error_text[0] === 'Invalid POS Profile name') {
 					localStorage.removeItem("pos_profile")
-					//location.reload()
 				}
 			}
 			state.isLoading = false;

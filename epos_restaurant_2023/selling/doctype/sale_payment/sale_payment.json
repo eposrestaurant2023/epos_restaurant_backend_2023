@@ -16,6 +16,7 @@
   "payment_type",
   "payment_type_group",
   "currency",
+  "symbol",
   "sale_information_section",
   "sale",
   "sale_date",
@@ -187,8 +188,9 @@
   {
    "fetch_from": "payment_type.currency",
    "fieldname": "currency",
-   "fieldtype": "Data",
-   "label": "Currency"
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
   },
   {
    "fetch_from": "sale.balance",
@@ -282,12 +284,19 @@
    "fieldname": "is_foc",
    "fieldtype": "Check",
    "label": "Is Foc"
+  },
+  {
+   "fetch_from": "currency.symbol",
+   "fieldname": "symbol",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Symbol"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-03-09 15:51:02.321522",
+ "modified": "2023-03-13 11:07:22.739845",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Payment",

@@ -32,7 +32,8 @@
 </template>
 <script setup>
     import {defineProps,defineEmits, createResource, createToaster,inject,useRouter} from "@/plugin"
-    import { useDisplay } from 'vuetify'
+
+    const router = useRouter();
  
     const sale = inject('$sale')
     const props = defineProps({
@@ -75,13 +76,12 @@
         reference_doctype:"Sale",
         reference_name:"New",
         comment_by:"cashier@mail.com",
-        content:`User sengho print bill. Amount:100$, Total Qty:5`
+        content:`Print request bill`
               
       });
-
     await sale.onSubmit().then(async (value) => {
       if (value) {
-      
+        
         router.push({ name: "TableLayout" });
       }
     });

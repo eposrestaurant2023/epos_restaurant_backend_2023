@@ -100,19 +100,20 @@ export function frappeRequest(options) {
 
         if (options.onError || error_text) {
           if(error_text[0]=="Not permitted"){
-           location.reload("/login");
-          } else if(error_text[0] == 'Internal Server Error'){
-            //location.reload("/server-error")
-          }
+            location.reload("/epos_frontend/login");
+          } 
+          // else if(error_text[0] == 'Internal Server Error'){
+          //  window.open("/epos_frontend/server-error","_self")
+          // }
           toaster.error(error_text,{position:"top"});
-          options.onError({
-            error_text:error_text,
-            response: errorResponse,
-            status: errorResponse.status,
-            error: e,
-          })
+            options.onError({
+              error_text:error_text,
+              response: errorResponse,
+              status: errorResponse.status,
+              error: e,
+            })
+  
         }
-       
         throw e
       }
     },

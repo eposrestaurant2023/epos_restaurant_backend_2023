@@ -37,7 +37,7 @@
     </div>
 </template>
 <script setup>
-import { inject, useRoute, useRouter, ref, onMounted, onUnmounted,onBeforeRouteLeave  } from '@/plugin';
+import { inject, useRoute, useRouter, ref, onMounted, onUnmounted, onBeforeRouteLeave,createResource} from '@/plugin';
 import Enumerable from 'linq';
 import ComMenu from './components/ComMenu.vue';
 import ComSelectCustomer from './components/ComSelectCustomer.vue';
@@ -58,7 +58,7 @@ let openSearch = ref(false)
 const route = useRoute()
 const router = useRouter()
 
-const toaster = createToaster({position:"top"})
+const toaster = createToaster({ position: "top" })
 
 sale.orderTime = null;
 sale.deletedSaleProducts = []
@@ -67,16 +67,12 @@ if (sale.orderBy == null) {
 }
 
 sale.orderTime = "";
-
 if (product.posMenuResource.data?.length == 0) {
     product.loadPOSMenu();
 }
 
-if (!sale.getString(route.params.name) == "") {
 
-    sale.LoadSaleData(route.params.name);
 
-}
 
 
 sale.getTableSaleList();
@@ -93,28 +89,76 @@ function onSearchProduct(open) {
 
 onMounted(() => {
     if (sale.getString(route.params.name) == "") {
-    if (sale.sale.sale_status == undefined) {
-       
+        if (sale.sale.sale_status == undefined) {
             if (sale.setting.table_groups.length > 0) {
                 router.push({ name: 'TableLayout' })
             }
             else {
-               sale.newSale();
+                sale.newSale();
             }
         }
     }
+
+    //check working day and cashier shift
+    const shiftInformationResource = createResource({
+            url: "epos_restaurant_2023.api.api.get_current_shift_information",
+            params: {
+                business_branch: sale.setting?.business_branch,
+                pos_profile: localStorage.getItem("pos_profile")
+            },
+            auto: true,
+            onSuccess(data) { 
+                if (data.cashier_shift == null) {
+                    toaster.warning("Please start cashier shift first");
+                    router.push({name:"OpenShift"});
+                } else if(data.working_day==null){
+                    toaster.warning("Please start working day first");
+                    router.push({name:"StartWorkingDay"});
+                }else {
+                    sale.sale.working_day = data.working_day.name;
+                    sale.sale.cashier_shift = data.cashier_shift.name;
+                    sale.working_day = data.working_day.name;
+                    sale.cashier_shift = data.cashier_shift.name;
+                }
+            }
+        })
+
+
+    //load sale data 
+    if (!sale.getString(route.params.name) == "") {
+
+    sale.LoadSaleData(route.params.name).then((v) => {
+        if (v) {
+            if (v.docstatus == 1 || v.docstatus == 2) {
+                
+                if(v.docstatus==1){
+                    toaster.warning("This sale order is already closed");
+                    
+                }else{
+                    toaster.warning("This sale order is alreayd cancel");
+                }
+                if (sale.setting.table_groups.length > 0) {
+                    router.push({ name: 'TableLayout' });
+                }
+                else {
+                    router.push({ name: 'Home' });
+                }
+            }
+        }
+    });
+}
 })
 
 onBeforeRouteLeave(() => {
-   
+
     const sp = Enumerable.from(sale.sale.sale_products);
 
-if (sp.where("$.name==undefined").toArray().length > 0) {
-    toaster.warning("Please save or submit your current order.");
-    return false;
-}else{
-    return true;
-}
+    if (sp.where("$.name==undefined").toArray().length > 0) {
+        toaster.warning("Please save or submit your current order.");
+        return false;
+    } else {
+        return true;
+    }
 });
 
 onUnmounted(() => {

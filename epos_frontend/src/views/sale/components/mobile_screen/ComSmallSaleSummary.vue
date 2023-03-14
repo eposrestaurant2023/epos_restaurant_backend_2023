@@ -34,9 +34,9 @@
   <script setup>
   import { inject, useRouter,paymentDialog } from '@/plugin'; 
   import { createToaster } from '@meforma/vue-toaster';
-    import ComExchangeRate from '../ComExchangeRate.vue';
+import ComExchangeRate from '../ComExchangeRate.vue';
 import ComSaleSummaryList from '../ComSaleSummaryList.vue';
-  
+const emit = defineEmits(["onClose"])
   const router = useRouter()
   const sale = inject("$sale")
   const gv = inject("$gv")
@@ -49,10 +49,8 @@ import ComSaleSummaryList from '../ComSaleSummaryList.vue';
       sale.message = "Submit Order Successfully";
       sale.sale.sale_status = "Submitted";
       await sale.onSubmit().then((value) => {
-        if (value) {
-          router.push({ name: "TableLayout" });
-          sale.mobile_view_sale_product = false
-        }
+       
+        emit('onClose')
       });
     }
   }
@@ -66,8 +64,7 @@ import ComSaleSummaryList from '../ComSaleSummaryList.vue';
     }
     const result = await paymentDialog({})
     if(result){
-      router.push({ name: "TableLayout" });
-      sale.mobile_view_sale_product = false
+      emit('onClose')
     }
     
   }

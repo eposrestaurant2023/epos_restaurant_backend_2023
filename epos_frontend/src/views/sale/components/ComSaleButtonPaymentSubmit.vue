@@ -49,10 +49,10 @@ async function onSubmit() {
     sale.action = "submit_order";
     sale.message = "Submit Order Successfully";
     sale.sale.sale_status = "Submitted";
-    await sale.onSubmit().then((value) => {
-      if (value) {
-     
-        if (sale.sale.table_id){ 
+    await sale.onSubmit().then((doc) => {
+      if (doc) {
+       
+        if (doc.table_id){ 
           sale.sale = {};
           router.push({ name: 'TableLayout' })
         }

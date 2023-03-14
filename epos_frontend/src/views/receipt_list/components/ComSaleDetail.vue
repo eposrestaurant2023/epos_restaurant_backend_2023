@@ -15,7 +15,7 @@
         </template>
         <template #content>
             <iframe style="height:calc(100vh - 130px)" width="100%"
-                    :src="url"></iframe>
+                    :src="getPrintReportPath('Sale',params.name,'Sale%20Invoice%20A4')"></iframe>
         </template>
  
    </ComModal>
@@ -24,12 +24,12 @@
 <script setup>
 
 import { createDocumentResource, ref, inject, computed } from '@/plugin'
-import ComToolbar from '@/components/ComToolbar.vue';
 import ComPrintButton from '@/components/ComPrintButton.vue';
 import { printPreviewDialog } from '@/utils/dialog';
 import Enumerable from 'linq';
 import { useDisplay } from 'vuetify'
 import ComModal from '../../../components/ComModal.vue';
+import { webserver_port } from "../../../../../../../sites/common_site_config.json"
 
 const { mobile } = useDisplay()
 
@@ -46,9 +46,6 @@ const setting = computed(() => {
 })
 
 
-const url = "http://192.168.10.114:1216/printview?doctype=Sale&name=" + props.params.name + "&format=Sale%20Invoice%20A4&no_letterhead=0&letterhead=Defualt%20Letter%20Head&settings=%7B%7D&_lang=en&show_toolbar=0"
-
-
 let sale = createDocumentResource({
     url: 'frappe.client.get',
     doctype: 'Sale',
@@ -59,6 +56,17 @@ let sale = createDocumentResource({
 function onClick() {
     emit('reject', false);
 }
+
+function getPrintReportPath(doctype,name,reportName,showToolbar=0, isPrint=0){
+ 
+		let url = "";
+		const serverUrl = window.location.protocol + "//" +  window.location.hostname + ":" +  webserver_port;
+		url  = serverUrl + "/printview?doctype=" + doctype + "&name=" + name + "&format="+ reportName +"&no_letterhead=0&letterhead=Defualt%20Letter%20Head&settings=%7B%7D&_lang=en&show_toolbar=" + showToolbar + "&d=" + new Date()
+		if(isPrint){
+			url = url + "&trigger_print=" + isPrint
+		}
+        return url;
+	}
 
 async function onPrint(r) {
 

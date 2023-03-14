@@ -9,6 +9,8 @@ const toaster = createToaster({ position: "top" });
 
 export default class Sale {
     constructor() {
+        this.working_day="";
+        this.cashier_shift="";
         this.setting = null;
         this.orderBy = null;
         this.exchange_rate = 1;
@@ -18,8 +20,6 @@ export default class Sale {
         this.action = "";
         this.pos_receipt = undefined;
         this.mobile_view_sale_product = true;
-        this.working_day_resource = null;
-        this.cashier_shift_resource = null;
         this.sale = {
             sale_products: []
         };
@@ -70,7 +70,6 @@ export default class Sale {
                     parent.message = undefined;
                 }
                 else {
-                    alert("new sale resource")
                     toaster.success("Updated");
                 }
             }
@@ -78,9 +77,12 @@ export default class Sale {
     }
 
     async newSale() {
+       
         this.sale = {
             doctype: "Sale",
             sale_status: "New",
+            cashier_shift:this.cashier_shift,
+            working_day:this.working_day,
             exchange_rate: this.exchange_rate,
             pos_profile: this.setting?.pos_profile,
             customer: this.setting?.customer,
@@ -96,66 +98,22 @@ export default class Sale {
             discount: 0,
             sub_total: 0,
             payment:[],
-            posting_date: moment(new Date()).format('yyyy-MM-DD')
+            posting_date: moment(new Date()).format('yyyy-MM-DD'),
+            
+
         }
-        // get current working day
-        await this.getWorkingDay()
-        // get current shift
-        await this.getCashierShift()
+       
     }
 
-    getWorkingDay(saleName){
-        const parent = this
 
-        parent.working_day_resource = createResource({
-            url: "epos_restaurant_2023.api.api.get_current_working_day",
-            params: {
-                business_branch: parent.setting?.business_branch
-            },
-            auto: true,
-            onSuccess(data) { 
-                if (data == undefined) {
-                    toaster.warning("Please start working day first");
-                    router.push({ name: "Home" });
-                } else{
-                    if(!saleName){
-                        parent.sale.working_day = data.name
-                    }
-                }
-            }
-        })
-    }
-    getCashierShift(saleName){
-        const parent = this
-        parent.cashier_shift_resource = createResource({
-            url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
-            params: {
-                pos_profile: localStorage.getItem("pos_profile")
-            },
-            auto: true,
-            onSuccess(data) {
-                if (data ==undefined) {
-                    toaster.warning("Please start cashier shift first.", { position: "top" });
-                    router.push({ name: "Home" });
-                }else{
-                    if(!saleName){ 
-                        parent.sale.cashier_shift = data.name;
-                    }
-                }
-            }
-        })
-    }
 
     async LoadSaleData(name) {
-        console.log("load sale data", name)
+        return new Promise(async (resolve) => {
         const parent = this;
         this.saleResource = createDocumentResource({
             url: "frappe.client.get",
             doctype: "Sale",
             name: name,
-            onError(err) {
-                console.log(err);
-            },
             setValue: {
                 onSuccess(doc) {
                     parent.sale = doc;
@@ -183,11 +141,14 @@ export default class Sale {
             if(!this.tableSaleListResource?.data){
                 this.getTableSaleList();
             }
+            resolve(doc);
 
         });
-       
-
+        resolve(false);
     }
+       
+   
+   ) }
 
     getTableSaleList(){
         // if(this.sale.table_id){ 
@@ -636,7 +597,7 @@ export default class Sale {
                 } else {
                     await this.saleResource.setValue.submit(doc);
                 }
-                resolve(true);
+                resolve(doc);
             }
 
         })
@@ -749,6 +710,8 @@ export default class Sale {
         }
 
         this.submitToAuditTrail(doc);
+        this.sale = {};
+        
     }
 
     submitToAuditTrail(d){

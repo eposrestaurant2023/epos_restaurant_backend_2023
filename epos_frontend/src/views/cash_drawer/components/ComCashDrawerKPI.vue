@@ -4,7 +4,7 @@
             <v-card-text>
                 <div class="text-gray-600 mb-2">{{ title }}</div>
                 <div class="text-lg">
-                    <CurrencyFormat :value="value"/>
+                    <CurrencyFormat :value="value || 0"/>
                 </div>
             </v-card-text>
         </v-card>

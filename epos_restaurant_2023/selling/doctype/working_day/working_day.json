@@ -17,8 +17,7 @@
   "closing_information_section",
   "is_closed",
   "closed_date",
-  "outlet",
-  "total_cashier_shift"
+  "outlet"
  ],
  "fields": [
   {
@@ -80,18 +79,11 @@
    "fieldtype": "Link",
    "label": "POS Profile",
    "options": "POS Profile"
-  },
-  {
-   "default": "0",
-   "fieldname": "total_cashier_shift",
-   "fieldtype": "Int",
-   "label": "Total Cashier Shift",
-   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-09 16:18:28.627289",
+ "modified": "2023-03-13 17:13:19.081372",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Working Day",

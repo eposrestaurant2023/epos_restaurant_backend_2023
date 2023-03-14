@@ -24,6 +24,7 @@ import Avatar from "vue3-avatar";
 import Vue3DraggableResizable from 'vue3-draggable-resizable'
 //default styles
 import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
+import VueBarcodeScanner from 'vue3-barcode-scanner'
 
 import router from './router';
 import call from "./utils/call";
@@ -71,6 +72,7 @@ app.use(resourcesPlugin);
 app.use(vuetify);
 app.use(store);
 app.use(Vue3DraggableResizable)
+app.use(VueBarcodeScanner)
 app.use(Toaster, {
 	position: "top",
 })
