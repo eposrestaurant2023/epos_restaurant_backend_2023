@@ -69,7 +69,7 @@
                                 prepend-inner-icon="mdi-content-paste"
                                 density="compact"
                                 v-model="activeReport.letterhead"
-                                :items="['Defualt Letter Head','No Letterhead']"
+                                :items= gv.setting.letter_heads
                                 hide-no-data
                                 hide-details
                                 variant="solo"
@@ -129,6 +129,7 @@ const printPreviewUrl = computed(()=>{
 const printUrl = computed(()=>{
     return `${serverUrl}/printview?doctype=${activeReport.value.doc_type}&name=${activeReport.value.report_id}&format=${activeReport.value.print_report_name}&no_letterhead=0&show_toolbar=0&letterhead=${activeReport.value.letterhead}&settings=%7B%7D&_lang=${activeReport.value.lang}`
 })
+
 const lang = gv.setting.lang
 let workingDayReports = ref({})
 const workingDayReportsTmp = createResource({
@@ -205,17 +206,28 @@ function onRefresh(){
 }
 
 function onPrint(){
-    window.open(printUrl.value + "?&trigger_print=1").print();
+    window.open(printUrl.value + "&trigger_print=1").print();
     window.close();
 } 
-
 const reportClickHandler = async function (e) {
     if(e.isTrusted && typeof(e.data) == 'string'){
-        const result = await saleDetailDialog({
-            name:e.data
-        });
+      
+        const data = e.data.split("|")
+        
+        if(data.length>0){
+      
+            if(data[0]=="view_sale_detail"){
+                saleDetailDialog({
+            name:data[1]
+            });
+            
+            }
+        
+        }
+        
     }
 };
+
 
 window.addEventListener('message', reportClickHandler, false);
 

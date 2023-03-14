@@ -17,7 +17,9 @@
   "closing_information_section",
   "is_closed",
   "closed_date",
-  "outlet"
+  "outlet",
+  "column_break_11",
+  "closed_note"
  ],
  "fields": [
   {
@@ -60,6 +62,7 @@
    "label": "Closed Date"
   },
   {
+   "fetch_from": "pos_profile.outlet",
    "fieldname": "outlet",
    "fieldtype": "Link",
    "label": "Outlet",
@@ -79,11 +82,20 @@
    "fieldtype": "Link",
    "label": "POS Profile",
    "options": "POS Profile"
+  },
+  {
+   "fieldname": "column_break_11",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "closed_note",
+   "fieldtype": "Small Text",
+   "label": "Closed Note"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-13 17:13:19.081372",
+ "modified": "2023-03-14 09:39:43.527242",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Working Day",

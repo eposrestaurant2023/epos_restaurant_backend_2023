@@ -102,7 +102,15 @@ def get_system_settings(pos_profile="", device_name=''):
     default_pos_receipt=None
     if print_format:
         default_pos_receipt = print_format[0]
-        
+
+    #get report list
+    report_format_fields = ["name","title","doc_type","print_report_name","default_print_language","show_in_pos_report","show_in_pos","print_invoice_copies", "print_receipt_copies","pos_invoice_file_name","pos_receipt_file_name", "receipt_height", "receipt_width","receipt_margin_top", "receipt_margin_left","receipt_margin_right","receipt_margin_bottom" ]
+    reports = frappe.get_list("Print Format",fields=report_format_fields , filters={"doc_type":["in",["Cashier Shift","Working Day","Sale"]]},order_by="sort_order")
+    letter_heads = frappe.get_list("Letter Head",fields=["name","is_default"])
+    letter_heads.append({"name":"No Letterhead","is_default":0})
+ 
+
+
     data={
         "app_name":doc.epos_app_name,
         "business_branch":profile.business_branch,
@@ -128,6 +136,8 @@ def get_system_settings(pos_profile="", device_name=''):
         "sale_status":frappe.db.sql("select name,background_color from `tabSale Status`", as_dict=1),
         "print_cashier_shift_summary_after_close_shift":doc.print_cashier_shift_summary_after_close_shift,
         "print_cashier_shift_sale_product_summary_after_close_shift":doc.print_cashier_shift_sale_product_summary_after_close_shift,
+        "print_working_day_summary_after_close_working_day":doc.print_working_day_summary_after_close_working_day,
+        "print_working_day_sale_product_summary_after_close_working_day":doc.print_working_day_sale_product_summary_after_close_working_day,
         "pos_sale_order_background_image":doc.pos_sale_order_background_image,
         "currencies":currencies,
         "default_currency":frappe.db.get_default("currency"),
@@ -140,7 +150,9 @@ def get_system_settings(pos_profile="", device_name=''):
         "default_pos_receipt":default_pos_receipt,
         "second_currency_payment_type":profile.second_currency_payment_type,
         "price_rules":price_rules,
-        "lang": lang
+        "lang": lang,
+        "reports":reports,
+        "letter_heads":letter_heads
         
     }
     return  data
@@ -196,7 +208,7 @@ def get_current_shift_information(business_branch, pos_profile):
 @frappe.whitelist()
 def get_current_cashier_shift(pos_profile):
    
-    sql = "select name,working_day, posting_date, pos_profile, opened_note,business_branch,total_opening_amount from `tabCashier Shift` where pos_profile = '{}' and is_closed = 0 order by creation limit 1".format(pos_profile)
+    sql = "select name,working_day, posting_date, pos_profile, opened_note,business_branch,total_opening_amount from `tabCashier Shift` where pos_profile = '{}' and is_closed = 0 order by creation desc limit 1".format(pos_profile)
     data =  frappe.db.sql(sql, as_dict=1) 
     if data:
         return data [0]

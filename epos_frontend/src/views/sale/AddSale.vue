@@ -87,7 +87,7 @@ function onSearchProduct(open) {
     openSearch.value = open
 }
 
-onMounted(() => {
+onMounted(() => { 
     if (sale.getString(route.params.name) == "") {
         if (sale.sale.sale_status == undefined) {
             if (sale.setting.table_groups.length > 0) {
@@ -98,9 +98,9 @@ onMounted(() => {
             }
         }
     }
-
+ 
     //check working day and cashier shift
-    const shiftInformationResource = createResource({
+    createResource({
             url: "epos_restaurant_2023.api.api.get_current_shift_information",
             params: {
                 business_branch: sale.setting?.business_branch,
@@ -135,7 +135,7 @@ onMounted(() => {
                     toaster.warning("This sale order is already closed");
                     
                 }else{
-                    toaster.warning("This sale order is alreayd cancel");
+                    toaster.warning("This sale order is already cancel");
                 }
                 if (sale.setting.table_groups.length > 0) {
                     router.push({ name: 'TableLayout' });

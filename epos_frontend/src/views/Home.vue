@@ -12,7 +12,7 @@
                             <span class="font-bold">Outlet</span> : {{ setting.outlet }} /
                             <span class="font-bold">Device Name</span> :{{ device_name }}
                         </p>
-                         
+
                     </div>
                 </div>
             </div>
@@ -43,14 +43,14 @@
     </div>
 </template>
 <script setup>
-import { useRouter, createResource, inject, computed } from '@/plugin'
+import { useRouter, createResource, inject, computed, createToaster } from '@/plugin'
 import ComButton from '../components/ComButton.vue';
 import WorkingDayButton from './shift/components/WorkingDayButton.vue';
 import OpenShiftButton from './shift/components/OpenShiftButton.vue';
-
+const toaster = createToaster({ position: "top" })
 const auth = inject('$auth')
-let setting = JSON.parse(localStorage.getItem("setting"))
- 
+const setting = JSON.parse(localStorage.getItem("setting"))
+
 
 const device_name = computed(() => {
     return localStorage.getItem('device_name')
@@ -61,21 +61,50 @@ const router = useRouter()
 function onRoute(page) {
     router.push({ name: page })
 }
-function onPOS() {
-    const setting = JSON.parse(localStorage.getItem('setting'))
-    if (setting.table_groups.length > 0) {
-        router.push({ name: 'TableLayout' })
-    }
-    else {
-        router.push({ name: 'AddSale' })
-    }
-}
-function onLogout() {
+async function onPOS() {
+    const cashierShiftResource = createResource({
+        url: "epos_restaurant_2023.api.api.get_current_shift_information",
+        params: {
+            business_branch: setting?.business_branch,
+            pos_profile: localStorage.getItem("pos_profile")
+        },
+    });
 
-    auth.logout().then((r)=>{
-        router.push({name: 'Login'})
+    await cashierShiftResource.fetch().then(async (v) => {
+        if (v) {
+            if (v.working_day == null) {
+                toaster.warning("Please start working first.")
+            } else if (v.cashier_shift == null) {
+                toaster.warning("Please start cashier shift first.")
+            } else {
+                const setting = JSON.parse(localStorage.getItem('setting'))
+                if (setting.table_groups.length > 0) {
+                    router.push({ name: 'TableLayout' })
+                }
+                else {
+                    router.push({ name: 'AddSale' })
+                }
+            }
+
+
+        }
+
+
     })
 }
+
+
+
+function onLogout() {
+
+    auth.logout().then((r) => {
+        router.push({ name: 'Login' })
+    })
+}
+    
+
+
+
 
 </script>
 

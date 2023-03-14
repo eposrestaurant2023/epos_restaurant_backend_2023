@@ -1,10 +1,11 @@
 <template>
-    
     <div v-if="!current_working_day.loading">
-     <ComButton icon-class="text-white" class="bg-red-600 text-gray-100" v-if="current_working_day.data" title="Close Working Day" icon="mdi-calendar-clock" @click="onCloseWorkingDay" />
-     <ComButton v-else title="Start Working Day"  icon="mdi-calendar-clock" @click="onStartWorkingDay" />
+        <ComButton icon-class="text-white" class="bg-red-600 text-gray-100" v-if="current_working_day.data"
+            title="Close Working Day" icon="mdi-calendar-clock" @click="onCloseWorkingDay" />
+        <ComButton v-else title="Start Working Day" icon="mdi-calendar-clock" @click="onStartWorkingDay" />
     </div>
-    <div v-else class="shadow-md text-center bg-white p-4 rounded-md cursor-pointer flex items-center justify-center h-full">
+    <div v-else
+        class="shadow-md text-center bg-white p-4 rounded-md cursor-pointer flex items-center justify-center h-full">
         <div>
             <v-icon class="m-2" icon="mdi-spin mdi-loading" size="x-large"></v-icon>
             <div class="text-gray-400">loading</div>
@@ -12,28 +13,48 @@
     </div>
 </template>
 <script setup>
-    import ComButton from '../../../components/ComButton.vue';
-    import {createResource,useRouter,inject } from "@/plugin"
+import ComButton from '../../../components/ComButton.vue';
+import { createResource, useRouter, inject } from "@/plugin"
+import { createToaster } from '@meforma/vue-toaster';
+import Toaster from '@meforma/vue-toaster';
 
-    const gv = inject("$gv")
+const gv = inject("$gv")
+const toaster = createToaster({ position: "top" });
 
-    
-    const router = useRouter();
-    
-    const current_working_day = createResource({
-        url: "epos_restaurant_2023.api.api.get_current_working_day",
+
+const router = useRouter();
+
+const current_working_day = createResource({
+    url: "epos_restaurant_2023.api.api.get_current_working_day",
+    params: {
+        business_branch: gv.setting.business_branch
+    },
+    auto: true,
+
+})
+
+function onStartWorkingDay() {
+    router.push({ name: "StartWorkingDay" });
+}
+
+async function onCloseWorkingDay() {
+
+    const cashierShiftResource = createResource({
+        url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
         params: {
-            business_branch: gv.setting.business_branch
-        },
-        auto: true,
-        
+            pos_profile: localStorage.getItem("pos_profile")
+        }
+    });
+
+    await cashierShiftResource.fetch().then(async (v) => {
+        if (v) {
+            toaster.warning("Please close cashier shift first.")
+        } else {
+            router.push({ name: "CloseWorkingDay" });
+        }
+
     })
 
-    function onStartWorkingDay(){
-        router.push({name:"StartWorkingDay"});
-    }
-    function onCloseWorkingDay(){
-        router.push({name:"CloseWorkingDay"});
-    }
+}
 
 </script>

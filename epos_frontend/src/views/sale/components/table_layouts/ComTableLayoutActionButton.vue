@@ -34,14 +34,14 @@
     </v-menu>
 </template>
 <script setup>
-import { inject } from '@/plugin';
+import { inject, pendingSaleListDialog,createResource,createToaster } from '@/plugin';
 import { useDisplay } from 'vuetify'
+const gv = inject('$gv')
 const tableLayout = inject("$tableLayout");
 const { mobile } = useDisplay()
-
+const toaster = createToaster({position: 'top'})
+const posProfile = localStorage.getItem('pos_profile')
 function onRefreshSale() {
-
-
     tableLayout.saleListResource.fetch();
 }
 
@@ -49,8 +49,13 @@ function onEnableArrageTable(){
     tableLayout.canArrangeTable = true;
 }
 
-function onViewPendingOrder() {
-    alert("open pending order dialog box");
+async function onViewPendingOrder() {
+    if(workingDayResource.data.name && cashierShiftResource.data.name){
+        const result = await pendingSaleListDialog({data:{working_day:workingDayResource.data.name, cashier_shift: cashierShiftResource.data.name}})
+    }
+    else{
+        toaster.error("Cannot get current working day or cashier shift")
+    }
 }
 
 
@@ -63,6 +68,21 @@ function onSaveTablePosition() {
     tableLayout.canArrangeTable = false;
 
 }
+const workingDayResource = createResource({
+    url: "epos_restaurant_2023.api.api.get_current_working_day",
+    params: {
+      business_branch: gv.setting?.business_branch
+    },
+    auto:true
+});
+
+const cashierShiftResource = createResource({
+url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
+    params: {
+        pos_profile: posProfile
+    },
+    auto:true
+});
 
 
 </script>

@@ -1,39 +1,70 @@
 <template>
-    <ComModal @onClose="onClose(false)" :fullscreen="true" :isPrint="true" @onPrint="onPrint" :hide-ok-button="true">
+    <ComModal @onClose="onClose(false)" :fullscreen="true" :isPrint="true" @onPrint="onPrint()"  :hide-ok-button="true" :hide-close-button="true">
         <template #title>
             {{ params.title }}
         </template>
         <template #bar_more_button>
-            <v-list density="compact">
-                <v-list-item>
-                    <template v-slot:prepend>
-                        <v-icon color="error">mdi-delete</v-icon>
-                    </template>
-                    <v-list-item-title>Delete</v-list-item-title>
-                </v-list-item>
-            </v-list>
+          
         </template>
         <template #content>
-            <div v-if="reportList.data">
-                <v-select label="Select a Report" :items="reportList.data" variant="solo" v-model="selectedReport"
-                    item-title="name" item-value="name"></v-select>
-                <v-select v-if="letterHeadList.data" label="Select a Letterhead" :items="letterHeadList.data" variant="solo"
-                    v-model="selectedLetterhead"></v-select>
-                <v-btn @click="onViewReport">View Report</v-btn>
+            <v-card>
 
-                <iframe style="height:calc(100vh - 130px)" width="100%"
-                    :src="reportUrl + '&trigger_print=' + triggerPrint"></iframe>
-            </div>
+                <template #title>
+                    <div class="px-1 py-2 -m-1"> 
+                        <div class="flex justify-between">
+                            <div> 
+                                     <v-btn 
+                                        v-for="(r, index) in gv.setting.reports.filter(r=>r.doc_type==params.doctype && r.show_in_pos == 1)" :key="index"  
+                                        :color="activeReport.name == r.name ? 'info' : 'default'"
+                                        class="m-1" @click="onViewReport(r)">{{ r.title }}</v-btn>
+                                 
+                            </div>
+                            <div class="flex items-center"> 
+                                <v-select 
+                                prepend-inner-icon="mdi-content-paste"
+                                density="compact"
+                                v-model="selectedLetterhead"
+                                :items=gv.setting.letter_heads
+                                item-title="name"
+                                item-value="name"
+                                hide-no-data
+                                hide-details
+                                variant="solo"
+                                class="mx-1"
+                                ></v-select>
+                                <v-select 
+                                prepend-inner-icon="mdi-google-translate"
+                                density="compact"
+                                v-model="selectedLang"
+                                :items="gv.setting.lang" 
+                                item-title="language_name"
+                                item-value="language_code"
+                                hide-no-data
+                                hide-details
+                                variant="solo"
+                                class="mx-1"
+                               
+                                ></v-select>
+                                <v-icon class="mx-1" icon="mdi-refresh" size="small" @click="onRefresh()"/>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <v-card-text style="height: calc(100vh - 200px);">
+                    
+                    <iframe id="report-view" height="100%" width="100%" :src="printPreviewUrl"></iframe>
+                </v-card-text>
+            </v-card>
         </template>
     </ComModal>
 </template>
   
 <script setup>
 
-import { createResource, ref } from '@/plugin'
+import { inject, ref,computed,saleDetailDialog, onUnmounted } from '@/plugin'
 import { createToaster } from '@meforma/vue-toaster';
-import ComToolbar from './ComToolbar.vue';
 import { webserver_port } from "../../../../../sites/common_site_config.json"
+const gv = inject("$gv")
 
 const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + webserver_port;
 
@@ -45,17 +76,37 @@ const props = defineProps({
         require: true
     }
 })
+const selectedLetterhead = ref(getDefaultLetterHead());
+const selectedLang = ref(gv.setting.lang[0].language_code);
+const activeReport = ref(gv.setting.reports.filter(r=>r.doc_type==props.params.doctype)[0]) ;
+
+const printPreviewUrl = computed(()=>{
+    let  letterhead = "";
+    if(selectedLetterhead.value==""){
+           letterhead = getDefaultLetterHead();
+    }else {
+        letterhead = selectedLetterhead.value;
+    }
+    const url =`${serverUrl}/printview?doctype=${activeReport.value.doc_type}&name=${props.params.name}&format=${activeReport.value.name}&no_letterhead=0&show_toolbar=0&letterhead=${letterhead}&settings=%7B%7D&_lang=${selectedLang.value}`; 
+    return url;
+})
 
 
+function getDefaultLetterHead(){
+    let  letterhead = "";
+    
+           letterhead = gv.setting.letter_heads.filter(r=>r.is_default==1)[0]?.name;
+        if(!letterhead){
+            letterhead = "No Letterhead";
+        }
+   return letterhead;
+}
 
 const emit = defineEmits(["resolve"])
 
 
-let open = ref(true);
-const selectedReport = ref("");
-const selectedLetterhead = ref("");
 
-const reportUrl = ref("")
+ 
 const triggerPrint = ref(0)
 
 
@@ -64,66 +115,63 @@ if (props.params.print) {
 } else {
     triggerPrint.value = 0;
 }
-
-const setting = JSON.parse(localStorage.getItem("setting"))
-
-const reportList = createResource({
-    url: "epos_restaurant_2023.api.api.get_pos_print_format",
-    params: {
-        doctype: props.params.doctype
-    },
-    auto: true,
-    onSuccess(data) {
-        if (props.params.report) {
-            selectedReport.value = props.params.report;
-        } else {
-            selectedReport.value = data[0];
-        }
-
-        if (props.params.print) {
-            onViewReport(1);
-        } else {
-            onViewReport();
-        }
-
-
-
-    }
-
-})
-const letterHeadList = createResource({
-    url: "epos_restaurant_2023.api.api.get_pos_letter_head",
-    params: {
-        doctype: props.params.doctype
-    },
-    auto: true,
-
-})
-
-function onViewReport(isPrint = 0) {
-
-    reportUrl.value = serverUrl + "/printview?doctype=" + props.params.doctype + "&name=" + props.params.name + "&format=" + selectedReport.value + "&no_letterhead=0&letterhead=Defualt%20Letter%20Head&settings=%7B%7D&_lang=en&d=" + new Date()
-
-    triggerPrint.value = isPrint;
-
-
+ 
+ 
+ 
+function onViewReport(r){
+    activeReport.value = r;
 }
+
 function onClose(isClose) {
     emit('resolve', isClose);
 }
 
+function onRefresh(){
+  
+    document.getElementById("report-view").contentWindow.location.replace(printPreviewUrl.value)
+ 
+}
+
 function onPrint() {
-    if (localStorage.getItem("is_window")) {
-        // window.chrome.webview.postMessage(JSON.stringify(sale));
-    } else {
-        onViewReport(1);
+    if (localStorage.getItem("is_window")==1) {
+        if(props.params.doctype =="Sale" && activeReport.value.pos_receipt_file_name !="" && activeReport.value.pos_receipt_file_name !=null){
+            alert("Print bill silence")
+            window.chrome.webview.postMessage("doc");
+            return;
+        }
+        
     }
+    
+    window.open(printPreviewUrl.value + "&trigger_print=1").print();
+    window.close();
 
 }
 
-window.addEventListener('message', function (e) {
-    toaster.warning("hello form i frame")
-});
+
+const reportClickHandler = async function (e) {
+    if(e.isTrusted && typeof(e.data) == 'string'){
+       
+        const data = e.data.split("|")
+        
+        if(data.length>0){
+      
+            if(data[0]=="view_sale_detail"){
+                saleDetailDialog({
+            name:data[1]
+            });
+            
+            }
+        
+        }
+        
+    }
+};
+
+window.addEventListener('message', reportClickHandler, false);
+
+onUnmounted(() => {
+    window.removeEventListener('message', reportClickHandler, false);
+}) 
 
 </script>
 

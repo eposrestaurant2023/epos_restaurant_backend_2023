@@ -33,7 +33,7 @@
          
        
         <v-btn @click="onOpenShift" :loading="addCashierShiftResource.loading" color="primary">Open Shift</v-btn>
-
+        <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">Cancel</v-btn>
     </PageLayout>
 </template>
 
@@ -41,7 +41,7 @@
 <script setup>
 
 import PageLayout from '../../components/layout/PageLayout.vue';
-import { createResource, ref, createToaster, useRouter, reactive, computed,inject } from '@/plugin'
+import { createResource, ref, createToaster, useRouter, reactive, computed,inject,confirm } from '@/plugin'
 import moment from '@/utils/moment.js'
 import ComInputNumber from '../../components/ComInputNumber.vue';
 
@@ -109,7 +109,7 @@ const addCashierShiftResource = createResource({
 })
 
 async function onOpenShift() {
-    // if(await confirm('Are sure you want to close cashier shift?')){
+    if(await confirm({title:"Start Cashier Shift", text:"Are sure you want to start cashier shift?"})){
         addCashierShiftResource.params = {
             doc: {
                 doctype: "Cashier Shift",
@@ -119,7 +119,7 @@ async function onOpenShift() {
             }
         };
         addCashierShiftResource.submit();
-   // }
+   }
 
 }
 

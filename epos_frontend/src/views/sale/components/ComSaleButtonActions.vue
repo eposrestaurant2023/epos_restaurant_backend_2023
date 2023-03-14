@@ -11,7 +11,7 @@
       </template>
       <ComDiscountButton />
       <v-btn v-if="sale.sale.table_id" stacked size="small" class="m-1 grow" prepend-icon="mdi-plus" @click="onSubmitAndNew">
-        Submit & New
+        Submit & New 
       </v-btn>
       <v-btn stacked size="small" color="error" class="m-1 grow" prepend-icon="mdi-currency-usd" @click="onQuickPay">
         Quick Pay
@@ -74,6 +74,15 @@ async function onCancelPrintBill() {
 async function onSubmitAndNew() {
   //check if newsale recource3 is null then 
   //reinitalize newsaleresxource
+  // backup old sale
+  sale.table_id = sale.sale.table_id
+  sale.tbl_number = sale.sale.tbl_number
+  sale.customer = sale.sale.customer
+  sale.customer_photo = sale.sale.customer_photo
+  sale.customer_name = sale.sale.customer_name
+  sale.price_rule = sale.sale.price_rule
+  sale.sale_type = sale.sale.sale_type
+  sale.guest_cover = sale.sale.guest_cover
   if (sale.newSaleResource == null) {
     sale.createNewSaleResource();
   }
@@ -89,12 +98,12 @@ async function onSubmitAndNew() {
     sale.sale.sale_status = "Submitted";
     await sale.onSubmit().then((value) => {
       if (value) {
-        router.push({ name: "AddSale" });
+        // router.push({ name: "AddSale" });
         newSale();
       }
     });
   } else {
-    router.push({ name: "AddSale" });
+    //router.push({ name: "AddSale" });
     newSale();
   }
 
@@ -103,18 +112,19 @@ async function onSubmitAndNew() {
 }
 
 function newSale() {
+  const saleBackup = JSON.parse(JSON.stringify(sale.sale))
+  console.log(saleBackup)
   if (sale.newSaleResource == null) {
     sale.createNewSaleResource();
   }
+  sale.newSale()
   sale.sale.sale_products = [],
-    sale.sale.name = "";
+  sale.sale.name = "";
   sale.sale.creation = "";
   sale.sale.modified = "";
   sale.sale.sale_status = "New";
   sale.sale.discount_type = 'Percent';
   sale.sale.discount = 0;
-
-
   const tableGroups = JSON.parse(localStorage.getItem("table_groups"));
   const tables = (Enumerable.from(tableGroups).selectMany("$.tables").toArray())
   let table = tables.filter(r => r.id == sale.sale.table_id);

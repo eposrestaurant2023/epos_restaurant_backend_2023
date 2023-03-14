@@ -103,7 +103,7 @@ const reports = createResource({
     url: 'frappe.client.get_list',
     params: {
         doctype: "Print Format",
-        fields: ['*'],
+        fields: ['name','title'],
         filters: {
             show_in_pos_report: 1,
             doc_type: 'Cashier Shift'

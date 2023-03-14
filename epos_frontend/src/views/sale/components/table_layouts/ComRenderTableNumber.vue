@@ -64,7 +64,7 @@
 </template>
 <script setup>
 
-import { inject, useRouter, createToaster, defineProps, selectSaleOrderDialog, keyboardDialog } from '@/plugin';
+import { inject, useRouter, createToaster, selectSaleOrderDialog, keyboardDialog } from '@/plugin';
 import { Timeago } from 'vue2-timeago'
 import { useDisplay } from 'vuetify'
 
@@ -94,7 +94,7 @@ function onTableClick(table, guest_cover) {
                 sale.sale.table_id = table.id;
                 sale.sale.tbl_number = table.tbl_no;
                 const result = await selectSaleOrderDialog({ data: table.sales, table: table });
-                if (result) {
+                if (result) { 
                     if (result.action == "new_sale") {
                         newSale(table);
                     }
@@ -123,10 +123,7 @@ async function newSale(table) {
             return;
         }
     }
-
     sale.newSale();
-    sale.sale.table_id = table.id;
-    sale.sale.tbl_number = table.tbl_no;
     sale.sale.guest_cover = guest_cover;
     if (parseFloat(table.default_discount) > 0) {
         sale.sale.discount_type = table.discount_type;

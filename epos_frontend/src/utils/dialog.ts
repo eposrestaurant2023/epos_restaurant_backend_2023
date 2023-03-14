@@ -28,6 +28,7 @@ import ComSearchSaleModal from '@/views/sale/components/ComSearchSaleModal.vue'
 import ComChangeSaleTypeModal from '@/views/sale/components/ComChangeSaleTypeModal.vue'
 import ComAddCashDrawerModal from '@/views/cash_drawer/components/ComAddCashDrawerModal.vue'
 import ComChangeTableSelectSaleOrder from '@/views/sale/components/ComChangeTableSelectSaleOrder.vue'
+import ComPendingSaleList from '@/views/sale/ComPendingSaleList.vue'
 
 interface params {
     doctype?:String,
@@ -76,4 +77,5 @@ export  const changeSaleTypeModalDialog = createPromiseDialog<params, object>(Co
 export  const addCashDrawerModalDialog = createPromiseDialog<params, object>(ComAddCashDrawerModal);
 export  const changeTableSelectSaleOrderDialog = createPromiseDialog<params, object>(ComChangeTableSelectSaleOrder);
 export  const changePOSMenuDialog = createPromiseDialog<params, object>(ComChangePOSMenuModal);
+export  const pendingSaleListDialog = createPromiseDialog<params, object>(ComPendingSaleList);
 
