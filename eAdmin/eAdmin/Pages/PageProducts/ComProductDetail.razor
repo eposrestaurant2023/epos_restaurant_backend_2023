@@ -153,15 +153,15 @@
     </PageContainer>
     @if (is_open_block_product)
     {
-<EditFormContext model="@model" Save_Click="@onSaveBlockClick" Cancel_Click="@(() => is_open_block_product = false)" modal_width="800px" is_opened="@is_open_block_product" title="@block_title" is_submitting="@is_saving">
-    @foreach (var bb in gv.bussiness_branches)
-    {
-    <div> 
-            <ComInputCheckBox label="@bb.business_branch_name_en"  value="@(business_branch_ids.Where(r=>r.ToUpper() ==bb.id.ToString().ToUpper()).Any())" valueChanged="@((v)=>OnValueChanged(v,bb.id.ToString()))"/>
+    <EditFormContext model="@model" Save_Click="@onSaveBlockClick" Cancel_Click="@(() => is_open_block_product = false)" modal_width="800px" is_opened="@is_open_block_product" title="@block_title" is_submitting="@is_saving">
+        @foreach (var bb in gv.bussiness_branches)
+        {
+        <div> 
+                <ComInputCheckBox label="@bb.business_branch_name_en"  value="@(business_branch_ids.Where(r=>r.ToUpper() ==bb.id.ToString().ToUpper()).Any())" valueChanged="@((v)=>OnValueChanged(v,bb.id.ToString()))"/>
        
-    </div>
-    }
-</EditFormContext>
+        </div>
+        }
+    </EditFormContext>
     }
 }
 @if (is_error)

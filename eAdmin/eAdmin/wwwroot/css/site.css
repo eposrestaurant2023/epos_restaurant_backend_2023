@@ -1385,26 +1385,29 @@ a, a:hover {
     padding: 20px;
     color: #fff;
 }
-
-    .bg_kpi.bg_today_Order_mtd {
-        background: #dfaa66;
-    }
-    .bg_kpi.bg_today_order {
+.coupon-kpi { 
+    padding: 8px;
+    color: #fff;
+}
+.bg_kpi.bg_today_Order_mtd, .coupon-kpi.bg_today_Order_mtd {
+    background: #dfaa66;
+}
+    .bg_kpi.bg_today_order, .coupon-kpi.bg_today_order {
         background: #7bb288;
     }
-    .bg_kpi.bg_today_amount {
+    .bg_kpi.bg_today_amount, .coupon-kpi.bg_today_amount {
         background: #4cc0b7;
     }
 
-    .bg_kpi.bg_today_mtd {
+    .bg_kpi.bg_today_mtd, .coupon-kpi.bg_today_mtd {
         background: #e4888b;
     }
 
-    .bg_kpi.bg_today_quantity {
+    .bg_kpi.bg_today_quantity, .coupon-kpi.bg_today_quantity {
         background: #4873aa;
     }
 
-    .bg_kpi.bg_today_quantity_mtd {
+    .bg_kpi.bg_today_quantity_mtd, .coupon-kpi.bg_today_quantity_mtd {
         background: #5fc6e4;
     }
 
