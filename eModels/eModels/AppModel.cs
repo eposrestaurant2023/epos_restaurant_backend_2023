@@ -208,12 +208,24 @@ namespace eModels
     {
         public decimal today_sale_amount { get; set; }
         public decimal today_sale_quatity { get; set; }
+        public decimal today_coupon_amount { get; set; }
+        public decimal today_sale_use_coupon_amount { get; set; }
+        public decimal today_coupon_refund { get; set; }
+        public decimal today_coupon_balance { get; set; }
+        public int today_coupon { get; set; }
+
         public decimal mtd_sale_amount { get; set; }
         public decimal mtd_sale_quantity { get; set; }
+        public decimal mtd_coupon_amount { get; set; }
+        public decimal mtd_sale_use_coupon_amount { get; set; }
+        public decimal mtd_coupon_refund { get; set; }
+        public decimal mtd_coupon_balance { get; set; }
+        public decimal mtd_coupon { get; set; }
+        public int mtd_order { get; set; }
+
         public decimal total_active_order { get; set; }
         public decimal total_closed_order { get; set; }
         public decimal total_order { get; set; }
-        public int mtd_order { get; set; }
         public decimal total_deleted_order { get; set; }
     }
 
