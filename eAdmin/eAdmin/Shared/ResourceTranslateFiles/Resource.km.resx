@@ -2949,4 +2949,13 @@
   <data name="Block Product" xml:space="preserve">
     <value>បិទទំនិញ</value>
   </data>
+  <data name="Refund" xml:space="preserve">
+    <value>ប្រាក់សង</value>
+  </data>
+  <data name="Sale Coupon" xml:space="preserve">
+    <value>លក់ Coupon</value>
+  </data>
+  <data name="Sale Used Coupon" xml:space="preserve">
+    <value>វិក្កយបត្របានប្រើប្រាស់ Coupon</value>
+  </data>
 </root>
