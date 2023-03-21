@@ -71,7 +71,7 @@ if (product.posMenuResource.data?.length == 0) {
     product.loadPOSMenu();
 }
 
-sale.getTableSaleList();
+
 
 document.onkeydown = function (e) {
     if (e.keyCode === 116) {
@@ -121,28 +121,32 @@ onMounted(() => {
 
 
     //load sale data 
-    if (!sale.getString(route.params.name) == "") {
 
-    sale.LoadSaleData(route.params.name).then((v) => {
-        if (v) {
-            if (v.docstatus == 1 || v.docstatus == 2) {
-                
-                if(v.docstatus==1){
-                    toaster.warning("This sale order is already closed");
+    if (!sale.getString(route.params.name) == "") {
+        sale.LoadSaleData(route.params.name).then((v) => {
+            if (v) {
+                if (v.docstatus == 1 || v.docstatus == 2) {
                     
-                }else{
-                    toaster.warning("This sale order is already cancel");
+                    if(v.docstatus==1){
+                        toaster.warning("This sale order is already closed");
+                        
+                    }else{
+                        toaster.warning("This sale order is already cancel");
+                    }
+                    if (gv.setting.table_groups.length > 0) {
+                        router.push({ name: 'TableLayout' });
+                    }
+                    else {
+                        router.push({ name: 'Home' });
+                    }
                 }
-                if (sale.setting.table_groups.length > 0) {
-                    router.push({ name: 'TableLayout' });
-                }
-                else {
-                    router.push({ name: 'Home' });
-                }
+
+                sale.getTableSaleList();
             }
-        }
-    });
-}
+        });
+    }else{
+        sale.getTableSaleList()
+    }
 })
 
 onBeforeRouteLeave(() => {

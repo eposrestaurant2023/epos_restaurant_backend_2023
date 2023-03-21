@@ -1,4 +1,4 @@
-<template> 
+<template>
     <div v-if="loading">
         <div class="p-6 text-center" :class="classColor">
             <div><v-icon icon="mdi-spin mdi-loading" style="font-size:60px"></v-icon></div>

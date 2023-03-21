@@ -85,7 +85,7 @@ const props = defineProps({
 })
 const selectedLetterhead = ref(getDefaultLetterHead());
 const selectedLang = ref(gv.setting.lang[0].language_code);
-const activeReport = ref(gv.setting.reports.filter(r => r.doc_type == "Sale")[0]);
+const activeReport = ref(gv.setting.reports.filter(r => r.doc_type == "Sale" &&  r.show_in_pos==1)[0]);
 const isLoading = ref(false)
 
 const sale = createDocumentResource({

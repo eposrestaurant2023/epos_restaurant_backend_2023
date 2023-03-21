@@ -23,7 +23,7 @@
           <div
             class="w-full h-full cursor-pointer flex justify-center items-center bg-blue-600 text-white p-3 hover:bg-blue-700 text-center"
             @click="onSubmit()">
-            <div v-if="sale.sale.table_id">
+            <div v-if="gv.setting.table_groups && gv.setting.table_groups.length > 0">
               <v-icon icon="mdi-arrow-right-thick"></v-icon>
               <div>Submit Order</div>
             </div>
@@ -38,28 +38,34 @@
   </div>
 </template>
 <script setup>
-import { inject, useRouter, confirmBackToTableLayout, paymentDialog, createToaster } from '@/plugin';
+import { inject, useRouter, paymentDialog, createToaster } from '@/plugin';
+ 
 import ComExchangeRate from './ComExchangeRate.vue';
 const sale = inject("$sale")
+const gv = inject("$gv")
+const tableLayout = inject("$tableLayout");
 const router = useRouter();
 const toaster = createToaster({position: 'top'}) 
 async function onSubmit() {
-  
+ 
   if (!sale.isBillRequested()) {
     sale.action = "submit_order";
     sale.message = "Submit Order Successfully";
     sale.sale.sale_status = "Submitted";
     await sale.onSubmit().then((doc) => {
+   
       if (doc) {
        
-        if (doc.table_id){ 
+        if (tableLayout.table_groups.length>0){ 
           sale.sale = {};
+        
           router.push({ name: 'TableLayout' })
         }
-        else
+        else{ 
           sale.newSale()
           router.push({ name: "AddSale" });
           sale.tableSaleListResource.fetch();
+        }
       }
     });
   }

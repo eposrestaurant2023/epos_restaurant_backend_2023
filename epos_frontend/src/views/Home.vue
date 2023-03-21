@@ -27,7 +27,7 @@
                             icon-color="#fff" />
                         <ComButton @click="onViewPendingOrder()" title="Pending Order" icon="mdi-receipt"
                             icon-color="#e99417" />
-                        <ComButton @click="onRoute('ReceiptList')" title="Closed Receipt" icon="mdi-receipt"
+                        <ComButton @click="onRoute('ClosedSaleList')" title="Closed Receipt" icon="mdi-receipt"
                             icon-color="#e99417" />
                         <ComButton @click="onRoute('Customer')" title="Customer" icon-color="#e99417"
                             icon="mdi-account-multiple-outline" />
@@ -121,8 +121,6 @@ async function onViewPendingOrder() {
         }
         
     })
-
-    
 }
 
 

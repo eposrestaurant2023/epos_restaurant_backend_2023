@@ -1,29 +1,30 @@
 <template lang="">
     <PageLayout class="pb-4" title="Cash Drawer" icon="mdi-currency-usd">
         <v-container class="!py-0">
-        <div> 
+        <div>
             <div class="mb-4 grid grid-cols-2 gap-2">
-                <ComCashDrawerKPI :loading="cashierShiftInfo.loading" backgroundColor="primary" title="Opening Amount" :value="openingAmount"/>
+                <ComCashDrawerKPI backgroundColor="primary" title="Opening Amount" :value="cashDrawerShiftBalance.total_opening_amount"/>
                 <ComCashDrawerKPI backgroundColor="secondary" title="Cash Sale Amount" :value="cashDrawerShiftBalance.total_amount_cash"/>
                 <ComCashDrawerKPI backgroundColor="success" title="Cash In Amount" :value="cashDrawerShiftBalance.total_amount_cash_in"/>
                 <ComCashDrawerKPI backgroundColor="error" title="Cash Out Amount" :value="cashDrawerShiftBalance.total_amount_cash_out"/>
-                <ComCashDrawerKPI class="col-span-2" backgroundColor="info" title="Cash Drawer Balance" :value="balanceInCash"/>
+                <ComCashDrawerKPI class="col-span-2" backgroundColor="info" title="Cash Drawer Balance" :value="cashDrawerShiftBalance.total_balance"/>
             </div>
         </div>
         <div>
             <div class="font-bold py-2">
                 <div :class="mobile ? '' : 'flex justify-between'">
                     <div>Today's Cash Transaction</div>
-                    <div class="text-right">
-                        <v-btn class="mr-1" color="success" @click="onCash('Cash In')" :size="mobile ? 'small' : 'default'">Cash In</v-btn>
-                        <v-btn color="error" @click="onCash('Cash Out')" :size="mobile ? 'small' : 'default'">Cash Out</v-btn>
+                    <div class="text-right -m-1">
+                        <v-btn class="m-1" color="success" @click="onCash('Cash In')" :size="mobile ? 'small' : 'default'">Cash In</v-btn>
+                        <v-btn class="m-1" color="error" @click="onCash('Cash Out')" :size="mobile ? 'small' : 'default'">Cash Out</v-btn>
+                        <v-btn class="m-1" color="primary" @click="onOpenCashDrawer" :size="mobile ? 'small' : 'default'" v-if="isWindow">Open Cash Drawer</v-btn>
                     </div>
                 </div>
             </div>
             <div class="mb-2">
                 <v-divider></v-divider>
             </div>
-            <ComPlaceholder :loading="dataResource.loading" :is-not-empty="transactions.length > 0">
+            <ComPlaceholder :loading="cashierShiftInfo.loading || data.loading || dataResource.loading" :is-not-empty="transactions.length > 0">
                 <v-timeline density="comfortable">
                     <v-timeline-item 
                         v-for="(t, index) in transactions" 
@@ -50,6 +51,7 @@
                                     <div>
                                         <v-chip size="x-small" v-if="t.transaction_status == 'Cash Out'" color="error">Cash Out</v-chip>
                                         <v-chip size="x-small" v-else-if="t.transaction_status == 'Cash In'" color="success">Cash In</v-chip>
+
                                     </div>
                                 </div>
                             </div>
@@ -81,29 +83,40 @@
 import moment from '@/utils/moment.js';
 import PageLayout from '@/components/layout/PageLayout.vue';
 import ComCashDrawerKPI from './components/ComCashDrawerKPI.vue';
-import { addCashDrawerModalDialog, createResource, ref, onMounted, computed, createDocumentResource, createToaster, confirmDialog } from '@/plugin'
+import { addCashDrawerModalDialog, createResource, ref, onMounted, inject, createDocumentResource, createToaster, useRouter } from '@/plugin'
 import { useDisplay } from 'vuetify'
 const { mobile } = useDisplay()
 const toaster = createToaster({ position: 'top' })
 let transactions = ref({})
 let dataResource = {};
-let cashBalanceResource = {};
+let cashBalanceResource = ref({});
 let cashDrawerShiftBalance = ref({})
-let openingAmount = ref(0)
-
-const balanceInCash = computed(() => {
-    if (cashDrawerShiftBalance.value)
-        return cashDrawerShiftBalance.value.total_amount_cash - cashDrawerShiftBalance.value.total_amount_cash_out + cashDrawerShiftBalance.value.total_amount_cash_in + openingAmount.value
-    return 0
-})
+const gv = inject('$gv')
+const router = useRouter()
+const isWindow = localStorage.getItem("is_window")
 async function onCash(cash_type, name) {
+    // current working day & shift
     const result = await addCashDrawerModalDialog({ name: name, data: { cash_type: cash_type, cashier_shift_info: cashierShiftInfo.data } })
-
     if (result == true) {
         cashierShiftInfo.fetch()
     }
 }
-
+let data = createResource({
+        url: "epos_restaurant_2023.api.api.get_current_shift_information",
+        params: {
+            business_branch: gv.setting?.business_branch,
+            pos_profile: localStorage.getItem("pos_profile")
+        },
+        onSuccess(data) { 
+            if (data.cashier_shift == null) {
+                toaster.warning("Please start cashier shift first");
+                router.push({name:"OpenShift"});
+            } else if(data.working_day==null){
+                toaster.warning("Please start working day first");
+                router.push({name:"StartWorkingDay"});
+            }
+        }
+    })
 
 let cashierShiftInfo = createResource({
     url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
@@ -111,17 +124,19 @@ let cashierShiftInfo = createResource({
         pos_profile: localStorage.getItem("pos_profile")
     },
     async onSuccess(doc) {
-        openingAmount.value = doc.total_opening_amount
         await onLoadCashDrawerShiftBalance(doc.name)
         await onLoadTrancation(doc.name)
     }
 });
 
 onMounted(() => {
-    cashierShiftInfo.fetch()
+    data.fetch().then(r=>{
+        if(r.cashier_shift != null && r.working_day != null)
+            cashierShiftInfo.fetch()
+    })
 })
 function onLoadCashDrawerShiftBalance(cashier_shift) {
-    cashBalanceResource = createResource({
+    cashBalanceResource.value = createResource({
         url: "epos_restaurant_2023.api.api.get_cash_drawer_balance",
         params: {
             cashier_shift: cashier_shift
@@ -149,6 +164,11 @@ function onLoadTrancation(cashier_shift) {
         },
 
     })
+}
+
+//open cashdrawer
+function onOpenCashDrawer(){
+    window.chrome.webview.postMessage(JSON.stringify({action:"open_cashdrawer"}));
 }
 
 // async function onDelete(name) {

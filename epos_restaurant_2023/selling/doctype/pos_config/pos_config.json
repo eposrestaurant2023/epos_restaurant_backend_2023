@@ -65,12 +65,20 @@
   "change_price_rule_require_password",
   "section_break_53",
   "open_cashdrawer_require_password",
+  "section_break_58",
   "edit_closed_receipt_required_password",
+  "column_break_59",
   "edit_closed_receipt_required_note",
+  "section_break_61",
   "start_working_day_required_password",
+  "section_break_64",
   "close_working_day_required_password",
+  "section_break_66",
   "start_cashier_shift_required_password",
-  "close_cashier_shift_required_password"
+  "section_break_68",
+  "close_cashier_shift_required_password",
+  "section_break_70",
+  "cash_in_check_out_required_password"
  ],
  "fields": [
   {
@@ -404,12 +412,46 @@
    "fieldname": "close_cashier_shift_required_password",
    "fieldtype": "Check",
    "label": "Close Cashier Shift Required Password"
+  },
+  {
+   "fieldname": "column_break_59",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_61",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_58",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_64",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_66",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_68",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_70",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "cash_in_check_out_required_password",
+   "fieldtype": "Check",
+   "label": "Cash In & Cash Out Required Password"
   }
  ],
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-20 17:15:20.101986",
+ "modified": "2023-03-21 15:59:52.921377",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Config",

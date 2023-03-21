@@ -97,17 +97,8 @@ async function onSaleOrderClick(s) {
 
 }
 
-
-
-
-
 function onClose() {
     emit("resolve", false)
 }
-
-
-
-
-
 
 </script>

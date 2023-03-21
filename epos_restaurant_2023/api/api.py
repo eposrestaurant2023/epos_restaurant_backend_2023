@@ -43,7 +43,6 @@ def get_system_settings(pos_profile="", device_name=''):
         
     payment_types=[]
     for p in profile.payment_types:
-        
         payment_types.append({ "payment_method":p.payment_type,"currency":p.currency,"is_single_payment_type":p.is_single_payment_type,"allow_cash_float":p.allow_cash_float, "input_amount":0,"exchange_rate":p.exchange_rate,"required_customer":p.required_customer,"is_foc":p.is_foc})
     
     #get currency
@@ -72,9 +71,11 @@ def get_system_settings(pos_profile="", device_name=''):
         "main_currency_name":main_currency.name,
         "main_currency_symbol":main_currency.symbol,
         "main_currency_format":main_currency.pos_currency_format,
+        "main_currency_precision":frappe.db.get_default("currency_precision"),
         "second_currency_name":second_currency.name,
         "second_currency_symbol":second_currency.symbol,
         "second_currency_format":second_currency.pos_currency_format,
+
         "thank_you_message":pos_config.thank_you_message,
         "cancel_print_bill_required_password":pos_config.cancel_print_bill_required_password,
         "cancel_print_bill_required_note":pos_config.cancel_print_bill_required_note,
@@ -102,6 +103,8 @@ def get_system_settings(pos_profile="", device_name=''):
         "close_working_day_required_password":pos_config.close_working_day_required_password,
         "start_cashier_shift_required_password":pos_config.start_cashier_shift_required_password,
         "close_cashier_shift_required_password":pos_config.close_cashier_shift_required_password,
+        "cash_in_check_out_required_password":pos_config.cash_in_check_out_required_password,
+        
         }
     
     #get default customre
@@ -352,19 +355,27 @@ def get_payment_cash(cashier_shift):
     return data
 @frappe.whitelist()
 def get_cash_drawer_balance(cashier_shift):
-    sql = """
-    SELECT SUM(total_amount) AS total_amount_cash,SUM(total_amount_cash_out) AS total_amount_cash_out,SUM(total_amount_cash_in) AS total_amount_cash_in from(
-        SELECT SUM(payment_amount) as total_amount,0 total_amount_cash_out,0 total_amount_cash_in FROM `tabSale Payment` where cashier_shift='{0}' AND payment_type_group = 'Cash' and docstatus=1
-        UNION all
-        SELECT total_opening_amount as total_amount,0 total_amount_cash_out,0 total_amount_cash_in FROM `tabCashier Shift` WHERE name = '{0}'
-        UNION all
-        SELECT 0 total_amount, SUM(amount) AS total_amount_cash_out,0 total_amount_cash_in FROM `tabCash Transaction` WHERE cashier_shift = '{0}' AND transaction_status = 'Cash Out'
-        UNION all
-        SELECT 0 total_amount,0 total_amount_cash_out,SUM(amount) as total_amount_cash_in FROM `tabCash Transaction` WHERE cashier_shift = '{0}' AND transaction_status = 'Cash In'
-		)totals
-    """.format(cashier_shift)
-    data = frappe.db.sql(sql, as_dict=1)
-    return data[0]
+    sql_system_amount = "SELECT COALESCE( SUM(payment_amount),0) AS total_amount_cash FROM `tabSale Payment` where cashier_shift='{}' AND payment_type_group = 'Cash' and docstatus=1".format(cashier_shift)
+    sql_opening_amount = "SELECT total_opening_amount FROM `tabCashier Shift` WHERE name = '{}'".format(cashier_shift)
+    sql_cash_out = "SELECT COALESCE( SUM(amount), 0) AS total_amount_cash_out FROM `tabCash Transaction` WHERE cashier_shift = '{}' AND transaction_status = 'Cash Out'".format(cashier_shift)
+    sql_cash_in = "SELECT COALESCE( SUM(amount), 0) AS total_amount_cash_in FROM `tabCash Transaction` WHERE cashier_shift = '{}' AND transaction_status = 'Cash In'".format(cashier_shift)
+    
+    data_system_amount = frappe.db.sql(sql_system_amount, as_dict=1)
+    total_amount_cash = data_system_amount[0].total_amount_cash
+    data_opening_amount = frappe.db.sql(sql_opening_amount, as_dict=1)
+    total_opening_amount = data_opening_amount[0].total_opening_amount
+    data_cash_in = frappe.db.sql(sql_cash_in, as_dict=1)
+    total_amount_cash_in = data_cash_in[0].total_amount_cash_in
+    data_cash_out = frappe.db.sql(sql_cash_out, as_dict=1)
+    total_amount_cash_out = data_cash_out[0].total_amount_cash_out
+    data = {
+        "total_amount_cash": total_amount_cash,
+        "total_opening_amount": total_opening_amount,
+        "total_amount_cash_in": total_amount_cash_in,
+        "total_amount_cash_out": total_amount_cash_out,
+        "total_balance": total_amount_cash - total_amount_cash_out + total_amount_cash_in + total_opening_amount
+    }
+    return data
 
 @frappe.whitelist()
 def get_meta(doctype):

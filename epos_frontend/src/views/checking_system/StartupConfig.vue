@@ -57,8 +57,8 @@
     const store = useStore()
     const state = reactive({
         valid: true,
-        device_name: '',
-        pos_profile: '',
+        device_name: 'Admin',
+        pos_profile: 'Main POS Profile',
         loading: true
     })
     if(auth.isLoggedIn){

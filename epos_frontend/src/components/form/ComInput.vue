@@ -12,6 +12,7 @@
                 :label="label"
                 :single-line = "!label"
                 :disabled="disabled"
+                :readonly="readonly"
                 :no-resize = "noResize"
                 :max-rows = "maxRows"
                 :rows = "row"
@@ -32,6 +33,7 @@
                 :label="label"
                 :single-line = "!label"
                 :disabled="disabled"
+                :readonly="readonly"
                 :no-resize = "noResize"
                 :max-rows = "maxRows"
                 :rows = "row"
@@ -56,6 +58,7 @@
                 :label="label"
                 :single-line = "!label"
                 :disabled="disabled"
+                :readonly="readonly"
                 hide-details
                 :placeholder="placeholder"
                 append-inner-icon="mdi-keyboard"
@@ -76,6 +79,7 @@
                 :label="label"
                 :single-line = "!label"
                 :disabled="disabled"
+                :readonly="readonly"
                 hide-details
                 :append-inner-icon="appendInnerIcon"
                 v-model="value"
@@ -139,6 +143,10 @@ const props = defineProps({
         default: 3
     },
     disabled:{
+        type: Boolean,
+        default: false
+    },
+    readonly:{
         type: Boolean,
         default: false
     },

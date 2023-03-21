@@ -15,7 +15,8 @@
   "currency_symbol",
   "currency_precision",
   "currency_format",
-  "is_foc"
+  "is_foc",
+  "payment_type_group"
  ],
  "fields": [
   {
@@ -83,12 +84,18 @@
    "fieldname": "is_foc",
    "fieldtype": "Check",
    "label": "Is FOC"
+  },
+  {
+   "fetch_from": "payment_type.payment_type_group",
+   "fieldname": "payment_type_group",
+   "fieldtype": "Data",
+   "label": "Payment Type Group"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-03-09 15:45:30.678223",
+ "modified": "2023-03-21 17:48:10.397713",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Sale Payment",

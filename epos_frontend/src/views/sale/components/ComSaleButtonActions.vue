@@ -3,7 +3,7 @@
 
     <div class="flex flex-wrap w-full">
       <ComButtonToTableLayout :is-mobile="false" />
-      <template v-if="sale.sale.table_id">
+      <template v-if="setting.table_groups && setting.table_groups.length > 0">
         <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" doctype="Sale" title="Print Bill" />
         <v-btn v-else stacked color="error" size="small" class="m-1 grow" prepend-icon="mdi-printer"
           @click="onCancelPrintBill">
@@ -11,7 +11,7 @@
         </v-btn>
       </template>
       <ComDiscountButton />
-      <v-btn v-if="sale.sale.table_id" stacked size="small" class="m-1 grow" prepend-icon="mdi-plus"
+      <v-btn v-if="setting.table_groups && setting.table_groups.length > 0" stacked size="small" class="m-1 grow" prepend-icon="mdi-plus"
         @click="onSubmitAndNew">
         Submit & New
       </v-btn>
@@ -22,8 +22,7 @@
         @click="sale.sale.note = ''">
         Remove Note
       </v-btn>
-      <v-btn stacked size="small" class="m-1 grow" prepend-icon="mdi-note-outline" @click="sale.onSaleNote(sale.sale)"
-        v-else>
+      <v-btn stacked size="small" class="m-1 grow" prepend-icon="mdi-note-outline" @click="sale.onSaleNote(sale.sale)" v-else>
         Note
       </v-btn>
       <ComSaleButtonMore />

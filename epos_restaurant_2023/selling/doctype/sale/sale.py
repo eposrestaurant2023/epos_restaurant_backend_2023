@@ -106,12 +106,9 @@ class Sale(Document):
 			currency_precision = "2"
 
 		self.grand_total =( sub_total - (self.total_discount or 0))  + self.total_tax 
-	 
- 
- 
-		self.total_paid =  Enumerable(self.payment).sum(lambda x: x.amount or 0)
+	  
+		self.total_paid =  Enumerable(self.payment).where(lambda x: x.payment_type_group !='On Account').sum(lambda x: x.amount or 0)
 	
-
 		self.balance = self.grand_total  - (self.total_paid or 0)
 		
 		if self.pos_profile:
@@ -222,27 +219,27 @@ def update_inventory_on_cancel(self):
 			
 
 def add_payment_to_sale_payment(self):
-    
-
 	if self.payment:
 		for p in self.payment:
-			if p.input_amount>0:
-				doc = frappe.get_doc({
-						'doctype': 'Sale Payment',
-						'posting_date':self.posting_date,
-						'payment_type': p.payment_type,
-						'currency':p.currency,
-						'exchange_rate':p.exchange_rate,
-						'sale':self.name,
-						'input_amount':p.input_amount,
-						"payment_amount":p.amount,
-						"docstatus":1,
-						"check_valid_payment_amount":0,
-						"pos_profile":self.pos_profile,
-						"working_day":self.working_day,
-						"cashier_shift":self.cashier_shift
-					})
-				doc.insert()
+			 
+			if p.payment_type_group !='On Account':
+				if p.input_amount>0:
+					doc = frappe.get_doc({
+							'doctype': 'Sale Payment',
+							'posting_date':self.posting_date,
+							'payment_type': p.payment_type,
+							'currency':p.currency,
+							'exchange_rate':p.exchange_rate,
+							'sale':self.name,
+							'input_amount':p.input_amount,
+							"payment_amount":p.amount,
+							"docstatus":1,
+							"check_valid_payment_amount":0,
+							"pos_profile":self.pos_profile,
+							"working_day":self.working_day,
+							"cashier_shift":self.cashier_shift
+						})
+					doc.insert()
    
 		if (self.changed_amount or 0)>0:
 			doc = frappe.get_doc({

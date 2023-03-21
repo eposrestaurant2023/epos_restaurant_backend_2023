@@ -11,14 +11,21 @@
         <v-list-item prepend-icon="mdi-note-outline" title="Note" @click="sale.onSaleNote(sale.sale)" v-else />
     </template>
     <v-list-item prepend-icon="mdi-bulletin-board" :title="`Change Price Rule ${isTable}`" @click="onChangePriceRule()" />
-    <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-silverware" title="Change POS Menu" @click="onChangePOSMenu()" />
+    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-silverware" title="Change POS Menu" @click="onChangePOSMenu()" />
     <v-list-item v-if="isWindow" prepend-icon="mdi-cash-100" title="Open Cash Drawer" @click="onOpenCashDrawer()" />
-    <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-grid-large" title="Change/Merge Table" @click="onChangeTable()" />
+    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-grid-large" title="Change/Merge Table" @click="onChangeTable()" />
     <!-- <v-list-item prepend-icon="mdi-cash-100" title="Merge Table/Bill" @click="onViewInvoice()"/> -->
-    <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-cash-100" title="Split Bill" @click="onViewInvoice()" />
-    <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-account-multiple-outline" :title="`Change Guest Cover (${sale.sale.guest_cover})`" @click="onUpdateGuestCover()" />
+    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-cash-100" title="Split Bill" @click="onViewInvoice()" />
+    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-account-multiple-outline" :title="`Change Guest Cover (${sale.sale.guest_cover})`" @click="onUpdateGuestCover()" />
     <v-list-item prepend-icon="mdi-cart" title="Change Sale Type" @click="onChangeSaleType()" />
     <v-list-item prepend-icon="mdi-cash-100" title="Tax Setting" @click="onViewInvoice()" />
+    
+    <v-list-item v-if="sale.sale.sale_products?.filter(r=>r.name == undefined).length>0" @click="onClearOrder()">
+        <template #prepend>
+            <v-icon color="error" icon="mdi-autorenew"></v-icon>
+        </template>
+        <v-list-item-title class="text-orange-700">Cancel Order</v-list-item-title>
+    </v-list-item>
     <v-divider inset></v-divider>
     <v-list-item v-if="sale.sale.name" @click="onDeleteBill()">
         <template #prepend>
@@ -36,8 +43,6 @@ const toaster = createToaster({ position: 'top' })
 const router = useRouter();
 const sale = inject('$sale')
 const gv = inject('$gv')
-
-const tableLayout = inject("$tableLayout");
 const product = inject('$product')
 const setting = JSON.parse(localStorage.getItem("setting"))
 const isWindow = localStorage.getItem('is_window') == 1
@@ -111,6 +116,7 @@ function onOpenCashDrawer() {
         }
     });
 }
+
 async function onDeleteBill() {
     //check authorize and     check reason
  
@@ -140,7 +146,7 @@ async function onDeleteBill() {
                 toaster.success("Delete sale order successfully");
                 sale.newSale();
                 if (sale.setting.table_groups.length > 0) {
-                    router.push({ name: "TableLayout" });
+                    router.push({ name: "setting" });
                 }else {
                     router.push({ name: "AddSale" });
                 }
@@ -153,4 +159,19 @@ async function onDeleteBill() {
     })
 
 }
+
+async function onClearOrder(){
+    if(await confirm({title:'Cancel sale order', text:'Are your sure you want to cancel this sale order?'})){
+        const sale_products = JSON.parse(JSON.stringify(sale.sale.sale_products.filter(r=>r.name != undefined))); 
+    sale.sale.sale_products = sale_products || [];
+    sale.updateSaleSummary();
+    //add to audit trail log 
+    //future update
+    
+    }
+    
+     
+}
+
+
 </script>

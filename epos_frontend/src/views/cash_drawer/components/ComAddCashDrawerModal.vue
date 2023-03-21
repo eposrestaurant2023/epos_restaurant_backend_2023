@@ -12,7 +12,7 @@
                             <v-select height="100%" density="comfortable" label="Currency Type"
                                 v-model="cash.payment_type" 
                                 :items="paymentTypeCash"
-                                 item-value="payment_method"
+                                item-value="payment_method"
                                 item-title="payment_method" hide-details hide-no-data variant="solo"
                                 @update:modelValue="updateAmount"
                                 ></v-select>
@@ -21,10 +21,10 @@
                             
                             <v-text-field  
                             density="compact"
-                             label="Input Amount" 
-                              v-model="cash.input_amount"
-                               variant="solo"
-                                append-inner-icon="mdi-keyboard"
+                            label="Input Amount" 
+                            v-model="cash.input_amount"
+                            variant="solo"
+                            append-inner-icon="mdi-keyboard"
                             @click:append-inner="OpenKeyboard()"
                             v-debounce="updateAmount" 
                             type="number"
@@ -87,11 +87,7 @@ let paymentInCash = createResource({
         cashier_shift: props.params.data.cashier_shift_info.name
     },
     onSuccess(payment) {
-        // new
-        {
-            console.log(payment)
-
-        }
+        //
     }
 })
 cashResource.value = createResource({
@@ -146,7 +142,25 @@ function onOk() {
         return
     }
     if (!props.params.name) {
-        onAddNew()
+        createResource({
+            url: "epos_restaurant_2023.api.api.get_current_shift_information",
+            params: {
+                business_branch: setting?.business_branch,
+                pos_profile: localStorage.getItem("pos_profile")
+            },
+            auto: true,
+            onSuccess(data) { 
+                if (data.cashier_shift == null) {
+                    toaster.warning("Please start cashier shift first");
+                    router.push({name:"OpenShift"});
+                } else if(data.working_day==null){
+                    toaster.warning("Please start working day first");
+                    router.push({name:"StartWorkingDay"});
+                }else{
+                    onAddNew()
+                }
+            }
+        })
     }
  
 }
@@ -155,7 +169,7 @@ function onAddNew() {
     cash.value.input_amount = parseFloat(cash.value.input_amount)
     cash.value.amount = parseFloat(cash.value.amount)
     cashResource.value.submit({ doc: cash.value }).then((res) => {
-        toaster.success(`Add ${props.params.name} is Successful`);
+        toaster.success(`Add ${props.params.data.cash_type} is Successful`);
         onClose(true)
     })
 }
@@ -167,7 +181,7 @@ async function LoadData() {
             name: props.params.name,
             auto: true,
             onError(err) {
-                console.log(err)
+               
             },
             onSuccess(doc) {
                 cash.value = doc;

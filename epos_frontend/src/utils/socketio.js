@@ -57,6 +57,7 @@ let host = window.location.hostname;
 let port = window.location.port ? ':9004' : '';
 let protocol = port ? 'http' : 'https';
 let url = `${protocol}://${host}${port}`;
+
 let socket = io(url,{
   cors: {
     origin: ["http://192.168.10.114:5566"],
@@ -68,3 +69,5 @@ let socket = io(url,{
 
 
 export default socket;
+
+

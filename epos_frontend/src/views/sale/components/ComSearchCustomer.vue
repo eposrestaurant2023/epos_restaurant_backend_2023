@@ -98,7 +98,6 @@
     onSuccess(doc){
       gv.customerMeta = doc;
       if(doc.search_fields){
-        console.log(doc.search_fields)
         doc.search_fields.split(",").forEach(function(d){
           searchFields.value.push(d.trim())
         });

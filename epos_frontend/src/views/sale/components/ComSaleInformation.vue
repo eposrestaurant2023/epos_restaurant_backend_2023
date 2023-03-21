@@ -7,7 +7,7 @@
         <ComChip v-if="sale.cashier_shift_resource?.loading" tooltip="Cashier Shift" prepend-icon="mdi-spin mdi-loading">loading...</ComChip>
         <ComChip v-else tooltip="Cashier Shift" prepend-icon="mdi-calendar-clock">{{ sale.sale.cashier_shift }}</ComChip>
         <v-chip  
-                v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0"
+                v-if="setting.table_groups && setting.table_groups.length > 0"
                 style="margin: 1px;" 
                 :size="screen.chipSize"
                 rounded="pill" 
@@ -24,7 +24,6 @@ import ComSaleTypeChip from './ComSaleTypeChip.vue';
 import { inject,keyboardDialog } from '@/plugin';
 const sale = inject("$sale")
 const screen = inject("$screen")
-const tableLayout = inject("$tableLayout")
 const setting = JSON.parse(localStorage.getItem("setting"))
 
 async function onUpdateGuestCover(){

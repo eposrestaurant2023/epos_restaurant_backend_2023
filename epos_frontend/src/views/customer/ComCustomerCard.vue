@@ -216,9 +216,6 @@ function getFieldName() {
 }
 
 
- 
-
-
 
 function getFieldFromTemplate(str) {
     var results = [], re = /{([^}]+)}/g, text;

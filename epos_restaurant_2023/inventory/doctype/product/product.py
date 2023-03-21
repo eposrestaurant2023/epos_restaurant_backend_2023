@@ -13,7 +13,8 @@ from epos_restaurant_2023.inventory.inventory import add_to_inventory_transactio
 
 class Product(Document):
 	def validate(self):
-  
+
+
 		# lock uncheck inventory product
 		if not self.is_new():
 			old_product = frappe.get_doc('Product', self.product_code)

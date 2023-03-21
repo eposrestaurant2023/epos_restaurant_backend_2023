@@ -1,5 +1,5 @@
-<template lang="">
-  <template v-if="sale.setting.table_groups.length>0">
+<template>
+  <template v-if="gv.setting.table_groups && gv.setting.table_groups.length>0">
     <v-list-item @click="onToTableLayout()" v-if="isMobile">
         <template v-slot:prepend class="w-12">
             <v-icon icon="mdi-view-dashboard"></v-icon>
@@ -15,6 +15,7 @@
 import { inject, defineProps,confirmBackToTableLayout, useRouter, defineEmits } from '@/plugin'
 import Enumerable from 'linq';
 const sale = inject('$sale')
+const gv = inject('$gv')
 const router = useRouter()
 const emit = defineEmits('closeModel')
 const props = defineProps({

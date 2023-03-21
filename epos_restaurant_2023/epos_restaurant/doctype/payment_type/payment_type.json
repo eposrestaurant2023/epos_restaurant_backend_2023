@@ -16,7 +16,8 @@
   "sort_order",
   "disabled",
   "photo",
-  "is_foc"
+  "is_foc",
+  "is_standard"
  ],
  "fields": [
   {
@@ -84,6 +85,12 @@
    "fieldname": "is_foc",
    "fieldtype": "Check",
    "label": "Is Foc"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_standard",
+   "fieldtype": "Check",
+   "label": "Is Standard"
   }
  ],
  "image_field": "photo",
@@ -95,7 +102,7 @@
    "link_fieldname": "to_currency"
   }
  ],
- "modified": "2023-03-09 15:15:13.384642",
+ "modified": "2023-03-21 17:58:02.308062",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Payment Type",

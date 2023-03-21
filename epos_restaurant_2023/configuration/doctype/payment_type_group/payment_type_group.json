@@ -9,7 +9,8 @@
  "engine": "InnoDB",
  "field_order": [
   "payment_type_group",
-  "note"
+  "note",
+  "is_standard"
  ],
  "fields": [
   {
@@ -24,11 +25,17 @@
    "fieldname": "note",
    "fieldtype": "Small Text",
    "label": "Note"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_standard",
+   "fieldtype": "Check",
+   "label": "Is Standard"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-23 17:47:31.746057",
+ "modified": "2023-03-21 17:49:30.452333",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Payment Type Group",

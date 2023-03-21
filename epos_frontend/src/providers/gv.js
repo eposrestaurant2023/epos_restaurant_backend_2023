@@ -12,6 +12,7 @@ export default class Gv {
 
 			this.workingDay = "";
 			this.cashierShift= "";
+			
 
 		
 	}

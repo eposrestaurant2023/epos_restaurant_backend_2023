@@ -4,118 +4,122 @@
         <template #action>
             <v-btn prepend-icon="mdi-printer" @click="onOpenReport">Report</v-btn>
         </template>
+        <template #default>
+            <ComAlertPendingOrder v-if="cashierShiftResource.doc" type="info" :working_day="cashierShiftResource.doc.working_day" :cashier_shift="cashierShiftResource.doc.name"/>
+            <v-row v-if="cashierShiftResource.doc">
+                <v-col md="6">
+                    <v-text-field label="Working Day" v-model="cashierShiftResource.doc.working_day" variant="solo"
+                        readonly></v-text-field>
+                </v-col>
+                <v-col md="6">
+                    <v-text-field label="Cashier Shift" v-model="cashierShiftResource.doc.name" variant="solo"
+                        readonly></v-text-field>
+                </v-col>
+                <v-col md="6">
+                    <v-text-field label="Close Date" v-model="current_date" variant="solo" readonly></v-text-field>
+                </v-col>
+                <v-col md="6">
+                    <v-text-field label="POS Profile" v-model="cashierShiftResource.doc.pos_profile" variant="solo"
+                        readonly></v-text-field>
+                </v-col>
+            </v-row>
+            <v-row>
 
-        <v-row v-if="cashierShiftResource.doc">
+                <v-table v-if="cashierShiftSummary.data">
+                    <thead>
+                        <tr>
+                            <th class="text-left">
+                                Payment Type
+                            </th>
+                            <th class="text-center">
+                                Opening Amount
+                            </th>
 
-            <v-col md="6">
-                <v-text-field label="Working Day" v-model="cashierShiftResource.doc.working_day" variant="solo"
-                    readonly></v-text-field>
-            </v-col>
-            <v-col md="6">
-                <v-text-field label="Cashier Shift" v-model="cashierShiftResource.doc.name" variant="solo"
-                    readonly></v-text-field>
-            </v-col>
+                            <th class="text-center">
+                                System Close Amount
+                            </th>
 
-            <v-col md="6">
-                <v-text-field label="Close Date" v-model="current_date" variant="solo" readonly></v-text-field>
-            </v-col>
-            <v-col md="6">
-                <v-text-field label="POS Profile" v-model="cashierShiftResource.doc.pos_profile" variant="solo"
-                    readonly></v-text-field>
-            </v-col>
-        </v-row>
-        <v-row>
+                            <th class="text-center">
+                                Close Amount
+                            </th>
 
-            <v-table v-if="cashierShiftSummary.data">
-                <thead>
-                    <tr>
-                        <th class="text-left">
-                            Payment Type
-                        </th>
-                        <th class="text-center">
-                            Opening Amount
-                        </th>
-
-                        <th class="text-center">
-                            System Close Amount
-                        </th>
-
-                        <th class="text-center">
-                            Close Amount
-                        </th>
-
-                        <th class="text-center">
-                            Differce Amount
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(d, index) in cashierShiftSummary.data" :key="index">
-                        <td>{{ d.payment_method }}</td>
-                        <td>
-                            <CurrencyFormat :value="d.input_amount" :currency="d.currency" />
-                        </td>
-                        <td>
-                            <CurrencyFormat :value="d.input_system_close_amount" :currency="d.currency" />
-                        </td>
-                        <td>
-                            <ComInput title="Close Amount" keyboard type="number" v-model="d.input_close_amount"></ComInput>
-                        </td>
-                        <td>
-                            <CurrencyFormat :value="d.input_different_amount" :currency="d.currency" />
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>
-                            Total
-                        </td>
-                        <td>
-                            <CurrencyFormat :value="cashierShiftSummary.data.reduce((n, r) => n + r.opening_amount, 0)" />
+                            <th class="text-center">
+                                Differce Amount
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(d, index) in cashierShiftSummary.data" :key="index">
+                            <td>{{ d.payment_method }}</td>
+                            <td>
+                                <CurrencyFormat :value="d.input_amount" :currency="d.currency" />
+                            </td>
+                            <td>
+                                <CurrencyFormat :value="d.input_system_close_amount" :currency="d.currency" />
+                            </td>
+                            <td>
+                                <ComInput title="Close Amount" keyboard type="number" v-model="d.input_close_amount">
+                                </ComInput>
+                            </td>
+                            <td>
+                                <CurrencyFormat :value="d.input_different_amount" :currency="d.currency" />
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>
+                                Total
+                            </td>
+                            <td>
+                                <CurrencyFormat
+                                    :value="cashierShiftSummary.data.reduce((n, r) => n + r.opening_amount, 0)" />
 
 
-                        </td>
-                        <td>
-                            <CurrencyFormat
-                                :value="cashierShiftSummary.data.reduce((n, r) => n + r.system_close_amount, 0)" />
+                            </td>
+                            <td>
+                                <CurrencyFormat
+                                    :value="cashierShiftSummary.data.reduce((n, r) => n + r.system_close_amount, 0)" />
 
-                        </td>
-                        <td>
-                            <CurrencyFormat :value="totalCloseAmount" />
-                        </td>
-                        <td>
-                            <CurrencyFormat :value="totalDifferentAmount" />
+                            </td>
+                            <td>
+                                <CurrencyFormat :value="totalCloseAmount" />
+                            </td>
+                            <td>
+                                <CurrencyFormat :value="totalDifferentAmount" />
 
-                        </td>
-                    </tr>
-                </tfoot>
-            </v-table>
-        </v-row>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </v-table>
+            </v-row>
 
-        <ComInput class="my-8" title="Enter Note" keyboard label="Closed Note" v-model="doc.closed_note" type="textarea">
-        </ComInput>
+            <ComInput class="my-8" title="Enter Note" keyboard label="Closed Note" v-model="doc.closed_note"
+                type="textarea">
+            </ComInput>
 
-        <v-btn @click="onCloseShift" color="primary"
-            :loading="(cashierShiftResource.setValue && cashierShiftResource.setValue.loading) ? cashierShiftResource.setValue.loading : false">Close
-            Cashier Shift</v-btn>
-        <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">Cancel</v-btn>
-
+            <v-btn @click="onCloseShift" color="primary"
+                :loading="(cashierShiftResource.setValue && cashierShiftResource.setValue.loading) ? cashierShiftResource.setValue.loading : false">Close
+                Cashier Shift</v-btn>
+            <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">Cancel</v-btn>
+        </template>
     </PageLayout>
 </template>
 
 <script setup>
 import moment from '@/utils/moment.js';
-import { watch, onMounted, createDocumentResource, ref, createResource, useRouter, createToaster, computed,inject } from "@/plugin";
+import { watch, onMounted, createDocumentResource, ref, createResource, useRouter, createToaster, computed, inject,pendingSaleListDialog } from "@/plugin";
 import PageLayout from '../../components/layout/PageLayout.vue';
 
 import ComInput from '../../components/form/ComInput.vue';
 import { printPreviewDialog, confirm } from '@/utils/dialog';
- 
+import ComAlertPendingOrder from '../../components/layout/components/ComAlertPendingOrder.vue';
+
 
 const router = useRouter();
 const toaster = createToaster();
 const gv = inject('$gv');
+const sale = inject('$sale');
 const setting = gv.setting
 
 const current_date = moment(new Date).format('DD-MM-YYYY');
@@ -129,7 +133,6 @@ let doc = ref({
 const cashierShiftResource = ref({});
 let cashierShiftSummary = ref({});
 let totalDifferentAmount = ref(0);
-
 const totalCloseAmount = computed(() => {
     if (cashierShiftSummary.value.data) {
 
@@ -149,9 +152,12 @@ let cashierShiftInfo = createResource({
 });
 
 
+
+        
+
+
 onMounted(async () => {
     await cashierShiftInfo.fetch();
-
     if (!cashierShiftInfo.data) {
         toaster.warning("There's no cashier shift opened", {
             position: "top",
@@ -216,19 +222,12 @@ onMounted(async () => {
 })
 
 async function onCloseShift() {
-
-
     if (await confirm({ title: "Close Cashier Shift", text: "Are sure you want to close cashier shift?" })) {
         doc.value.cash_float = cashierShiftSummary.value.data;
         cashierShiftResource.value.setValue.submit(doc.value)
     }
-
-
-
 }
 function onOpenReport() {
-
-
     printPreviewDialog({ title: "Cashier Shift #" + cashierShiftResource.value.doc.name, doctype: "Cashier Shift", name: cashierShiftResource.value.doc.name });
 }
 

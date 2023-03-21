@@ -150,4 +150,3 @@ app.component('ComModal', ComModal)
 app.mount("#app");
 
 
-app.config.globalProperties.$appName="Hello world"

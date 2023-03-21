@@ -56,13 +56,9 @@ export default class Sale {
         );
 
         //use this resource to load sale list in current table number
-        this.tableSaleListResource = null;
+        this.tableSaleListResource = null;        
 
-
-        
-
-        this.createNewSaleResource();
-        
+        this.createNewSaleResource();        
 
     }
     createNewSaleResource() {
@@ -160,8 +156,9 @@ export default class Sale {
    ) }
 
     getTableSaleList(){
-        // if(this.sale.table_id){ 
+        
         const parent = this;
+       
         this.tableSaleListResource = createResource({
             url: "frappe.client.get_list",
             params: {
@@ -169,14 +166,14 @@ export default class Sale {
                 fields: ["name", "creation", "grand_total", "total_quantity", "tbl_group", "tbl_number", "guest_cover", "grand_total", "sale_status", "sale_status_color", "sale_status_priority", "customer", "customer_name", "phone_number","customer_photo"],
                 filters: {
                     pos_profile: localStorage.getItem("pos_profile"),
-                    table_id:parent.sale.table_id || '',
+                    table_id: JSON.parse(localStorage.getItem("table_groups")) && JSON.parse(localStorage.getItem("table_groups")).length > 0 ? parent.sale.table_id : '',
                     docstatus: 0
                 },
                 limit_page_length:500,
             },
             auto:true,
         })
-        // }
+        
     }
     getSaleProductGroupByKey(){
         if(!this.sale.sale_products){
@@ -883,7 +880,9 @@ export default class Sale {
                     required_customer:paymentType.required_customer
                 });
                 this.updatePaymentAmount();
-                this.paymentInputNumber = this.sale.balance;
+              
+                this.paymentInputNumber = this.sale.balance.toFixed(this.setting.pos_setting.main_currency_precision);
+            
             }else{
                 toaster.warning("Please enter payment amount");
             }

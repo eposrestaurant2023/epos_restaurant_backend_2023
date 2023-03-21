@@ -59,7 +59,7 @@
             </template>
             <v-list-item-title>Customer</v-list-item-title>
           </v-list-item>
-          <v-list-item active-color="primary" @click="onRoute('CashDrawer')">
+          <v-list-item active-color="primary" @click="onCashInCashOut">
             <template v-slot:prepend>
               <v-icon>mdi-currency-usd</v-icon>
             </template>
@@ -105,7 +105,13 @@ function onPOS(){
         router.push({ name: 'TableLayout' })
     }
     else{
-        router.push({ name: 'AddSale'})
+      gv.authorize("open_order_required_password","make_order").then((v)=>
+                    {
+                        if(v){ 
+                            router.push({ name: 'AddSale' })
+                        }
+                    })
+                    
     }
 }
 
@@ -151,6 +157,13 @@ function onOpenShift() {
     gv.authorize("start_cashier_shift_required_password", "start_cashier_shift").then(async (v) => {
         if (v) {
             router.push({ name: "OpenShift" });
+        }
+    });
+}
+function onCashInCashOut() {
+    gv.authorize("cash_in_check_out_required_password", "cash_in_check_out").then(async (v) => {
+        if (v) {
+            router.push({ name: "CashDrawer" });
         }
     });
 }

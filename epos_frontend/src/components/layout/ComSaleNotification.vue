@@ -34,5 +34,4 @@ if (sp.where("$.name==undefined").toArray().length > 0) {
     }
 }
 }
-console.log(socket)
 </script>

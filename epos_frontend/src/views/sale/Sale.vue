@@ -47,7 +47,7 @@ const data = reactive({
       ]
 })
 function dragHandle(params) {
-  console.log(params)
+
 }
 
 </script>

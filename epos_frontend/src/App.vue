@@ -98,7 +98,7 @@ if(current_user){
 			current_user.permission = doc.permission;
 			current_user.full_name = doc.full_name;
 			localStorage.setItem("current_user", JSON.stringify( current_user));
-			alert(123)
+			
 		}
 	})
 }

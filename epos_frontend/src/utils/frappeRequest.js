@@ -31,7 +31,6 @@ export function frappeRequest(options) {
     transformResponse: async (response, options) => {
       let url = options.url
       if (response.ok) {
-
         const data = await response.json()
         if (data.docs || url === 'login') {
           return data
