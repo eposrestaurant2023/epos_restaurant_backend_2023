@@ -11,6 +11,7 @@ from frappe.model.document import Document
 
 class Sale(Document):
 	def validate(self):
+		
 		#frappe.throw(_("Please select your working day"))
 		if self.pos_profile:
 			if not self.working_day:
@@ -82,7 +83,11 @@ class Sale(Document):
 				self.sale_discount = self.sale_discountable_amount * self.discount / 100
 			else:
 				self.sale_discount = self.discount or 0
+				if self.discount > self.sale_discountable_amount:
+					frappe.throw("Discount amount cannot greater than discountable amount")
 
+
+		
 		self.product_discount = Enumerable(self.sale_products).where(lambda x:x.allow_discount ==1).sum(lambda x: x.discount_amount)
 		
 		self.total_discount = (self.product_discount or 0) + (self.sale_discount or 0)
@@ -123,6 +128,10 @@ class Sale(Document):
 
 		if not self.created_by:
 			self.created_by = frappe.get_user().doc.full_name
+		if self.sale_status:
+			sale_status_doc = frappe.get_doc("Sale Status", self.sale_status)
+			self.sale_status_color = sale_status_doc.background_color
+			self.sale_status_priority  = sale_status_doc.priority
 
 
 	def before_submit(self):
@@ -255,12 +264,15 @@ def add_payment_to_sale_payment(self):
 
 def validate_sale_product(self):
 	sale_discount = self.discount  
+	
 	if sale_discount>0:
 		if self.discount_type=="Amount":
 			discountable_amount = Enumerable(self.sale_products).where(lambda x: x.allow_discount==1 and x.discount==0).sum(lambda x: (x.quantity or 0)* (x.price or  0))
-			sale_discount = 0
 			if discountable_amount>0:
 				sale_discount=(sale_discount / discountable_amount ) * 100
+			sale_discount = sale_discount or 0
+
+			
  
 	for d in self.sale_products:
 		d.sub_total = (d.quantity or 0) * (d.price or 0) + (d.quantity or 0) * (d.modifiers_price or 0)
@@ -268,6 +280,7 @@ def validate_sale_product(self):
 			d.discount_amount = d.sub_total * (d.discount or 0) / 100
 		else:
 			d.discount_amount = d.discount or 0
+
 		# check if sale has discount
 		if sale_discount>0 and d.allow_discount and d.discount==0:
 			
@@ -283,6 +296,7 @@ def validate_sale_product(self):
    
 		validate_tax(d)
 		d.amount = (d.sub_total - d.discount_amount) + d.total_tax
+		d.total_revenue = (d.sub_total - d.total_discount) + d.total_tax
 
 def validate_pos_payment(self):
     for d in self.payment:

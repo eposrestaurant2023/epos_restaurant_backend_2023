@@ -34,7 +34,8 @@
   "created_by",
   "notice_section",
   "note",
-  "currency"
+  "currency",
+  "symbol"
  ],
  "fields": [
   {
@@ -192,14 +193,21 @@
   {
    "fetch_from": "payment_type.currency",
    "fieldname": "currency",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "hidden": 1,
-   "label": "Currency"
+   "label": "Currency",
+   "options": "Currency"
+  },
+  {
+   "fetch_from": "currency.symbol",
+   "fieldname": "symbol",
+   "fieldtype": "Data",
+   "label": "Symbol"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-02-25 17:46:35.225628",
+ "modified": "2023-03-15 11:01:03.115395",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Cash Transaction",

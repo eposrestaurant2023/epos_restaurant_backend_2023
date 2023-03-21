@@ -17,7 +17,7 @@ import ComSearchCustomer from '@/views/sale/components/ComSearchCustomer.vue';
 import ComScanCustomerCode from '@/views/sale/components/ComScanCustomerCode.vue';
 import ComSaleProductDiscountModal from '@/views/sale/components/ComSaleProductDiscountModal.vue';
 import ComPayment from '@/views/sale/components/ComPayment.vue';
-import ComOpenMenu from '@/views/sale/components/ComOpenMenu.vue';
+import ComKeypadWithNote from '@/components/form/ComKeypadWithNote.vue';
 import ComViewBillModel from '@/views/sale/components/ComViewBillModel.vue';
 import ComSmallViewSaleProductListModel from '@/views/sale/components/mobile_screen/ComSmallViewSaleProductListModel.vue';
 import ComSmallCurrencyPrefineModel from '@/views/sale/components/mobile_screen/ComSmallCurrencyPrefineModel.vue';
@@ -29,6 +29,8 @@ import ComChangeSaleTypeModal from '@/views/sale/components/ComChangeSaleTypeMod
 import ComAddCashDrawerModal from '@/views/cash_drawer/components/ComAddCashDrawerModal.vue'
 import ComChangeTableSelectSaleOrder from '@/views/sale/components/ComChangeTableSelectSaleOrder.vue'
 import ComPendingSaleList from '@/views/sale/ComPendingSaleList.vue'
+import ComInputNumber from '@/components/ComInputNumber.vue'
+
 
 interface params {
     doctype?:String,
@@ -66,7 +68,7 @@ export  const authorizeDialog= createPromiseDialog<params, object>(ComAuthorize)
 export  const noteDialog= createPromiseDialog<params, object>(ComNote);
 export  const saleProductDiscountDialog = createPromiseDialog<params, object>(ComSaleProductDiscountModal);
 export  const paymentDialog = createPromiseDialog<params, object>(ComPayment);
-export  const openMenuDialog = createPromiseDialog<params, object>(ComOpenMenu);
+export  const keypadWithNoteDialog = createPromiseDialog<params, object>(ComKeypadWithNote);
 export  const viewBillModelModel = createPromiseDialog<params, object>(ComViewBillModel);
 export  const smallViewSaleProductListModel = createPromiseDialog<params, object>(ComSmallViewSaleProductListModel);
 export  const smallCurrencyPrefineModel = createPromiseDialog<params, object>(ComSmallCurrencyPrefineModel);
@@ -78,4 +80,5 @@ export  const addCashDrawerModalDialog = createPromiseDialog<params, object>(Com
 export  const changeTableSelectSaleOrderDialog = createPromiseDialog<params, object>(ComChangeTableSelectSaleOrder);
 export  const changePOSMenuDialog = createPromiseDialog<params, object>(ComChangePOSMenuModal);
 export  const pendingSaleListDialog = createPromiseDialog<params, object>(ComPendingSaleList);
+export  const inputNumberDialog = createPromiseDialog<params, object>(ComInputNumber);
 

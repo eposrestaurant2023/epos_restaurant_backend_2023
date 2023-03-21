@@ -58,6 +58,8 @@ async function onSubmit() {
         }
         else
           sale.newSale()
+          router.push({ name: "AddSale" });
+          sale.tableSaleListResource.fetch();
       }
     });
   }
@@ -75,7 +77,10 @@ async function onPayment() {
 
     sale.newSale();
     if (sale.setting.table_groups.length > 0) {
-    router.push({ name: "TableLayout" });
+      router.push({ name: "TableLayout" });
+    }else{
+    sale.tableSaleListResource.fetch();
+      router.push({ name: "AddSale" });
     }
   }
 

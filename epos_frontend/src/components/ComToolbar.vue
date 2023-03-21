@@ -16,7 +16,7 @@
                     >
                     <v-icon color="white">mdi-dots-vertical</v-icon>
                     </v-btn>
-                </template>
+                </template> 
                 <slot name="more_menu"></slot>
             </v-menu>
             <v-btn icon @click="$emit('onClose')" v-if="isClose" :disabled="disabled">

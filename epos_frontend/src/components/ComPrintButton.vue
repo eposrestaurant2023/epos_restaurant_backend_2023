@@ -1,7 +1,9 @@
 <template>
     <v-btn v-if="printFormatResource.loading" class="ma-2"  icon="mdi-printer" :loading="printFormatResource.loading" ></v-btn>
     <template v-else>
-        <v-btn v-if="printFormatResource.data.length==1" class="ma-2"  icon="mdi-printer" :loading="printFormatResource.loading" @click="onPrintReport(printFormatResource.data[0])" ></v-btn>
+        <v-btn v-if="printFormatResource.data.length==1"  class="grow" variant="flat" color="info"  :loading="printFormatResource.loading" @click="onPrintReport(printFormatResource.data[0])" >
+        {{ title }}
+        </v-btn>
         <v-menu v-else>
         <template v-slot:activator="{ props }">
 
@@ -25,7 +27,7 @@
        
 </template>
 <script setup>
-    import {defineProps,defineEmits, createResource,inject} from "@/plugin"
+    import {defineProps,defineEmits, createResource} from "@/plugin"
     const props = defineProps({
         doctype:String,
         title:{

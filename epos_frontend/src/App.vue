@@ -64,9 +64,7 @@ if (!localStorage.getItem("pos_profile")) {
 			product.setting = doc;
 			tableLayout.setting = doc;
 			tableLayout.table_groups = doc.table_groups || '';
-			
 			localStorage.setItem("table_groups", JSON.stringify(doc.table_groups))
-
 		},
 		onError(x) {
 			if (x.error_text == undefined) {
@@ -81,6 +79,28 @@ if (!localStorage.getItem("pos_profile")) {
 		}
 	});
 
+}
+
+//get user info 
+let current_user = localStorage.getItem("current_user");
+if(current_user){
+	current_user = JSON.parse( current_user);
+	 
+
+	createResource({
+		url: 'epos_restaurant_2023.api.api.get_user_info',
+		params: {
+			name:current_user.name
+		},
+		cache:"get_current_login_user",
+		auto: true,
+		onSuccess(doc){
+			current_user.permission = doc.permission;
+			current_user.full_name = doc.full_name;
+			localStorage.setItem("current_user", JSON.stringify( current_user));
+			alert(123)
+		}
+	})
 }
 
 function onResize () {

@@ -1,4 +1,5 @@
 <template>
+     <ComLoadingDialog v-if="isLoading" />
     <v-list-item prepend-icon="mdi-eye-outline" title="View Bill" @click="onViewBill()" />
     <template v-if="mobile">
         <v-list-item @click="onRemoveSaleNote()" v-if="sale.sale.note">
@@ -9,13 +10,13 @@
         </v-list-item>
         <v-list-item prepend-icon="mdi-note-outline" title="Note" @click="sale.onSaleNote(sale.sale)" v-else />
     </template>
-    <v-list-item prepend-icon="mdi-bulletin-board" title="Change Price Rule" @click="onChangePriceRule()" />
-    <v-list-item v-if="sale.sale.table_id" prepend-icon="mdi-silverware" title="Change POS Menu" @click="onChangePOSMenu()" />
+    <v-list-item prepend-icon="mdi-bulletin-board" :title="`Change Price Rule ${isTable}`" @click="onChangePriceRule()" />
+    <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-silverware" title="Change POS Menu" @click="onChangePOSMenu()" />
     <v-list-item v-if="isWindow" prepend-icon="mdi-cash-100" title="Open Cash Drawer" @click="onOpenCashDrawer()" />
-    <v-list-item v-if="sale.sale.table_id" prepend-icon="mdi-grid-large" title="Change/Merge Table" @click="onChangeTable()" />
+    <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-grid-large" title="Change/Merge Table" @click="onChangeTable()" />
     <!-- <v-list-item prepend-icon="mdi-cash-100" title="Merge Table/Bill" @click="onViewInvoice()"/> -->
-    <v-list-item v-if="sale.sale.table_id" prepend-icon="mdi-cash-100" title="Split Bill" @click="onViewInvoice()" />
-    <v-list-item v-if="sale.sale.table_id" prepend-icon="mdi-account-multiple-outline" :title="`Change Guest Cover (${sale.sale.guest_cover})`" @click="onUpdateGuestCover()" />
+    <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-cash-100" title="Split Bill" @click="onViewInvoice()" />
+    <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-account-multiple-outline" :title="`Change Guest Cover (${sale.sale.guest_cover})`" @click="onUpdateGuestCover()" />
     <v-list-item prepend-icon="mdi-cart" title="Change Sale Type" @click="onChangeSaleType()" />
     <v-list-item prepend-icon="mdi-cash-100" title="Tax Setting" @click="onViewInvoice()" />
     <v-divider inset></v-divider>
@@ -27,15 +28,22 @@
     </v-list-item>
 </template>
 <script setup>
-import { viewBillModelModel,confirmDialog, inject,createDocumentResource, keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog } from "@/plugin"
+import { useRouter, viewBillModelModel,ref, inject,confirm, keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog ,createResource } from "@/plugin"
 import { useDisplay } from 'vuetify'
+import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
 const { mobile } = useDisplay()
 const toaster = createToaster({ position: 'top' })
+const router = useRouter();
 const sale = inject('$sale')
 const gv = inject('$gv')
+
+const tableLayout = inject("$tableLayout");
 const product = inject('$product')
 const setting = JSON.parse(localStorage.getItem("setting"))
 const isWindow = localStorage.getItem('is_window') == 1
+const isLoading = ref(false);
+
+
 async function onViewBill() {
     const result = await viewBillModelModel({})
 }
@@ -104,28 +112,45 @@ function onOpenCashDrawer() {
     });
 }
 async function onDeleteBill() {
-    gv.authorize("delete_bill_require_password", "delete_bill", "delete_bill_required_note", "Delete Bill Note").then(async (v) => {
-        if (v) {  
-            const confirmDelete = await confirmDialog({title: 'Are you sure to deleted bill?'})
-            if (confirmDelete == true) {
-                const deleted = createDocumentResource({
-                    url: "frappe.client.get",
-                    doctype: "Sale",
-                    name: sale.sale.name,
-                    delete: {
-                        onSuccess() {
-                            toaster.success(`Deleted Successful`);
-                        },
-                        onError(r) {
-                            toaster.error(JSON.stringify(r))
-                        },
-                    },
-                })
-
-                deleted.delete.submit()
+    //check authorize and     check reason
+ 
+    gv.authorize("delete_bill_required_password", "delete_bill", "delete_bill_required_note", "Delete Bill Note").then(async (v) => {
+        if (v) {
+            if(v.show_confirm==1){
+                if(await confirm({title:'Delete Sale Order', text:'Are you sure you want delete this sale order?'}) == false){
+                    return;
+                }
             }
+          
+            //cancel payment first
+            isLoading.value = true;
+            const deleteSaleResource = createResource({
+                url:"epos_restaurant_2023.api.api.delete_sale",
+                params:{
+                    name:sale.sale.name,
+                    auth:{full_name:v.user, username:v.username, note:v.note}
+                },
+                onError(err){
+                    isLoading.value = false;
+                }
+            });
+
+            await deleteSaleResource.fetch().then((v)=>{
+                isLoading.value = false;
+                toaster.success("Delete sale order successfully");
+                sale.newSale();
+                if (sale.setting.table_groups.length > 0) {
+                    router.push({ name: "TableLayout" });
+                }else {
+                    router.push({ name: "AddSale" });
+                }
+               
+            })
+
+
+           
         }
-    });
+    })
 
 }
 </script>

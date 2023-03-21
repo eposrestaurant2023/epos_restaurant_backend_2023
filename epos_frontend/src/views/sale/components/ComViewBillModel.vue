@@ -1,5 +1,5 @@
 <template>
-    <ComModal :fullscreen="true" @onClose="onClose" @onOk="onConfirm()" title-ok-button="OK">
+    <ComModal :fullscreen="true" @onClose="onClose" title-ok-button="OK" :hideOkButton="true">
         <template #title>
             <span>Sale # : <span v-if="sale.sale.sale_status=='New'">New</span><span v-else>{{ sale.sale.name }}</span></span>
         </template>
@@ -203,9 +203,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(["resolve", "reject"])
-const setting = computed(()=>{
-    return JSON.parse(localStorage.getItem('setting'))
-})
+const setting = JSON.parse(localStorage.getItem('setting'))
 const sale = inject('$sale')
 let open = ref(true);
 const saleProducts = computed(() => {

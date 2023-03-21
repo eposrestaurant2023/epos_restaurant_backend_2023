@@ -1,4 +1,4 @@
-<template> 
+<template>
   <v-autocomplete 
       v-model="select"
       :clearable="clearable"
@@ -56,7 +56,6 @@ const doctypeResource = createResource({
   params:doctypeParams(),
   onSuccess(data) {
     items.value = data;
-    
   }
 });
 
@@ -64,7 +63,8 @@ function  doctypeParams(){
   return {
     doctype: props.doctype,
     fields:fields,
-    or_filters:filter
+    or_filters:filter,
+    order_by: "modified desc"
   }
 }  
 

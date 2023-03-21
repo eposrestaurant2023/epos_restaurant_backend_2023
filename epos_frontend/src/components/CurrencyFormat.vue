@@ -15,7 +15,6 @@ const props =defineProps({
 })
 
 const format = ref("#,###,##0.00##")
- 
 
 let currency_name = props.currency
 

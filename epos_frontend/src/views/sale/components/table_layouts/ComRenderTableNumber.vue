@@ -125,6 +125,8 @@ async function newSale(table) {
     }
     sale.newSale();
     sale.sale.guest_cover = guest_cover;
+    sale.sale.table_id = table.id
+    sale.sale.tbl_number = table.tbl_no;
     if (parseFloat(table.default_discount) > 0) {
         sale.sale.discount_type = table.discount_type;
         sale.sale.discount = parseFloat(table.default_discount);

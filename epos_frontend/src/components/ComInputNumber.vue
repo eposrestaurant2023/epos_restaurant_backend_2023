@@ -2,7 +2,7 @@
   <v-dialog v-model="open" >
     <v-card width="400" class="mx-auto my-2 py-2 ">
       <v-card-item>
-        <v-card-title>{{ title }}</v-card-title>
+        <v-card-title>{{ params.title }}</v-card-title>
     </v-card-item>
       <v-card-text>
         <v-text-field    label="Enter number" variant="solo" v-model="number" clearable maxlength="10"></v-text-field>

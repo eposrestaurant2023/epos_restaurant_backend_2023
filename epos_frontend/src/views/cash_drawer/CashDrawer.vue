@@ -38,8 +38,7 @@
                             <div class="grid" :class="mobile ? '' : 'grid-cols-2'">
                                 <div> 
                                     <div class="font-bold text-lg">
-                                        <CurrencyFormat :value="t.input_amount" v-if="t.currency == 'USD'"/>
-                                        <span v-else>{{t.input_amount}} <span>{{t.currency}}</span></span>
+                                        <CurrencyFormat :value="t.input_amount" :currency="t.currency"/>
                                     </div>
                                     <div>
                                         <div class="text-sm text-gray-400">{{t.name}}</div>

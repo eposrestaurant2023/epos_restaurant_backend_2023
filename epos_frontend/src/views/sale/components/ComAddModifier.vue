@@ -13,13 +13,18 @@
                         <ComInput prepend-inner-icon="mdi-magnify" keyboard :value="keyword" v-debounce="onSearch" @onInput="onSearch" placeholder="Search Portion & Modifier"/>
                     </div>
                     <div>
+         
                         <div>
-                            <v-chip :size="mobile ? 'small' : 'default'" closable  @click:close="onRemoveModifier(item)" class="m-1"  v-for="(item, index) in product.getSelectedModierList()" :key="index">
+                            <v-chip :size="mobile ? 'small' : 'default'" closable  
+                            @click:close="onRemoveModifier(item)" 
+                            class="m-1" 
+                             v-for="(item, index) in product.getSelectedModierList()" 
+                             :key="index">
                             {{item.prefix}} {{item.modifier}} - <CurrencyFormat :value="item.price"/>
                             </v-chip>
                         </div>
                         <v-expansion-panels v-model="panelPortion" multiple variant="accordion">
-                            <v-expansion-panel title="Portion" v-if="product.prices.length>1" :class="mobile ? 'panel-small' : ''">
+                            <v-expansion-panel title="Portion" v-if="product?.prices?.length>1" :class="mobile ? 'panel-small' : ''">
                                 <v-expansion-panel-text>
                                     <div class="flex flex-wrap">
                                         <div class="m-1" v-for="(item, i) in product.prices" :key="i">
@@ -69,7 +74,7 @@ let keyword = ref()
 const panelPortion = ref([0,1,2,3,4,5,6,7,8,9])
 const emit = defineEmits(["resolve","reject"])
  
-let open = ref(true);
+
 
 
 function onConfirm(){

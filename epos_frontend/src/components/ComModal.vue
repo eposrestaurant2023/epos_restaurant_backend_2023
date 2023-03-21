@@ -10,7 +10,7 @@
                 <template #action>
                     <slot name="bar_custom"></slot>
                 </template>
-                <template #more_button>
+                <template #more_menu> 
                     <slot name="bar_more_button"></slot>
                 </template>
             </ComToolbar>

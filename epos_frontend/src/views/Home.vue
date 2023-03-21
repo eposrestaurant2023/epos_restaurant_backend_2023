@@ -1,15 +1,15 @@
 <template>
     <div>
         <div class="h-60 bg-no-repeat bg-cover"
-            v-bind:style="{ 'background-image': 'url(' + setting.login_background + ')' }">
+            v-bind:style="{ 'background-image': 'url(' + gv.setting.login_background + ')' }">
             <div class="wrap-overlay w-full h-full flex items-end justify-center">
                 <div>
                     <div class="text-center text-white mb-3">
-                        <img :src="setting.logo" class="w-24 inline-block mb-2" />
-                        <p class="text-xl">{{ setting.business_branch }}</p>
+                        <img :src="gv.setting.logo" class="w-24 inline-block mb-2" />
+                        <p class="text-xl">{{ gv.setting.business_branch }}</p>
                         <p>
-                            <span class="font-bold">POS Profile</span> : {{ setting.pos_profile }} /
-                            <span class="font-bold">Outlet</span> : {{ setting.outlet }} /
+                            <span class="font-bold">POS Profile</span> : {{ gv.setting.pos_profile }} /
+                            <span class="font-bold">Outlet</span> : {{ gv.setting.outlet }} /
                             <span class="font-bold">Device Name</span> :{{ device_name }}
                         </p>
 
@@ -25,7 +25,9 @@
                         <OpenShiftButton />
                         <ComButton @click="onPOS()" title="POS" icon="mdi-cart" class="bg-green-600 text-white"
                             icon-color="#fff" />
-                        <ComButton @click="onRoute('ReceiptList')" title="Recept List" icon="mdi-receipt"
+                        <ComButton @click="onViewPendingOrder()" title="Pending Order" icon="mdi-receipt"
+                            icon-color="#e99417" />
+                        <ComButton @click="onRoute('ReceiptList')" title="Closed Receipt" icon="mdi-receipt"
                             icon-color="#e99417" />
                         <ComButton @click="onRoute('Customer')" title="Customer" icon-color="#e99417"
                             icon="mdi-account-multiple-outline" />
@@ -43,33 +45,39 @@
     </div>
 </template>
 <script setup>
-import { useRouter, createResource, inject, computed, createToaster } from '@/plugin'
+import { useRouter, createResource, computed, createToaster,pendingSaleListDialog,inject } from '@/plugin'
 import ComButton from '../components/ComButton.vue';
 import WorkingDayButton from './shift/components/WorkingDayButton.vue';
 import OpenShiftButton from './shift/components/OpenShiftButton.vue';
 const toaster = createToaster({ position: "top" })
 const auth = inject('$auth')
-const setting = JSON.parse(localStorage.getItem("setting"))
-
+const gv = inject('$gv');
 
 const device_name = computed(() => {
     return localStorage.getItem('device_name')
 })
+const cashierShiftResource = createResource({
+    url: "epos_restaurant_2023.api.api.get_current_shift_information",
+    params: {
+        business_branch: gv.setting?.business_branch,
+        pos_profile: localStorage.getItem("pos_profile")
+    },
+});
 
+const workingDayResource = createResource({
+    url: "epos_restaurant_2023.api.api.get_current_working_day",
+    params: {
+      business_branch: gv.setting?.business_branch
+    }
+});
 
 const router = useRouter()
+
 function onRoute(page) {
     router.push({ name: page })
 }
-async function onPOS() {
-    const cashierShiftResource = createResource({
-        url: "epos_restaurant_2023.api.api.get_current_shift_information",
-        params: {
-            business_branch: setting?.business_branch,
-            pos_profile: localStorage.getItem("pos_profile")
-        },
-    });
 
+async function onPOS() {
     await cashierShiftResource.fetch().then(async (v) => {
         if (v) {
             if (v.working_day == null) {
@@ -77,12 +85,17 @@ async function onPOS() {
             } else if (v.cashier_shift == null) {
                 toaster.warning("Please start cashier shift first.")
             } else {
-                const setting = JSON.parse(localStorage.getItem('setting'))
-                if (setting.table_groups.length > 0) {
+                if (gv.setting.table_groups.length > 0) {
                     router.push({ name: 'TableLayout' })
                 }
                 else {
-                    router.push({ name: 'AddSale' })
+                    gv.authorize("open_order_required_password","make_order").then((v)=>
+                    {
+                        if(v){ 
+                            router.push({ name: 'AddSale' })
+                        }
+                    })
+                    
                 }
             }
 
@@ -91,6 +104,25 @@ async function onPOS() {
 
 
     })
+}
+async function onViewPendingOrder() {
+    let working_day = '';
+    let cashier_shift = '';
+    await workingDayResource.fetch().then(async (wk)=>{
+        if(wk.name){
+            working_day = wk.name
+            await cashierShiftResource.fetch().then(async (cs)=>{
+                if(cs.cashier_shift?.name)
+                    cashier_shift = cs.cashier_shift.name
+                const result = await pendingSaleListDialog({data:{working_day:working_day, cashier_shift: cashier_shift}})
+            })
+        }else{
+            toaster.warning("Please start working first.")
+        }
+        
+    })
+
+    
 }
 
 

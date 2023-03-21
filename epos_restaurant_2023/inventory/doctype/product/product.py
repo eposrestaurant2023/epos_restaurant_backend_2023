@@ -188,7 +188,7 @@ def get_product_cost_by_stock(product_code=None, stock_location=None):
 def add_product_to_temp_menu(self):
 	frappe.db.sql("delete from `tabTemp Product Menu` where product_code='{}'".format(self.name))
 
-	if self.pos_menus and not self.disabled:
+	if self.pos_menus and not self.disabled and self.allow_sale:
 		printers = []
 		for p in self.printers:
 			printers.append({"printer":p.printer_name,"group_item_type":p.group_item_type})

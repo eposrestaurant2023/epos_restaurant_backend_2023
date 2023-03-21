@@ -10,14 +10,14 @@
         </v-row>
         <ComInput title="Enter Note" keyboard label="Open Note" v-model="note" type="textarea"></ComInput>
         <!-- <v-btn @click="addNewToDo">Add New Todo</v-btn> -->
-        <v-btn @click="onStartWorking" color="primary">Start Working Day</v-btn>
+        <v-btn @click="onStartWorking" color="primary" class="mt-4">Start Working Day</v-btn>
 
     </PageLayout>
 </template>
  
 <script setup>
 import moment from '@/utils/moment.js'
-import { ref, createResource,useRouter,createToaster,inject } from '@/plugin'
+import { ref, createResource,useRouter,createToaster,inject,confirm } from '@/plugin'
 import PageLayout from '../../components/layout/PageLayout.vue';
 import ComInput from '../../components/form/ComInput.vue';
 const gv = inject("$gv")
@@ -43,8 +43,9 @@ createResource({
     
 })
 
-function onStartWorking() {
+async function onStartWorking() {
     
+    if(await confirm({title:"Start Working Day", text:"Are sure you want to start working day?"})){
         createResource({
             url:"frappe.client.insert",
             params:{
@@ -62,6 +63,7 @@ function onStartWorking() {
 
             auto:true
      })
+    }
 }
 
 

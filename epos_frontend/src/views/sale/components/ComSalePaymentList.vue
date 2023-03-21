@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ComPlaceholder :is-not-empty="sale.sale.payment.length > 0" icon="mdi-currency-usd" icon-size="30px" text="No Payment">
+        <ComPlaceholder :is-not-empty="sale.sale?.payment?.length > 0" icon="mdi-currency-usd" icon-size="30px" text="No Payment">
             <div v-for="(p, index) in sale.sale.payment" :key="index">
                 <div
                     class="flex items-center p-1 bg-white rounded-sm mb-1 border border-gray-600">

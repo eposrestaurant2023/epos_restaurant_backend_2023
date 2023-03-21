@@ -14,10 +14,12 @@
   "system_close_amount",
   "input_close_amount",
   "close_amount",
+  "input_different_amount",
   "different_amount",
   "currency",
   "currency_symbol",
-  "currency_precision"
+  "currency_precision",
+  "payment_type_group"
  ],
  "fields": [
   {
@@ -98,12 +100,23 @@
    "fieldname": "input_system_close_amount",
    "fieldtype": "Float",
    "label": "Input System Close Amount"
+  },
+  {
+   "fetch_from": "payment_method.payment_type_group",
+   "fieldname": "payment_type_group",
+   "fieldtype": "Data",
+   "label": "Payment Type Group"
+  },
+  {
+   "fieldname": "input_different_amount",
+   "fieldtype": "Float",
+   "label": "Input Different Amount"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-01-23 11:02:02.259223",
+ "modified": "2023-03-15 15:43:53.904027",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Cashier Shift Cash Float",

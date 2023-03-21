@@ -105,14 +105,24 @@ export function frappeRequest(options) {
           // else if(error_text[0] == 'Internal Server Error'){
           //  window.open("/epos_frontend/server-error","_self")
           // }
-          toaster.error(error_text,{position:"top"});
+          
+          if(Array.isArray(error_text)){
+            error_text.forEach(r => {
+              const msg = r.split(':')
+              if(msg.length == 3 && msg[0] == 'Error' && msg[1].search('Value missing for')){
+                toaster.warning(`Invalid ${msg[2]}`,{position:"top"});
+              }else{
+                toaster.error(r,{position:"top"});
+              }
+            });
+          }
+          
             options.onError({
               error_text:error_text,
               response: errorResponse,
               status: errorResponse.status,
               error: e,
             })
-  
         }
         throw e
       }

@@ -39,14 +39,17 @@ class InventoryTransaction(Document):
 				self.ending_stock_value = self.balance * self.price
 			else:
 				self.ending_stock_value =  (self.in_quantity - self.out_quantity) * (self.price or 0 )
-			
+		
+		
 
 	def after_insert(self):
 		
 		if self.product_has_in_stock_location==0:
-			
+			 
 			add_stock_location_product(self)
 		else:
+		 
+
 			update_stock_location_product(self)
         
 
@@ -84,4 +87,5 @@ def update_stock_location_product(self):
 
 	doc.quantity = self.balance
 	doc.total_cost =  self.ending_stock_value
+	
 	doc.save()

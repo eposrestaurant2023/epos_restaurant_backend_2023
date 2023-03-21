@@ -12,6 +12,11 @@ class CashierShift(Document):
 		# 	if pending_orders:
 		# 		frappe.throw("Please close all pending order before close cashier shift.")
 
+		if self.is_new():
+			data = frappe.get_list("Cashier Shift",filters={"pos_profile":self.pos_profile, "is_closed":0})
+			if data:
+				frappe.throw("Cashier shift is already opened")
+				
 		
 		for c in self.cash_float:
 			exchange_rate = frappe.get_value("Payment Type", c.payment_method,"exchange_rate")
@@ -20,6 +25,7 @@ class CashierShift(Document):
 			
 			c.opening_amount = float(c.input_amount) / exchange_rate
 			c.close_amount = float(c.input_close_amount) / exchange_rate
+			c.system_close_amount = float(c.input_system_close_amount) / exchange_rate
 
    
 		self.total_opening_amount = Enumerable(self.cash_float).sum(lambda x: x.opening_amount)

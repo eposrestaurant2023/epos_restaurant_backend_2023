@@ -25,7 +25,7 @@
                     <v-list-item-title class="text-red-700">Cancel Discount</v-list-item-title>
                 </v-list-item>
             </template>
-            <v-list-item prepend-icon="mdi-chair-school" title="Seat #"
+            <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-chair-school" title="Seat #"
                 @click="sale.onSaleProductSetSeatNumber(saleProduct)"></v-list-item>
             <v-list-item prepend-icon="mdi-note-outline" title="Note" v-if="!saleProduct.note"
                 @click="sale.onSaleProductNote(saleProduct)"></v-list-item>
@@ -35,7 +35,7 @@
                 </template>
                 <v-list-item-title class="text-red-700">Remove Note</v-list-item-title>
             </v-list-item>
-            <v-list-item @click="onRemoveSaleProduct(saleProduct, saleProduct.quantity)">
+            <v-list-item @click="onRemoveSaleProduct()">
                 <template v-slot:prepend>
                     <v-icon icon="mdi-delete" color="error"></v-icon>
                 </template>
@@ -45,9 +45,10 @@
     </v-menu>
 </template>
 <script setup>
-import { defineProps, inject } from 'vue'
+import { defineProps, inject,keypadWithNoteDialog } from '@/plugin'
 const sale = inject('$sale')
 const gv = inject("$gv")
+const tableLayout = inject("$tableLayout")
 const props = defineProps({
     saleProduct: Object
 })
@@ -67,13 +68,30 @@ function onSaleProductFree() {
 }
 
 function onRemoveSaleProduct() {
-
+ 
     if (!sale.isBillRequested()) {
         if (props.saleProduct.sale_product_status == 'Submitted') {
-            gv.authorize("delete_item_required_password", "delete_item", "delete_item_required_note", "Delete Item Note", props.saleProduct.product_code).then((v) => {
+            gv.authorize("delete_item_required_password", "delete_item","delete_item_required_note", "Delete Item Note", props.saleProduct.product_code, true).then(async (v) => {
                 if (v) {
-                    props.saleProduct.delete_item_note = v.note
-                    sale.onRemoveSaleProduct(props.saleProduct, props.saleProduct.quantity);
+                    //props.saleProduct.delete_item_note = v.note 
+                    const result = await keypadWithNoteDialog({ 
+                        data: { 
+                            title: `Delete Product ${props.saleProduct.product_name}`,
+                            label_input: 'Enter Quantity',
+                            note: "Delete Item Note",
+                            category_note_name: v.category_note_name,
+                            number: props.saleProduct.quantity,
+                            product_code: props.saleProduct.product_code
+                        } 
+                    });
+                  
+                    if(result){ 
+                        if(props.saleProduct.quantity < result.number)
+                            result.number = props.saleProduct.quantity
+                            props.saleProduct.deleted_item_note = result.note;
+                        sale.onRemoveSaleProduct(props.saleProduct, result.number);
+
+                    } 
                 }
             });
         } else {

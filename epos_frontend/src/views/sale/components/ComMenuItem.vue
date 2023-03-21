@@ -49,16 +49,13 @@
     </div>
 </template>
 <script setup>
-import { computed, addModifierDialog, inject } from '@/plugin'
-import { openMenuDialog } from '../../../utils/dialog';
+import { computed, addModifierDialog, inject,keypadWithNoteDialog } from '@/plugin'
+ 
 import ComPriceOnMenu from '../ComPriceOnMenu.vue';
 const props = defineProps({ data: Object })
 const sale = inject("$sale");
 const product = inject("$product");
 
-const data = computed(() => {
-    return props.data
-})
  
 function onClickMenu(menu) {
     product.parentMenu = menu;
@@ -68,36 +65,39 @@ function onBack(parent) {
     const parent_menu = product.posMenuResource.data?.find(r => r.name == parent).parent;
     product.parentMenu = parent_menu;
 }
-async function onClickProduct() {
-
-    if (!sale.isBillRequested()) {
-        const p = JSON.parse(JSON.stringify(data.value));
+async function onClickProduct() { 
+    if (!sale.isBillRequested()) { 
+        const p = JSON.parse(JSON.stringify(props.data));
         if (p.is_open_product == 1) {
 
-            let result = await openMenuDialog({ data: { product_code: p.name, product_name: p.name_en } });
+            let result = await keypadWithNoteDialog({ 
+                data: { 
+                    title: `Delete ${p.name}`,
+                    label_input: 'Enter Price',
+                    note: "Open Menu Note",
+                    category_note_name: "Open Menu Note",
+                    number: 0,
+                    product_code: p.name
+                } 
+            });
             if (result) {
-
-                p.name_en = result.product_name;
-                p.price = result.price;
+                p.name_en = result.note;
+                p.price = result.number;
+                p.modifiers = '';
                 sale.addSaleProduct(p);
             }
 
         } else {
             
             const portions = JSON.parse(p.prices).filter(r=>(r.branch == sale.sale.business_branch || r.branch == '')  && r.price_rule == sale.sale.price_rule);
-            console.log(portions)
+ 
             if (JSON.parse(p.modifiers).length > 0 || portions.length > 1) {
-                const dt = {
-                    modifiers: p.modifiers,
-                    prices: portions
-                }
-                product.setSelectedProduct(data.value);
-
-                let result = await addModifierDialog({
-                    data: dt
-                });
+                product.setSelectedProduct(props.data);
+              
+                let result = await addModifierDialog();
 
                 if (result) {
+                  
                     if (result.portion != undefined) {
                         p.price = result.portion.price;
                         p.portion = result.portion.portion;
@@ -111,9 +111,8 @@ async function onClickProduct() {
                 }
             } else {
                 p.modifiers = "";
-                data.modifiers_data = "[]";
+                p.modifiers_data = "[]";
             }
-           
             sale.addSaleProduct(p);
         }
     }

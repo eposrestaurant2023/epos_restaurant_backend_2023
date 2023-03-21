@@ -120,7 +120,7 @@ export default {
         },
         onLogout(){
             this.$auth.logout().then((r)=>{
-                router.push({name: 'Login'})
+                this.$router.push({name: 'Login'})
             })
         }
     },

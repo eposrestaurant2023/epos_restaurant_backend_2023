@@ -79,13 +79,12 @@
    "fetch_from": "product_code.product_name_en",
    "fieldname": "product_name",
    "fieldtype": "Data",
-   "label": "Product Name",
-   "set_only_once": 1
+   "label": "Product Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-31 14:46:38.313290",
+ "modified": "2023-03-17 15:47:13.605153",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Location Product",

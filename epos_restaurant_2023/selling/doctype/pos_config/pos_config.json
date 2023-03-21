@@ -64,7 +64,13 @@
   "section_break_44",
   "change_price_rule_require_password",
   "section_break_53",
-  "open_cashdrawer_require_password"
+  "open_cashdrawer_require_password",
+  "edit_closed_receipt_required_password",
+  "edit_closed_receipt_required_note",
+  "start_working_day_required_password",
+  "close_working_day_required_password",
+  "start_cashier_shift_required_password",
+  "close_cashier_shift_required_password"
  ],
  "fields": [
   {
@@ -362,12 +368,48 @@
   {
    "fieldname": "column_break_30",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "edit_closed_receipt_required_password",
+   "fieldtype": "Check",
+   "label": "Edit Closed Receipt Required Password"
+  },
+  {
+   "default": "1",
+   "fieldname": "edit_closed_receipt_required_note",
+   "fieldtype": "Check",
+   "label": "Edit Closed Receipt Required Note"
+  },
+  {
+   "default": "0",
+   "fieldname": "start_working_day_required_password",
+   "fieldtype": "Check",
+   "label": "Start Working Day Required Password"
+  },
+  {
+   "default": "0",
+   "fieldname": "close_working_day_required_password",
+   "fieldtype": "Check",
+   "label": "Close Working Day Required Password"
+  },
+  {
+   "default": "0",
+   "fieldname": "start_cashier_shift_required_password",
+   "fieldtype": "Check",
+   "label": "Start Cashier Shift Required Password"
+  },
+  {
+   "default": "0",
+   "fieldname": "close_cashier_shift_required_password",
+   "fieldtype": "Check",
+   "label": "Close Cashier Shift Required Password"
   }
  ],
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-07 12:07:00.451323",
+ "modified": "2023-03-20 17:15:20.101986",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Config",

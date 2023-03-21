@@ -16,7 +16,7 @@
 import ComButton from '../../../components/ComButton.vue';
 import { createResource, useRouter, inject } from "@/plugin"
 import { createToaster } from '@meforma/vue-toaster';
-import Toaster from '@meforma/vue-toaster';
+ 
 
 const gv = inject("$gv")
 const toaster = createToaster({ position: "top" });
@@ -29,31 +29,47 @@ const current_working_day = createResource({
     params: {
         business_branch: gv.setting.business_branch
     },
+    onSuccess(data) {
+
+        gv.workingDay = data.name
+    },
     auto: true,
 
 })
 
+
 function onStartWorkingDay() {
-    router.push({ name: "StartWorkingDay" });
+    gv.authorize("start_working_day_required_password", "start_working_day").then(async (v) => {
+        if (v) {
+            router.push({ name: "StartWorkingDay" });
+        }
+    })
+
 }
 
 async function onCloseWorkingDay() {
+    gv.authorize("close_working_day_required_password", "close_working_day").then(async (v) => {
+        if (v) {
 
-    const cashierShiftResource = createResource({
-        url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
-        params: {
-            pos_profile: localStorage.getItem("pos_profile")
+
+            const cashierShiftResource = createResource({
+                url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
+                params: {
+                    pos_profile: localStorage.getItem("pos_profile")
+                }
+            });
+
+            await cashierShiftResource.fetch().then(async (v) => {
+                if (v) {
+                    toaster.warning("Please close cashier shift first.")
+                } else {
+                    router.push({ name: "CloseWorkingDay" });
+                }
+
+            })
         }
     });
 
-    await cashierShiftResource.fetch().then(async (v) => {
-        if (v) {
-            toaster.warning("Please close cashier shift first.")
-        } else {
-            router.push({ name: "CloseWorkingDay" });
-        }
-
-    })
 
 }
 

@@ -65,7 +65,8 @@ export default class Product {
         this.prices = [];
         this.modifiers = [];
         let prices=  JSON.parse( p.prices);
-        prices.filter(r=>r.branch==this.setting?.business_branch).forEach((p)=>{
+     
+        prices.filter(r=>r.branch==this.setting?.business_branch || r.branch=="").forEach((p)=>{
             p.selected = false;
             this.prices.push(p)
         });
@@ -78,10 +79,14 @@ export default class Product {
             r.selected = false
         });
         this.modifiers =modifiers;
+
+        
+ 
     }
     setSelectedProductByMenuID(id){
         const p = Enumerable.from( this.posMenuResource.data??[]).where(`$.menu_product_name=='${id}'`).firstOrDefault();
         this.setSelectedProduct(p);
+
     }
     setModifierSelection(sp){
         Enumerable.from( this.prices).where("$.selected==true").forEach("$.selected = false");
@@ -117,6 +122,7 @@ export default class Product {
 
 
     onSelectPortion(p){
+        
         Enumerable.from(this.prices).where("$.selected==true").forEach("$.selected=false");
         p.selected = true;
     }
@@ -145,7 +151,7 @@ export default class Product {
     getSelectedModifier() {
       
         const selected = (Enumerable.from(this.modifiers).selectMany("$.items").where("$.selected==true").orderBy("$.modifier"));
-        let modifiers = selected.select("r=>r.prefix + ' ' + r.modifier").toJoinedString(", ");
+        let modifiers = selected.select("r=>(r.prefix || '') + ' ' + r.modifier").toJoinedString(", ");
         if(modifiers=="[]" || modifiers==undefined){
             modifiers = "";
         }

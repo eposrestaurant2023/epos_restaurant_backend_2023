@@ -67,6 +67,8 @@
   "taxable_amount_3",
   "column_break_51",
   "tax_3_amount",
+  "section_break_62",
+  "total_revenue",
   "section_break_54",
   "allow_discount",
   "allow_free",
@@ -593,12 +595,22 @@
    "fieldname": "printers",
    "fieldtype": "Small Text",
    "label": "Product Printers"
+  },
+  {
+   "fieldname": "section_break_62",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_revenue",
+   "fieldtype": "Currency",
+   "label": "Total Revenue",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-02-03 15:07:54.448242",
+ "modified": "2023-03-15 15:33:12.533910",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Product",

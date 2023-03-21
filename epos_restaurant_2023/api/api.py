@@ -17,6 +17,14 @@ def check_username(pin_code):
     frappe.throw(_("Invalid pin code"))
  
 @frappe.whitelist(allow_guest=True)
+def get_user_info(name):
+    data = frappe.db.sql("select name,full_name,pos_user_permission from `tabUser` where name='{}'".format(name),as_dict=1)
+    if data:
+        permission= frappe.get_doc("POS User Permission",data[0]["pos_user_permission"])      
+        return {"username":data[0]["name"],"full_name":data[0]["full_name"],"permission":permission} 
+        
+
+@frappe.whitelist(allow_guest=True)
 def get_system_settings(pos_profile="", device_name=''):
     if not frappe.db.exists("POS Profile",pos_profile):
         frappe.throw("Invalid POS Profile name")
@@ -80,14 +88,20 @@ def get_system_settings(pos_profile="", device_name=''):
         "discount_item_required_note":pos_config.discount_item_required_note,
         "discount_sale_required_password":pos_config.discount_sale_required_password,
         "discount_sale_required_note":pos_config.discount_sale_required_note,
-        "delete_bill_require_password":pos_config.delete_bill_required_password,
+        "delete_bill_required_password":pos_config.delete_bill_required_password,
         "delete_bill_required_note":pos_config.delete_bill_required_note,
         "allow_change_quantity_after_submit":pos_config.allow_change_quantity_after_submit,
         "main_currency_predefine_payment_amount":pos_config.main_currency_predefine_payment_amount,
         "second_currency_predefine_payment_amount":pos_config.second_currency_predefine_payment_amount,
         "open_order_required_password":pos_config.open_order_required_password,
         "change_price_rule_require_password":pos_config.change_price_rule_require_password,
-        "open_cashdrawer_require_password":pos_config.open_cashdrawer_require_password
+        "open_cashdrawer_require_password":pos_config.open_cashdrawer_require_password,
+        "edit_closed_receipt_required_password":pos_config.edit_closed_receipt_required_password,
+        "edit_closed_receipt_required_note":pos_config.edit_closed_receipt_required_note,
+        "start_working_day_required_password":pos_config.start_working_day_required_password,
+        "close_working_day_required_password":pos_config.close_working_day_required_password,
+        "start_cashier_shift_required_password":pos_config.start_cashier_shift_required_password,
+        "close_cashier_shift_required_password":pos_config.close_cashier_shift_required_password,
         }
     
     #get default customre
@@ -106,7 +120,7 @@ def get_system_settings(pos_profile="", device_name=''):
     #get report list
     report_format_fields = ["name","title","doc_type","print_report_name","default_print_language","show_in_pos_report","show_in_pos","print_invoice_copies", "print_receipt_copies","pos_invoice_file_name","pos_receipt_file_name", "receipt_height", "receipt_width","receipt_margin_top", "receipt_margin_left","receipt_margin_right","receipt_margin_bottom" ]
     reports = frappe.get_list("Print Format",fields=report_format_fields , filters={"doc_type":["in",["Cashier Shift","Working Day","Sale"]]},order_by="sort_order")
-    letter_heads = frappe.get_list("Letter Head",fields=["name","is_default"])
+    letter_heads = frappe.get_list("Letter Head",fields=["name","is_default"],filters={"disabled":0})
     letter_heads.append({"name":"No Letterhead","is_default":0})
  
 
@@ -293,12 +307,13 @@ def get_close_shift_summary(cashier_shift):
     payments = frappe.db.sql(sql, as_dict=1)
     
     #get cash in out 
-    sql = "select  payment_type, sum(if(transaction_status='Cash Out',amount*-1,amount)) as total_amount from `tabCash Transaction`   where cashier_shift='{}'    group by  payment_type".format(cashier_shift)
+    sql = "select  payment_type,sum(if(transaction_status='Cash Out',input_amount*-1,input_amount)) as total_input_amount, sum(if(transaction_status='Cash Out',amount*-1,amount)) as total_amount from `tabCash Transaction`   where cashier_shift='{}'    group by  payment_type".format(cashier_shift)
     cash_transactions = frappe.db.sql(sql, as_dict=1)
     
 
     for d in doc.cash_float:
         cash_transaction = Enumerable( cash_transactions).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.total_amount or 0 )
+        input_cash_transaction = Enumerable( cash_transactions).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.total_input_amount or 0 )
         data.append({
             "name":d.name,
             "payment_method":d.payment_method,
@@ -306,7 +321,7 @@ def get_close_shift_summary(cashier_shift):
             "input_amount":d.input_amount,
             "opening_amount":d.opening_amount,
             "input_close_amount":0,
-            "input_system_close_amount":d.input_amount +  Enumerable(payments).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.input_amount or 0 ) + cash_transaction,
+            "input_system_close_amount":d.input_amount +  Enumerable(payments).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.input_amount or 0 ) + input_cash_transaction,
             "system_close_amount": d.opening_amount +  Enumerable(payments).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.payment_amount or 0 ) + cash_transaction,
             "different_amount":0,
             "currency":d.currency
@@ -348,7 +363,6 @@ def get_cash_drawer_balance(cashier_shift):
         SELECT 0 total_amount,0 total_amount_cash_out,SUM(amount) as total_amount_cash_in FROM `tabCash Transaction` WHERE cashier_shift = '{0}' AND transaction_status = 'Cash In'
 		)totals
     """.format(cashier_shift)
-    frappe.msgprint(sql)
     data = frappe.db.sql(sql, as_dict=1)
     return data[0]
 
@@ -380,10 +394,89 @@ def get_working_day_list_report():
             filters={
                 "working_day": w.name
             },
-            fields=["name","posting_date","creation","modified_by"]
+            fields=["name","posting_date","creation","modified_by","is_closed"]
             
         )
         w.cashier_shifts = cashier_shift
     
     data = working_day
     return data
+
+
+@frappe.whitelist()
+def edit_sale_order(name,auth):
+    #check if sale already have payment then cancel sale payment first
+    payments = frappe.get_list("Sale Payment",fields=["name"], filters={"sale":name,"docstatus":1})
+    for p in payments:
+        sale_payment = frappe.get_doc("Sale Payment", p.name)
+        sale_payment.cancel()
+        sale_payment.delete()
+    
+    #then start to cancel sale
+    sale_doc = frappe.get_doc("Sale",name)
+    sale_doc.payment=[]
+    sale_doc.cancel()
+
+
+    #add comment to this doc to track who request to edit this sale order 
+    #get user and note from pos confirm edit dialog
+    
+
+    #change status from 2 to 0 (Cancel to Draft) to allow pos can modified this doc
+    sale_status_doc = frappe.get_doc("Sale Status","Submitted")
+    frappe.db.sql("update `tabSale` set docstatus = 0, sale_status='Submitted', sale_status_color='{1}', sale_status_priority={2} where name='{0}'".format(name,sale_status_doc.background_color,sale_status_doc.priority))
+    frappe.db.sql("update `tabSale Product` set docstatus = 0 where parent='{}'".format(name))
+    #add comment
+       
+    doc = frappe.get_doc({
+        'doctype': 'Comment',
+        'subject': 'Delete sale order',
+        "comment_type":"Comment",
+        "reference_doctype":"Sale",
+        "reference_name":sale_doc.name,
+        "comment_by":auth["username"],
+        "content":"User {0} edit sale order. Reason: {1}".format(auth['full_name'], auth["note"])
+    })
+    doc.insert()
+
+@frappe.whitelist()
+def delete_sale(name,auth):
+    sale_doc = frappe.get_doc("Sale",name)
+    #validate cashier shift
+    cashier_shift_doc = frappe.get_doc("Cashier Shift", sale_doc.cashier_shift)
+    if cashier_shift_doc.is_closed==1:
+        frappe.throw(_("Cashier shift is already closed."))
+
+
+    #check if sale already have payment then cancel sale payment first
+    payments = frappe.get_list("Sale Payment",fields=["name"], filters={"sale":name,"docstatus":1})
+    for p in payments:
+        sale_payment = frappe.get_doc("Sale Payment", p.name)
+        sale_payment.cancel()
+        sale_payment.delete()
+    
+    #then start to cancel sale
+    sale_doc = frappe.get_doc("Sale",name)
+    sale_doc.payment=[]
+    if sale_doc.docstatus ==1:
+        sale_doc.cancel()
+    else:
+        
+        frappe.db.sql("update `tabSale` set docstatus = 2  where name='{0}'".format(name))
+        frappe.db.sql("update `tabSale Product` set docstatus = 2 where parent='{}'".format(name))
+
+
+    #add to comment
+ 
+   
+    doc = frappe.get_doc({
+        'doctype': 'Comment',
+        'subject': 'Delete sale order',
+        "comment_type":"Comment",
+        "reference_doctype":"Sale",
+        "reference_name":sale_doc.name,
+        "comment_by":auth["username"],
+        "content":"User {0} delete sale order. Reason: {1}".format(auth['full_name'], auth["note"])
+    })
+    doc.insert()
+    

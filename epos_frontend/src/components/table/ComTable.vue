@@ -45,7 +45,7 @@
                                         {{  moment(item.raw[h.key]).format('DD-MM-YYYY') }}
                                     </span>
                                 </template>
-                                <template v-else-if="h.fieldtype=='Status'">
+                                <template v-else-if="h.fieldtype=='Status'"> 
                                     <v-chip v-if="doctype=='Sale'" :color="item.raw[h.color_field]" size="small"> {{ item.raw[h.key] }}</v-chip>
                                     <template v-else>
                                         <v-chip v-if="item.raw[h.key]" color="success" size="small">Enabled</v-chip>

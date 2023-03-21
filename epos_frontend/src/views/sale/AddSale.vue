@@ -71,10 +71,6 @@ if (product.posMenuResource.data?.length == 0) {
     product.loadPOSMenu();
 }
 
-
-
-
-
 sale.getTableSaleList();
 
 document.onkeydown = function (e) {
@@ -101,27 +97,27 @@ onMounted(() => {
  
     //check working day and cashier shift
     createResource({
-            url: "epos_restaurant_2023.api.api.get_current_shift_information",
-            params: {
-                business_branch: sale.setting?.business_branch,
-                pos_profile: localStorage.getItem("pos_profile")
-            },
-            auto: true,
-            onSuccess(data) { 
-                if (data.cashier_shift == null) {
-                    toaster.warning("Please start cashier shift first");
-                    router.push({name:"OpenShift"});
-                } else if(data.working_day==null){
-                    toaster.warning("Please start working day first");
-                    router.push({name:"StartWorkingDay"});
-                }else {
-                    sale.sale.working_day = data.working_day.name;
-                    sale.sale.cashier_shift = data.cashier_shift.name;
-                    sale.working_day = data.working_day.name;
-                    sale.cashier_shift = data.cashier_shift.name;
-                }
+        url: "epos_restaurant_2023.api.api.get_current_shift_information",
+        params: {
+            business_branch: sale.setting?.business_branch,
+            pos_profile: localStorage.getItem("pos_profile")
+        },
+        auto: true,
+        onSuccess(data) { 
+            if (data.cashier_shift == null) {
+                toaster.warning("Please start cashier shift first");
+                router.push({name:"OpenShift"});
+            } else if(data.working_day==null){
+                toaster.warning("Please start working day first");
+                router.push({name:"StartWorkingDay"});
+            }else {
+                sale.sale.working_day = data.working_day.name;
+                sale.sale.cashier_shift = data.cashier_shift.name;
+                sale.working_day = data.working_day.name;
+                sale.cashier_shift = data.cashier_shift.name;
             }
-        })
+        }
+    })
 
 
     //load sale data 

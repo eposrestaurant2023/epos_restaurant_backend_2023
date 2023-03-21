@@ -1,13 +1,13 @@
 <template lang="">
-  <template v-if="sale.sale.table_id">
+  <template v-if="sale.setting.table_groups.length>0">
     <v-list-item @click="onToTableLayout()" v-if="isMobile">
         <template v-slot:prepend class="w-12">
             <v-icon icon="mdi-view-dashboard"></v-icon>
         </template>
         <v-list-item-title>Table Layout</v-list-item-title>
     </v-list-item>
-    <v-btn stacked color="error" size="small" class="m-1 grow" prepend-icon="mdi-view-dashboard" @click="onToTableLayout()" v-else>
-      Table Layou
+    <v-btn stacked  size="small" class="m-1 grow" prepend-icon="mdi-view-dashboard" @click="onToTableLayout()" v-else>
+      Table Layout
     </v-btn>
   </template>
 </template>
@@ -42,11 +42,13 @@ async function onToTableLayout() {
         });
       } else {
         //continue
+        sale.sale = {};
         router.push({ name: "TableLayout" })
         emit('closeModel')
       }
     }
   } else {
+    sale.sale = {};
     router.push({ name: "TableLayout" })
     emit('closeModel')
   }

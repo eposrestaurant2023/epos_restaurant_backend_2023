@@ -41,9 +41,9 @@
 <script setup>
 
 import PageLayout from '../../components/layout/PageLayout.vue';
-import { createResource, ref, createToaster, useRouter, reactive, computed,inject,confirm } from '@/plugin'
+import { createResource, ref, createToaster, useRouter, reactive, computed,inject,confirm, inputNumberDialog } from '@/plugin'
 import moment from '@/utils/moment.js'
-import ComInputNumber from '../../components/ComInputNumber.vue';
+
 
 import ComInput from '../../components/form/ComInput.vue';
 
@@ -123,8 +123,23 @@ async function onOpenShift() {
 
 }
 
+
 async function OpenKeyboard(data){
-const result =await openDialog(ComInputNumber,{"title":"Cash Float for " + data.payment_method});
-data.input_amount = result;
+ 
+    const result =await inputNumberDialog({"title":"Cash Float for " + data.payment_method});
+    if(result){
+     
+    data.input_amount = getNumber(result);
+    }
+
 }
+
+function getNumber(val) {
+    
+        val = (val = val == null ? 0 : val)
+        if (isNaN(val)) {
+            return 0;
+        }
+        return parseFloat(val);
+    }
 </script>

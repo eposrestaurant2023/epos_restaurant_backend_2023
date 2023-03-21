@@ -22,7 +22,7 @@
 </template>
   
 <script setup>
-import { ref, defineEmits, inject, useRouter, createDocumentResource } from '@/plugin'
+import { ref, defineEmits, inject, useRouter, createDocumentResource,confirm } from '@/plugin'
 import { createToaster } from '@meforma/vue-toaster';
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
 const sale = inject("$sale")
@@ -51,6 +51,8 @@ async function onSaleOrderClick(s) {
         toaster.warning("You cannot merge order to the current order.");
         return;
     }
+
+    if (await confirm({ title: "Merge Order", text: "Are sure you want to merge this order?" })) {
     isLoading.value = true;
     const resource = createDocumentResource({
         doctype: "Sale",
@@ -91,7 +93,7 @@ async function onSaleOrderClick(s) {
             }
         });
     })
-
+    }
 
 }
 

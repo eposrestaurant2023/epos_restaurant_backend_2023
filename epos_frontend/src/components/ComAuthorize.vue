@@ -103,8 +103,8 @@ function onOk() {
     async onSuccess(doc) {
       
       if (doc.permission[props.params.permissionCode] == 1) {
-        
-        emit('resolve', {name:doc.full_name, discount_codes:doc.permission.discount_codes})
+       
+        emit('resolve', {name:doc.full_name, discount_codes:doc.permission.discount_codes,username:doc.username})
       } else {
         toaster.warning("You don't have permission to perform this action");
       }

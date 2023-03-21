@@ -1,7 +1,7 @@
 <template>
     <!-- on small sreen -->
     <div class="block md:hidden lg:hidden xl:hidden 2xl:hidden">
-        <ComPrintButton v-if="isDesktop" doctype="Sale" title="Print All Bill" @onPrint="$emit('onPrintAllBill')" />
+        <ComPrintButton v-if="isDesktop" doctype="Sale" title="Print All Bill"  @onPrint="onPrintBillAll" />
         <v-btn class="grow" variant="flat" color="success" @click="$emit('onNewOrder')">New Sale Order</v-btn>
         <v-menu>
         <template v-slot:activator="{ props }">
@@ -25,7 +25,7 @@
         <v-btn class="grow" variant="flat" color="error" @click="$emit('onClose')">Cancel</v-btn>
     </div>
     <div class="hidden md:block lg:block xl:block 2xl:block">
-        <ComPrintButton v-if="isDesktop" doctype="Sale" title="Print All Bill" @onPrint="$emit('onPrintAllBill')" />
+        <ComPrintButton v-if="isDesktop" doctype="Sale" title="Print All Bill" @onPrint="onPrintBillAll" />
         <v-btn v-if="isBillRequested" class="grow" variant="flat" color="warning" @click="$emit('onCancelPrintBill')">Cancel Print Bill</v-btn>
         <v-btn class="grow" variant="flat" color="primary" @click="$emit('onQuickPay',true)">Quick Pay</v-btn>
         <v-btn class="grow" variant="flat" color="primary" @click="$emit('onQuickPay',false)">Quick Pay without Print</v-btn>
@@ -35,7 +35,10 @@
 </template>
 <script setup>
 import ComPrintButton from '@/components/ComPrintButton.vue';
-    import {defineProps} from 'vue'
+    import {defineProps,defineEmits} from 'vue'
+
+    const emit = defineEmits(["onPrintAllBill"])
+
     const props = defineProps({
         isBillRequested: {
             type: Boolean,
@@ -46,7 +49,8 @@ import ComPrintButton from '@/components/ComPrintButton.vue';
             default: false
         }
     })
+    function onPrintBillAll(r){
+         
+         emit('onPrintAllBill', r);
+    }
 </script>
-<style lang="">
-    
-</style>

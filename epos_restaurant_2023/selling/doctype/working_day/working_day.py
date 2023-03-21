@@ -12,7 +12,7 @@ class WorkingDay(Document):
 
 		if self.is_new():
 			if frappe.db.exists('Working Day', {'pos_profile': self.pos_profile, 'is_closed': 0}):
-				frappe.throw("This pos profile {} is already opened".format(self.pos_profile))
+				frappe.throw("Workingday in this pos profile {} is already opened".format(self.pos_profile))
 		
 	
 

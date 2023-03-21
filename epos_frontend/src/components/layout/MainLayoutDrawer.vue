@@ -16,31 +16,25 @@
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item>
           
-          <v-list-item v-if="workingDayResource.data" active-color="primary" @click="onRoute('CloseWorkingDay')">
+          <v-list-item v-if="gv.workingDay!=''" active-color="primary" @click="onCloseWorkingDay()">
             <template v-slot:prepend>
               <v-icon>mdi-calendar-clock</v-icon>
             </template>
             <v-list-item-title>Close Working Day</v-list-item-title>
           </v-list-item>
-          <v-list-item v-else active-color="primary" @click="onRoute('StartWorkingDay')">
+          <v-list-item v-else active-color="primary" @click="onStartWorkingDay()">
             <template v-slot:prepend>
               <v-icon>mdi-calendar-clock</v-icon>
             </template>
             <v-list-item-title>Start Working Day</v-list-item-title>
           </v-list-item>
-
-        
-
-          
-
-
-          <v-list-item v-if="!cashierShiftResource.data" active-color="primary" @click="onRoute('OpenShift')">
+          <v-list-item v-if="gv.cashierShift==''" active-color="primary" @click="onOpenShift()">
             <template v-slot:prepend>
               <v-icon>mdi-clock</v-icon>
             </template>
             <v-list-item-title>Start Cashier Shift</v-list-item-title>
           </v-list-item>
-          <v-list-item  v-else active-color="primary" @click="onRoute('CloseShift')">
+          <v-list-item  v-else active-color="primary" @click="onCloseShift()">
             <template v-slot:prepend>
               <v-icon>mdi-calendar-clock</v-icon>
             </template>
@@ -91,9 +85,12 @@
 <script setup>
 import { useRouter, inject, createResource} from '@/plugin'
 import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue'
+import { createToaster } from '@meforma/vue-toaster';
 const router = useRouter()
 const auth = inject('$auth')
 const gv  = inject("$gv")
+const toaster = createToaster({position:'top'});
+ 
 function onRoute(page) {
 
     router.push({name:page})
@@ -112,23 +109,59 @@ function onPOS(){
     }
 }
 
-let cashierShiftResource = createResource({
-    url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
-    params: {
-        pos_profile: localStorage.getItem("pos_profile")
-    },
-    auto: true,
-})
-
-const workingDayResource = createResource({
-    url: "epos_restaurant_2023.api.api.get_current_working_day",
-    params: {
-        business_branch: gv.setting.business_branch
-    },
-    auto: true
-})
 
 
+function onStartWorkingDay() {
+    gv.authorize("start_working_day_required_password", "start_working_day").then(async (v) => {
+        if (v) {
+            router.push({ name: "StartWorkingDay" });
+        }
+    })
+
+}
+
+async function onCloseWorkingDay() {
+    gv.authorize("close_working_day_required_password", "close_working_day").then(async (v) => {
+        if (v) {
+
+
+            const cashierShiftResource = createResource({
+                url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
+                params: {
+                    pos_profile: localStorage.getItem("pos_profile")
+                }
+            });
+
+            await cashierShiftResource.fetch().then(async (v) => {
+                if (v) {
+                    toaster.warning("Please close cashier shift first.")
+                } else {
+                    router.push({ name: "CloseWorkingDay" });
+                }
+
+            })
+        }
+    });
+
+
+}
+
+
+function onOpenShift() {
+    gv.authorize("start_cashier_shift_required_password", "start_cashier_shift").then(async (v) => {
+        if (v) {
+            router.push({ name: "OpenShift" });
+        }
+    });
+}
+function onCloseShift() {
+    gv.authorize("close_cashier_shift_required_password", "close_cashier_shift").then(async (v) => {
+        if (v) {
+    router.push({ name: "CloseShift" });
+        }})
+}
+
+ 
 </script>
 <style lang="">
     

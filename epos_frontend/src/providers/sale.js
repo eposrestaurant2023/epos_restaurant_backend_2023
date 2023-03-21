@@ -200,12 +200,13 @@ export default class Sale {
         //check for append quantity rule
         //product code, allow_append_qty,price, unit,modifier, portion, is_free,sale_product_status
         //and check system have feature to send to kitchen
-
+        
         let strFilter = `$.product_code=='${p.name}' && $.append_quantity ==1 && $.price==${p.price} && $.portion=='${this.getString(p.portion)}'  && $.modifiers=='${p.modifiers}'  && $.unit=='${p.unit}'  && $.is_free==0`
     
         if (!this.setting?.pos_setting?.allow_change_quantity_after_submit) {
             strFilter = strFilter + ` && $.sale_product_status == 'New'`
         }
+
         let sp = Enumerable.from(this.sale.sale_products).where(strFilter).firstOrDefault()
 
         if (sp != undefined) {
@@ -214,8 +215,7 @@ export default class Sale {
             sp.selected = true;
             this.updateSaleProduct(sp);
         } else {
-            this.clearSelected();
-
+            this.clearSelected(); 
             var saleProduct = {
                 menu_product_name: p.menu_product_name,
                 product_code: p.name,
@@ -240,7 +240,7 @@ export default class Sale {
                 allow_change_price: p.allow_change_price,
                 is_open_product: p.is_open_product,
                 portion: this.getString(p.portion),
-                modifiers: p.modifiers,
+                modifiers: p.modifiers || '',
                 modifiers_data: p.modifiers_data,
                 is_free: 0,
                 sale_product_status: "New",
@@ -258,8 +258,8 @@ export default class Sale {
     }
     
     cloneSaleProduct(sp,quantity){
-      
-        let sp_copy = JSON.parse(JSON.stringify(sp));
+        this.clearSelected();
+        const sp_copy = JSON.parse(JSON.stringify(sp));
         sp_copy.selected = true;
         sp_copy.quantity = quantity - sp_copy.quantity;
         sp_copy.sale_product_status = "New";
@@ -269,7 +269,9 @@ export default class Sale {
         this.updateSaleProduct(sp_copy);
         this.sale.sale_products.push(sp_copy);
         this.updateSaleSummary()
+  
         
+
     }
 
     getOrderTime(){
@@ -284,8 +286,11 @@ export default class Sale {
 
 
     onSelectSaleProduct(sp) {
+    
         this.clearSelected();
         sp.selected = true;
+      
+       
     }
 
     clearSelected() {
@@ -360,7 +365,9 @@ export default class Sale {
  
 
     }
-    async onChangeQuantity(sp) {
+    async onChangeQuantity(sp,gv) {
+      
+     
         if (!this.isBillRequested()) {
             const result = await keyboardDialog({ title: "Change Quantity", type: 'number', value: sp.quantity });
             if (result) {
@@ -377,10 +384,21 @@ export default class Sale {
                     //do add record
                     if(quantity>sp.quantity){
                         this.cloneSaleProduct(sp,quantity);
+                    }else {
+                        if(sp.quantity - quantity>0){ 
+                        //do delete record
+                        gv.authorize("delete_item_required_password", "delete_item","delete_item_required_note", "Delete Item Note", "", false).then(async (v) => {
+                            if (v) {
+                                    sp.deleted_item_note = v.note;
+                                    this.onRemoveSaleProduct(sp, sp.quantity - quantity);
+                                }
+                            
+                         });
+                        }
                     }
                     
     
-                    //do delete record
+                    
     
                 }
     
@@ -388,6 +406,7 @@ export default class Sale {
         }
     
     }
+    
     async onSaleProductNote(sp) {
         if(!this.isBillRequested()){
             const result = await noteDialog({ title: "Note", name: 'Items Note', data: sp });
@@ -506,15 +525,15 @@ export default class Sale {
         if (sp.quantity == quantity) {
             if(sp.sale_product_status=='Submitted'){
                 this.deletedSaleProducts.push(sp)
-                this.auditTrailLogs.push({
-                    doctype:"Comment",
-                    subject:"Delete Sale Product",
-                    comment_type:"Comment",
-                    reference_doctype:"Sale",
-                    reference_name:"New",
-                    comment_by:"cashier@mail.com",
-                    content:`User sengho delete sale prodcut. Product Name: ABC 001, Qty:1, Amount:15.50, Reason:Wrong Order`
-                })
+                // this.auditTrailLogs.push({
+                //     doctype:"Comment",
+                //     subject:"Delete Sale Product",
+                //     comment_type:"Comment",
+                //     reference_doctype:"Sale",
+                //     reference_name:"New",
+                //     comment_by:"cashier@mail.com",
+                //     content:`User sengho delete sale prodcut. Product Name: ABC 001, Qty:1, Amount:15.50, Reason:Wrong Order`
+                // })
             }
             
             this.sale.sale_products.splice(this.sale.sale_products.indexOf(sp), 1);
@@ -539,7 +558,9 @@ export default class Sale {
 
 
     async OnEditSaleProduct(sp) {
+
         let result = await addModifierDialog();
+        
         if (result) {
             if (result.portion != undefined) {
                 sp.portion = this.getString(result.portion.portion);
@@ -556,7 +577,8 @@ export default class Sale {
                 sp.modifiers_price = 0;
                 sp.modifiers_data = "[]";
             }
-
+            this.updateSaleProduct(sp);
+            this.updateSaleSummary();
             toaster.success("Update sale product successfully")
 
         }
@@ -697,6 +719,7 @@ export default class Sale {
         if (this.action == "submit_order") {
             this.onPrintToKitchen(doc);
         } else if (this.action == "print_bill") {
+           
             if (this.pos_receipt == undefined || this.pos_receipt == null) {
                 this.pos_receipt = this.setting?.default_pos_receipt;
             }
@@ -776,6 +799,7 @@ export default class Sale {
 
         //generate deleted product to product printer list
         this.deletedSaleProducts.filter(r=>JSON.parse(r.printers).length>0).forEach((r)=>{
+          
             const pritners = JSON.parse(r.printers) ;
              pritners.forEach((p)=>{
                  this.productPrinters.push({
@@ -841,7 +865,6 @@ export default class Sale {
     }
     onAddPayment(paymentType,amount){
         const single_payment_type = this.sale.payment.find(r=>r.is_single_payment_type==1);
-        console.log(paymentType)
         if(single_payment_type){
             toaster.warning("You cannot add other payment type with " + single_payment_type.payment_type);
         }else { 

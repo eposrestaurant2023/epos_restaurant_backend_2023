@@ -1,11 +1,24 @@
 <template>
-    <ComModal @onClose="onClick" :isMoreMenu="true" :isShowBarMoreButton="true" :isPrint="true" @onPrint="onPrint" :hideOkButton="true" width="1200px" fullscreen="true">
+    <ComModal @onClose="onClose(false)" :fullscreen="true" :isPrint="true" @onPrint="onPrint()" :hide-ok-button="true"
+        :hide-close-button="true" :isShowBarMoreButton="true">
         <template #title>
-            Sale # : {{ sale.name }}
+            Sale Detail: {{ params.name }}
         </template>
         <template #bar_more_button>
             <v-list density="compact">
-                <v-list-item>
+                <v-list-item @click="onOpenOrder()" v-if="canOpenOrder">
+                    <template v-slot:prepend>
+                        <v-icon>mdi-note-outline</v-icon>
+                    </template>
+                    <v-list-item-title>Open Order</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="onEditOrder()" v-if="canEdit">
+                    <template v-slot:prepend>
+                        <v-icon>mdi-checkbox-marked-outline</v-icon>
+                    </template>
+                    <v-list-item-title>Edit Order</v-list-item-title>
+                </v-list-item>
+                <v-list-item v-if="canDelete" @click="OnDeleteOrder()">
                     <template v-slot:prepend>
                         <v-icon color="error">mdi-delete</v-icon>
                     </template>
@@ -13,91 +26,279 @@
                 </v-list-item>
             </v-list>
         </template>
-        <template #content>
-            <iframe style="height:calc(100vh - 130px)" width="100%"
-                    :src="getPrintReportPath('Sale',params.name,'Sale%20Invoice%20A4')"></iframe>
-        </template>
- 
-   </ComModal>
-</template >
 
+        <template #content>
+            <ComLoadingDialog v-if="isLoading" />
+            <v-card>
+              
+
+                <template #title>
+                    <div class="px-1 py-2 -m-1">
+                        <div class="flex justify-between">
+                            <div>
+                                <v-btn
+                                    v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Sale' && r.show_in_pos == 1)"
+                                    :key="index" :color="activeReport.name == r.name ? 'info' : 'default'" class="m-1"
+                                    @click="onViewReport(r)">{{ r.title }}</v-btn>
+
+                            </div>
+                            <div class="flex items-center">
+                                <v-select prepend-inner-icon="mdi-content-paste" density="compact"
+                                    v-model="selectedLetterhead" :items=gv.setting.letter_heads item-title="name"
+                                    item-value="name" hide-no-data hide-details variant="solo" class="mx-1"></v-select>
+                                <v-select prepend-inner-icon="mdi-google-translate" density="compact" v-model="selectedLang"
+                                    :items="gv.setting.lang" item-title="language_name" item-value="language_code"
+                                    hide-no-data hide-details variant="solo" class="mx-1"></v-select>
+                                <v-icon class="mx-1" icon="mdi-refresh" size="small" @click="onRefresh()" />
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <v-card-text style="height: calc(100vh - 200px);">
+                    <iframe id="report-view" height="100%" width="100%" :src="printPreviewUrl"></iframe>
+                </v-card-text>
+            </v-card>
+        </template>
+    </ComModal>
+</template>
+  
 <script setup>
 
-import { createDocumentResource, ref, inject, computed } from '@/plugin'
-import ComPrintButton from '@/components/ComPrintButton.vue';
-import { printPreviewDialog } from '@/utils/dialog';
-import Enumerable from 'linq';
-import { useDisplay } from 'vuetify'
-import ComModal from '../../../components/ComModal.vue';
+import { inject, ref, computed, onUnmounted, createDocumentResource, useRouter, createResource, confirm } from '@/plugin'
+import { createToaster } from '@meforma/vue-toaster';
+import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
 import { webserver_port } from "../../../../../../../sites/common_site_config.json"
-
-const { mobile } = useDisplay()
-
 const gv = inject("$gv")
+
+
+
+const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + webserver_port;
+
+const toaster = createToaster({ position: "top" })
+const router = useRouter();
+
 const props = defineProps({
     params: {
         type: Object,
-        required: true,
-    },
+        require: true
+    }
 })
-const emit = defineEmits(["resolve", "reject"])
-const setting = computed(() => {
-    return JSON.parse(localStorage.getItem('setting'))
-})
+const selectedLetterhead = ref(getDefaultLetterHead());
+const selectedLang = ref(gv.setting.lang[0].language_code);
+const activeReport = ref(gv.setting.reports.filter(r => r.doc_type == "Sale")[0]);
+const isLoading = ref(false)
 
-
-let sale = createDocumentResource({
+const sale = createDocumentResource({
     url: 'frappe.client.get',
     doctype: 'Sale',
     name: props.params.name,
     auto: true
 })
 
-function onClick() {
-    emit('reject', false);
+
+const cashierShiftInfo = createResource({
+    url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
+    params: {
+        pos_profile: localStorage.getItem("pos_profile")
+    },
+    auto: true
+});
+
+const salePaymentResource = createResource({
+    url: "frappe.client.get_list",
+    params: {
+        doctype: "Sale Payment",
+        filters: {
+            sale: props.params.name
+        },
+        fields: ["name"],
+    },
+
+    auto: true
+});
+
+
+const canEdit = computed(() => {
+    return sale.doc?.docstatus == 1 && sale.doc?.cashier_shift == cashierShiftInfo?.data?.name;
+})
+const canOpenOrder = computed(() => {
+    return sale.doc?.docstatus == 0 && sale.doc?.cashier_shift == cashierShiftInfo?.data?.name;
+})
+const canDelete = computed(() => {
+    return (sale.doc?.docstatus == 1 || sale.doc?.docstatus == 0) && sale.doc?.cashier_shift == cashierShiftInfo?.data?.name;
+})
+
+
+
+
+
+const printPreviewUrl = computed(() => {
+    let letterhead = "";
+    if (selectedLetterhead.value == "") {
+        letterhead = getDefaultLetterHead();
+    } else {
+        letterhead = selectedLetterhead.value;
+    }
+    const url = `${serverUrl}/printview?doctype=Sale&name=${props.params.name}&format=${activeReport.value.name}&no_letterhead=0&show_toolbar=0&letterhead=${letterhead}&settings=%7B%7D&_lang=${selectedLang.value}`;
+    return url;
+})
+
+
+function getDefaultLetterHead() {
+    let letterhead = "";
+
+    letterhead = gv.setting.letter_heads.filter(r => r.is_default == 1)[0]?.name;
+    if (!letterhead) {
+        letterhead = "No Letterhead";
+    }
+    return letterhead;
 }
 
-function getPrintReportPath(doctype,name,reportName,showToolbar=0, isPrint=0){
- 
-		let url = "";
-		const serverUrl = window.location.protocol + "//" +  window.location.hostname + ":" +  webserver_port;
-		url  = serverUrl + "/printview?doctype=" + doctype + "&name=" + name + "&format="+ reportName +"&no_letterhead=0&letterhead=Defualt%20Letter%20Head&settings=%7B%7D&_lang=en&show_toolbar=" + showToolbar + "&d=" + new Date()
-		if(isPrint){
-			url = url + "&trigger_print=" + isPrint
-		}
-        return url;
-	}
+const emit = defineEmits(["resolve"])
 
-async function onPrint(r) {
+const triggerPrint = ref(0)
 
-    if (r.pos_receipt_file_name && localStorage.getItem("is_window")) {
-        let data = {
-            action: "print_receipt",
-            print_setting: r,
-            setting: gv.setting.pos_setting,
-            sale: sale.doc
+
+if (props.params.print) {
+    triggerPrint.value = 1;
+} else {
+    triggerPrint.value = 0;
+}
+
+
+function onViewReport(r) {
+    activeReport.value = r;
+}
+
+function onClose(isClose) {
+    emit('resolve', isClose);
+}
+
+function onRefresh() {
+
+    document.getElementById("report-view").contentWindow.location.replace(printPreviewUrl.value)
+
+}
+
+async function onPrint() {
+
+    if (localStorage.getItem("is_window") == "1") {
+
+        if (activeReport.value.pos_receipt_file_name != "" && activeReport.value.pos_receipt_file_name != null) {
+            if (await confirm({ title: 'Print Receipt', text: 'Are you sure you want to price receipt?' })) {
+                const data = {
+                    action: "print_receipt",
+                    print_setting: activeReport.value,
+                    setting: gv.setting?.pos_setting,
+                    sale: sale.doc
+                }
+                window.chrome.webview.postMessage(JSON.stringify(data));
+            }
+
+            return;
         }
-        window.chrome.webview.postMessage(JSON.stringify(data));
-    } else {
-
-        await printPreviewDialog({
-            title: "Sale #: " + sale.doc.name,
-            doctype: "Sale",
-            name: sale.doc.name,
-            "report": r.name,
-            print: true
-        });
 
     }
 
+    window.open(printPreviewUrl.value + "&trigger_print=1").print();
+    window.close();
+
 }
-const saleProducts = computed(() => {
-    return Enumerable.from(sale.doc.sale_products).groupBy(
-        "{product_code:$.product_code,portion:$.portion,modifiers:$.modifiers,product_name:$.product_name,product_name_kh:$.product_name_kh,unit:$.unit,discount:$.discount,discount_type:$.discount_type,product_photo:$.product_photo,price:$.price}",
-        "{quantity:$.quantity, amount: $.amount}",
-        "{product_code:$.product_code,product_name:$.product_name,product_name_kh:$.product_name_kh,modifiers_price:$.modifiers_price,portion:$.portion,modifiers:$.modifiers,unit:$.unit,discount:$.discount,discount_type:$.discount_type,product_photo:$.product_photo,price:$.price, quantity: $$.sum('$.quantity'), amount: $$.sum('$.amount')}",
-        "$.product_code+','+$.unit+','+$.quantity+','+$.portion+','+$.modifiers+',' + $.discount + ',' + $.discount_type + ',' + $.price + ',' + $.modifiers_price"
-    ).toArray()
+
+function onOpenOrder(sale_id) {
+    router.push({ name: "AddSale", params: { name: props.params.name } });
+    emit('resolve', "open_order");
+}
+
+function onEditOrder() {
+    //check authorize and     check reason
+
+    gv.authorize("edit_closed_receipt_required_password", "edit_closed_receipt", "edit_closed_receipt_required_note", "Edit Closed Receipt").then(async (v) => {
+        if (v) {
+            //cancel payment first
+            isLoading.value = true;
+            const cancelSaleResource = createResource({
+                url:"epos_restaurant_2023.api.api.edit_sale_order",
+                params:{
+                    name:props.params.name,
+                    auth:{full_name:v.user, username:v.username, note:v.note}
+                },
+                onError(err){
+                    isLoading.value = false;
+                }
+            });
+
+            await cancelSaleResource.fetch().then((v)=>{
+                router.push({ name: "AddSale", params: { name: props.params.name } });
+                
+                isLoading.value = false;
+                emit('resolve', "open_order");
+               
+            })
+
+
+           
+        }
+    })
+
+}
+
+function OnDeleteOrder() {
+    //check authorize and     check reason
+
+    gv.authorize("delete_bill_required_password", "delete_bill", "delete_bill_required_note", "Delete Bill Note").then(async (v) => {
+        if (v) {
+            if(v.show_confirm==1){
+                if(await confirm({title:'Delete Sale Order', text:'Are you sure you want delete this sale order?'}) == false){
+                    return;
+                }
+            }
+          
+            //cancel payment first
+            isLoading.value = true;
+            const deleteSaleResource = createResource({
+                url:"epos_restaurant_2023.api.api.delete_sale",
+                params:{
+                    name:props.params.name,
+                    auth:{full_name:v.user, username:v.username, note:v.note}
+                },
+                onError(err){
+                    isLoading.value = false;
+                }
+            });
+
+            await deleteSaleResource.fetch().then((v)=>{
+                isLoading.value = false;
+                emit('resolve', "delete_order");
+               
+            })
+
+
+           
+        }
+    })
+
+}
+ 
+
+const reportClickHandler = async function (e) {
+    if (e.isTrusted && typeof (e.data) == 'string') {
+
+        const data = e.data.split("|")
+
+        if (data.length > 0) {
+
+
+        }
+
+    }
+};
+
+window.addEventListener('message', reportClickHandler, false);
+
+onUnmounted(() => {
+    window.removeEventListener('message', reportClickHandler, false);
 })
+
 </script>
 

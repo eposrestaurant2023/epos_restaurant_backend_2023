@@ -52,8 +52,10 @@ class PurchaseOrder(Document):
 
 
 def update_inventory_on_submit(self):
+	
 	for p in self.purchase_order_products:
 		if p.is_inventory_product:
+			
 			uom_conversion = get_uom_conversion(p.base_unit, p.unit)
 			add_to_inventory_transaction({
 				'doctype': 'Inventory Transaction',
@@ -69,6 +71,8 @@ def update_inventory_on_submit(self):
 				'note': 'New purchase order submitted.',
     			'action': 'Submit'
 			})
+
+ 
 			
 def update_inventory_on_cancel(self):
 	for p in self.purchase_order_products:

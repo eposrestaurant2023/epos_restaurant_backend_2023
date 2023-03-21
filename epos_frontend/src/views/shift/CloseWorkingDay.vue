@@ -39,7 +39,7 @@ import {inject, printPreviewDialog,confirm, onMounted, createDocumentResource, r
 import PageLayout from '../../components/layout/PageLayout.vue';
 
 const router = useRouter();
-const toaster = createToaster();
+const toaster = createToaster({position:'top'});
 const gv = inject('$gv')
 const closed_note = ref("")
  
@@ -63,6 +63,7 @@ const shiftInformation = createResource({
                 toaster.warning("Please start working day first");
                 router.push({name:"Home"});
             }
+           
            
         }
     })
@@ -98,7 +99,8 @@ onMounted(async () => {
                 )
                 
                 router.push({ name: "Home" });
- 
+                gv.cashierShift = "";
+            gv.workingDay = "";
 
             },
 

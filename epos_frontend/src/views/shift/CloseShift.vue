@@ -4,7 +4,7 @@
         <template #action>
             <v-btn prepend-icon="mdi-printer" @click="onOpenReport">Report</v-btn>
         </template>
-      
+
         <v-row v-if="cashierShiftResource.doc">
 
             <v-col md="6">
@@ -62,7 +62,7 @@
                             <ComInput title="Close Amount" keyboard type="number" v-model="d.input_close_amount"></ComInput>
                         </td>
                         <td>
-                            <CurrencyFormat :value="d.different_amount" :currency="d.currency" />
+                            <CurrencyFormat :value="d.input_different_amount" :currency="d.currency" />
                         </td>
                     </tr>
                 </tbody>
@@ -106,16 +106,17 @@
 
 <script setup>
 import moment from '@/utils/moment.js';
-import { watch, onMounted, createDocumentResource, ref, createResource, useRouter, createToaster, computed } from "@/plugin";
+import { watch, onMounted, createDocumentResource, ref, createResource, useRouter, createToaster, computed,inject } from "@/plugin";
 import PageLayout from '../../components/layout/PageLayout.vue';
 
 import ComInput from '../../components/form/ComInput.vue';
 import { printPreviewDialog, confirm } from '@/utils/dialog';
+ 
 
 const router = useRouter();
 const toaster = createToaster();
-
-const setting = JSON.parse(localStorage.getItem("setting"))
+const gv = inject('$gv');
+const setting = gv.setting
 
 const current_date = moment(new Date).format('DD-MM-YYYY');
 let doc = ref({
@@ -183,6 +184,9 @@ onMounted(async () => {
                 )
 
                 router.push({ name: "Home" });
+                //for disable close shift in drawer menu
+                gv.cashierShift = '';
+
 
 
 
@@ -203,9 +207,11 @@ onMounted(async () => {
     watch(cashierShiftSummary.value, (currentValue, oldValue) => {
 
         cashierShiftSummary.value.data.forEach(function (d) {
-            d.different_amount = d.input_close_amount - d.input_system_close_amount
+            d.input_different_amount = d.input_close_amount - d.input_system_close_amount;
+            d.different_amount = (d.input_close_amount - d.input_system_close_amount) / d.exchange_rate;
+
         });
-        totalDifferentAmount.value = cashierShiftSummary.value.data.reduce((n, r) => n + r.different_amount / r.exchange_rate, 0);
+        totalDifferentAmount.value = cashierShiftSummary.value.data.reduce((n, r) => n + r.different_amount, 0);
     })
 })
 
@@ -221,8 +227,8 @@ async function onCloseShift() {
 
 }
 function onOpenReport() {
-    
-     
+
+
     printPreviewDialog({ title: "Cashier Shift #" + cashierShiftResource.value.doc.name, doctype: "Cashier Shift", name: cashierShiftResource.value.doc.name });
 }
 

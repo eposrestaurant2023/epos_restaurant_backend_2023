@@ -2,24 +2,28 @@
   <div class="overflow-hidden flex items-end">
 
     <div class="flex flex-wrap w-full">
-      <ComButtonToTableLayout  :is-mobile="false" />
+      <ComButtonToTableLayout :is-mobile="false" />
       <template v-if="sale.sale.table_id">
         <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" doctype="Sale" title="Print Bill" />
-        <v-btn v-else stacked color="error" size="small" class="m-1 grow" prepend-icon="mdi-printer" @click="onCancelPrintBill">
+        <v-btn v-else stacked color="error" size="small" class="m-1 grow" prepend-icon="mdi-printer"
+          @click="onCancelPrintBill">
           Cancel Print Bill
         </v-btn>
       </template>
       <ComDiscountButton />
-      <v-btn v-if="sale.sale.table_id" stacked size="small" class="m-1 grow" prepend-icon="mdi-plus" @click="onSubmitAndNew">
-        Submit & New 
+      <v-btn v-if="sale.sale.table_id" stacked size="small" class="m-1 grow" prepend-icon="mdi-plus"
+        @click="onSubmitAndNew">
+        Submit & New
       </v-btn>
       <v-btn stacked size="small" color="error" class="m-1 grow" prepend-icon="mdi-currency-usd" @click="onQuickPay">
         Quick Pay
       </v-btn>
-      <v-btn stacked size="small" color="error" class="m-1 grow" prepend-icon="mdi-note-outline" v-if="sale.sale.note" @click="sale.sale.note = ''">
+      <v-btn stacked size="small" color="error" class="m-1 grow" prepend-icon="mdi-note-outline" v-if="sale.sale.note"
+        @click="sale.sale.note = ''">
         Remove Note
       </v-btn>
-      <v-btn stacked size="small" color="info" class="m-1 grow" prepend-icon="mdi-note-outline" @click="sale.onSaleNote(sale.sale)" v-else>
+      <v-btn stacked size="small" class="m-1 grow" prepend-icon="mdi-note-outline" @click="sale.onSaleNote(sale.sale)"
+        v-else>
         Note
       </v-btn>
       <ComSaleButtonMore />
@@ -46,7 +50,11 @@ async function onQuickPay() {
 
   await sale.onSubmitQuickPay().then((value) => {
     if (value) {
-      router.push({ name: "TableLayout" });
+      sale.newSale();
+      if (sale.setting.table_groups.length > 0) {
+        router.push({ name: "TableLayout" });
+      }
+
     }
   });
 }
@@ -54,7 +62,6 @@ async function onQuickPay() {
 async function onCancelPrintBill() {
   gv.authorize("cancel_print_bill_required_password", "cancel_print_bill", "cancel_print_bill_required_note", "Cancel Print Bill Note").then((v) => {
     if (v) {
-
       sale.sale.sale_status = "Submitted";
       sale.sale.sale_status_color = setting.sale_status.find(r => r.name == 'Submitted').background_color;
       sale.auditTrailLogs.push({
@@ -98,12 +105,12 @@ async function onSubmitAndNew() {
     sale.sale.sale_status = "Submitted";
     await sale.onSubmit().then((value) => {
       if (value) {
-        // router.push({ name: "AddSale" });
+        router.push({ name: "AddSale" });
         newSale();
       }
     });
   } else {
-    //router.push({ name: "AddSale" });
+    router.push({ name: "AddSale" });
     newSale();
   }
 
@@ -112,14 +119,14 @@ async function onSubmitAndNew() {
 }
 
 function newSale() {
-  const saleBackup = JSON.parse(JSON.stringify(sale.sale))
-  console.log(saleBackup)
+
+
   if (sale.newSaleResource == null) {
     sale.createNewSaleResource();
   }
   sale.newSale()
   sale.sale.sale_products = [],
-  sale.sale.name = "";
+    sale.sale.name = "";
   sale.sale.creation = "";
   sale.sale.modified = "";
   sale.sale.sale_status = "New";

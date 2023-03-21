@@ -2,7 +2,7 @@
   <v-row class="mt-0 mb-0 h-screen">
     <v-col md="6" lg="8" class="pa-0 d-sm-none d-none d-md-block">
       <div class="h-screen bg-cover bg-no-repeat bg-center"
-        v-bind:style="{ 'background-image': 'url(' + setting.login_background + ')' }">
+        v-bind:style="{ 'background-image': 'url(' + setting?.login_background + ')' }">
         <div class="h-full w-full p-10 flex justify-center items-center">
           <div>
 
@@ -10,16 +10,16 @@
               class="app-info w-96 inline-block text-center rounded-lg pa-4 bg-gradient-to-t from-yellow-900 to-yellow-700 text-white shadow-sm">
 
               <div class="mb-3">
-                <img class="my-0 mx-auto" :src="setting.logo" />
+                <img class="my-0 mx-auto" :src="setting?.logo" />
               </div>
-              <h1 class="font-bold mb-3">{{ setting.app_name }}</h1>
+              <h1 class="font-bold mb-3">{{ setting?.app_name }}</h1>
               <v-divider></v-divider>
               <div class="py-3">
                 <v-list lines="one" bg-color="transparent">
-                  <v-list-item class="mb-2" :title="setting.business_branch" subtitle="Business"></v-list-item>
-                  <v-list-item class="mb-2" :title="setting.pos_profile" subtitle="POS Profile"></v-list-item>
-                  <v-list-item class="mb-2" :title="setting.phone_number" subtitle="Phone Number"></v-list-item>
-                  <v-list-item :title="setting.address" subtitle="Address"></v-list-item>
+                  <v-list-item class="mb-2" :title="setting?.business_branch" subtitle="Business"></v-list-item>
+                  <v-list-item class="mb-2" :title="setting?.pos_profile" subtitle="POS Profile"></v-list-item>
+                  <v-list-item class="mb-2" :title="setting?.phone_number" subtitle="Phone Number"></v-list-item>
+                  <v-list-item :title="setting?.address" subtitle="Address"></v-list-item>
                 </v-list>
               </div>
             </div>
@@ -34,11 +34,11 @@
             <div>
               <div class="d-block d-md-none mt-4">
                 <div class="mb-3">
-                  <img class="my-0 mx-auto w-16" :src="setting.logo" />
+                  <img class="my-0 mx-auto w-16" :src="setting?.logo" />
                 </div>
                 <div class="text-center mb-3">
-                  <h1 class="font-bold mb-1 text-2xl">{{ setting.app_name }}</h1>
-                  <p class="text-sm">{{ setting.business_branch }}</p>
+                  <h1 class="font-bold mb-1 text-2xl">{{ setting?.app_name }}</h1>
+                  <p class="text-sm">{{ setting?.business_branch }}</p>
                   <v-divider></v-divider>
                 </div>
               </div>
@@ -92,7 +92,7 @@
                   color="primary">Login</v-btn>
               </div>
               <div class="mt-4 text-center">
-                <p class="text-sm text-green-700">{{ setting.pos_profile }}</p>
+                <p class="text-sm text-green-700">{{ setting?.pos_profile }}</p>
               </div>
             </div>
           </div>
@@ -170,6 +170,7 @@ const login = async () => {
         let res = await auth.login(state.username, state.password);
         if (res) {
           getCurrentUserInfo(doc)
+       
 
         } else {
           toast.warning(`Login fail. Invalid username or password.`);

@@ -57,15 +57,9 @@
   </div>
 </template>
 <script setup>
-import { inject, ref,onMounted } from "@/plugin"
-import { createToaster } from "@meforma/vue-toaster";
-import Enumerable from "linq";
+import { inject } from "@/plugin"
 import ComPaymentCurrencyPrefine from "./ComPaymentCurrencyPrefine.vue";
 const sale = inject("$sale")
-const gv = inject("$gv")
-const screen = inject("$screen")
-const toaster = createToaster({ position: "top" });
- 
 function numpad_click(n) {
   if (n == "." && sale.paymentInputNumber.includes(".")) {
     return;
