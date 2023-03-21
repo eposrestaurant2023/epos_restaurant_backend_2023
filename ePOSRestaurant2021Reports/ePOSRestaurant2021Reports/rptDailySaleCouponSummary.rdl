@@ -199,7 +199,7 @@
           </QueryParameter>
         </QueryParameters>
         <CommandText>exec sp_get_translate_text @lang,
-'Day,Date,Branch,Outlet,Start Date,End Date,Printed by,on,Page,of,Working Date,Total Coupon Transaction,Coupon Amount,Sale Used Coupon,Refund,Balance,Coupon Number'</CommandText>
+'Day,Date,Branch,Outlet,Start Date,End Date,Printed by,on,Page,of,Working Date,Total Coupon Transaction,Coupon Amount,Sale Used Coupon,Refund,Balance'</CommandText>
       </Query>
       <Fields>
         <Field Name="Day">
@@ -266,10 +266,6 @@
           <DataField>Balance</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Coupon_Number">
-          <DataField>Coupon Number</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
       </Fields>
     </DataSet>
     <DataSet Name="Shift">
@@ -309,16 +305,12 @@
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>sp_get_daily_sale_coupon_transaction_report</CommandText>
+        <CommandText>sp_get_daily_sale_coupon_summary_report</CommandText>
       </Query>
       <Fields>
         <Field Name="working_date">
           <DataField>working_date</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="coupon_number">
-          <DataField>coupon_number</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="total_coupon_transaction">
           <DataField>total_coupon_transaction</DataField>
@@ -354,22 +346,19 @@
                   <Width>1.22771in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.35417in</Width>
+                  <Width>1.22771in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.01938in</Width>
+                  <Width>1.22771in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.00896in</Width>
+                  <Width>1.22771in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.97771in</Width>
+                  <Width>1.22771in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.87354in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.90479in</Width>
+                  <Width>1.22771in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -399,46 +388,6 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox15">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=First(Fields!Coupon_Number.Value, "translate")</Value>
-                                  <Style>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox15</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -694,37 +643,6 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="coupon_number">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!coupon_number.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>coupon_number</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
                         <Textbox Name="total_coupon_transaction">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -910,44 +828,6 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox17</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox14">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox14</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1177,7 +1057,6 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
-                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -1204,11 +1083,11 @@
               </Border>
             </Style>
           </Tablix>
-          <Chart Name="Chart2">
+          <Chart Name="Chart1">
             <ChartCategoryHierarchy>
               <ChartMembers>
                 <ChartMember>
-                  <Group Name="Chart2_CategoryGroup">
+                  <Group Name="Chart1_CategoryGroup">
                     <GroupExpressions>
                       <GroupExpression>=Fields!working_date.Value</GroupExpression>
                     </GroupExpressions>
@@ -1218,14 +1097,14 @@
                       <Value>=Fields!working_date.Value</Value>
                     </SortExpression>
                   </SortExpressions>
-                  <Label>=Format(CDate(Fields!working_date.Value),First(Fields!date_format.Value, "Setting"))</Label>
+                  <Label>=Format(Fields!working_date.Value,First(Fields!date_format.Value, "Setting"))</Label>
                 </ChartMember>
               </ChartMembers>
             </ChartCategoryHierarchy>
             <ChartSeriesHierarchy>
               <ChartMembers>
                 <ChartMember>
-                  <Label>quantity format</Label>
+                  <Label>total coupon transaction</Label>
                 </ChartMember>
                 <ChartMember>
                   <Label>coupon amount</Label>
@@ -1247,14 +1126,14 @@
                   <ChartDataPoints>
                     <ChartDataPoint>
                       <ChartDataPointValues>
-                        <Y>=format(Sum(Fields!total_coupon_transaction.Value),First(Fields!quantity_format.Value, "Setting"))</Y>
+                        <Y>=Sum(Fields!total_coupon_transaction.Value)</Y>
                       </ChartDataPointValues>
                       <ChartDataLabel>
                         <Style />
                         <UseValueAsLabel>true</UseValueAsLabel>
                         <Visible>true</Visible>
                       </ChartDataLabel>
-                      <ToolTip>=format(Sum(Fields!total_coupon_transaction.Value),First(Fields!quantity_format.Value, "Setting"))</ToolTip>
+                      <ToolTip>=Format(Sum(Fields!total_coupon_transaction.Value),First(Fields!quantity_format.Value, "Setting"))</ToolTip>
                       <Style />
                       <ChartMarker>
                         <Style />
@@ -1295,7 +1174,7 @@
                         <UseValueAsLabel>true</UseValueAsLabel>
                         <Visible>true</Visible>
                       </ChartDataLabel>
-                      <ToolTip>=format(Sum(Fields!coupon_amount.Value),First(Fields!currency_format.Value, "Setting"))</ToolTip>
+                      <ToolTip>=Format(Sum(Fields!coupon_amount.Value),First(Fields!currency_format.Value, "Setting"))</ToolTip>
                       <Style />
                       <ChartMarker>
                         <Style />
@@ -1336,7 +1215,7 @@
                         <UseValueAsLabel>true</UseValueAsLabel>
                         <Visible>true</Visible>
                       </ChartDataLabel>
-                      <ToolTip>=format(Sum(Fields!sale_used_coupon.Value),First(Fields!currency_format.Value, "Setting"))</ToolTip>
+                      <ToolTip>=Format(Sum(Fields!sale_used_coupon.Value),First(Fields!currency_format.Value, "Setting"))</ToolTip>
                       <Style />
                       <ChartMarker>
                         <Style />
@@ -1681,7 +1560,7 @@
               </ChartArea>
             </ChartAreas>
             <ChartLegends>
-              <ChartLegend Name="Hello">
+              <ChartLegend Name="Default">
                 <Style>
                   <BackgroundGradientType>None</BackgroundGradientType>
                   <FontSize>8pt</FontSize>
@@ -1701,7 +1580,7 @@
             </ChartLegends>
             <ChartTitles>
               <ChartTitle Name="Default">
-                <Caption>Daily Sale Coupon Transaction</Caption>
+                <Caption>Daily Sale Coupon Summary</Caption>
                 <Style>
                   <BackgroundGradientType>None</BackgroundGradientType>
                   <FontSize>9pt</FontSize>
@@ -1731,10 +1610,10 @@
               </Style>
             </ChartNoDataMessage>
             <DataSetName>SaleData</DataSetName>
-            <Top>0.9293in</Top>
-            <Left>0.00085in</Left>
-            <Height>3.01042in</Height>
-            <Width>7.36624in</Width>
+            <Top>0.94667in</Top>
+            <Left>0.10377in</Left>
+            <Height>2.67139in</Height>
+            <Width>7.26417in</Width>
             <ZIndex>1</ZIndex>
             <Visibility>
               <Hidden>=Sum(Fields!total_coupon_transaction.Value, "SaleData")=0</Hidden>
@@ -1749,13 +1628,13 @@
             </Style>
           </Chart>
         </ReportItems>
-        <Height>3.98959in</Height>
+        <Height>3.6875in</Height>
         <Style />
       </Body>
       <Width>7.36794in</Width>
       <Page>
         <PageHeader>
-          <Height>0.81945in</Height>
+          <Height>0.8125in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -1799,7 +1678,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Daily Sale Coupon Transaction</Value>
+                      <Value>Daily Sale Coupon Summary</Value>
                       <Style>
                         <FontFamily>kh system</FontFamily>
                         <FontSize>11pt</FontSize>
@@ -1812,7 +1691,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox2</rd:DefaultName>
-              <Top>0.27778in</Top>
+              <Top>0.27083in</Top>
               <Left>0.00083in</Left>
               <Height>0.22917in</Height>
               <Width>7.36709in</Width>
@@ -1913,7 +1792,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>0.54862in</Top>
+              <Top>0.54167in</Top>
               <Left>0.00085in</Left>
               <Height>0.20833in</Height>
               <Width>7.36709in</Width>
