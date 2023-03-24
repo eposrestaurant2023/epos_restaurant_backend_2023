@@ -24,7 +24,7 @@ import Avatar from "vue3-avatar";
 import Vue3DraggableResizable from 'vue3-draggable-resizable'
 //default styles
 import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
-import VueBarcodeScanner from 'vue3-barcode-scanner'
+
 
 import router from './router';
 import call from "./utils/call";
@@ -44,6 +44,8 @@ setConfig('resourceFetcher', frappeRequest)
 
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
+import { createBottomSheet } from 'bottom-sheet-vue3'
+import 'bottom-sheet-vue3/style.css'
 
 const app = createApp(App);
 const auth = reactive(new Auth());
@@ -72,7 +74,7 @@ app.use(resourcesPlugin);
 app.use(vuetify);
 app.use(store);
 app.use(Vue3DraggableResizable)
-app.use(VueBarcodeScanner)
+app.use(createBottomSheet())
 app.use(Toaster, {
 	position: "top",
 })

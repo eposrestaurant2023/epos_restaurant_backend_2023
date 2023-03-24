@@ -7,8 +7,8 @@
       </v-chip>
     </template>
     <v-list>
-      <v-list-item v-for="(item, index) in saleTypeResource.data" :key="index">
-        <v-list-item-title @click="onChangeSaleType(item)">{{ item.name }}</v-list-item-title>
+      <v-list-item v-for="(item, index) in saleTypeResource.data" :key="index" @click="onChangeSaleType(item)">
+        <v-list-item-title>{{ item.name }}</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>

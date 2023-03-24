@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-toolbar color="transparent">
+        <v-toolbar color="transparent" elevation="0" >
             <v-toolbar-title>
                 <v-icon>{{ icon }}</v-icon>
                 {{ title }}
@@ -9,7 +9,6 @@
             <v-toolbar-items>
                <slot name="centerCotent"></slot>
             </v-toolbar-items>
-            <v-spacer></v-spacer>
             <v-toolbar-items>
                <slot name="action"></slot>
             </v-toolbar-items>

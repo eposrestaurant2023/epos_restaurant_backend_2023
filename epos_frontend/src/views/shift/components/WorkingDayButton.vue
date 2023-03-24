@@ -30,11 +30,9 @@ const current_working_day = createResource({
         business_branch: gv.setting.business_branch
     },
     onSuccess(data) {
-
         gv.workingDay = data.name
     },
     auto: true,
-
 })
 
 

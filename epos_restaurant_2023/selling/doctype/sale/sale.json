@@ -85,6 +85,7 @@
   "profit",
   "section_break_74",
   "sale_type",
+  "sale_type_color",
   "guest_cover",
   "sale_status",
   "sale_status_color",
@@ -614,6 +615,12 @@
    "fieldname": "is_foc",
    "fieldtype": "Check",
    "label": "Is Foc"
+  },
+  {
+   "fetch_from": "sale_type.color",
+   "fieldname": "sale_type_color",
+   "fieldtype": "Data",
+   "label": "Sale Type Color"
   }
  ],
  "image_field": "photo",
@@ -626,7 +633,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-03-09 15:39:52.258414",
+ "modified": "2023-03-23 14:44:07.705929",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

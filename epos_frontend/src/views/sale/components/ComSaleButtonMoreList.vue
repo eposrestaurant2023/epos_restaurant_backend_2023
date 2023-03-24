@@ -1,6 +1,6 @@
 <template>
      <ComLoadingDialog v-if="isLoading" />
-    <v-list-item prepend-icon="mdi-eye-outline" title="View Bill" @click="onViewBill()" />
+    <v-list-item prepend-icon="mdi-eye-outline" title="View Bill" @click="onViewBill()" v-if="sale.sale.sale_products.length > 0"/>
     <template v-if="mobile">
         <v-list-item @click="onRemoveSaleNote()" v-if="sale.sale.note">
             <template v-slot:prepend>
@@ -10,7 +10,7 @@
         </v-list-item>
         <v-list-item prepend-icon="mdi-note-outline" title="Note" @click="sale.onSaleNote(sale.sale)" v-else />
     </template>
-    <v-list-item prepend-icon="mdi-bulletin-board" :title="`Change Price Rule ${isTable}`" @click="onChangePriceRule()" />
+    <v-list-item prepend-icon="mdi-bulletin-board" title="Change Price Rule" @click="onChangePriceRule()" />
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-silverware" title="Change POS Menu" @click="onChangePOSMenu()" />
     <v-list-item v-if="isWindow" prepend-icon="mdi-cash-100" title="Open Cash Drawer" @click="onOpenCashDrawer()" />
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-grid-large" title="Change/Merge Table" @click="onChangeTable()" />

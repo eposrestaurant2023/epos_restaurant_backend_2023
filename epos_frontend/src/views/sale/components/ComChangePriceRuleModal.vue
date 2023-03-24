@@ -9,7 +9,7 @@
                     <v-list-item v-for="(item, index) in price_rules" :key="index" class="!p-0">
                         <v-btn class="w-full" color="primary" :disabled="selectedPriceRule == item.price_rule"
                             @click="onSelect(item.price_rule)">
-                           
+                           {{ item.price_rule }}
                         </v-btn>
                     </v-list-item>
                 </v-list>

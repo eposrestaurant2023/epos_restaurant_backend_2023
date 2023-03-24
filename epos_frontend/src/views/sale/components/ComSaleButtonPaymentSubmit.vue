@@ -78,6 +78,7 @@ async function onPayment() {
   else if (sale.onCheckPriceSmallerThanZero()) {
     return;
   }
+
   const result = await paymentDialog({})
   if (result) {
 

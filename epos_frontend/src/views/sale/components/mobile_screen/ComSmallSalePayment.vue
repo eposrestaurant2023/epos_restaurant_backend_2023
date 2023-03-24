@@ -4,6 +4,7 @@
         <div>
             <v-text-field 
             label="Enter number"
+            type="number"
             variant="solo"
             v-model="sale.paymentInputNumber"
             clearable 

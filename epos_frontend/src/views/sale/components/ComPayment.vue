@@ -69,7 +69,7 @@
 </template>
 <script setup>
 
-import { inject, ref, onUnmounted } from '@/plugin';
+import { inject, ref, onUnmounted,onMounted } from '@/plugin';
 import ComPaymentInputNumber from "./ComPaymentInputNumber.vue"
 import ComSmallSalePayment from "./mobile_screen/ComSmallSalePayment.vue"
 import { useDisplay } from 'vuetify'
@@ -141,6 +141,8 @@ async function onPaymentWithoutPrint() {
         }
     })
 }
+
+ 
 onUnmounted(() => {
     sale.sale.payment = [];
 })

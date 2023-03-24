@@ -35,7 +35,7 @@
                                                 <span v-if="sale.sale.sale_status=='New'">New</span><span v-else>{{ sale.sale.name }}</span>
                                             </span>
                                         </li>
-                                        <li class="pb-1 flex justify-between items-center">
+                                        <li class="pb-1 flex justify-between items-center" v-if="setting.table_groups && setting.table_groups.length > 0">
                                             <div class="mr-16">Table#</div>
                                             <span class="ml-auto">{{ sale.sale.tbl_number }}</span>
                                         </li>

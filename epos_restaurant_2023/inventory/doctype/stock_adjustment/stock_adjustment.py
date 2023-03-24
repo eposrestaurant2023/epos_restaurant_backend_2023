@@ -34,11 +34,12 @@ class StockAdjustment(Document):
 			self.total_cost = total_cost
 
 	def on_submit(self):
-		update_inventory_on_submit(self)
-		#frappe.enqueue("epos_restaurant_2023.inventory.doctype.stock_adjustment.stock_adjustment.update_inventory_on_submit", queue='short', self=self)
+		
+		#update_inventory_on_submit(self)
+		frappe.enqueue("epos_restaurant_2023.inventory.doctype.stock_adjustment.stock_adjustment.update_inventory_on_submit", queue='short', self=self)
 	
 	def before_cancel(self):
-		frappe.throw(_("Cannot cancel"))
+		frappe.throw(_("Stock adjustment transaction is not allow to cancel."))
 		#frappe.enqueue("epos_restaurant_2023.inventory.doctype.stock_adjustment.stock_adjustment.update_inventory_on_cancel", queue='short', self=self)
   
 def update_inventory_on_submit(self):
@@ -61,20 +62,20 @@ def update_inventory_on_submit(self):
 			})
 
 
-	for p in self.products:
-		if p.is_inventory_product:
-			defference_qty = p.quantity - p.current_quantity
-			add_to_inventory_transaction({
-				'doctype': 'Inventory Transaction',
-				'transaction_type':"Stock adjustment",
-				'transaction_date':self.posting_date,
-				'transaction_number':self.name,
-				'product_code': p.product_code,
-				'unit':p.unit,
-				'stock_location':self.stock_location,
-				'out_quantity': defference_qty if defference_qty >= 0 else 0,
-				'in_quantity': abs(defference_qty) if defference_qty < 0 else 0,
-				"price":p.current_cost,
-				'note': 'Stock adjustment cancelled.',
-    			"action":"Cancel"	
-			})
+	# for p in self.products:
+	# 	if p.is_inventory_product:
+	# 		defference_qty = p.quantity - p.current_quantity
+	# 		add_to_inventory_transaction({
+	# 			'doctype': 'Inventory Transaction',
+	# 			'transaction_type':"Stock adjustment",
+	# 			'transaction_date':self.posting_date,
+	# 			'transaction_number':self.name,
+	# 			'product_code': p.product_code,
+	# 			'unit':p.unit,
+	# 			'stock_location':self.stock_location,
+	# 			'out_quantity': defference_qty if defference_qty >= 0 else 0,
+	# 			'in_quantity': abs(defference_qty) if defference_qty < 0 else 0,
+	# 			"price":p.current_cost,
+	# 			'note': 'Stock adjustment cancelled.',
+    # 			"action":"Cancel"	
+	# 		})

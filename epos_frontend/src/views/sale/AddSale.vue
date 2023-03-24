@@ -71,8 +71,6 @@ if (product.posMenuResource.data?.length == 0) {
     product.loadPOSMenu();
 }
 
-
-
 document.onkeydown = function (e) {
     if (e.keyCode === 116) {
         return false;
@@ -115,6 +113,8 @@ onMounted(() => {
                 sale.sale.cashier_shift = data.cashier_shift.name;
                 sale.working_day = data.working_day.name;
                 sale.cashier_shift = data.cashier_shift.name;
+
+                gv.confirm_close_working_day(data.working_day.posting_date);
             }
         }
     })

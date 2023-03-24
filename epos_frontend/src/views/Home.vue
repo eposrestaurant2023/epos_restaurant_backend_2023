@@ -45,13 +45,16 @@
     </div>
 </template>
 <script setup>
-import { useRouter, createResource, computed, createToaster,pendingSaleListDialog,inject } from '@/plugin'
+import { useRouter, createResource, computed, createToaster,pendingSaleListDialog,inject,onMounted } from '@/plugin'
 import ComButton from '../components/ComButton.vue';
 import WorkingDayButton from './shift/components/WorkingDayButton.vue';
 import OpenShiftButton from './shift/components/OpenShiftButton.vue';
 const toaster = createToaster({ position: "top" })
 const auth = inject('$auth')
 const gv = inject('$gv');
+const sale = inject('$sale');
+const moment = inject('$moment')
+const router = useRouter()
 
 const device_name = computed(() => {
     return localStorage.getItem('device_name')
@@ -68,10 +71,15 @@ const workingDayResource = createResource({
     url: "epos_restaurant_2023.api.api.get_current_working_day",
     params: {
       business_branch: gv.setting?.business_branch
+    },
+    onSuccess(doc){
+        if(doc){
+            gv.confirm_close_working_day(doc.posting_date);
+        }
+        
     }
 });
 
-const router = useRouter()
 
 function onRoute(page) {
     router.push({ name: page })
@@ -92,7 +100,9 @@ async function onPOS() {
                     gv.authorize("open_order_required_password","make_order").then((v)=>
                     {
                         if(v){ 
+                            sale.orderBy = v.user;
                             router.push({ name: 'AddSale' })
+                            
                         }
                     })
                     
@@ -133,7 +143,9 @@ function onLogout() {
 }
     
 
-
+onMounted(async () => {
+    await workingDayResource.fetch()
+})
 
 
 </script>

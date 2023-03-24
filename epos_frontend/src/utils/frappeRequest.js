@@ -99,6 +99,8 @@ export function frappeRequest(options) {
 
         if (options.onError || error_text) {
           if(error_text[0]=="Not permitted"){
+           
+            localStorage.removeItem("current_user");
             location.reload("/epos_frontend/login");
           } 
           // else if(error_text[0] == 'Internal Server Error'){

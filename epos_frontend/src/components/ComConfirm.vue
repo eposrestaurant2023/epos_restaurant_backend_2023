@@ -7,7 +7,7 @@
         >
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn variant="flat" @click="onClose" color="error">
+            <v-btn variant="flat" @click="onClose" color="error" v-if="!params.hide_cancel">
               Cancel
             </v-btn>
             <v-btn variant="flat" @click="onOk" color="primary">

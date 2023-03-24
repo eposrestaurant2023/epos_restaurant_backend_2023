@@ -44,6 +44,7 @@ function set_product_indicator(frm){
         method: 'get_product_summary_information',
         doc:frm.doc,
         callback:function(r){
+             
             if(r.message){
                 let total_total_quantity = 0;
                 $.each(r.message.stock_information, function(i, d) {
@@ -52,10 +53,10 @@ function set_product_indicator(frm){
                         indicator = "red";
                     }
                     total_total_quantity = total_total_quantity + d.quantity;
-                    frm.dashboard.add_indicator(d.stock_location + ": " + d.quantity, indicator);
+                    frm.dashboard.add_indicator(d.stock_location + ": " + d.quantity.toFixed(r.message.precision), indicator);
                 });
                 if (r.message.stock_information.length>1){
-                    frm.dashboard.add_indicator(__("Total Quantity: {0}",[total_total_quantity]) ,total_total_quantity>0?"blue":"red");
+                    frm.dashboard.add_indicator(__("Total Quantity: {0}",[total_total_quantity.toFixed(r.message.precision)]) ,total_total_quantity>0?"blue":"red");
                 }
 
                 if (r.message.total_annual_sale>0){ 

@@ -95,10 +95,12 @@ function onEditSaleProduct(sp) {
     if (!sale.isBillRequested()) {
         if (sp.sale_product_status == "New" || sale.setting.pos_setting.allow_change_quantity_after_submit == 1) {
             product.setSelectedProductByMenuID(sp.menu_product_name);
-
+            
             product.setModifierSelection(sp)
-
-            sale.OnEditSaleProduct(sp)
+            if(product.modifiers.length > 0 || product.prices.length > 0)
+                sale.OnEditSaleProduct(sp)
+            else
+                toaster.warning("This product has no option to edit.")
         } else {
             toaster.warning("Submitted order is not allow to edit.");
         }

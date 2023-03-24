@@ -9,7 +9,6 @@
             </v-col>
         </v-row>
         <ComInput title="Enter Note" keyboard label="Open Note" v-model="note" type="textarea"></ComInput>
-        <!-- <v-btn @click="addNewToDo">Add New Todo</v-btn> -->
         <v-btn @click="onStartWorking" color="primary" class="mt-4">Start Working Day</v-btn>
 
     </PageLayout>

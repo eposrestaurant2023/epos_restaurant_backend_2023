@@ -140,7 +140,6 @@
 </template>
 <script setup>
 import { ref, defineProps, defineEmits, createDocumentResource, createResource, addCustomerDialog, useRouter, saleDetailDialog } from '@/plugin'
-import ComToolbar from '@/components/ComToolbar.vue';
 import { Timeago } from 'vue2-timeago';
 import { useDisplay } from 'vuetify'
 import ComModal from '../../components/ComModal.vue';
@@ -197,10 +196,14 @@ async function onAddCustomer() {
 }
 
 const router = useRouter()
-function onSaleDetail(data) {
-  saleDetailDialog({
+async function onSaleDetail(data) {
+  const result = await saleDetailDialog({
     name: data
   });
+  
+  if(result=="open_order" ){
+    onClose(); 
+  }
 }
 
 </script>

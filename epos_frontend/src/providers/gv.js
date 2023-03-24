@@ -1,6 +1,6 @@
-import { authorizeDialog,noteDialog,createResource } from "@/plugin"
+import { authorizeDialog,noteDialog,createResource,confirm } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
-
+import moment from '@/utils/moment.js';
 const toaster = createToaster({ position: "top" });
 export default class Gv {
 	constructor() {
@@ -105,5 +105,20 @@ export default class Gv {
 			}
 		})
 
+	}
+
+	async confirm_close_working_day(working_day){
+	 
+		let check_date = "";
+		if(this.setting.close_business_day_on=="Current Day"){
+			check_date =  moment(working_day).format('yyyy-MM-DD') + " " + this.setting.alert_close_working_day_after;
+		}else{ 
+			check_date = moment(working_day).add(1, 'days').format('yyyy-MM-DD') + " " + this.setting.alert_close_working_day_after;
+		}
+ 
+		if(new Date() > new Date(check_date)){
+		 await confirm({title:'Close Working Day', text:'Your working is to long. Please close your working day.',hide_cancel:true});			
+			 
+		}
 	}
 }

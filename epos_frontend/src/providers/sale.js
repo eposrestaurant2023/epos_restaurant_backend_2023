@@ -243,7 +243,7 @@ export default class Sale {
                 sale_product_status: "New",
                 discount_type: "Percent",
                 discount: 0,
-                order_by : this.orderBy,
+                order_by : this.getOrderBy(),
                 order_time : this.getOrderTime(),
                 printers:p.printers,
             }
@@ -253,6 +253,9 @@ export default class Sale {
         }
         this.updateSaleSummary()
     }
+
+
+
     
     cloneSaleProduct(sp,quantity){
         this.clearSelected();
@@ -276,10 +279,23 @@ export default class Sale {
             this.orderTime=  moment(new Date()).format('yyyy-MM-DD HH:mm:ss.SSS');
             return this.orderTime;
         }else {
-            return this.orderTime;
+            return this.orderTime
         }
         
     }
+
+    
+    getOrderBy(){
+        if(!this.orderBy){   
+            
+            return JSON.parse( localStorage.getItem("current_user")).full_name;
+        }else {
+            return this.orderBy
+        }
+        
+    }
+
+
 
 
     onSelectSaleProduct(sp) {
@@ -740,6 +756,8 @@ export default class Sale {
 
         this.submitToAuditTrail(doc);
         this.sale = {};
+        
+        this.orderTime = "";
         
     }
 

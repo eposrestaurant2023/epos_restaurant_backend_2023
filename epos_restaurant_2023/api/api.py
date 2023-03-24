@@ -68,6 +68,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "address_en":pos_config.address_kh,
         "logo":pos_config.logo,
         "phone_number":pos_config.phone_number,
+
         "main_currency_name":main_currency.name,
         "main_currency_symbol":main_currency.symbol,
         "main_currency_format":main_currency.pos_currency_format,
@@ -75,6 +76,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "second_currency_name":second_currency.name,
         "second_currency_symbol":second_currency.symbol,
         "second_currency_format":second_currency.pos_currency_format,
+
 
         "thank_you_message":pos_config.thank_you_message,
         "cancel_print_bill_required_password":pos_config.cancel_print_bill_required_password,
@@ -121,8 +123,8 @@ def get_system_settings(pos_profile="", device_name=''):
         default_pos_receipt = print_format[0]
 
     #get report list
-    report_format_fields = ["name","title","doc_type","print_report_name","default_print_language","show_in_pos_report","show_in_pos","print_invoice_copies", "print_receipt_copies","pos_invoice_file_name","pos_receipt_file_name", "receipt_height", "receipt_width","receipt_margin_top", "receipt_margin_left","receipt_margin_right","receipt_margin_bottom" ]
-    reports = frappe.get_list("Print Format",fields=report_format_fields , filters={"doc_type":["in",["Cashier Shift","Working Day","Sale"]]},order_by="sort_order")
+    report_format_fields = ["name","title","doc_type","print_report_name","default_print_language","show_in_pos_report","show_in_pos","print_invoice_copies", "print_receipt_copies","pos_invoice_file_name","pos_receipt_file_name", "receipt_height", "receipt_width","receipt_margin_top", "receipt_margin_left","receipt_margin_right","receipt_margin_bottom","show_in_pos_closed_sale","report_options" ]
+    reports = frappe.get_list("Print Format",fields=report_format_fields , filters={"doc_type":["in",["Cashier Shift","Working Day","Sale","POS Profile"]]},order_by="sort_order")
     letter_heads = frappe.get_list("Letter Head",fields=["name","is_default"],filters={"disabled":0})
     letter_heads.append({"name":"No Letterhead","is_default":0})
  
@@ -136,6 +138,8 @@ def get_system_settings(pos_profile="", device_name=''):
         "phone_number":pos_config.phone_number,
         "pos_profile":pos_profile,
         "outlet":profile.outlet,
+        "close_business_day_on":doc.close_business_day_on,
+        "alert_close_working_day_after":doc.alert_close_working_day_after,
         "price_rule":profile.price_rule,
         "stock_location":profile.stock_location,
         "tax_rule":profile.tax_rule,
@@ -387,6 +391,7 @@ def update_print_bill_requested(name):
     doc = frappe.get_doc("Sale",name)
     doc.sale_status = 'Bill Requested'
     doc.save()
+
 @frappe.whitelist()
 def get_working_day_list_report():
     days = int(frappe.db.get_default("number_of_day_cashier_can_view_report"))
@@ -491,3 +496,24 @@ def delete_sale(name,auth):
     })
     doc.insert()
     
+@frappe.whitelist()
+def get_filter_for_close_sale_list(business_branch,pos_profile):
+    working_day = get_current_working_day(business_branch)
+    cashier_shifts =  [{"name":'', "title":"All Cashier Shift"}]
+    cashier_shifts = cashier_shifts + ( frappe.db.sql("select name, name as title from `tabCashier Shift` where working_day = '{}' order by name".format(working_day.name),as_dict=1))
+    sale_types = [{"title":'All Sale Type',"name":""}]
+    sale_types +=  frappe.db.sql("select name, name as title, color,is_order_use_table from `tabSale Type` order by sort_order",as_dict=1)
+    outlets = [{"title":'All Outlet',"name":""}]
+    outlets += frappe.db.sql("select name, name as title from `tabOutlet` where business_branch = '{}' order by name".format(business_branch),as_dict=1)
+    table_groups =[{"title":'All Table Group',"name":""}]
+    table_groups += frappe.db.sql("select name, name as title from `tabTable Group` where business_branch = '{}' order by name".format(business_branch),as_dict=1)
+
+    return {
+    "working_day":working_day,
+    "cashier_shift":get_current_cashier_shift(pos_profile),
+    "cashier_shifts":cashier_shifts,
+    "sale_types":sale_types,
+    "outlets":outlets,
+    "table_groups":table_groups
+
+    }

@@ -43,21 +43,35 @@ const props = defineProps({
     params: Object
 })
 const sale = inject('$sale')
+const gv = inject('$gv')
 const emit = defineEmits(['resolve'])
 const router = useRouter();
 async function onQuickPay() {
 
     await sale.onSubmitQuickPay().then((value) => {
         if (value) {
-            router.push({ name: "TableLayout" });
+            if (setting.table_groups.length > 0) {
+                sale.sale = {};
+                router.push({ name: 'TableLayout' })
+            }
+            else {
+                sale.newSale()
+                router.push({ name: "AddSale" });
+            }
             onClose()
         }
     });
 }
 
 function onGoHome(){
-    
-    router.push({ name: "TableLayout" });
+    if (gv.setting.table_groups.length > 0) {
+        sale.sale = {};
+        router.push({ name: 'TableLayout' })
+    }
+    else {
+        sale.newSale()
+        router.push({ name: "AddSale" });
+    }
     emit('resolve', false)
 }
 

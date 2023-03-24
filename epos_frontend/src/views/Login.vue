@@ -110,7 +110,7 @@
 <script setup>
 import { reactive, inject, computed, useStore, useRouter, createResource, createToaster } from '@/plugin'
 import { useDisplay } from 'vuetify'
- 
+const moment = inject('$moment')
 const { mobile } = useDisplay()
 const toast = createToaster()
 const router = useRouter()

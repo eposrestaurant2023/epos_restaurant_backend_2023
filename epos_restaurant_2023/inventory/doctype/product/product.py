@@ -91,6 +91,7 @@ class Product(Document):
 		return {
 			"total_annual_sale":get_product_annual_sale(self),
 			"stock_information":stock_information,
+			"precision": frappe.db.get_default("float_precision")
 		}
 
 
