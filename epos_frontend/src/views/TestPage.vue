@@ -6,7 +6,7 @@
 <script setup>
 
 import io from 'socket.io-client';
-const socket = io('http://192.168.10.127:9004');
+const socket = io('http://192.168.10.127:9004/socket.io/?EIO=4&transport=polling');
 
 socket.on('connect', () => {
   console.log('Connected to server!');
