@@ -66,6 +66,8 @@ app_license = "MIT"
 # before_install = "epos_restaurant_2023.install.before_install"
 # after_install = "epos_restaurant_2023.install.after_install"
 
+after_migrate = "epos_restaurant_2023.migrate.after_migrate"
+
 # Uninstallation
 # ------------
 
