@@ -186,6 +186,12 @@ app_license = "MIT"
 #	"epos_restaurant_2023.auth.validate"
 # ]
 
+
+fixtures = [
+    {"dt": "Print Format", "filters": [["standard", "=", "Yes"]]},
+]
+
+
 website_route_rules = [
         {'from_route': '/epos_frontend/<path:app_path>', 'to_route': 'epos_frontend'},
         {'from_route': '/login/<path:app_path>', 'to_route': 'epos_frontend'},
