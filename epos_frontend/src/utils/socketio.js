@@ -54,18 +54,11 @@
 import io from 'socket.io-client';
 
 let host = window.location.hostname;
-let port = window.location.port ? ':9004' : '';
+let port = ":3000";//window.location.port ? ':9004' : '';
 let protocol = port ? 'http' : 'https';
 let url = `${protocol}://${host}${port}`;
-
-let socket = io(url,{
-  cors: {
-    origin: ["http://192.168.10.114:5566"],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
-    
-  }
-});
+ 
+let socket = io(url);
 
 
 export default socket;

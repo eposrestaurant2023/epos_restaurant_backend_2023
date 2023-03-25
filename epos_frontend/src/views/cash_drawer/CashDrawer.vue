@@ -79,7 +79,7 @@
     </PageLayout>
     
 </template>
-<script setup>
+<script setup> 
 import moment from '@/utils/moment.js';
 import PageLayout from '@/components/layout/PageLayout.vue';
 import ComCashDrawerKPI from './components/ComCashDrawerKPI.vue';

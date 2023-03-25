@@ -1,35 +1,31 @@
-
-
 <template>
-  hello : {{ message }} === world
-  
-  <button @click="sendMessage()">Test</button>
+  <div>
+    <p>xxx</p>
+    <v-btn @click="Hello">Hello </v-btn>
+  </div>
 </template>
-<script>
-import { ref, onMounted } from 'vue'
-import { useSocket } from 'vue-3-socket.io'
 
-export default {
-  setup() {
-    const message = ref('')
-    const { socket } = useSocket()
+<script setup>
+import { ref, onMounted,inject } from 'vue'
+import { createToaster } from '@meforma/vue-toaster';
 
-    const sendMessage = () => {
-      socket.emit('message', message.value)
-      message.value = ''
-    }
+const toaster = createToaster({position:'top'});
+ 
+  const socket = inject("$socket")
 
-    onMounted(() => {
-      socket.value.on('message', (data) => {
-        console.log(data)
-      })
-    })
+ 
+socket.on("UpdateData",(arg)=>{
+    toaster.warning(arg)
+  })
 
-    return {
-      message,
-      sendMessage
-    }
+  
+
+
+  function Hello(){
+console.log(socket);
+    socket.emit('UpdateTable',"Hello Ho")
+
   }
-}
+
 
 </script>

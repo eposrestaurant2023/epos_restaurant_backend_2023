@@ -20,9 +20,8 @@ import ComPrintPreview from './components/ComPrintPreview.vue'
 import ComChip from './components/ComChip.vue'
 import ComModal from './components/ComModal.vue'
 import Avatar from "vue3-avatar";
-import VueSocketIO from 'vue-3-socket.io'
-import SocketIO from 'socket.io-client'
-
+ import socket from './utils/socketio';
+ 
 
 import Vue3DraggableResizable from 'vue3-draggable-resizable'
 //default styles
@@ -71,7 +70,7 @@ const vuetify = createVuetify({
 	
   });
 
-// Plugins
+ 
 app.use(router);
 app.use(resourcesPlugin);
 app.use(vuetify);
@@ -81,11 +80,7 @@ app.use(createBottomSheet())
 app.use(Toaster, {
 	position: "top",
 })
-app.use(new VueSocketIO({
-	connection: SocketIO('http://192.168.10.163:9004')
-  }))
-
-
+ 
  
 // Global Properties,
 // components can inject this
@@ -94,6 +89,7 @@ app.provide("$sale", sale);
 app.provide("$tableLayout", tableLayout);
 app.provide("$product", product);
 app.provide("$numberFormat",NumberFormat)
+app.provide("$socket",socket)
 
 app.provide("$screen", screen);
 app.provide("$auth", auth);
@@ -157,4 +153,4 @@ app.component('ComModal', ComModal)
 
 app.mount("#app");
 
-
+ 
