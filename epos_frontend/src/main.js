@@ -82,15 +82,7 @@ app.use(Toaster, {
 	position: "top",
 })
 app.use(new VueSocketIO({
-	debug: true,
-	connection: SocketIO('http://192.168.10.114:9004',{
-		cors: {
-			origin: ["http://192.168.10.114:5566"],
-			allowedHeaders: ['Content-Type', 'Authorization'],
-			credentials: true
-			
-		  }
-	})
+	connection: SocketIO('http://192.168.10.163:9999')
   }))
 
 
