@@ -82,7 +82,7 @@ app.use(Toaster, {
 	position: "top",
 })
 app.use(new VueSocketIO({
-	connection: SocketIO('http://192.168.10.163:9999')
+	connection: SocketIO('http://192.168.10.163:9004')
   }))
 
 

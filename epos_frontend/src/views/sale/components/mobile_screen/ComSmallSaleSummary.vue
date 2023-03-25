@@ -3,14 +3,7 @@
     <ComSaleSummaryList />
     <div class="flex w-full">
       <div class="w-4/5 cursor-pointer bg-green-600 text-white p-1 hover:bg-green-700" @click="onPayment()">
-        <v-btn
-          stacked 
-          rounded="0"
-          color="color"
-          class="p-1 text-sm"
-          @click="onPayment()">
-          <div>
-            <div class="flex justify-between mb-1 text-sm">
+        <div class="flex justify-between mb-1 text-sm">
           <div>Payment</div>
           <div>
             <CurrencyFormat :value="sale.sale.grand_total" />
@@ -23,19 +16,17 @@
               :currency="setting.pos_setting.second_currency_name" />
           </div>
         </div>
-          </div>
-        </v-btn>
       </div>
       <div class="w-1/5">
         <v-btn
           stacked 
           rounded="0"
           color="primary"
-          class="p-1 text-sm"
+          class="p-1"
           @click="onSubmit()">
           <div>
             <v-icon icon="mdi-arrow-right-thick"></v-icon>
-            <div>Submit Order</div>
+            <div class="text-sm">Submit Order</div>
           </div>
         </v-btn>
       </div>
