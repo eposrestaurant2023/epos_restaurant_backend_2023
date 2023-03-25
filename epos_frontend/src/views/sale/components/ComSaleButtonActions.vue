@@ -52,6 +52,8 @@ async function onQuickPay() {
       sale.newSale();
       if (sale.setting.table_groups.length > 0) {
         router.push({ name: "TableLayout" });
+      }else{
+        sale.getTableSaleList();
       }
 
     }

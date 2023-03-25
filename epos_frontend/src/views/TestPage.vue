@@ -1,33 +1,35 @@
 
 
 <template>
-  <button @click="test()">Test</button>
+  hello : {{ message }} === world
+  
+  <button @click="sendMessage()">Test</button>
 </template>
-<script setup>
+<script>
+import { ref, onMounted } from 'vue'
+import { useSocket } from 'vue-3-socket.io'
 
-import io from 'socket.io-client';
-const socket = io('http://192.168.10.127:9004/socket.io/?EIO=4&transport=polling');
+export default {
+  setup() {
+    const message = ref('')
+    const { socket } = useSocket()
 
-socket.on('connect', () => {
-  console.log('Connected to server!');
-  socket.on("hello", (arg) => {
-    alert(123);
-    console.log(arg); // world
-  });
-});
+    const sendMessage = () => {
+      socket.emit('message', message.value)
+      message.value = ''
+    }
 
+    onMounted(() => {
+      socket.value.on('message', (data) => {
+        console.log(data)
+      })
+    })
 
-
-
-socket.on('disconnect', () => {
-  console.log('Disconnected from server!');
-});
-
-function test(){
-  alert("Test click")
-  socket.emit("hello", "world");
-  console.log(socket);
-
+    return {
+      message,
+      sendMessage
+    }
+  }
 }
-</script> 
- 
+
+</script>

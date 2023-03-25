@@ -20,6 +20,9 @@ import ComPrintPreview from './components/ComPrintPreview.vue'
 import ComChip from './components/ComChip.vue'
 import ComModal from './components/ComModal.vue'
 import Avatar from "vue3-avatar";
+import VueSocketIO from 'vue-3-socket.io'
+import SocketIO from 'socket.io-client'
+
 
 import Vue3DraggableResizable from 'vue3-draggable-resizable'
 //default styles
@@ -28,7 +31,7 @@ import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
 
 import router from './router';
 import call from "./utils/call";
-import socket from "./utils/socketio";
+
 import Auth from "./utils/auth";
 import Sale from "./providers/sale";
 import TableLayout from "./providers/table_layout";
@@ -78,6 +81,17 @@ app.use(createBottomSheet())
 app.use(Toaster, {
 	position: "top",
 })
+app.use(new VueSocketIO({
+	debug: true,
+	connection: SocketIO('http://192.168.10.114:9004',{
+		cors: {
+			origin: ["http://192.168.10.114:5566"],
+			allowedHeaders: ['Content-Type', 'Authorization'],
+			credentials: true
+			
+		  }
+	})
+  }))
 
 
  
@@ -92,7 +106,7 @@ app.provide("$numberFormat",NumberFormat)
 app.provide("$screen", screen);
 app.provide("$auth", auth);
 app.provide("$call", call);
-app.provide("$socket", socket);
+
 app.provide("$moment", moment)
 app.config.globalProperties.$filter = {
    isEmpty(str) {
