@@ -197,6 +197,7 @@ fixtures = [
     {"dt": "Sale Type", "filters": [["is_standard", "=", "1"]]},
     {"dt": "Kitchen Group", "filters": [["is_standard", "=", "1"]]},
     {"dt": "Business Branch", "filters": [["is_standard", "=", "1"]]},
+    {"dt": "Sale Status"},
     
 ]
 
