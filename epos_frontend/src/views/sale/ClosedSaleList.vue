@@ -10,13 +10,13 @@
                 <div v-if="filterResource.data?.cashier_shifts?.length == 0">There is no cashier shift open</div>
                 <div v-else>
                     <v-row>
-                        <v-col cols="12" sm="5" md="3" lg="2">
+                        <v-col cols="12" sm="5" md="3" lg="3">
                             <div  style="height: calc(100vh - 157px);" v-if="!mobile">
                                 <ComClosedSaleFilter :currentFilter="filter" :filterResource="filterResource" :reportOption="reportOption"
                                     @onSearch="onSearch" />
                             </div>
                         </v-col>
-                        <v-col cols="12" sm="7" md="9" lg="10">
+                        <v-col cols="12" sm="7" md="9" lg="9">
                             <div class="flex justify-between">
                                 <div class="pb-2 -mr-2">
                                     <v-btn class="mr-2"
