@@ -15,7 +15,8 @@
   "rgt",
   "is_group",
   "old_parent",
-  "parent_kitchen_group"
+  "parent_kitchen_group",
+  "is_standard"
  ],
  "fields": [
   {
@@ -73,11 +74,17 @@
    "fieldtype": "Link",
    "label": "Parent Kitchen Group",
    "options": "Kitchen Group"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_standard",
+   "fieldtype": "Check",
+   "label": "Is Standard"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-07 15:15:54.653646",
+ "modified": "2023-03-26 16:33:23.563990",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Kitchen Group",

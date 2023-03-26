@@ -18,7 +18,8 @@
   "address_en",
   "address_kh",
   "note",
-  "disabled"
+  "disabled",
+  "is_standard"
  ],
  "fields": [
   {
@@ -86,12 +87,18 @@
    "fieldtype": "Attach Image",
    "hidden": 1,
    "label": "Photo"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_standard",
+   "fieldtype": "Check",
+   "label": "Is Standard"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-06 10:20:06.307927",
+ "modified": "2023-03-26 16:36:06.396700",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Business Branch",
