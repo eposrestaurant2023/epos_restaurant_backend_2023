@@ -37,8 +37,7 @@
                         <ComButton @click="onRoute('Report')" title="Report" icon="mdi-chart-bar" icon-color="#e99417" />
                         <ComButton @click="onLogout()" text-color="#fff" icon-color="#fff" title="Logout" icon="mdi-logout"
                             background-color="#b00020" />
-                        <ComButton @click="onRoute('TestPage')" title="Test Page" icon-color="#e99417"
-                            icon="mdi-calendar-clock" />
+                       
                     </div>
                 </div>
             </div>
