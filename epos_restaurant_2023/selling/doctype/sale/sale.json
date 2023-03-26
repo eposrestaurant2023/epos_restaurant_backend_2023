@@ -633,7 +633,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-03-23 14:44:07.705929",
+ "modified": "2023-03-26 20:06:46.522079",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",
@@ -650,6 +650,22 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
    "write": 1
   }
  ],
