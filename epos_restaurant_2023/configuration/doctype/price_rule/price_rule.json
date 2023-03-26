@@ -10,7 +10,8 @@
  "field_order": [
   "rule_name",
   "note",
-  "disabled"
+  "disabled",
+  "is_standard"
  ],
  "fields": [
   {
@@ -34,11 +35,17 @@
    "fieldname": "disabled",
    "fieldtype": "Check",
    "label": "Disabled"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_standard",
+   "fieldtype": "Check",
+   "label": "Is Standard"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-06 11:32:44.105658",
+ "modified": "2023-03-26 16:25:05.494729",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Price Rule",

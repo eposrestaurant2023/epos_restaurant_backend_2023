@@ -12,7 +12,8 @@
   "color",
   "column_break_3",
   "is_order_use_table",
-  "sort_order"
+  "sort_order",
+  "is_standard"
  ],
  "fields": [
   {
@@ -48,11 +49,17 @@
   {
    "fieldname": "column_break_3",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_standard",
+   "fieldtype": "Check",
+   "label": "Is Standard"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-09 16:12:45.051368",
+ "modified": "2023-03-26 16:26:30.762866",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Sale Type",

@@ -193,6 +193,8 @@ fixtures = [
     {"dt": "Print Format", "filters": [["standard", "=", "Yes"]]},
     {"dt": "Payment Type", "filters": [["is_standard", "=", "1"]]},
     {"dt": "Revenue Group", "filters": [["is_standard", "=", "1"]]},
+    {"dt": "Price Rule", "filters": [["is_standard", "=", "1"]]},
+    {"dt": "Sale Type", "filters": [["is_standard", "=", "1"]]},
     
 ]
 
