@@ -36,6 +36,7 @@
   "column_break_17",
   "delete_bill_required_note",
   "section_break_28",
+  "cancel_print_bill_required_password",
   "cancel_print_bill_required_note",
   "column_break_30",
   "allow_change_quantity_after_submit",
@@ -446,12 +447,18 @@
    "fieldname": "cash_in_check_out_required_password",
    "fieldtype": "Check",
    "label": "Cash In & Cash Out Required Password"
+  },
+  {
+   "default": "0",
+   "fieldname": "cancel_print_bill_required_password",
+   "fieldtype": "Check",
+   "label": "Cancel Print Bill Required Password"
   }
  ],
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-21 15:59:52.921377",
+ "modified": "2023-03-26 19:03:26.308679",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Config",
