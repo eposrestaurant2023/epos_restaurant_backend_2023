@@ -39,7 +39,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-15 11:15:43.509665",
+ "modified": "2023-03-26 21:26:04.438168",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Sale Status",
@@ -55,6 +55,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
    "share": 1,
    "write": 1
   }
