@@ -10,7 +10,8 @@
  "field_order": [
   "business_branch",
   "stock_location_name",
-  "disabled"
+  "disabled",
+  "is_standard"
  ],
  "fields": [
   {
@@ -36,11 +37,17 @@
    "label": "Stock Location Name",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_standard",
+   "fieldtype": "Check",
+   "label": "Is Standard"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-09 15:22:58.189223",
+ "modified": "2023-03-26 17:37:33.904748",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Location",

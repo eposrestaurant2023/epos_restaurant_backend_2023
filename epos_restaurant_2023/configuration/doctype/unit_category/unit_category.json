@@ -9,7 +9,8 @@
  "engine": "InnoDB",
  "field_order": [
   "unit_category_name",
-  "note"
+  "note",
+  "is_standard"
  ],
  "fields": [
   {
@@ -25,11 +26,17 @@
    "fieldtype": "Small Text",
    "in_list_view": 1,
    "label": "Note"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_standard",
+   "fieldtype": "Check",
+   "label": "Is Standard"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-08 12:11:45.486764",
+ "modified": "2023-03-26 17:42:59.149824",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Unit Category",

@@ -10,7 +10,8 @@
  "field_order": [
   "unit_name",
   "unit_category",
-  "disabled"
+  "disabled",
+  "is_standard"
  ],
  "fields": [
   {
@@ -37,11 +38,17 @@
    "label": "Unit Category",
    "options": "Unit Category",
    "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_standard",
+   "fieldtype": "Check",
+   "label": "Is Standard"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-08 12:13:51.258740",
+ "modified": "2023-03-26 17:44:33.483231",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Unit Of Measurement",

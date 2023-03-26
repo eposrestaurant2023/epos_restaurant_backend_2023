@@ -1,0 +1,14 @@
+[
+ {
+  "customer_group_en": "General Customer",
+  "customer_group_kh": "General Customer",
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Customer Group",
+  "is_standard": 1,
+  "modified": "2023-03-26 17:40:21.739910",
+  "name": "General Customer",
+  "note": null,
+  "photo": null
+ }
+]

@@ -1,0 +1,13 @@
+[
+ {
+  "conversion": 1.0,
+  "docstatus": 0,
+  "doctype": "Unit of Measurement Conversion",
+  "from_uom": "Unit",
+  "is_standard": 1,
+  "modified": "2023-03-26 17:47:15.420909",
+  "name": "e7c28b72f2",
+  "to_uom": "Unit",
+  "unit_category": "Unit"
+ }
+]

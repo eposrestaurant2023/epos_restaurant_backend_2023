@@ -1,0 +1,47 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Unit Category",
+  "is_standard": 1,
+  "modified": "2023-03-26 17:43:13.264827",
+  "name": "Unit",
+  "note": null,
+  "unit_category_name": "Unit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Unit Category",
+  "is_standard": 1,
+  "modified": "2023-03-26 17:43:13.244311",
+  "name": "Volume",
+  "note": null,
+  "unit_category_name": "Volume"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Unit Category",
+  "is_standard": 1,
+  "modified": "2023-03-26 17:43:13.223329",
+  "name": "Length/Distance",
+  "note": null,
+  "unit_category_name": "Length/Distance"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Unit Category",
+  "is_standard": 1,
+  "modified": "2023-03-26 17:43:13.193092",
+  "name": "Weight",
+  "note": null,
+  "unit_category_name": "Weight"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Unit Category",
+  "is_standard": 1,
+  "modified": "2023-03-26 17:43:13.149297",
+  "name": "Time",
+  "note": null,
+  "unit_category_name": "Time"
+ }
+]

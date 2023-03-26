@@ -12,7 +12,8 @@
   "customer_group_kh",
   "note",
   "disabled",
-  "photo"
+  "photo",
+  "is_standard"
  ],
  "fields": [
   {
@@ -51,12 +52,18 @@
    "fieldtype": "Small Text",
    "in_list_view": 1,
    "label": " Note"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_standard",
+   "fieldtype": "Check",
+   "label": "Is Standard"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-09 16:21:03.749406",
+ "modified": "2023-03-26 17:40:10.255880",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Customer Group",

@@ -11,7 +11,8 @@
   "unit_category",
   "from_uom",
   "to_uom",
-  "conversion"
+  "conversion",
+  "is_standard"
  ],
  "fields": [
   {
@@ -49,11 +50,17 @@
    "label": "To UoM",
    "options": "Unit Of Measurement",
    "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_standard",
+   "fieldtype": "Check",
+   "label": "Is Standard"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-14 13:58:48.030372",
+ "modified": "2023-03-26 17:46:57.308663",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Unit of Measurement Conversion",
