@@ -102,7 +102,7 @@
    "link_fieldname": "to_currency"
   }
  ],
- "modified": "2023-03-21 17:58:02.308062",
+ "modified": "2023-03-26 21:08:38.308696",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Payment Type",
@@ -118,6 +118,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
    "share": 1,
    "write": 1
   }
