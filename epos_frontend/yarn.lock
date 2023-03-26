@@ -1372,6 +1372,11 @@ jsonfile@^4.0.0:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
+jsprintmanager@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/jsprintmanager/-/jsprintmanager-5.0.3.tgz#c516c35a33e1cb78b65c8ab2eb8ba5b89832efcf"
+  integrity sha512-AoJmfdOgD5TSBGoTuKfHyvj6paVyS+p4C8Ylpfxor3qVSNSH6y5r9OynnHpvW7aUjnv80PkZukxLnVJSfrCfKQ==
+
 lazy@~1.0.11:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/lazy/-/lazy-1.0.11.tgz#daa068206282542c088288e975c297c1ae77b690"

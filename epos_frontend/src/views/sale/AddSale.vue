@@ -49,10 +49,11 @@ import ComGroupSaleProductList from './components/ComGroupSaleProductList.vue';
 import ComSaleSummaryList from './components/ComSaleSummaryList.vue';
 import ComSaleButtonPaymentSubmit from './components/ComSaleButtonPaymentSubmit.vue';
 import { createToaster } from '@meforma/vue-toaster';
-const { mobile, name, platform } = useDisplay()
+const { mobile } = useDisplay()
 
 const sale = inject("$sale")
 const gv = inject("$gv")
+
 const product = inject("$product")
 let openSearch = ref(false)
 const route = useRoute()

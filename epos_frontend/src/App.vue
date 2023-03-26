@@ -20,16 +20,37 @@ import { PromiseDialogsWrapper } from 'vue-promise-dialogs';
 import { createResource } from '@/resource.js'
 import { reactive, computed, onMounted, inject } from 'vue'
 import { useStore } from 'vuex'
+import { createToaster } from '@meforma/vue-toaster';
+
+const toaster = createToaster({position:'top'});
+
+
 
 const gv = inject("$gv");
 const sale = inject("$sale");
 const product = inject("$product");
 const tableLayout = inject("$tableLayout");
+const socket = inject("$socket")
+
 const store = useStore()
 const screen = inject('$screen')
 let state = reactive({
 	isLoading: false
 })
+
+ 
+socket.on("PrintReceipt", (arg) => {
+
+	if(localStorage.getItem("is_window")=="1"){
+		
+		window.chrome.webview.postMessage(arg);
+		toaster.warning("Print Receipt in Progress")
+	}
+
+  
+})
+ 
+
 
 const router = useRouter()
 const route = useRoute()

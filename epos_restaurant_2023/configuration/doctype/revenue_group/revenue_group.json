@@ -10,7 +10,8 @@
  "field_order": [
   "revenue_group_name_en",
   "revenue_group_name_kh",
-  "sort_order"
+  "sort_order",
+  "is_standard"
  ],
  "fields": [
   {
@@ -35,11 +36,17 @@
    "fieldtype": "Int",
    "in_list_view": 1,
    "label": "Sort Order"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_standard",
+   "fieldtype": "Check",
+   "label": "Is Standard"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-07 14:43:29.645388",
+ "modified": "2023-03-26 16:15:46.295576",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Revenue Group",

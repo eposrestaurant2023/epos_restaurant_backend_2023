@@ -8,6 +8,7 @@
             <ComSelectPaymentPrinter @onClick="onSelectedReceipt" :selected="selectedReceipt.name" v-if="mobile" />
         </template>
         <template #content>
+          {{ platform }}
             <div v-if="mobile" class="!p-1 overflow-auto">
                 <ComSmallSalePayment />
             </div>
@@ -79,6 +80,7 @@ import ComSalePaymentList from './ComSalePaymentList.vue';
 import ComSelectPaymentPrinter from './ComSelectPaymentPrinter.vue';
 import ComPaymentSummaryInformation from './ComPaymentSummaryInformation.vue';
 
+ 
 import { createToaster } from '@meforma/vue-toaster';
 
 const { mobile } = useDisplay()
@@ -135,6 +137,8 @@ async function onPaymentWithoutPrint() {
     }
     sale.pos_receipt = undefined;
     sale.message = "Payment successfully";
+ 
+
     sale.onSubmitPayment(false).then((v) => {
         if (v) {
             emit("resolve", true);
@@ -143,7 +147,10 @@ async function onPaymentWithoutPrint() {
 }
 
  
+ 
+ 
 onUnmounted(() => {
     sale.sale.payment = [];
 })
+
 </script>

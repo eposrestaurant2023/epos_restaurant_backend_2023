@@ -1,0 +1,52 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Revenue Group",
+  "is_standard": 1,
+  "modified": "2023-03-26 16:16:31.894884",
+  "name": "Food",
+  "revenue_group_name_en": "Food",
+  "revenue_group_name_kh": "Food",
+  "sort_order": 1
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Revenue Group",
+  "is_standard": 1,
+  "modified": "2023-03-26 16:16:21.703895",
+  "name": "Drink",
+  "revenue_group_name_en": "Drink",
+  "revenue_group_name_kh": "Drink",
+  "sort_order": 2
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Revenue Group",
+  "is_standard": 1,
+  "modified": "2023-03-26 16:18:54.673985",
+  "name": "None Alcohol",
+  "revenue_group_name_en": "None Alcohol",
+  "revenue_group_name_kh": "None Alcohol",
+  "sort_order": 4
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Revenue Group",
+  "is_standard": 1,
+  "modified": "2023-03-26 16:17:23.478317",
+  "name": "Alcohol",
+  "revenue_group_name_en": "Alcohol",
+  "revenue_group_name_kh": "Alcohol",
+  "sort_order": 3
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Revenue Group",
+  "is_standard": 1,
+  "modified": "2023-03-26 16:19:16.780642",
+  "name": "Other",
+  "revenue_group_name_en": "Other",
+  "revenue_group_name_kh": "Other",
+  "sort_order": 5
+ }
+]

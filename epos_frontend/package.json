@@ -16,6 +16,7 @@
     "@vuepic/vue-datepicker": "^3.6.5",
     "bottom-sheet-vue3": "^2.0.3",
     "idb-keyval": "^6.2.0",
+    "jsprintmanager": "^5.0.3",
     "linq": "^4.0.1",
     "number-format.js": "^2.0.9",
     "pm2": "^5.3.0",

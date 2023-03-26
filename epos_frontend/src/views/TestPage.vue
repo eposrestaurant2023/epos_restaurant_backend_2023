@@ -27,5 +27,5 @@ console.log(socket);
 
   }
 
-
 </script>
+

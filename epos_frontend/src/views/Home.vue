@@ -21,6 +21,7 @@
             <div class="pb-16">
                 <div class="mx-auto mt-4 mb-0 md:w-[600px]">
                     <div class="grid xs:grid-cols-2 md:grid-cols-4 grid-cols-2" style="grid-gap: 20px;">
+                    
                         <WorkingDayButton />
                         <OpenShiftButton />
                         <ComButton @click="onPOS()" title="POS" icon="mdi-cart" class="bg-green-600 text-white"
@@ -49,12 +50,18 @@ import { useRouter, createResource, computed, createToaster,pendingSaleListDialo
 import ComButton from '../components/ComButton.vue';
 import WorkingDayButton from './shift/components/WorkingDayButton.vue';
 import OpenShiftButton from './shift/components/OpenShiftButton.vue';
+
+
 const toaster = createToaster({ position: "top" })
 const auth = inject('$auth')
 const gv = inject('$gv');
 const sale = inject('$sale');
 const moment = inject('$moment')
 const router = useRouter()
+
+
+
+
 
 const device_name = computed(() => {
     return localStorage.getItem('device_name')

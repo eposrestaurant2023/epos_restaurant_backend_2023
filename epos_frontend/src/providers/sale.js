@@ -3,12 +3,15 @@ import moment from '@/utils/moment.js';
 import {noteDialog, printPreviewDialog, keyboardDialog, createResource, createDocumentResource, addModifierDialog, useRouter, confirmDialog,saleProductDiscountDialog } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
 import { webserver_port } from "../../../../../sites/common_site_config.json"
- 
+import socket from '@/utils/socketio';
+
 
 const toaster = createToaster({ position: "top" });
 
 export default class Sale {
     constructor() {
+        this.mobile = false;
+        this.platform ={};
         this.working_day="";
         this.cashier_shift="";
         this.setting = null;
@@ -36,6 +39,7 @@ export default class Sale {
         this.saleResource = null;
         this.paymentInputNumber="";
         this.isPrintReceipt = false;
+ 
         
         //use this variable to show toast after database submit in resource
         this.message = undefined; 
@@ -641,6 +645,10 @@ export default class Sale {
                 } else {
                     await this.saleResource.setValue.submit(doc);
                 }
+                //refresh tabl 
+                
+              
+
                 resolve(doc);
             }
 
@@ -758,6 +766,8 @@ export default class Sale {
         this.sale = {};
         
         this.orderTime = "";
+
+        socket.emit("RefreshTable");
         
     }
 
@@ -772,21 +782,25 @@ export default class Sale {
     }
 
     onPrintToKitchen(doc){
+        const data ={
+            action: "print_to_kitchen",
+            setting: this.setting?.pos_setting,
+            sale: doc,
+            product_printers:this.productPrinters
+        }
+
         if(localStorage.getItem("is_window")==1){
              
-            const data ={
-                action: "print_to_kitchen",
-                setting: this.setting?.pos_setting,
-                sale: doc,
-                product_printers:this.productPrinters
-            }
-
+            
             window.chrome.webview.postMessage(JSON.stringify(data));
 
           
 
-            this.productPrinters=[];
+            
+        } else {
+             socket.emit("PrintReceipt",JSON.stringify(data))
         }
+        this.productPrinters=[];
     }
 
     generateProductPrinters(){
@@ -848,20 +862,34 @@ export default class Sale {
 	}
 
     async onPrintReceipt(receipt, action, doc) {
-        
-        if (receipt.pos_receipt_file_name && localStorage.getItem("is_window")) {
-            let data = {
-                action: action,
-                print_setting: receipt,
-                setting: this.setting?.pos_setting,
-                sale: doc
-            }
-            window.chrome.webview.postMessage(JSON.stringify(data));
-
-        } else {
-            this.onOpenBrowserPrint("Sale",doc.name, receipt.name)
-         
+        const data = {
+            action: action,
+            print_setting: receipt,
+            setting: this.setting?.pos_setting,
+            sale: doc
         }
+
+       
+    
+            if (receipt.pos_receipt_file_name && localStorage.getItem("is_window")) {
+                
+    
+                window.chrome.webview.postMessage(JSON.stringify(data));
+                
+    
+            } else {
+                if(receipt.pos_receipt_file_name ){
+
+                    socket.emit('PrintReceipt', JSON.stringify(data));
+                   
+                }
+                else{
+                    this.onOpenBrowserPrint("Sale",doc.name, receipt.name)
+                }
+             
+            }
+    
+       
 
     }
 

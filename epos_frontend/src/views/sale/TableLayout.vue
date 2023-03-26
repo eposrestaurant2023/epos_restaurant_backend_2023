@@ -22,7 +22,7 @@
 import PageLayout from '../../components/layout/PageLayout.vue';
 
 
-import { inject, createResource, useRouter,createToaster,onMounted } from "@/plugin"
+import { inject, createResource, useRouter,createToaster,onMounted , onUnmounted} from "@/plugin"
 import ComTableGroupTabHeader from './components/table_layouts/ComTableGroupTabHeader.vue';
 import ComSaleStatusInformation from './components/ComSaleStatusInformation.vue';
  
@@ -32,10 +32,16 @@ import ComRenderTableNumber from './components/table_layouts/ComRenderTableNumbe
 const toaster = createToaster({position:"top"})
 
 const tableLayout = inject("$tableLayout");
+const socket = inject("$socket");
 
 const router = useRouter()
 
+socket.on("RefreshTable", () => {
 
+  tableLayout.getSaleList();
+  toaster.warning("tablerefresh")
+
+})
 
 
 
@@ -89,6 +95,6 @@ await cashierShiftResource.fetch().then(async (v) => {
 
 })
 
-
+ 
 
 </script> 

@@ -11,9 +11,21 @@ const io = require('socket.io')(server, {
 
 io.on('connection', (socket) => {
 
+  
   socket.on("UpdateTable",(arg)=>{
     io.emit("UpdateData",arg)
   })
+
+  //Print Receipt
+  socket.on("PrintReceipt",(arg)=>{
+    io.emit("PrintReceipt",arg)
+  })
+
+  socket.on("RefreshTable",()=>{
+    io.emit("RefreshTable")
+  })
+
+
 });
 
 
