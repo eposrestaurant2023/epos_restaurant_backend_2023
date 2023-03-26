@@ -1,0 +1,46 @@
+[
+ {
+  "color": "#ECAD4B",
+  "docstatus": 0,
+  "doctype": "Sale Type",
+  "is_order_use_table": 1,
+  "is_standard": 1,
+  "modified": "2023-03-26 16:26:43.246832",
+  "name": "Takeaway",
+  "sale_type_name": "Takeaway",
+  "sort_order": 1
+ },
+ {
+  "color": "#CB2929",
+  "docstatus": 0,
+  "doctype": "Sale Type",
+  "is_order_use_table": 0,
+  "is_standard": 1,
+  "modified": "2023-03-26 16:26:43.216618",
+  "name": "Pay to room",
+  "sale_type_name": "Pay to room",
+  "sort_order": 2
+ },
+ {
+  "color": "#761ACB",
+  "docstatus": 0,
+  "doctype": "Sale Type",
+  "is_order_use_table": 1,
+  "is_standard": 1,
+  "modified": "2023-03-26 16:26:43.269481",
+  "name": "Delivery",
+  "sale_type_name": "Delivery",
+  "sort_order": 0
+ },
+ {
+  "color": "#4F9DD9",
+  "docstatus": 0,
+  "doctype": "Sale Type",
+  "is_order_use_table": 1,
+  "is_standard": 1,
+  "modified": "2023-03-26 16:26:43.172317",
+  "name": "Dine In",
+  "sale_type_name": "Dine In",
+  "sort_order": 3
+ }
+]
