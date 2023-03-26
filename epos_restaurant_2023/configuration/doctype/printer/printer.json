@@ -13,7 +13,8 @@
   "group_item_type",
   "ip_address",
   "port",
-  "business_branch_printer"
+  "business_branch_printer",
+  "is_standard"
  ],
  "fields": [
   {
@@ -62,11 +63,17 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Business Branch Printer"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_standard",
+   "fieldtype": "Check",
+   "label": "Is Standard"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-29 15:44:24.882767",
+ "modified": "2023-03-26 16:43:27.826699",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Printer",
