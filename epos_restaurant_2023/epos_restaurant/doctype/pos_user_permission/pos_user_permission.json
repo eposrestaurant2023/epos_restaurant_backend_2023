@@ -9,16 +9,24 @@
  "engine": "InnoDB",
  "field_order": [
   "pos_user_permission",
+  "section_break_2",
+  "make_order",
   "delete_bill",
+  "edit_closed_receipt",
   "cancel_print_bill",
   "discount_sale",
+  "column_break_6",
   "free_item",
   "change_item_price",
   "delete_item",
   "discount_item",
+  "column_break_13",
   "open_cashdrawer",
-  "column_break_8",
-  "make_order",
+  "start_working_day",
+  "close_working_day",
+  "start_cashier_shift",
+  "close_cashier_shift",
+  "cash_in_check_out",
   "section_break_7",
   "discount_codes"
  ],
@@ -76,10 +84,6 @@
    "label": "Discount Sale"
   },
   {
-   "fieldname": "column_break_8",
-   "fieldtype": "Column Break"
-  },
-  {
    "default": "1",
    "fieldname": "make_order",
    "fieldtype": "Check",
@@ -96,11 +100,59 @@
    "fieldname": "delete_bill",
    "fieldtype": "Check",
    "label": "Delete Bill"
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "edit_closed_receipt",
+   "fieldtype": "Check",
+   "label": "Edit Closed Receipt"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "start_working_day",
+   "fieldtype": "Check",
+   "label": "Start Working Day"
+  },
+  {
+   "default": "1",
+   "fieldname": "close_working_day",
+   "fieldtype": "Check",
+   "label": "Close Working Day"
+  },
+  {
+   "default": "1",
+   "fieldname": "start_cashier_shift",
+   "fieldtype": "Check",
+   "label": "Start Cashier Shift"
+  },
+  {
+   "default": "1",
+   "fieldname": "close_cashier_shift",
+   "fieldtype": "Check",
+   "label": "Close Cashier Shift"
+  },
+  {
+   "default": "0",
+   "fieldname": "cash_in_check_out",
+   "fieldtype": "Check",
+   "label": "Cash In & Cash Out"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-08 09:12:00.726171",
+ "modified": "2023-03-26 19:59:42.795465",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "POS User Permission",
