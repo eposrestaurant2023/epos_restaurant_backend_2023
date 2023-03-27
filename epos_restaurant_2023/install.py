@@ -1,4 +1,5 @@
 import frappe
+import datetime
 
 def after_install():
     # ceate table group
@@ -73,4 +74,47 @@ def create_table(tbl_no):
         )
         doc.insert()
 
+def replace_format(string,year):
+     
+    year_short = str(datetime.datetime.now().year)[-2:]
+    month = str(datetime.datetime.now().month).zfill(2)
+    digit = str(1).zfill(4)
+    return string.replace('.', '').replace('YYYY', year).replace('yyyy', year).replace('YY', year_short).replace('yy', year_short).replace('MM', month).replace('#', '')
 
+
+@frappe.whitelist()
+def reset_sale_transaction():
+   
+
+
+    if frappe.session.user == 'Administrator':
+        frappe.db.sql("delete from `tabCash Transaction`")
+        frappe.db.sql("delete from `tabPOS Sale Payment`")
+        frappe.db.sql("delete from `tabSale Payment`")
+        frappe.db.sql("delete from `tabSale Product`")
+        frappe.db.sql("delete from `tabSale`")
+        frappe.db.sql("delete from `tabCashier Shift Cash Float`")
+        frappe.db.sql("delete from `tabCashier Shift`")
+        frappe.db.sql("delete from `tabWorking Day`")
+        frappe.db.sql("delete from `tabComment` where reference_doctype in ('Sale','POS Sale Payment','Sale Payment','Sale Product','Cashier Shift Cash Float','Cashier Shift','Working Day')")
+
+        
+
+        #reset sale transaction 
+        doctypes = ["Sale","Sale Payment","Cashier Shift","Working Day","Cash Transaction"]
+        for d in doctypes:
+            if frappe.get_meta("Sale").get_field("naming_series"):
+                formats =  frappe.get_meta(d).get_field("naming_series").options
+                if formats:
+                    for f in formats.split("\n"):
+                        for n in range(2022, 2030):
+                            format_text = replace_format(f,str(n))
+                            
+                            frappe.db.sql("update `tabSeries` set current=  0 where name='{}'".format(format_text) )
+        
+
+        frappe.db.commit()
+
+        return "Done"
+    else:
+        return "Please login as administrator"
