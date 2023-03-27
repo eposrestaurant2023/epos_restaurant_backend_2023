@@ -76,11 +76,11 @@ export default class Product {
         }
         
         let modifiers=  JSON.parse( p.modifiers);
+    
         modifiers.forEach((r)=>{
             r.selected = false
         });
         this.modifiers =modifiers;
-        console.log(this.modifiers)
         
  
     }

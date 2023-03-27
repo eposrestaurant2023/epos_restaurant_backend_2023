@@ -24,7 +24,7 @@
                             {{item.prefix}} {{item.modifier}} - <CurrencyFormat :value="item.price"/>
                             </v-chip>
                         </div>
-                        {{ product.prices }}
+                        {{ product.getModifierItem(item).length }} |  {{ product.modifiers }}
                         <v-expansion-panels v-model="panelPortion" multiple variant="accordion">
                             <v-expansion-panel title="Portion" v-if="product?.prices?.length>1" :class="mobile ? 'panel-small' : ''">
                                 <v-expansion-panel-text>
