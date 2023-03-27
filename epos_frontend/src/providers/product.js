@@ -109,9 +109,12 @@ export default class Product {
 
     getModifierItem(category) {
         if (this.keyword == "") {
-            return category.items.filter((r) => {
-                return (r.branch == this.setting?.business_branch || r.branch == '')
+            let data = category.items.filter((r) => {
+                r.branch == this.setting?.business_branch || r.branch == ''
             });
+
+            console.log(data)
+            
         } else {
 
             return category.items.filter((r) => {

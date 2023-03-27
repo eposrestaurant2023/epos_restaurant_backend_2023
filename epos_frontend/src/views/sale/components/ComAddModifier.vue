@@ -24,7 +24,7 @@
                             {{item.prefix}} {{item.modifier}} - <CurrencyFormat :value="item.price"/>
                             </v-chip>
                         </div>
-                        {{ product.getModifierItem(item).length }} |  {{ product.modifiers }}
+                        {{ product.modifiers }}
                         <v-expansion-panels v-model="panelPortion" multiple variant="accordion">
                             <v-expansion-panel title="Portion" v-if="product?.prices?.length>1" :class="mobile ? 'panel-small' : ''">
                                 <v-expansion-panel-text>
@@ -36,7 +36,8 @@
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
                             <template v-for="(item, index) in product.modifiers" :key="index">
-                                <v-expansion-panel v-if="product.getModifierItem(item).length>0" class="mt-2" variant="accordion" :class="mobile ? 'panel-small' : ''">
+                                {{ product.getModifierItem(item).length }}<br/>
+                                <!-- <v-expansion-panel v-if="product.getModifierItem(item).length>0" class="mt-2" variant="accordion" :class="mobile ? 'panel-small' : ''">
                                    <template #title>
                                     <span>{{  item.category  }}</span> 
                                     <span v-if="item.is_required" class="text-red-500 mx-2 text-xs">* Required</span>
@@ -48,7 +49,7 @@
                                             </template>
                                         </div>
                                     </v-expansion-panel-text>
-                                </v-expansion-panel>
+                                </v-expansion-panel> -->
                             </template>
                         </v-expansion-panels>
                     </div>
