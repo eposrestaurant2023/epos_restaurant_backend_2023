@@ -209,6 +209,7 @@ fixtures = [
     {"dt": "Sale Status"},
     {"dt": "Province"},
     {"dt": "Outlet"},
+    {"dt": "Dates"},
     
 ]
 
