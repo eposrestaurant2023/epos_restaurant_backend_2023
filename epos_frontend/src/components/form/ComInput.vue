@@ -48,7 +48,7 @@
         </div>
         <div v-else>
             <v-text-field
-                :autofocus="requiredAutofocus"
+                :autofocus="validAutofocus"
                 clearable
                 :required="required"
                 v-if="keyboard && !mobile"
@@ -71,7 +71,7 @@
             </v-text-field>
             <v-text-field
                 v-else
-                :autofocus="requiredAutofocus"
+                :autofocus="validAutofocus"
                 :required="required"
                 :type="type"
                 :density="density"
@@ -168,7 +168,7 @@ let value = computed({
     }
 })
 const validAutofocus = computed(()=>{
-    return props.requiredAutofocus ? true : autofocus && !mobile
+    return props.requiredAutofocus ? true : props.autofocus && !mobile
 })
 // let data = ref(props.modelValue)
 const emit = defineEmits(['update:modelValue'])

@@ -10,7 +10,6 @@
         </template>
         <template #content>
             <div class="mb-4">
-                {{ x }}
                         <ComInput prepend-inner-icon="mdi-magnify" keyboard :value="keyword" v-debounce="onSearch" @onInput="onSearch" placeholder="Search Portion & Modifier"/>
                     </div>
                     <div>
@@ -23,8 +22,7 @@
                              :key="index">
                             {{item.prefix}} {{item.modifier}} - <CurrencyFormat :value="item.price"/>
                             </v-chip>
-                        </div>
-                        {{ product.modifiers }}
+                        </div> 
                         <v-expansion-panels v-model="panelPortion" multiple variant="accordion">
                             <v-expansion-panel title="Portion" v-if="product?.prices?.length>1" :class="mobile ? 'panel-small' : ''">
                                 <v-expansion-panel-text>
@@ -36,8 +34,7 @@
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
                             <template v-for="(item, index) in product.modifiers" :key="index">
-                                {{ product.getModifierItem(item).length }}<br/>
-                                <!-- <v-expansion-panel v-if="product.getModifierItem(item).length>0" class="mt-2" variant="accordion" :class="mobile ? 'panel-small' : ''">
+                                <v-expansion-panel v-if="product.getModifierItem(item).length>0" class="mt-2" variant="accordion" :class="mobile ? 'panel-small' : ''">
                                    <template #title>
                                     <span>{{  item.category  }}</span> 
                                     <span v-if="item.is_required" class="text-red-500 mx-2 text-xs">* Required</span>
@@ -49,7 +46,7 @@
                                             </template>
                                         </div>
                                     </v-expansion-panel-text>
-                                </v-expansion-panel> -->
+                                </v-expansion-panel>
                             </template>
                         </v-expansion-panels>
                     </div>
@@ -76,10 +73,6 @@ product.keyword = "";
 let keyword = ref()
 const panelPortion = ref([0,1,2,3,4,5,6,7,8,9])
 const emit = defineEmits(["resolve","reject"])
-const x = computed(()=>{
-return product.getSelectedModierList()})
-
-
 
 function onConfirm(){
     product.validateModifier().then((value)=>{

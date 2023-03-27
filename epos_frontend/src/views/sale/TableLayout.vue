@@ -39,8 +39,7 @@ const router = useRouter()
 socket.on("RefreshTable", () => {
 
   tableLayout.getSaleList();
-  toaster.warning("tablerefresh")
-
+ 
 })
 
 

@@ -117,7 +117,7 @@ export default class Gv {
 		}
  
 		if(new Date() > new Date(check_date)){
-		 await confirm({title:'Close Working Day', text:'Your working is to long. Please close your working day.',hide_cancel:true});			
+		 await confirm({title:'Close Working Day', text:'Your working day is to long. Please close your working day.',hide_cancel:true});			
 			 
 		}
 	}

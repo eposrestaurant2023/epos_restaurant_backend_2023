@@ -23,6 +23,7 @@ let resource = ref(createDocumentResource({
   url: 'frappe.client.get',
   doctype: 'Customer',
 }));
+
 const props = defineProps({
   params: {
     type: Object,
@@ -30,6 +31,7 @@ const props = defineProps({
   }
 })
 
+alert(123)
 watch(() => resource.value?.doc, (d) => {
   if (d != null) {
     emit("resolve", d);

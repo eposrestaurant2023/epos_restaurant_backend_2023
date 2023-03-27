@@ -2,7 +2,7 @@
   <div class="bg-blue-100 rounded-tl-md rounded-tr-md text-xs w-full">
     <ComSaleSummaryList />
     <div class="flex w-full">
-      <div class="w-4/5 cursor-pointer bg-green-600 text-white p-1 hover:bg-green-700" @click="onPayment()">
+      <div style="width: calc(100% - 100px);" class="cursor-pointer bg-green-600 text-white p-1 hover:bg-green-700" @click="onPayment()">
         <div class="flex justify-between mb-1 text-sm">
           <div>Payment</div>
           <div>
@@ -17,12 +17,12 @@
           </div>
         </div>
       </div>
-      <div class="w-1/5">
+      <div style="width: 100px;">
         <v-btn
           stacked 
           rounded="0"
-          color="primary"
           class="p-1"
+          style="background-color: #2563eb; color: #fff;"
           @click="onSubmit()">
           <div>
             <v-icon icon="mdi-arrow-right"></v-icon>

@@ -16,6 +16,18 @@
                 @click="onUpdateGuestCover()">
                 {{ sale.sale.guest_cover }}
             </v-chip>
+            
+        <v-chip  
+                v-if="sale.sale.seat_number"
+                style="margin: 1px;" 
+                :size="screen.chipSize"
+                rounded="pill" 
+                variant="tonal"
+                prepend-icon="mdi-chair-school"
+                @click="onUpdateSeatNumber()">
+                {{ sale.sale.seat_number }}
+            </v-chip>
+
         <ComChip tooltip="Price Rule" prepend-icon="mdi-bulletin-board">{{ sale.sale.price_rule }}</ComChip>   
     </div>
 </template>
@@ -40,4 +52,14 @@ async function onUpdateGuestCover(){
         }
     }
 }
+async function onUpdateSeatNumber(){
+   
+        const result = await keyboardDialog({ title: "Change Seat Number", type: 'number', value: sale.sale.seat_number });
+        if(result){
+            if (typeof result != 'boolean' && result != false) {
+            sale.sale.seat_number = result;
+            }
+        }
+}
+
 </script>

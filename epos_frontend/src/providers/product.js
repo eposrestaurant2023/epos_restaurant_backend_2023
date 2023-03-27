@@ -76,11 +76,12 @@ export default class Product {
         }
         
         let modifiers=  JSON.parse( p.modifiers);
-    
+ 
         modifiers.forEach((r)=>{
             r.selected = false
         });
         this.modifiers =modifiers;
+        console.log(this.modifiers)
         
  
     }
@@ -109,12 +110,9 @@ export default class Product {
 
     getModifierItem(category) {
         if (this.keyword == "") {
-            let data = category.items.filter((r) => {
-                r.branch == this.setting?.business_branch || r.branch == ''
+            return category.items.filter((r) => {
+                return (r.branch == this.setting?.business_branch || r.branch == '')
             });
-
-            console.log(data)
-            
         } else {
 
             return category.items.filter((r) => {

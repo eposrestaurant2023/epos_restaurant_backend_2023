@@ -93,7 +93,8 @@
   "column_break_36",
   "exchange_rate",
   "note",
-  "is_foc"
+  "is_foc",
+  "seat_number"
  ],
  "fields": [
   {
@@ -621,6 +622,11 @@
    "fieldname": "sale_type_color",
    "fieldtype": "Data",
    "label": "Sale Type Color"
+  },
+  {
+   "fieldname": "seat_number",
+   "fieldtype": "Int",
+   "label": "Seat Number"
   }
  ],
  "image_field": "photo",
@@ -633,7 +639,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-03-26 20:06:46.522079",
+ "modified": "2023-03-27 15:23:30.055611",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

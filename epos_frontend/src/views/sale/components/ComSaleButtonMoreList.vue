@@ -19,6 +19,7 @@
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-account-multiple-outline" :title="`Change Guest Cover (${sale.sale.guest_cover})`" @click="onUpdateGuestCover()" />
     <v-list-item prepend-icon="mdi-cart" title="Change Sale Type" @click="onChangeSaleType()" />
     <v-list-item prepend-icon="mdi-cash-100" title="Tax Setting" @click="onViewInvoice()" />
+    <v-list-item prepend-icon="mdi-chair-school" title="Seat#" @click="onSeatNumber()" />
     
     <v-list-item v-if="sale.sale.sale_products?.filter(r=>r.name == undefined).length>0" @click="onClearOrder()">
         <template #prepend>
@@ -116,7 +117,20 @@ function onOpenCashDrawer() {
         }
     });
 }
+async function onSeatNumber(){ 
+    const result = await keyboardDialog({ title: "Change Seat Number", type: 'number', value: sale.sale.seat_number });
 
+        if (typeof result == 'number') {
+
+            sale.sale.seat_number = parseInt(result);
+            if (sale.sale.seat_number == undefined || isNaN(sale.sale.seat_number)) {
+                sale.sale.seat_number = 0;
+            }
+
+        } else {
+            return;
+        }
+}
 async function onDeleteBill() {
     //check authorize and     check reason
  
