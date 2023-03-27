@@ -18,7 +18,7 @@
             </v-chip>
             
         <v-chip  
-                v-if="sale.sale.seat_number"
+            v-if="setting.table_groups && setting.table_groups.length > 0"
                 style="margin: 1px;" 
                 :size="screen.chipSize"
                 rounded="pill" 
