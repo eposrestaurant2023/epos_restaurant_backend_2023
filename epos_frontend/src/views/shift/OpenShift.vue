@@ -1,15 +1,15 @@
 <template>
-    <PageLayout title="Open Shift" icon="mdi-clock">
+    <PageLayout title="Open Shift" icon="mdi-clock" class="pa-4">
         <v-row v-if="!working_day.loading && working_day.data">
-            <v-col md="6">
-                <v-text-field label="Open Shift Date" v-model="working_day.data.name" variant="solo"
+            <v-col cols="12" md="6" class="ma-0 py-0">
+                <v-text-field  label="Open Shift Date" v-model="working_day.data.name" variant="solo"
                     readonly></v-text-field>
             </v-col>
-            <v-col md="6">
-                <v-text-field label="Working Day" v-model="working_date" variant="solo" readonly></v-text-field>
+            <v-col cols="12" md="6" class="ma-0 py-0">
+                <v-text-field  label="Working Day" v-model="working_date" variant="solo" readonly></v-text-field>
             </v-col>
-            <v-col md="6">
-                <v-text-field label="POS Profile" v-model="pos_profile" variant="solo" readonly></v-text-field>
+            <v-col cols="12" md="6" class="ma-0 py-0">
+                <v-text-field  label="POS Profile" v-model="pos_profile" variant="solo" readonly></v-text-field>
             </v-col>
            
         </v-row>
@@ -17,19 +17,19 @@
         <h1 class="my-4">Cash Float</h1>
         <div v-if="payment_types">
             <v-row >
-                <v-col md="6" v-for="p in payment_types.filter(p => p.allow_cash_float == 1)">
+                <v-col cols="12" md="6" class="ma-0 py-0" v-for="p in payment_types.filter(p => p.allow_cash_float == 1)">
                     <v-text-field  :label="p.payment_method"  v-model="p.input_amount" variant="solo" append-inner-icon="mdi-keyboard"
                             @click:append-inner="OpenKeyboard(p)"></v-text-field>
                 </v-col>
             </v-row>
         </div>
         <v-row v-if="payment_types.filter(p => p.allow_cash_float == 1).length>1">
-            <v-col md="6">
+            <v-col cols="12" md="6" class="ma-0 pa-y">
                 <v-text-field readonly label="Total Cash Float" variant="solo" v-model="totalCashFloat"></v-text-field>
                 
             </v-col>
         </v-row>
-                <ComInput title="Enter Note" keyboard label="Open Note" v-model="opened_note" type="textarea" class="my-8"></ComInput>
+                <ComInput title="Enter Note" keyboard label="Open Note" v-model="opened_note" type="textarea" class="mt-0 mb-8 py-0"></ComInput>
          
        
         <v-btn @click="onOpenShift" :loading="addCashierShiftResource.loading" color="primary">Open Shift</v-btn>

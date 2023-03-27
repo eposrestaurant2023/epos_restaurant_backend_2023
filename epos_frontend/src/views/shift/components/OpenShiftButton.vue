@@ -25,8 +25,9 @@ const current_open_shift = createResource({
         pos_profile: localStorage.getItem("pos_profile")
     },
     onSuccess(data) {
-
+        if(data){ 
         gv.cashierShift = data.name
+        }
     },
     auto: true,
 

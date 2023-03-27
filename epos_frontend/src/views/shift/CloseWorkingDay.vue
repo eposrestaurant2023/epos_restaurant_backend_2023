@@ -1,5 +1,5 @@
 <template>
-    <PageLayout class="pb-4" title="Close Working Day:" icon="mdi-calendar-clock">
+    <PageLayout class="pa-4" title="Close Working Day:" icon="mdi-calendar-clock" >
         <template #title>
             {{ shiftInformation.data?.working_day?.name }}
         </template>
@@ -9,12 +9,12 @@
         <template #default>
             <ComAlertPendingOrder v-if="shiftInformation.data?.working_day" type="warning" :working_day="shiftInformation.data?.working_day?.name" @getPendingOrder="onGetPendingOrder($event)"/>
             <v-row v-if="shiftInformation.data?.working_day">
-                <v-col md="6">
+                <v-col cols="12" md="6">
                     <ComInput title="POS Profile" label="POS Profile" v-model="shiftInformation.data.working_day.pos_profile"
                         readonly></ComInput>
 
                 </v-col>
-                <v-col md="6">
+                <v-col md="6" cols="12">
                     <ComInput title="Working Date" label="Working Date" v-model="working_date" readonly></ComInput>
 
                 </v-col>
@@ -89,10 +89,10 @@ onMounted(async () => {
                 });
                 //check from setting if system will need to print after close shift
                 if (localStorage.getItem("is_window") == 1) {
-                    if (setting.print_working_day_summary_after_close_working_day == 1) {
+                    if (gv.setting.print_working_day_summary_after_close_working_day == 1) {
                         window.chrome.webview.postMessage("working_doc");
                     }
-                    if (setting.print_working_day_sale_product_summary_after_close_working_day == 1) {
+                    if (gv.setting.print_working_day_sale_product_summary_after_close_working_day == 1) {
                         window.chrome.webview.postMessage("working_doc");
                     }
                 }
