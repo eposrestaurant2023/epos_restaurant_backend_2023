@@ -34,7 +34,7 @@ def after_install():
     #create note
     create_note("Edit Closed Receipt",["Wrong Payment","Wrong Product","Guest Cancel","Cashier Error"])
 
-def create_note(name, notes):
+def create_note(name, note_list):
     if not frappe.db.exists("Category Note", note_list):
         notes = []
         for n in note_list:
