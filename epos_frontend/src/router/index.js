@@ -17,11 +17,13 @@ import StartupConfig from "@/views/checking_system/StartupConfig.vue"
 import CashDrawer from "@/views/cash_drawer/CashDrawer.vue"
 import Report from "@/views/report/Report.vue"
 import ServerError from "@/views/checking_system/ServerError.vue"
+import CustomerDisplay from "@/views/customer_display/CustomerDisplay.vue"
  
 import authRoutes from './auth';
 
 const routes = [
   { path: "/", redirect: '/epos_frontend'},
+ 
   { path: "/server-error", redirect: '/epos_frontend/server-error'},
   { path: "/epos_frontend", name: "Home", component: Home, meta: { layout: 'main_layout' } },
   {path: '/epos_frontend/startup-config', name: 'StartupConfig',component: StartupConfig, meta: { isStartupConfig: true }, props: true},
@@ -41,6 +43,7 @@ const routes = [
   { path: "/epos_frontend/report", name: "Report", component: Report, meta: { layout: "main_layout"}},
   { path: "/epos_frontend/server-error", name: "ServerError", component: ServerError},
   { path: "/epos_frontend/closed-sale-list", name: "ClosedSaleList", component: ClosedSaleList,meta: { layout: "main_layout" }},
+  { path: "/epos_frontend/customer-display", name: "CustomerDisplay", component: CustomerDisplay},
   ...authRoutes,
 ];
 

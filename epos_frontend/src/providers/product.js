@@ -70,6 +70,7 @@ export default class Product {
             p.selected = false;
             this.prices.push(p)
         });
+        
         if(this.prices.length>0){
             this.prices[0].selected = true;
         }
@@ -79,7 +80,7 @@ export default class Product {
             r.selected = false
         });
         this.modifiers =modifiers;
-
+        console.log(this.modifiers)
         
  
     }
@@ -144,7 +145,7 @@ export default class Product {
         }
         return selected;
     }
-    getSelectedModierList(){
+    getSelectedModierList(){ 
         return (Enumerable.from(this.modifiers).selectMany("$.items").where("$.selected==true").orderBy("$.modifier")).toArray();
     }
 

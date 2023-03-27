@@ -25,8 +25,8 @@
           class="p-1"
           @click="onSubmit()">
           <div>
-            <v-icon icon="mdi-arrow-right-thick"></v-icon>
-            <div class="text-sm">Submit Order</div>
+            <v-icon icon="mdi-arrow-right"></v-icon>
+            <div class="text-xs">Submit Order</div>
           </div>
         </v-btn>
       </div>

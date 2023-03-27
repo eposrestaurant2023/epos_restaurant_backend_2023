@@ -87,7 +87,29 @@
                         <div class="px-1 py-2 -m-1 whitespace-normal">
                             <v-row>
                                 <v-col cols="12" lg="7" xl="8">
-                                    <div v-if="activeReport.name == 'Cashier Shift'">
+                                    <v-tabs
+                                    show-arrows
+                                    >
+                                    <template v-if="activeReport.name == 'Cashier Shift'">
+                                        <v-tab
+                                            v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Cashier Shift' && r.show_in_pos == 1)"
+                                            :key="index"
+                                            @click="onPrintFormat(r)"
+                                            >
+                                            {{ r.title }}
+                                        </v-tab>
+                                    </template>
+                                    <template v-else-if="activeReport.name == 'Working Day'">
+                                        <v-tab 
+                                        v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Working Day' && r.show_in_pos == 1)"
+                                        :key="index"
+                                        @click="onPrintFormat(r)"
+                                        >
+                                        {{ r.title }}
+                                        </v-tab>
+                                    </template>
+                                    </v-tabs>
+                                    <!-- <div v-if="activeReport.name == 'Cashier Shift'">
                                         <v-btn
                                             v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Cashier Shift' && r.show_in_pos == 1)"
                                             :key="index" :color="activeReport.preview_report == r.name ? 'info' : 'default'"
@@ -99,7 +121,7 @@
                                             :key="index" class="m-1"
                                             :color="activeReport.preview_report == r.name ? 'info' : 'default'"
                                             @click="onPrintFormat(r)">{{ r.title }}</v-btn>
-                                    </div>
+                                    </div> -->
                                 </v-col>
                                 <v-col cols="12" lg="5" xl="4">
                                     <div class="flex items-center justify-end">

@@ -1,6 +1,6 @@
 export default [
     {
-		path: '/login',
+		path: '/epos_frontend/login',
 		name: 'Login',
 		component: () =>
 			import(/* webpackChunkName: "login" */ '../views/Login.vue'),

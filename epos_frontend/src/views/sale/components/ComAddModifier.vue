@@ -10,12 +10,13 @@
         </template>
         <template #content>
             <div class="mb-4">
+                {{ x }}
                         <ComInput prepend-inner-icon="mdi-magnify" keyboard :value="keyword" v-debounce="onSearch" @onInput="onSearch" placeholder="Search Portion & Modifier"/>
                     </div>
                     <div>
-         
+                        
                         <div>
-                            <v-chip :size="mobile ? 'small' : 'default'" closable  
+                            <v-chip :size="mobile ? 'large' : 'x-large'" closable  
                             @click:close="onRemoveModifier(item)" 
                             class="m-1" 
                              v-for="(item, index) in product.getSelectedModierList()" 
@@ -23,6 +24,7 @@
                             {{item.prefix}} {{item.modifier}} - <CurrencyFormat :value="item.price"/>
                             </v-chip>
                         </div>
+                        {{ product.prices }}
                         <v-expansion-panels v-model="panelPortion" multiple variant="accordion">
                             <v-expansion-panel title="Portion" v-if="product?.prices?.length>1" :class="mobile ? 'panel-small' : ''">
                                 <v-expansion-panel-text>
@@ -55,7 +57,7 @@
 </template>
   
 <script setup>
-import { ref,defineEmits,inject } from '@/plugin'
+import { ref,defineEmits,inject, computed } from '@/plugin'
 import ComToolbar from '@/components/ComToolbar.vue';
 import ComModifierItem from './ComModifierItem.vue';
 import ComInput from '../../../components/form/ComInput.vue';
@@ -73,7 +75,8 @@ product.keyword = "";
 let keyword = ref()
 const panelPortion = ref([0,1,2,3,4,5,6,7,8,9])
 const emit = defineEmits(["resolve","reject"])
- 
+const x = computed(()=>{
+return product.getSelectedModierList()})
 
 
 

@@ -93,8 +93,14 @@ await cashierShiftResource.fetch().then(async (v) => {
 
 })
 
+
+
 })
 
+onUnmounted(()=>{
+    socket.off('RefreshTable')
+      
+});
  
 
 </script> 

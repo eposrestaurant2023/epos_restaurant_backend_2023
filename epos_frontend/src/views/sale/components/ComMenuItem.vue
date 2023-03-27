@@ -89,9 +89,10 @@ async function onClickProduct() {
 
         } else {
             
-            const portions = JSON.parse(p.prices).filter(r=>(r.branch == sale.sale.business_branch || r.branch == '')  && r.price_rule == sale.sale.price_rule);
- 
-            if (JSON.parse(p.modifiers).length > 0 || portions.length > 1) {
+            const portions = JSON.parse(p.prices).filter(r=>(r.business_branch == sale.sale.business_branch || r.business_branch == '')  && r.price_rule == sale.sale.price_rule);
+            const modifiers = JSON.parse(p.modifiers).filter(r=>(r.business_branch == sale.sale.business_branch || r.business_branch == ''))
+            alert(p.modifiers)
+            if (modifiers.length > 0 || portions.length > 1) {
                 product.setSelectedProduct(props.data);
               
                 let result = await addModifierDialog();

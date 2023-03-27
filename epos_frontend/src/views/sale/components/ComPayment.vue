@@ -8,7 +8,6 @@
             <ComSelectPaymentPrinter @onClick="onSelectedReceipt" :selected="selectedReceipt.name" v-if="mobile" />
         </template>
         <template #content>
-          {{ platform }}
             <div v-if="mobile" class="!p-1 overflow-auto">
                 <ComSmallSalePayment />
             </div>

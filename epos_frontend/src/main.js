@@ -123,7 +123,7 @@ router.beforeEach(async (to, from, next) => {
 			// this route requires auth, check if logged in
 			// if not, redirect to login page.
 			if (!auth.isLoggedIn) {
-				
+			 
 				next({ name: 'Login', query: { route: to.path } });
 			} else {
 				next();
