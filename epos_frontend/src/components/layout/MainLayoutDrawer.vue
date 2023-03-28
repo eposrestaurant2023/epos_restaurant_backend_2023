@@ -97,7 +97,9 @@ function onRoute(page) {
 
 }
 function onLogout(){
-    auth.logout()
+  auth.logout().then((r) => {
+        router.push({ name: 'Login' })
+    })
 }
 function onPOS(){
     const setting = JSON.parse(localStorage.getItem('setting'))
