@@ -94,6 +94,7 @@ export default class Sale {
             table_id: this.table_id,
             tbl_number: this.tbl_number,
             pos_profile: this.setting?.pos_profile,
+            pos_station_name: localStorage.getItem("device_name"),
             customer: this.customer || this.setting?.customer,
             customer_photo: this.customer_photo || this.customer_name ? this.customer_photo : this.setting?.customer_photo,
             customer_name: this.customer_name || this.setting?.customer_name,
@@ -928,6 +929,7 @@ export default class Sale {
                 this.updatePaymentAmount();
               
                 this.paymentInputNumber = this.sale.balance.toFixed(this.setting.pos_setting.main_currency_precision);
+               
             
             }else{
                 toaster.warning("Please enter payment amount");

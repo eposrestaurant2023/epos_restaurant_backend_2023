@@ -53,9 +53,10 @@
   "balance",
   "changed_amount",
   "section_break_43",
+  "created_by",
   "pos_station_name",
   "column_break_45",
-  "created_by",
+  "closed_by",
   "payments_tab",
   "payment",
   "tax_tab",
@@ -627,6 +628,11 @@
    "fieldname": "seat_number",
    "fieldtype": "Int",
    "label": "Seat Number"
+  },
+  {
+   "fieldname": "closed_by",
+   "fieldtype": "Data",
+   "label": "Closed By"
   }
  ],
  "image_field": "photo",
@@ -639,7 +645,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-03-27 15:23:30.055611",
+ "modified": "2023-03-28 08:53:04.157144",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

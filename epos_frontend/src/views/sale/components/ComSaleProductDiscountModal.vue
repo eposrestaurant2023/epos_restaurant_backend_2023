@@ -1,16 +1,17 @@
 <template>
     <ComModal :persistent="true" :width="categoryNoteName ? '1200px' : '800px'" @onClose="onClose()" @onOk="onOK()" title-ok-button="OK">
         <template #title>
-            <div>Product Discount</div>
+            <div>{{ params.title ?? "Discount" }}</div>
         </template>
         <template #content>
             <div>
+            
                     <v-row>
                         <v-col :md="categoryNoteName ? 6 : 12">
                             <div class="mb-2">
                                 <div class="mb-2">
                                     <v-alert variant="tonal" color="warning" class="!p-2">
-                                        Max discount <span class="mr-2">({{maxDiscountPercent * 100}}%)</span><span>{{discountAmount}}$</span>
+                                     Discountable Amount      <CurrencyFormat :value="params.value" />.   Max discount <span class="mr-2">({{maxDiscountPercent * 100}}%)</span><span>     <CurrencyFormat :value="Number(discountAmount)" /></span>
                                     </v-alert>
                                 </div>
                                 <ComInput 

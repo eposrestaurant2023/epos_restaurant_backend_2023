@@ -125,6 +125,11 @@ class Sale(Document):
 
 		if not self.created_by:
 			self.created_by = frappe.get_user().doc.full_name
+
+		if not self.closed_by and self.docstatus==1:
+	 
+			self.closed_by = frappe.get_doc("User",self.modified_by).full_name
+
 		if self.sale_status:
 			sale_status_doc = frappe.get_doc("Sale Status", self.sale_status)
 			self.sale_status_color = sale_status_doc.background_color

@@ -7,6 +7,9 @@
             </template>
             <template #append>
                 <ComTimeUpdate />
+                <v-btn icon="mdi-fullscreen" @click="onFullScreen()" v-if="!$gv.isFullscreen && isWindow"></v-btn>
+                <v-btn icon="mdi-fullscreen-exit" @click="onFullScreen()" v-if="$gv.isFullscreen && isWindow"></v-btn>
+
                 <v-menu :location="location">
                     <template v-slot:activator="{ props }">
                         <v-avatar :image="currentUser?.photo" v-bind="props" v-if="currentUser?.photo"
@@ -14,7 +17,9 @@
                         <avatar v-else :name="currentUser?.full_name || 'No Name'" v-bind="props" class="cursor-pointer" size="40">
                         </avatar>
                     </template>
+                   
                     <v-card min-width="300">
+                   
                         <ComCurrentUserAvatar />
 
                         <v-divider></v-divider>
@@ -59,7 +64,7 @@ import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue';
 import ComToolbar from '../ComToolbar.vue';
 import ComTimeUpdate from './components/ComTimeUpdate.vue';
 export default {
-    inject: ["$auth"],
+    inject: ["$auth","$gv"],
     name: "MainLayout",
     computed: {
         appTitle() {
@@ -67,11 +72,15 @@ export default {
         },
         currentUser() {
             return JSON.parse(localStorage.getItem('current_user'))
+        },
+        isWindow(){
+            return localStorage.getItem('is_window')=='1';
         }
     },
     data() {
         return {
-            drawer: false
+            drawer: false,
+            isFullscreen: true
         }
     },
     components: {
@@ -92,7 +101,13 @@ export default {
             this.$auth.logout().then((r)=>{
                 this.$router.push({name: 'Login'})
             })
+        },
+       
+        onFullScreen(){
+            window.chrome.webview.postMessage(JSON.stringify({action:"toggle_fullscreen", "is_full": this.$gv.isFullscreen?"0":"1"}));
+            this.$gv.isFullscreen = this.$gv.isFullscreen?false:true;
         }
+        
     },
 }
 </script>

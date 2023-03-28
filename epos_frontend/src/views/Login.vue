@@ -5,7 +5,6 @@
         v-bind:style="{ 'background-image': 'url(' + setting?.login_background + ')' }">
         <div class="h-full w-full p-10 flex justify-center items-center">
           <div>
-
             <div
               class="app-info w-96 inline-block text-center rounded-lg pa-4 bg-gradient-to-t from-yellow-900 to-yellow-700 text-white shadow-sm">
 
@@ -98,9 +97,9 @@
           </div>
         </form>
 
-        <div class="fixed bottom-2 right-2 " v-if="isWindow()">
+        <div class="fixed bottom-8 " v-if="isWindow()">
 
-          <v-btn block prepend-icon="mdi-window-close" color="error" @click="onExitWindow()">exit</v-btn>
+          <v-btn block  class="w-full" prepend-icon="mdi-window-close"  size="x-large" color="error" @click="onExitWindow()">exit</v-btn>
         </div>
       </div>
     </v-col>

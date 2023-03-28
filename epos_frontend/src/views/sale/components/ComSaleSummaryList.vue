@@ -10,7 +10,7 @@
         </div>
       </div>
       
-      <div class="flex justify-between my-1" >
+      <div class="flex justify-between my-1" v-if="sale.sale.sale_discount>0">
         <div>
           Discountable Amount
         </div>

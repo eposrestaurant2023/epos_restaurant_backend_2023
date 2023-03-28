@@ -42,7 +42,7 @@
                         </div>
                         <div class="flex-none text-right w-36">
                             <div class="text-lg">
-                                
+                             
                                 <CurrencyFormat :value="sp.amount" />
                             </div>
                             <ComQuantityInput :sale-product="sp" />

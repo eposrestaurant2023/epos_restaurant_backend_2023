@@ -24,6 +24,8 @@
             </template>
             <template #append>
                 <ComTimeUpdate />
+                <v-btn icon="mdi-fullscreen" @click="onFullScreen()" v-if="!$gv.isFullscreen && isWindow"></v-btn>
+                <v-btn icon="mdi-fullscreen-exit" @click="onFullScreen()" v-if="$gv.isFullscreen && isWindow"></v-btn>
 
                 <ComSaleNotivication />
 
@@ -34,6 +36,7 @@
                     </template>
                     <v-card min-width="300">
                         <ComCurrentUserAvatar />
+                        
 
                         <v-divider></v-divider>
 
@@ -82,7 +85,7 @@ import { useDisplay } from 'vuetify'
 import { useRouter } from '@/plugin';
 
 export default {
-    inject: ["$auth", "$sale"],
+    inject: ["$auth", "$sale","$gv"],
 
     name: "MainLayout",
     components: {
@@ -104,6 +107,9 @@ export default {
     computed: {
         currentUser() {
             return JSON.parse(localStorage.getItem('current_user'))
+        },
+        isWindow(){
+            return localStorage.getItem('is_window')=='1';
         }
     },
     data() {
@@ -122,6 +128,11 @@ export default {
             this.$auth.logout().then((r)=>{
                 this.$router.push({name: 'Login'})
             })
+        },
+
+        onFullScreen(){
+            window.chrome.webview.postMessage(JSON.stringify({action:"toggle_fullscreen", "is_full": this.$gv.isFullscreen?"0":"1"}));
+            this.$gv.isFullscreen = this.$gv.isFullscreen?false:true;
         }
     },
 }

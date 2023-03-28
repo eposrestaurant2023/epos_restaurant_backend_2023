@@ -25,6 +25,6 @@ const sale = inject('$sale')
 function onRemovePayment(p) {
     sale.sale.payment.splice(sale.sale.payment.indexOf(p), 1);
     sale.updatePaymentAmount();
-    sale.paymentInputNumber = sale.sale.balance;
+    sale.paymentInputNumber = sale.sale.balance.toFixed(sale.setting.pos_setting.main_currency_precision);
 }
 </script> 

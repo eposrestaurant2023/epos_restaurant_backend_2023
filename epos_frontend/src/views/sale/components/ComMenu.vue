@@ -38,7 +38,7 @@ import ComMenuItem from './ComMenuItem.vue';
 import {  inject, defineProps } from '@/plugin';
 import { useDisplay } from 'vuetify'
 import ComSaleButtonActions from './ComSaleButtonActions.vue';
-const { mobile, name, platform } = useDisplay()
+const { mobile } = useDisplay()
 const product = inject("$product")
 const props = defineProps({
     backgroundImage: String

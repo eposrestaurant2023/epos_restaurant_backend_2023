@@ -1,9 +1,9 @@
 <template>
     <ComLoadingDialog
         v-if="sale.newSaleResource?.loading || (sale.saleResource != null && sale.saleResource?.get.loading) || (sale.saleResource != null && sale.saleResource?.setValue.loading)" />
-    <div style="height: calc(100vh - 64px)" id="tst">
-        <ComSmallAddSale v-if="mobile" />
-        <v-row class="h-full ma-0" v-else>
+    <ComSmallAddSale v-if="mobile" />
+    <div v-else style="height: calc(100vh - 64px)" id="tst">
+        <v-row class="h-full ma-0">
             <v-col cols="12" sm="7" md="7" lg="8" class="pa-0 h-full d-none d-sm-block">
                 <ComMenu :background-image="gv.setting.pos_sale_order_background_image" />
             </v-col>

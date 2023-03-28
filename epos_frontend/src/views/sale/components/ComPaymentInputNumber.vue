@@ -57,7 +57,7 @@
   </div>
 </template>
 <script setup>
-import { inject } from "@/plugin"
+import { inject,computed } from "@/plugin"
 import ComPaymentCurrencyPrefine from "./ComPaymentCurrencyPrefine.vue";
 const sale = inject("$sale")
 function numpad_click(n) {
@@ -69,5 +69,7 @@ function numpad_click(n) {
   }
   sale.paymentInputNumber = sale.paymentInputNumber + n;
 }
+
+
 
 </script>

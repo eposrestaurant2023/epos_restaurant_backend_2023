@@ -46,12 +46,16 @@
 </template>
 <script setup>
 import { defineProps, inject,keypadWithNoteDialog } from '@/plugin'
+import {createToaster} from '@meforma/vue-toaster';
 const sale = inject('$sale')
 const gv = inject("$gv")
 const tableLayout = inject("$tableLayout")
 const props = defineProps({
     saleProduct: Object
 })
+
+const toaster = createToaster({ position: "top" })
+
 function onRemoveNote() {
     props.saleProduct.note = "";
 }
@@ -102,6 +106,9 @@ function onRemoveSaleProduct() {
 }
 
 function onSaleProductDiscount(discount_type) {
+    if(props.saleProduct.allow_discount){
+
+     
     if (!sale.isBillRequested()) {
         gv.authorize("discount_item_required_password", "discount_item", "discount_item_required_note","Discount Item Note","",true).then((v) => {
             if (v) {
@@ -118,6 +125,10 @@ function onSaleProductDiscount(discount_type) {
         });
 
     }
+}
+else{
+    toaster.warning("This product is not allow to discount");
+}
 }
 function onSaleProductCancelDiscount() {
     if (!sale.isBillRequested()) {

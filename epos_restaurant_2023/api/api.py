@@ -68,6 +68,9 @@ def get_system_settings(pos_profile="", device_name=''):
         "address_en":pos_config.address_kh,
         "logo":pos_config.logo,
         "phone_number":pos_config.phone_number,
+        "vattin_number":pos_config.vattin_number,
+        "email":pos_config.email,
+        "website":pos_config.website,
 
         "main_currency_name":main_currency.name,
         "main_currency_symbol":main_currency.symbol,
@@ -76,7 +79,9 @@ def get_system_settings(pos_profile="", device_name=''):
         "second_currency_name":second_currency.name,
         "second_currency_symbol":second_currency.symbol,
         "second_currency_format":second_currency.pos_currency_format,
-
+        "tax_1_name":doc.tax_1_name,
+        "tax_2_name":doc.tax_2_name,
+        "tax_3_name":doc.tax_3_name,
 
         "thank_you_message":pos_config.thank_you_message,
         "cancel_print_bill_required_password":pos_config.cancel_print_bill_required_password,

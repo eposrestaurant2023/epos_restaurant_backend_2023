@@ -21,6 +21,7 @@ import ComChip from './components/ComChip.vue'
 import ComModal from './components/ComModal.vue'
 import Avatar from "vue3-avatar";
  import socket from './utils/socketio';
+ import print from 'vue3-print-nb'
  
 
 import Vue3DraggableResizable from 'vue3-draggable-resizable'
@@ -80,7 +81,7 @@ app.use(createBottomSheet())
 app.use(Toaster, {
 	position: "top",
 })
- 
+app.use(print)
  
 // Global Properties,
 // components can inject this

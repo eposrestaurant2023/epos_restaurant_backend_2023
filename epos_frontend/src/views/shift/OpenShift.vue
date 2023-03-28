@@ -55,7 +55,8 @@ const pos_profile = localStorage.getItem("pos_profile");
 const setting = JSON.parse(localStorage.getItem("setting"));
 const payment_types = reactive(setting.payment_types)
 const totalCashFloat = computed(() => {
-    return payment_types.reduce((n, r) => n + parseFloat(r.input_amount) / parseFloat(r.exchange_rate), 0)
+    const total = payment_types.reduce((n, r) => n + parseFloat(r.input_amount) / parseFloat(r.exchange_rate), 0)
+    return Number(total.toFixed(gv.setting.pos_setting.main_currency_precision)) ;
 })
 
 

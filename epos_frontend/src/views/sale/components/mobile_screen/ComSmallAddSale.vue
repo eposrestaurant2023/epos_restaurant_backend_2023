@@ -1,15 +1,16 @@
 
 <template>
-    <div class="overflow-auto" style="height: calc(100vh - 128px);">
-        <div class="pt-2">
-            <div class="px-2 pb-2">
-                <ComSelectCustomer  />
+    <div  class="grid h-full" style="grid-template-rows: max-content auto">
+        <div class="overflow-auto">
+            <div class="pt-2">
+                <div class="px-2 pb-2">
+                    <ComSelectCustomer  />
+                </div>
+                <ComProductSearch :small="true" />
+                <ComMenu /> 
             </div>
-            
-            <ComProductSearch :small="true" />
-            <ComMenu /> 
         </div>
-        <div class="bg-red-500 text-white fixed bottom-0 right-0 left-0 text-sm p-2" v-ripple @click="onViewDetail">
+        <div class="bg-red-500 text-white text-sm p-2" v-ripple @click="onViewDetail">
             <div>
                 <div class="text-xs" v-if="lastProduct">{{ lastProduct.product_code }} - {{ lastProduct.product_name }} ({{ lastProduct.quantity }})</div>
                 <div class="flex items-center justify-between">
@@ -35,8 +36,6 @@ const lastProduct = computed(()=>{
     return sale.sale?.sale_products?.find(r=>r.selected == true)
 })
 async function onViewDetail(){
-  
- const result =    await smallViewSaleProductListModel ({title: sale.sale.name ? sale.sale.name : 'New Sale', value:  ''});
-   
+ const result = await smallViewSaleProductListModel ({title: sale.sale.name ? sale.sale.name : 'New Sale', value:  ''});
 }
 </script> 

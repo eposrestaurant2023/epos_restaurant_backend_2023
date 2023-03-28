@@ -1,7 +1,5 @@
 <template>
     <div>
-      
-  
         <div v-if="type=='textarea'">
             <v-textarea
                 v-if="keyboard"
@@ -156,7 +154,10 @@ const props = defineProps({
     },
     keyboard: Boolean,
     autofocus:Boolean,
-    requiredAutofocus: Boolean
+    requiredAutofocus: {
+        type: Boolean,
+        default: false
+    }
 })
 
 let value = computed({
@@ -167,8 +168,8 @@ let value = computed({
         return newValue
     }
 })
-const validAutofocus = computed(()=>{
-    return props.requiredAutofocus ? true : props.autofocus && !mobile
+const validAutofocus = computed(()=>{ 
+    return props.requiredAutofocus ? true : props.autofocus && !mobile.value
 })
 // let data = ref(props.modelValue)
 const emit = defineEmits(['update:modelValue'])

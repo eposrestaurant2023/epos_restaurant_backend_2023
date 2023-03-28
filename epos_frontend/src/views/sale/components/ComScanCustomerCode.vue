@@ -31,7 +31,7 @@ const props = defineProps({
   }
 })
 
-alert(123)
+ 
 watch(() => resource.value?.doc, (d) => {
   if (d != null) {
     emit("resolve", d);
