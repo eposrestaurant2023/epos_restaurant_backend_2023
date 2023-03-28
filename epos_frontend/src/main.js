@@ -81,7 +81,7 @@ app.use(createBottomSheet())
 app.use(Toaster, {
 	position: "top",
 })
-app.use(print)
+ 
  
 // Global Properties,
 // components can inject this
