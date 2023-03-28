@@ -49,16 +49,18 @@
                     <v-row class="!m-0">
                         <v-col class="!p-0" cols="6">
                             <div class="p-1">
-                                <v-btn size="small" class="w-full" color="primary" @click="onPaymentWithoutPrint" stacked
-                                    prepend-icon="mdi-currency-usd">Payment</v-btn>
-                            </div>
-                        </v-col>
-                        <v-col class="!p-0" cols="6">
-                            <div class="p-1">
+                                
                                 <v-btn size="small" class="w-full" color="primary" @click="onPayment" stacked
                                     prepend-icon="mdi-printer">
                                     <span>Payment with Print</span>
                                 </v-btn>
+                            </div>
+                        </v-col>
+                        <v-col class="!p-0" cols="6">
+                            <div class="p-1">
+                                <v-btn size="small" class="w-full" color="primary" @click="onPaymentWithoutPrint" stacked
+                                    prepend-icon="mdi-currency-usd">Payment</v-btn>
+                                    
                             </div>
                         </v-col>
                     </v-row>
