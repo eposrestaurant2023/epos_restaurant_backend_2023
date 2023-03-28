@@ -1,7 +1,7 @@
 
 <template>
     <div  class="grid h-full" style="grid-template-rows: max-content auto">
-        <div class="overflow-auto">
+        <div class="overflow-auto h-auto">
             <div class="pt-2">
                 <div class="px-2 pb-2">
                     <ComSelectCustomer  />
@@ -10,7 +10,7 @@
                 <ComMenu /> 
             </div>
         </div>
-        <div class="bg-red-500 text-white text-sm p-2" v-ripple @click="onViewDetail">
+        <div class="bg-red-500 text-white text-sm p-2 fixed bottom-0 left-0 right-0" v-ripple @click="onViewDetail">
             <div>
                 <div class="text-xs" v-if="lastProduct">{{ lastProduct.product_code }} - {{ lastProduct.product_name }} ({{ lastProduct.quantity }})</div>
                 <div class="flex items-center justify-between">
