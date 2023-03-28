@@ -1,7 +1,7 @@
 
 <template>
     <div  class="grid h-full" style="grid-template-rows: max-content auto">
-        <div class="overflow-auto h-auto">
+        <div class="overflow-auto" style="height: calc(100% - 140px);">
             <div class="pt-2">
                 <div class="px-2 pb-2">
                     <ComSelectCustomer  />

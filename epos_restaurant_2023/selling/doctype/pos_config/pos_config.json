@@ -108,7 +108,6 @@
    "label": "Address"
   },
   {
-   "fetch_from": "business_branch.phone_number_1",
    "fieldname": "phone_number",
    "fieldtype": "Data",
    "label": "Phone Number"
@@ -486,7 +485,7 @@
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-28 14:09:21.613476",
+ "modified": "2023-03-28 17:41:50.803562",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Config",
