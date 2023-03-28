@@ -16,8 +16,10 @@
         :key="index"
         v-for="(n, index) in gv.setting.pos_setting.second_currency_predefine_payment_amount.split(',')"
         @click="onSecondCurrencyPrefineClick(n)">
-        <CurrencyFormat :value="n" :currency="gv.setting?.pos_setting?.second_currency_name" />
+        <CurrencyFormat :value="Number(n)" :currency="gv.setting?.pos_setting?.second_currency_name" />
         </div>
+
+        
     </div>
   </template>
   <script setup>
