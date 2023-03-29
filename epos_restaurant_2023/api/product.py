@@ -34,8 +34,7 @@ def get_product_by_menu(root_menu=""):
             
             for m in get_products(d.name):
                 menus.append(m)
-            
-            
+             
         return menus
 
 def get_child_menus(parent_menu):
@@ -102,3 +101,28 @@ def get_products(parent_menu):
     data = frappe.db.sql(sql,as_dict=1)
    
     return data
+
+
+@frappe.whitelist()
+def get_product_by_barcode(barcode):
+    return {
+        "menu_product_name": "f345104b55",
+        "name": "9696",
+        "name_en": "Coffee Frappe",
+        "name_kh": "កាហ្វេក្រឡុក",
+        "parent": "កាហ្វេត្រជាក់-Ice Coffee",
+        "price": 1.75,
+        "unit": "Unit",
+        "allow_discount": 0,
+        "allow_change_price": 1,
+        "allow_free": 1,
+        "is_open_product": 0,
+        "is_inventory_product": 1,
+        "prices": "[{\"price\": 1.84, \"branch\": \"\", \"price_rule\": \"Normal Rate\", \"portion\": \"Normal\"}, {\"price\": 2, \"branch\": \"\", \"price_rule\": \"Khmer New Year Rate\", \"portion\": \"Normal\"}]",
+        "printers": "[]",
+        "modifiers": "",
+        "photo": "",
+        "type": "product",
+        "append_quantity": 1,
+        "modifiers_data": "[]"
+    }

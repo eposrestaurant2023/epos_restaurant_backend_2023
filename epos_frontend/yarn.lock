@@ -2447,11 +2447,6 @@ vue3-avatar@^1.0.1:
   resolved "https://registry.yarnpkg.com/vue3-avatar/-/vue3-avatar-1.0.1.tgz#0a762db03259b3c803e70ebf982ceff179d527a5"
   integrity sha512-9M3IXcbF1IyAfXZtOnsT0LnILVkKwmo1WoYjH6C/oCWyT1ADffOvbjkdbGO1eNsF+mWKvmIlkwt3VBNtzEophg==
 
-vue3-barcode-scanner@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/vue3-barcode-scanner/-/vue3-barcode-scanner-1.0.8.tgz#ef3afda667264b57f88bff7f31b868bb4da5dbe0"
-  integrity sha512-FkLR9sYyxExNCSU54ZNxQLzfs0rUQLEdx55B9aAWtuzue6IB+mvXIGsoE/A5cz2Indk44uvVC+KTlRpf4+zLAQ==
-
 vue3-draggable-resizable@^1.6.5:
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/vue3-draggable-resizable/-/vue3-draggable-resizable-1.6.5.tgz#021b2c00bff2885ab4fa5981e03bf4f56f12cdac"

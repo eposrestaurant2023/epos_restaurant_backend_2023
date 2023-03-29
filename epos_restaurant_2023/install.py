@@ -1,5 +1,7 @@
 import frappe
 import datetime
+import wmi
+import socket
 
 def after_install():
     # ceate table group
@@ -118,3 +120,20 @@ def reset_sale_transaction():
         return "Done"
     else:
         return "Please login as administrator"
+
+
+@frappe.whitelist()
+def get_unique_identification_code(server_name):
+    username = "server"
+    password = "eSAdmin@2023"
+    connection = wmi.connect_server(server=server_name, namespace=r"root\\virtualization", user=username, password=password)
+    wmi_server_connection = wmi.WMI(wmi=connection)
+    system = wmi_server_connection.Msvm_ComputerSystem()[0]
+    unique_identification_code = system.ElementName
+    return unique_identification_code
+
+
+@frappe.whitelist()
+def get_server_name():
+    server_name = socket.gethostname()
+    return server_name

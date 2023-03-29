@@ -273,7 +273,7 @@
    "type": "Link"
   }
  ],
- "modified": "2022-12-17 18:04:58.369204",
+ "modified": "2023-03-29 00:01:39.823340",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Build",
@@ -283,7 +283,7 @@
  "quick_lists": [],
  "restrict_to_domain": "",
  "roles": [],
- "sequence_id": 14.0,
+ "sequence_id": 15.0,
  "shortcuts": [
   {
    "doc_view": "",

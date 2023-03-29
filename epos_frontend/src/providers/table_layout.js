@@ -75,8 +75,9 @@ export default class TableLayout {
         });
     }
 
-    getTableGroups(){
-        if(localStorage.getItem("table_groups")!=null){
+    getTableGroups(){ 
+        if(localStorage.getItem("table_groups")!='null' && localStorage.getItem("table_groups")!='undefined'){
+
             this.table_groups = JSON.parse(localStorage.getItem("table_groups"));
         }
         

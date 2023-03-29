@@ -67,7 +67,9 @@ function onBack(parent) {
 }
 async function onClickProduct() { 
     if (!sale.isBillRequested()) { 
+        
         const p = JSON.parse(JSON.stringify(props.data));
+        
         if (p.is_open_product == 1) {
 
             let result = await keypadWithNoteDialog({ 

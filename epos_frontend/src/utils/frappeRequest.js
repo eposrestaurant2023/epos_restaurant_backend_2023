@@ -31,6 +31,7 @@ export function frappeRequest(options) {
     transformResponse: async (response, options) => {
       let url = options.url
       if (response.ok) {
+        try{
         const data = await response.json()
         if (data.docs || url === 'login') {
           return data
@@ -48,6 +49,12 @@ export function frappeRequest(options) {
           }
         }
         return data.message
+        } catch(r){
+          return {
+            status: 500,
+            message: 'Internal Server Error'
+          }
+        }
       } else {
         let errorResponse = await response.text()
         let error, exception
