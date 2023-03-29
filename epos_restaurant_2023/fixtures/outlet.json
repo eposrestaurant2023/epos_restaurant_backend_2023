@@ -1,23 +1,5 @@
 [
  {
-  "business_branch": "Business-PP",
-  "docstatus": 0,
-  "doctype": "Outlet",
-  "is_standard": 0,
-  "modified": "2022-12-08 10:20:27.961046",
-  "name": "Main Outlet - BPP",
-  "outlet": "Main Outlet - BPP"
- },
- {
-  "business_branch": "Main Branch",
-  "docstatus": 0,
-  "doctype": "Outlet",
-  "is_standard": 0,
-  "modified": "2023-03-22 14:53:11.584384",
-  "name": "Outlet 2 - SR",
-  "outlet": "Outlet 2 - SR"
- },
- {
   "business_branch": "Main Branch",
   "docstatus": 0,
   "doctype": "Outlet",

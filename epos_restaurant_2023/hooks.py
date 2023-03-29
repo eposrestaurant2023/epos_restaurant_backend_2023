@@ -208,7 +208,7 @@ fixtures = [
     {"dt": "POS Menu", "filters": [["is_standard", "=", "1"]]},
     {"dt": "Sale Status"},
     {"dt": "Province"},
-    {"dt": "Outlet"},
+    {"dt": "Outlet","filters": [["is_standard", "=", "1"]]},
     {"dt": "Dates"},
     {"dt": "Numbers"},
 
