@@ -2,7 +2,7 @@
   <div class="bg-blue-100 rounded-tl-md rounded-tr-md text-xs w-full">
     <ComSaleSummaryList />
     <div class="bg-white">
-      <ComSaleButtonActions/>
+      <ComSaleButtonActions @onSubmitAndNew="onClose()"/>
     </div>
     <div class="flex w-full">
       <div style="width: calc(100% - 100px);" class="cursor-pointer bg-green-600 text-white p-1 hover:bg-green-700" @click="onPayment()">
@@ -42,7 +42,7 @@ import { createToaster } from '@meforma/vue-toaster';
 import ComExchangeRate from '../ComExchangeRate.vue';
 import ComSaleButtonActions from '../ComSaleButtonActions.vue';
 import ComSaleSummaryList from '../ComSaleSummaryList.vue';
-const emit = defineEmits(["onClose"])
+const emit = defineEmits(["onClose",'onSubmitAndNew'])
 const router = useRouter()
 const sale = inject("$sale")
 const gv = inject("$gv")
@@ -73,6 +73,8 @@ async function onPayment() {
   if (result) {
     emit('onClose')
   }
-
+}
+function onClose(){
+  emit('onSubmitAndNew')
 }
 </script>

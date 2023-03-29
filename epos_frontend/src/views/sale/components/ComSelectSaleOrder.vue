@@ -9,7 +9,7 @@
             <ComPlaceholder :is-not-empty="params.data.length > 0">
                 <v-row class="!-m-1">
                     <v-col class="!p-0" cols="12" md="6" v-for="(s, index) in params.data" :key="index">
-                        <ComSaleListItem :sale="s" @click="openOrder(s.name)" />
+                        <ComSaleListItem :sale="s" @click="openOrder(s)" />
                     </v-col>
                 </v-row>
             </ComPlaceholder>
@@ -29,7 +29,7 @@
     
 </template>
 <script setup>
-import { inject, ref, useRouter, confirmDialog,  createDocumentResource ,createResource } from '@/plugin'
+import { inject, ref, useRouter, confirmDialog,  createDocumentResource ,createResource,smallViewSaleProductListModel } from '@/plugin'
 import { useDisplay } from 'vuetify'
 import ComSaleListItem from './ComSaleListItem.vue';
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
@@ -38,12 +38,13 @@ import ComSelectSaleOrderAction from './ComSelectSaleOrderAction.vue';
 
 const isLoading = ref(false);
 const { mobile } = useDisplay()
-
 const sale = inject("$sale")
 const gv = inject("$gv")
 const tableLayout = inject("$tableLayout")
 const router = useRouter()
-
+const toaster = createToaster({ position: "top" });
+const isDesktop = localStorage.getItem('is_window');
+const emit = defineEmits(["resolve"])
 const props = defineProps({
     params: {
         type: Object,
@@ -51,15 +52,6 @@ const props = defineProps({
     }
 })
 
-const toaster = createToaster({ position: "top" });
-
-const isDesktop = localStorage.getItem('is_window');
-
-
-const emit = defineEmits(["resolve"])
-
-
-let open = ref(true);
 
 async function onPrintAllBill(r) {
 
@@ -94,15 +86,9 @@ async function onPrintAllBill(r) {
             emit('resolve', true);
 
         })
-
-
-
-
-
     }
 
 }
-
 
 async function onQuickPay(isPrint=true) {
      if (props.params.data.filter(r => r.sale_status == "Submitted" || r.sale_status == "Bill Requested" ).length == 0) {
@@ -260,27 +246,27 @@ async function submitCancelPrintBill(d){
 		await resource.setValue.submit({
             sale_status:'Submitted'
         }).then((data)=>{
-                d.sale_status = "Submitted";
-                d.sale_status_color = sale.setting.sale_status.find(r => r.name == 'Submitted').background_color;
+            d.sale_status = "Submitted";
+            d.sale_status_color = sale.setting.sale_status.find(r => r.name == 'Submitted').background_color;
 
         });
-        
 	})
-    
-    
 }
 
-
-function openOrder(sale_id) {
-    router.push({ name: "AddSale", params: { name: sale_id } });
+async function openOrder(s) {
+    if(mobile.value){
+        await sale.LoadSaleData(s.name).then(async (v)=>{
+            const result =  await smallViewSaleProductListModel ({title: s.name ? s.name : 'New Sale', data: {from_table: true}});
+            
+        })
+    }else{
+        router.push({ name: "AddSale", params: { name: s.name } });
+    }
     emit('resolve', false);
 }
 
 async function onNewOrder() {
-
     emit('resolve', { action: "new_sale" });
-
-
 }
 function onClose() {
     emit("resolve", false);

@@ -1,5 +1,5 @@
 <template>
-    <ComModal :fullscreen="true" @onClose="onClose()" :hideCloseButton="true" :hideOkButton="true" :fill="true" :isShowBarMoreButton="false">
+    <ComModal :fullscreen="true" :hideCloseButton="true" :hideOkButton="true" :fill="true" :isShowBarMoreButton="false" @onClose="onClose()">
         <template #title>
             Sale# {{ params.title }}
         </template>
@@ -10,10 +10,13 @@
             <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" doctype="Sale" title="Print Bill" :mobile="true" />
         </template>
         <template #content>
+            <div class="m-1">
+                <ComSelectCustomer  />
+            </div>
             <ComGroupSaleProductList />
         </template>
         <template #action>
-            <ComSmallSaleSummary @onClose="onGoHome()" />
+            <ComSmallSaleSummary @onClose="onGoHome()" @onSubmitAndNew="onClose()"/>
         </template>
     </ComModal>
 </template>
@@ -21,6 +24,7 @@
 import { defineProps, defineEmits, inject,useRouter } from '@/plugin'
 import ComGroupSaleProductList from '../ComGroupSaleProductList.vue';
 import ComPrintBillButton from '../ComPrintBillButton.vue';
+import ComSelectCustomer from '../ComSelectCustomer.vue';
 import ComSmallSaleSummary from './ComSmallSaleSummary.vue';
 
 const props = defineProps({
@@ -43,7 +47,7 @@ function onGoHome(){
     emit('resolve', false)
 }
 
-function onClose() {  
+function onClose() {
     emit('resolve', false)
 }
 function onAddNewProduct(){

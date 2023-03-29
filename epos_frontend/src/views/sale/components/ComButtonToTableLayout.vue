@@ -6,9 +6,14 @@
         </template>
         <v-list-item-title>Table Layout</v-list-item-title>
     </v-list-item>
-    <v-btn stacked size="x-small" class="m-1 grow" prepend-icon="mdi-view-dashboard" @click="onToTableLayout()" v-else>
+    <template v-else>
+    <v-btn v-if="!mobile" :stacked="!mobile" :variant="mobile ? 'tonal':'elevated'" size="small" class="m-1 grow" :prepend-icon="'mdi-view-dashboard'" @click="onToTableLayout()">
       Table Layout
     </v-btn>
+    <v-btn v-else variant="tonal" size="small" class="m-1 grow" @click="onToTableLayout()">
+      <v-icon icon="mdi-view-dashboard"></v-icon>
+    </v-btn>
+  </template>
   </template>
 </template>
 <script setup>

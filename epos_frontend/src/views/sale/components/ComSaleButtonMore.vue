@@ -1,8 +1,11 @@
 <template> 
     <v-menu>
         <template v-slot:activator="{ props }">
-            <v-btn :stacked="!mobile"  size="small" :variant="mobile ? 'tonal':'elevated'" class="m-1 grow" prepend-icon="mdi-menu" v-bind="props">
-                More
+            <v-btn  v-if="!mobile" stacked  size="small" :variant="mobile ? 'tonal':'elevated'" class="m-1 grow" prepend-icon="mdi-menu" v-bind="props">
+                <span>More</span>
+            </v-btn>
+            <v-btn v-else  size="small" variant="tonal" class="m-1 grow" v-bind="props">
+                <v-icon>mdi-menu</v-icon>
             </v-btn>
         </template>
         <v-list>

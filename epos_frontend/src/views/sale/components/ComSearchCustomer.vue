@@ -7,7 +7,7 @@
       <div>
         <div>
         <ComInput 
-          autofocus
+        requiredAutofocus
           ref="searchTextField"
           keyboard
           class="m-4"

@@ -2,7 +2,7 @@
   <div class="overflow-hidden flex items-end">
 
     <div class="flex flex-wrap w-full">
-      <ComButtonToTableLayout :is-mobile="false" />
+      <ComButtonToTableLayout :is-mobile="false" @closeModel="closeModel()"/>
       <template v-if="setting.table_groups && setting.table_groups.length > 0 && !mobile">
         <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" doctype="Sale" title="Print Bill" />
         <v-btn v-else stacked color="error" size="small" class="m-1 grow" prepend-icon="mdi-printer" @click="onCancelPrintBill">
@@ -10,7 +10,7 @@
         </v-btn>
       </template>
       <ComDiscountButton />
-      <v-btn v-if="setting.table_groups && setting.table_groups.length > 0 && !mobile" stacked size="small" class="m-1 grow" prepend-icon="mdi-plus"
+      <v-btn v-if="setting.table_groups && setting.table_groups.length > 0" :variant="mobile ? 'tonal':'elevated'" :color="mobile ? 'primary' : ''" :stacked="!mobile" size="small" class="m-1 grow" prepend-icon="mdi-plus"
         @click="onSubmitAndNew">
         Submit & New
       </v-btn>
@@ -45,7 +45,7 @@ const sale = inject("$sale")
 const gv = inject("$gv")
 const setting = gv.setting;
 const toaster = createToaster({ position: "top" })
-
+const emit = defineEmits(["onSubmitAndNew",'onClose'])
 async function onQuickPay() {
 
   await sale.onSubmitQuickPay().then((value) => {
@@ -60,7 +60,9 @@ async function onQuickPay() {
     }
   });
 }
-
+function closeModel(){
+  emit('onClose')
+}
 async function onCancelPrintBill() {
   gv.authorize("cancel_print_bill_required_password", "cancel_print_bill", "cancel_print_bill_required_note", "Cancel Print Bill Note").then((v) => {
     if (v) {
@@ -117,7 +119,7 @@ async function onSubmitAndNew() {
   }
 
   sale.getTableSaleList();
-
+  emit('onSubmitAndNew')
 }
 
 function newSale() {
