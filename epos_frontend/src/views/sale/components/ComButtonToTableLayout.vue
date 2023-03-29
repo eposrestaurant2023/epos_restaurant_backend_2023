@@ -6,16 +6,18 @@
         </template>
         <v-list-item-title>Table Layout</v-list-item-title>
     </v-list-item>
-    <v-btn stacked  size="small" class="m-1 grow" prepend-icon="mdi-view-dashboard" @click="onToTableLayout()" v-else>
+    <v-btn stacked size="x-small" class="m-1 grow" prepend-icon="mdi-view-dashboard" @click="onToTableLayout()" v-else>
       Table Layout
     </v-btn>
   </template>
 </template>
 <script setup>
 import { inject, defineProps,confirmBackToTableLayout, useRouter, defineEmits } from '@/plugin'
+import {useDisplay} from 'vuetify'
 import Enumerable from 'linq';
 const sale = inject('$sale')
 const gv = inject('$gv')
+const {mobile} = useDisplay()
 const router = useRouter()
 const emit = defineEmits('closeModel')
 const props = defineProps({

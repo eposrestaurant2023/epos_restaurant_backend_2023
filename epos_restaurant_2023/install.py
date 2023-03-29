@@ -1,7 +1,6 @@
 import frappe
 import datetime
-import wmi
-import socket
+
 
 def after_install():
     # ceate table group
@@ -41,7 +40,7 @@ def create_note(name, note_list):
     if not frappe.db.exists("Category Note", note_list):
         notes = []
         for n in note_list:
-            notes.append(n)
+            notes.append({"note":n})
         
         doc = frappe.get_doc(
         {
@@ -86,7 +85,7 @@ def replace_format(string,year):
 
 @frappe.whitelist()
 def reset_sale_transaction():
-   
+    # backupd db first
 
 
     if frappe.session.user == 'Administrator':
@@ -120,18 +119,6 @@ def reset_sale_transaction():
         return "Done"
     else:
         return "Please login as administrator"
-
-
-@frappe.whitelist()
-def get_unique_identification_code(server_name):
-    username = "server"
-    password = "eSAdmin@2023"
-    connection = wmi.connect_server(server=server_name, namespace=r"root\\virtualization", user=username, password=password)
-    wmi_server_connection = wmi.WMI(wmi=connection)
-    system = wmi_server_connection.Msvm_ComputerSystem()[0]
-    unique_identification_code = system.ElementName
-    return unique_identification_code
-
 
 @frappe.whitelist()
 def get_server_name():

@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:product_code",
  "creation": "2022-12-06 12:20:26.248323",
@@ -321,7 +322,7 @@
  "index_web_pages_for_search": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-01-26 17:00:58.727567",
+ "modified": "2023-03-29 13:26:08.840669",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Product",

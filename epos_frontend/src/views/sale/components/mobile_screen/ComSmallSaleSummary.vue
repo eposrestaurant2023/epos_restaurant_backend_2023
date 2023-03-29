@@ -1,6 +1,9 @@
 <template>
   <div class="bg-blue-100 rounded-tl-md rounded-tr-md text-xs w-full">
     <ComSaleSummaryList />
+    <div class="bg-white">
+      <ComSaleButtonActions/>
+    </div>
     <div class="flex w-full">
       <div style="width: calc(100% - 100px);" class="cursor-pointer bg-green-600 text-white p-1 hover:bg-green-700" @click="onPayment()">
         <div class="flex justify-between mb-1 text-sm">
@@ -37,6 +40,7 @@
 import { inject, useRouter, paymentDialog } from '@/plugin';
 import { createToaster } from '@meforma/vue-toaster';
 import ComExchangeRate from '../ComExchangeRate.vue';
+import ComSaleButtonActions from '../ComSaleButtonActions.vue';
 import ComSaleSummaryList from '../ComSaleSummaryList.vue';
 const emit = defineEmits(["onClose"])
 const router = useRouter()

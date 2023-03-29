@@ -1,6 +1,7 @@
 
 import './index.css';
 import { createApp, reactive } from "vue";
+
 import App from "./App.vue";
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify';

@@ -121,9 +121,8 @@ onMounted(() => {
     })
 
 
-    //load sale data 
-
-    if (!sale.getString(route.params.name) == "") {
+    //load sale data
+    if (!sale.getString(route.params.name) == "" && !sale.no_loading) {
         sale.LoadSaleData(route.params.name).then((v) => {
             if (v) {
                 if (v.docstatus == 1 || v.docstatus == 2) {

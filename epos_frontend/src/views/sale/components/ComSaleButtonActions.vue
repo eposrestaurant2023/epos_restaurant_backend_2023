@@ -3,28 +3,29 @@
 
     <div class="flex flex-wrap w-full">
       <ComButtonToTableLayout :is-mobile="false" />
-      <template v-if="setting.table_groups && setting.table_groups.length > 0">
+      <template v-if="setting.table_groups && setting.table_groups.length > 0 && !mobile">
         <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" doctype="Sale" title="Print Bill" />
-        <v-btn v-else stacked color="error" size="small" class="m-1 grow" prepend-icon="mdi-printer"
-          @click="onCancelPrintBill">
+        <v-btn v-else stacked color="error" size="small" class="m-1 grow" prepend-icon="mdi-printer" @click="onCancelPrintBill">
           Cancel Print Bill
         </v-btn>
       </template>
       <ComDiscountButton />
-      <v-btn v-if="setting.table_groups && setting.table_groups.length > 0" stacked size="small" class="m-1 grow" prepend-icon="mdi-plus"
+      <v-btn v-if="setting.table_groups && setting.table_groups.length > 0 && !mobile" stacked size="small" class="m-1 grow" prepend-icon="mdi-plus"
         @click="onSubmitAndNew">
         Submit & New
       </v-btn>
-      <v-btn stacked size="small" color="error" class="m-1 grow" prepend-icon="mdi-currency-usd" @click="onQuickPay">
+      <v-btn :stacked="!mobile" size="small" color="error" class="m-1 grow" :variant="mobile ? 'tonal':'elevated'" prepend-icon="mdi-currency-usd" @click="onQuickPay">
         Quick Pay
       </v-btn>
-      <v-btn stacked size="small" color="error" class="m-1 grow" prepend-icon="mdi-note-outline" v-if="sale.sale.note"
-        @click="sale.sale.note = ''">
-        Remove Note
-      </v-btn>
-      <v-btn stacked size="small" class="m-1 grow" prepend-icon="mdi-note-outline" @click="sale.onSaleNote(sale.sale)" v-else>
-        Note
-      </v-btn>
+      <template v-if="!mobile">
+        <v-btn stacked size="small" color="error" class="m-1 grow" prepend-icon="mdi-note-outline" v-if="sale.sale.note"
+          @click="sale.sale.note = ''">
+          Remove Note
+        </v-btn>
+        <v-btn stacked size="small" class="m-1 grow" prepend-icon="mdi-note-outline" @click="sale.onSaleNote(sale.sale)" v-else>
+          Note
+        </v-btn>
+      </template>
       <ComSaleButtonMore />
     </div>
   </div>
@@ -37,8 +38,8 @@ import { createToaster } from '@meforma/vue-toaster';
 import ComButtonToTableLayout from './ComButtonToTableLayout.vue';
 import ComSaleButtonMore from './ComSaleButtonMore.vue';
 import Enumerable from 'linq';
-
-
+import {useDisplay} from 'vuetify'
+const {mobile} = useDisplay()
 const router = useRouter()
 const sale = inject("$sale")
 const gv = inject("$gv")

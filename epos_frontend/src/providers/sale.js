@@ -29,8 +29,8 @@ export default class Sale {
         this.router = useRouter();
         this.name = "";
         this.action = "";
-        this.pos_receipt = undefined;
-        this.mobile_view_sale_product = true;
+        this.pos_receipt = undefined; 
+        this.no_loading = false;
         this.sale = {
             sale_products: []
         };

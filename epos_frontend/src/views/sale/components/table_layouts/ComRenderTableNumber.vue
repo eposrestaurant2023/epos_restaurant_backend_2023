@@ -64,11 +64,11 @@
 </template>
 <script setup>
 
-import { inject, useRouter, createToaster, selectSaleOrderDialog, keyboardDialog } from '@/plugin';
+import { inject, useRouter, createToaster, selectSaleOrderDialog, keyboardDialog,createDocumentResource,smallViewSaleProductListModel } from '@/plugin';
 import { Timeago } from 'vue2-timeago'
 import { useDisplay } from 'vuetify'
 
-const { mobile } = useDisplay()
+const { mobile,platform } = useDisplay()
 const toaster = createToaster({ position: "top" });
 const tableLayout = inject("$tableLayout");
 const gv = inject("$gv");
@@ -85,11 +85,26 @@ function onTableClick(table, guest_cover) {
                 newSale(table);
 
             } else if (table.sales.length == 1) {
-                router.push({
+             
+                if(mobile.value){
+                    await sale.LoadSaleData( table.sales[0].name).then(async (v)=>{
+                        const result =  await smallViewSaleProductListModel ({title: sale.sale.name ? sale.sale.name : 'New Sale', data: {from_table: true}});
+                      
+                    })
+                  
+
+                }else{
+                    
+                    router.push({
                     name: "AddSale", params: {
                         name: table.sales[0].name
                     }
                 });
+            
+                } 
+            
+               
+
             } else {
                 sale.sale.table_id = table.id;
                 sale.sale.tbl_number = table.tbl_no;

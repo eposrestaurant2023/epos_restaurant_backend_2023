@@ -1,15 +1,43 @@
 <template>
-  <div>
-    <p>xxx</p>
-    <v-btn @click="Hello">Test </v-btn>
+  <ComLoadingDialog v-if="saleDocResource.loading"/>
+  <div v-else>
+    <v-btn @click="ReloadData()">Reload Data</v-btn>
+    <v-btn @click="UpdateValue()">Update</v-btn>
+    
+    {{ saleDocResource.doc?.note }}
+
   </div>
+
+
 </template>
 
 <script setup>
+import { createDocumentResource } from "@/plugin"
+import ComLoadingDialog from "../components/ComLoadingDialog.vue";
+
+const saleDocResource = createDocumentResource({
+  url: "frappe.client.get",
+  doctype: "Sale",
+  name: "SO2023-0141",
+  setValue: {
+    onSuccess(d) {
+      alert("updte success")
+
+    },
+
+  },
+})
+
  
- function Hello(){
-  Toaster.postMessage("Test")
- }
+
+function UpdateValue(){
+  saleDocResource.setValue.submit({
+    note:"Hell Notex",
+    docstatus:2
+})
+
+}
 
 </script>
+
 

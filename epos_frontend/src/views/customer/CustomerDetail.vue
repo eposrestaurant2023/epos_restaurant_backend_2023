@@ -51,18 +51,31 @@
         <v-window v-model="tab">
           <v-window-item value="about">
             <v-table fixed-header class="ma-2">
-              <p class="font-weight-bold pb-1">
+              <!-- <p class="font-weight-bold pb-1">
                 CONTACT INFORMATION
-              </p>
+              </p> -->
+              <v-list>
+                  <v-list-item
+                    v-if="customer.doc?.phone_number || customer.doc?.phone_number_2"
+                    subtitle="Phone Number"
+                    :title="`${customer.doc?.phone_number} ${customer.doc?.phone_number_2 ? ' / ' + customer.doc?.phone_number_2 : ''}`"
+                  ></v-list-item>
+                  <v-list-item
+                  v-if="customer.doc?.province || customer.doc?.country"
+                    subtitle="Address"
+                    :title="`${customer.doc?.phone_number} ${customer.doc?.phone_number_2 ? ' / ' + customer.doc?.phone_number_2 : ''}`"
+                  ></v-list-item>
+              </v-list>
               <table class="ml-2">
-                <tr v-if="customer.doc?.phone_number || customer.doc?.phone_number_2">
+                
+                <!-- <tr v-if="customer.doc?.phone_number || customer.doc?.phone_number_2">
                   <td class="pr-4">Phone Number</td>
                   <td class="pr-4">:</td>
                   <td>
                     <span v-if="customer.doc?.phone_number">{{ customer.doc?.phone_number }}</span>
                     <span v-if="customer.doc?.phone_number_2"> - {{ customer.doc?.phone_number_2 }}</span>
                   </td>
-                </tr>
+                </tr> -->
                 <tr v-if="customer.doc?.province || customer.doc?.country">
                   <td>Address</td>
                   <td>:</td>
