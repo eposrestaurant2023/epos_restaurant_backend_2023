@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_events_in_timeline": 1,
  "allow_rename": 1,
  "autoname": "naming_series:",
  "creation": "2023-03-29 18:40:25.192035",
@@ -8,18 +9,34 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "photo",
   "naming_series",
   "tour_guide_name",
   "gender",
   "email_address",
   "phone_number",
   "phone_number_2",
+  "address",
+  "disabled",
   "column_break_7",
   "license_code",
   "license_expired_date",
   "speaking_language",
   "rate",
-  "disabled"
+  "addition_speaking_language_1",
+  "addition_speaking_language_2",
+  "bank_account_information_section",
+  "bank_name",
+  "card_hoder_name",
+  "column_break_17",
+  "bank_account_number",
+  "currency",
+  "vehicle_information_tab",
+  "vehicles",
+  "section_break_23",
+  "driver_license_code",
+  "column_break_25",
+  "driver_license_expired_date"
  ],
  "fields": [
   {
@@ -31,12 +48,14 @@
   {
    "fieldname": "tour_guide_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Tour Guide Name"
   },
   {
    "default": "Male",
    "fieldname": "gender",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Gender",
    "options": "Male\nFemale"
   },
@@ -48,6 +67,7 @@
   {
    "fieldname": "phone_number",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Phone Number"
   },
   {
@@ -71,12 +91,18 @@
   },
   {
    "fieldname": "speaking_language",
-   "fieldtype": "Data",
-   "label": "Speaking Language"
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Speaking Language",
+   "options": "Tour Guide Speaking Language",
+   "reqd": 1
   },
   {
+   "fetch_from": "speaking_language.daily_rate",
+   "fetch_if_empty": 1,
    "fieldname": "rate",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Rate"
   },
   {
@@ -84,11 +110,98 @@
    "fieldname": "disabled",
    "fieldtype": "Check",
    "label": "Disabled"
+  },
+  {
+   "fieldname": "addition_speaking_language_1",
+   "fieldtype": "Link",
+   "label": "Addition Speaking Language 1",
+   "options": "Tour Guide Speaking Language"
+  },
+  {
+   "fieldname": "addition_speaking_language_2",
+   "fieldtype": "Link",
+   "label": "Addition Speaking Language 2",
+   "options": "Tour Guide Speaking Language"
+  },
+  {
+   "fieldname": "bank_account_information_section",
+   "fieldtype": "Section Break",
+   "label": "Bank Account Information"
+  },
+  {
+   "fieldname": "bank_name",
+   "fieldtype": "Link",
+   "label": "Bank Name",
+   "options": "Bank"
+  },
+  {
+   "fieldname": "column_break_17",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bank_account_number",
+   "fieldtype": "Data",
+   "label": "Bank Account Number"
+  },
+  {
+   "fieldname": "card_hoder_name",
+   "fieldtype": "Data",
+   "label": "Card Hoder Name"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "vehicle_information_tab",
+   "fieldtype": "Tab Break",
+   "label": "Vehicle Information"
+  },
+  {
+   "fieldname": "vehicles",
+   "fieldtype": "Table",
+   "options": "Transportation Data"
+  },
+  {
+   "fieldname": "section_break_23",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "driver_license_code",
+   "fieldtype": "Data",
+   "label": "Driver License Code"
+  },
+  {
+   "fieldname": "column_break_25",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "driver_license_expired_date",
+   "fieldtype": "Date",
+   "label": "Expired Date"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  },
+  {
+   "default": "250",
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "label": "Address"
   }
  ],
+ "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-29 18:40:25.192035",
+ "make_attachments_public": 1,
+ "max_attachments": 5,
+ "modified": "2023-03-29 21:19:45.085367",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Guides",

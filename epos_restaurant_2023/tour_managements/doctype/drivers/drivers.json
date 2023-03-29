@@ -1,0 +1,220 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2023-03-29 19:55:20.006458",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "photo",
+  "driver_name",
+  "gender",
+  "phone_number",
+  "phone_number_2",
+  "telegram_number",
+  "facebook",
+  "email",
+  "address",
+  "disabled",
+  "column_break_9",
+  "driver_license_code",
+  "expired_date",
+  "speaking_language_1",
+  "speaking_language_2",
+  "speaking_language_3",
+  "vehicle_information_section",
+  "bank_information_section",
+  "bank_name",
+  "card_holder_name",
+  "column_break_21",
+  "bank_account_number",
+  "currency",
+  "vehicle_information",
+  "table_25"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Code",
+   "options": "DR.####"
+  },
+  {
+   "fieldname": "driver_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Driver Name"
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Gender"
+  },
+  {
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "phone_number_2",
+   "fieldtype": "Data",
+   "label": "Phone Number 2"
+  },
+  {
+   "fieldname": "telegram_number",
+   "fieldtype": "Data",
+   "label": "Telegram Number"
+  },
+  {
+   "fieldname": "facebook",
+   "fieldtype": "Data",
+   "label": "Facebook"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "driver_license_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Driver License Code"
+  },
+  {
+   "fieldname": "expired_date",
+   "fieldtype": "Date",
+   "label": "Expired Date"
+  },
+  {
+   "fieldname": "speaking_language_1",
+   "fieldtype": "Link",
+   "label": "Speaking Language 1",
+   "options": "Tour Guide Speaking Language"
+  },
+  {
+   "fieldname": "speaking_language_2",
+   "fieldtype": "Link",
+   "label": "Speaking Language 2",
+   "options": "Tour Guide Speaking Language"
+  },
+  {
+   "fieldname": "speaking_language_3",
+   "fieldtype": "Link",
+   "label": "Speaking Language 3",
+   "options": "Tour Guide Speaking Language"
+  },
+  {
+   "fieldname": "vehicle_information_section",
+   "fieldtype": "Section Break",
+   "label": "Vehicle Information "
+  },
+  {
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  },
+  {
+   "fieldname": "bank_information_section",
+   "fieldtype": "Section Break",
+   "label": "Bank Information"
+  },
+  {
+   "fieldname": "bank_name",
+   "fieldtype": "Link",
+   "label": "Bank Name",
+   "options": "Bank"
+  },
+  {
+   "fieldname": "card_holder_name",
+   "fieldtype": "Data",
+   "label": "Card Holder Name"
+  },
+  {
+   "fieldname": "column_break_21",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bank_account_number",
+   "fieldtype": "Data",
+   "label": "Bank Account Number"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "vehicle_information",
+   "fieldtype": "Tab Break",
+   "label": "Vehicle Information"
+  },
+  {
+   "fieldname": "table_25",
+   "fieldtype": "Table",
+   "options": "Transportation Data"
+  },
+  {
+   "default": "250",
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "label": "Address"
+  }
+ ],
+ "image_field": "photo",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "make_attachments_public": 1,
+ "modified": "2023-03-29 21:20:25.452204",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Drivers",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Tour Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

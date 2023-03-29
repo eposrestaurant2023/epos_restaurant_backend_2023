@@ -1,0 +1,248 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2023-03-29 19:17:35.321429",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "booking_date",
+  "tour_package",
+  "tour_package_title",
+  "price",
+  "column_break_4",
+  "start_date",
+  "end_date",
+  "duration",
+  "guest_information_section",
+  "guest_profile",
+  "customer_name",
+  "phone_number",
+  "email",
+  "contact_name",
+  "contact_number",
+  "section_break_15",
+  "nationality",
+  "market_source",
+  "market_segment",
+  "total_pax",
+  "cancelation_policy_section",
+  "cancelation_policy",
+  "tour_package_detail_tab",
+  "itenaries",
+  "section_break_26",
+  "inclusions",
+  "column_break_28",
+  "exclusions"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Booking Number",
+   "options": "TB.YYYY.-.####"
+  },
+  {
+   "fieldname": "booking_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Booking Date"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "guest_information_section",
+   "fieldtype": "Section Break",
+   "label": "Guest Information"
+  },
+  {
+   "fieldname": "guest_profile",
+   "fieldtype": "Link",
+   "label": "Guest Profile",
+   "options": "Customer"
+  },
+  {
+   "fetch_from": "guest_profile.phone_number",
+   "fetch_if_empty": 1,
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Phone Number"
+  },
+  {
+   "fetch_from": "guest_profile.email_address",
+   "fetch_if_empty": 1,
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "tour_package_detail_tab",
+   "fieldtype": "Tab Break",
+   "label": "Tour Package Detail"
+  },
+  {
+   "fieldname": "tour_package",
+   "fieldtype": "Link",
+   "label": "Tour Package",
+   "options": "Tour Packages"
+  },
+  {
+   "fetch_from": "guest_profile.customer_name_en",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "contact_name",
+   "fieldtype": "Data",
+   "label": "Contact Name"
+  },
+  {
+   "fieldname": "contact_number",
+   "fieldtype": "Data",
+   "label": "Contact Number"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Int",
+   "label": "Duration (Day)"
+  },
+  {
+   "fieldname": "section_break_15",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "market_source",
+   "fieldtype": "Link",
+   "label": "Market Source",
+   "options": "Market Source"
+  },
+  {
+   "fieldname": "market_segment",
+   "fieldtype": "Link",
+   "label": "Market Segment",
+   "options": "Market Segment"
+  },
+  {
+   "fetch_from": "guest_profile.country",
+   "fetch_if_empty": 1,
+   "fieldname": "nationality",
+   "fieldtype": "Link",
+   "label": "Nationality",
+   "options": "Country"
+  },
+  {
+   "fetch_from": "tour_package.tour_package_title",
+   "fieldname": "tour_package_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tour Package Title",
+   "length": 255
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "cancelation_policy_section",
+   "fieldtype": "Section Break",
+   "label": "Cancelation Policy"
+  },
+  {
+   "fieldname": "cancelation_policy",
+   "fieldtype": "Text Editor",
+   "label": "Cancelation Policy"
+  },
+  {
+   "fetch_from": "tour_package.price",
+   "fetch_if_empty": 1,
+   "fieldname": "price",
+   "fieldtype": "Currency",
+   "label": "Price"
+  },
+  {
+   "fieldname": "total_pax",
+   "fieldtype": "Int",
+   "label": "Total Pax"
+  },
+  {
+   "fieldname": "itenaries",
+   "fieldtype": "Table",
+   "label": "Itenaries",
+   "options": "Tour Package Itenary"
+  },
+  {
+   "fieldname": "section_break_26",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "inclusions",
+   "fieldtype": "Table",
+   "label": "Inclusions",
+   "options": "Tour Package Inclusions"
+  },
+  {
+   "fieldname": "column_break_28",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "exclusions",
+   "fieldtype": "Table",
+   "label": "Exclusions",
+   "options": "Tour Package Prices"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-03-29 21:03:28.321658",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Tour Booking",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Tour Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

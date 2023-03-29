@@ -1,0 +1,85 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2023-03-29 21:35:13.199846",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "room_type",
+  "number_of_room",
+  "column_break_3",
+  "room_rate",
+  "room_amenity_section",
+  "air_condition",
+  "smart_tv",
+  "tv_cable",
+  "safety_box"
+ ],
+ "fields": [
+  {
+   "fieldname": "room_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Room Type"
+  },
+  {
+   "fieldname": "number_of_room",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Number of Room"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "room_rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Room Rate"
+  },
+  {
+   "fieldname": "room_amenity_section",
+   "fieldtype": "Section Break",
+   "label": "Room Amenity"
+  },
+  {
+   "default": "0",
+   "fieldname": "air_condition",
+   "fieldtype": "Check",
+   "label": "Air Condition"
+  },
+  {
+   "default": "0",
+   "fieldname": "smart_tv",
+   "fieldtype": "Check",
+   "label": "Smart TV"
+  },
+  {
+   "default": "0",
+   "fieldname": "tv_cable",
+   "fieldtype": "Check",
+   "label": "TV Cable"
+  },
+  {
+   "default": "0",
+   "fieldname": "safety_box",
+   "fieldtype": "Check",
+   "label": "Safety Box"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-03-29 21:35:13.199846",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Tour Hotel Room Type",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

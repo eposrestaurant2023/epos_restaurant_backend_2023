@@ -37,18 +37,21 @@
   {
    "fieldname": "tour_package_title",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Tour Package Title",
    "length": 255
   },
   {
    "fieldname": "tour_package_type",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Tour Package Type",
    "options": "Tour Package Type"
   },
   {
    "fieldname": "min_pax",
    "fieldtype": "Int",
+   "in_list_view": 1,
    "label": "MIn Pax"
   },
   {
@@ -68,6 +71,7 @@
   {
    "fieldname": "price",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Price"
   },
   {
@@ -114,7 +118,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-29 18:41:14.941303",
+ "modified": "2023-03-29 20:21:38.264672",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Packages",
@@ -134,6 +138,7 @@
    "write": 1
   }
  ],
+ "search_fields": "tour_package_title",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

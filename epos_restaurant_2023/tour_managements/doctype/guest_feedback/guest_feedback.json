@@ -1,0 +1,144 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2023-03-29 21:15:33.864339",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "feedback_date",
+  "customer",
+  "customer_name",
+  "phone_number",
+  "email",
+  "section_break_7",
+  "tour_booking",
+  "tour_guide",
+  "driver",
+  "hotel",
+  "section_break_12",
+  "rating",
+  "section_break_14",
+  "feedback_detail"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Code",
+   "options": "FB.YYYY.-.####"
+  },
+  {
+   "fieldname": "feedback_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Feedback Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Guest Profile",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer.customer_name_en",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Customer Name"
+  },
+  {
+   "fetch_from": "customer.phone_number",
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Phone Number"
+  },
+  {
+   "fetch_from": "customer.email_address",
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "section_break_7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tour_booking",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Tour Booking",
+   "options": "Tour Booking"
+  },
+  {
+   "fieldname": "tour_guide",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Tour Guide",
+   "options": "Tour Guides"
+  },
+  {
+   "fieldname": "driver",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Driver",
+   "options": "Drivers"
+  },
+  {
+   "fieldname": "hotel",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Hotel"
+  },
+  {
+   "fieldname": "section_break_12",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "feedback_detail",
+   "fieldtype": "Text Editor",
+   "label": "Feedback Detail",
+   "reqd": 1
+  },
+  {
+   "fieldname": "rating",
+   "fieldtype": "Rating",
+   "label": "Rating"
+  },
+  {
+   "fieldname": "section_break_14",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-03-29 21:18:41.454981",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Guest Feedback",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
