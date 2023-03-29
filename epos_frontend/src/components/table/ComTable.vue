@@ -280,6 +280,9 @@ function onRefresh() {
 </script>
 <style>
 .v-data-table-footer {
-        display: none !important;
-    }
+    display: none !important;
+}
+.v-table__wrapper table {
+    white-space: nowrap;
+}
 </style>

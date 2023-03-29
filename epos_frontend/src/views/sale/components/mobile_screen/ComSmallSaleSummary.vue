@@ -2,7 +2,7 @@
   <div class="bg-blue-100 rounded-tl-md rounded-tr-md text-xs w-full">
     <ComSaleSummaryList />
     <div class="bg-white">
-      <ComSaleButtonActions @onSubmitAndNew="onClose()"/>
+      <ComSaleButtonActions @onSubmitAndNew="onCloseSubmit()" @onClose="onClose()"/>
     </div>
     <div class="flex w-full">
       <div style="width: calc(100% - 100px);" class="cursor-pointer bg-green-600 text-white p-1 hover:bg-green-700" @click="onPayment()">
@@ -74,7 +74,10 @@ async function onPayment() {
     emit('onClose')
   }
 }
-function onClose(){
+function onCloseSubmit(){
   emit('onSubmitAndNew')
+}
+function onClose(){
+  emit('onClose')
 }
 </script>

@@ -28,8 +28,6 @@ const saleDocResource = createDocumentResource({
   },
 })
 
- 
-
 function UpdateValue(){
   saleDocResource.setValue.submit({
     note:"Hell Notex",

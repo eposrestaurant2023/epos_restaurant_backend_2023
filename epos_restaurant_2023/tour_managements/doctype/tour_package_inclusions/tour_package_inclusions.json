@@ -1,0 +1,44 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "hash",
+ "creation": "2023-03-29 00:05:30.524505",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "inclusion",
+  "note"
+ ],
+ "fields": [
+  {
+   "fieldname": "inclusion",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Inclusion",
+   "options": "Tour Inclusions and Exclusions"
+  },
+  {
+   "fetch_from": "inclusion.note",
+   "fetch_if_empty": 1,
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Note"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-03-29 18:42:33.013284",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Tour Package Inclusions",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -10,11 +10,11 @@
         </v-btn>
       </template>
       <ComDiscountButton />
-      <v-btn v-if="setting.table_groups && setting.table_groups.length > 0" :variant="mobile ? 'tonal':'elevated'" :color="mobile ? 'primary' : ''" :stacked="!mobile" size="small" class="m-1 grow" prepend-icon="mdi-plus"
+      <v-btn v-if="setting.table_groups && setting.table_groups.length > 0" :variant="mobile ? 'tonal':'elevated'" :color="mobile ? 'primary' : ''" :stacked="!mobile" size="small" class="m-1 grow" :prepend-icon="mobile ? '' : 'mdi-plus'"
         @click="onSubmitAndNew">
         Submit & New
       </v-btn>
-      <v-btn :stacked="!mobile" size="small" color="error" class="m-1 grow" :variant="mobile ? 'tonal':'elevated'" prepend-icon="mdi-currency-usd" @click="onQuickPay">
+      <v-btn :stacked="!mobile" size="small" color="error" class="m-1 grow" :variant="mobile ? 'tonal':'elevated'" :prepend-icon="mobile ? '' : 'mdi-currency-usd'" @click="onQuickPay">
         Quick Pay
       </v-btn>
       <template v-if="!mobile">

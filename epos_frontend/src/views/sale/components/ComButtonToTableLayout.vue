@@ -7,7 +7,7 @@
         <v-list-item-title>Table Layout</v-list-item-title>
     </v-list-item>
     <template v-else>
-    <v-btn v-if="!mobile" :stacked="!mobile" :variant="mobile ? 'tonal':'elevated'" size="small" class="m-1 grow" :prepend-icon="'mdi-view-dashboard'" @click="onToTableLayout()">
+    <v-btn v-if="!mobile" :stacked="!mobile" :variant="mobile ? 'tonal':'elevated'" size="small" class="m-0-1 grow" :prepend-icon="'mdi-view-dashboard'" @click="onToTableLayout()">
       Table Layout
     </v-btn>
     <v-btn v-else variant="tonal" size="small" class="m-1 grow" @click="onToTableLayout()">

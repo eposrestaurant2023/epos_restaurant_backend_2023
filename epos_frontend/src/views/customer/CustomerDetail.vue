@@ -50,69 +50,59 @@
         </v-tabs>
         <v-window v-model="tab">
           <v-window-item value="about">
-            <v-table fixed-header class="ma-2">
-              <!-- <p class="font-weight-bold pb-1">
-                CONTACT INFORMATION
-              </p> -->
-              <v-list>
+            <v-row>
+              <v-col cols="6">
+                <v-list>
                   <v-list-item
-                    v-if="customer.doc?.phone_number || customer.doc?.phone_number_2"
+                    subtitle="Customer Group"
+                    :title="customer.doc?.customer_group"
+                  ></v-list-item>
+                  <v-list-item
+                  v-if="customer.doc?.gender"
+                    subtitle="Gender"
+                    :title="customer.doc?.gender"
+                  ></v-list-item>
+                  <v-list-item
+                  v-if="customer.doc?.date_of_birth"
+                    subtitle="Date Of Birth"
+                    :title="customer.doc?.date_of_birth"
+                  ></v-list-item>
+                  <v-list-item
+                  v-if="customer.doc?.company_name"
+                    subtitle="Company"
+                    :title="customer.doc?.company_name"
+                  ></v-list-item>
+                  
+                  
+                </v-list>
+              </v-col>
+              <v-col cols="6">
+                <v-list>
+                  <v-list-item
+                    v-if="customerPhoneNumber"
                     subtitle="Phone Number"
-                    :title="`${customer.doc?.phone_number} ${customer.doc?.phone_number_2 ? ' / ' + customer.doc?.phone_number_2 : ''}`"
+                    :title="customerPhoneNumber"
                   ></v-list-item>
                   <v-list-item
-                  v-if="customer.doc?.province || customer.doc?.country"
-                    subtitle="Address"
-                    :title="`${customer.doc?.phone_number} ${customer.doc?.phone_number_2 ? ' / ' + customer.doc?.phone_number_2 : ''}`"
+                  v-if="customer.doc?.email_address"
+                    subtitle="Emaill Address"
+                    :title="customer.doc?.email_address"
                   ></v-list-item>
+                  <v-list-item
+                  v-if="customer.doc?.province"
+                    subtitle="Province"
+                    :title="customer.doc?.province"
+                  ></v-list-item>
+                  <v-list-item
+                  v-if="customer.doc?.country"
+                    subtitle="Country"
+                    :title="customer.doc?.country"
+                  ></v-list-item>
+                  
               </v-list>
-              <table class="ml-2">
-                
-                <!-- <tr v-if="customer.doc?.phone_number || customer.doc?.phone_number_2">
-                  <td class="pr-4">Phone Number</td>
-                  <td class="pr-4">:</td>
-                  <td>
-                    <span v-if="customer.doc?.phone_number">{{ customer.doc?.phone_number }}</span>
-                    <span v-if="customer.doc?.phone_number_2"> - {{ customer.doc?.phone_number_2 }}</span>
-                  </td>
-                </tr> -->
-                <tr v-if="customer.doc?.province || customer.doc?.country">
-                  <td>Address</td>
-                  <td>:</td>
-                  <td>{{ customer.doc?.province }} - {{ customer.doc?.country }}</td>
-                </tr>
-                <tr v-if="customer.doc?.email_address">
-                  <td>Email address</td>
-                  <td>:</td>
-                  <td>{{ customer.doc?.email_address }}</td>
-                </tr>
-              </table>
-              <p class="font-weight-bold py-2 pt-4">
-                BASIC INFORMATION
-              </p>
-              <table class="ml-2">
-                <tr v-if="customer.doc?.date_of_birth">
-                  <td class="pr-8">Date of Birth</td>
-                  <td class="pr-4">:</td>
-                  <td>{{ customer.doc?.date_of_birth }}</td>
-                </tr>
-                <tr v-if="customer.doc?.gender">
-                  <td>Gender</td>
-                  <td>:</td>
-                  <td>{{ customer.doc?.gender }}</td>
-                </tr>
-                <tr v-if="customer.doc?.company_name">
-                  <td>Company Name</td>
-                  <td>:</td>
-                  <td>{{ customer.doc?.company_name }}</td>
-                </tr>
-                <tr v-if="customer.doc?.customer_group">
-                  <td>Customer Group</td>
-                  <td>:</td>
-                  <td>{{ customer.doc?.customer_group }}</td>
-                </tr>
-              </table>
-            </v-table>
+              </v-col>
+            </v-row>
+              
           </v-window-item>
           <v-window-item value="recentOrder">
             <v-table fixed-header class="ma-2">
@@ -152,7 +142,7 @@
   </ComModal>
 </template>
 <script setup>
-import { ref, defineProps, defineEmits, createDocumentResource, createResource, addCustomerDialog, useRouter, saleDetailDialog } from '@/plugin'
+import { ref, defineProps, defineEmits, createDocumentResource, createResource, addCustomerDialog, useRouter, saleDetailDialog, computed } from '@/plugin'
 import { Timeago } from 'vue2-timeago';
 import { useDisplay } from 'vuetify'
 import ComModal from '../../components/ComModal.vue';
@@ -168,7 +158,12 @@ const props = defineProps({
 
 const emit = defineEmits(["resolve", "reject"])
 
-let open = ref(true);
+const customerPhoneNumber = computed(()=>{
+  if(customer.doc?.phone_number_2 && customer.doc?.phone_number){
+    return customer.doc?.phone_number + ' / ' +customer.doc?.phone_number_2
+  }
+  return customer.doc?.phone_number || '' + customer.doc?.phone_number_2 || ''
+})
 const tab = ref(null);
 
 function onClose() {

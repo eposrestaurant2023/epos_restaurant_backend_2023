@@ -6,3 +6,4 @@ Selling
 Configuration
 Inventory
 ePOS Report
+Tour Managements

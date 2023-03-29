@@ -1,6 +1,6 @@
 <template>
     <div v-if="dataResource.data">
-        <div class="bg-gray-50 p-2 elevation-1">
+        <div class="bg-gray-50 p-2 elevation-1 -mx-3">
             <ComFilter v-if="!meta.loading" :meta="meta" @onFilter="onFilter" @onRefresh="onRefresh"/>
         </div>
         <div>
@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="sale-card-list">
+                <div id="sale-card-list" class="-mx-3">
                     <v-list>
                         <v-list-item v-for="(s, index) in dataResource.data" :key="index" @click="callback(s)" class="border-b border-gray-400">
                           <template v-slot:title>
@@ -72,7 +72,7 @@
             </div>
             
         </div>
-        <div>
+        <div :class="mobile ? 'pb-7' :''">
             <div class="text-center items-center pt-2" v-if="countResource.data"> 
                 <v-row justify="center" align="center" class="m-0">
                     <v-col cols="12">
@@ -88,11 +88,10 @@
                             ></v-select>
                         </div>
                     </v-col>
-                    <v-col cols="12"> 
+                    <v-col cols="12" v-if="!mobile"> 
                         <v-pagination
                         size="x-small"
                         v-model="pagerOption.currentPage"
-                        class="my-4"
                         :length="totalPage"
                         total-visible="8"
                         ></v-pagination> 
@@ -106,10 +105,12 @@
 <script setup>
 import { createResource, reactive, defineEmits, watch,inject,ref } from '@/plugin'
 import ComFilter from '../../../components/ComFilter.vue';
+import {useDisplay} from 'vuetify'
 let filter = reactive({});
 const emit = defineEmits(['callback'])
 const moment = inject('$moment')
 const gv = inject('$gv')
+const {mobile} = useDisplay()
 const props = defineProps({
     headers: {
         type: Array,

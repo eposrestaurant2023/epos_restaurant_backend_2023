@@ -1,0 +1,140 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:tour_package",
+ "creation": "2023-03-28 23:38:28.728792",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "tour_package",
+  "tour_package_title",
+  "tour_package_type",
+  "min_pax",
+  "column_break_4",
+  "duration",
+  "cost",
+  "price",
+  "itenaries_section",
+  "itenaries",
+  "tour_inclusions_and_exclusions_section",
+  "inclusions",
+  "column_break_12",
+  "exclusions",
+  "price_detail_tab",
+  "tour_package_prices"
+ ],
+ "fields": [
+  {
+   "fieldname": "tour_package",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tour Package",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "tour_package_title",
+   "fieldtype": "Data",
+   "label": "Tour Package Title",
+   "length": 255
+  },
+  {
+   "fieldname": "tour_package_type",
+   "fieldtype": "Link",
+   "label": "Tour Package Type",
+   "options": "Tour Package Type"
+  },
+  {
+   "fieldname": "min_pax",
+   "fieldtype": "Int",
+   "label": "MIn Pax"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Data",
+   "label": "Duration"
+  },
+  {
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "label": "Estimate Cost"
+  },
+  {
+   "fieldname": "price",
+   "fieldtype": "Currency",
+   "label": "Price"
+  },
+  {
+   "fieldname": "itenaries_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "itenaries",
+   "fieldtype": "Table",
+   "label": "Itenaries",
+   "options": "Tour Package Itenary"
+  },
+  {
+   "fieldname": "tour_inclusions_and_exclusions_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "inclusions",
+   "fieldtype": "Table",
+   "label": "Inclusions",
+   "options": "Tour Package Inclusions"
+  },
+  {
+   "fieldname": "column_break_12",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "exclusions",
+   "fieldtype": "Table",
+   "label": "Exclusions",
+   "options": "Tour Package Exclusions"
+  },
+  {
+   "fieldname": "price_detail_tab",
+   "fieldtype": "Tab Break",
+   "label": "Price Detail"
+  },
+  {
+   "description": "The price below is price per person",
+   "fieldname": "tour_package_prices",
+   "fieldtype": "Table",
+   "options": "Tour Package Prices"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-03-29 18:41:14.941303",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Tour Packages",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

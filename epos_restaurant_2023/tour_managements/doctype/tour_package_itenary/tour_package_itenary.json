@@ -1,0 +1,45 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2023-03-28 23:52:55.085851",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "note",
+  "itemnary_detail"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Note"
+  },
+  {
+   "fieldname": "itemnary_detail",
+   "fieldtype": "Text Editor",
+   "label": "Itemnary Detail"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-03-29 18:42:42.012965",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Tour Package Itenary",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,80 @@
+{
+ "charts": [],
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Tour Tourmanagement</span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Package\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Guides\",\"col\":3}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Setup\",\"col\":4}}]",
+ "creation": "2023-03-28 23:47:31.207430",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "hr",
+ "idx": 0,
+ "label": "Tour Management",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Setup",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tour Package",
+   "link_count": 0,
+   "link_to": "Tour Packages",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Inclusions and Exclusion Code",
+   "link_count": 0,
+   "link_to": "Tour Inclusions and Exclusions",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tour Package Type",
+   "link_count": 0,
+   "link_to": "Tour Package Type",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2023-03-29 18:43:19.081482",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Tour Management",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 6.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Tour Package",
+   "link_to": "Tour Packages",
+   "stats_filter": "{\"tour_package\":[\"is\",\"set\"]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Tour Guides",
+   "link_to": "Tour Guides",
+   "type": "DocType"
+  }
+ ],
+ "title": "Tour Management"
+}

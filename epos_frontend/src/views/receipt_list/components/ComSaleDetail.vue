@@ -30,28 +30,33 @@
         <template #content>
             <ComLoadingDialog v-if="isLoading" />
             <v-card>
-              
+
 
                 <template #title>
-                    <div class="px-1 py-2 -m-1">
-                        <div class="flex justify-between">
-                            <div>
-                                <v-btn
-                                    v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Sale' && r.show_in_pos == 1)"
-                                    :key="index" :color="activeReport.name == r.name ? 'info' : 'default'" class="m-1"
-                                    @click="onViewReport(r)">{{ r.title }}</v-btn>
-
-                            </div>
-                            <div class="flex items-center">
-                                <v-select prepend-inner-icon="mdi-content-paste" density="compact"
-                                    v-model="selectedLetterhead" :items=gv.setting.letter_heads item-title="name"
-                                    item-value="name" hide-no-data hide-details variant="solo" class="mx-1"></v-select>
-                                <v-select prepend-inner-icon="mdi-google-translate" density="compact" v-model="selectedLang"
-                                    :items="gv.setting.lang" item-title="language_name" item-value="language_code"
-                                    hide-no-data hide-details variant="solo" class="mx-1"></v-select>
-                                <v-icon class="mx-1" icon="mdi-refresh" size="small" @click="onRefresh()" />
-                            </div>
-                        </div>
+                    <div class="px-1 py-2 -m-1 whitespace-normal">
+                        <v-row>
+                            <v-col cols="12" sm="7" md="7" lg="7" xl="8">
+                                <v-tabs show-arrows>
+                                    <v-tab
+                                        v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Sale' && r.show_in_pos == 1)"
+                                        :key="index" @click="onPrintFormat(r)">
+                                        {{ r.title }}
+                                    </v-tab>
+                                </v-tabs>
+                            </v-col>
+                            <v-col cols="12" sm="5" md="5" lg="5" xl="4">
+                                <div class="flex items-center">
+                                    <v-select prepend-inner-icon="mdi-content-paste" density="compact"
+                                        v-model="selectedLetterhead" :items=gv.setting.letter_heads item-title="name"
+                                        item-value="name" hide-no-data hide-details variant="solo" class="mx-1"></v-select>
+                                    <v-select prepend-inner-icon="mdi-google-translate" density="compact"
+                                        v-model="selectedLang" :items="gv.setting.lang" item-title="language_name"
+                                        item-value="language_code" hide-no-data hide-details variant="solo"
+                                        class="mx-1"></v-select>
+                                    <v-icon class="mx-1" icon="mdi-refresh" size="small" @click="onRefresh()" />
+                                </div>
+                            </v-col>
+                        </v-row>
                     </div>
                 </template>
                 <v-card-text style="height: calc(100vh - 200px);">
@@ -85,7 +90,7 @@ const props = defineProps({
 })
 const selectedLetterhead = ref(getDefaultLetterHead());
 const selectedLang = ref(gv.setting.lang[0].language_code);
-const activeReport = ref(gv.setting.reports.filter(r => r.doc_type == "Sale" &&  r.show_in_pos==1)[0]);
+const activeReport = ref(gv.setting.reports.filter(r => r.doc_type == "Sale" && r.show_in_pos == 1)[0]);
 const isLoading = ref(false)
 
 const sale = createDocumentResource({
@@ -218,26 +223,26 @@ function onEditOrder() {
             //cancel payment first
             isLoading.value = true;
             const cancelSaleResource = createResource({
-                url:"epos_restaurant_2023.api.api.edit_sale_order",
-                params:{
-                    name:props.params.name,
-                    auth:{full_name:v.user, username:v.username, note:v.note}
+                url: "epos_restaurant_2023.api.api.edit_sale_order",
+                params: {
+                    name: props.params.name,
+                    auth: { full_name: v.user, username: v.username, note: v.note }
                 },
-                onError(err){
+                onError(err) {
                     isLoading.value = false;
                 }
             });
 
-            await cancelSaleResource.fetch().then((v)=>{
+            await cancelSaleResource.fetch().then((v) => {
                 router.push({ name: "AddSale", params: { name: props.params.name } });
-                
+
                 isLoading.value = false;
                 emit('resolve', "open_order");
-               
+
             })
 
 
-           
+
         }
     })
 
@@ -248,38 +253,38 @@ function OnDeleteOrder() {
 
     gv.authorize("delete_bill_required_password", "delete_bill", "delete_bill_required_note", "Delete Bill Note").then(async (v) => {
         if (v) {
-            if(v.show_confirm==1){
-                if(await confirm({title:'Delete Sale Order', text:'Are you sure you want delete this sale order?'}) == false){
+            if (v.show_confirm == 1) {
+                if (await confirm({ title: 'Delete Sale Order', text: 'Are you sure you want delete this sale order?' }) == false) {
                     return;
                 }
             }
-          
+
             //cancel payment first
             isLoading.value = true;
             const deleteSaleResource = createResource({
-                url:"epos_restaurant_2023.api.api.delete_sale",
-                params:{
-                    name:props.params.name,
-                    auth:{full_name:v.user, username:v.username, note:v.note}
+                url: "epos_restaurant_2023.api.api.delete_sale",
+                params: {
+                    name: props.params.name,
+                    auth: { full_name: v.user, username: v.username, note: v.note }
                 },
-                onError(err){
+                onError(err) {
                     isLoading.value = false;
                 }
             });
 
-            await deleteSaleResource.fetch().then((v)=>{
+            await deleteSaleResource.fetch().then((v) => {
                 isLoading.value = false;
                 emit('resolve', "delete_order");
-               
+
             })
 
 
-           
+
         }
     })
 
 }
- 
+
 
 const reportClickHandler = async function (e) {
     if (e.isTrusted && typeof (e.data) == 'string') {
