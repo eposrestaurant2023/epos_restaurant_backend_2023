@@ -67,7 +67,7 @@
                             class="mx-1 grow text-center justify-center" 
                             variant="elevated"
                              size="small"
-                            @click="onReorder(sp)">Reorder</v-chip>
+                            @click="onReorder(sp)">Re-Order</v-chip>
                         
                   
                         <ComSaleProductButtonMore :sale-product="sp" />

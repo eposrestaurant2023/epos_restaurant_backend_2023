@@ -1,12 +1,12 @@
 <template>
-  <ComModal @onClose="onClose()" :hide-ok-button="true">
+  <ComModal @onClose="onClose()" :hide-ok-button="true" width="400px">
     <template #title>
       <div>Change Sale Type</div>
     </template>
     <template #content>
       <v-list>
           <v-list-item v-for="(item, index) in saleTypeResource.data" :key="index" class="!p-0">
-            <v-btn class="w-full text-white" variant="flat"  @click="onChangeSaleType(item)" :color="item.color">
+            <v-btn class="w-full text-white mb-3" variant="flat" size="large" @click="onChangeSaleType(item)" :color="item.color">
               {{ item.name }}
             </v-btn>
           </v-list-item>
