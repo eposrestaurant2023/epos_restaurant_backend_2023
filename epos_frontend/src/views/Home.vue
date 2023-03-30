@@ -32,7 +32,7 @@
                             icon-color="#e99417" />
                         <ComButton @click="onRoute('Customer')" title="Customer" icon-color="#e99417"
                             icon="mdi-account-multiple-outline" />
-                        <ComButton @click="onRoute('CashDrawer')" title="Cash Drawer" icon-color="#e99417"
+                        <ComButton @click="onCashInCashOut" title="Cash Drawer" icon-color="#e99417"
                             icon="mdi-currency-usd" />
                         <ComButton @click="onRoute('Report')" title="Report" icon="mdi-chart-bar" icon-color="#e99417" />
                         
@@ -91,6 +91,14 @@ const workingDayResource = createResource({
 
 function onRoute(page) {
     router.push({ name: page })
+}
+
+async function onCashInCashOut(){
+    await gv.authorize("cash_in_check_out_required_password", "cash_in_check_out").then(async (v) => {
+        if (v) {
+            router.push({ name: "CashDrawer" });
+        }
+    });
 }
 
 async function onPOS() {

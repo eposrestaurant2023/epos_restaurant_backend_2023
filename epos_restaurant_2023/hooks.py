@@ -210,9 +210,8 @@ fixtures = [
     {"dt": "Outlet","filters": [["is_standard", "=", "1"]]},
     {"dt": "Dates"},
     {"dt": "Numbers"},
-
+    {"dt": "Predefine Data"},
 ]
-
 
 website_route_rules = [
         {'from_route': '/epos_frontend/<path:app_path>', 'to_route': 'epos_frontend'},

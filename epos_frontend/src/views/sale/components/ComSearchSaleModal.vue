@@ -1,5 +1,5 @@
 <template>
-  <ComModal :mobileFullscreen="true" @onClose="onClose()" width="1200px">
+  <ComModal :mobileFullscreen="true" @onClose="onClose()" width="1200px" :hideOkButton="true">
     <template #title>
       Select Sale
     </template>
