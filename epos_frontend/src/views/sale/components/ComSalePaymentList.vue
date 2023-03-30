@@ -2,10 +2,10 @@
     <div>
         <ComPlaceholder :is-not-empty="sale.sale?.payment?.length > 0" icon="mdi-currency-usd" icon-size="30px" text="No Payment">
             <div v-for="(p, index) in sale.sale.payment" :key="index">
-                <div
-                    class="flex items-center p-1 bg-white rounded-sm mb-1 border border-gray-600">
+                <div class="flex items-center p-1 bg-white rounded-sm mb-1 border border-gray-600">
                     <div class="flex-grow">
-                        <div class="font-bold">{{ p.payment_type }}</div>
+                        <div class="font-bold">{{ p.payment_type }} </div>
+                        <div class="text-xs text-gray-500" v-if="p.currency != sale.setting.pos_setting.main_currency_name">Exchange Rate: <CurrencyFormat :value="p.exchange_rate" :currency="p.currency"/></div>
                     </div>
                     <div class="flex-none text-right">
                         <CurrencyFormat :value="p.input_amount" :currency="p.currency" />
@@ -15,6 +15,7 @@
                             @click="onRemovePayment(p)"></v-btn>
                     </div>
                 </div>
+                
             </div>
         </ComPlaceholder>
     </div>

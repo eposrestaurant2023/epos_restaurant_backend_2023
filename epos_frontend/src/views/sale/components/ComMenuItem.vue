@@ -42,7 +42,6 @@
             <div class="absolute left-0 top-0 bg-red-700 text-white p-1 rounded-tl-lg rounded-br-lg text-sm">
                 <!-- <ComPriceOnMenu v-if="data.prices" :prices="data.prices" :price="data.price"/> -->
                 <span>
-                    {{ productPrices }}
                     <span v-if="productPrices.length > 1">
                         <span><CurrencyFormat :value="minPrice"/></span> <v-icon icon="mdi-arrow-right" size="x-small"/> <span><CurrencyFormat :value="maxPrice"/></span>
                     </span>
@@ -63,12 +62,14 @@ const props = defineProps({ data: Object })
 const sale = inject("$sale");
 const product = inject("$product");
 // price menu
-const productPrices = ref([])
-if(props.data.prices){
-    productPrices.value = JSON.parse(props.data.prices).filter(r=>(r.branch == sale.sale.business_branch || r.branch == '') && r.price_rule == sale.sale.price_rule)
-}
-
-const showPrice = computed(()=>{
+const productPrices = computed(()=>{
+    if(props.data.prices){ 
+        const r = JSON.parse(props.data.prices)
+        return r.filter(r=>(r.branch == sale.sale.business_branch || r.branch == '') && r.price_rule == sale.sale.price_rule)
+    }
+    return []
+})
+const showPrice = computed(()=>{ 
     if(productPrices.value.length == 1){
         return productPrices.value[0].price
     }

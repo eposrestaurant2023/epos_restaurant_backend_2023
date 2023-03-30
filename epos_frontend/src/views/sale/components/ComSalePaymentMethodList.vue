@@ -4,7 +4,7 @@
             v-for="(pt, index) in gv.setting?.payment_types" :key="index"
             @click="onPaymentTypeClick(pt)">
             <div>
-                {{ pt.payment_method }}
+                {{ pt.payment_method }} 
             </div>
         </div>
     </div>

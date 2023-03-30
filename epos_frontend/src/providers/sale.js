@@ -919,9 +919,11 @@ export default class Sale {
             }
             if(!this.getNumber(amount)==0){
                 this.sale.payment.push({
+
                     payment_type: paymentType.payment_method,
                     input_amount: parseFloat(amount),
                     amount: parseFloat(amount/paymentType.exchange_rate),
+                    exchange_rate: paymentType.exchange_rate,
                     currency:paymentType.currency,
                     is_single_payment_type:paymentType.is_single_payment_type,
                     required_customer:paymentType.required_customer
