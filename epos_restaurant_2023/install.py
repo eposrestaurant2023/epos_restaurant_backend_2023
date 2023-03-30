@@ -220,9 +220,9 @@ def create_sale_invoice_a4_print_format():
         "show_in_pos_closed_sale": 0,
         "doctype": "Print Format",
         }
-        if not frappe.db.exists("Print Format", "Sale Invoice A4"):
-            doc = frappe.get_doc(data)
-            doc.insert()
+    if not frappe.db.exists("Print Format", "Sale Invoice A4"):
+        doc = frappe.get_doc(data)
+        doc.insert()
 
 @frappe.whitelist()
 def get_server_name():

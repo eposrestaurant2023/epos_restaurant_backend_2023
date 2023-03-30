@@ -200,11 +200,8 @@ const workingDayReportsTmp = createResource({
         if (doc.length > 0) {
             workingDayReports.value = Enumerable.from(doc).orderByDescending("$.creation").toArray()
             const reports = gv.setting.reports.filter(r => r.doc_type == 'Working Day' && r.show_in_pos == 1);
-
             activeReport.value.report_id = workingDayReports.value[0].name
-
             activeReport.value.preview_report = reports[0].name
-
             activeReport.value.doc_type = "Working Day"
             activeReport.value.print_report_name = reports[0].print_report_name || reports[0].name
 
