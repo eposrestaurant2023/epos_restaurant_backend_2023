@@ -78,38 +78,31 @@ if (!localStorage.getItem("pos_profile")) {
 		cache: "get_system_settings",
 		auto: true,
 		onSuccess(doc) {
-			
-			if(doc?.status == 500 && doc?.message == 'Internal Server Error'){
-				router.push({name:'ServerError'})
-			}
-			else{
-				state.isLoading = false;
-				localStorage.setItem("setting", JSON.stringify(doc));
-				gv.setting = doc;
-				sale.setting = doc;
-				product.setting = doc;
-				tableLayout.setting = doc;
-				tableLayout.table_groups = doc.table_groups || '';
-				localStorage.setItem("table_groups", JSON.stringify(doc.table_groups || null))
-				let current_user = localStorage.getItem("current_user");
-				if (current_user) {
-					createResource({
-						url: "epos_restaurant_2023.api.api.get_current_shift_information",
-						params: {
-							business_branch: gv.setting?.business_branch,
-							pos_profile: localStorage.getItem("pos_profile")
-						},
-						onSuccess(data) {
-							gv.workingDay = data.wroking_day;
-							gv.cashier_shift = data.cashier_shift;
-						},
-						auto: true,
-					})
-				}
-			}
+			state.isLoading = false;
+			localStorage.setItem("setting", JSON.stringify(doc));
+			gv.setting = doc;
+			sale.setting = doc;
+			product.setting = doc;
+			tableLayout.setting = doc;
+			tableLayout.table_groups = doc.table_groups || '';
+			localStorage.setItem("table_groups", JSON.stringify(doc.table_groups || null))
+			let current_user = localStorage.getItem("current_user");
+			if (current_user) {
+				createResource({
+					url: "epos_restaurant_2023.api.api.get_current_shift_information",
+					params: {
+						business_branch: gv.setting?.business_branch,
+						pos_profile: localStorage.getItem("pos_profile")
+					},
+					onSuccess(data) {
+						gv.workingDay = data.wroking_day;
+						gv.cashier_shift = data.cashier_shift;
+					},
+					auto: true,
+				})
+			}  
 		},
 		onError(x) {
-			alert(JSON.stringify(x))
 			if (x.error_text == undefined) {
 				//localStorage.removeItem("pos_profile")
 			} else {
@@ -117,7 +110,8 @@ if (!localStorage.getItem("pos_profile")) {
 					localStorage.removeItem("pos_profile")
 				}
 				else if(x.error_text[0] === 'Internal Server Error'){	
-					router.push({ name: 'ServerError' })
+					//router.push({ name: 'ServerError' })
+					state.isLoading = false;
 				}
 				else{
 					toaster.error(JSON.stringify(x))

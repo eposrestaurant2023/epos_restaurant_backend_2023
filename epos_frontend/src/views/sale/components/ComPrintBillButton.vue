@@ -1,6 +1,6 @@
 <template>
-  <v-btn v-if="gv.setting.reports.filter(r => r.doc_type == doctype && r.show_in_pos == 1).length == 1" stacked color="info"
-    size="small" class="m-1 grow" prepend-icon="mdi-printer"
+  <v-btn v-if="gv.setting.reports.filter(r => r.doc_type == doctype && r.show_in_pos == 1).length == 1" :stacked="!mobile" color="info"
+    size="small" class="m-1 grow" :prepend-icon="mobile ? '' : 'mdi-printer'" :variant="mobile ? 'tonal':'elevated'"
     @click="onPrintReport(gv.setting.reports.filter(r => r.doc_type == doctype && r.show_in_pos == 1)[0])">
     Print Bill
   </v-btn>

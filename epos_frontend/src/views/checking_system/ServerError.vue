@@ -1,7 +1,7 @@
 <template lang="">
     <div>
         <div class="bg-gray-100 font-sans leading-normal tracking-normal" v-if="!isLoading">
-            <div class="h-screen flex flex-col items-center justify-center">
+            <div class="h-screen flex flex-col items-center justify-center p-3 text-center">
                 <h1 class="text-5xl font-bold text-gray-900">500</h1>
                 <h2 class="text-xl font-semibold text-gray-600">Internal Server Error</h2>
                 <p class="text-gray-500 py-3">Oops! Something went wrong. Please contact to our system administartor.</p>

@@ -2,7 +2,7 @@
     <template v-for="g in tableLayout.table_groups">
                     <v-window-item :value="g.key"
                         v-bind:style="{ 'background-image': 'url(' + g.background + ')', 'min-height': 'calc(100vh - 200px)' }"
-                        class="bg-contain bg-center overflow-auto">
+                        class="bg-cover bg-center overflow-auto">
                         <Vue3DraggableResizable v-for="(t, index) in g.tables" :key="index" v-model:x="t.x" v-model:y="t.y" :w="t.w" :h="t.h"
         :draggable="true" :resizable="true" @resize-end="tableLayout.onResizeEnd(t)($event)">
 

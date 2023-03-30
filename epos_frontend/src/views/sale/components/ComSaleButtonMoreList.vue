@@ -14,12 +14,12 @@
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-silverware" title="Change POS Menu" @click="onChangePOSMenu()" />
     <v-list-item v-if="isWindow" prepend-icon="mdi-cash-100" title="Open Cash Drawer" @click="onOpenCashDrawer()" />
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-grid-large" title="Change/Merge Table" @click="onChangeTable()" />
-    <!-- <v-list-item prepend-icon="mdi-cash-100" title="Merge Table/Bill" @click="onViewInvoice()"/> -->
-    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-cash-100" title="Split Bill" @click="onViewInvoice()" />
+    <v-list-item prepend-icon="mdi-cash-100" title="Merge Table/Bill" @click="onInfoDeveloping()"/>
+    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-cash-100" title="Split Bill" @click="onInfoDeveloping()" />
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-account-multiple-outline" :title="`Change Guest Cover (${sale.sale.guest_cover})`" @click="onUpdateGuestCover()" />
     <v-list-item prepend-icon="mdi-cart" title="Change Sale Type" @click="onChangeSaleType()" />
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-chair-school" title="Seat#" @click="onSeatNumber()" />
-    <v-list-item prepend-icon="mdi-cash-100" title="Tax Setting" @click="onViewInvoice()" />
+    <v-list-item prepend-icon="mdi-cash-100" title="Tax Setting" @click="onInfoDeveloping()" />
     <v-list-item v-if="sale.sale.sale_products?.filter(r=>r.name == undefined).length>0" @click="onClearOrder()">
         <template #prepend>
             <v-icon color="error" icon="mdi-autorenew"></v-icon>
@@ -185,6 +185,8 @@ async function onClearOrder(){
     
      
 }
-
+function onInfoDeveloping(){
+    toaster.info('This function is developing.')
+}
 
 </script>

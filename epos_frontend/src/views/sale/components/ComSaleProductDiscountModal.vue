@@ -1,46 +1,44 @@
 <template>
     <ComModal :persistent="true" :width="categoryNoteName ? '1200px' : '800px'" @onClose="onClose()" @onOk="onOK()" title-ok-button="OK">
         <template #title>
-            <div>{{ params.title ?? "Discount" }} - {{ discount_note }}</div>
+            <div>{{ params.title ?? "Discount" }}</div>
         </template>
         <template #content>
             <div>
-            
-                    <v-row :class="categoryNoteName ? '' : '!m-0'">
-                        <v-col :md="categoryNoteName ? 6 : 12">
+                <v-row :class="categoryNoteName ? '' : '!m-0'">
+                    <v-col :md="categoryNoteName ? 6 : 12">
+                        <div class="mb-2">
                             <div class="mb-2">
-                                <div class="mb-2">
-                                    <v-alert variant="tonal" color="warning" class="!p-2">
-                                     Discountable Amount <CurrencyFormat :value="params.value" />. Max discount <span class="mr-2">({{maxDiscountPercent * 100}}%)</span><span>     <CurrencyFormat :value="Number(discountAmount)" /></span>
-                                    </v-alert> 
-                                </div>
-                                <ComInput 
-                                    keyboard
-                                    type="number"
-                                    v-model="discount"
-                                    :disabled="discount_type == 'Percent'"
-                                    />
+                                <v-alert variant="tonal" color="warning" class="!p-2">
+                                    Discountable Amount <CurrencyFormat :value="params.value" />. Max discount <span class="mr-2">({{maxDiscountPercent * 100}}%)</span><span>     <CurrencyFormat :value="Number(discountAmount)" /></span>
+                                </v-alert> 
                             </div>
-                            <div>
-                                <div class="-m-1">
-                                        <v-btn
-                                        class="p-1 m-1"
-                                        v-for="(item, index) in discountCodes" 
-                                        :key="index"
-                                            size="large"
-                                            :color="item.discount_value == (discount_type == 'Percent' ? discount / 100 : discount) ? 'primary' : ''"
-                                            @click="onClick(item)">
-                                            {{ item.discount_code }}
-                                        </v-btn> 
-                                </div>
+                            <ComInput 
+                                keyboard
+                                type="number"
+                                v-model="discount"
+                                :disabled="discount_type == 'Percent'"
+                                />
+                        </div>
+                        <div>
+                            <div class="-m-1">
+                                    <v-btn
+                                    class="p-1 m-1"
+                                    v-for="(item, index) in discountCodes" 
+                                    :key="index"
+                                        size="large"
+                                        :color="item.discount_value == (discount_type == 'Percent' ? discount / 100 : discount) ? 'primary' : ''"
+                                        @click="onClick(item)">
+                                        {{ item.discount_code }}
+                                    </v-btn> 
                             </div>
-                        </v-col>
-                        <v-col v-if="categoryNoteName" md="6">
-                            {{ discount_note }}
-                            <ComInlineNote :category_note="categoryNoteName" v-model="discount_note"/>
-                        </v-col>
-                    </v-row>
-                </div>
+                        </div>
+                    </v-col>
+                    <v-col v-if="categoryNoteName" md="6">
+                        <ComInlineNote :category_note="categoryNoteName" v-model="discount_note"/>
+                    </v-col>
+                </v-row>
+            </div>
         </template>
     </ComModal>
 </template>

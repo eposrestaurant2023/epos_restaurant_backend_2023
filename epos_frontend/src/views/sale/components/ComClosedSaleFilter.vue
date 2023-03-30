@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full grid" style="grid-template-rows: max-content;">
+    <div class="h-full">
         <div class="pb-1 px-1 font-bold">Filter</div>
         <div class="overflow-y-auto p-1">
             <ComInput v-if="reportOption.show_keyword" label="Search Receipt Number" density="default" class="mb-4" keyboard

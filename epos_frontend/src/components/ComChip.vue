@@ -9,7 +9,7 @@
                 :variant="variant"
                 :prepend-icon="prependIcon"
                 :append-icon="appendIcon"
-                @click="emit('onClick')"
+                @click="onClick"
                 >
                 <slot></slot>
             </v-chip>
@@ -18,6 +18,7 @@
 </template>
 <script setup>
     import { defineProps, inject } from 'vue'
+    const emit = defineEmits(["onClick"])
     const screen = inject('$screen')
     const props = defineProps({
         tooltip: String,
@@ -36,6 +37,9 @@
             default: 'pill'
         }
     })
+    function onClick(){
+        emit('onClick')
+    }
 </script>
 <style lang="">
     

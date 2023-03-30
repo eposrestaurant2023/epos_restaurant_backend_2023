@@ -3,9 +3,9 @@
 
     <div class="flex flex-wrap w-full">
       <ComButtonToTableLayout :is-mobile="false" @closeModel="closeModel()"/>
-      <template v-if="setting.table_groups && setting.table_groups.length > 0 && !mobile">
-        <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" doctype="Sale" title="Print Bill" />
-        <v-btn v-else stacked color="error" size="small" class="m-1 grow" prepend-icon="mdi-printer" @click="onCancelPrintBill">
+      <template v-if="setting.table_groups && setting.table_groups.length > 0">
+        <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" :variant="mobile ? 'tonal':'elevated'" :stacked="!mobile" doctype="Sale" title="Print Bill" />
+        <v-btn v-else color="error" size="small" class="m-1 grow" :variant="mobile ? 'tonal':'elevated'" :stacked="!mobile" :prepend-icon="mobile ? '' : 'mdi-printer'" @click="onCancelPrintBill">
           Cancel Print Bill
         </v-btn>
       </template>

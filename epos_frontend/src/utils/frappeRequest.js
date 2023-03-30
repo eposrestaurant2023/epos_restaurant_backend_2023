@@ -1,6 +1,6 @@
 import { request } from './request'
 import { createToaster } from "@meforma/vue-toaster";
-
+import {createRouter, useRouter} from 'vue-router'
 export function frappeRequest(options) {
   return request({
     ...options,
@@ -29,6 +29,7 @@ export function frappeRequest(options) {
       }
     },
     transformResponse: async (response, options) => {
+      const toaster = createToaster({position:"top"});
       let url = options.url
       if (response.ok) {
         try{
@@ -49,7 +50,16 @@ export function frappeRequest(options) {
           }
         }
         return data.message
-        } catch(r){
+        } catch(r){  
+          let currentUrl = window.location.href
+          let lastUrl = currentUrl.substr(currentUrl.lastIndexOf('/') + 1);
+   
+          if(lastUrl != 'server-error' && lastUrl != 'startup-config'){
+            window.location.replace('server-error')
+          }
+          else if(lastUrl == 'startup-config'){
+            toaster.error('Internal Server Error',{position:"top"});
+          }
           throw {
             status: 500,
             message: 'Internal Server Error',
@@ -104,7 +114,7 @@ export function frappeRequest(options) {
         } 
         
         let error_text =  e.messages;
-        const toaster = createToaster({ /* options */ });
+        
 
         if (options.onError || error_text) {
           if(error_text[0]=="Not permitted"){
@@ -120,9 +130,9 @@ export function frappeRequest(options) {
             error_text.forEach(r => {
               const msg = r.split(':')
               if(msg.length == 3 && msg[0] == 'Error' && msg[1].search('Value missing for')){
-                toaster.warning(`Invalid ${msg[2]}`,{position:"top"});
+                toaster.warning(`Invalid ${msg[2]}`);
               }else{
-                toaster.error(r,{position:"top"});
+                toaster.error(r);
               }
             });
           }

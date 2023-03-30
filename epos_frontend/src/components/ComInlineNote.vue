@@ -88,12 +88,10 @@ function onSearch(keyword) {
     emit('update:modelValue', search.value)
 }
 
-
 function getNote() {
     if (search.value == undefined) search.value = "";
     if (noteResource.doc !== null) {
         let notes = noteResource.doc.notes;
-
         if (props.product_code) {
             notes =
                 notes.filter((r) => {

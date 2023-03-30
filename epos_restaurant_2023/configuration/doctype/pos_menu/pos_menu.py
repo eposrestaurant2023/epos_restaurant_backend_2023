@@ -5,17 +5,22 @@ import frappe
 from frappe.utils.nestedset import NestedSet
 
 class POSMenu(NestedSet):
-	def validate(self):
+    def validate(self):
+        if self.pos_menu_name_en == "Root Menu":
+            frappe.throw("Root Menu is not allow to change.")
 
-		if not self.pos_menu_name_kh:
-			self.pos_menu_name_kh = self.pos_menu_name_en
+        if not self.pos_menu_name_kh:
+            self.pos_menu_name_kh = self.pos_menu_name_en
 
-		self.pos_menu_path = get_menu_path(self.pos_menu_name_en)
-  
-  
-	def after_rename(self, old_name,new_name,merge):
-		update_pos_menu_path(old_name)
-		frappe.db.set_value("POS Menu",new_name,"pos_menu_path",get_menu_path(new_name))
+        self.pos_menu_path = get_menu_path(self.pos_menu_name_en)
+
+    def on_trash(self):
+        if self.pos_menu_name_en == "Root Menu":
+            frappe.throw("Root Menu is not allow to change.")
+
+    def after_rename(self, old_name,new_name,merge):
+        update_pos_menu_path(old_name)
+        frappe.db.set_value("POS Menu",new_name,"pos_menu_path",get_menu_path(new_name))
 
 
 def update_pos_menu_path(old_name):
