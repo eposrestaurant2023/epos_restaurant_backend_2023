@@ -5,17 +5,14 @@ const toaster = createToaster({ position: "top" });
 export default class Gv {
 	constructor() {
 		this.setting = {},
-			this.customerMeta = null,
-			this.saleMeta = null,
-			this.countries = [] 
-			//use this variable to control state of open/close shift in drawer
+		this.customerMeta = null,
+		this.saleMeta = null,
+		this.countries = [] 
+		//use this variable to control state of open/close shift in drawer
 
-			this.workingDay = "";
-			this.cashierShift= "";
-			this.isFullscreen = true
-			
-
-		
+		this.workingDay = "";
+		this.cashierShift= "";
+		this.isFullscreen = true
 	}
 
 	
@@ -76,8 +73,8 @@ export default class Gv {
 						
 						//check if require note 
 						if(this.setting.pos_setting[requiredNoteKey] == 1){ 
-							if(inlineNote){
-								resolve({category_note_name: categoryNoteName})
+							if(inlineNote){ 
+								resolve({user:currentUser.full_name, discount_codes:currentUser.permission.discount_codes,note:'',username:currentUser.name,category_note_name: categoryNoteName})
 							}else{
 								const resultNote = await noteDialog({name:categoryNoteName,data:{product_code:""}}) ;
 								if(resultNote){

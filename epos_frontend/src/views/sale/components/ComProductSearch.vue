@@ -43,15 +43,15 @@ function onSearch(key) {
     product.searchProductKeyword = key;
 }
 function onKeyDown(event) {
-      if(event.key =="Enter"){
-        toaster.info(product.searchProductKeywordStore)
-        product.searchProductKeywordStore = "";
-        searchProductResource.fetch().then((doc)=>{
-            sale.addSaleProduct(doc);
-        });
+    //   if(event.key =="Enter"){
+    //     toaster.info(product.searchProductKeywordStore)
+    //     product.searchProductKeywordStore = "";
+    //     searchProductResource.fetch().then((doc)=>{
+    //         sale.addSaleProduct(doc);
+    //     });
 
         
-      }
+    //   }
     }
 
 </script>

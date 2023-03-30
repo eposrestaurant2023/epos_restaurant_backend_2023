@@ -1,18 +1,18 @@
 <template>
     <ComModal :persistent="true" :width="categoryNoteName ? '1200px' : '800px'" @onClose="onClose()" @onOk="onOK()" title-ok-button="OK">
         <template #title>
-            <div>{{ params.title ?? "Discount" }}</div>
+            <div>{{ params.title ?? "Discount" }} - {{ discount_note }}</div>
         </template>
         <template #content>
             <div>
             
-                    <v-row>
+                    <v-row :class="categoryNoteName ? '' : '!m-0'">
                         <v-col :md="categoryNoteName ? 6 : 12">
                             <div class="mb-2">
                                 <div class="mb-2">
                                     <v-alert variant="tonal" color="warning" class="!p-2">
-                                     Discountable Amount      <CurrencyFormat :value="params.value" />.   Max discount <span class="mr-2">({{maxDiscountPercent * 100}}%)</span><span>     <CurrencyFormat :value="Number(discountAmount)" /></span>
-                                    </v-alert>
+                                     Discountable Amount <CurrencyFormat :value="params.value" />. Max discount <span class="mr-2">({{maxDiscountPercent * 100}}%)</span><span>     <CurrencyFormat :value="Number(discountAmount)" /></span>
+                                    </v-alert> 
                                 </div>
                                 <ComInput 
                                     keyboard
@@ -21,21 +21,22 @@
                                     :disabled="discount_type == 'Percent'"
                                     />
                             </div>
-                            <div class="flex -m-1">
-                                <div
-                                    class="p-1"
-                                    v-for="(item, index) in discountCodes" 
-                                    :key="index">
-                                    <v-btn
-                                        size="large"
-                                        :color="item.discount_value == (discount_type == 'Percent' ? discount / 100 : discount) ? 'primary' : ''"
-                                        @click="onClick(item)">
-                                        {{ item.discount_code }}
-                                    </v-btn>
+                            <div>
+                                <div class="-m-1">
+                                        <v-btn
+                                        class="p-1 m-1"
+                                        v-for="(item, index) in discountCodes" 
+                                        :key="index"
+                                            size="large"
+                                            :color="item.discount_value == (discount_type == 'Percent' ? discount / 100 : discount) ? 'primary' : ''"
+                                            @click="onClick(item)">
+                                            {{ item.discount_code }}
+                                        </v-btn> 
                                 </div>
                             </div>
                         </v-col>
                         <v-col v-if="categoryNoteName" md="6">
+                            {{ discount_note }}
                             <ComInlineNote :category_note="categoryNoteName" v-model="discount_note"/>
                         </v-col>
                     </v-row>
@@ -63,7 +64,10 @@ const discountCodes = computed(()=>{
     return Enumerable.from(props.params.data?.discount_codes).where(`$.discount_type=='${discount_type.value}'`).toArray();
 })
 const maxDiscountPercent = computed(()=>{
-    return Enumerable.from(props.params.data?.discount_codes).where(`$.discount_type=='Percent'`).max("$.discount_value").toFixed(4)
+    if(props.params.data?.discount_codes){
+        return Enumerable.from(props.params.data?.discount_codes).where(`$.discount_type=='Percent'`).max("$.discount_value").toFixed(4)
+    }
+    return ''
 })
 const discountAmount = computed(()=>{
     return (amount.value * maxDiscountPercent.value).toFixed(3)

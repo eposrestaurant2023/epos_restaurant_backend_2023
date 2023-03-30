@@ -25,7 +25,6 @@ function onSaleDiscount(discount_type) {
     else if (!sale.isBillRequested()) {
         gv.authorize("discount_sale_required_password", "discount_sale", "discount_sale_required_note", "Discount Sale Note", "", true).then((v) => {
             if (v) {
-              
                 sale.onDiscount(
                     `Discount`,
                     sale.sale.sale_discountable_amount,

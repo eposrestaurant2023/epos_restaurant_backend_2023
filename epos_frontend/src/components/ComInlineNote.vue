@@ -85,6 +85,7 @@ const noteResource = createDocumentResource({
 
 function onSearch(keyword) {
     search.value = keyword;
+    emit('update:modelValue', search.value)
 }
 
 

@@ -78,6 +78,7 @@ if (!localStorage.getItem("pos_profile")) {
 		cache: "get_system_settings",
 		auto: true,
 		onSuccess(doc) {
+			
 			if(doc?.status == 500 && doc?.message == 'Internal Server Error'){
 				router.push({name:'ServerError'})
 			}
@@ -108,11 +109,18 @@ if (!localStorage.getItem("pos_profile")) {
 			}
 		},
 		onError(x) {
+			alert(JSON.stringify(x))
 			if (x.error_text == undefined) {
 				//localStorage.removeItem("pos_profile")
 			} else {
 				if (x.error_text[0] === 'Invalid POS Profile name') {
 					localStorage.removeItem("pos_profile")
+				}
+				else if(x.error_text[0] === 'Internal Server Error'){	
+					router.push({ name: 'ServerError' })
+				}
+				else{
+					toaster.error(JSON.stringify(x))
 				}
 			}
 			state.isLoading = false;

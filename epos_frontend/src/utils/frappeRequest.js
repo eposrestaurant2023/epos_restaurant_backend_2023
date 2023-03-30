@@ -50,9 +50,11 @@ export function frappeRequest(options) {
         }
         return data.message
         } catch(r){
-          return {
+          throw {
             status: 500,
-            message: 'Internal Server Error'
+            message: 'Internal Server Error',
+            error_text: ['Internal Server Error'],
+            data: null
           }
         }
       } else {

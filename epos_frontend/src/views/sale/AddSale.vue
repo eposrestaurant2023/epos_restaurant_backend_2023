@@ -117,7 +117,7 @@ onMounted(() => {
 
                 gv.confirm_close_working_day(data.working_day.posting_date);
             }
-        }
+        } 
     })
 
 

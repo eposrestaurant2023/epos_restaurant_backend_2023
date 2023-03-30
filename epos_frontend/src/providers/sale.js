@@ -483,7 +483,7 @@ export default class Sale {
         
     }
     async onDiscount(title,amount,discount_value,discount_type, discount_codes, sp, category_note_name){
-   
+ 
         const result = await saleProductDiscountDialog({
             title: title,
             value: amount,

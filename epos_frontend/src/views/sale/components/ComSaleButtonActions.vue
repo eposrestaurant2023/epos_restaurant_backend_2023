@@ -130,7 +130,7 @@ function newSale() {
   }
   sale.newSale()
   sale.sale.sale_products = [],
-    sale.sale.name = "";
+  sale.sale.name = "";
   sale.sale.creation = "";
   sale.sale.modified = "";
   sale.sale.sale_status = "New";
