@@ -21,7 +21,7 @@
     </ComModal>
 </template>
 <script setup>
-import { defineProps, defineEmits, inject,useRouter } from '@/plugin'
+import { defineProps, defineEmits, inject,useRouter,onUnmounted } from '@/plugin'
 import ComGroupSaleProductList from '../ComGroupSaleProductList.vue';
 import ComPrintBillButton from '../ComPrintBillButton.vue';
 import ComSelectCustomer from '../ComSelectCustomer.vue';
@@ -36,6 +36,7 @@ const emit = defineEmits(['resolve'])
 const router = useRouter();
 
 function onGoHome(){
+
     if (gv.setting.table_groups.length > 0) {
         sale.sale = {};
         router.push({ name: 'TableLayout' })
@@ -44,7 +45,8 @@ function onGoHome(){
         sale.newSale()
         router.push({ name: "AddSale" });
     }
-    emit('resolve', false)
+
+    emit('resolve', true)
 }
 
 function onClose() {
@@ -59,4 +61,20 @@ function onAddNewProduct(){
         }
     });
 }
+
+
+const onEventListener = async function (e) {
+    if (e.isTrusted && typeof (e.data) == 'string') {
+        emit('resolve', true);
+    }
+};
+
+ 
+window.addEventListener('message', onEventListener, false);
+
+onUnmounted(() => {
+    window.removeEventListener('message', onEventListener, false);
+}) 
+ 
+
 </script>

@@ -183,22 +183,7 @@ function onRefresh() {
 function onOpenDrawer() {
     drawer.value = true
 }
-
-// function onPrint() {
-//     if (localStorage.getItem("is_window")==1) {
-//         if(props.params.doctype =="Sale" && activeReport.value.pos_receipt_file_name !="" && activeReport.value.pos_receipt_file_name !=null){
-//             alert("Print bill silence")
-//             window.chrome.webview.postMessage("doc");
-//             return;
-//         }
-
-//     }
-
-//     window.open(printPreviewUrl.value + "&trigger_print=1").print();
-//     window.close();
-
-// }
-
+ 
 
 
 

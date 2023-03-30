@@ -6,24 +6,25 @@
         </template>
         <template #default>
             <ComAlertPendingOrder v-if="cashierShiftResource.doc" type="info" :working_day="cashierShiftResource.doc.working_day" :cashier_shift="cashierShiftResource.doc.name"/>
-            <v-row v-if="cashierShiftResource.doc">
-                <v-col md="6">
+            
+            <v-row v-if="cashierShiftResource.doc" class="mt-2 mx-4">
+                <v-col cols="12" md="6" class="pa-0 ma-0">
                     <v-text-field label="Working Day" v-model="cashierShiftResource.doc.working_day" variant="solo"
                         readonly></v-text-field>
                 </v-col>
-                <v-col md="6">
+                <v-col cols="12" md="6" class="pa-0 ma-0">
                     <v-text-field label="Cashier Shift" v-model="cashierShiftResource.doc.name" variant="solo"
                         readonly></v-text-field>
                 </v-col>
-                <v-col md="6">
+                <v-col  cols="12" md="6" class="pa-0 ma-0">
                     <v-text-field label="Close Date" v-model="current_date" variant="solo" readonly></v-text-field>
                 </v-col>
-                <v-col md="6">
+                <v-col cols="12" md="6" class="pa-0 ma-0">
                     <v-text-field label="POS Profile" v-model="cashierShiftResource.doc.pos_profile" variant="solo"
                         readonly></v-text-field>
                 </v-col>
             </v-row>
-            <v-row>
+            <v-row class="mx-4">
 
                 <v-table v-if="cashierShiftSummary.data">
                     <thead>
@@ -94,11 +95,11 @@
                 </v-table>
             </v-row>
 
-            <ComInput class="my-8" title="Enter Note" keyboard label="Closed Note" v-model="doc.closed_note"
+            <ComInput class="my-8 mx-4" title="Enter Note" keyboard label="Closed Note" v-model="doc.closed_note"
                 type="textarea">
             </ComInput>
 
-            <v-btn @click="onCloseShift" color="primary"
+            <v-btn class="ml-4" @click="onCloseShift" color="primary"
                 :loading="(cashierShiftResource.setValue && cashierShiftResource.setValue.loading) ? cashierShiftResource.setValue.loading : false">Close
                 Cashier Shift</v-btn>
             <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">Cancel</v-btn>

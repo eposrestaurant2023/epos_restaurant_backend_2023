@@ -135,7 +135,7 @@ function onRefresh(){
 function onPrint() {
     if (localStorage.getItem("is_window")==1) {
         if(props.params.doctype =="Sale" && activeReport.value.pos_receipt_file_name !="" && activeReport.value.pos_receipt_file_name !=null){
-            alert("Print bill silence")
+          
             window.chrome.webview.postMessage("doc");
             return;
         }

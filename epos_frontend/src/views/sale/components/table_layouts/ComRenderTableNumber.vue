@@ -89,6 +89,9 @@ function onTableClick(table, guest_cover) {
                 if(mobile.value){
                     await sale.LoadSaleData( table.sales[0].name).then(async (v)=>{
                         const result =  await smallViewSaleProductListModel ({title: sale.sale.name ? sale.sale.name : 'New Sale', data: {from_table: true}});
+                        if(result){
+                            tableLayout.saleListResource.fetch();
+                        }
                       
                     })
                   

@@ -3,7 +3,8 @@
         <div class="flex flex-wrap -my-1 justify-center" v-if="shortcut">
             <div v-for="(m, index) in shortcut" :key="m.name_en" class="px-1 py-1">
                 <!-- :size="$screen.width > 1024 ? 'small' : 'x-small'" -->
-                <v-btn rounded="pill" variant="tonal" size="small" :color="m.background_color"  @click="onClick(m.name_en)">
+                <v-btn rounded="pill" variant="tonal" size="small" v-bind:style="{'background-color':m.background_color}"  @click="onClick(m.name_en)">
+                    
                     <span v-bind:style="{color:m.text_color}">{{m.name_en}}</span>
                 </v-btn>
             </div>

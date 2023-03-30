@@ -91,6 +91,7 @@ async function onPrintReport(r) {
       if (value) {
 
         router.push({ name: "TableLayout" });
+        window.postMessage("close_modal","*");
       }
     });
   }
