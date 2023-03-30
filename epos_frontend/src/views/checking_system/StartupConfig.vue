@@ -57,7 +57,7 @@
     const store = useStore()
     const state = reactive({
         valid: true,
-        device_name: 'Admin',
+        device_name: 'Cashier Station',
         pos_profile: 'Main POS Profile',
         loading: true
     })
