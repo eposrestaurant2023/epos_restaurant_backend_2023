@@ -82,25 +82,28 @@ function onViewCustomerDetail() {
 }
 
 async function onScanCustomerCode() {
-    const result = await scanCustomerCodeDialog({});
-    if (result) {
+    if (!sale.isBillRequested()) {
+        const result = await scanCustomerCodeDialog({});
+        if (result) {
 
-        assignCustomerToOrder(result);
+            assignCustomerToOrder(result);
+        }
     }
-
 }
 
 async function onRemove() {
-    if (sale.sale.discount > 0) {
-        if (await confirmDialog({ title: "Remove Discount", text: "Remove discount from this sale order?" })) {
-            
-            sale.sale.discount = 0;
-            sale.updateSaleSummary();
-        }
-    } 
-    sale.sale.customer = setting.value.customer
-    sale.sale.customer_name = setting.value.customer_name
-    sale.sale.customer_photo = setting.value.customer_photo
+    if (!sale.isBillRequested()) {
+        if (sale.sale.discount > 0) {
+            if (await confirmDialog({ title: "Remove Discount", text: "Remove discount from this sale order?" })) {
+                
+                sale.sale.discount = 0;
+                sale.updateSaleSummary();
+            }
+        } 
+        sale.sale.customer = setting.value.customer
+        sale.sale.customer_name = setting.value.customer_name
+        sale.sale.customer_photo = setting.value.customer_photo
+    }
 }
 async function onAddCustomer() {
     if (!sale.isBillRequested()) {
