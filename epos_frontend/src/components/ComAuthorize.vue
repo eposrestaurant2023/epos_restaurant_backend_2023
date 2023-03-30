@@ -39,19 +39,16 @@
             <v-btn @click="numpad_click('0')" size="large">
               0
             </v-btn>
-            <v-btn @click="numpad_click('.')" size="large">
-              .
-            </v-btn>
             <v-btn color="error" @click="number = ''" size="large">
               Clear
             </v-btn>
           </div>
           <div>
               <div class="text-right pt-4">
-                  <v-btn class="mr-2" variant="flat" @click="onCancel()" color="error">
+                  <v-btn class="mr-2" variant="flat" @click="onCancel()" color="error" size="large">
                       Close
                   </v-btn>
-                  <v-btn variant="flat" @click="onOk()" color="primary">
+                  <v-btn variant="flat" @click="onOk()" color="primary" size="large">
                       OK
                   </v-btn>
               </div>

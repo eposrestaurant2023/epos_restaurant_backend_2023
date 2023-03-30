@@ -7,7 +7,7 @@
             <ComPlaceholder :is-not-empty="price_rules.length > 0">
                 <v-list class="!p-0">
                     <v-list-item v-for="(item, index) in price_rules" :key="index" class="!p-0">
-                        <v-btn class="w-full" color="primary" :disabled="selectedPriceRule == item.price_rule"
+                        <v-btn class="w-full" color="primary"
                             @click="onSelect(item.price_rule)">
                            {{ item.price_rule }}
                         </v-btn>
@@ -18,7 +18,7 @@
     </ComModal>
 </template>
 <script setup>
-import { ref, defineEmits, inject, confirm } from '@/plugin'
+import { defineEmits, inject, confirm } from '@/plugin'
 import ComPlaceholder from '../../../components/layout/components/ComPlaceholder.vue';
 const emit = defineEmits(['resolve'])
 const props = defineProps({
@@ -28,8 +28,6 @@ const props = defineProps({
 const sale = inject('$sale')
 const product = inject('$product')
 const price_rules = JSON.parse(localStorage.getItem('setting')).price_rules;
-let open = ref(true)
-let selectedPriceRule = ref(sale.setting.price_rule)
 
 function onClose() {
     emit('resolve', false)

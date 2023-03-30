@@ -202,6 +202,7 @@
   {
    "default": "1",
    "fetch_from": "payment_type.exchange_rate",
+   "fetch_if_empty": 1,
    "fieldname": "exchange_rate",
    "fieldtype": "Float",
    "label": "Exchange Rate",
@@ -296,7 +297,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-03-26 21:34:34.211863",
+ "modified": "2023-03-30 17:50:56.027148",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Payment",

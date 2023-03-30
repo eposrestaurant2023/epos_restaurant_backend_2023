@@ -16,6 +16,7 @@
   {
    "fieldname": "title",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Title"
   },
   {
@@ -37,7 +38,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-30 15:29:46.440533",
+ "modified": "2023-03-30 16:12:24.740899",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Predefine Data",

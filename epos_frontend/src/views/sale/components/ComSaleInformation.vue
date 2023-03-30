@@ -8,14 +8,13 @@
         <ComChip v-else tooltip="Cashier Shift" prepend-icon="mdi-calendar-clock">{{ sale.sale.cashier_shift }}</ComChip>
         <ComChip v-if="setting.table_groups && setting.table_groups.length > 0" tooltip="Guest Cover" prepend-icon="mdi-account-multiple-outline" @onClick="onUpdateGuestCover()">{{ sale.sale.guest_cover }}</ComChip>
         <ComChip v-if="setting.table_groups && setting.table_groups.length > 0 && sale.sale.seat_number" tooltip="Seat Number" prepend-icon="mdi-chair-school" @onClick="onUpdateSeatNumber()">{{ sale.sale.seat_number }}</ComChip>
-        <ComChip tooltip="Price Rule" prepend-icon="mdi-bulletin-board">{{ sale.sale.price_rule }}</ComChip>   
+        <ComChip tooltip="Price Rule" prepend-icon="mdi-bulletin-board" @onClick="onChangePriceRule()">{{ sale.sale.price_rule }}</ComChip>   
     </div>
 </template>
 <script setup>
 import ComSaleTypeChip from './ComSaleTypeChip.vue';
-import { inject,keyboardDialog } from '@/plugin';
+import { inject,keyboardDialog,changePriceRuleDialog  } from '@/plugin';
 const sale = inject("$sale")
-const screen = inject("$screen")
 const setting = JSON.parse(localStorage.getItem("setting"))
 
 async function onUpdateGuestCover(){
@@ -41,7 +40,17 @@ async function onUpdateSeatNumber(){
             }
         }
 }
-function onAlert(){
-    alert()
+async function onChangePriceRule() {
+    if (sale.sale.sale_status != 'New') {
+        toaster.warning("This sale order is not new order.");
+        return;
+    }
+    if (!sale.isBillRequested()) {
+        const result = await changePriceRuleDialog({})
+        if (result == true) {
+            product.loadPOSMenu()
+            toaster.success("Price Rule Was Change Successfull");
+        }
+    }
 }
 </script>

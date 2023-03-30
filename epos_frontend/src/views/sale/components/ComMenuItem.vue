@@ -40,7 +40,14 @@
         </div>
         <div class="block relative p-2 w-full h-full">
             <div class="absolute left-0 top-0 bg-red-700 text-white p-1 rounded-tl-lg rounded-br-lg text-sm">
-                <ComPriceOnMenu v-if="data.prices" :prices="data.prices" :price="data.price"/>
+                <!-- <ComPriceOnMenu v-if="data.prices" :prices="data.prices" :price="data.price"/> -->
+                <span>
+                    {{ productPrices }}
+                    <span v-if="productPrices.length > 1">
+                        <span><CurrencyFormat :value="minPrice"/></span> <v-icon icon="mdi-arrow-right" size="x-small"/> <span><CurrencyFormat :value="maxPrice"/></span>
+                    </span>
+                    <CurrencyFormat v-else :value="showPrice"/>
+                </span>
             </div>
             <div class="p-1 rounded-md absolute bottom-1 right-1 left-1 bg-gray-50 bg-opacity-70 text-sm text-center">
                 {{data.name}} - {{ data.name_en }}
@@ -49,13 +56,41 @@
     </div>
 </template>
 <script setup>
-import { computed, addModifierDialog, inject,keypadWithNoteDialog } from '@/plugin'
- 
-import ComPriceOnMenu from '../ComPriceOnMenu.vue';
+import { computed, addModifierDialog, inject,keypadWithNoteDialog,ref } from '@/plugin'
+import Enumerable from 'linq'
+// import ComPriceOnMenu from '../ComPriceOnMenu.vue';
 const props = defineProps({ data: Object })
 const sale = inject("$sale");
 const product = inject("$product");
+// price menu
+const productPrices = ref([])
+if(props.data.prices){
+    productPrices.value = JSON.parse(props.data.prices).filter(r=>(r.branch == sale.sale.business_branch || r.branch == '') && r.price_rule == sale.sale.price_rule)
+}
 
+const showPrice = computed(()=>{
+    if(productPrices.value.length == 1){
+        return productPrices.value[0].price
+    }
+    else if(productPrices.value.length == 0){
+        return props.data.price || 0
+    }
+    return 0
+})
+const maxPrice = computed(()=>{ 
+    if(productPrices.value.length > 1){
+        return Enumerable.from(productPrices.value).max("$.price") 
+    } 
+    return 0
+})
+const minPrice = computed(()=>{ 
+    if(productPrices.value.length > 1){
+        return Enumerable.from(productPrices.value).min("$.price")
+    } 
+    return 0
+})
+
+// end price menu
  
 function onClickMenu(menu) {
     product.parentMenu = menu;
@@ -72,7 +107,7 @@ async function onClickProduct() {
         
         if (p.is_open_product == 1) {
 
-            let result = await keypadWithNoteDialog({ 
+            let productPrices = await keypadWithNoteDialog({ 
                 data: { 
                     title: `Delete ${p.name}`,
                     label_input: 'Enter Price',
@@ -82,32 +117,32 @@ async function onClickProduct() {
                     product_code: p.name
                 } 
             });
-            if (result) {
-                p.name_en = result.note;
-                p.price = result.number;
+            if (productPrices) {
+                p.name_en = productPrices.note;
+                p.price = productPrices.number;
                 p.modifiers = '';
                 sale.addSaleProduct(p);
             }
 
         } else {
-            
- 
             const portions = JSON.parse(p.prices).filter(r=>(r.branch == sale.sale.business_branch || r.branch == '')  && r.price_rule == sale.sale.price_rule);
             const modifiers = JSON.parse(p.modifiers)
+            if(portions.length == 1){
+                p.price = portions[0].price
+            }
             if (modifiers.length > 0 || portions.length > 1) {
                 product.setSelectedProduct(props.data);
-              
-                let result = await addModifierDialog();
-
-                if (result) {
-                  
-                    if (result.portion != undefined) {
-                        p.price = result.portion.price;
-                        p.portion = result.portion.portion;
+                let productPrices = await addModifierDialog();
+                
+                if (productPrices) {
+                    if (productPrices.portion != undefined) {
+                        p.price = productPrices.portion.price;
+                        
+                        p.portion = productPrices.portion.portion;
                     }
-                    p.modifiers = result.modifiers.modifiers;
-                    p.modifiers_data = result.modifiers.modifiers_data;
-                    p.modifiers_price = result.modifiers.price
+                    p.modifiers = productPrices.modifiers.modifiers;
+                    p.modifiers_data = productPrices.modifiers.modifiers_data;
+                    p.modifiers_price = productPrices.modifiers.price
 
                 } else {
                     return;

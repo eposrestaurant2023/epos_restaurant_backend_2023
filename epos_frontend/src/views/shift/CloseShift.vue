@@ -44,7 +44,7 @@
                             </th>
 
                             <th class="text-center">
-                                Differce Amount
+                                Difference Amount
                             </th>
                         </tr>
                     </thead>
