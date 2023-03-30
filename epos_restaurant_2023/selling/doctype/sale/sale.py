@@ -302,6 +302,7 @@ def validate_sale_product(self):
 
 def validate_pos_payment(self):
     for d in self.payment:
+		
         d.amount = (d.input_amount or 0 ) / (d.exchange_rate or 1)
 
 def validate_tax(doc):
