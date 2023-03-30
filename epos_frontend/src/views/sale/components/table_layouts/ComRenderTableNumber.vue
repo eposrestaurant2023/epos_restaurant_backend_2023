@@ -20,7 +20,7 @@
                             </div>
                             <div v-if="t.creation" class="text-xs">
                                 <v-icon icon="mdi-clock" size="x-small"></v-icon>
-                                <Timeago :long="long" :datetime="t.creation" />
+                                <Timeago :long="false" :datetime="t.creation" />
                             </div>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                                 </div>
                                 <div v-if="t.creation" class="text-xs">
                                     <v-icon icon="mdi-clock" size="x-small"></v-icon>
-                                    <Timeago :long="long" :datetime="t.creation" />
+                                    <Timeago :long="false" :datetime="t.creation" />
                                 </div>
                             </div>
                         </div>

@@ -17,11 +17,12 @@
         v-if="mobile"
         :stacked="!mobile"
         color="info"
-        small="m-1 grow"
+        class="m-1 grow"
+        size="small"
         :variant="'tonal'"
         @click="$emit('onClose')" 
         v-bind="props">
-        xx
+        Print Bill
       </v-btn>
       <v-btn v-else stacked color="info" size="small" class="m-1 grow" prepend-icon="mdi-printer"
         @click="$emit('onClose')" v-bind="props">

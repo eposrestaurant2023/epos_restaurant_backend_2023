@@ -103,13 +103,15 @@ async function onRemove() {
     sale.sale.customer_photo = setting.value.customer_photo
 }
 async function onAddCustomer() {
-    const result = await addCustomerDialog ({title: "New Customer", value:  ''});
-    if(result != false){
-        sale.sale.customer = result.name
-        sale.sale.customer_name = result.customer_name_en
-        sale.sale.customer_photo = result.photo
-        sale.sale.phone_number = result.phone_number && result.phone_number_2 ? result.phone_number + ' / ' + result.phone_number_2 : (result.phone_number ? result.phone_number : result.phone_number_2)
-        sale.sale.customer_group = result.customer_group
+    if (!sale.isBillRequested()) {
+        const result = await addCustomerDialog ({title: "New Customer", value:  ''});
+        if(result != false){
+            sale.sale.customer = result.name
+            sale.sale.customer_name = result.customer_name_en
+            sale.sale.customer_photo = result.photo
+            sale.sale.phone_number = result.phone_number && result.phone_number_2 ? result.phone_number + ' / ' + result.phone_number_2 : (result.phone_number ? result.phone_number : result.phone_number_2)
+            sale.sale.customer_group = result.customer_group
+        }
     }
 }
 
