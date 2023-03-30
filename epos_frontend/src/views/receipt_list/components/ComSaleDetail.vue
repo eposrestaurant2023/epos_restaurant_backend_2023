@@ -39,7 +39,7 @@
                                 <v-tabs show-arrows>
                                     <v-tab
                                         v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Sale' && r.show_in_pos == 1)"
-                                        :key="index" @click="onViewReport(r)">
+                                        :key="index" @click="onPrintFormat(r)">
                                         {{ r.title }}
                                     </v-tab>
                                 </v-tabs>
@@ -298,6 +298,14 @@ const reportClickHandler = async function (e) {
 
     }
 };
+
+function onPrintFormat(report) {
+ 
+    activeReport.value.preview_report = report.name;
+    activeReport.value.print_report_name = report.print_report_name || report.name
+    onRefresh()
+
+}
 
 window.addEventListener('message', reportClickHandler, false);
 
