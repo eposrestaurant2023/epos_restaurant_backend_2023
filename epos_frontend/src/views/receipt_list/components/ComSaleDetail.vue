@@ -35,12 +35,14 @@
                 <template #title>
                     <div class="px-1 py-2 -m-1 whitespace-normal">
                         <v-row>
-                            <v-col cols="12" sm="7" md="7" lg="7" xl="8"> 
-                                <div
-                                    v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Sale' && r.show_in_pos == 1)"
-                                    :key="index" @click="onPrintFormat(r)">
-                                    {{ r }}
-                            </div> 
+                            <v-col cols="12" sm="7" md="7" lg="7" xl="8">
+                                <v-tabs show-arrows>
+                                    <v-tab
+                                        v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Sale' && r.show_in_pos == 1)"
+                                        :key="index" @click="onPrintFormat(r)">
+                                        {{ r }}
+                                    </v-tab>
+                                </v-tabs>
                             </v-col>
                             <v-col cols="12" sm="5" md="5" lg="5" xl="4">
                                 <div class="flex items-center">
@@ -88,7 +90,7 @@ const props = defineProps({
 })
 const selectedLetterhead = ref(getDefaultLetterHead());
 const selectedLang = ref(gv.setting.lang[0].language_code);
-const activeReport = ref(gv.setting.reports.filter(r => r.doc_type == "Sale" && r.show_in_pos == 1)[0]);
+const activeReport = ref(JSON.parse(JSON.stringify(gv.setting.reports.filter(r => r.doc_type == "Sale" && r.show_in_pos == 1)[0])));
 const isLoading = ref(false)
 
 const sale = createDocumentResource({
@@ -295,8 +297,10 @@ const reportClickHandler = async function (e) {
 function onPrintFormat(report) {
     alert(report.name)
     activeReport.value.name = report.name;
+    alert(activeReport.value.name)
     activeReport.value.print_report_name = report.print_report_name || report.name
     onRefresh()
+
 }
 
 window.addEventListener('message', reportClickHandler, false);
