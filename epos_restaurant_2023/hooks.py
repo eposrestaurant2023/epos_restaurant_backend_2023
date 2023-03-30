@@ -205,7 +205,6 @@ fixtures = [
     {"dt": "Unit Category", "filters": [["is_standard", "=", "1"]]},
     {"dt": "Unit Of Measurement", "filters": [["is_standard", "=", "1"]]},
     {"dt": "Unit of Measurement Conversion", "filters": [["is_standard", "=", "1"]]},
-    {"dt": "POS Menu", "filters": [["is_standard", "=", "1"]]},
     {"dt": "Sale Status"},
     {"dt": "Province"},
     {"dt": "Outlet","filters": [["is_standard", "=", "1"]]},
