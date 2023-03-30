@@ -39,7 +39,7 @@
                                 <v-tabs show-arrows>
                                     <v-tab
                                         v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Sale' && r.show_in_pos == 1)"
-                                        :key="index" @click="onPrintFormat(r)">
+                                        :key="index" @click="onViewReport(r)">
                                         {{ r.title }}
                                     </v-tab>
                                 </v-tabs>
@@ -172,7 +172,7 @@ if (props.params.print) {
 
 
 function onViewReport(r) {
-    activeReport.value = r;
+    activeReport.value = r.title;
 }
 
 function onClose(isClose) {
