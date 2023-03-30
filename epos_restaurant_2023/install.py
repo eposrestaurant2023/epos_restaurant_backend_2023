@@ -1,6 +1,5 @@
 import frappe
 import datetime
-from epos_restaurant_2023.predefine_data.print_format import create_sale_receipt_print_format,create_sale_invoice_a4_print_format
 import json
 
 

@@ -13,7 +13,8 @@
 </template>
 <script setup>
 import ComSaleTypeChip from './ComSaleTypeChip.vue';
-import { inject,keyboardDialog,changePriceRuleDialog  } from '@/plugin';
+import { inject,keyboardDialog,changePriceRuleDialog, createToaster  } from '@/plugin';
+const toaster = createToaster({position: 'top'})
 const sale = inject("$sale")
 const setting = JSON.parse(localStorage.getItem("setting"))
 

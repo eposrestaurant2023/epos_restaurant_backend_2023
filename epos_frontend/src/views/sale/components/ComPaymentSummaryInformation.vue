@@ -12,6 +12,14 @@
                 <CurrencyFormat :value="sale.sale.balance" />
             </div>
         </div>
+        <div class="mb-1 flex justify-between" v-if="sale.sale.balance > 0">
+            <div>Exchange Rate Balance:</div>
+            <div>
+                {{ sale.sale.currency }}
+                <CurrencyFormat :value="sale.sale.balance * sale.sale.exchange_rate" :currency="sale.sale.currency"/>
+                <!-- <CurrencyFormat :value="p.exchange_rate" :currency="p.currency"/> -->
+            </div>
+        </div>
         <div class="mb-1 flex justify-between" v-if="sale.sale.changed_amount > 0">
             <div>Change Amount:</div>
             <div>
