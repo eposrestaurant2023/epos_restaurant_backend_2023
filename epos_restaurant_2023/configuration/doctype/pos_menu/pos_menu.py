@@ -6,8 +6,8 @@ from frappe.utils.nestedset import NestedSet
 
 class POSMenu(NestedSet):
     def validate(self):
-        if self.pos_menu_name_en == "Root Menu":
-            frappe.throw("Root Menu is not allow to change.")
+        # if self.pos_menu_name_en == "Root Menu":
+        #     frappe.throw("Root Menu is not allow to change.")
 
         if not self.pos_menu_name_kh:
             self.pos_menu_name_kh = self.pos_menu_name_en

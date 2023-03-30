@@ -26,8 +26,10 @@
 </template>
 <script setup>
 import { defineProps, defineEmits, createToaster, inject, useRouter,confirm } from "@/plugin"
-
+import {useDisplay} from 'vuetify'
+const {mobile} = useDisplay()
 const router = useRouter();
+
 const gv = inject("$gv")
 const sale = inject('$sale')
 const props = defineProps({
