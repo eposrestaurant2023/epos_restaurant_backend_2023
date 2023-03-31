@@ -40,7 +40,7 @@
         </div>
         <div class="block relative p-2 w-full h-full">
             <div class="absolute left-0 top-0 bg-red-700 text-white p-1 rounded-tl-lg rounded-br-lg text-sm">
-                <!-- <ComPriceOnMenu v-if="data.prices" :prices="data.prices" :price="data.price"/> -->
+           
                 <span>
                     <span v-if="productPrices.length > 1">
                         <span><CurrencyFormat :value="minPrice"/></span> <v-icon icon="mdi-arrow-right" size="x-small"/> <span><CurrencyFormat :value="maxPrice"/></span>
@@ -49,7 +49,7 @@
                 </span>
             </div>
             <div class="p-1 rounded-md absolute bottom-1 right-1 left-1 bg-gray-50 bg-opacity-70 text-sm text-center">
-                {{data.name}} - {{ data.name_en }}
+                {{data.name}} - {{ data.name_en }} {{ image }}
             </div>
         </div>
     </div>
