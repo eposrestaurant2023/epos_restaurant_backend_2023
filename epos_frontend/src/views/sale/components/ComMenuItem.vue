@@ -49,7 +49,7 @@
                 </span>
             </div>
             <div class="p-1 rounded-md absolute bottom-1 right-1 left-1 bg-gray-50 bg-opacity-70 text-sm text-center">
-                {{data.name}} - {{ data.name_en }} {{ image }}
+                {{data.name}} - {{ data.name_en }}
             </div>
         </div>
     </div>
