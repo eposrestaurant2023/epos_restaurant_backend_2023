@@ -34,8 +34,8 @@
     <div v-else-if="data.type == 'product'"
     v-ripple
         class="relative overflow-hidden h-full bg-cover bg-no-repeat rounded-lg shadow-lg cursor-pointer bg-gray-300 "
-        v-bind:style="{ 'background-image': 'url(' + data.photo + ')' }" @click="onClickProduct()">
-        <div class="absolute top-0 bottom-0 right-0 left-0" v-if="!data.photo">
+        v-bind:style="{ 'background-image': 'url(' + image + ')' }" @click="onClickProduct()">
+        <div class="absolute top-0 bottom-0 right-0 left-0" v-if="!image">
             <avatar class="!h-full !w-full" :name="data.name_en" :rounded="false" background="#f1f1f1"></avatar>
         </div>
         <div class="block relative p-2 w-full h-full">
@@ -61,6 +61,10 @@ import Enumerable from 'linq'
 const props = defineProps({ data: Object })
 const sale = inject("$sale");
 const product = inject("$product");
+// get image
+const image = computed(()=>{
+    return props.data.photo
+})
 // price menu
 const productPrices = computed(()=>{
     if(props.data.prices){ 
