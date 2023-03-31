@@ -35,7 +35,7 @@
                 <template #title>
                     <div class="px-1 py-2 -m-1 whitespace-normal">
                         <v-row>
-                            <v-col cols="12" sm="7" md="7" lg="7" xl="8">
+                            <v-col cols="12" sm="12" md="7" lg="7" xl="8">
                                 <v-tabs show-arrows>
                                     <v-tab
                                         v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Sale' && r.show_in_pos == 1)"
@@ -44,16 +44,24 @@
                                     </v-tab>
                                 </v-tabs>
                             </v-col>
-                            <v-col cols="12" sm="5" md="5" lg="5" xl="4">
-                                <div class="flex items-center">
-                                    <v-select prepend-inner-icon="mdi-content-paste" density="compact"
-                                        v-model="selectedLetterhead" :items=gv.setting.letter_heads item-title="name"
-                                        item-value="name" hide-no-data hide-details variant="solo" class="mx-1"></v-select>
-                                    <v-select prepend-inner-icon="mdi-google-translate" density="compact"
-                                        v-model="selectedLang" :items="gv.setting.lang" item-title="language_name"
-                                        item-value="language_code" hide-no-data hide-details variant="solo"
-                                        class="mx-1"></v-select>
-                                    <v-icon class="mx-1" icon="mdi-refresh" size="small" @click="onRefresh()" />
+                            <v-col cols="12" sm="12" md="5" lg="5" xl="4">
+                                <div>
+                                    <v-row>
+                                        <v-col cols="12" sm="7">
+                                            <v-select prepend-inner-icon="mdi-content-paste" density="compact"
+                                                v-model="selectedLetterhead" :items=gv.setting.letter_heads item-title="name"
+                                                item-value="name" hide-no-data hide-details variant="solo" class="mx-1"></v-select>
+                                        </v-col>
+                                        <v-col cols="12" sm="5">
+                                            <div class="flex items-center">
+                                                <v-select prepend-inner-icon="mdi-google-translate" density="compact"
+                                                    v-model="selectedLang" :items="gv.setting.lang" item-title="language_name"
+                                                    item-value="language_code" hide-no-data hide-details variant="solo"
+                                                    class="mx-1"></v-select>
+                                                <v-icon class="mx-1" icon="mdi-refresh" size="small" @click="onRefresh()" />
+                                            </div>
+                                        </v-col>
+                                    </v-row>
                                 </div>
                             </v-col>
                         </v-row>
