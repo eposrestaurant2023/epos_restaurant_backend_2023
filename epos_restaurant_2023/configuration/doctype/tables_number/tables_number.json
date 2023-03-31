@@ -19,7 +19,8 @@
   "default_discount",
   "price_rule",
   "sale_type",
-  "require_check_in"
+  "require_check_in",
+  "sort_order"
  ],
  "fields": [
   {
@@ -99,12 +100,18 @@
    "fieldtype": "Select",
    "label": "Discount Type",
    "options": "Percent\nAmount"
+  },
+  {
+   "default": "0",
+   "fieldname": "sort_order",
+   "fieldtype": "Int",
+   "label": "Sort Order"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-30 10:19:38.891201",
+ "modified": "2023-03-31 17:40:08.565951",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Tables Number",

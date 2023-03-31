@@ -39,7 +39,7 @@
             <v-btn @click="numpad_click('0')" size="large">
               0
             </v-btn>
-            <v-btn color="error" @click="number = ''" size="large">
+            <v-btn class="col-span-2" color="error" @click="number = ''" size="large">
               Clear
             </v-btn>
           </div>
