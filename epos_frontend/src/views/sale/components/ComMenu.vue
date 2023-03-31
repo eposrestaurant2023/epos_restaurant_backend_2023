@@ -1,9 +1,7 @@
 <template>
     <div class="h-full relative bg-cover bg-no-repeat bg-center" v-bind:style="{'background-image': 'url(' + backgroundImage + ')' }">
         <div class="grid h-full" style="grid-template-rows: max-content;">
-            <div> 
-                <ComShortcut/>
-            </div>
+            <ComShortcut/>
             <div class="pa-2 h-full overflow-y-auto" v-bind:style="{'height':'calc(100% - 0px)' }" id="wrap_menu">
                 <ComPlaceholder :loading="product.posMenuResource.loading" :is-not-empty="product.posMenuResource.data?.length > 0" class-color="text-white" :is-placeholder="true">
                     <template #default>

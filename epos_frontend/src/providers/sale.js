@@ -700,7 +700,9 @@ export default class Sale {
     async onSubmitPayment(isPrint=true) {
         this.isPrintReceipt = isPrint;
         return new Promise(async (resolve) => {
-                if(this.sale.balance>0){
+                let balance = Number( this.sale.balance.toFixed(this.setting.pos_setting.main_currency_precision));
+
+                if(balance>0){
                     toaster.warning("Please enter all payment amount.");
                     resolve(false);
                 }else { 
@@ -950,6 +952,7 @@ export default class Sale {
         }
         
         this.sale.changed_amount = total_payment - this.sale.grand_total;
+        this.sale.changed_amount = Number(this.sale.changed_amount.toFixed(this.setting.pos_setting.main_currency_precision));
         if(this.sale.changed_amount<=0){
             this.sale.changed_amount = 0;
         }

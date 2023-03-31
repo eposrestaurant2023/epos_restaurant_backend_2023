@@ -16,15 +16,13 @@
       <v-btn
         v-if="mobile"
         :stacked="!mobile"
-        color="info"
-        class="m-1 grow"
-        size="small"
-        :variant="'tonal'"
+        color="default"
+ 
+      
         @click="$emit('onClose')" 
-        v-bind="props">
-        Print Bill
-      </v-btn>
-      <v-btn v-else stacked color="info" size="small" class="m-1 grow" prepend-icon="mdi-printer"
+        icon="mdi-printer"
+        v-bind="props"/>
+      <v-btn v-else stacked color="info" size="small" class="m-0-1 grow" prepend-icon="mdi-printer"
         @click="$emit('onClose')" v-bind="props">
         Print Bill
       </v-btn>
@@ -87,6 +85,7 @@ async function onPrintReport(r) {
       content: `Print request bill`
 
     });
+    
     await sale.onSubmit().then(async (value) => {
       if (value) {
 

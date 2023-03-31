@@ -6,17 +6,18 @@
                 <CurrencyFormat :value="sale.sale.total_paid" />
             </div>
         </div>
-        <div class="mb-1 flex justify-between" v-if="sale.sale.balance > 0">
+        
+        <div class="mb-1 flex justify-between" v-if="balance > 0">
             <div>Balance ({{sale.setting.pos_setting.main_currency_name}}):</div>
             <div>
-                <CurrencyFormat :value="sale.sale.balance" />
+                <CurrencyFormat :value="balance" />
             </div>
         </div>
 
-        <div class="mb-1 flex justify-between" v-if="sale.sale.balance > 0">
+        <div class="mb-1 flex justify-between" v-if="balance > 0">
             <div>Balance ({{sale.setting.pos_setting.second_currency_name}}):</div>
             <div>
-                <CurrencyFormat :value="sale.sale.balance * sale.sale.exchange_rate" :currency="sale.setting.pos_setting.second_currency_name"/>
+                <CurrencyFormat :value="balance * sale.sale.exchange_rate" :currency="sale.setting.pos_setting.second_currency_name"/>
                 
             </div>
         </div>
@@ -36,9 +37,18 @@
     </div> 
 </template>
 <script setup>
-import { inject } from 'vue'
+import { inject,computed } from 'vue'
 import { useDisplay } from 'vuetify'
 const { mobile } = useDisplay()
 const sale = inject('$sale')
 const gv = inject('$gv')
+
+const balance = computed(()=>{
+    return Number(sale.sale.balance.toFixed(gv.setting.pos_setting.main_currency_precision));
+})
+
+
+
+
+
 </script>

@@ -5,10 +5,10 @@
       <ComSaleButtonActions @onSubmitAndNew="onCloseSubmit()" @onClose="onClose()"/>
     </div>
     <div class="flex w-full">
-      <div style="width: calc(100% - 100px);" class="cursor-pointer bg-green-600 text-white p-1 hover:bg-green-700" @click="onPayment()">
+      <div style="width: calc(100% - 100px);" class="cursor-pointer bg-green-600 text-white px-2 py-1 hover:bg-green-700" @click="onPayment()">
         <div class="flex justify-between mb-1 text-sm">
           <div>Payment</div>
-          <div>
+          <div style="font-size: 24px; font-weight: bold;">
             <CurrencyFormat :value="sale.sale.grand_total" />
           </div>
         </div>
@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div style="width: 100px;">
+      <div style="width: 130px;">
         <v-btn
           stacked 
           rounded="0"
@@ -29,7 +29,7 @@
           @click="onSubmit()">
           <div>
             <v-icon icon="mdi-arrow-right"></v-icon>
-            <div class="text-xs">Submit Order</div>
+            <div class="text-xs" >Submit Order</div>
           </div>
         </v-btn>
       </div>

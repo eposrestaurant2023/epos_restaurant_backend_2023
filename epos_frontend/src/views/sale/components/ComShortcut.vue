@@ -1,20 +1,30 @@
 <template>
-    <div class="py-2 bg-white" id="shortcut_menu">
-        <div class="flex flex-wrap -my-1 justify-center" v-if="shortcut">
-            <div v-for="(m, index) in shortcut" :key="m.name_en" class="px-1 py-1">
+    <div class="bg-white p-2" id="shortcut_menu"> 
+        <div :class="mobile ? 'flex flex-nowrap overflow-x-scroll pb-1' : 'flex-wrap flex -my-1 justify-center'" style="width: calc( 100vw - 22px);" v-if="shortcut">
+            <!-- flex-wrap flex -my-1 justify-center -->
+            <!-- <div v-for="(m, index) in shortcut" :key="m.name_en" class="px-1 py-1 flex-shrink-0"> -->
                 <!-- :size="$screen.width > 1024 ? 'small' : 'x-small'" -->
-                <v-btn rounded="pill" variant="tonal" size="small" v-bind:style="{'background-color':m.background_color}"  @click="onClick(m.name_en)">
-                    
+                <v-btn 
+                    class="flex-shrink-0 mx-1"
+                    v-for="(m, index) in shortcut" :key="index"
+                    rounded="pill"
+                    variant="tonal"
+                    size="small"
+                    v-bind:style="{'background-color':m.background_color}"
+                    @click="onClick(m.name_en)">
                     <span v-bind:style="{color:m.text_color}">{{m.name_en}}</span>
                 </v-btn>
-            </div>
+            <!-- </div> -->
         </div>
     </div>
 </template>
 <script setup>
     import { computed, ref,watch, inject } from '@/plugin'
+    import {useDisplay}  from 'vuetify'
+    const {mobile} = useDisplay()
     const product = inject("$product")
     const active = ref('')
+    
  
     const shortcut = computed(()=>{
         return product.posMenuResource.data?.filter(r=>r.shortcut_menu == 1) 

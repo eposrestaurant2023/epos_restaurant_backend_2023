@@ -1,12 +1,12 @@
 <template>
-    <ComModal :persistent="true" :width="categoryNoteName ? '1200px' : '800px'" @onClose="onClose()" @onOk="onOK()" title-ok-button="OK">
+    <ComModal :persistent="true" :width="categoryNoteName ? '1200px' : '800px'" @onClose="onClose()" @onOk="onOK()" title-ok-button="OK" :fullscreen="mobile">
         <template #title>
             <div>{{ params.title ?? "Discount" }}</div>
         </template>
         <template #content>
             <div>
                 <v-row :class="categoryNoteName ? '' : '!m-0'">
-                    <v-col :md="categoryNoteName ? 6 : 12">
+                    <v-col cols="12" :md="categoryNoteName ? 6 : 12">
                         <div class="mb-2">
                             <div class="mb-2">
                                 <v-alert variant="tonal" color="warning" class="!p-2">
@@ -34,7 +34,7 @@
                             </div>
                         </div>
                     </v-col>
-                    <v-col v-if="categoryNoteName" md="6">
+                    <v-col cols="12" v-if="categoryNoteName" md="6">
                         <ComInlineNote :category_note="categoryNoteName" v-model="discount_note"/>
                     </v-col>
                 </v-row>
@@ -46,7 +46,11 @@
 import { ref, defineEmits, createToaster, computed } from '@/plugin'
 import Enumerable from 'linq'
 import ComInlineNote from '../../../components/ComInlineNote.vue';
+import { useDisplay } from 'vuetify'
 const emit = defineEmits(['resolve'])
+ 
+ const { mobile } = useDisplay()
+
 const props = defineProps({
     params:Object
 })

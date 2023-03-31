@@ -10,7 +10,7 @@
                 <ComMenu /> 
             </div>
         </div>
-        <div class="bg-red-500 text-white text-sm p-2 fixed bottom-0 left-0 right-0" v-ripple @click="onViewDetail">
+        <div class="bg-red-500 text-white text-sm px-2 py-1 fixed bottom-0 left-0 right-0" v-ripple @click="onViewDetail">
             <div>
                 <div class="text-xs" v-if="lastProduct">{{ lastProduct.product_code }} - {{ lastProduct.product_name }} ({{ lastProduct.quantity }})</div>
                 <div class="flex items-center justify-between">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="flex items-center justify-between">
                     <div>Total Amount {{ sale.mobile_view_sale_product }}</div>
-                    <div><CurrencyFormat :value="sale.sale.grand_total" /></div>
+                    <div style="font-size: 24px;"><CurrencyFormat :value="sale.sale.grand_total" /></div>
                 </div>
             </div>
         </div>

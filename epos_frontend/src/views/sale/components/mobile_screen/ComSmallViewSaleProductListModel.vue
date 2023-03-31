@@ -11,9 +11,9 @@
         </template>
         <template #content>
             <div class="m-1">
-                <ComSelectCustomer  />
+                <ComSelectCustomer/>
             </div>
-            <ComGroupSaleProductList />
+            <ComGroupSaleProductList/>
         </template>
         <template #action>
             <ComSmallSaleSummary @onClose="onGoHome()" @onSubmitAndNew="onClose()"/>
@@ -53,6 +53,7 @@ function onClose() {
     emit('resolve', false)
 }
 function onAddNewProduct(){
+    if (!sale.isBillRequested()) {
     sale.no_loading = true
     onClose()
     router.push({
@@ -61,11 +62,15 @@ function onAddNewProduct(){
         }
     });
 }
+}
 
 
 const onEventListener = async function (e) {
     if (e.isTrusted && typeof (e.data) == 'string') {
-        emit('resolve', true);
+        if(e.data == "close_modal"){
+            emit('resolve', true);
+        }
+        
     }
 };
 

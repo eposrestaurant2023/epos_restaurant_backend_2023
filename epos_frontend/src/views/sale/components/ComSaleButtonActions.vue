@@ -2,27 +2,45 @@
   <div class="overflow-hidden flex items-end">
 
     <div class="flex flex-wrap w-full">
-      <ComButtonToTableLayout :is-mobile="false" @closeModel="closeModel()"/>
+      <ComButtonToTableLayout :is-mobile="false" @closeModel="closeModel()" />
       <template v-if="setting.table_groups && setting.table_groups.length > 0">
-        <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" :variant="mobile ? 'tonal':'elevated'" :stacked="!mobile" doctype="Sale" title="Print Bill" />
-        <v-btn v-else color="error" size="small" class="m-1 grow" :variant="mobile ? 'tonal':'elevated'" :stacked="!mobile" :prepend-icon="mobile ? '' : 'mdi-printer'" @click="onCancelPrintBill">
-          Cancel Print Bill
-        </v-btn>
+        <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested' && !mobile"
+          :variant="mobile ? 'tonal' : 'elevated'" :stacked="!mobile" doctype="Sale" title="Print Bill" />
+        <template v-else>
+          <v-btn v-if="!mobile" color="error" size="small" class="m-0-1 grow" :variant="mobile ? 'tonal' : 'elevated'"
+            :stacked="!mobile" :prepend-icon="mobile ? '' : 'mdi-printer'" @click="onCancelPrintBill">
+            Cancel Print Bill
+          </v-btn>
+
+        </template>
+
       </template>
       <ComDiscountButton />
-      <v-btn v-if="setting.table_groups && setting.table_groups.length > 0" :variant="mobile ? 'tonal':'elevated'" :color="mobile ? 'primary' : ''" :stacked="!mobile" size="small" class="m-1 grow" :prepend-icon="mobile ? '' : 'mdi-plus'"
-        @click="onSubmitAndNew">
+      
+      <v-btn v-if="setting.table_groups && setting.table_groups.length > 0 && !mobile" :variant="mobile ? 'tonal' : 'elevated'"
+        :color="mobile ? 'primary' : ''" :stacked="!mobile" size="small" class="m-0-1 grow"
+        :prepend-icon="mobile ? '' : 'mdi-plus'" @click="onSubmitAndNew">
         Submit & New
       </v-btn>
-      <v-btn :stacked="!mobile" size="small" color="error" class="m-1 grow" :variant="mobile ? 'tonal':'elevated'" :prepend-icon="mobile ? '' : 'mdi-currency-usd'" @click="onQuickPay">
+      
+      <v-btn v-if="setting.table_groups && setting.table_groups.length > 0 && mobile"  :height="mobile ? '35px' : undefined" :variant="mobile ? 'tonal' : 'elevated'"
+        :color="mobile ? 'primary' : ''" :stacked="!mobile" size="small" class="m-0-1 grow" 
+        :prepend-icon="mobile ? '' : 'mdi-plus'" @click="onSubmitAndNew">
+        New Order
+      </v-btn>
+
+
+      <v-btn :stacked="!mobile" size="small" color="error" class="m-0-1 grow" :height="mobile ? '35px' : undefined" :variant="mobile ? 'tonal' : 'elevated'"
+        :prepend-icon="mobile ? '' : 'mdi-currency-usd'" @click="onQuickPay">
         Quick Pay
       </v-btn>
       <template v-if="!mobile">
-        <v-btn stacked size="small" color="error" class="m-1 grow" prepend-icon="mdi-note-outline" v-if="sale.sale.note"
+        <v-btn stacked size="small" color="error" class="m-0-1 grow" prepend-icon="mdi-note-outline" v-if="sale.sale.note"
           @click="sale.sale.note = ''">
           Remove Note
         </v-btn>
-        <v-btn stacked size="small" class="m-1 grow" prepend-icon="mdi-note-outline" @click="sale.onSaleNote(sale.sale)" v-else>
+        <v-btn stacked size="small" class="m-0-1 grow" prepend-icon="mdi-note-outline" @click="sale.onSaleNote(sale.sale)"
+          v-else>
           Note
         </v-btn>
       </template>
@@ -38,14 +56,14 @@ import { createToaster } from '@meforma/vue-toaster';
 import ComButtonToTableLayout from './ComButtonToTableLayout.vue';
 import ComSaleButtonMore from './ComSaleButtonMore.vue';
 import Enumerable from 'linq';
-import {useDisplay} from 'vuetify'
-const {mobile} = useDisplay()
+import { useDisplay } from 'vuetify'
+const { mobile } = useDisplay()
 const router = useRouter()
 const sale = inject("$sale")
 const gv = inject("$gv")
 const setting = gv.setting;
 const toaster = createToaster({ position: "top" })
-const emit = defineEmits(["onSubmitAndNew",'onClose'])
+const emit = defineEmits(["onSubmitAndNew", 'onClose'])
 async function onQuickPay() {
 
   await sale.onSubmitQuickPay().then((value) => {
@@ -53,14 +71,17 @@ async function onQuickPay() {
       sale.newSale();
       if (sale.setting.table_groups.length > 0) {
         router.push({ name: "TableLayout" });
-      }else{
+      } else {
         sale.getTableSaleList();
       }
+      //this code is send message to modal saleproduct list in mobile view
+      //we use this below code to send signal close modal when complete task
+      window.postMessage("close_modal", "*");
 
     }
   });
 }
-function closeModel(){
+function closeModel() {
   emit('onClose')
 }
 async function onCancelPrintBill() {
@@ -130,7 +151,7 @@ function newSale() {
   }
   sale.newSale()
   sale.sale.sale_products = [],
-  sale.sale.name = "";
+    sale.sale.name = "";
   sale.sale.creation = "";
   sale.sale.modified = "";
   sale.sale.sale_status = "New";
@@ -162,3 +183,9 @@ function newSale() {
 
 
 </script>
+<style>
+.m-0-1 {
+  margin: 2px !important;
+  padding: 0px !important;
+}
+</style>
