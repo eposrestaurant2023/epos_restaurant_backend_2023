@@ -1,15 +1,23 @@
 <template>
-  <v-btn 
-    v-if="gv.setting.reports.filter(r => r.doc_type == doctype && r.show_in_pos == 1).length == 1" 
-    :stacked="!mobile" 
-    color="info"
-    size="small" 
-    class="m-1 grow" 
-    :prepend-icon="mobile ? '' : 'mdi-printer'" 
-    :variant="mobile ? 'tonal':'elevated'"
-    @click="onPrintReport(gv.setting.reports.filter(r => r.doc_type == doctype && r.show_in_pos == 1)[0])">
-    Print Bill
-  </v-btn>
+  <template   v-if="gv.setting.reports.filter(r => r.doc_type == doctype && r.show_in_pos == 1).length == 1" >
+    <v-btn 
+    v-if="mobile"
+  class="m-1 grow" 
+  icon="mdi-printer"
+  @click="onPrintReport(gv.setting.reports.filter(r => r.doc_type == doctype && r.show_in_pos == 1)[0])">
+</v-btn>
+<v-btn v-else
+  :stacked="!mobile" 
+  color="info"
+  size="small" 
+  class="m-1 grow" 
+  :prepend-icon="mobile ? '' : 'mdi-printer'" 
+  :variant="mobile ? 'tonal':'elevated'"
+  @click="onPrintReport(gv.setting.reports.filter(r => r.doc_type == doctype && r.show_in_pos == 1)[0])">
+
+  Print Bill</v-btn>
+  </template>
+
 
   <v-menu v-else>
     <template v-slot:activator="{ props }">

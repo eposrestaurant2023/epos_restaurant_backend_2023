@@ -22,6 +22,7 @@
       </div>
       <div style="width: 130px;">
         <v-btn
+          height="100%"
           stacked 
           rounded="0"
           class="p-1"

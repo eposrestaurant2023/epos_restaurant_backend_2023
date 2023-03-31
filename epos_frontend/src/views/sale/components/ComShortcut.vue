@@ -1,20 +1,16 @@
 <template>
-    <div class="bg-white p-2" id="shortcut_menu"> 
-        <div :class="mobile ? 'flex flex-nowrap overflow-x-scroll pb-1' : 'flex-wrap flex -my-1 justify-center'" style="width: calc( 100vw - 22px);" v-if="shortcut">
-            <!-- flex-wrap flex -my-1 justify-center -->
-            <!-- <div v-for="(m, index) in shortcut" :key="m.name_en" class="px-1 py-1 flex-shrink-0"> -->
-                <!-- :size="$screen.width > 1024 ? 'small' : 'x-small'" -->
-                <v-btn 
-                    class="flex-shrink-0 mx-1"
-                    v-for="(m, index) in shortcut" :key="index"
-                    rounded="pill"
-                    variant="tonal"
-                    size="small"
-                    v-bind:style="{'background-color':m.background_color}"
-                    @click="onClick(m.name_en)">
-                    <span v-bind:style="{color:m.text_color}">{{m.name_en}}</span>
-                </v-btn>
-            <!-- </div> -->
+    <div class="bg-white" :class="mobile ? 'px-2' : 'p-2'" id="shortcut_menu"> 
+        <div :class="mobile ? 'flex flex-nowrap overflow-x-scroll pb-1 wrap-sm' : 'flex-wrap flex -my-1 justify-center'" v-if="shortcut">
+            <v-btn 
+                class="flex-shrink-0 m-1"
+                v-for="(m, index) in shortcut" :key="index"
+                rounded="pill"
+                variant="tonal"
+                size="small"
+                v-bind:style="{'background-color':m.background_color}"
+                @click="onClick(m.name_en)">
+                <span v-bind:style="{color:m.text_color}">{{m.name_en}}</span>
+            </v-btn> 
         </div>
     </div>
 </template>
@@ -37,3 +33,8 @@
     
     }
 </script>
+<style scoped>
+.wrap-sm {
+    width: calc( 100vw - 22px);
+}
+</style>
