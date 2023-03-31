@@ -136,6 +136,7 @@ async function onDeleteBill() {
         if (v) {
             if(v.show_confirm==1){
                 if(await confirm({title:'Delete Sale Order', text:'Are you sure you want delete this sale order?'}) == false){
+                    window.postMessage("close_modal","*");
                     return;
                 }
             }

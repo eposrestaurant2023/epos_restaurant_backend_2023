@@ -86,7 +86,7 @@ export function frappeRequest(options) {
            
             // eslint-disable-next-line no-empty
           } catch (e) {}
-        }
+        } 
         let e = new Error(errorParts.join('\n'))
         e.exc_type = error.exc_type
         e.exc = exception

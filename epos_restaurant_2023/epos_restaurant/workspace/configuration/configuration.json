@@ -89,8 +89,64 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "POS Settings",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Menu",
+   "link_count": 0,
+   "link_to": "POS Menu",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Profile",
+   "link_count": 0,
+   "link_to": "POS Profile",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Modifier Code",
+   "link_count": 0,
+   "link_to": "Modifier Code",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sale Setting",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sale Status",
+   "link_count": 0,
+   "link_to": "Sale Status",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "System Setting",
-   "link_count": 17,
+   "link_count": 15,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -197,29 +253,9 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Discount Code",
-   "link_count": 0,
-   "link_to": "Discount Code",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Category Note",
    "link_count": 0,
    "link_to": "Category Note",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Cashier Notes",
-   "link_count": 0,
-   "link_to": "Cashier Notes",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -263,65 +299,9 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "POS Settings",
-   "link_count": 3,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "POS Menu",
-   "link_count": 0,
-   "link_to": "POS Menu",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "POS Profile",
-   "link_count": 0,
-   "link_to": "POS Profile",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Modifier Code",
-   "link_count": 0,
-   "link_to": "Modifier Code",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Sale Setting",
-   "link_count": 1,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Sale Status",
-   "link_count": 0,
-   "link_to": "Sale Status",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
   }
  ],
- "modified": "2023-03-29 00:01:39.356973",
+ "modified": "2023-03-31 14:51:36.547786",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Configuration",

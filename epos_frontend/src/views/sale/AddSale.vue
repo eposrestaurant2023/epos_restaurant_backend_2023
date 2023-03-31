@@ -8,7 +8,7 @@
                 <ComMenu :background-image="gv.setting.pos_sale_order_background_image" />
             </v-col>
             <v-col cols="12" sm="5" md="5" lg="4" class="h-full pa-0">
-                <div class="h-full grid px-1" style="grid-template-rows: max-content;">
+                <div class="h-full flex-col flex px-1">
                     <div class="mb-1">
                         <div class="flex justify-between items-center">
                             <div class="flex-grow">
@@ -22,7 +22,7 @@
                         </div>
                         <ComSelectCustomer />
                     </div>
-                    <div class="overflow-auto">
+                    <div class="overflow-auto h-full">
                         <ComGroupSaleProductList />
                     </div>
                     <div class="mt-auto">

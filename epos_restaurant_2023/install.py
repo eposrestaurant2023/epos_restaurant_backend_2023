@@ -1,7 +1,13 @@
 import frappe
 import datetime
 import json
-
+import frappe
+import os, shutil
+import shlex, subprocess
+from frappe.utils import cstr
+import asyncio
+from frappe import conf
+from datetime import datetime
 
 def after_install():
     # ceate table group
@@ -83,11 +89,42 @@ def replace_format(string,year):
     digit = str(1).zfill(4)
     return string.replace('.', '').replace('YYYY', year).replace('yyyy', year).replace('YY', year_short).replace('yy', year_short).replace('MM', month).replace('#', '')
 
+def run_backup_command():
+    site_name = cstr(frappe.local.site)
+    folder = frappe.utils.get_site_path(conf.get("backup_path", "private/backups"))
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
+
+    asyncio.run(run_bench_command("bench --site " + site_name + " backup --with-files"))
+
+async def run_bench_command(command, kwargs=None):
+    site = {"site": frappe.local.site}
+    cmd_input = None
+    if kwargs:
+        cmd_input = kwargs.get("cmd_input", None)
+        if cmd_input:
+            if not isinstance(cmd_input, bytes):
+                raise Exception(f"The input should be of type bytes, not {type(cmd_input).name}")
+            del kwargs["cmd_input"]
+        kwargs.update(site)
+    else:
+        kwargs = site
+    command = " ".join(command.split()).format(**kwargs)
+    command = shlex.split(command)
+    subprocess.run(command, input=cmd_input, capture_output=True)
 
 ## RESET SALE TRANSACTION
 @frappe.whitelist()
 def reset_sale_transaction():
     # backupd db first
+    run_backup_command()
     if frappe.session.user == 'Administrator':
         frappe.db.sql("delete from `tabCash Transaction`")
         frappe.db.sql("delete from `tabPOS Sale Payment`")
@@ -135,7 +172,7 @@ def reset_database():
 @frappe.whitelist()
 def reset_data():
     if frappe.session.user == 'Administrator':
-        #update 
+        # update 
         frappe.db.sql("update `tabSeries` set current = 0")
         frappe.db.sql("update `tabLanguage` set enabled =0 where name not in ('kh','en')")
 

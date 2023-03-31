@@ -55,7 +55,7 @@
     </div>
 </template>
 <script setup>
-import { computed, addModifierDialog, inject,keypadWithNoteDialog,ref } from '@/plugin'
+import { computed, addModifierDialog, inject,keypadWithNoteDialog } from '@/plugin'
 import Enumerable from 'linq'
 // import ComPriceOnMenu from '../ComPriceOnMenu.vue';
 const props = defineProps({ data: Object })

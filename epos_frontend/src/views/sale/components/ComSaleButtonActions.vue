@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-hidden flex items-end">
+  <div class="flex items-end" :class="mobile ? 'overflow-hidden':''">
 
     <div class="flex flex-wrap w-full">
       <ComButtonToTableLayout :is-mobile="false" @closeModel="closeModel()" />
@@ -11,9 +11,7 @@
             :stacked="!mobile" :prepend-icon="mobile ? '' : 'mdi-printer'" @click="onCancelPrintBill">
             Cancel Print Bill
           </v-btn>
-
         </template>
-
       </template>
       <ComDiscountButton />
       
