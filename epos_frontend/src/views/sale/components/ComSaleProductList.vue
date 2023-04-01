@@ -67,7 +67,7 @@
                             class="mx-1 grow text-center justify-center" 
                             variant="elevated"
                              size="small"
-                            @click="onReorder(sp)">Re-Order</v-chip>
+                            @click="onReorder(sp)">Reorder</v-chip>
                         
                   
                         <ComSaleProductButtonMore :sale-product="sp" />
@@ -97,7 +97,8 @@ function onEditSaleProduct(sp) {
             product.setSelectedProductByMenuID(sp.menu_product_name);
             
             product.setModifierSelection(sp)
-            if(product.modifiers.length > 0 || product.prices.length > 0)
+            
+            if(product.modifiers.length > 0 || product.prices.filter(r=>r.price_rule == sale.setting.price_rule && (r.branch == sale.setting.business_branch || r.branch == '')).length > 1)
                 sale.OnEditSaleProduct(sp)
             else
                 toaster.warning("This product has no option to edit.")

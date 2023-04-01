@@ -249,8 +249,8 @@ def reset_data():
 @frappe.whitelist()
 def create_predefine_data():
     if frappe.session.user == 'Administrator':
-        data = frappe.db.get_list('Predefine Data',fields=["*"])
-        for d in data:             
+        data = frappe.db.get_list('Predefine Data',fields=["*"])     
+        for d in data:         
             if not frappe.db.exists(d.doc_type, d.doc_name):
                 doc = frappe.get_doc(json.loads(d.data))
                 doc.insert()        

@@ -169,10 +169,13 @@ export default class Product {
     validateModifier(){
         return new Promise((resolve)=>{
             this.modifiers.forEach((c)=>{
-                if (c.is_required==1){
-                    if(c.items.filter(r=>r.selected==true).length==0){
-                        toaster.warning("Please select a modifier of " + c.category);
-                        resolve(false)
+                const countItem = c.items.filter(r=>r.branch == this.setting.business_branch || r.branch == '').length
+                if(countItem > 0){
+                    if (c.is_required==1){
+                        if(c.items.filter(r=>r.selected==true).length==0){
+                            toaster.warning("Please select a modifier of " + c.category);
+                            resolve(false)
+                        }
                     }
                 }
             })

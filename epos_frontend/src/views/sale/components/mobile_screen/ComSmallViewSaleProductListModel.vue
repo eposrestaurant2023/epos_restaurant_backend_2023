@@ -7,7 +7,7 @@
             <v-btn v-if="params.data?.from_table" icon @click="onAddNewProduct()" v-bind="props">
                 <v-icon>mdi-plus</v-icon>
             </v-btn>
-            <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested'" doctype="Sale" title="Print Bill" :mobile="true" />
+            <ComPrintBillButton doctype="Sale" title="Print Bill" :isMobile="true" />
         </template>
         <template #content>
             <div class="m-1">
