@@ -51,6 +51,7 @@ export function frappeRequest(options) {
         }
         return data.message
         } catch(r){  
+          
           let currentUrl = window.location.href
           let lastUrl = currentUrl.substr(currentUrl.lastIndexOf('/') + 1);
    
@@ -136,7 +137,6 @@ export function frappeRequest(options) {
               }
             });
           }
-          
             options.onError({
               error_text:error_text,
               response: errorResponse,

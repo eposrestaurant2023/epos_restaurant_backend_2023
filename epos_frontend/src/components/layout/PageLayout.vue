@@ -1,8 +1,8 @@
 <template>
     <div>
         <v-toolbar color="transparent" elevation="0" >
-            <v-toolbar-title>
-                <v-icon>{{ icon }}</v-icon>
+            <v-toolbar-title class="!text-sm">
+                <v-icon :size="mobile ?'small' : 'default'">{{ icon }}</v-icon>
                 {{ title }}
                 <slot name="title"></slot>
             </v-toolbar-title>

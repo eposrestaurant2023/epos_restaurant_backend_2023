@@ -2,36 +2,36 @@
     <PageLayout title="Open Shift" icon="mdi-clock" class="pa-4">
         <v-row v-if="!working_day.loading && working_day.data">
             <v-col cols="12" md="6" class="ma-0 py-0">
-                <v-text-field  label="Open Shift Date" v-model="working_day.data.name" variant="solo"
+                <v-text-field label="Open Shift Date" v-model="working_day.data.name" variant="solo"
                     readonly></v-text-field>
             </v-col>
             <v-col cols="12" md="6" class="ma-0 py-0">
-                <v-text-field  label="Working Day" v-model="working_date" variant="solo" readonly></v-text-field>
+                <v-text-field label="Working Day" v-model="working_date" variant="solo" readonly></v-text-field>
             </v-col>
             <v-col cols="12" md="6" class="ma-0 py-0">
-                <v-text-field  label="POS Profile" v-model="pos_profile" variant="solo" readonly></v-text-field>
+                <v-text-field label="POS Profile" v-model="pos_profile" variant="solo" readonly></v-text-field>
             </v-col>
-           
-        </v-row>
 
+        </v-row>
         <h1 class="my-4">Cash Float</h1>
         <div v-if="payment_types">
-            <v-row >
+            <v-row>
                 <v-col cols="12" md="6" class="ma-0 py-0" v-for="p in payment_types.filter(p => p.allow_cash_float == 1)">
-                    <v-text-field  :label="p.payment_method"  v-model="p.input_amount" variant="solo" append-inner-icon="mdi-keyboard"
-                            @click:append-inner="OpenKeyboard(p)"></v-text-field>
+                    <v-text-field :label="p.payment_method" v-model="p.input_amount" variant="solo"
+                        append-inner-icon="mdi-keyboard" @click:append-inner="OpenKeyboard(p)"></v-text-field>
                 </v-col>
             </v-row>
         </div>
-        <v-row v-if="payment_types.filter(p => p.allow_cash_float == 1).length>1">
+        <v-row v-if="payment_types.filter(p => p.allow_cash_float == 1).length > 1">
             <v-col cols="12" md="6" class="ma-0 pa-y">
                 <v-text-field readonly label="Total Cash Float" variant="solo" v-model="totalCashFloat"></v-text-field>
-                
+
             </v-col>
         </v-row>
-                <ComInput title="Enter Note" keyboard label="Open Note" v-model="opened_note" type="textarea" class="mt-0 mb-8 py-0"></ComInput>
-         
-       
+        <ComInput title="Enter Note" keyboard label="Open Note" v-model="opened_note" type="textarea"
+            class="mt-0 mb-8 py-0"></ComInput>
+
+
         <v-btn @click="onOpenShift" :loading="addCashierShiftResource.loading" color="primary">Open Shift</v-btn>
         <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">Cancel</v-btn>
     </PageLayout>
@@ -41,7 +41,7 @@
 <script setup>
 
 import PageLayout from '../../components/layout/PageLayout.vue';
-import { createResource, ref, createToaster, useRouter, reactive, computed,inject,confirm, inputNumberDialog } from '@/plugin'
+import { createResource, ref, createToaster, useRouter, reactive, computed, inject, confirm, inputNumberDialog } from '@/plugin'
 import moment from '@/utils/moment.js'
 
 
@@ -56,18 +56,18 @@ const setting = JSON.parse(localStorage.getItem("setting"));
 const payment_types = reactive(setting.payment_types)
 const totalCashFloat = computed(() => {
     const total = payment_types.reduce((n, r) => n + parseFloat(r.input_amount) / parseFloat(r.exchange_rate), 0)
-    return Number(total.toFixed(gv.setting.pos_setting.main_currency_precision)) ;
+    return Number(total.toFixed(gv.setting.pos_setting.main_currency_precision));
 })
 
 
- 
+
 const router = useRouter();
 const toaster = createToaster();
 
 const working_day = createResource({
     url: "epos_restaurant_2023.api.api.get_current_working_day",
     params: {
-        business_branch:gv.setting.business_branch
+        business_branch: gv.setting.business_branch
     },
     auto: true,
     onSuccess(data) {
@@ -110,7 +110,7 @@ const addCashierShiftResource = createResource({
 })
 
 async function onOpenShift() {
-    if(await confirm({title:"Start Cashier Shift", text:"Are sure you want to start cashier shift?"})){
+    if (await confirm({ title: "Start Cashier Shift", text: "Are sure you want to start cashier shift?" })) {
         addCashierShiftResource.params = {
             doc: {
                 doctype: "Cashier Shift",
@@ -120,27 +120,27 @@ async function onOpenShift() {
             }
         };
         addCashierShiftResource.submit();
-   }
+    }
 
 }
 
 
-async function OpenKeyboard(data){
- 
-    const result =await inputNumberDialog({"title":"Cash Float for " + data.payment_method});
-    if(result){
-     
-    data.input_amount = getNumber(result);
+async function OpenKeyboard(data) {
+
+    const result = await inputNumberDialog({ "title": "Cash Float for " + data.payment_method });
+    if (result) {
+
+        data.input_amount = getNumber(result);
     }
 
 }
 
 function getNumber(val) {
-    
-        val = (val = val == null ? 0 : val)
-        if (isNaN(val)) {
-            return 0;
-        }
-        return parseFloat(val);
+
+    val = (val = val == null ? 0 : val)
+    if (isNaN(val)) {
+        return 0;
     }
+    return parseFloat(val);
+}
 </script>

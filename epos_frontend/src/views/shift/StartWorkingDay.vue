@@ -1,16 +1,17 @@
 <template>
-    <PageLayout title="Start Working Day" icon="mdi-calendar-clock">
-        <v-row>
-            <v-col md="6">
-                <v-text-field label="Working Date" v-model="current_date" variant="solo" readonly></v-text-field>
-            </v-col>
-        <v-col md="6">
-                <v-text-field label="POS Profile" v-model="pos_profile" variant="solo" readonly></v-text-field>
-            </v-col>
-        </v-row>
-        <ComInput title="Enter Note" keyboard label="Open Note" v-model="note" type="textarea"></ComInput>
+    <PageLayout title="Start Working Day" icon="mdi-calendar-clock" full>
+        <div class="mb-3">
+            <v-row>
+                <v-col cols="12" sm="6">
+                    <v-text-field label="Working Date" v-model="current_date" variant="solo" readonly></v-text-field>
+                </v-col>
+            <v-col cols="12" sm="6">
+                    <v-text-field label="POS Profile" v-model="pos_profile" variant="solo" readonly></v-text-field>
+                </v-col>
+            </v-row>
+            <ComInput title="Enter Note" keyboard label="Open Note" v-model="note" type="textarea"></ComInput>
+        </div>
         <v-btn @click="onStartWorking" color="primary" class="mt-4">Start Working Day</v-btn>
-
     </PageLayout>
 </template>
  

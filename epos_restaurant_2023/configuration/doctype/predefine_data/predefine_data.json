@@ -10,6 +10,7 @@
   "title",
   "doc_type",
   "doc_name",
+  "is_single",
   "data"
  ],
  "fields": [
@@ -34,11 +35,17 @@
    "fieldname": "doc_name",
    "fieldtype": "Data",
    "label": "Doc Name"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_single",
+   "fieldtype": "Check",
+   "label": "Is Single"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-30 16:12:24.740899",
+ "modified": "2023-04-01 11:33:56.508429",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Predefine Data",

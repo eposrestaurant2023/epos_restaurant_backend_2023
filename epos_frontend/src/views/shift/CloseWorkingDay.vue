@@ -1,5 +1,5 @@
 <template>
-    <PageLayout class="pa-4" title="Close Working Day:" icon="mdi-calendar-clock" >
+    <PageLayout class="pa-4" title="Close Working Day:" icon="mdi-calendar-clock" full>
         <template #title>
             {{ shiftInformation.data?.working_day?.name }}
         </template>
