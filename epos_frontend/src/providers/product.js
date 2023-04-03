@@ -102,7 +102,6 @@ export default class Product {
     }
 
     getModifierItem(category) {
- 
         if (this.keyword == "") {
             return category.items.filter((r) => {
                 return (r.branch == this.setting?.business_branch || r.branch == '')

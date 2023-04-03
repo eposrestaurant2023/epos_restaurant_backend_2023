@@ -13,7 +13,6 @@
                         <ComInput prepend-inner-icon="mdi-magnify" keyboard :value="keyword" v-debounce="onSearch" @onInput="onSearch" placeholder="Search Portion & Modifier"/>
                     </div>
                     <div>
-                        {{ product.modifiers }}
                         <div>
                             <v-chip :size="mobile ? 'large' : 'x-large'" closable  
                             @click:close="onRemoveModifier(item)" 

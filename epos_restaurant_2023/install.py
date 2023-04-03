@@ -89,6 +89,7 @@ def replace_format(string,year):
     digit = str(1).zfill(4)
     return string.replace('.', '').replace('YYYY', year).replace('yyyy', year).replace('YY', year_short).replace('yy', year_short).replace('MM', month).replace('#', '')
 
+@frappe.whitelist()
 def run_backup_command():
     site_name = cstr(frappe.local.site)
     folder = frappe.utils.get_site_path(conf.get("backup_path", "private/backups"))
