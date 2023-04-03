@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Tour Tourmanagement</span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Booking\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Package\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Guides\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Drivers\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Feedback\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hotels\",\"col\":3}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Setup\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Other Setting\",\"col\":4}}]",
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Tour Tourmanagement</span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Booking\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Package\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Profile\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Guides\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Drivers\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Feedback\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hotels\",\"col\":3}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Setup\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Other Setting\",\"col\":4}}]",
  "creation": "2023-03-28 23:47:31.207430",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -97,7 +97,7 @@
    "type": "Link"
   }
  ],
- "modified": "2023-04-03 12:13:09.470912",
+ "modified": "2023-04-03 20:48:22.345596",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Management",
@@ -145,6 +145,13 @@
    "label": "Drivers",
    "link_to": "Drivers",
    "stats_filter": "{\"disabled\":[\"=\",0]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Guest Profile",
+   "link_to": "Customer",
    "type": "DocType"
   },
   {
