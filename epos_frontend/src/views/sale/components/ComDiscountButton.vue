@@ -10,7 +10,6 @@
         </template>
         <v-list>
             <ComDiscountButtonList/>
-           
         </v-list>
     </v-menu>
 </template>

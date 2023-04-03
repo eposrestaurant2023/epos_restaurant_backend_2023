@@ -2,7 +2,7 @@
   <template v-if="sale.sale.sale_status != 'Bill Requested'">
     <template v-if="gv.setting.reports.filter(r => r.doc_type == doctype && r.show_in_pos == 1).length == 1">
       <v-btn v-if="mobile" style="width:64px" icon="mdi-printer" @click="onPrintReport(gv.setting.reports.filter(r => r.doc_type == doctype && r.show_in_pos == 1)[0])"></v-btn>
-      <v-btn v-else :stacked="!mobile" color="info" size="small" class="m-1 grow"
+      <v-btn v-else :stacked="!mobile" color="info" size="small" class="m-0-1 grow"
         :prepend-icon="mobile ? '' : 'mdi-printer'" :variant="mobile ? 'tonal' : 'elevated'"
         @click="onPrintReport(gv.setting.reports.filter(r => r.doc_type == doctype && r.show_in_pos == 1)[0])">
         Print Bill</v-btn>
