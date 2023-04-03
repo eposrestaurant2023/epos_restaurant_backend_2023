@@ -58,6 +58,7 @@ import { useDisplay } from 'vuetify'
 const { mobile } = useDisplay()
 const router = useRouter()
 const sale = inject("$sale")
+const product = inject("$product")
 const gv = inject("$gv")
 const setting = gv.setting;
 const toaster = createToaster({ position: "top" })
@@ -66,6 +67,7 @@ async function onQuickPay() {
 
   await sale.onSubmitQuickPay().then((value) => {
     if (value) {
+      product.onClearKeyword()
       sale.newSale();
       if (sale.setting.table_groups.length > 0) {
         router.push({ name: "TableLayout" });

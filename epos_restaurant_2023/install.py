@@ -1,4 +1,5 @@
-import frappe 
+import frappe
+import datetime
 import json
 import frappe
 import os, shutil
@@ -6,7 +7,6 @@ import shlex, subprocess
 from frappe.utils import cstr
 import asyncio
 from frappe import conf
-from datetime import datetime
 
 def after_install():
     # ceate table group
