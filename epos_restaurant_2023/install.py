@@ -1,5 +1,4 @@
-import frappe
-import datetime
+import frappe 
 import json
 import frappe
 import os, shutil
@@ -82,8 +81,7 @@ def create_table(tbl_no):
         )
         doc.insert()
 
-def replace_format(string,year):
-     
+def replace_format(string,year):     
     year_short = str(datetime.datetime.now().year)[-2:]
     month = str(datetime.datetime.now().month).zfill(2)
     digit = str(1).zfill(4)

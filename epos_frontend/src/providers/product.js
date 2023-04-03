@@ -25,7 +25,12 @@ export default class Product {
             cache:["pos_menu"]
         })
 	}
-    
+    onClearKeyword(){
+        this.parentMenu="";
+        this.searchProductKeyword="";
+        this.searchProductKeywordStore="";
+        this.selectedProduct = {};
+    }
     loadPOSMenu(){
         this.posMenuResource.update({
             params:{
