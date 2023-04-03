@@ -87,6 +87,7 @@ async function onChangePriceRule() {
         const result = await changePriceRuleDialog({})
         if (result == true) {
             product.loadPOSMenu()
+            window.postMessage("close_modal","*");
             toaster.success("Price Rule Was Change Successfull");
         }
     }
@@ -94,10 +95,10 @@ async function onChangePriceRule() {
 async function onChangePOSMenu() {
     const result = await changePOSMenuDialog({})
     if (result == true) {
-       
         product.loadPOSMenu()
-        
+        window.postMessage("close_modal","*");
         toaster.success("POS Menu Was Change Successfull ");
+        
     }
 
 }

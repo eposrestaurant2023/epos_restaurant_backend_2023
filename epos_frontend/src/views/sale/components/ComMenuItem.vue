@@ -131,12 +131,14 @@ async function onClickProduct() {
 
         } else {
             const portions = JSON.parse(p.prices).filter(r=>(r.branch == sale.sale.business_branch || r.branch == '')  && r.price_rule == sale.sale.price_rule);
-            const modifiers = JSON.parse(p.modifiers)
+            const check_modifiers = product.onCheckModifier(JSON.parse(p.modifiers));
             if(portions.length == 1){
                 p.price = portions[0].price
             }
-            if (modifiers.length > 0 || portions.length > 1) {
+            
+            if (check_modifiers || portions.length > 1) {
                 product.setSelectedProduct(props.data);
+                
                 let productPrices = await addModifierDialog();
                 
                 if (productPrices) {

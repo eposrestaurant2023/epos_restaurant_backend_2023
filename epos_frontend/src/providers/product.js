@@ -41,7 +41,7 @@ export default class Product {
                 return this.posMenuResource.data?.filter(r => r.parent == this.parentMenu)
             }
             else {
-                let defaultMenu = this.setting?.default_pos_menu;
+                let defaultMenu = this.currentRootPOSMenu? this.currentRootPOSMenu : this.setting?.default_pos_menu;
                 if (localStorage.getItem('default_menu')) {
                     defaultMenu = localStorage.getItem('default_menu')
                 }
@@ -102,6 +102,7 @@ export default class Product {
     }
 
     getModifierItem(category) {
+ 
         if (this.keyword == "") {
             return category.items.filter((r) => {
                 return (r.branch == this.setting?.business_branch || r.branch == '')
@@ -114,7 +115,15 @@ export default class Product {
         }
     }
 
-
+    onCheckModifier(modifiers){
+        if(modifiers){
+            const data = modifiers.filter((r)=>{
+                return r.items.some(x => x.branch == this.setting?.business_branch || r.branch == '')
+            })
+            return data.length > 0;
+        }
+        return false
+    }
 
     onSelectPortion(p){
         

@@ -1,6 +1,6 @@
 <template>
-    <div class="bg-white" :class="mobile ? 'px-2' : 'p-2'" id="shortcut_menu"> 
-        <div :class="mobile ? 'flex flex-nowrap overflow-x-scroll pb-1 wrap-sm' : 'flex-wrap flex -my-1 justify-center'" v-if="shortcut">
+    <div class="bg-white" :class="mobile ? 'px-2' : 'p-2'" id="shortcut_menu" v-if="shortcut?.length > 0"> 
+        <div :class="mobile ? 'flex flex-nowrap overflow-x-auto pb-1 wrap-sm' : 'flex-wrap flex -my-1 justify-center'" v-if="shortcut">
             <v-btn 
                 class="flex-shrink-0 m-1"
                 v-for="(m, index) in shortcut" :key="index"

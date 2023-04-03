@@ -1,5 +1,5 @@
 <template>
-    <div v-if="countPendingSaleListResource.data > 0 && !countPendingSaleListResource.loading">
+    <div v-if="countPendingSaleListResource.data > 0 && !countPendingSaleListResource.loading" class="mx-4">
         <v-alert
             class="mb-3"
             :type="type"
@@ -8,7 +8,7 @@
                 <span>Pending Orders</span>
             </template>
             <template #text>
-                <div class="flex justify-between items-center">
+                <div :class="mobile ? '' : 'flex justify-between items-center'">
                     <div>There are <span class="font-bold underline cursor-pointer" @click="onViewPendingOrder">{{ countPendingSaleListResource.data }}</span> pending orders.</div>
                     <div class="p-2"><v-btn color="primary" @click="onViewPendingOrder">View Pending Order</v-btn></div>
                 </div>
@@ -18,6 +18,8 @@
 </template>
 <script setup>
 import {defineProps,ref,createResource,pendingSaleListDialog,defineEmits} from '@/plugin'
+import {useDisplay} from 'vuetify'
+const {mobile} = useDisplay()
 const emit = defineEmits(['getPendingOrder'])
 const props = defineProps({
     total: String,

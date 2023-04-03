@@ -25,7 +25,6 @@
                 </v-col>
             </v-row>
             <v-row class="mx-4">
-
                 <v-table v-if="cashierShiftSummary.data">
                     <thead>
                         <tr>
@@ -98,11 +97,12 @@
             <ComInput class="my-8 mx-4" title="Enter Note" keyboard label="Closed Note" v-model="doc.closed_note"
                 type="textarea">
             </ComInput>
-
-            <v-btn class="ml-4" @click="onCloseShift" color="primary"
-                :loading="(cashierShiftResource.setValue && cashierShiftResource.setValue.loading) ? cashierShiftResource.setValue.loading : false">Close
-                Cashier Shift</v-btn>
-            <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">Cancel</v-btn>
+            <div class="flex justify-between items-center mx-4">
+                <v-btn @click="onCloseShift" color="primary"
+                    :loading="(cashierShiftResource.setValue && cashierShiftResource.setValue.loading) ? cashierShiftResource.setValue.loading : false">Close
+                    Cashier Shift</v-btn>
+                <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">Cancel</v-btn>
+            </div>
         </template>
     </PageLayout>
 </template>
