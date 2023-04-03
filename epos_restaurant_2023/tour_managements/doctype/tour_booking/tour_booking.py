@@ -17,7 +17,15 @@ class TourBooking(Document):
 		self.total_expense =   Enumerable(self.expenses).sum(lambda x: (x.expense_amount or 0))
 
 		self.balance =(self.price + self.total_additional_charge)  - self.total_paid
-		
+
+		for d in self.guides_and_drivers:
+			if d.document_type == 'Tour Guides' and  not d.phone_number: 
+				d.phone_number = frappe.db.get_value('Tour Guides', d.name1, 'phone_number') 
+				
+			if d.document_type == 'Tour Guides' and  not d.spoken_language: 
+				d.spoken_language = frappe.db.get_value('Tour Guides', d.name1, 'speaking_language') 
+				
+
 
 
 		

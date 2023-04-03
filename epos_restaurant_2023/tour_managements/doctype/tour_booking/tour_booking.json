@@ -74,17 +74,20 @@
    "fieldname": "booking_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Booking Date"
+   "label": "Booking Date",
+   "reqd": 1
   },
   {
    "fieldname": "start_date",
    "fieldtype": "Date",
-   "label": "Start Date"
+   "label": "Start Date",
+   "reqd": 1
   },
   {
    "fieldname": "end_date",
    "fieldtype": "Date",
-   "label": "End Date"
+   "label": "End Date",
+   "reqd": 1
   },
   {
    "fieldname": "guest_information_section",
@@ -95,7 +98,8 @@
    "fieldname": "guest_profile",
    "fieldtype": "Link",
    "label": "Guest Profile",
-   "options": "Customer"
+   "options": "Customer",
+   "reqd": 1
   },
   {
    "fetch_from": "guest_profile.phone_number",
@@ -121,7 +125,8 @@
    "fieldname": "tour_package",
    "fieldtype": "Link",
    "label": "Tour Package",
-   "options": "Tour Packages"
+   "options": "Tour Packages",
+   "reqd": 1
   },
   {
    "fetch_from": "guest_profile.customer_name_en",
@@ -363,7 +368,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-03 12:07:25.760933",
+ "modified": "2023-04-03 12:49:12.648637",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking",
