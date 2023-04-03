@@ -239,7 +239,7 @@ def reset_data():
         frappe.db.sql("delete from `tabCashier Notes`")
         frappe.db.sql("delete from `tabCategory Note`")
         # frappe.db.sql("delete from `tabPOS Profile Table Group`")
-        frappe.db.sql("delete from `tabRestaurant Table`")
+        # frappe.db.sql("delete from `tabRestaurant Table`")
         frappe.db.sql("delete from `tabBusiness Branch`")
         frappe.db.sql("delete from `tabCurrency` where name not in('USD','KHR')")
 
