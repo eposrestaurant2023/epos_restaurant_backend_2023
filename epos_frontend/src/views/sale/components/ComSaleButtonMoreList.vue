@@ -92,11 +92,12 @@ async function onChangePriceRule() {
     }
 }
 async function onChangePOSMenu() {
-
     const result = await changePOSMenuDialog({})
     if (result == true) {
+       
         product.loadPOSMenu()
-        toaster.success("POS Menu Was Change Successfull");
+        
+        toaster.success("POS Menu Was Change Successfull ");
     }
 
 }

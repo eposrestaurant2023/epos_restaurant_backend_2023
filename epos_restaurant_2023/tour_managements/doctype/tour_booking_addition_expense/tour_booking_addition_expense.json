@@ -1,0 +1,76 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2023-04-03 11:54:47.767475",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "expense_date",
+  "expense_code",
+  "description",
+  "expense_amount",
+  "expense_by",
+  "phone_number",
+  "note"
+ ],
+ "fields": [
+  {
+   "fieldname": "expense_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Expense Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "expense_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Expense Code",
+   "options": "Expense Code"
+  },
+  {
+   "fetch_from": "expense_code.expense_name",
+   "fetch_if_empty": 1,
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Description"
+  },
+  {
+   "fieldname": "expense_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Expense Amount"
+  },
+  {
+   "fieldname": "expense_by",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Expense By"
+  },
+  {
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Data",
+   "label": "Note"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-04-03 11:58:13.980620",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Tour Booking Addition Expense",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

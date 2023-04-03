@@ -242,18 +242,27 @@ def reset_data():
         frappe.db.sql("delete from `tabPOS Profile Table Group`")
         frappe.db.sql("delete from `tabRestaurant Table`")
         frappe.db.sql("delete from `tabBusiness Branch`")
+        frappe.db.sql("delete from `tabCurrency` where name not in('USD','KHR')")
+
+        #update 
+        frappe.db.sql("update `tabCurrency` set enabled = 1, name='RIEL' where name='KHR'")
 
 ## END RESET DATA Method
 
 ## CREATE PREDEFINE DATA Method
 @frappe.whitelist()
-def create_predefine_data():
+def create_predefine_data(): 
     if frappe.session.user == 'Administrator':
-        data = frappe.db.get_list('Predefine Data',fields=["*"])     
-        for d in data:         
-            if not frappe.db.exists(d.doc_type, d.doc_name):
-                doc = frappe.get_doc(json.loads(d.data))
-                doc.insert()        
+        data = frappe.db.get_list('Predefine Data',fields=["*"], order_by='sort asc')     
+        for d in data:   
+            if d.is_single == 0 :     
+                if not frappe.db.exists(d.doc_type, d.doc_name): 
+                    doc = frappe.get_doc(json.loads(d.data))
+                    doc.insert()    
+            else:
+              doc = frappe.get_doc(json.loads(d.data))  
+              doc.save()
+            
         frappe.db.commit()
 ## END CREATE PREDEFINE DATA Method
 

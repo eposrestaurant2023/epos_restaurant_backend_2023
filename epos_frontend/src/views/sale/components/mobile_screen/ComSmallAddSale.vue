@@ -4,7 +4,7 @@
     <div  class="flex flex-col h-full"> 
         <div class="overflow-auto h-full">
             <div class="pt-2">
-                <div class="px-2 pb-2">
+                <div class="px-2 pb-2"> 
                     <ComSelectCustomer  />
                 </div>
                 <ComProductSearch :small="true" />

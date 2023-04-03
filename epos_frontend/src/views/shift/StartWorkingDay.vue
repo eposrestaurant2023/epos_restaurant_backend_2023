@@ -1,5 +1,5 @@
 <template>
-    <PageLayout title="Start Working Day" icon="mdi-calendar-clock" full>
+    <PageLayout title="Start Working Day" icon="mdi-calendar-clock" class="p-4">
         <div class="mb-3">
             <v-row>
                 <v-col cols="12" sm="6">

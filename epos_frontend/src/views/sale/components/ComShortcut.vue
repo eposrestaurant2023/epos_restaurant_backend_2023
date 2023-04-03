@@ -15,20 +15,16 @@
     </div>
 </template>
 <script setup>
-    import { computed, ref,watch, inject } from '@/plugin'
+    import { computed, inject } from '@/plugin'
     import {useDisplay}  from 'vuetify'
     const {mobile} = useDisplay()
     const product = inject("$product")
-    const active = ref('')
-    
- 
     const shortcut = computed(()=>{
         return product.posMenuResource.data?.filter(r=>r.shortcut_menu == 1) 
     })
   
     function onClick(name) {
         product.searchProductKeyword="";
-        active.value = name;
         product.parentMenu = name;
     
     }

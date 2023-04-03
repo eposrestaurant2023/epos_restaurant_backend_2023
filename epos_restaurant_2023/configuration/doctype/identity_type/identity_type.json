@@ -1,62 +1,40 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2023-03-30 15:27:36.613007",
+ "autoname": "field:identity_type",
+ "creation": "2023-04-03 08:50:44.500126",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "title",
-  "doc_type",
-  "doc_name",
-  "sort",
-  "is_single",
-  "data"
+  "identity_type",
+  "note"
  ],
  "fields": [
   {
-   "fieldname": "title",
+   "allow_in_quick_entry": 1,
+   "fieldname": "identity_type",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Title"
+   "label": "Identity Type",
+   "unique": 1
   },
   {
-   "fieldname": "doc_type",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Doctype",
-   "options": "DocType"
-  },
-  {
-   "fieldname": "data",
-   "fieldtype": "JSON",
-   "label": "Data"
-  },
-  {
-   "fieldname": "doc_name",
+   "allow_in_quick_entry": 1,
+   "fieldname": "note",
    "fieldtype": "Data",
-   "label": "Doc Name"
-  },
-  {
-   "default": "0",
-   "fieldname": "is_single",
-   "fieldtype": "Check",
-   "label": "Is Single"
-  },
-  {
-   "fieldname": "sort",
-   "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Sort"
+   "label": "Note"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-03 11:25:56.603611",
+ "modified": "2023-04-03 08:50:44.500126",
  "modified_by": "Administrator",
  "module": "Configuration",
- "name": "Predefine Data",
+ "name": "Identity Type",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
@@ -72,6 +50,7 @@
    "write": 1
   }
  ],
+ "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

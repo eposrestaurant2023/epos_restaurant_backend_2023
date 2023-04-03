@@ -201,7 +201,7 @@
  "links": [],
  "make_attachments_public": 1,
  "max_attachments": 5,
- "modified": "2023-03-29 21:19:45.085367",
+ "modified": "2023-04-03 10:35:15.851538",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Guides",
@@ -233,7 +233,10 @@
    "write": 1
   }
  ],
+ "search_fields": "phone_number, tour_guide_name",
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "tour_guide_name"
 }

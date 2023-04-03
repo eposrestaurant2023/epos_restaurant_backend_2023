@@ -1,7 +1,7 @@
 <template>
     <div>
-        <v-toolbar color="transparent" elevation="0" >
-            <v-toolbar-title class="!text-sm">
+        <v-toolbar color="transparent" elevation="0">
+            <v-toolbar-title :class="mobile?'!text-sm':''">
                 <v-icon :size="mobile ?'small' : 'default'">{{ icon }}</v-icon>
                 {{ title }}
                 <slot name="title"></slot>
@@ -20,6 +20,8 @@
     </div>
 </template>
 <script setup>
+import { useDisplay } from 'vuetify';
+const {mobile} = useDisplay()
 const props = defineProps({
     title: {
         type: String,

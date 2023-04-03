@@ -33,15 +33,15 @@ let selected = ref(sale.setting.pos_menus)
 function onClose() {
     emit('resolve', false)
 }
-async function onSelect(result) {
-    await onConfrim(result)
+function onSelect(result) {
+    onConfrim(result)
 }
-async function onConfrim(result) {
+function onConfrim(result) {
     product.currentRootPOSMenu = result;
     product.parentMenu = '';
     product.searchProductKeyword = '';
     product.searchProductKeywordStore = '';
     product.selectedProduct = {};
-    await emit('resolve', true)
+    emit('resolve', true)
 }
 </script>

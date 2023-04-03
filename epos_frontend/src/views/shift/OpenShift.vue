@@ -31,9 +31,10 @@
         <ComInput title="Enter Note" keyboard label="Open Note" v-model="opened_note" type="textarea"
             class="mt-0 mb-8 py-0"></ComInput>
 
-
-        <v-btn @click="onOpenShift" :loading="addCashierShiftResource.loading" color="primary">Open Shift</v-btn>
-        <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">Cancel</v-btn>
+        <div class="flex items-center justify-between">
+            <v-btn @click="onOpenShift" :loading="addCashierShiftResource.loading" color="primary">Open Shift</v-btn>
+            <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">Cancel</v-btn>
+        </div>
     </PageLayout>
 </template>
 

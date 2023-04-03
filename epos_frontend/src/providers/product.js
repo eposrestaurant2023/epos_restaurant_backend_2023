@@ -35,23 +35,19 @@ export default class Product {
         this.posMenuResource.reload();
     }
     getPOSMenu(){
-        
-    if (this.getString(this.searchProductKeyword) == "") {
-           
+     
+    if (this.getString(this.searchProductKeyword) == "") { 
             if (this.parentMenu) {
                 return this.posMenuResource.data?.filter(r => r.parent == this.parentMenu)
             }
             else {
                 let defaultMenu = this.setting?.default_pos_menu;
-    
                 if (localStorage.getItem('default_menu')) {
                     defaultMenu = localStorage.getItem('default_menu')
                 }
-    
                 return  this.posMenuResource.data?.filter(r => r.parent == defaultMenu);
             }
         } else {
-           
             return this.posMenuResource.data?.filter((r) => {
                 return String( r.name_en + ' ' + r.name_kh + ' ' + r.name ).toLocaleLowerCase().includes(this.searchProductKeyword.toLocaleLowerCase())  && r.type =="product"
             })
@@ -79,9 +75,7 @@ export default class Product {
         modifiers.forEach((r)=>{
             r.selected = false
         });
-        this.modifiers =modifiers;
-        console.log(this.modifiers)
-        
+        this.modifiers = modifiers;
  
     }
     setSelectedProductByMenuID(id){

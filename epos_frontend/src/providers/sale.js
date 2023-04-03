@@ -208,9 +208,7 @@ export default class Sale {
         if (!this.setting?.pos_setting?.allow_change_quantity_after_submit) {
             strFilter = strFilter + ` && $.sale_product_status == 'New'`
         }
-
         let sp = Enumerable.from(this.sale.sale_products).where(strFilter).firstOrDefault()
-
         if (sp != undefined) {
             sp.quantity = parseFloat(sp.quantity) + 1;
             this.clearSelected();

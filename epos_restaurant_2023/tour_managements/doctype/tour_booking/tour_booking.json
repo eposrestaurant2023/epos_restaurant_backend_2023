@@ -29,14 +29,39 @@
   "market_source",
   "market_segment",
   "total_pax",
+  "adult",
+  "child",
+  "section_break_22",
+  "additional_guest",
   "cancelation_policy_section",
   "cancelation_policy",
+  "hotels_tab",
+  "hotels",
+  "tour_guide_driver_tab",
+  "guides_and_drivers",
+  "section_break_32",
+  "tour_guide_note",
+  "column_break_32",
+  "driver_note",
+  "additional_charge_tab",
+  "additional_charges",
+  "section_break_38",
+  "total_additional_charge",
+  "expenses_tab",
+  "expenses",
+  "section_break_42",
+  "total_expense",
+  "payments_tab",
+  "tour_booking_payment",
+  "section_break_46",
+  "total_paid",
   "tour_package_detail_tab",
   "itenaries",
   "section_break_26",
   "inclusions",
   "column_break_28",
-  "exclusions"
+  "exclusions",
+  "balance"
  ],
  "fields": [
   {
@@ -130,12 +155,16 @@
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "guest_profile.market_source",
+   "fetch_if_empty": 1,
    "fieldname": "market_source",
    "fieldtype": "Link",
    "label": "Market Source",
    "options": "Market Source"
   },
   {
+   "fetch_from": "guest_profile.market_segment",
+   "fetch_if_empty": 1,
    "fieldname": "market_segment",
    "fieldtype": "Link",
    "label": "Market Segment",
@@ -205,11 +234,136 @@
    "fieldtype": "Table",
    "label": "Exclusions",
    "options": "Tour Package Prices"
+  },
+  {
+   "fieldname": "section_break_22",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "additional_guest",
+   "fieldtype": "Table",
+   "label": "Additional Guest",
+   "options": "Tour Booking Additional Guest"
+  },
+  {
+   "fieldname": "hotels_tab",
+   "fieldtype": "Tab Break",
+   "label": "Hotels"
+  },
+  {
+   "fieldname": "hotels",
+   "fieldtype": "Table",
+   "label": "Hotels",
+   "options": "Tour Booking Hotels"
+  },
+  {
+   "fieldname": "adult",
+   "fieldtype": "Int",
+   "label": "Adult"
+  },
+  {
+   "fieldname": "child",
+   "fieldtype": "Int",
+   "label": "Child"
+  },
+  {
+   "fieldname": "tour_guide_driver_tab",
+   "fieldtype": "Tab Break",
+   "label": "Tour Guides & Drivers"
+  },
+  {
+   "fieldname": "tour_guide_note",
+   "fieldtype": "Small Text",
+   "label": "Tour Guide Note"
+  },
+  {
+   "fieldname": "column_break_32",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "driver_note",
+   "fieldtype": "Small Text",
+   "label": "Driver Note"
+  },
+  {
+   "fieldname": "section_break_32",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "additional_charge_tab",
+   "fieldtype": "Tab Break",
+   "label": "Additional Charge"
+  },
+  {
+   "fieldname": "section_break_38",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_additional_charge",
+   "fieldtype": "Currency",
+   "label": "Total Additional Charge",
+   "read_only": 1
+  },
+  {
+   "fieldname": "additional_charges",
+   "fieldtype": "Table",
+   "options": "Tour Booking Additional Charge"
+  },
+  {
+   "fieldname": "payments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Payments"
+  },
+  {
+   "fieldname": "section_break_42",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_paid",
+   "fieldtype": "Currency",
+   "label": "Total Paid",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tour_booking_payment",
+   "fieldtype": "Table",
+   "label": "Payments",
+   "options": "Tour Booking Payments"
+  },
+  {
+   "fieldname": "guides_and_drivers",
+   "fieldtype": "Table",
+   "options": "Tour Booking Guide And Driver"
+  },
+  {
+   "fieldname": "expenses_tab",
+   "fieldtype": "Tab Break",
+   "label": "Expenses"
+  },
+  {
+   "fieldname": "expenses",
+   "fieldtype": "Table",
+   "options": "Tour Booking Addition Expense"
+  },
+  {
+   "fieldname": "total_expense",
+   "fieldtype": "Currency",
+   "label": "Total Expense"
+  },
+  {
+   "fieldname": "section_break_46",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "balance",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Balance"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-29 21:03:28.321658",
+ "modified": "2023-04-03 12:07:25.760933",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking",
