@@ -246,6 +246,8 @@ def reset_data():
         #update 
         frappe.db.sql("update `tabCurrency` set enabled = 1, name='RIEL' where name='KHR'")
 
+        frappe.db.commit()
+
 ## END RESET DATA Method
 
 ## CREATE PREDEFINE DATA Method
