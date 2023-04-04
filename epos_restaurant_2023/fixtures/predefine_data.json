@@ -828,13 +828,13 @@
   "title": "Sale Receipt"
  },
  {
-  "data": "{\n  \"naming_series\": \"C.YYYY.-.####\",\n  \"customer_name_en\": \"General\",\n  \"customer_name_kh\": \"General\",\n  \"customer_code_name\": \"C-01 - General\",\n  \"company_name\": \"General\",\n  \"customer_group\": \"General\",\n  \"date_of_birth\": \"2000-09-05\",\n  \"gender\": \"Other\",\n  \"disabled\": 0,\n  \"phone_number\": \"023 698 552\",\n  \"email_address\": \"general@mail.com\",\n  \"country\": \"Cambodia\",\n  \"province\": \"Phnom Penh\",\n  \"default_discount\": 0,\n  \"photo\": \"/files/girl477476.jpg\",\n  \"note\": \"\",\n  \"doctype\": \"Customer\"\n}",
+  "data": "{\n  \"naming_series\": \"C.YYYY.-.####\",\n  \"customer_name_en\": \"General\",\n  \"customer_name_kh\": \"General\",\n  \"customer_code_name\": \"C-01 - General\",\n  \"company_name\": \"General\",\n  \"customer_group\": \"General\",\n  \"date_of_birth\": \"2000-09-05\",\n  \"gender\": \"Not Set\",\n  \"disabled\": 0,\n  \"phone_number\": \"023 698 552\",\n  \"email_address\": \"general@mail.com\",\n  \"country\": \"Cambodia\",\n  \"province\": \"Phnom Penh\",\n  \"default_discount\": 0,\n  \"photo\": \"/files/girl477476.jpg\",\n  \"note\": \"\",\n  \"doctype\": \"Customer\"\n}",
   "doc_name": "General",
   "doc_type": "Customer",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 16:08:13.191489",
+  "modified": "2023-04-04 09:36:06.817995",
   "name": "1da7e57008",
   "sort": 70,
   "title": "General"

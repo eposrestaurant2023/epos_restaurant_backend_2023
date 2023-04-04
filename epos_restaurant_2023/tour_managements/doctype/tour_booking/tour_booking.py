@@ -25,7 +25,6 @@ class TourBooking(Document):
 			if d.document_type == 'Tour Guides' and  not d.spoken_language: 
 				d.spoken_language = frappe.db.get_value('Tour Guides', d.name1, 'speaking_language') 
 				
-
-
+				
 
 		

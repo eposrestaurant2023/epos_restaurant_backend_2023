@@ -140,6 +140,7 @@
                         </div>
                     </template>
                     <v-card-text style="height: calc(100vh - 235px);">
+                        {{ printPreviewUrl }}
                         <iframe id="report-view" height="100%" width="100%" :src="printPreviewUrl"></iframe>
                     </v-card-text>
                 </v-card>
@@ -164,7 +165,7 @@ const activeReport = ref({
     preview_report: '',
     print_report_name: '',
     report_id: '',
-    doc_type: '',
+    doc_type: 'Working Day',
     lang: 'en',
     letterhead: gv.setting.letter_heads.find(r => r.is_default)?.name
 }) 
