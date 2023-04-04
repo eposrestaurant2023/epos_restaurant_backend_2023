@@ -874,5 +874,65 @@
   "name": "2ef868996d",
   "sort": 72,
   "title": "General"
+ },
+ {
+  "data": "{\n  \"payment_type_group\": \"Cash\",\n  \"doctype\": \"Payment Type Group\"\n}",
+  "doc_name": "Cash",
+  "doc_type": "Payment Type Group",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 0,
+  "modified": "2023-04-04 08:36:08.297902",
+  "name": "dead99c733",
+  "sort": 6,
+  "title": "Cash"
+ },
+ {
+  "data": "{\n  \"payment_type_group\": \"Bank\",\n  \"doctype\": \"Payment Type Group\"\n}",
+  "doc_name": "Bank",
+  "doc_type": "Payment Type Group",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 0,
+  "modified": "2023-04-04 08:36:44.320050",
+  "name": "5b914c7837",
+  "sort": 6,
+  "title": "Bank"
+ },
+ {
+  "data": "{\n  \"payment_type_group\": \"Other\",\n  \"doctype\": \"Payment Type Group\"\n}",
+  "doc_name": "Other",
+  "doc_type": "Payment Type Group",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 0,
+  "modified": "2023-04-04 08:37:06.365261",
+  "name": "fdc8c4804f",
+  "sort": 6,
+  "title": "Other"
+ },
+ {
+  "data": "{\n  \"payment_type_group\": \"FOC\",\n  \"doctype\": \"Payment Type Group\"\n}",
+  "doc_name": "FOC",
+  "doc_type": "Payment Type Group",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 0,
+  "modified": "2023-04-04 08:37:28.362851",
+  "name": "d020c59700",
+  "sort": 6,
+  "title": "FOC"
+ },
+ {
+  "data": "{\n  \"payment_type_group\": \"On Account\",\n  \"doctype\": \"Payment Type Group\"\n}",
+  "doc_name": "On Account",
+  "doc_type": "Payment Type Group",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 0,
+  "modified": "2023-04-04 08:37:54.242165",
+  "name": "f64cdd410c",
+  "sort": 6,
+  "title": "On Account"
  }
 ]
