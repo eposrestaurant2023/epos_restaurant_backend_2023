@@ -2,7 +2,7 @@
     <PageLayout class="pb-4" :title="`${activeReport.doc_type}: ${activeReport.report_id}`" icon="mdi-chart-bar" full>
         <template #action>
             <v-btn icon="mdi-printer" @click="onPrint()"></v-btn>
-            <v-btn v-if="mobile" icon="mdi-filter-outline" @click="onOpenDrawer"></v-btn>
+            <v-btn v-if="mobile" icon="mdi-filter-outline" @click="onDrawer(true)"></v-btn>
         </template>
         <v-row>
             <v-col sm="4" md="4" lg="3" v-if="!mobile">
@@ -17,7 +17,9 @@
                             </div>
                         </v-card-subtitle>
                         <v-card-text style="height: calc(100vh - 214px); overflow-y: auto;">
-                            <ComPlaceholder :loading="workingDayReportsTmp.loading === true || workingDayReports === null"
+                   
+                            <ComReportFilter :loading="workingDayReportsTmp.loading" @onCashierShift="onCashierShift($event)" @onWorkingDay="onWorkingDay($event)" :active-report="activeReport" :workingDayReports="workingDayReports"/>
+                            <!-- <ComPlaceholder :loading="workingDayReportsTmp.loading === true || workingDayReports === null"
                                 :is-not-empty="workingDayReports?.length > 0">
                                 <template v-for="(c, index) in workingDayReports" :key="index">
                                     <v-card :color="activeReport.report_id == c.name ? 'info' : 'default'"
@@ -77,7 +79,7 @@
                                         <hr />
                                     </div>
                                 </template>
-                            </ComPlaceholder>
+                            </ComPlaceholder> -->
                         </v-card-text>
                     </v-card-item>
                 </v-card>
@@ -138,7 +140,7 @@
             </v-col>
         </v-row>
         <Sheet v-if="mobile" v-model:visible="drawer" onlyHeaderSwipe>
-            <ComReportFilter :loading="workingDayReportsTmp.loading" @onWorkingDay="onWorkingDay()" :active-report="activeReport" :workingDayReports="workingDayReports"/>
+            <ComReportFilter :loading="workingDayReportsTmp.loading" @onCashierShift="onCashierShift($event)" @onWorkingDay="onWorkingDay($event)" :active-report="activeReport" :workingDayReports="workingDayReports"/>
         </Sheet>
     </PageLayout>
 </template>
@@ -153,7 +155,6 @@ import {useDisplay} from 'vuetify'
 import ComReportFilter from './components/ComReportFilter.vue';
 const {mobile} = useDisplay()
 const gv = inject('$gv')
-const moment = inject('$moment')
 const selectedLetterhead = ref(getDefaultLetterHead());
 const printPreviewUrl = ref("");
 const drawer = ref(false)
@@ -211,24 +212,22 @@ const workingDayReportsTmp = createResource({
     }
 })
 
-function onOpenDrawer() {
-    drawer.value = true
+function onDrawer(open = true) {
+    drawer.value = open
 }
 
 
-function onCashierShift(data) {
-
+function onCashierShift($event) { 
     const reports = gv.setting.reports.filter(r => r.doc_type == 'Cashier Shift' && r.show_in_pos == 1);
-
     activeReport.value.name = 'Cashier Shift'
-    activeReport.value.report_id = data.name
+    activeReport.value.report_id = $event.name
     if (activeReport.value.doc_type != "Cashier Shift") {
         activeReport.value.preview_report = reports[0].name
         activeReport.value.print_report_name = reports[0].print_report_name || reports[0].name
     }
     activeReport.value.doc_type = "Cashier Shift";
     printPreviewUrl.value = getReportUrl();
-
+    onDrawer(false)
 }
 function onPrintFormat(report) {
     activeReport.value.preview_report = report.name;
@@ -239,11 +238,11 @@ function onPrintFormat(report) {
 
 }
 
-function onWorkingDay(working_day) {
+function onWorkingDay($event) {
     const reports = gv.setting.reports.filter(r => r.doc_type == 'Working Day' && r.show_in_pos == 1);
 
     activeReport.value.name = 'Working Day'
-    activeReport.value.report_id = working_day.name
+    activeReport.value.report_id = $event.name
 
 
     if (activeReport.value.doc_type != "Working Day") {
@@ -253,7 +252,7 @@ function onWorkingDay(working_day) {
     activeReport.value.doc_type = "Working Day";
 
     printPreviewUrl.value = getReportUrl();
-
+    onDrawer(false)
 }
 
 

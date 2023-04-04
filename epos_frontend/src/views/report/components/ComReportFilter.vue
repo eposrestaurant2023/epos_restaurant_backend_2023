@@ -2,6 +2,7 @@
     <div class="pa-4">
         <ComPlaceholder :loading="loading === true || workingDayReports === null"
             :is-not-empty="workingDayReports?.length > 0">
+ 
             <template v-for="(c, index) in workingDayReports" :key="index">
                 <v-card :color="activeReport.report_id == c.name ? 'info' : 'default'"
                     :variant="activeReport.report_id == c.name || c.cashier_shifts.find(r => r.name == activeReport.report_id) ? 'tonal' : 'text'"
@@ -32,11 +33,11 @@
                 </v-card>
                 <div class="overflow-y-auto overflow-x-hidden max-h-44"
                     v-if="activeReport.report_id == c.name || c.cashier_shifts.find(r => r.name == activeReport.report_id)">
-                    <div class="flex flex-wrap">
+                    <div class="flex flex-wrap"> 
                         <v-sheet elevation="1" :color="item.name == activeReport.report_id ? 'info' : 'default'"
                             class="m-1 p-2 text-center cursor-pointer" width="118px" rounded="sm"
                             v-for="(item, index) in c.cashier_shifts" :key="index" @click="onCashierShift(item)">
-
+                    
                             <div>{{ moment(item.creation).format('h:mm:ss A') }}</div>
                             <div class="text-xs">
                                 <span>#{{ item.name }}</span>
@@ -56,9 +57,10 @@
     </div>
 </template>
 <script setup>
-import {defineProps, defineEmits} from 'vue'
+import {defineProps, defineEmits, inject} from 'vue'
 import ComPlaceholder from '../../../components/layout/components/ComPlaceholder.vue';
-const emit = defineEmits([''])
+const moment = inject('$moment')
+const emit = defineEmits(['onWorkingDay','onCashierShift'])
 const props = defineProps({
     loading: false,
     activeReport: Object,
@@ -67,5 +69,8 @@ const props = defineProps({
 
 function onWorkingDay(p){
     emit('onWorkingDay', p)
+}
+function onCashierShift(p){
+    emit('onCashierShift', p)
 }
 </script>

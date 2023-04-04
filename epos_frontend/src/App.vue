@@ -40,16 +40,16 @@ let state = reactive({
 
  
 socket.on("PrintReceipt", (arg) => {
-
 	if(localStorage.getItem("is_window")=="1"){
-		
-		window.chrome.webview.postMessage(arg);
-		toaster.warning("Print Receipt in Progress")
+		const data = JSON.parse(arg) ;
+		if(data.sale.pos_profile == localStorage.getItem("pos_profile")){
+			window.chrome.webview.postMessage(arg);
+			toaster.warning("Print Receipt in Progress")
+		}
 	}
-
-  
 })
  
+
 
 
 const router = useRouter()
@@ -125,25 +125,24 @@ if (!localStorage.getItem("pos_profile")) {
 }
 
 //get user info 
-let current_user = localStorage.getItem("current_user");
+let current_user = gv.getCurrentUser()
 if (current_user) {
-	current_user = JSON.parse(current_user);
-
-
 	createResource({
 		url: 'epos_restaurant_2023.api.api.get_user_info',
 		params: {
-			name: current_user.name
+			name: current_user
 		},
 		cache: "get_current_login_user",
 		auto: true,
-		onSuccess(doc) {
-			current_user.permission = doc.permission;
-			current_user.full_name = doc.full_name;
+		onSuccess(doc) { 
+			current_user.permission = doc?.permission;
+			current_user.full_name = doc?.full_name;
 			localStorage.setItem("current_user", JSON.stringify(current_user));
 
 		}
 	})
+}else{
+	router.push({name:'Login'})
 }
 
 
