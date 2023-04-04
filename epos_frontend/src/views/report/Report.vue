@@ -138,7 +138,7 @@
             </v-col>
         </v-row>
         <Sheet v-if="mobile" v-model:visible="drawer" onlyHeaderSwipe>
-            <ComReportFilter @onWorkingDay="onWorkingDay()" :active-report="activeReport"/>
+            <ComReportFilter :loading="workingDayReportsTmp.loading" @onWorkingDay="onWorkingDay()" :active-report="activeReport" :workingDayReports="workingDayReports"/>
         </Sheet>
     </PageLayout>
 </template>

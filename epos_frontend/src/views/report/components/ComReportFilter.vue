@@ -1,6 +1,6 @@
 <template>
     <div class="pa-4">
-        <ComPlaceholder :loading="data.loading === true || workingDayReports === null"
+        <ComPlaceholder :loading="loading === true || workingDayReports === null"
             :is-not-empty="workingDayReports?.length > 0">
             <template v-for="(c, index) in workingDayReports" :key="index">
                 <v-card :color="activeReport.report_id == c.name ? 'info' : 'default'"
@@ -60,8 +60,9 @@ import {defineProps, defineEmits} from 'vue'
 import ComPlaceholder from '../../../components/layout/components/ComPlaceholder.vue';
 const emit = defineEmits([''])
 const props = defineProps({
-    data: [],
-    activeReport: Object
+    loading: false,
+    activeReport: Object,
+    workingDayReports: []
 })
 
 function onWorkingDay(p){
