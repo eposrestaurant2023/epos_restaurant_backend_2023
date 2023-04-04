@@ -174,6 +174,8 @@ def reset_data():
         # update 
         frappe.db.sql("update `tabSeries` set current = 0")
         frappe.db.sql("update `tabLanguage` set enabled =0 where name not in ('kh','en')")
+        frappe.db.sql(" update `tabRole` set desk_access = 0 where name = 'Sales User'")
+       
 
         # delete 
         frappe.db.sql("delete from `tabInventory Transaction`")
@@ -242,7 +244,7 @@ def reset_data():
         # frappe.db.sql("delete from `tabRestaurant Table`")
         frappe.db.sql("delete from `tabBusiness Branch`")
         frappe.db.sql("delete from `tabCurrency` where name not in('USD','KHR','RIEL')")
-        
+
         #update 
         frappe.db.sql("update `tabCurrency` set enabled = 1, name='RIEL', currency_name='RIEL'  where name='KHR'")
 
