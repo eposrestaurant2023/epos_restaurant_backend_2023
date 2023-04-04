@@ -258,7 +258,8 @@ def create_predefine_data():
     if frappe.session.user == 'Administrator':
         data = frappe.db.get_list('Predefine Data',fields=["*"], order_by='sort asc')     
         for d in data:   
-            if d.is_single == 0 :     
+            frappe.msgprint(d.doc_type + " | " + d.doc_name)
+            if d.is_single == 0 :   
                 if not frappe.db.exists(d.doc_type, d.doc_name): 
                     doc = frappe.get_doc(json.loads(d.data))
                     doc.insert()    

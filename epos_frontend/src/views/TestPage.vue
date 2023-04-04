@@ -17,14 +17,6 @@ import { createDocumentResource, inject } from "@/plugin"
 import ComLoadingDialog from "../components/ComLoadingDialog.vue";
 const gv = inject('$gv')
 const auth = inject('$auth')
-console.log(gv.getCurrentUser())
-
-if(!localStorage.getItem('current_user')){
-   auth.logout().then((r)=>{
-      router.push({name: 'Login'})
-  })
-   
-}
 
 const saleDocResource = createDocumentResource({
   url: "frappe.client.get",
