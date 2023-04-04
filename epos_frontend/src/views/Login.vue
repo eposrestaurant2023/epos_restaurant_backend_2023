@@ -169,8 +169,6 @@ const login = async () => {
         let res = await auth.login(state.username, state.password);
         if (res) {
           getCurrentUserInfo(doc)
-       
-
         } else {
           toast.warning(`Login fail. Invalid username or password.`);
           store.dispatch('endLoading');
