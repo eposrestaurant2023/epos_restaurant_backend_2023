@@ -215,7 +215,6 @@ def reset_data():
         frappe.db.sql("delete from `tabExpense`")
         frappe.db.sql("delete from `tabExpense Category`")
         frappe.db.sql("delete from `tabPayment Type`")
-        frappe.db.sql("delete from `Payment Type Group`")
         frappe.db.sql("delete from `tabCurrency Exchange`")
         frappe.db.sql("delete from `tabePOS Table Position`")
         frappe.db.sql("delete from `tabPOS Menu`")
@@ -259,11 +258,13 @@ def create_predefine_data():
                 if not frappe.db.exists(d.doc_type, d.doc_name): 
                     doc = frappe.get_doc(json.loads(d.data))
                     doc.insert()    
+                    frappe.db.commit()
             else:
               doc = frappe.get_doc(json.loads(d.data))  
               doc.save()
+              frappe.db.commit()
             
-        frappe.db.commit()
+        
 ## END CREATE PREDEFINE DATA Method
 
 
