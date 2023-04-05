@@ -131,7 +131,7 @@ if (current_user) {
 	createResource({
 		url: 'epos_restaurant_2023.api.api.get_user_info',
 		params: {
-			name: current_user
+			name: current_user.name
 		},
 		cache: "get_current_login_user",
 		auto: true,
