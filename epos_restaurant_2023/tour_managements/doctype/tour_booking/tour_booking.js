@@ -37,8 +37,13 @@ function set_indicator(frm){
   
     if (frm.doc.price > 0 ) frm.dashboard.add_indicator(__("Tour Package Price: {0}",[format_currency(frm.doc.price)]) ,"blue");
 
+    if (frm.doc.total_hotel_amount > 0 )  frm.dashboard.add_indicator(__("Hotel: {0}",[format_currency(frm.doc.total_hotel_amount)]) ,"blue");
+    if (frm.doc.total_restaurant_amount > 0 )  frm.dashboard.add_indicator(__("Restaurant: {0}",[format_currency(frm.doc.total_restaurant_amount)]) ,"blue");
+    if (frm.doc.total_transportation_amount > 0 )  frm.dashboard.add_indicator(__("Transportation: {0}",[format_currency(frm.doc.total_transportation_amount)]) ,"blue");
+
     if (frm.doc.total_additional_charge > 0 )  frm.dashboard.add_indicator(__("Additional Charge: {0}",[format_currency(frm.doc.total_additional_charge)]) ,"blue");
-    if (frm.doc.total_additional_charge>0  &&  frm.doc.price > 0 )  frm.dashboard.add_indicator(__("Total Charge: {0}",[format_currency(frm.doc.total_additional_charge + frm.doc.price)]) ,"blue");
+
+    if (  frm.doc.price > 0 && (frm.doc.total_additional_charge   + frm.doc.total_hotel_amount + frm.doc.total_restaurant_amount + frm.doc.total_transportation_amount)>0)  frm.dashboard.add_indicator(__("Total Charge: {0}",[format_currency(frm.doc.total_additional_charge + frm.doc.price + frm.doc.total_restaurant_amount + frm.doc.total_hotel_amount + frm.doc.total_transportation_amount)]) ,"blue");
     if (frm.doc.total_expense > 0 )  frm.dashboard.add_indicator(__("Additional Expense: {0}",[format_currency(frm.doc.total_expense)]) ,"red");
     if (frm.doc.total_paid > 0 )  frm.dashboard.add_indicator(__("Total Paid: {0}",[format_currency(frm.doc.total_paid)]) ,"green");
     if (frm.doc.balance > 0 )  frm.dashboard.add_indicator(__("Balance: {0}",[format_currency(frm.doc.balance)]) ,"red");

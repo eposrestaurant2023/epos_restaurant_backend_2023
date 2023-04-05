@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Tour Tourmanagement</span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Booking\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Package\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Profile\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Guides\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Drivers\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Feedback\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hotels\",\"col\":3}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Setup\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Other Setting\",\"col\":4}}]",
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Tour Tourmanagement</span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Booking\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Package\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Profile\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Guides\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Drivers\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Feedback\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hotels\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Restaurants\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transportation Company\",\"col\":3}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Setup\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Other Setting\",\"col\":4}}]",
  "creation": "2023-03-28 23:47:31.207430",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -10,24 +10,6 @@
  "idx": 0,
  "label": "Tour Management",
  "links": [
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Other Setting",
-   "link_count": 1,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Bank",
-   "link_count": 0,
-   "link_to": "Bank",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
   {
    "hidden": 0,
    "is_query_report": 0,
@@ -95,9 +77,37 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Other Setting",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Bank",
+   "link_count": 0,
+   "link_to": "Bank",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Vehicle Type",
+   "link_count": 0,
+   "link_to": "Vehicle Types",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-04-03 20:48:22.345596",
+ "modified": "2023-04-05 18:34:42.294181",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Management",
@@ -126,6 +136,14 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "Transportation Company",
+   "link_to": "Transportation Company",
+   "stats_filter": "{\"name\":[\"is\",\"set\"]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Tour Package",
    "link_to": "Tour Packages",
    "stats_filter": "{\"tour_package\":[\"is\",\"set\"]}",
@@ -145,6 +163,14 @@
    "label": "Drivers",
    "link_to": "Drivers",
    "stats_filter": "{\"disabled\":[\"=\",0]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Restaurants",
+   "link_to": "Restaurant",
+   "stats_filter": "{\"name\":[\"is\",\"set\"]}",
    "type": "DocType"
   },
   {

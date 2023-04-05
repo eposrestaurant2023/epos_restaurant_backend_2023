@@ -9,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
+  "branch",
   "booking_date",
   "tour_package",
   "tour_package_title",
@@ -37,12 +38,17 @@
   "cancelation_policy",
   "hotels_tab",
   "hotels",
+  "total_hotel_amount",
+  "restaurants_tab",
+  "restaurants",
+  "total_restaurant_amount",
   "tour_guide_driver_tab",
   "guides_and_drivers",
   "section_break_32",
   "tour_guide_note",
-  "column_break_32",
-  "driver_note",
+  "transportations_tab",
+  "transportation",
+  "total_transportation_amount",
   "additional_charge_tab",
   "additional_charges",
   "section_break_38",
@@ -274,21 +280,12 @@
   {
    "fieldname": "tour_guide_driver_tab",
    "fieldtype": "Tab Break",
-   "label": "Tour Guides & Drivers"
+   "label": "Tour Guides"
   },
   {
    "fieldname": "tour_guide_note",
    "fieldtype": "Small Text",
    "label": "Tour Guide Note"
-  },
-  {
-   "fieldname": "column_break_32",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "driver_note",
-   "fieldtype": "Small Text",
-   "label": "Driver Note"
   },
   {
    "fieldname": "section_break_32",
@@ -364,11 +361,54 @@
    "fieldtype": "Currency",
    "hidden": 1,
    "label": "Balance"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Business Branch"
+  },
+  {
+   "fieldname": "restaurants_tab",
+   "fieldtype": "Tab Break",
+   "label": "Restaurants"
+  },
+  {
+   "fieldname": "restaurants",
+   "fieldtype": "Table",
+   "options": "Tour Booking Restaurant"
+  },
+  {
+   "fieldname": "total_restaurant_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_hotel_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "transportations_tab",
+   "fieldtype": "Tab Break",
+   "label": "Transportations"
+  },
+  {
+   "fieldname": "transportation",
+   "fieldtype": "Table",
+   "options": "Tour Booking Transportations"
+  },
+  {
+   "fieldname": "total_transportation_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-03 12:49:12.648637",
+ "modified": "2023-04-05 18:41:37.626138",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking",

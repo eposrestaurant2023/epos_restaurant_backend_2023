@@ -13,6 +13,8 @@
   "column_break_5",
   "arrival",
   "departure",
+  "rate",
+  "total_rate",
   "section_break_8",
   "note"
  ],
@@ -67,12 +69,25 @@
    "fieldname": "note",
    "fieldtype": "Small Text",
    "label": "Note"
+  },
+  {
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate"
+  },
+  {
+   "fieldname": "total_rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Rate",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-03 09:26:20.624375",
+ "modified": "2023-04-05 18:02:34.591359",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking Hotels",

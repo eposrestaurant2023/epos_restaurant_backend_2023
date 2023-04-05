@@ -1,0 +1,103 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2023-04-05 18:36:53.023447",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "transportation_company",
+  "vehicle_type",
+  "plate_number",
+  "model",
+  "from_date",
+  "to_date",
+  "number_of_seat",
+  "driver_name",
+  "phone_number",
+  "rate",
+  "note"
+ ],
+ "fields": [
+  {
+   "fieldname": "transportation_company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Transportation Company",
+   "options": "Transportation Company"
+  },
+  {
+   "fieldname": "vehicle_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Vehicle Type",
+   "options": "Vehicle Types"
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "From Date"
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "To Date"
+  },
+  {
+   "fieldname": "number_of_seat",
+   "fieldtype": "Data",
+   "label": "Number of Seat"
+  },
+  {
+   "fieldname": "driver_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Driver Name",
+   "options": "Drivers"
+  },
+  {
+   "fetch_from": "driver_name.phone_number",
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "plate_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Plate Number"
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Model"
+  },
+  {
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-04-05 18:39:22.056544",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Tour Booking Transportations",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

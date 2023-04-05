@@ -1,0 +1,87 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2023-04-05 17:44:11.348458",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "date_and_time",
+  "meal_type",
+  "set_menu_name",
+  "pax",
+  "adult",
+  "child",
+  "price",
+  "total_amount",
+  "special_request"
+ ],
+ "fields": [
+  {
+   "fieldname": "date_and_time",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Date and Time"
+  },
+  {
+   "fieldname": "meal_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Meal Type",
+   "options": "Breakfast\nLunch\nDiner"
+  },
+  {
+   "fieldname": "set_menu_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Set Menu Name"
+  },
+  {
+   "fieldname": "pax",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Pax"
+  },
+  {
+   "fieldname": "adult",
+   "fieldtype": "Int",
+   "label": "Adult"
+  },
+  {
+   "fieldname": "child",
+   "fieldtype": "Int",
+   "label": "Child"
+  },
+  {
+   "fieldname": "price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Price"
+  },
+  {
+   "fieldname": "special_request",
+   "fieldtype": "Small Text",
+   "label": "Special Request"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Amount",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-04-05 18:46:08.524341",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Tour Booking Restaurant",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
