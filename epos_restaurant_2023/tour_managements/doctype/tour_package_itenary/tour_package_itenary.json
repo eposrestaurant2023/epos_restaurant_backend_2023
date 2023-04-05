@@ -6,9 +6,12 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "itinerary_day",
   "title",
   "note",
-  "itemnary_detail"
+  "itemnary_detail",
+  "meal_plan",
+  "meal_plan_note"
  ],
  "fields": [
   {
@@ -26,13 +29,29 @@
   {
    "fieldname": "itemnary_detail",
    "fieldtype": "Text Editor",
-   "label": "Itemnary Detail"
+   "label": "Itinerary Detail"
+  },
+  {
+   "fieldname": "meal_plan_note",
+   "fieldtype": "Small Text",
+   "label": "Meal Plan Note"
+  },
+  {
+   "fieldname": "meal_plan",
+   "fieldtype": "Data",
+   "label": "Meal Plan"
+  },
+  {
+   "fieldname": "itinerary_day",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Itinerary Day"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-03-29 18:42:42.012965",
+ "modified": "2023-04-05 16:35:56.337441",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Package Itenary",

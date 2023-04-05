@@ -81,26 +81,26 @@
   {
    "default": "0",
    "fieldname": "single_bed",
-   "fieldtype": "Check",
+   "fieldtype": "Data",
    "label": "Single Bed"
   },
   {
    "default": "0",
    "fieldname": "double_bed",
-   "fieldtype": "Check",
+   "fieldtype": "Data",
    "label": "Double Bed"
   },
   {
    "default": "0",
    "fieldname": "twin_bed",
-   "fieldtype": "Check",
+   "fieldtype": "Data",
    "label": "Twin Bed"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-05 15:36:41.299932",
+ "modified": "2023-04-05 16:56:10.316990",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Hotel Room Type",

@@ -18,6 +18,7 @@
  ],
  "fields": [
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "title",
    "fieldtype": "Data",
    "label": "Title",
@@ -53,6 +54,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "note",
    "fieldtype": "Small Text",
    "label": "Note"
@@ -60,7 +62,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-03 20:31:12.716093",
+ "modified": "2023-04-05 16:38:33.921692",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Inclusions and Exclusions",
