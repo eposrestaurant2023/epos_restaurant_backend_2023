@@ -31,7 +31,7 @@ export default class Product {
         this.searchProductKeywordStore="";
         this.selectedProduct = {};
     }
-    loadPOSMenu(){
+    loadPOSMenu(){ 
         this.posMenuResource.update({
             params:{
                 root_menu: this.currentRootPOSMenu? this.currentRootPOSMenu : this.setting?.default_pos_menu

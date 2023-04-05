@@ -24,6 +24,7 @@
   "section_break_12",
   "vattin_number",
   "section_break_13",
+  "payment_type",
   "table_groups_section",
   "table_groups",
   "price_rules_section",
@@ -480,12 +481,19 @@
    "fieldname": "website",
    "fieldtype": "Data",
    "label": "Website"
+  },
+  {
+   "fieldname": "payment_type",
+   "fieldtype": "Table",
+   "label": "Payment Type",
+   "options": "POS Config Payment Type",
+   "reqd": 1
   }
  ],
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-28 17:41:50.803562",
+ "modified": "2023-04-05 14:59:48.519108",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Config",

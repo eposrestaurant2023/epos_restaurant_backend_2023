@@ -42,7 +42,7 @@ def get_system_settings(pos_profile="", device_name=''):
         pos_menus.append({"pos_menu":m.pos_menu})   
         
     payment_types=[]
-    for p in profile.pos_config_payment_type:
+    for p in pos_config.payment_type:
         payment_types.append({ "payment_method":p.payment_type,"currency":p.currency,"is_single_payment_type":p.is_single_payment_type,"allow_cash_float":p.allow_cash_float, "input_amount":0,"exchange_rate":p.exchange_rate,"required_customer":p.required_customer,"is_foc":p.is_foc})
     
     #get currency

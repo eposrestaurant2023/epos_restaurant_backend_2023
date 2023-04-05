@@ -19,7 +19,6 @@
   "default_sale_type",
   "pos_config",
   "section_break_10",
-  "pos_config_payment_type",
   "pos_menus",
   "default_payment_type",
   "second_currency_payment_type",
@@ -96,8 +95,7 @@
    "fieldname": "default_pos_menu",
    "fieldtype": "Link",
    "label": "Default POS Menu",
-   "options": "POS Menu",
-   "reqd": 1
+   "options": "POS Menu"
   },
   {
    "fieldname": "section_break_10",
@@ -140,17 +138,11 @@
    "fieldtype": "Link",
    "label": "Second Currency Payment Type",
    "options": "Payment Type"
-  },
-  {
-   "fieldname": "pos_config_payment_type",
-   "fieldtype": "Table",
-   "label": "Payment Type",
-   "options": "POS Config Payment Type"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-05 09:32:15.589761",
+ "modified": "2023-04-05 15:00:00.829473",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Profile",

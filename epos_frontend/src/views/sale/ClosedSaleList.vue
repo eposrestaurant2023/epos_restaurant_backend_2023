@@ -19,11 +19,17 @@
                         <v-col cols="12" sm="7" md="9" lg="9">
                             <div class="flex justify-between">
                                 <div class="pb-2 -mr-2">
-                                    <v-btn class="mr-2"
+                                    <v-tabs show-arrows>
+                                        <v-tab
+                                        v-for="(r, index) in gv.setting.reports.filter(r => r.show_in_pos_closed_sale == 1 && r.doc_type == 'POS Profile')"
+                                        :key="index" @click="onReportClick(r)">
+                                        {{ r.title }}</v-tab>
+                                    </v-tabs>
+                                    <!-- <v-btn class="mr-2"
                                         v-for="(r, index) in gv.setting.reports.filter(r => r.show_in_pos_closed_sale == 1 && r.doc_type == 'POS Profile')"
                                         :key="index" @click="onReportClick(r)"
                                         :color="activeReport.name == r.name ? 'info' : 'default'">
-                                        {{ r.title }}</v-btn>
+                                        {{ r.title }}</v-btn> -->
                                 </div>
                                 <div>
                                     <v-icon icon="mdi-reload" size="small" @click="onRefresh"></v-icon>

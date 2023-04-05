@@ -17,69 +17,9 @@
                             </div>
                         </v-card-subtitle>
                         <v-card-text style="height: calc(100vh - 214px); overflow-y: auto;">
-                   
-                            <ComReportFilter :loading="workingDayReportsTmp.loading" @onCashierShift="onCashierShift($event)" @onWorkingDay="onWorkingDay($event)" :active-report="activeReport" :workingDayReports="workingDayReports"/>
-                            <!-- <ComPlaceholder :loading="workingDayReportsTmp.loading === true || workingDayReports === null"
-                                :is-not-empty="workingDayReports?.length > 0">
-                                <template v-for="(c, index) in workingDayReports" :key="index">
-                                    <v-card :color="activeReport.report_id == c.name ? 'info' : 'default'"
-                                        :variant="activeReport.report_id == c.name || c.cashier_shifts.find(r => r.name == activeReport.report_id) ? 'tonal' : 'text'"
-                                        class="bg-gray-200 my-2 subtitle-opacity-1" @click="onWorkingDay(c)">
-                                        <template v-slot:title>
-                                            <div class="flex justify-between">
-                                                <div>{{ c.name }}</div>
-                                                <div>
-                                                    <v-chip v-if="c.is_closed" color="error" size="small"
-                                                        variant="elevated">Closed</v-chip>
-                                                    <v-chip v-else color="success" size="small"
-                                                        variant="elevated">Opening</v-chip>
-                                                </div>
-                                            </div>
-                                        </template>
-                                        <template v-slot:subtitle>
-                                            <div class="whitespace-normal">
-                                                <div><v-icon icon="mdi-calendar" size="x-small" /> <span class="font-bold">{{
-                                                    c.posting_date
-                                                }}</span> opened by <span class="font-bold">{{ c.owner }}</span>
-                                                </div>
-                                                <div v-if="c.is_closed">
-                                                    <v-icon icon="mdi-calendar-multiple" size="x-small" /> <span
-                                                        class="font-bold">{{ c.closed_date }}</span> closed by <span
-                                                        class="font-bold">{{ c.modified_by }}</span>
-                                                </div>
-                                                <div><v-icon icon="mdi-note-text" size="x-small"></v-icon> Total Shift: <span
-                                                        class="font-bold">{{ c.cashier_shifts.length }}</span></div>
-                                            </div>
-                                        </template>
-                                    </v-card>
-                                    <div class="overflow-y-auto overflow-x-hidden max-h-44"
-                                        v-if="activeReport.report_id == c.name || c.cashier_shifts.find(r => r.name == activeReport.report_id)">
-                                        <div class="flex flex-wrap">
-                                            <v-sheet 
-                                                elevation="1" 
-                                                :color="item.name == activeReport.report_id ? 'info' : 'default'" 
-                                                class="m-1 p-2 text-center cursor-pointer"
-                                                width="118px"
-                                                rounded="sm"
-                                                v-for="(item, index) in c.cashier_shifts"
-                                                :key="index" @click="onCashierShift(item)"> 
-                                                
-                                                <div>{{ moment(item.creation).format('h:mm:ss A') }}</div>
-                                                <div class="text-xs">
-                                                    <span>#{{ item.name }}</span>
-                                                </div>
-                                                <div>
-                                                    <v-chip v-if="item.is_closed" size="x-small" color="error">Closed</v-chip>
-                                                    <v-chip v-else size="x-small" color="success">Opening</v-chip>
-                                                </div>
-                                            </v-sheet>
-                                        </div>
-                                    </div>
-                                    <div class="pt-2">
-                                        <hr />
-                                    </div>
-                                </template>
-                            </ComPlaceholder> -->
+                            <ComReportFilter :loading="workingDayReportsTmp.loading"
+                                @onCashierShift="onCashierShift($event)" @onWorkingDay="onWorkingDay($event)"
+                                :active-report="activeReport" :workingDayReports="workingDayReports" /> 
                         </v-card-text>
                     </v-card-item>
                 </v-card>
@@ -90,47 +30,51 @@
                         <div class="px-1 py-2 -m-1 whitespace-normal">
                             <v-row>
                                 <v-col cols="12" lg="7" xl="8">
-                                    <v-tabs
-                                    show-arrows
-                                    >
-                                    <template v-if="activeReport.name == 'Cashier Shift'">
-                                        <v-tab
-                                            v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Cashier Shift' && r.show_in_pos == 1)"
-                                            :key="index"
-                                            @click="onPrintFormat(r)"
-                                            >
-                                            {{ r.title }}
-                                        </v-tab>
-                                    </template>
-                                    <template v-else-if="activeReport.name == 'Working Day'">
-                                        <v-tab 
-                                        v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Working Day' && r.show_in_pos == 1)"
-                                        :key="index"
-                                        @click="onPrintFormat(r)"
-                                        >
-                                        {{ r.title }}
-                                        </v-tab>
-                                    </template>
+                                    <v-tabs show-arrows>
+                                        <template v-if="activeReport.name == 'Cashier Shift'">
+                                            <v-tab
+                                                v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Cashier Shift' && r.show_in_pos == 1)"
+                                                :key="index" @click="onPrintFormat(r)">
+                                                {{ r.title }}
+                                            </v-tab>
+                                        </template>
+                                        <template v-else-if="activeReport.name == 'Working Day'">
+                                            <v-tab
+                                                v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Working Day' && r.show_in_pos == 1)"
+                                                :key="index" @click="onPrintFormat(r)">
+                                                {{ r.title }}
+                                            </v-tab>
+                                        </template>
                                     </v-tabs>
                                 </v-col>
                                 <v-col cols="12" lg="5" xl="4">
-                                    <div class="flex items-center justify-end">
-                                        <v-select prepend-inner-icon="mdi-content-paste" density="compact"
-                                            v-model="selectedLetterhead" :items=gv.setting.letter_heads item-title="name"
-                                            item-value="name" hide-no-data hide-details variant="solo" class="mx-1"
-                                            @update:modelValue="onRefresh"></v-select>
-                                        <v-select prepend-inner-icon="mdi-google-translate" density="compact"
-                                            v-model="activeReport.lang" :items="lang" item-title="language_name"
-                                            item-value="language_code" hide-no-data hide-details variant="solo" class="mx-1"
-                                            @update:modelValue="onRefresh"></v-select>
-                                        <v-icon class="mx-1" icon="mdi-refresh" size="small" @click="onRefresh" />
+                                    <div>
+                                        <v-row>
+                                            <v-col cols="12" md="7">
+                                                <v-select prepend-inner-icon="mdi-content-paste" density="compact"
+                                                    v-model="selectedLetterhead" :items=gv.setting.letter_heads
+                                                    item-title="name" item-value="name" hide-no-data hide-details
+                                                    variant="solo" class="mx-1" @update:modelValue="onRefresh"></v-select>
+                                            </v-col>
+                                            <v-col cols="12" md="5">
+                                                <div class="flex items-center">
+                                                    <v-select prepend-inner-icon="mdi-google-translate" density="compact"
+                                                        v-model="activeReport.lang" :items="lang" item-title="language_name"
+                                                        item-value="language_code" hide-no-data hide-details variant="solo"
+                                                        class="mx-1" @update:modelValue="onRefresh"></v-select>
+                                                    <v-icon class="mx-1" icon="mdi-refresh" size="small"
+                                                        @click="onRefresh" />
+                                                </div>
+                                            </v-col>
+                                        </v-row>
                                     </div>
                                 </v-col>
                             </v-row>
                         </div>
                     </template>
-                    <v-card-text style="height: calc(100vh - 235px);"> 
-                        <ComPlaceholder :is-not-empty="activeReport.report_id != ''" :loading="workingDayReportsTmp.loading">
+                    <v-card-text style="height: calc(100vh - 235px);">
+                        <ComPlaceholder :is-not-empty="activeReport.report_id != ''"
+                            :loading="workingDayReportsTmp.loading">
                             <template #default>
                                 <iframe id="report-view" height="100%" width="100%" :src="printPreviewUrl"></iframe>
                             </template>
@@ -140,7 +84,8 @@
             </v-col>
         </v-row>
         <Sheet v-if="mobile" v-model:visible="drawer" onlyHeaderSwipe>
-            <ComReportFilter :loading="workingDayReportsTmp.loading" @onCashierShift="onCashierShift($event)" @onWorkingDay="onWorkingDay($event)" :active-report="activeReport" :workingDayReports="workingDayReports"/>
+            <ComReportFilter :loading="workingDayReportsTmp.loading" @onCashierShift="onCashierShift($event)"
+                @onWorkingDay="onWorkingDay($event)" :active-report="activeReport" :workingDayReports="workingDayReports" />
         </Sheet>
     </PageLayout>
 </template>
@@ -151,9 +96,9 @@ import { webserver_port } from "../../../../../../sites/common_site_config.json"
 import PageLayout from '@/components/layout/PageLayout.vue';
 import { Sheet } from 'bottom-sheet-vue3'
 import ComPlaceholder from '../../components/layout/components/ComPlaceholder.vue';
-import {useDisplay} from 'vuetify'
+import { useDisplay } from 'vuetify'
 import ComReportFilter from './components/ComReportFilter.vue';
-const {mobile} = useDisplay()
+const { mobile } = useDisplay()
 const gv = inject('$gv')
 const selectedLetterhead = ref(getDefaultLetterHead());
 const printPreviewUrl = ref("");
@@ -168,7 +113,7 @@ const activeReport = ref({
     doc_type: 'Working Day',
     lang: 'en',
     letterhead: gv.setting.letter_heads.find(r => r.is_default)?.name
-}) 
+})
 function getReportUrl() {
     let letterhead = "";
     if (selectedLetterhead.value == "") {
@@ -217,7 +162,7 @@ function onDrawer(open = true) {
 }
 
 
-function onCashierShift($event) { 
+function onCashierShift($event) {
     const reports = gv.setting.reports.filter(r => r.doc_type == 'Cashier Shift' && r.show_in_pos == 1);
     activeReport.value.name = 'Cashier Shift'
     activeReport.value.report_id = $event.name
@@ -294,7 +239,7 @@ const reportClickHandler = async function (e) {
     }
 };
 
-function onRefreshReport(){
+function onRefreshReport() {
     getDefaultLetterHead()
     activeReport.value.name = 'Working Day'
     workingDayReportsTmp.fetch()
