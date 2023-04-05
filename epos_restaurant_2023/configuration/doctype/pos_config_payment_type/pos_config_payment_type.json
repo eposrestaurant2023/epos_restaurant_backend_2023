@@ -1,0 +1,97 @@
+{
+ "actions": [],
+ "autoname": "field:payment_type",
+ "creation": "2023-04-05 08:57:16.221388",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "payment_type",
+  "allow_cash_float",
+  "exchange_rate",
+  "currency",
+  "currency_symbol",
+  "currency_precision",
+  "is_single_payment_type",
+  "is_foc",
+  "required_customer"
+ ],
+ "fields": [
+  {
+   "fieldname": "payment_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Payment Type",
+   "options": "Payment Type",
+   "unique": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_cash_float",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Allow Cash Float"
+  },
+  {
+   "default": "1",
+   "fetch_from": "payment_type.exchange_rate",
+   "fieldname": "exchange_rate",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Exchange Rate",
+   "precision": "9"
+  },
+  {
+   "fetch_from": "payment_type.currency",
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
+  },
+  {
+   "fetch_from": "currency.symbol",
+   "fieldname": "currency_symbol",
+   "fieldtype": "Data",
+   "label": "Currency Symbol"
+  },
+  {
+   "fetch_from": "currency.currency_precision",
+   "fieldname": "currency_precision",
+   "fieldtype": "Int",
+   "label": "Currency Precision"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_single_payment_type",
+   "fieldtype": "Check",
+   "label": "Is Single Payment Type"
+  },
+  {
+   "default": "0",
+   "fetch_from": "payment_type.is_foc",
+   "fieldname": "is_foc",
+   "fieldtype": "Check",
+   "label": "Is FOC"
+  },
+  {
+   "default": "0",
+   "fieldname": "required_customer",
+   "fieldtype": "Check",
+   "label": "Required Customer"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-04-05 08:57:16.221388",
+ "modified_by": "Administrator",
+ "module": "Configuration",
+ "name": "POS Config Payment Type",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

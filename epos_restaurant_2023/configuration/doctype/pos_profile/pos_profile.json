@@ -20,12 +20,12 @@
   "pos_config",
   "section_break_10",
   "pos_menus",
-  "payment_types",
   "default_payment_type",
   "second_currency_payment_type",
   "section_break_16",
   "default_customer",
-  "default_pos_receipt"
+  "default_pos_receipt",
+  "pos_config_payment_type"
  ],
  "fields": [
   {
@@ -89,13 +89,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "payment_types",
-   "fieldtype": "Table",
-   "label": "Payment Types",
-   "options": "POS Profile Payment Type",
-   "reqd": 1
-  },
-  {
    "fieldname": "column_break_5",
    "fieldtype": "Column Break"
   },
@@ -147,11 +140,17 @@
    "fieldtype": "Link",
    "label": "Second Currency Payment Type",
    "options": "Payment Type"
+  },
+  {
+   "fieldname": "pos_config_payment_type",
+   "fieldtype": "Table",
+   "label": "POS Config Payment Type",
+   "options": "POS Config Payment Type"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-26 21:16:09.040535",
+ "modified": "2023-04-05 09:05:31.372135",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Profile",
