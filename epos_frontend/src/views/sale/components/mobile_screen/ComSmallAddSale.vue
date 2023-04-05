@@ -1,6 +1,6 @@
 
 <template>
-    <div style="height: calc(100vh - 120px)">
+    <div style="height: calc(100% - 101px)">
     <div  class="flex flex-col h-full"> 
         <div class="overflow-auto h-full">
             <div class="pt-2">
