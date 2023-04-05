@@ -9,7 +9,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Defualt Letter Head",
- "modified": "2022-12-18 18:06:42.788033",
+ "modified": "2023-04-05 17:26:33.370613",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Hourly Sale Revenue",
@@ -21,6 +21,9 @@
  "roles": [
   {
    "role": "System Manager"
+  },
+  {
+   "role": "Sales Manager"
   }
  ]
 }

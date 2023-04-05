@@ -60,7 +60,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-26 17:46:57.308663",
+ "modified": "2023-04-05 17:24:04.073045",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Unit of Measurement Conversion",
@@ -76,6 +76,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Product Manager",
    "share": 1,
    "write": 1
   }

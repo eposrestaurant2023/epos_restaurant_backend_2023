@@ -9,18 +9,22 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Defualt Letter Head",
- "modified": "2022-12-29 10:19:58.134082",
+ "modified": "2023-04-05 17:26:07.834484",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Customer Credit Balance Report",
  "owner": "Administrator",
  "prepared_report": 0,
+ "query": "",
  "ref_doctype": "Sale",
  "report_name": "Customer Credit Balance Report",
  "report_type": "Script Report",
  "roles": [
   {
    "role": "System Manager"
+  },
+  {
+   "role": "Sales Manager"
   }
  ]
 }
