@@ -15,7 +15,14 @@ frappe.ui.form.on("Tour Booking", {
      
         set_indicator(frm);
 
-        
+         if(!frm.doc.__islocal){
+            var iframe = document.createElement('iframe');
+            iframe.height="1122";
+            iframe.width="100%";
+            iframe.style="border:none"
+            iframe.src = '/printview?doctype=Tour%20Packages&name=' + frm.doc.tour_package +  '&format=' + frappe.get_meta("Tour Booking").fields.find(r=>r.fieldname=='tour_package_detail_frame').default + '&no_letterhead=1&settings=%7B%7D&_lang=en';
+            document.getElementById('frame').appendChild(iframe);
+        }
     },
     setup(frm){
         frm.set_query("document_type", "guides_and_drivers", function(doc, cdt, cdn) {
@@ -26,6 +33,8 @@ frappe.ui.form.on("Tour Booking", {
                 }
             };
         });
+
+       
     },    
 });
 

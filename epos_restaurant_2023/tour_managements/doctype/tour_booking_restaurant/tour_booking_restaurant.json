@@ -6,6 +6,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "restaurant_name",
   "date_and_time",
   "meal_type",
   "set_menu_name",
@@ -69,12 +70,19 @@
    "in_list_view": 1,
    "label": "Total Amount",
    "read_only": 1
+  },
+  {
+   "fieldname": "restaurant_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Restaurant Name",
+   "options": "Restaurant"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-05 18:46:08.524341",
+ "modified": "2023-04-06 08:42:58.639615",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking Restaurant",

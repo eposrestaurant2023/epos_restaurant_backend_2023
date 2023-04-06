@@ -268,12 +268,11 @@ def create_predefine_data():
               doc = frappe.get_doc(json.loads(d.data))  
               doc.save()
               frappe.db.commit()
-            
         
 ## END CREATE PREDEFINE DATA Method
-
 
 @frappe.whitelist()
 def get_server_name():
     server_name = socket.gethostname()
     return server_name
+

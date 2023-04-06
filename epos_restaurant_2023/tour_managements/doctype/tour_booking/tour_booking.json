@@ -39,12 +39,16 @@
   "hotels_tab",
   "hotels",
   "total_hotel_amount",
+  "total_room_nights",
+  "total_pax1",
   "restaurants_tab",
   "restaurants",
   "total_restaurant_amount",
   "tour_guide_driver_tab",
   "guides_and_drivers",
   "section_break_32",
+  "total_day",
+  "total_amount_2",
   "tour_guide_note",
   "transportations_tab",
   "transportation",
@@ -62,6 +66,7 @@
   "section_break_46",
   "total_paid",
   "tour_package_detail_tab",
+  "tour_package_detail_frame",
   "itenaries",
   "section_break_26",
   "inclusions",
@@ -123,6 +128,7 @@
    "label": "Email"
   },
   {
+   "depends_on": "eval:!doc.__islocal",
    "fieldname": "tour_package_detail_tab",
    "fieldtype": "Tab Break",
    "label": "Tour Package Detail"
@@ -159,7 +165,8 @@
   {
    "fieldname": "duration",
    "fieldtype": "Int",
-   "label": "Duration (Day)"
+   "label": "Duration (Day)",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_15",
@@ -223,26 +230,31 @@
   {
    "fieldname": "itenaries",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Itenaries",
    "options": "Tour Package Itenary"
   },
   {
    "fieldname": "section_break_26",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "hidden": 1
   },
   {
    "fieldname": "inclusions",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Inclusions",
    "options": "Tour Package Inclusions"
   },
   {
    "fieldname": "column_break_28",
-   "fieldtype": "Column Break"
+   "fieldtype": "Column Break",
+   "hidden": 1
   },
   {
    "fieldname": "exclusions",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Exclusions",
    "options": "Tour Package Prices"
   },
@@ -404,11 +416,42 @@
    "fieldname": "total_transportation_amount",
    "fieldtype": "Currency",
    "label": "Total Amount"
+  },
+  {
+   "default": "Tour Package A4",
+   "fieldname": "tour_package_detail_frame",
+   "fieldtype": "HTML",
+   "label": "Tour Package Detail Frame",
+   "options": "<div id=\"frame\"></div>"
+  },
+  {
+   "fieldname": "total_room_nights",
+   "fieldtype": "Int",
+   "label": "Total Room Nights",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_pax1",
+   "fieldtype": "Float",
+   "label": "Total Pax",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_day",
+   "fieldtype": "Int",
+   "label": "Total Days",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_amount_2",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-05 18:41:37.626138",
+ "modified": "2023-04-06 10:50:48.297558",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking",

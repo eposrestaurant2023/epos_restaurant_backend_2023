@@ -22,6 +22,8 @@ def get_user_info(name):
     if data:
         permission= frappe.get_doc("POS User Permission",data[0]["pos_user_permission"])      
         return {"username":data[0]["name"],"full_name":data[0]["full_name"],"permission":permission} 
+    
+
         
 
 @frappe.whitelist(allow_guest=True)
