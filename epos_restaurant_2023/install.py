@@ -157,11 +157,14 @@ def reset_sale_transaction():
 ## RESET DATABASE Method
 @frappe.whitelist()
 def reset_database():
-    #step 2 reset data
-    reset_data()
-    #step 3 create predefine data
-    create_predefine_data()
-
+    if frappe.session.user == 'Administrator':
+        #step 1 reset data
+        reset_data()
+        #step 2 create predefine data
+        create_predefine_data()
+        return {"You was reset system to new setup."}
+    else:
+        return {"Please contact to system's Administrator for reset sale transaction.(Permission denied)"}
 ## END RESET DATABASE
 
 ## RESET DATA Method
@@ -273,7 +276,7 @@ def create_predefine_data():
               doc = frappe.get_doc(json.loads(d.data))  
               doc.save()
               frappe.db.commit()
-        return {"You was reset system to new setup."}
+        return {"You was created predefine data."}
     else:
         return {"Please contact to system's Administrator for reset sale transaction.(Permission denied)"}
         

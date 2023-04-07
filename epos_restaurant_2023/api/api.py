@@ -18,10 +18,10 @@ def check_username(pin_code):
 
 @frappe.whitelist(allow_guest=True)
 def get_user_info(name):
-    data = frappe.db.sql("select name,full_name,user_image,role_profile_name,allow_login_to_pos,pos_user_permission from `tabUser` where name='{}'".format(name),as_dict=1)
+    data = frappe.db.sql("select name,full_name,user_image,role_profile_name,pos_user_permission from `tabUser` where name='{}'".format(name),as_dict=1)
     if data:
         permission= frappe.get_doc("POS User Permission",data[0]["pos_user_permission"])      
-        return {"username":data[0]["name"],"full_name":data[0]["full_name"],"photo":data[0]["user_image"],"allow_login_to_pos":data[0]["allow_login_to_pos"],"role":data[0]["pos_user_permission"],"permission":permission} 
+        return {"username":data[0]["name"],"full_name":data[0]["full_name"],"photo":data[0]["user_image"],"role":data[0]["pos_user_permission"],"permission":permission} 
     
 
         

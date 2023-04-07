@@ -31,7 +31,7 @@ const sale = inject("$sale");
 const product = inject("$product");
 const tableLayout = inject("$tableLayout");
 const socket = inject("$socket")
-
+const auth = inject("$auth")
 const store = useStore()
 const screen = inject('$screen')
 let state = reactive({
@@ -136,16 +136,12 @@ if (current_user?.name) {
 		},
 		cache: "get_current_login_user",
 		auto: true,
-		onSuccess(doc) { 
-			if(doc.allow_login_to_pos){
-				current_user.permission = doc.permission;
-				current_user.full_name = doc.full_name;
-				current_user.photo = doc.photo;
-				current_user.role = doc.role;
-				localStorage.setItem("current_user", JSON.stringify(current_user));
-			}else{
-				router.push({name:'Login'})
-			}
+		onSuccess(doc) {  
+			current_user.permission = doc.permission;
+			current_user.full_name = doc.full_name;
+			current_user.photo = doc.photo;
+			current_user.role = doc.role;
+			localStorage.setItem("current_user", JSON.stringify(current_user));
 		}
 	})
  

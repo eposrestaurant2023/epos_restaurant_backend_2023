@@ -26,7 +26,11 @@
   "exclusions",
   "exclusions_detail",
   "price_detail_tab",
-  "tour_package_prices"
+  "tour_package_prices",
+  "hotel_prices_tab",
+  "low_season",
+  "column_break_22",
+  "high_season"
  ],
  "fields": [
   {
@@ -134,11 +138,32 @@
    "fieldname": "exclusions_detail",
    "fieldtype": "Text Editor",
    "label": "Exclusions Detail"
+  },
+  {
+   "fieldname": "hotel_prices_tab",
+   "fieldtype": "Tab Break",
+   "label": "Hotel Prices"
+  },
+  {
+   "fieldname": "low_season",
+   "fieldtype": "Table",
+   "label": "Low Season",
+   "options": "Tour Package Hotel Price"
+  },
+  {
+   "fieldname": "column_break_22",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "high_season",
+   "fieldtype": "Table",
+   "label": "High Season",
+   "options": "Tour Package Hotel Price"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-06 17:07:51.659625",
+ "modified": "2023-04-07 14:32:26.767924",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Packages",
