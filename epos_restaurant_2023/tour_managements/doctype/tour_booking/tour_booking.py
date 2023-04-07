@@ -35,11 +35,13 @@ class TourBooking(Document):
 				d.spoken_language = frappe.db.get_value('Tour Guides', d.name1, 'speaking_language') 
 		#update total amount in hotel room
 		for d in self.hotels:
+			d.total_night = date_diff(d.departure, d.arrival) 
 			d.rate = get_room_rate(d.hotel_name, d.room_type)
-			d.total_rate = d.number_of_room * d.rate
+			d.total_rate = d.number_of_room * d.rate * d.total_night
 
 
 		self.total_hotel_amount =   Enumerable(self.hotels).sum(lambda x: (x.total_rate or 0))
+		self.total_room_nights =   Enumerable(self.hotels).sum(lambda x: (x.total_night or 0))
 		
 		for d in self.restaurants:
 			d.total_amount = d.pax * d.price

@@ -11,13 +11,16 @@
   "tax_rule_name",
   "section_break_2",
   "tax_1_rate",
+  "percentage_of_price_to_calculate_tax_1",
   "calculate_tax_1_after_discount",
   "section_break_6",
   "tax_2_rate",
+  "percentage_of_price_to_calculate_tax_2",
   "calculate_tax_2_after_discount",
   "calculate_tax_2_after_adding_tax_1",
   "section_break_12",
   "tax_3_rate",
+  "percentage_of_price_to_calculate_tax_3",
   "calculate_tax_3_after_discount",
   "calculate_tax_3_after_adding_tax_1",
   "calculate_tax_3_after_adding_tax_2"
@@ -99,11 +102,29 @@
    "fieldname": "calculate_tax_3_after_adding_tax_2",
    "fieldtype": "Check",
    "label": "Calculate Tax 3 After Adding Tax 2"
+  },
+  {
+   "default": "100",
+   "fieldname": "percentage_of_price_to_calculate_tax_1",
+   "fieldtype": "Float",
+   "label": "Percentage of Price to Calculate Tax 1"
+  },
+  {
+   "default": "100",
+   "fieldname": "percentage_of_price_to_calculate_tax_2",
+   "fieldtype": "Float",
+   "label": "Percentage of Price to Calculate Tax 2"
+  },
+  {
+   "default": "100",
+   "fieldname": "percentage_of_price_to_calculate_tax_3",
+   "fieldtype": "Float",
+   "label": "Percentage of Price to Calculate Tax 3"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-18 02:08:33.083964",
+ "modified": "2023-04-07 09:21:24.781695",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Tax Rule",

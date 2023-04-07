@@ -151,7 +151,9 @@ function onSave(){
 }
 
 function onAddNew() {
-    
+    if(!customer.value.date_of_birth){
+        customer.value.date_of_birth = ''
+    }
     customer.value.doctype = 'Customer'
     customerResource.submit({doc:customer.value}).then((res)=>{
         
