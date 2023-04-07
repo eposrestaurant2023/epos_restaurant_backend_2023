@@ -12,6 +12,7 @@
   "column_break_4",
   "start_date",
   "end_date",
+  "total_days",
   "spoken_language",
   "rate",
   "vehicle_information_section",
@@ -102,12 +103,17 @@
    "label": "Name",
    "options": "document_type",
    "reqd": 1
+  },
+  {
+   "fieldname": "total_days",
+   "fieldtype": "Int",
+   "label": "Total Days"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-03 12:46:20.126435",
+ "modified": "2023-04-07 11:32:47.525615",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking Guide And Driver",

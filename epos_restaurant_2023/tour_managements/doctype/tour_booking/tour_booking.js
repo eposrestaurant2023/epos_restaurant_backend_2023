@@ -39,18 +39,29 @@ frappe.ui.form.on("Tour Booking", {
 
 });
 frappe.ui.form.on('Tour Booking Hotels', {
-
    departure:function (frm,cdt, cdn) {
     let doc = locals[cdt][cdn];
-    alert(doc.departure)
     if (doc.arrival && doc.departure){
-        alert(frappe.datetime.get_diff( doc.departure , doc.arrival ))
-        set_value("total_night", frappe.datetime.get_diff( doc.departure , doc.arrival ));
+        doc.total_night = frappe.datetime.get_diff( doc.departure , doc.arrival )
         refresh_field('hotels');
     }
-  }
-})
+  },
+  arrival:function (frm,cdt, cdn) {
+    let doc = locals[cdt][cdn];
+    if (doc.arrival && doc.departure){
+        doc.total_night = frappe.datetime.get_diff( doc.departure , doc.arrival )
+        refresh_field('hotels');
+    }
+  },
+  total_night:function(frm,cdt, cdn){
+        let doc = locals[cdt][cdn];
+        const from_date = doc.arrival;
+        const to_date = frappe.datetime.add_days(from_date, doc.total_night);
+        doc.departure = to_date;
 
+        refresh_field('hotels');
+    },
+})
 
 function set_indicator(frm){
     if(frm.doc.__islocal)

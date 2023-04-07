@@ -28,8 +28,10 @@ class TourBooking(Document):
 		self.balance =(self.price + self.total_additional_charge + self.total_restaurant_amount + self.total_hotel_amount)  - self.total_paid
 
 		for d in self.guides_and_drivers:
+			d.total_days = 1
+			
+			self.total_day = Enumerable(self.guides_and_drivers).sum(lambda x: (x.total_days or 0))
 			self.total_amount_2 = self.total_day * d.rate
-			self.total_day = date_diff(self.end_date, self.start_date)
 			if d.document_type == 'Tour Guides' and  not d.phone_number: 
 				d.phone_number = frappe.db.get_value('Tour Guides', d.name1, 'phone_number')
 				
