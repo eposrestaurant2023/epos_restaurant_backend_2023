@@ -240,6 +240,7 @@ def reset_data():
         frappe.db.sql("delete from `tabTemp Product Menu`")
         frappe.db.sql("delete from `tabCashier Notes`")
         frappe.db.sql("delete from `tabCategory Note`")
+        frappe.db.sql("delete from `tabPOS Profile`")
         # frappe.db.sql("delete from `tabPOS Profile Table Group`")
         # frappe.db.sql("delete from `tabRestaurant Table`")
         frappe.db.sql("delete from `tabBusiness Branch`")
