@@ -6,7 +6,7 @@
         <ComChip v-else tooltip="Working Day" prepend-icon="mdi-calendar">{{ sale.sale.working_day }}</ComChip>
         <ComChip v-if="sale.cashier_shift_resource?.loading" tooltip="Cashier Shift" prepend-icon="mdi-spin mdi-loading">loading...</ComChip>
         <ComChip v-else tooltip="Cashier Shift" prepend-icon="mdi-calendar-clock">{{ sale.sale.cashier_shift }}</ComChip>
-        <ComChip v-if="setting.table_groups && setting.table_groups.length > 0" tooltip="Guest Cover" prepend-icon="mdi-account-multiple-outline" @onClick="onUpdateGuestCover()">{{ sale.sale.guest_cover }}</ComChip>
+        <ComChip v-if="setting.table_groups && setting.table_groups.length > 0 && setting.use_guest_cover == 1" tooltip="Guest Cover" prepend-icon="mdi-account-multiple-outline" @onClick="onUpdateGuestCover()">{{ sale.sale.guest_cover }}</ComChip>
         <ComChip v-if="setting.table_groups && setting.table_groups.length > 0 && sale.sale.seat_number" tooltip="Seat Number" prepend-icon="mdi-chair-school" @onClick="onUpdateSeatNumber()">{{ sale.sale.seat_number }}</ComChip>
         <ComChip tooltip="Price Rule" prepend-icon="mdi-bulletin-board" @onClick="onChangePriceRule()">{{ sale.sale.price_rule }}</ComChip>   
     </div>
