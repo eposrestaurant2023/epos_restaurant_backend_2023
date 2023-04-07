@@ -6,9 +6,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 15:51:14.935427",
+  "modified": "2023-04-07 10:17:09.584819",
   "name": "de8897eaf9",
-  "sort": 69,
+  "sort": 200,
   "title": "Sale Invoice A4"
  },
  {
@@ -54,9 +54,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:26:56.338142",
+  "modified": "2023-04-07 09:25:29.720000",
   "name": "8760f8ef24",
-  "sort": 3,
+  "sort": 7,
   "title": "Main Group"
  },
  {
@@ -66,9 +66,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:26:48.381978",
+  "modified": "2023-04-07 09:26:05.148102",
   "name": "d8251b7847",
-  "sort": 4,
+  "sort": 8,
   "title": "Dine In"
  },
  {
@@ -78,9 +78,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:26:25.550972",
+  "modified": "2023-04-07 09:31:21.811369",
   "name": "5754de1fea",
-  "sort": 5,
+  "sort": 8,
   "title": "Takeaway"
  },
  {
@@ -90,9 +90,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:28:51.843003",
+  "modified": "2023-04-07 09:31:33.241771",
   "name": "b9fd2e712c",
-  "sort": 6,
+  "sort": 8,
   "title": "Delivery"
  },
  {
@@ -102,9 +102,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:42:28.733848",
+  "modified": "2023-04-07 09:59:25.548923",
   "name": "9259b8ab95",
-  "sort": 7,
+  "sort": 30,
   "title": "Cash Dollar"
  },
  {
@@ -114,9 +114,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:43:52.318507",
+  "modified": "2023-04-07 09:59:34.824325",
   "name": "04969bfb13",
-  "sort": 8,
+  "sort": 30,
   "title": "Cash Riel"
  },
  {
@@ -126,9 +126,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:45:18.794375",
+  "modified": "2023-04-07 10:00:09.432225",
   "name": "0b88e919bc",
-  "sort": 9,
+  "sort": 30,
   "title": "ABA Dollar"
  },
  {
@@ -138,9 +138,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:47:43.846168",
+  "modified": "2023-04-07 10:00:14.852388",
   "name": "1f49e23bf7",
-  "sort": 10,
+  "sort": 30,
   "title": "ABA Riel"
  },
  {
@@ -150,9 +150,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:49:16.872281",
+  "modified": "2023-04-07 10:00:21.871232",
   "name": "810def83b8",
-  "sort": 11,
+  "sort": 30,
   "title": "On Account"
  },
  {
@@ -162,9 +162,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:50:22.290823",
+  "modified": "2023-04-07 10:00:28.079176",
   "name": "5652d12380",
-  "sort": 12,
+  "sort": 30,
   "title": "FOC"
  },
  {
@@ -174,9 +174,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:53:22.995331",
+  "modified": "2023-04-07 10:01:06.963404",
   "name": "b145c1b317",
-  "sort": 13,
+  "sort": 40,
   "title": "Food"
  },
  {
@@ -186,9 +186,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:54:33.709417",
+  "modified": "2023-04-07 10:01:21.996283",
   "name": "c219e9485a",
-  "sort": 14,
+  "sort": 40,
   "title": "Drink"
  },
  {
@@ -198,9 +198,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:55:46.756624",
+  "modified": "2023-04-07 10:01:15.240999",
   "name": "07857bb0d8",
-  "sort": 15,
+  "sort": 40,
   "title": "Alcohol"
  },
  {
@@ -210,9 +210,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:56:50.429644",
+  "modified": "2023-04-07 10:01:27.931552",
   "name": "65ccd571cd",
-  "sort": 16,
+  "sort": 40,
   "title": "None Alcohol"
  },
  {
@@ -222,9 +222,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:58:04.993462",
+  "modified": "2023-04-07 10:01:33.302754",
   "name": "cc75ca52ec",
-  "sort": 17,
+  "sort": 40,
   "title": "Other"
  },
  {
@@ -234,9 +234,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 11:59:34.644857",
+  "modified": "2023-04-07 09:03:49.843744",
   "name": "56e56f35d8",
-  "sort": 18,
+  "sort": 4,
   "title": "Normal Rate"
  },
  {
@@ -246,9 +246,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 12:02:01.428609",
+  "modified": "2023-04-07 10:02:04.262172",
   "name": "c0c764d7ea",
-  "sort": 19,
+  "sort": 50,
   "title": "Starter"
  },
  {
@@ -258,9 +258,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 12:03:25.103777",
+  "modified": "2023-04-07 10:02:17.132469",
   "name": "317faf7db2",
-  "sort": 20,
+  "sort": 50,
   "title": "Main Course"
  },
  {
@@ -270,9 +270,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 12:05:52.280523",
+  "modified": "2023-04-07 10:02:10.825506",
   "name": "522c3ab4e2",
-  "sort": 21,
+  "sort": 50,
   "title": "Dessert"
  },
  {
@@ -282,9 +282,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 13:59:45.247687",
+  "modified": "2023-04-07 10:02:59.672030",
   "name": "28f02d1aa2",
-  "sort": 22,
+  "sort": 60,
   "title": "Closed"
  },
  {
@@ -294,9 +294,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 13:59:53.272373",
+  "modified": "2023-04-07 10:03:05.192944",
   "name": "8d1aeafa18",
-  "sort": 23,
+  "sort": 60,
   "title": "Bill Requested"
  },
  {
@@ -306,9 +306,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:00:45.014186",
+  "modified": "2023-04-07 10:03:11.095596",
   "name": "83f292561c",
-  "sort": 24,
+  "sort": 60,
   "title": "Hold Order"
  },
  {
@@ -318,9 +318,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:00:33.876757",
+  "modified": "2023-04-07 10:03:18.651715",
   "name": "b994336a68",
-  "sort": 25,
+  "sort": 60,
   "title": "Booked"
  },
  {
@@ -330,9 +330,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 13:59:27.706894",
+  "modified": "2023-04-07 10:03:24.434974",
   "name": "cf55d637e9",
-  "sort": 26,
+  "sort": 60,
   "title": "Submitted"
  },
  {
@@ -342,9 +342,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:10:36.271333",
+  "modified": "2023-04-07 10:03:47.104982",
   "name": "2d0eebba74",
-  "sort": 27,
+  "sort": 70,
   "title": "Kitchen Printer "
  },
  {
@@ -354,9 +354,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:11:15.553121",
+  "modified": "2023-04-07 10:04:05.908462",
   "name": "650d3b055b",
-  "sort": 28,
+  "sort": 70,
   "title": "Bar Printer"
  },
  {
@@ -366,9 +366,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:16:29.779151",
+  "modified": "2023-04-07 10:09:15.207693",
   "name": "0c2de73119",
-  "sort": 29,
+  "sort": 80,
   "title": "Sale Note"
  },
  {
@@ -378,142 +378,130 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:18:56.553797",
+  "modified": "2023-04-07 10:09:26.211889",
   "name": "69bdda9247",
-  "sort": 30,
+  "sort": 80,
   "title": "Open Menu Note"
  },
  {
   "data": "{\n  \"category_note_name_en\": \"Items Note\",\n  \"category_note_name_kh\": \"Items Note\",\n  \"multiple_selected\": 1,\n  \"doctype\": \"Category Note\",\n  \"notes\": []\n}",
   "doc_name": "Items Note",
-  "doc_type": "Cashier Notes",
+  "doc_type": "Category Note",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:21:05.987295",
+  "modified": "2023-04-07 10:09:48.016730",
   "name": "2002432104",
-  "sort": 31,
+  "sort": 80,
   "title": "Items Note"
  },
  {
   "data": "{\n  \"category_note_name_en\": \"Free Item Note\",\n  \"category_note_name_kh\": \"Free Item Note\",\n  \"multiple_selected\": 0,\n  \"doctype\": \"Category Note\",\n  \"notes\": [\n    {\n      \"note\": \"Promotion\",\n      \"parent\": \"Free Item Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"VIP Customer\",\n      \"parent\": \"Free Item Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Owner\",\n      \"parent\": \"Free Item Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Management Staff\",\n      \"parent\": \"Free Item Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    }\n  ]\n}",
   "doc_name": "Free Item Note",
-  "doc_type": "Cashier Notes",
+  "doc_type": "Category Note",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:23:35.095101",
+  "modified": "2023-04-07 10:10:00.405339",
   "name": "44b686ce0e",
-  "sort": 32,
+  "sort": 80,
   "title": "Free Item Note"
  },
  {
   "data": "{\n  \"category_note_name_en\": \"Edit Closed Receipt\",\n  \"category_note_name_kh\": \"Edit Closed Receipt\",\n  \"disabled\": 0,\n  \"multiple_selected\": 0,\n  \"doctype\": \"Category Note\",\n  \"notes\": [\n    {\n      \"note\": \"Wrong Payment\",\n      \"parent\": \"Edit Closed Receipt\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Wrong Product\",\n      \"parent\": \"Edit Closed Receipt\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Guest Cancel\",\n      \"parent\": \"Edit Closed Receipt\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Cashier Error\",\n      \"parent\": \"Edit Closed Receipt\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    }\n  ]\n}",
   "doc_name": "Edit Closed Receipt",
-  "doc_type": "Cashier Notes",
+  "doc_type": "Category Note",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:26:14.543413",
+  "modified": "2023-04-07 10:10:12.330945",
   "name": "59f72e6d2d",
-  "sort": 33,
+  "sort": 80,
   "title": "Edit Closed Receipt"
  },
  {
   "data": "{\n  \"category_note_name_en\": \"Discount Sale Note\",\n  \"category_note_name_kh\": \"Discount Sale Note\",\n  \"disabled\": 0,\n  \"multiple_selected\": 0,\n  \"doctype\": \"Category Note\",\n  \"notes\": [\n    {\n      \"note\": \"Special Day\",\n      \"parent\": \"Discount Sale Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Promotion\",\n      \"parent\": \"Discount Sale Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"VIP Customer\",\n      \"parent\": \"Discount Sale Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Management Staff\",\n      \"parent\": \"Discount Sale Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Owner\",\n      \"parent\": \"Discount Sale Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    }\n  ]\n}",
   "doc_name": "Discount Sale Note",
-  "doc_type": "Cashier Notes",
+  "doc_type": "Category Note",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:27:30.740704",
+  "modified": "2023-04-07 10:10:21.011670",
   "name": "39cf956187",
-  "sort": 34,
+  "sort": 80,
   "title": "Discount Sale Note"
  },
  {
   "data": "{\n  \"category_note_name_en\": \"Discount Item Note\",\n  \"category_note_name_kh\": \"Discount Item Note\",\n  \"disabled\": 0,\n  \"multiple_selected\": 0,\n  \"doctype\": \"Category Note\",\n  \"notes\": [\n    {\n      \"note\": \"Promotion\",\n      \"parent\": \"Discount Item Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Management Staff\",\n      \"parent\": \"Discount Item Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Owner\",\n      \"parent\": \"Discount Item Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    }\n  ]\n}",
   "doc_name": "Discount Item Note",
-  "doc_type": "Cashier Notes",
+  "doc_type": "Category Note",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:31:53.257418",
+  "modified": "2023-04-07 10:10:29.927783",
   "name": "132b431884",
-  "sort": 35,
+  "sort": 80,
   "title": "Discount Item Note"
  },
  {
   "data": "{\n  \"category_note_name_en\": \"Delete Item Note\",\n  \"category_note_name_kh\": \"Delete Item Note\",\n  \"disabled\": 0,\n  \"multiple_selected\": 0,\n  \"doctype\": \"Category Note\",\n  \"notes\": [\n    {\n      \"note\": \"Guest Cancel\",\n      \"parent\": \"Delete Item Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Cashier Error\",\n      \"parent\": \"Delete Item Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Wrong Order\",\n      \"parent\": \"Delete Item Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"No Food\",\n      \"parent\": \"Delete Item Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"No Drink\",\n      \"parent\": \"Delete Item Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"No Ingredient\",\n      \"parent\": \"Delete Item Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    }\n  ]\n}",
   "doc_name": "Delete Item Note",
-  "doc_type": "Cashier Notes",
+  "doc_type": "Category Note",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:33:57.207565",
+  "modified": "2023-04-07 10:10:39.046679",
   "name": "bec2b49f8e",
-  "sort": 36,
+  "sort": 80,
   "title": "Delete Item Note"
  },
  {
   "data": "{\n  \"category_note_name_en\": \"Delete Bill Note\",\n  \"category_note_name_kh\": \"Delete Bill Note\",\n  \"disabled\": 0,\n  \"multiple_selected\": 0,\n  \"doctype\": \"Category Note\",\n  \"notes\": [\n    {\n      \"note\": \"Wrong Order\",\n      \"parent\": \"Delete Bill Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Guest Leave\",\n      \"parent\": \"Delete Bill Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Cashier Error\",\n      \"parent\": \"Delete Bill Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    }\n  ]\n}",
   "doc_name": "Delete Bill Note",
-  "doc_type": "Cashier Notes",
+  "doc_type": "Category Note",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:35:23.880847",
+  "modified": "2023-04-07 10:10:48.817598",
   "name": "03a75bf836",
-  "sort": 37,
+  "sort": 80,
   "title": "Delete Bill Note"
  },
  {
   "data": "{\n  \"category_note_name_en\": \"Change Item Price Note\",\n  \"category_note_name_kh\": \"Change Item Price Note \",\n  \"disabled\": 0,\n  \"multiple_selected\": 0,\n  \"doctype\": \"Category Note\",\n  \"notes\": [\n    {\n      \"note\": \"Wrong Price\",\n      \"parent\": \"Change Item Price Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Special Customer\",\n      \"parent\": \"Change Item Price Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"New Menu\",\n      \"parent\": \"Change Item Price Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    }\n  ]\n}",
   "doc_name": "Change Item Price Note",
-  "doc_type": "Cashier Notes",
+  "doc_type": "Category Note",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:40:54.414232",
+  "modified": "2023-04-07 10:10:58.153043",
   "name": "355ba1fbe4",
-  "sort": 38,
+  "sort": 80,
   "title": "Change Item Price Note"
  },
  {
   "data": "{\n  \"category_note_name_en\": \"Cancel Print Bill Note\",\n  \"category_note_name_kh\": \"Cancel Print Bill Note\",\n  \"disabled\": 0,\n  \"multiple_selected\": 0,\n  \"doctype\": \"Category Note\",\n  \"notes\": [\n    {\n      \"note\": \"Wrong Price\",\n      \"parent\": \"Cancel Print Bill Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Cashier Error\",\n      \"parent\": \"Cancel Print Bill Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Guest Not Leave\",\n      \"parent\": \"Cancel Print Bill Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Printer not Print\",\n      \"parent\": \"Cancel Print Bill Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Wrong Order\",\n      \"parent\": \"Cancel Print Bill Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Add item to order\",\n      \"parent\": \"Cancel Print Bill Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"To remove item from order\",\n      \"parent\": \"Cancel Print Bill Note\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    }\n  ]\n}",
   "doc_name": "Cancel Print Bill Note",
-  "doc_type": "Cashier Notes",
+  "doc_type": "Category Note",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:42:51.010212",
+  "modified": "2023-04-07 10:11:06.565673",
   "name": "4206e6dd10",
-  "sort": 39,
+  "sort": 80,
   "title": "Cancel Print Bill Note"
  },
  {
   "data": "{\n  \"category_note_name_en\": \"Cancel Order\",\n  \"category_note_name_kh\": \"Cancel Order\",\n  \"disabled\": 0,\n  \"multiple_selected\": 0,\n  \"doctype\": \"Category Note\",\n  \"notes\": [\n    {\n      \"note\": \"No Food\",\n      \"parent\": \"Cancel Order\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Guest Change Mind\",\n      \"parent\": \"Cancel Order\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Cashier Error\",\n      \"parent\": \"Cancel Order\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    },\n    {\n      \"note\": \"Guest Leave\",\n      \"parent\": \"Cancel Order\",\n      \"parentfield\": \"notes\",\n      \"parenttype\": \"Category Note\",\n      \"doctype\": \"Cashier Notes\"\n    }\n  ]\n}",
   "doc_name": "Cancel Order",
-  "doc_type": "Cashier Notes",
+  "doc_type": "Category Note",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:44:18.954263",
+  "modified": "2023-04-07 10:11:16.478945",
   "name": "50f1501866",
-  "sort": 40,
+  "sort": 80,
   "title": "Cancel Order"
- },
- {
-  "data": "{\n  \"business_branch\": \"Main Branch\",\n  \"stock_location_name\": \"Main Warehouse\",\n  \"doctype\": \"Stock Location\"\n}",
-  "doc_name": "Main Warehouse",
-  "doc_type": "Stock Location",
-  "docstatus": 0,
-  "doctype": "Predefine Data",
-  "is_single": 0,
-  "modified": "2023-04-03 14:46:47.674818",
-  "name": "27a1df8456",
-  "sort": 41,
-  "title": "Main Warehouse"
  },
  {
   "data": "{\n  \"customer_group_en\": \"General\",\n  \"customer_group_kh\": \"General\",\n  \"doctype\": \"Customer Group\"\n}",
@@ -522,9 +510,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:48:52.895214",
+  "modified": "2023-04-07 10:12:40.389734",
   "name": "5d8e91e433",
-  "sort": 42,
+  "sort": 11,
   "title": "General"
  },
  {
@@ -534,9 +522,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:51:31.059268",
+  "modified": "2023-04-07 10:14:54.169025",
   "name": "a838c822a9",
-  "sort": 43,
+  "sort": 90,
   "title": "Unit"
  },
  {
@@ -546,9 +534,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:54:07.129855",
+  "modified": "2023-04-07 10:14:59.566833",
   "name": "ae234544ff",
-  "sort": 44,
+  "sort": 90,
   "title": "Volume"
  },
  {
@@ -558,9 +546,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:55:26.871333",
+  "modified": "2023-04-07 10:15:05.007688",
   "name": "f062617007",
-  "sort": 45,
+  "sort": 90,
   "title": "Length/Distance"
  },
  {
@@ -570,9 +558,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:56:46.098821",
+  "modified": "2023-04-07 10:15:10.170190",
   "name": "96db44233e",
-  "sort": 46,
+  "sort": 90,
   "title": "Weight"
  },
  {
@@ -582,9 +570,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 14:58:44.557678",
+  "modified": "2023-04-07 10:15:15.301890",
   "name": "59883cd9fb",
-  "sort": 47,
+  "sort": 90,
   "title": "Time"
  },
  {
@@ -594,9 +582,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 15:00:50.650236",
+  "modified": "2023-04-07 10:15:34.517009",
   "name": "ea628e1cf6",
-  "sort": 48,
+  "sort": 100,
   "title": "Unit"
  },
  {
@@ -606,9 +594,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 10:54:13.581472",
+  "modified": "2023-04-07 10:17:09.594143",
   "name": "20f6d4af6d",
-  "sort": 50,
+  "sort": 200,
   "title": "Stock Take"
  },
  {
@@ -618,9 +606,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 10:54:07.223047",
+  "modified": "2023-04-07 10:17:09.704820",
   "name": "aecadd5d7e",
-  "sort": 51,
+  "sort": 200,
   "title": "Purchase Order"
  },
  {
@@ -630,9 +618,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 10:54:01.308058",
+  "modified": "2023-04-07 10:17:09.646320",
   "name": "650eee2c7b",
-  "sort": 52,
+  "sort": 200,
   "title": "Purchase Order Payment Receipt"
  },
  {
@@ -642,9 +630,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 10:53:56.079497",
+  "modified": "2023-04-07 10:17:09.604889",
   "name": "34a9e07c78",
-  "sort": 53,
+  "sort": 200,
   "title": "Stock Transfer"
  },
  {
@@ -654,9 +642,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 10:53:50.867984",
+  "modified": "2023-04-07 10:17:09.665609",
   "name": "664047321c",
-  "sort": 54,
+  "sort": 200,
   "title": "Sale Payment Receipt"
  },
  {
@@ -666,9 +654,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 10:53:46.174808",
+  "modified": "2023-04-07 10:17:09.624941",
   "name": "4bd04160cf",
-  "sort": 55,
+  "sort": 200,
   "title": "Expense"
  },
  {
@@ -678,9 +666,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 10:53:40.981544",
+  "modified": "2023-04-07 10:17:09.685030",
   "name": "6fc531b400",
-  "sort": 56,
+  "sort": 200,
   "title": "Sale Quotation Receipt"
  },
  {
@@ -690,9 +678,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 10:53:35.449095",
+  "modified": "2023-04-07 10:17:09.403822",
   "name": "0a08b7d4a4",
-  "sort": 57,
+  "sort": 200,
   "title": "Expense Payment Receipt"
  },
  {
@@ -702,9 +690,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 10:53:16.845748",
+  "modified": "2023-04-07 10:17:09.435482",
   "name": "e5e6bdf2dc",
-  "sort": 62,
+  "sort": 200,
   "title": "Close Shift Summary Report"
  },
  {
@@ -714,9 +702,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 10:53:10.695302",
+  "modified": "2023-04-07 10:17:09.495989",
   "name": "4f09bb8d16",
-  "sort": 63,
+  "sort": 200,
   "title": "Working Day Sale Transaction"
  },
  {
@@ -726,9 +714,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 10:53:04.871806",
+  "modified": "2023-04-07 10:17:09.524692",
   "name": "fa68ba541c",
-  "sort": 64,
+  "sort": 200,
   "title": "Cashier Shift Sale Transaction List"
  },
  {
@@ -738,9 +726,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 16:10:25.414690",
+  "modified": "2023-04-07 10:17:09.544777",
   "name": "8437e2c6f0",
-  "sort": 67,
+  "sort": 200,
   "title": "Cashier Shift Sale Product Summary"
  },
  {
@@ -750,21 +738,21 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 15:47:47.320906",
+  "modified": "2023-04-07 10:19:21.298791",
   "name": "5fde573a67",
-  "sort": 68,
+  "sort": 13,
   "title": "Sale Receipt"
  },
  {
-  "data": "{\n  \"naming_series\": \"0\",\n  \"customer_name_en\": \"General\",\n  \"customer_name_kh\": \"General\",\n  \"company_name\": \"General\",\n  \"customer_group\": \"General\",\n  \"date_of_birth\": \"2000-09-05\",\n  \"gender\": \"Not Set\",\n  \"disabled\": 0,\n  \"phone_number\": \"023 698 552\",\n  \"email_address\": \"general@mail.com\",\n  \"country\": \"Cambodia\",\n  \"province\": \"Phnom Penh\",\n  \"default_discount\": 0,\n  \"photo\": \"/files/girl477476.jpg\",\n  \"note\": \"\",\n  \"doctype\": \"Customer\"\n}",
+  "data": "{\n  \"naming_series\": \"0\",\n  \"customer_name_en\": \"General\",\n  \"customer_name_kh\": \"General\",\n  \"company_name\": \"General\",\n  \"customer_group\": \"General\",\n  \"date_of_birth\": \"2000-09-05\",\n  \"gender\": \"Not Set\",\n  \"disabled\": 0,\n  \"phone_number\": \"+855(0)12 345 678\",\n  \"email_address\": \"general@mail.com\",\n  \"country\": \"Cambodia\",\n  \"province\": \"Phnom Penh\",\n  \"default_discount\": 0,\n  \"photo\": \"/files/girl477476.jpg\",\n  \"note\": \"\",\n  \"doctype\": \"Customer\"\n}",
   "doc_name": "General",
   "doc_type": "Customer",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-05 14:03:05.444683",
+  "modified": "2023-04-07 10:14:05.168802",
   "name": "1da7e57008",
-  "sort": 70,
+  "sort": 12,
   "title": "General"
  },
  {
@@ -774,9 +762,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 16:13:46.491846",
+  "modified": "2023-04-07 10:17:44.531579",
   "name": "713bc0437a",
-  "sort": 71,
+  "sort": 110,
   "title": "General"
  },
  {
@@ -786,9 +774,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-03 16:16:26.658935",
+  "modified": "2023-04-07 10:17:58.733459",
   "name": "2ef868996d",
-  "sort": 72,
+  "sort": 115,
   "title": "General"
  },
  {
@@ -798,9 +786,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 08:36:08.297902",
+  "modified": "2023-04-07 09:58:33.155134",
   "name": "dead99c733",
-  "sort": 6,
+  "sort": 20,
   "title": "Cash"
  },
  {
@@ -810,9 +798,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 08:36:44.320050",
+  "modified": "2023-04-07 09:58:12.996309",
   "name": "5b914c7837",
-  "sort": 6,
+  "sort": 20,
   "title": "Bank"
  },
  {
@@ -822,9 +810,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 08:37:06.365261",
+  "modified": "2023-04-07 09:58:58.180951",
   "name": "fdc8c4804f",
-  "sort": 6,
+  "sort": 20,
   "title": "Other"
  },
  {
@@ -834,9 +822,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 08:37:28.362851",
+  "modified": "2023-04-07 09:58:22.954538",
   "name": "d020c59700",
-  "sort": 6,
+  "sort": 20,
   "title": "FOC"
  },
  {
@@ -846,9 +834,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 08:37:54.242165",
+  "modified": "2023-04-07 09:58:44.322585",
   "name": "f64cdd410c",
-  "sort": 6,
+  "sort": 20,
   "title": "On Account"
  },
  {
@@ -858,9 +846,9 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 14:30:24.428214",
+  "modified": "2023-04-07 10:17:09.476116",
   "name": "0de876afb6",
-  "sort": 63,
+  "sort": 200,
   "title": "Working Day Sale Summary"
  },
  {
@@ -870,9 +858,93 @@
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-04 14:31:28.484880",
+  "modified": "2023-04-07 10:17:09.455611",
   "name": "04353f3d1e",
-  "sort": 63,
+  "sort": 200,
   "title": "Working Day Sale Product Summary"
+ },
+ {
+  "data": "{\r\n    \"business_branch\": \"Main Branch\",\r\n    \"stock_location_name\": \"Main Warehouse\",\r\n    \"doctype\": \"Stock Location\"\r\n}",
+  "doc_name": "Main Warehouse",
+  "doc_type": "Stock Location",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 0,
+  "modified": "2023-04-07 09:03:26.903178",
+  "name": "0d439cd5ec",
+  "sort": 3,
+  "title": "Main Warehouse"
+ },
+ {
+  "data": "{\r\n    \"pos_branding_name\": \"Main POS Branding\",\r\n    \"login_background\": \"/files/loginbg.jpg\",\r\n    \"home_background\": \"/files/bannerb0378a.png\",\r\n    \"pos_sale_order_background_image\": \"/files/bgsale1aea47.jpg\",\r\n    \"thank_you_background\": \"/files/thank3931e7.jpg\",\r\n    \"thank_you_message\": \"Thank you, see you again\",\r\n    \"doctype\": \"POS Branding\",\r\n    \"customer_display_slideshow\": [\r\n        {\r\n            \"title\": \"Slideshow 1\",\r\n            \"photo\": \"/files/thank.jpg\",\r\n            \"parent\": \"Main POS Branding\",\r\n            \"parentfield\": \"customer_display_slideshow\",\r\n            \"parenttype\": \"POS Branding\",\r\n            \"doctype\": \"Customer Display Slideshow\"\r\n        },\r\n        {\r\n            \"title\": \"Slideshow 2\",\r\n            \"photo\": \"/files/loginbg.JPG\",\r\n            \"parent\": \"Main POS Branding\",\r\n            \"parentfield\": \"customer_display_slideshow\",\r\n            \"parenttype\": \"POS Branding\",\r\n            \"doctype\": \"Customer Display Slideshow\"\r\n        }\r\n    ]\r\n}",
+  "doc_name": "Main POS Branding",
+  "doc_type": "POS Branding",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 0,
+  "modified": "2023-04-07 09:43:07.777732",
+  "name": "584607e6c1",
+  "sort": 10,
+  "title": "Main POS Branding"
+ },
+ {
+  "data": "{\r\n    \"tax_rule_name\": \"Cambodia Tax\",\r\n    \"tax_1_rate\": 7,\r\n    \"percentage_of_price_to_calculate_tax_1\": 100,\r\n    \"calculate_tax_1_after_discount\": 0,\r\n    \"tax_2_rate\": 3,\r\n    \"percentage_of_price_to_calculate_tax_2\": 20,\r\n    \"calculate_tax_2_after_discount\": 0,\r\n    \"calculate_tax_2_after_adding_tax_1\": 1,\r\n    \"tax_3_rate\": 10,\r\n    \"percentage_of_price_to_calculate_tax_3\": 100,\r\n    \"calculate_tax_3_after_discount\": 0,\r\n    \"calculate_tax_3_after_adding_tax_1\": 1,\r\n    \"calculate_tax_3_after_adding_tax_2\": 1,\r\n    \"doctype\": \"Tax Rule\"\r\n}",
+  "doc_name": "Cambodia Tax",
+  "doc_type": "Tax Rule",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 0,
+  "modified": "2023-04-07 09:26:49.923663",
+  "name": "2e77f37026",
+  "sort": 5,
+  "title": "Cambodia Tax"
+ },
+ {
+  "data": "{\r\n    \"pos_menu_name_en\": \"Root Menu\",\r\n    \"pos_menu_name_kh\": \"Root Menu\",\r\n    \"lft\": 1,\r\n    \"rgt\": 6,\r\n    \"pos_menu_path\": \"Root Menu\",\r\n    \"text_color\": \"#6b6b6b\",\r\n    \"background_color\": \"#e8e6e6\",\r\n    \"is_group\": 1,\r\n    \"shortcut_menu\": 0,\r\n    \"price_rule\": \"\",\r\n    \"sort_order\": 0,\r\n    \"is_standard\": 0,\r\n    \"disabled\": 0,\r\n    \"old_parent\": \"\",\r\n    \"doctype\": \"POS Menu\"\r\n}",
+  "doc_name": "Root Menu",
+  "doc_type": "POS Menu",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 0,
+  "modified": "2023-04-07 09:30:04.568032",
+  "name": "2b6c35c7a7",
+  "sort": 6,
+  "title": "Root Menu"
+ },
+ {
+  "data": "{\r\n    \"epos_app_name\": \"ePOS 2023\",\r\n    \"tax_1_name\": \"SC\",\r\n    \"tax_2_name\": \"PL\",\r\n    \"tax_3_name\": \"VAT\",\r\n    \"changed_payment_type\": \"Cash Dollar\",\r\n    \"country\": \"Cambodia\",\r\n    \"default_table_number_background_color\": \"#4F9DD9\",\r\n    \"pos_sale_order_background_image\": \"/files/bgsale.jpg\",\r\n    \"doctype\": \"ePOS Settings\"\r\n}",
+  "doc_name": "ePOS Settings",
+  "doc_type": "ePOS Settings",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 1,
+  "modified": "2023-04-07 09:35:40.411803",
+  "name": "d1b8266d82",
+  "sort": 0,
+  "title": "ePOS Settings"
+ },
+ {
+  "data": "{\r\n    \"pos_config\": \"Main POS Config\",\r\n    \"logo\": \"/files/logo.svg\",\r\n    \"business_branch\": \"Main Branch\",\r\n    \"business_name_en\": \"Business Name\",\r\n    \"business_name_kh\": \"Business Name\",\r\n    \"address\": \"Krous Village Rd, Krong Siem Reap\",\r\n    \"address_kh\": \"Krous Village Rd, Krong Siem Reap\",\r\n    \"phone_number\": \"+855(0)12 345 678\",\r\n    \"email\": \"\",\r\n    \"website\": \"\",\r\n    \"main_currency_predefine_payment_amount\": \"5.00,10,15,20,25,30,40,50,100\",\r\n    \"second_currency_predefine_payment_amount\": \"5000,10000,20000,50000,100000\",\r\n    \"vattin_number\": \"\",\r\n    \"print_cashier_shift_summary_after_close_shift\": 0,\r\n    \"print_cashier_shift_sale_product_summary_after_close_shift\": 0,\r\n    \"print_working_day_summary_after_close_working_day\": 0,\r\n    \"print_working_day_sale_product_summary_after_close_working_day\": 0,\r\n    \"number_of_day_cashier_can_view_report\": 31,\r\n    \"close_business_day_on\": \"Current Day\",\r\n    \"alert_close_working_day_after\": \"23:59:59\",\r\n    \"delete_bill_required_password\": 0,\r\n    \"delete_bill_required_note\": 0,\r\n    \"cancel_print_bill_required_password\": 0,\r\n    \"cancel_print_bill_required_note\": 0,\r\n    \"allow_change_quantity_after_submit\": 0,\r\n    \"free_item_required_password\": 0,\r\n    \"free_item_required_note\": 0,\r\n    \"change_item_price_required_password\": 0,\r\n    \"change_item_price_required_note\": 0,\r\n    \"delete_item_required_password\": 0,\r\n    \"delete_item_required_note\": 0,\r\n    \"discount_item_required_password\": 0,\r\n    \"discount_item_required_note\": 0,\r\n    \"discount_sale_required_password\": 0,\r\n    \"discount_sale_required_note\": 0,\r\n    \"open_order_required_password\": 0,\r\n    \"change_price_rule_require_password\": 0,\r\n    \"open_cashdrawer_require_password\": 0,\r\n    \"edit_closed_receipt_required_password\": 0,\r\n    \"edit_closed_receipt_required_note\": 0,\r\n    \"start_working_day_required_password\": 0,\r\n    \"close_working_day_required_password\": 0,\r\n    \"start_cashier_shift_required_password\": 0,\r\n    \"close_cashier_shift_required_password\": 0,\r\n    \"cash_in_check_out_required_password\": 0,\r\n    \"use_guest_cover\": 0,\r\n    \"doctype\": \"POS Config\",\r\n    \"price_rules\": [\r\n        {\r\n            \"doctype\": \"POS Price Rule\",\r\n            \"price_rule\": \"Normal Rate\",\r\n            \"parent\": \"Main POS Config\",\r\n            \"parentfield\": \"price_rules\",\r\n            \"parenttype\": \"POS Config\"\r\n        }\r\n    ],\r\n    \"table_groups\": [\r\n        {\r\n            \"doctype\": \"POS Table Group\",\r\n            \"parent\": \"Main POS Config\",\r\n            \"parentfield\": \"table_groups\",\r\n            \"parenttype\": \"POS Config\",\r\n            \"table_group\": \"Main Group\"\r\n        }\r\n    ],\r\n    \"payment_type\": [\r\n        {\r\n            \"payment_type\": \"Cash Dollar\",\r\n            \"allow_cash_float\": 1,\r\n            \"exchange_rate\": 1,\r\n            \"currency\": \"USD\",\r\n            \"currency_symbol\": \"$\",\r\n            \"currency_precision\": 2,\r\n            \"is_single_payment_type\": 0,\r\n            \"is_foc\": 0,\r\n            \"required_customer\": 0,\r\n            \"parent\": \"Main POS Config\",\r\n            \"parentfield\": \"payment_type\",\r\n            \"parenttype\": \"POS Config\",\r\n            \"doctype\": \"POS Config Payment Type\"\r\n        },\r\n        {\r\n            \"payment_type\": \"Cash Riel\",\r\n            \"allow_cash_float\": 1,\r\n            \"exchange_rate\": 4000,\r\n            \"currency\": \"RIEL\",\r\n            \"currency_symbol\": \"\u17db\",\r\n            \"currency_precision\": 0,\r\n            \"is_single_payment_type\": 0,\r\n            \"is_foc\": 0,\r\n            \"required_customer\": 0,\r\n            \"parent\": \"Main POS Config\",\r\n            \"parentfield\": \"payment_type\",\r\n            \"parenttype\": \"POS Config\",\r\n            \"doctype\": \"POS Config Payment Type\"\r\n        },\r\n        {\r\n            \"payment_type\": \"ABA Dollar\",\r\n            \"allow_cash_float\": 0,\r\n            \"exchange_rate\": 1,\r\n            \"currency\": \"USD\",\r\n            \"currency_symbol\": \"$\",\r\n            \"currency_precision\": 2,\r\n            \"is_single_payment_type\": 0,\r\n            \"is_foc\": 0,\r\n            \"required_customer\": 0,\r\n            \"parent\": \"Main POS Config\",\r\n            \"parentfield\": \"payment_type\",\r\n            \"parenttype\": \"POS Config\",\r\n            \"doctype\": \"POS Config Payment Type\"\r\n        },\r\n        {\r\n            \"payment_type\": \"ABA Riel\",\r\n            \"allow_cash_float\": 0,\r\n            \"exchange_rate\": 4000,\r\n            \"currency\": \"RIEL\",\r\n            \"currency_symbol\": \"\u17db\",\r\n            \"currency_precision\": 0,\r\n            \"is_single_payment_type\": 0,\r\n            \"is_foc\": 0,\r\n            \"required_customer\": 0,\r\n            \"parent\": \"Main POS Config\",\r\n            \"parentfield\": \"payment_type\",\r\n            \"parenttype\": \"POS Config\",\r\n            \"doctype\": \"POS Config Payment Type\"\r\n        },\r\n        {\r\n            \"payment_type\": \"On Account\",\r\n            \"allow_cash_float\": 0,\r\n            \"exchange_rate\": 1,\r\n            \"currency\": \"USD\",\r\n            \"currency_symbol\": \"$\",\r\n            \"currency_precision\": 2,\r\n            \"is_single_payment_type\": 0,\r\n            \"is_foc\": 0,\r\n            \"required_customer\": 0,\r\n            \"parent\": \"Main POS Config\",\r\n            \"parentfield\": \"payment_type\",\r\n            \"parenttype\": \"POS Config\",\r\n            \"doctype\": \"POS Config Payment Type\"\r\n        },\r\n        {\r\n            \"payment_type\": \"FOC\",\r\n            \"allow_cash_float\": 0,\r\n            \"exchange_rate\": 1,\r\n            \"currency\": \"USD\",\r\n            \"currency_symbol\": \"$\",\r\n            \"currency_precision\": 2,\r\n            \"is_single_payment_type\": 1,\r\n            \"is_foc\": 1,\r\n            \"required_customer\": 1,\r\n            \"parent\": \"Main POS Config\",\r\n            \"parentfield\": \"payment_type\",\r\n            \"parenttype\": \"POS Config\",\r\n            \"doctype\": \"POS Config Payment Type\"\r\n        }\r\n    ]\r\n}",
+  "doc_name": "Main POS Config",
+  "doc_type": "POS Config",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 0,
+  "modified": "2023-04-07 09:53:17.093555",
+  "name": "1703c7f0cf",
+  "sort": 9,
+  "title": "Main POS Config"
+ },
+ {
+  "data": "{\r\n    \"business_branch\": \"Main Branch\",\r\n    \"pos_profile_name\": \"Main POS Profile\",\r\n    \"outlet\": \"Main Outlet\",\r\n    \"stock_location\": \"Main Warehouse\",\r\n    \"price_rule\": \"Normal Rate\",\r\n    \"tax_rule\": \"\",\r\n    \"default_pos_menu\": \"Root Menu\",\r\n    \"default_sale_type\": \"Dine In\",\r\n    \"pos_config\": \"Main POS Config\",\r\n    \"pos_branding\": \"Main POS Brand\",\r\n    \"default_payment_type\": \"Cash Dollar\",\r\n    \"second_currency_payment_type\": \"Cash Riel\",\r\n    \"default_customer\": \"000001\",\r\n    \"default_pos_receipt\": \"Sale Receipt\",\r\n    \"doctype\": \"POS Profile\",\r\n    \"pos_menus\": [\r\n        {\r\n            \"pos_menu\": \"Root Menu\",\r\n            \"parent\": \"Main POS Profile\",\r\n            \"parentfield\": \"pos_menus\",\r\n            \"parenttype\": \"POS Profile\",\r\n            \"doctype\": \"POS Profile Root Menu\"\r\n        }\r\n    ],\r\n    \"table_groups\": [\r\n        {\r\n            \"doctype\": \"POS Table Group\",\r\n            \"parent\": \"Main POS Profile\",\r\n            \"parentfield\": \"table_groups\",\r\n            \"parenttype\": \"POS Profile\",\r\n            \"table_group\": \"Main Group\"\r\n        }\r\n    ]\r\n}",
+  "doc_name": "Main POS Profile",
+  "doc_type": "POS Profile",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 0,
+  "modified": "2023-04-07 10:26:28.203178",
+  "name": "a7beaf6a79",
+  "sort": 35,
+  "title": "Main POS Profile"
  }
 ]

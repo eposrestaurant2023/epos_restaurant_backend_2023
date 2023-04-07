@@ -28,11 +28,16 @@ class TourBooking(Document):
 		self.balance =(self.price + self.total_additional_charge + self.total_restaurant_amount + self.total_hotel_amount)  - self.total_paid
 
 		for d in self.guides_and_drivers:
+			self.total_amount_2 = self.total_day * d.rate
+			self.total_day = date_diff(self.end_date, self.start_date)
 			if d.document_type == 'Tour Guides' and  not d.phone_number: 
-				d.phone_number = frappe.db.get_value('Tour Guides', d.name1, 'phone_number') 
+				d.phone_number = frappe.db.get_value('Tour Guides', d.name1, 'phone_number')
+				
 				
 			if d.document_type == 'Tour Guides' and  not d.spoken_language: 
 				d.spoken_language = frappe.db.get_value('Tour Guides', d.name1, 'speaking_language') 
+
+			
 		#update total amount in hotel room
 		for d in self.hotels:
 			d.total_night = date_diff(d.departure, d.arrival) 
@@ -42,6 +47,7 @@ class TourBooking(Document):
 
 		self.total_hotel_amount =   Enumerable(self.hotels).sum(lambda x: (x.total_rate or 0))
 		self.total_room_nights =   Enumerable(self.hotels).sum(lambda x: (x.total_night or 0))
+		self.total_pax1 = Enumerable(self.hotels).sum(lambda x: (x.pax or 0))
 		
 		for d in self.restaurants:
 			d.total_amount = d.pax * d.price

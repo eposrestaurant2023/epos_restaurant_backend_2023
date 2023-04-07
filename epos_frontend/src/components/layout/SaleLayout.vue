@@ -32,14 +32,12 @@
 
                 <v-menu :location="location">
                     <template v-slot:activator="{ props }">
-                        <v-avatar :image="currentUser.photo" v-bind="props"></v-avatar>
+                        <v-avatar v-if="currentUser?.photo" :image="currentUser.photo" v-bind="props"></v-avatar>
+                        <avatar v-else :name="currentUser?.full_name || 'No Name'" v-bind="props" class="cursor-pointer" size="40"></avatar>
                     </template>
                     <v-card min-width="300">
-                        <ComCurrentUserAvatar />
-                        
-
-                        <v-divider></v-divider>
-
+                        <ComCurrentUserAvatar /> 
+                        <v-divider></v-divider> 
                         <v-list density="compact">
                             <v-list-item @click="onReload()">
                                 <template v-slot:prepend class="w-12">

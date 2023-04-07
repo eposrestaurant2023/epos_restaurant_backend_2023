@@ -1,30 +1,30 @@
 
 <template>
-    <div style="height: calc(100% - 101px)">
-    <div  class="flex flex-col h-full"> 
-        <div class="overflow-auto h-full">
-            <div class="pt-2">
-                <div class="px-2 pb-2">
-                    <ComSelectCustomer  />
-                </div>
-                <ComProductSearch :small="true" />
-                <ComMenu /> 
-            </div>
-        </div>
-        <div class="bg-red-500 text-white text-sm px-2 py-1" v-ripple @click="onViewDetail">
-            <div>
-                <div class="text-xs" v-if="lastProduct">{{ lastProduct.product_code }} - {{ lastProduct.product_name }} ({{ lastProduct.quantity }})</div>
-                <div class="flex items-center justify-between">
-                    <div>total Qty</div>
-                    <div>{{ sale.sale.total_quantity }}</div>
-                </div>
-                <div class="flex items-center justify-between">
-                    <div>Total Amount</div>
-                    <div style="font-size: 24px;"><CurrencyFormat :value="sale.sale.grand_total" /></div>
+    <div style="height: calc(100% - 150px)">
+        <div  class="flex flex-col h-full"> 
+            <div class="overflow-auto h-full">
+                <div class="pt-2">
+                    <div class="px-2 pb-2">
+                        <ComSelectCustomer  />
+                    </div>
+                    <ComProductSearch :small="true" />
+                    <ComMenu /> 
                 </div>
             </div>
+            <div class="bg-red-500 text-white text-sm px-2 py-1 fixed left-0 bottom-0 right-0 h-20" v-ripple @click="onViewDetail">
+                <div>
+                    <div class="text-xs" v-if="lastProduct">{{ lastProduct.product_code }} - {{ lastProduct.product_name }} ({{ lastProduct.quantity }})</div>
+                    <div class="flex items-center justify-between">
+                        <div>total Qty</div>
+                        <div>{{ sale.sale.total_quantity }}</div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div>Total Amount</div>
+                        <div style="font-size: 24px;"><CurrencyFormat :value="sale.sale.grand_total" /></div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
     </div>
 </template>
 <script setup>

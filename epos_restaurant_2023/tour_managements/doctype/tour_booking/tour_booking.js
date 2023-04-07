@@ -35,9 +35,23 @@ frappe.ui.form.on("Tour Booking", {
         });
 
        
-    },    
-});
+    },   
 
+});
+frappe.ui.form.on('Tour Booking Hotels', {
+
+    arrival(frm,cdt, cdn) {
+        let doc = locals[cdt][cdn];
+        // doc.total_night = doc.departure - doc.arrival
+	    alert(doc.arrival)
+        frm.refresh_field('hotels');
+	},
+    // arrival: function(frm) {
+    // const to_date = frappe.datetime.add_days(frm.doc.arrival, frm.doc.total_night);
+    // frm.set_value('departure', to_date);
+    // frm.refresh_field('departure');
+    // }
+})
 
 
 function set_indicator(frm){
