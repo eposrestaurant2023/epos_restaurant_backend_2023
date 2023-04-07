@@ -18,8 +18,11 @@
   "default_pos_menu",
   "default_sale_type",
   "pos_config",
+  "pos_branding",
   "section_break_10",
   "pos_menus",
+  "table_groups_section",
+  "table_groups",
   "default_payment_type",
   "second_currency_payment_type",
   "section_break_16",
@@ -138,11 +141,28 @@
    "fieldtype": "Link",
    "label": "Second Currency Payment Type",
    "options": "Payment Type"
+  },
+  {
+   "fieldname": "pos_branding",
+   "fieldtype": "Link",
+   "label": "POS Branding",
+   "options": "POS Branding",
+   "reqd": 1
+  },
+  {
+   "fieldname": "table_groups_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "table_groups",
+   "fieldtype": "Table",
+   "label": "Table Group",
+   "options": "POS Table Group"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-05 15:00:00.829473",
+ "modified": "2023-04-06 18:13:55.484066",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Profile",

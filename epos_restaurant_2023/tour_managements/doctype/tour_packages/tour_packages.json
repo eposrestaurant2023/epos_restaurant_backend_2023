@@ -10,6 +10,7 @@
  "field_order": [
   "tour_package",
   "tour_package_title",
+  "tour_destination",
   "tour_package_type",
   "min_pax",
   "column_break_4",
@@ -20,8 +21,10 @@
   "itenaries",
   "tour_inclusions_and_exclusions_section",
   "inclusions",
+  "inclusions_detail",
   "column_break_12",
   "exclusions",
+  "exclusions_detail",
   "price_detail_tab",
   "tour_package_prices"
  ],
@@ -91,6 +94,7 @@
   {
    "fieldname": "inclusions",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Inclusions",
    "options": "Tour Package Inclusions"
   },
@@ -101,6 +105,7 @@
   {
    "fieldname": "exclusions",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Exclusions",
    "options": "Tour Package Exclusions"
   },
@@ -114,11 +119,26 @@
    "fieldname": "tour_package_prices",
    "fieldtype": "Table",
    "options": "Tour Package Prices"
+  },
+  {
+   "fieldname": "tour_destination",
+   "fieldtype": "Data",
+   "label": "Tour Destination"
+  },
+  {
+   "fieldname": "inclusions_detail",
+   "fieldtype": "Text Editor",
+   "label": "Inclusions Detail"
+  },
+  {
+   "fieldname": "exclusions_detail",
+   "fieldtype": "Text Editor",
+   "label": "Exclusions Detail"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-03 20:30:56.319052",
+ "modified": "2023-04-06 17:07:51.659625",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Packages",

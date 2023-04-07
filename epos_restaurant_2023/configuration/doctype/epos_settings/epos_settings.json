@@ -8,29 +8,14 @@
  "field_order": [
   "epos_app_name",
   "epos_logo",
-  "company_name",
-  "address",
-  "phone_number",
   "section_break_6",
-  "use_tax_1",
   "tax_1_name",
-  "use_tax_2",
   "tax_2_name",
-  "use_tax_3",
   "tax_3_name",
   "changed_payment_type",
-  "price_rule",
   "country",
   "default_table_number_background_color",
-  "use_guest_cover",
-  "print_cashier_shift_summary_after_close_shift",
-  "print_cashier_shift_sale_product_summary_after_close_shift",
-  "print_working_day_summary_after_close_working_day",
-  "print_working_day_sale_product_summary_after_close_working_day",
-  "pos_sale_order_background_image",
-  "number_of_day_cashier_can_view_report",
-  "close_business_day_on",
-  "alert_close_working_day_after"
+  "pos_sale_order_background_image"
  ],
  "fields": [
   {
@@ -55,49 +40,10 @@
    "options": "Payment Type"
   },
   {
-   "default": "0",
-   "fieldname": "use_tax_1",
-   "fieldtype": "Check",
-   "label": "Use Tax 1"
-  },
-  {
-   "default": "0",
-   "fieldname": "use_tax_2",
-   "fieldtype": "Check",
-   "label": "Use Tax 2"
-  },
-  {
-   "default": "0",
-   "fieldname": "use_tax_3",
-   "fieldtype": "Check",
-   "label": "Use Tax 3"
-  },
-  {
-   "fieldname": "price_rule",
-   "fieldtype": "Link",
-   "label": "Default Price Rule",
-   "options": "Price Rule"
-  },
-  {
    "fieldname": "country",
    "fieldtype": "Link",
    "label": "Default Country",
    "options": "Country"
-  },
-  {
-   "fieldname": "company_name",
-   "fieldtype": "Data",
-   "label": "Company Name"
-  },
-  {
-   "fieldname": "address",
-   "fieldtype": "Small Text",
-   "label": "Address"
-  },
-  {
-   "fieldname": "phone_number",
-   "fieldtype": "Data",
-   "label": "Phone Number"
   },
   {
    "fieldname": "section_break_6",
@@ -120,56 +66,9 @@
    "label": "Default Table Number Background Color"
   },
   {
-   "default": "1",
-   "fieldname": "use_guest_cover",
-   "fieldtype": "Check",
-   "label": "Use Guest Cover"
-  },
-  {
-   "default": "1",
-   "fieldname": "print_cashier_shift_summary_after_close_shift",
-   "fieldtype": "Check",
-   "label": "Print Cashier Shift Summary after Close Shift"
-  },
-  {
-   "default": "1",
-   "fieldname": "print_cashier_shift_sale_product_summary_after_close_shift",
-   "fieldtype": "Check",
-   "label": "Print Cashier Shift Sale Product Summary after Close Shift"
-  },
-  {
    "fieldname": "pos_sale_order_background_image",
    "fieldtype": "Attach Image",
    "label": "POS Sale Order Background Image"
-  },
-  {
-   "default": "0",
-   "fieldname": "number_of_day_cashier_can_view_report",
-   "fieldtype": "Int",
-   "label": "Number of Day Cashier Can View Report"
-  },
-  {
-   "default": "0",
-   "fieldname": "print_working_day_summary_after_close_working_day",
-   "fieldtype": "Check",
-   "label": "Print working day summary after close working day"
-  },
-  {
-   "default": "0",
-   "fieldname": "print_working_day_sale_product_summary_after_close_working_day",
-   "fieldtype": "Check",
-   "label": "Print working day sale product summary after close working day"
-  },
-  {
-   "fieldname": "close_business_day_on",
-   "fieldtype": "Select",
-   "label": "Close Business Day On",
-   "options": "Current Day\nNext Day"
-  },
-  {
-   "fieldname": "alert_close_working_day_after",
-   "fieldtype": "Time",
-   "label": "Alert Close Working Day After"
   }
  ],
  "image_field": "epos_logo",
@@ -177,7 +76,7 @@
  "issingle": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-03-24 14:44:36.218477",
+ "modified": "2023-04-06 17:41:26.681619",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "ePOS Settings",

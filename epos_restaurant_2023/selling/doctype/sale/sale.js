@@ -8,6 +8,7 @@ frappe.ui.form.on("Sale", {
 			frm.dashboard.add_indicator(__("Total Quantity: {0}",[frm.doc.total_quantity]) ,"blue");
 			frm.dashboard.add_indicator(__("Grand Total: {0}",[format_currency(frm.doc.grand_total)]) ,"blue");
 			frm.dashboard.add_indicator(__("Paid: {0}",[format_currency(frm.doc.total_paid)]) ,"green");
+			if (frm.doc.changed_amount>0) frm.dashboard.add_indicator(__("Changed: {0}",[format_currency(frm.doc.changed_amount)]) ,"green");
 			frm.dashboard.add_indicator(__("Balance: {0}",[format_currency(frm.doc.balance)]) ,"blue");
 		}
 	},

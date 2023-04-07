@@ -1,0 +1,94 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:pos_branding_name",
+ "creation": "2023-04-06 17:53:26.674482",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "pos_branding_name",
+  "login_background",
+  "home_background",
+  "pos_sale_order_background_image",
+  "column_break_15",
+  "thank_you_background",
+  "thank_you_message",
+  "customer_display_slideshow_section",
+  "customer_display_slideshow"
+ ],
+ "fields": [
+  {
+   "fieldname": "pos_branding_name",
+   "fieldtype": "Data",
+   "label": "POS Branding Name",
+   "unique": 1
+  },
+  {
+   "fieldname": "login_background",
+   "fieldtype": "Attach Image",
+   "label": "Login Background"
+  },
+  {
+   "fieldname": "home_background",
+   "fieldtype": "Attach Image",
+   "label": "Home Background"
+  },
+  {
+   "fieldname": "pos_sale_order_background_image",
+   "fieldtype": "Attach Image",
+   "label": "POS Sale Order Background Image"
+  },
+  {
+   "fieldname": "column_break_15",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "thank_you_background",
+   "fieldtype": "Attach Image",
+   "label": "Thank You Background"
+  },
+  {
+   "fieldname": "thank_you_message",
+   "fieldtype": "Data",
+   "label": "Thank you message"
+  },
+  {
+   "fieldname": "customer_display_slideshow_section",
+   "fieldtype": "Section Break",
+   "label": "Customer Display Slideshow"
+  },
+  {
+   "fieldname": "customer_display_slideshow",
+   "fieldtype": "Table",
+   "label": "Customer Display Slideshow",
+   "options": "Customer Display Slideshow"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-04-06 17:53:26.674482",
+ "modified_by": "Administrator",
+ "module": "Selling",
+ "name": "POS Branding",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

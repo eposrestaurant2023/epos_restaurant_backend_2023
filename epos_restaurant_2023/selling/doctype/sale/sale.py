@@ -46,7 +46,7 @@ class Sale(Document):
 			if frappe.get_value("Stock Location",self.stock_location,"business_branch") != self.business_branch:
 				frappe.throw(_("The stock location {} is not belong to business branch {}".format(self.stock_location, self.business_branch)))
 		
-		#validate exhcange rate
+		#validate exhcange ratefchangef
 		exchange_rate =frappe.get_last_doc('Currency Exchange', filters={"to_currency": frappe.db.get_default("second_currency")})# frappe.get_last_doc("Currency Exchange",{})
 		if exchange_rate:
 			self.exchange_rate = exchange_rate.exchange_rate
@@ -259,7 +259,7 @@ def add_payment_to_sale_payment(self):
 					"pos_profile":self.pos_profile,
 					"working_day":self.working_day,
 					"cashier_shift":self.cashier_shift,
-					"not": "Changed amount in sale order {}".format(self.name)
+					"note": "Changed amount in sale order {}".format(self.name)
 				})
 			doc.insert()
 		

@@ -29,14 +29,14 @@
   "table_groups",
   "price_rules_section",
   "price_rules",
-  "pos_branding_tab",
-  "login_background",
-  "home_background",
-  "column_break_15",
-  "thank_you_background",
-  "thank_you_message",
-  "customer_display_slideshow_section",
-  "customer_display_slideshow",
+  "operation_tab",
+  "print_cashier_shift_summary_after_close_shift",
+  "print_cashier_shift_sale_product_summary_after_close_shift",
+  "print_working_day_summary_after_close_working_day",
+  "print_working_day_sale_product_summary_after_close_working_day",
+  "number_of_day_cashier_can_view_report",
+  "close_business_day_on",
+  "alert_close_working_day_after",
   "permission_and_note_tab",
   "delete_bill_required_password",
   "column_break_17",
@@ -85,7 +85,8 @@
   "section_break_68",
   "close_cashier_shift_required_password",
   "section_break_70",
-  "cash_in_check_out_required_password"
+  "cash_in_check_out_required_password",
+  "use_guest_cover"
  ],
  "fields": [
   {
@@ -114,36 +115,10 @@
    "label": "Phone Number"
   },
   {
-   "fieldname": "login_background",
-   "fieldtype": "Attach Image",
-   "label": "Login Background"
-  },
-  {
-   "fieldname": "home_background",
-   "fieldtype": "Attach Image",
-   "label": "Home Background"
-  },
-  {
-   "fieldname": "thank_you_background",
-   "fieldtype": "Attach Image",
-   "label": "Thank You Background"
-  },
-  {
-   "fieldname": "customer_display_slideshow_section",
-   "fieldtype": "Section Break",
-   "label": "Customer Display Slideshow"
-  },
-  {
    "fieldname": "business_branch",
    "fieldtype": "Link",
    "label": "Business Branch",
    "options": "Business Branch"
-  },
-  {
-   "fieldname": "customer_display_slideshow",
-   "fieldtype": "Table",
-   "label": "Customer Display Slideshow",
-   "options": "Customer Display Slideshow"
   },
   {
    "fieldname": "business_name_kh",
@@ -159,11 +134,6 @@
    "fieldname": "business_name_en",
    "fieldtype": "Data",
    "label": "Business Name En"
-  },
-  {
-   "fieldname": "thank_you_message",
-   "fieldtype": "Data",
-   "label": "Thank you message"
   },
   {
    "fieldname": "permission_and_note_tab",
@@ -323,15 +293,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "pos_branding_tab",
-   "fieldtype": "Tab Break",
-   "label": "POS Branding"
-  },
-  {
-   "fieldname": "column_break_15",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "table_groups_section",
    "fieldtype": "Section Break",
    "label": "Table Groups"
@@ -488,12 +449,64 @@
    "label": "Payment Type",
    "options": "POS Config Payment Type",
    "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "use_guest_cover",
+   "fieldtype": "Check",
+   "label": "Use Guest Cover"
+  },
+  {
+   "fieldname": "operation_tab",
+   "fieldtype": "Tab Break",
+   "label": "Operation"
+  },
+  {
+   "default": "1",
+   "fieldname": "print_cashier_shift_summary_after_close_shift",
+   "fieldtype": "Check",
+   "label": "Print Cashier Shift Summary After Close Shift"
+  },
+  {
+   "default": "1",
+   "fieldname": "print_cashier_shift_sale_product_summary_after_close_shift",
+   "fieldtype": "Check",
+   "label": "Print Cashier Shift Sale Product Summary after Close Shift"
+  },
+  {
+   "default": "0",
+   "fieldname": "print_working_day_summary_after_close_working_day",
+   "fieldtype": "Check",
+   "label": "Print Working Day Summary After Close Working Day"
+  },
+  {
+   "default": "0",
+   "fieldname": "print_working_day_sale_product_summary_after_close_working_day",
+   "fieldtype": "Check",
+   "label": "Print Working Day Sale Product Summary After Close Working Day"
+  },
+  {
+   "default": "0",
+   "fieldname": "number_of_day_cashier_can_view_report",
+   "fieldtype": "Int",
+   "label": "Number of Day Cashier Can View Report"
+  },
+  {
+   "fieldname": "close_business_day_on",
+   "fieldtype": "Select",
+   "label": "Close Business Day On",
+   "options": "Current Day\nNext Day"
+  },
+  {
+   "fieldname": "alert_close_working_day_after",
+   "fieldtype": "Time",
+   "label": "Alert Close Working Day After"
   }
  ],
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-05 14:59:48.519108",
+ "modified": "2023-04-06 18:06:42.546839",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Config",

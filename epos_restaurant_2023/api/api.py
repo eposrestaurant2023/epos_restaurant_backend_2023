@@ -33,10 +33,11 @@ def get_system_settings(pos_profile="", device_name=''):
     
     profile = frappe.get_doc("POS Profile",pos_profile)
     pos_config = frappe.get_doc("POS Config",profile.pos_config)
+    pos_branding = frappe.get_doc("POS Branding", profile.pos_branding)
     
     doc = frappe.get_doc('ePOS Settings')
     table_groups = []
-    for g in pos_config.table_groups:
+    for g in profile.table_groups:
         
         table_groups.append({"key":g.table_group.lower().replace(" ","_"),"table_group":g.table_group,"background":frappe.get_value("Table Group",g.table_group,"photo"),"tables":get_tables_number(g.table_group, device_name),"search_table_keyword":""})
     pos_menus = []
@@ -85,7 +86,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "tax_2_name":doc.tax_2_name,
         "tax_3_name":doc.tax_3_name,
 
-        "thank_you_message":pos_config.thank_you_message,
+        "thank_you_message":pos_branding.thank_you_message,
         "cancel_print_bill_required_password":pos_config.cancel_print_bill_required_password,
         "cancel_print_bill_required_note":pos_config.cancel_print_bill_required_note,
         "free_item_required_password":pos_config.free_item_required_password,
@@ -145,14 +146,14 @@ def get_system_settings(pos_profile="", device_name=''):
         "phone_number":pos_config.phone_number,
         "pos_profile":pos_profile,
         "outlet":profile.outlet,
-        "close_business_day_on":doc.close_business_day_on,
-        "alert_close_working_day_after":doc.alert_close_working_day_after,
+        "close_business_day_on":pos_config.close_business_day_on,
+        "alert_close_working_day_after":pos_config.alert_close_working_day_after,
         "price_rule":profile.price_rule,
         "stock_location":profile.stock_location,
         "tax_rule":profile.tax_rule,
-        "login_background":pos_config.login_background,
-        "home_background":pos_config.home_background,
-        "thank_you_background":pos_config.thank_you_background,
+        "login_background":pos_branding.login_background,
+        "home_background":pos_branding.home_background,
+        "thank_you_background":pos_branding.thank_you_background,
         "table_groups":table_groups,
         "pos_menus":pos_menus,
         "default_pos_menu":profile.default_pos_menu,
@@ -160,13 +161,13 @@ def get_system_settings(pos_profile="", device_name=''):
         "tax_1_name":doc.tax_1_name,
         "tax_2_name":doc.tax_2_name,
         "tax_3_name":doc.tax_3_name,
-        "use_guest_cover":doc.use_guest_cover,
+        "use_guest_cover":pos_config.use_guest_cover,
         "sale_status":frappe.db.sql("select name,background_color from `tabSale Status`", as_dict=1),
-        "print_cashier_shift_summary_after_close_shift":doc.print_cashier_shift_summary_after_close_shift,
-        "print_cashier_shift_sale_product_summary_after_close_shift":doc.print_cashier_shift_sale_product_summary_after_close_shift,
-        "print_working_day_summary_after_close_working_day":doc.print_working_day_summary_after_close_working_day,
-        "print_working_day_sale_product_summary_after_close_working_day":doc.print_working_day_sale_product_summary_after_close_working_day,
-        "pos_sale_order_background_image":doc.pos_sale_order_background_image,
+        "print_cashier_shift_summary_after_close_shift":pos_config.print_cashier_shift_summary_after_close_shift,
+        "print_cashier_shift_sale_product_summary_after_close_shift":pos_config.print_cashier_shift_sale_product_summary_after_close_shift,
+        "print_working_day_summary_after_close_working_day":pos_config.print_working_day_summary_after_close_working_day,
+        "print_working_day_sale_product_summary_after_close_working_day":pos_config.print_working_day_sale_product_summary_after_close_working_day,
+        "pos_sale_order_background_image":pos_branding.pos_sale_order_background_image,
         "currencies":currencies,
         "default_currency":frappe.db.get_default("currency"),
         "pos_setting":pos_setting,
