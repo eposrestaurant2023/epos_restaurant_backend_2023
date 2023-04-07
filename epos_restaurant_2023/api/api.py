@@ -15,7 +15,7 @@ def check_username(pin_code):
             return {"username":data[0]["name"],"full_name":data[0]["full_name"],"permission":permission} 
         
     frappe.throw(_("Invalid pin code"))
- 
+
 @frappe.whitelist(allow_guest=True)
 def get_user_info(name):
     data = frappe.db.sql("select name,full_name,pos_user_permission from `tabUser` where name='{}'".format(name),as_dict=1)
