@@ -7,6 +7,7 @@ from py_linq import Enumerable
 from datetime import datetime
 class TourBooking(Document):
 	def validate(self):
+		self.total_pax = self.total_pax or 1
 		# calculate date total day
 		
 		self.duration = date_diff(self.end_date, self.start_date) + 1
@@ -67,7 +68,7 @@ def date_diff(end_date, start_date):
 	return delta.days
 
 def get_tour_package_price(self):
-	data = frappe.db.sql("select coalesce(max(price),0) as price from `tabTour Package Prices` where parent='{}' and number_of_person = {}".format(self.tour_package,self.total_pax), as_dict=1)
+	data = frappe.db.sql("select coalesce(max(price),0) as price from `tabTour Package Prices` where parent='{}' and number_of_person = {}".format(self.tour_package,self.total_pax or 1), as_dict=1)
 	if data:
 		return data[0]["price"]
 	return self.price 
