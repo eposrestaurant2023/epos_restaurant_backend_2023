@@ -1,0 +1,54 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2023-04-07 14:31:06.978746",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "night",
+  "three_star",
+  "four_star",
+  "five_start"
+ ],
+ "fields": [
+  {
+   "fieldname": "night",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Night",
+   "reqd": 1
+  },
+  {
+   "fieldname": "three_star",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "3 Star"
+  },
+  {
+   "fieldname": "four_star",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "4 Star"
+  },
+  {
+   "fieldname": "five_start",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "5 Star"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-04-07 14:31:06.978746",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Tour Package Hotel Price",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

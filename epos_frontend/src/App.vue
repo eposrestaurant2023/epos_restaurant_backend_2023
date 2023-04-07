@@ -11,7 +11,7 @@
 	</v-sheet>
 </template>
 <script setup>
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute, routeLocationKey } from 'vue-router'
 import MainLayout from './components/layout/MainLayout.vue';
 import BlankLayout from './components/layout/BlankLayout.vue';
 import SplashScreen from './components/SplashScreen.vue';
@@ -137,12 +137,15 @@ if (current_user?.name) {
 		cache: "get_current_login_user",
 		auto: true,
 		onSuccess(doc) { 
-			console.log(doc)
-			current_user.permission = doc.permission;
-			current_user.full_name = doc.full_name;
-
-			localStorage.setItem("current_user", JSON.stringify(current_user));
-
+			if(doc.allow_login_to_pos){
+				current_user.permission = doc.permission;
+				current_user.full_name = doc.full_name;
+				current_user.photo = doc.photo;
+				current_user.role = doc.role;
+				localStorage.setItem("current_user", JSON.stringify(current_user));
+			}else{
+				router.push({name:'Login'})
+			}
 		}
 	})
  

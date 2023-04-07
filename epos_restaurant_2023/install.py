@@ -144,22 +144,19 @@ def reset_sale_transaction():
                     for f in formats.split("\n"):
                         for n in range(2022, 2030):
                             format_text = replace_format(f,str(n))                            
-                            frappe.db.sql("update `tabSeries` set current=  0 where name='{}'".format(format_text) )
-        
+                            frappe.db.sql("update `tabSeries` set current=  0 where name='{}'".format(format_text) )       
 
         frappe.db.commit()
 
-        return "Done"
+        return {"You was reset sale transaction."}
     else:
-        return "Please login as administrator"
+        return {"Please contact to system's Administrator for reset sale transaction.(Permission denied)"}
 
 ## END RESET SALE TRANSACTION
 
 ## RESET DATABASE Method
 @frappe.whitelist()
 def reset_database():
-    #step 1 reset sale transaction
-    reset_sale_transaction()
     #step 2 reset data
     reset_data()
     #step 3 create predefine data
@@ -170,7 +167,10 @@ def reset_database():
 ## RESET DATA Method
 @frappe.whitelist()
 def reset_data():
-    if frappe.session.user == 'Administrator':
+    if frappe.session.user == 'Administrator':        
+        #step 1 reset sale transaction
+        reset_sale_transaction()
+
         # update 
         frappe.db.sql("update `tabSeries` set current = 0")
         frappe.db.sql("update `tabLanguage` set enabled =0 where name not in ('kh','en')")
@@ -242,6 +242,7 @@ def reset_data():
         frappe.db.sql("delete from `tabCategory Note`")
         frappe.db.sql("delete from `tabPOS Profile`")
         frappe.db.sql("delete from `tabPOS Config`")
+
         # frappe.db.sql("delete from `tabPOS Profile Table Group`")
         # frappe.db.sql("delete from `tabRestaurant Table`")
         frappe.db.sql("delete from `tabBusiness Branch`")
@@ -252,8 +253,9 @@ def reset_data():
         frappe.db.sql("update `tabCurrency` set enabled = 1, name='RIEL', currency_name='RIEL'  where name='KHR'")
 
         frappe.db.commit()
-        return {"All Data was deleted"}
-
+        return {"You was cleared all data and configuration."}
+    else:
+        return {"Please contact to system's Administrator for reset sale transaction.(Permission denied)"}
 ## END RESET DATA Method
 
 ## CREATE PREDEFINE DATA Method
@@ -271,6 +273,9 @@ def create_predefine_data():
               doc = frappe.get_doc(json.loads(d.data))  
               doc.save()
               frappe.db.commit()
+        return {"You was reset system to new setup."}
+    else:
+        return {"Please contact to system's Administrator for reset sale transaction.(Permission denied)"}
         
 ## END CREATE PREDEFINE DATA Method
 
