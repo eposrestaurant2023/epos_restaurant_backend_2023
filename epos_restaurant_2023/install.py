@@ -8,6 +8,7 @@ from frappe.utils import cstr
 import asyncio
 from frappe import conf
 
+
 def after_install():
     # ceate table group
     if not frappe.db.exists("Table Group", "Main Group"):
@@ -306,3 +307,9 @@ def get_server_name():
     server_name = socket.gethostname()
     return server_name
 
+@frappe.whitelist()
+def my_test():
+    if frappe.local.request.method == "POST":
+        return "Yes"
+    else:
+        return({'message': 'Not Allowed Method'}), 405

@@ -13,6 +13,7 @@
   "booking_date",
   "arrival_date",
   "departure_date",
+  "total_nights",
   "column_break_4",
   "pax",
   "adult",
@@ -28,8 +29,15 @@
   "market_source",
   "market_segment",
   "booking_room_section",
+  "room_types",
+  "section_break_23",
   "total_rooms",
-  "total_room_night"
+  "column_break_24",
+  "total_room_night",
+  "column_break_27",
+  "total_amount",
+  "additional_guest_tab",
+  "additional_guest"
  ],
  "fields": [
   {
@@ -137,12 +145,16 @@
   {
    "fieldname": "total_rooms",
    "fieldtype": "Int",
-   "label": "Total Rooms"
+   "in_list_view": 1,
+   "label": "Total Rooms",
+   "read_only": 1
   },
   {
    "fieldname": "total_room_night",
    "fieldtype": "Int",
-   "label": "Total Room Night"
+   "in_list_view": 1,
+   "label": "Total Room Night",
+   "read_only": 1
   },
   {
    "fieldname": "pax",
@@ -158,11 +170,52 @@
    "fieldname": "child",
    "fieldtype": "Int",
    "label": "Child"
+  },
+  {
+   "fieldname": "total_nights",
+   "fieldtype": "Int",
+   "label": "Total Nights",
+   "read_only": 1
+  },
+  {
+   "fieldname": "room_types",
+   "fieldtype": "Table",
+   "label": "Room Types",
+   "options": "Hotel Booking Room Type"
+  },
+  {
+   "fieldname": "column_break_24",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_23",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_27",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "additional_guest_tab",
+   "fieldtype": "Tab Break",
+   "label": "Additional Guest"
+  },
+  {
+   "fieldname": "additional_guest",
+   "fieldtype": "Table",
+   "options": "Tour Booking Additional Guest"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-07 08:54:12.194655",
+ "modified": "2023-04-07 16:05:10.148472",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Hotel Booking",
@@ -178,6 +231,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Tour Manager",
    "share": 1,
    "write": 1
   }
