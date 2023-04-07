@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Tour Tourmanagement</span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Booking\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Package\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Profile\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Guides\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Drivers\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Feedback\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hotels\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Restaurants\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transportation Company\",\"col\":3}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Setup\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Other Setting\",\"col\":4}}]",
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Tour Tourmanagement</span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Booking\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hotel Booking\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Package\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Profile\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Guides\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Drivers\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Feedback\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hotels\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Restaurants\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transportation Company\",\"col\":3}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Setup\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Other Setting\",\"col\":4}}]",
  "creation": "2023-03-28 23:47:31.207430",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -117,7 +117,7 @@
    "type": "Link"
   }
  ],
- "modified": "2023-04-07 09:47:20.395976",
+ "modified": "2023-04-07 15:38:19.520677",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Management",
@@ -195,6 +195,14 @@
    "doc_view": "List",
    "label": "Tour Guides",
    "link_to": "Tour Guides",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Hotel Booking",
+   "link_to": "Hotel Booking",
+   "stats_filter": "{\"name\":[\"is\",\"set\"]}",
    "type": "DocType"
   }
  ],

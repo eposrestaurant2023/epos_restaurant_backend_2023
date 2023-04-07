@@ -121,7 +121,7 @@ async def run_bench_command(command, kwargs=None):
     subprocess.run(command, input=cmd_input, capture_output=True)
 
 ## RESET SALE TRANSACTION
-@frappe.whitelist(methods="POST")
+@frappe.whitelist()
 def reset_sale_transaction():
     # backupd db first
     run_backup_command()
@@ -161,7 +161,7 @@ def reset_sale_transaction():
 ## END RESET SALE TRANSACTION
 
 ## RESET DATABASE Method
-@frappe.whitelist(methods="POST")
+@frappe.whitelist()
 def reset_database():
     if frappe.local.request.method == "POST":
         if frappe.session.user == 'Administrator':
@@ -178,7 +178,7 @@ def reset_database():
 ## END RESET DATABASE
 
 ## RESET DATA Method
-@frappe.whitelist(methods="POST")
+@frappe.whitelist()
 def reset_data():
     if frappe.local.request.method == "POST":
         if frappe.session.user == 'Administrator':        
@@ -277,7 +277,7 @@ def reset_data():
 ## END RESET DATA Method
 
 ## CREATE PREDEFINE DATA Method
-@frappe.whitelist(methods="POST")
+@frappe.whitelist()
 def create_predefine_data(): 
     if frappe.local.request.method == "POST":
         if frappe.session.user == 'Administrator':

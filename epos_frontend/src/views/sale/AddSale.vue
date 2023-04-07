@@ -93,6 +93,7 @@ onMounted(() => {
                 sale.newSale();
             }
         }
+       
     }
  
     //check working day and cashier shift
@@ -141,13 +142,15 @@ onMounted(() => {
                         router.push({ name: 'Home' });
                     }
                 }
-
+                socket.emit("ShowOrderInCustomerDisplay",sale.sale);
                 sale.getTableSaleList();
             }
         });
     }else{
         sale.getTableSaleList()
     }
+    socket.emit("ShowOrderInCustomerDisplay",sale.sale);
+    
 })
 
 onBeforeRouteLeave(() => {

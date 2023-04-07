@@ -1,6 +1,12 @@
 <template>
     
-{{ sale }}
+
+<ul class="bg-violet-950">
+    <li v-for="(p, index) in sale.sale_products" :key="index">
+        {{ p.product_code }} - {{ p.product_name }}
+    </li>
+</ul>
+{{ sale.sale_products }}
 </template>
 <script setup>
     import { inject } from '@/plugin';
