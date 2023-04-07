@@ -241,6 +241,7 @@ def reset_data():
         frappe.db.sql("delete from `tabCashier Notes`")
         frappe.db.sql("delete from `tabCategory Note`")
         frappe.db.sql("delete from `tabPOS Profile`")
+        frappe.db.sql("delete from `tabPOS Config`")
         # frappe.db.sql("delete from `tabPOS Profile Table Group`")
         # frappe.db.sql("delete from `tabRestaurant Table`")
         frappe.db.sql("delete from `tabBusiness Branch`")
@@ -251,6 +252,7 @@ def reset_data():
         frappe.db.sql("update `tabCurrency` set enabled = 1, name='RIEL', currency_name='RIEL'  where name='KHR'")
 
         frappe.db.commit()
+        return {"All Data was deleted"}
 
 ## END RESET DATA Method
 

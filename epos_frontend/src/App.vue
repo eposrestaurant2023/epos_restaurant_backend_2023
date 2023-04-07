@@ -126,8 +126,9 @@ if (!localStorage.getItem("pos_profile")) {
 
 //get user info 
 let current_user = localStorage.getItem('current_user')
-if (current_user) {
-	current_user = JSON.parse(current_user)
+current_user = current_user ? JSON.parse(current_user) : null
+if (current_user?.name) {
+	 
 	createResource({
 		url: 'epos_restaurant_2023.api.api.get_user_info',
 		params: {
@@ -136,12 +137,16 @@ if (current_user) {
 		cache: "get_current_login_user",
 		auto: true,
 		onSuccess(doc) { 
+			console.log(doc)
 			current_user.permission = doc.permission;
 			current_user.full_name = doc.full_name;
+
 			localStorage.setItem("current_user", JSON.stringify(current_user));
 
 		}
 	})
+ 
+	
 }else{
 	router.push({name:'Login'})
 }
