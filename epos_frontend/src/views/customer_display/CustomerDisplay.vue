@@ -1,5 +1,5 @@
 <template>
-    <div class="wrap">
+    <div class="h-100vh bg-black">
         <v-row class="h-100vh">
             <v-col class="h-full bg-red-600" cols="hide" xs="12" sm="8" md="8" lg="8" xl="8">
                 <v-carousel show-arrows="hover">

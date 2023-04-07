@@ -9,13 +9,17 @@
   "transportation_company",
   "vehicle_type",
   "plate_number",
+  "number_of_seat",
   "model",
+  "column_break_6",
   "from_date",
   "to_date",
-  "number_of_seat",
+  "total_day",
+  "rate",
+  "total_amount",
+  "driver_information_column",
   "driver_name",
   "phone_number",
-  "rate",
   "note"
  ],
  "fields": [
@@ -85,12 +89,32 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Rate"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_day",
+   "fieldtype": "Int",
+   "label": "Total Day"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "driver_information_column",
+   "fieldtype": "Column Break",
+   "label": "Driver Information"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-05 18:39:22.056544",
+ "modified": "2023-04-07 16:07:13.588198",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking Transportations",
