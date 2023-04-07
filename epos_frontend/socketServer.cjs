@@ -26,6 +26,11 @@ io.on('connection', (socket) => {
   })
 
 
+  socket.on("ShowOrderInCustomerDisplay",(arg)=>{
+    io.emit("ShowOrderInCustomerDisplay",arg)
+  })
+
+
 });
 
 

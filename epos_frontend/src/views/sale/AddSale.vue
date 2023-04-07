@@ -53,6 +53,7 @@ const { mobile } = useDisplay()
 
 const sale = inject("$sale")
 const gv = inject("$gv")
+const socket = inject("$socket")
 
 const product = inject("$product")
 let openSearch = ref(false)
@@ -169,7 +170,8 @@ onUnmounted(() => {
     sale.newSaleResource = null;
     sale.saleResource = null;
     sale.tableSaleListResource = null;
-
+    
+    socket.emit("ShowOrderInCustomerDisplay",{});
 
 })
 

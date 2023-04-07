@@ -103,6 +103,7 @@ def run_backup_command():
 
     asyncio.run(run_bench_command("bench --site " + site_name + " backup --with-files"))
 
+
 async def run_bench_command(command, kwargs=None):
     site = {"site": frappe.local.site}
     cmd_input = None
@@ -120,165 +121,183 @@ async def run_bench_command(command, kwargs=None):
     subprocess.run(command, input=cmd_input, capture_output=True)
 
 ## RESET SALE TRANSACTION
-@frappe.whitelist()
+@frappe.whitelist(methods="POST")
 def reset_sale_transaction():
     # backupd db first
     run_backup_command()
-    if frappe.session.user == 'Administrator':
-        frappe.db.sql("delete from `tabCash Transaction`")
-        frappe.db.sql("delete from `tabPOS Sale Payment`")
-        frappe.db.sql("delete from `tabSale Payment`")
-        frappe.db.sql("delete from `tabSale Product`")
-        frappe.db.sql("delete from `tabSale`")
-        frappe.db.sql("delete from `tabCashier Shift Cash Float`")
-        frappe.db.sql("delete from `tabCashier Shift`")
-        frappe.db.sql("delete from `tabWorking Day`")
-        frappe.db.sql("delete from `tabComment` where reference_doctype in ('Sale','POS Sale Payment','Sale Payment','Sale Product','Cashier Shift Cash Float','Cashier Shift','Working Day')")
 
-        #reset sale transaction 
-        doctypes = ["Sale","Sale Payment","Cashier Shift","Working Day","Cash Transaction"]
-        for d in doctypes:
-            if frappe.get_meta("Sale").get_field("naming_series"):
-                formats =  frappe.get_meta(d).get_field("naming_series").options
-                if formats:
-                    for f in formats.split("\n"):
-                        for n in range(2022, 2030):
-                            format_text = replace_format(f,str(n))                            
-                            frappe.db.sql("update `tabSeries` set current=  0 where name='{}'".format(format_text) )       
+    if frappe.local.request.method == "POST":
+        if frappe.session.user == 'Administrator':
+            frappe.db.sql("delete from `tabCash Transaction`")
+            frappe.db.sql("delete from `tabPOS Sale Payment`")
+            frappe.db.sql("delete from `tabSale Payment`")
+            frappe.db.sql("delete from `tabSale Product`")
+            frappe.db.sql("delete from `tabSale`")
+            frappe.db.sql("delete from `tabCashier Shift Cash Float`")
+            frappe.db.sql("delete from `tabCashier Shift`")
+            frappe.db.sql("delete from `tabWorking Day`")
+            frappe.db.sql("delete from `tabComment` where reference_doctype in ('Sale','POS Sale Payment','Sale Payment','Sale Product','Cashier Shift Cash Float','Cashier Shift','Working Day')")
 
-        frappe.db.commit()
+            #reset sale transaction 
+            doctypes = ["Sale","Sale Payment","Cashier Shift","Working Day","Cash Transaction"]
+            for d in doctypes:
+                if frappe.get_meta("Sale").get_field("naming_series"):
+                    formats =  frappe.get_meta(d).get_field("naming_series").options
+                    if formats:
+                        for f in formats.split("\n"):
+                            for n in range(2022, 2030):
+                                format_text = replace_format(f,str(n))                            
+                                frappe.db.sql("update `tabSeries` set current=  0 where name='{}'".format(format_text) )       
 
-        return {"You was reset sale transaction."}
+            frappe.db.commit()
+
+            return {"You was reset sale transaction."}
+        else:
+            return {"Please contact to system's Administrator for reset sale transaction.(Permission denied)"}
+    
     else:
-        return {"Please contact to system's Administrator for reset sale transaction.(Permission denied)"}
+        return {"Invalid Method."}
 
 ## END RESET SALE TRANSACTION
 
 ## RESET DATABASE Method
-@frappe.whitelist()
+@frappe.whitelist(methods="POST")
 def reset_database():
-    if frappe.session.user == 'Administrator':
-        #step 1 reset data
-        reset_data()
-        #step 2 create predefine data
-        create_predefine_data()
-        return {"You was reset system to new setup."}
+    if frappe.local.request.method == "POST":
+        if frappe.session.user == 'Administrator':
+            #step 1 reset data
+            reset_data()
+            #step 2 create predefine data
+            create_predefine_data()
+            return {"You was reset system to new setup."}
+        else:
+            return {"Please contact to system's Administrator for reset sale transaction.(Permission denied)"}
+        
     else:
-        return {"Please contact to system's Administrator for reset sale transaction.(Permission denied)"}
+        return {"Invalid Method."}
 ## END RESET DATABASE
 
 ## RESET DATA Method
-@frappe.whitelist()
+@frappe.whitelist(methods="POST")
 def reset_data():
-    if frappe.session.user == 'Administrator':        
-        #step 1 reset sale transaction
-        reset_sale_transaction()
+    if frappe.local.request.method == "POST":
+        if frappe.session.user == 'Administrator':        
+            #step 1 reset sale transaction
+            reset_sale_transaction()
 
-        # update 
-        frappe.db.sql("update `tabSeries` set current = 0")
-        frappe.db.sql("update `tabLanguage` set enabled =0 where name not in ('kh','en')")
-        frappe.db.sql(" update `tabRole` set desk_access = 0 where name = 'Sales User'")
-       
+            # update 
+            frappe.db.sql("update `tabSeries` set current = 0")
+            frappe.db.sql("update `tabLanguage` set enabled =0 where name not in ('kh','en')")
+            frappe.db.sql(" update `tabRole` set desk_access = 0 where name = 'Sales User'")
+        
 
-        # delete 
-        frappe.db.sql("delete from `tabInventory Transaction`")
-        frappe.db.sql("delete from `tabUnit of Measurement Conversion`")
-        frappe.db.sql("delete from `tabStock Location Product`")
-        frappe.db.sql("delete from `tabStock Adjustment Product`")
-        frappe.db.sql("delete from `tabStock Adjustment`")
-        frappe.db.sql("delete from `tabStock Transfer Products`")
-        frappe.db.sql("delete from `tabStock Transfer`")
-        frappe.db.sql("delete from `tabStock Take Products`")
-        frappe.db.sql("delete from `tabStock Take`")
-        frappe.db.sql("delete from `tabStock Location`")
-        frappe.db.sql("delete from `tabModifiers`")
-        frappe.db.sql("delete from `tabModifier Code`")
-        frappe.db.sql("delete from `tabModifier Category`")
-        frappe.db.sql("delete from `tabProduct Printer`")
-        frappe.db.sql("delete from `tabProduct Menu`")
-        frappe.db.sql("delete from `tabProduct Price`")
-        frappe.db.sql("delete from `tabPurchase Order Payment`")
-        frappe.db.sql("delete from `tabPurchase Order Products`")
-        frappe.db.sql("delete from `tabPurchase Order`")
-        frappe.db.sql("delete from `tabVendor`")
-        frappe.db.sql("delete from `tabVendor Group`")
-        frappe.db.sql("delete from `tabCustomer`")
-        frappe.db.sql("delete from `tabCustomer Group`")
-        frappe.db.sql("delete from `tabSale Quotation Product`")
-        frappe.db.sql("delete from `tabSale Quotation`")
-        frappe.db.sql("delete from `tabEmployee Emergency Contact`")
-        frappe.db.sql("delete from `tabEmployee Exit Type`")
-        frappe.db.sql("delete from `tabCheck In Out`")
-        frappe.db.sql("delete from `tabDepartment`")
-        frappe.db.sql("delete from `tabPosition`")
-        frappe.db.sql("delete from `tabAttendance`")
-        frappe.db.sql("delete from `tabShift Type`")
-        frappe.db.sql("delete from `tabEmployee Type`")
-        frappe.db.sql("delete from `tabEmployee`")
-        frappe.db.sql("delete from `tabExpense Payment`")
-        frappe.db.sql("delete from `tabExpense Item`")
-        frappe.db.sql("delete from `tabExpense`")
-        frappe.db.sql("delete from `tabExpense Category`")
-        frappe.db.sql("delete from `tabPayment Type`")
-        frappe.db.sql("delete from `tabCurrency Exchange`")
-        frappe.db.sql("delete from `tabePOS Table Position`")
-        frappe.db.sql("delete from `tabPOS Menu`")
-        frappe.db.sql("delete from `tabUnit Of Measurement`")
-        frappe.db.sql("delete from `tabUnit Category`")
-        frappe.db.sql("delete from `tabTables Number`")
-        frappe.db.sql("delete from `tabTable Group`")
-        frappe.db.sql("delete from `tabOutlet`")
-        frappe.db.sql("delete from `tabPrinter`")
-        frappe.db.sql("delete from `tabKitchen Group`")
-        frappe.db.sql("delete from `tabPrice Rule`")
-        frappe.db.sql("delete from `tabRevenue Group`")
-        frappe.db.sql("delete from `tabPayment Type Group`")
-        frappe.db.sql("delete from `tabPOS Profile Payment Type`")
-        frappe.db.sql("delete from `tabProduct`")
-        frappe.db.sql("delete from `tabProduct Category`")
-        frappe.db.sql("delete from `tabPOS Price Rule`")
-        frappe.db.sql("delete from `tabPOS Table Group`")
-        frappe.db.sql("delete from `tabPOS Profile Root Menu`")
-        frappe.db.sql("delete from `tabTax Rule`")
-        frappe.db.sql("delete from `tabTemp Product Menu`")
-        frappe.db.sql("delete from `tabCashier Notes`")
-        frappe.db.sql("delete from `tabCategory Note`")
-        frappe.db.sql("delete from `tabPOS Profile`")
-        frappe.db.sql("delete from `tabPOS Config`")
+            # delete 
+            frappe.db.sql("delete from `tabInventory Transaction`")
+            frappe.db.sql("delete from `tabUnit of Measurement Conversion`")
+            frappe.db.sql("delete from `tabStock Location Product`")
+            frappe.db.sql("delete from `tabStock Adjustment Product`")
+            frappe.db.sql("delete from `tabStock Adjustment`")
+            frappe.db.sql("delete from `tabStock Transfer Products`")
+            frappe.db.sql("delete from `tabStock Transfer`")
+            frappe.db.sql("delete from `tabStock Take Products`")
+            frappe.db.sql("delete from `tabStock Take`")
+            frappe.db.sql("delete from `tabStock Location`")
+            frappe.db.sql("delete from `tabModifiers`")
+            frappe.db.sql("delete from `tabModifier Code`")
+            frappe.db.sql("delete from `tabModifier Category`")
+            frappe.db.sql("delete from `tabProduct Printer`")
+            frappe.db.sql("delete from `tabProduct Menu`")
+            frappe.db.sql("delete from `tabProduct Price`")
+            frappe.db.sql("delete from `tabPurchase Order Payment`")
+            frappe.db.sql("delete from `tabPurchase Order Products`")
+            frappe.db.sql("delete from `tabPurchase Order`")
+            frappe.db.sql("delete from `tabVendor`")
+            frappe.db.sql("delete from `tabVendor Group`")
+            frappe.db.sql("delete from `tabCustomer`")
+            frappe.db.sql("delete from `tabCustomer Group`")
+            frappe.db.sql("delete from `tabSale Quotation Product`")
+            frappe.db.sql("delete from `tabSale Quotation`")
+            frappe.db.sql("delete from `tabEmployee Emergency Contact`")
+            frappe.db.sql("delete from `tabEmployee Exit Type`")
+            frappe.db.sql("delete from `tabCheck In Out`")
+            frappe.db.sql("delete from `tabDepartment`")
+            frappe.db.sql("delete from `tabPosition`")
+            frappe.db.sql("delete from `tabAttendance`")
+            frappe.db.sql("delete from `tabShift Type`")
+            frappe.db.sql("delete from `tabEmployee Type`")
+            frappe.db.sql("delete from `tabEmployee`")
+            frappe.db.sql("delete from `tabExpense Payment`")
+            frappe.db.sql("delete from `tabExpense Item`")
+            frappe.db.sql("delete from `tabExpense`")
+            frappe.db.sql("delete from `tabExpense Category`")
+            frappe.db.sql("delete from `tabPayment Type`")
+            frappe.db.sql("delete from `tabCurrency Exchange`")
+            frappe.db.sql("delete from `tabePOS Table Position`")
+            frappe.db.sql("delete from `tabPOS Menu`")
+            frappe.db.sql("delete from `tabUnit Of Measurement`")
+            frappe.db.sql("delete from `tabUnit Category`")
+            frappe.db.sql("delete from `tabTables Number`")
+            frappe.db.sql("delete from `tabTable Group`")
+            frappe.db.sql("delete from `tabOutlet`")
+            frappe.db.sql("delete from `tabPrinter`")
+            frappe.db.sql("delete from `tabKitchen Group`")
+            frappe.db.sql("delete from `tabPrice Rule`")
+            frappe.db.sql("delete from `tabRevenue Group`")
+            frappe.db.sql("delete from `tabPayment Type Group`")
+            frappe.db.sql("delete from `tabPOS Profile Payment Type`")
+            frappe.db.sql("delete from `tabProduct`")
+            frappe.db.sql("delete from `tabProduct Category`")
+            frappe.db.sql("delete from `tabPOS Price Rule`")
+            frappe.db.sql("delete from `tabPOS Table Group`")
+            frappe.db.sql("delete from `tabPOS Profile Root Menu`")
+            frappe.db.sql("delete from `tabTax Rule`")
+            frappe.db.sql("delete from `tabTemp Product Menu`")
+            frappe.db.sql("delete from `tabCashier Notes`")
+            frappe.db.sql("delete from `tabCategory Note`")
+            frappe.db.sql("delete from `tabPOS Config Payment Type`")
+            frappe.db.sql("delete from `tabPOS Profile`")
+            frappe.db.sql("delete from `tabPOS Config`")
 
-        # frappe.db.sql("delete from `tabPOS Profile Table Group`")
-        # frappe.db.sql("delete from `tabRestaurant Table`")
-        frappe.db.sql("delete from `tabBusiness Branch`")
-        frappe.db.sql("delete from `tabCurrency` where name not in('USD','KHR','RIEL')")
-        frappe.db.sql("delete from `tabPrint Format`")
+            # frappe.db.sql("delete from `tabPOS Profile Table Group`")
+            # frappe.db.sql("delete from `tabRestaurant Table`")
+            frappe.db.sql("delete from `tabBusiness Branch`")
+            frappe.db.sql("delete from `tabCurrency` where name not in('USD','KHR','RIEL')")
+            frappe.db.sql("delete from `tabPrint Format`")
 
-        #update 
-        frappe.db.sql("update `tabCurrency` set enabled = 1, name='RIEL', currency_name='RIEL'  where name='KHR'")
+            #update 
+            frappe.db.sql("update `tabCurrency` set enabled = 1, name='RIEL', currency_name='RIEL'  where name='KHR'")
 
-        frappe.db.commit()
-        return {"You was cleared all data and configuration."}
+            frappe.db.commit()
+            return {"You was cleared all data and configuration."}
+        else:
+            return {"Please contact to system's Administrator for reset sale transaction.(Permission denied)"}
+        
     else:
-        return {"Please contact to system's Administrator for reset sale transaction.(Permission denied)"}
+        return {"Invalid Method."}
 ## END RESET DATA Method
 
 ## CREATE PREDEFINE DATA Method
-@frappe.whitelist()
+@frappe.whitelist(methods="POST")
 def create_predefine_data(): 
-    if frappe.session.user == 'Administrator':
-        data = frappe.db.get_list('Predefine Data',fields=["*"], order_by='sort asc')     
-        for d in data:    
-            if d.is_single == 0 :   
-                if not frappe.db.exists(d.doc_type, d.doc_name): 
-                    doc = frappe.get_doc(json.loads(d.data))
-                    doc.insert()    
+    if frappe.local.request.method == "POST":
+        if frappe.session.user == 'Administrator':
+            data = frappe.db.get_list('Predefine Data',fields=["*"], order_by='sort asc')     
+            for d in data:    
+                if d.is_single == 0 :   
+                    if not frappe.db.exists(d.doc_type, d.doc_name): 
+                        doc = frappe.get_doc(json.loads(d.data))
+                        doc.insert()    
+                        frappe.db.commit()
+                else:
+                    doc = frappe.get_doc(json.loads(d.data))  
+                    doc.save()
                     frappe.db.commit()
-            else:
-              doc = frappe.get_doc(json.loads(d.data))  
-              doc.save()
-              frappe.db.commit()
-        return {"You was created predefine data."}
+            return {"You was created predefine data."}
+        else:
+            return {"Please contact to system's Administrator for reset sale transaction.(Permission denied)"}
+        
     else:
-        return {"Please contact to system's Administrator for reset sale transaction.(Permission denied)"}
+        return {"Invalid Method."}
         
 ## END CREATE PREDEFINE DATA Method
 

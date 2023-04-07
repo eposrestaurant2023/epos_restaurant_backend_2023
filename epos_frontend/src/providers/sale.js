@@ -363,6 +363,8 @@ export default class Sale {
         //grand_total
         this.sale.grand_total = (this.sale.sub_total - this.sale.total_discount) + this.sale.total_tax
         this.sale.balance = this.sale.grand_total;
+
+        socket.emit("ShowOrderInCustomerDisplay",this.sale);
     }
 
     updateQuantity(sp, n) {
