@@ -312,4 +312,4 @@ def my_test():
     if frappe.local.request.method == "POST":
         return "Yes"
     else:
-        return({'message': 'Not Allowed Method'}), 405
+        return frappe.response.get("type")

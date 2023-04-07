@@ -9,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
+  "branch",
   "hotel_name",
   "booking_date",
   "arrival_date",
@@ -211,11 +212,18 @@
    "fieldname": "additional_guest",
    "fieldtype": "Table",
    "options": "Tour Booking Additional Guest"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Business Branch",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-07 16:05:10.148472",
+ "modified": "2023-04-07 16:12:10.853603",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Hotel Booking",

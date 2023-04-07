@@ -1,6 +1,6 @@
 <template>
-    <div class="h-100vh bg-black">
-        <v-row class="h-100vh">
+    <div class="wrap">
+        <v-row class="h-full">
             <v-col class="h-full bg-red-600" cols="hide" xs="12" sm="8" md="8" lg="8" xl="8">
                 <v-carousel show-arrows="hover">
                     <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" cover></v-carousel-item>
@@ -248,3 +248,8 @@ socket.on("ShowOrderInCustomerDisplay", (arg) => {
 
 
 </script>
+<style>
+.v-carousel__controls {
+    display: none !important;
+}
+</style>
