@@ -41,12 +41,16 @@
 <script setup>
     import {ref} from 'vue'
     import {useRouter} from 'vue-router'
+    import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue'
     const router = useRouter()
     const drawer = ref( false)
     const isFullscreen = ref( true)
     const appTitle = ref('ePOS')
     function onRoute(page) {
         router.push({name:page})
+    }
+    function onDrawer() {
+        drawer.value = !drawer.value;
     }
 </script>
 <style lang="">
