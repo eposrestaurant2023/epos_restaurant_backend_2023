@@ -23,6 +23,14 @@ class Sale(Document):
 		# 	if self.posting_date>utils.today():
 		# 		frappe.throw(_("Sale date cannot greater than current date"))
 		
+
+		# set waiting number
+		if self.is_new():
+			if self.waiting_number_prefix:
+				from frappe.model.naming import make_autoname
+				self.waiting_number = make_autoname(self.waiting_number_prefix)
+
+
 		if self.discount_type =="Percent" and self.discount> 100:
 			frappe.throw(_("Discount percent cannot greater than 100%"))
    

@@ -7,24 +7,24 @@
         <template #default>
             <ComAlertPendingOrder v-if="cashierShiftResource.doc" type="info" :working_day="cashierShiftResource.doc.working_day" :cashier_shift="cashierShiftResource.doc.name"/>
             
-            <v-row v-if="cashierShiftResource.doc" class="mt-2 mx-4">
-                <v-col cols="12" md="6" class="pa-0 ma-0">
+            <v-row v-if="cashierShiftResource.doc" class="mt-2 mx-2">
+                <v-col cols="12" md="6">
                     <v-text-field label="Working Day" v-model="cashierShiftResource.doc.working_day" variant="solo"
-                        readonly></v-text-field>
+                        readonly hide-details></v-text-field>
                 </v-col>
-                <v-col cols="12" md="6" class="pa-0 ma-0">
+                <v-col cols="12" md="6">
                     <v-text-field label="Cashier Shift" v-model="cashierShiftResource.doc.name" variant="solo"
-                        readonly></v-text-field>
+                        readonly hide-details></v-text-field>
                 </v-col>
                 <v-col  cols="12" md="6">
                     <v-text-field label="Close Date" v-model="current_date" variant="solo" readonly></v-text-field>
                 </v-col>
-                <v-col cols="12" md="6" class="pa-0 ma-0">
+                <v-col cols="12" md="6">
                     <v-text-field label="POS Profile" v-model="cashierShiftResource.doc.pos_profile" variant="solo"
-                        readonly></v-text-field>
+                        readonly hide-details></v-text-field>
                 </v-col>
             </v-row>
-            <v-row class="mx-4">
+            <v-row class="mx-4"> 
                 <v-table v-if="cashierShiftSummary.data">
                     <thead>
                         <tr>

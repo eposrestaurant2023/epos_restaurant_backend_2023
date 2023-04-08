@@ -14,11 +14,12 @@
     </div>
 </template>
 <script setup>
+import {inject} from 'vue'
 import {useDisplay} from 'vuetify'
 const {mobile} = useDisplay()
-
-
-
+const frappe = inject('$frappe')
+const call = frappe.call()
+call.get('epos_restaurant_2023.api.product.get_product_by_menu').then(r=> console.log(r)).catch(er=> console.log(er))
 </script>
 <style lang="">
     

@@ -42,7 +42,6 @@ class Product(Document):
 
 	def autoname(self):
 		from frappe.model.naming import set_name_by_naming_series, get_default_naming_series,make_autoname
-		frappe.msgprint(make_autoname("PK.YY.MM.DD.-.######"))
 
 		if strip(self.naming_series) !="" and strip(self.product_code) =="":
 			set_name_by_naming_series(self)

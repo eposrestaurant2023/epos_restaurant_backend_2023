@@ -95,7 +95,9 @@
   "exchange_rate",
   "note",
   "is_foc",
-  "seat_number"
+  "seat_number",
+  "waiting_number_prefix",
+  "waiting_number"
  ],
  "fields": [
   {
@@ -633,6 +635,18 @@
    "fieldname": "closed_by",
    "fieldtype": "Data",
    "label": "Closed By"
+  },
+  {
+   "fetch_from": "pos_profile.waiting_number_prefix",
+   "fieldname": "waiting_number_prefix",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Waiting Number Prefix"
+  },
+  {
+   "fieldname": "waiting_number",
+   "fieldtype": "Data",
+   "label": "Waiting Number"
   }
  ],
  "image_field": "photo",
@@ -645,7 +659,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-03-28 08:53:04.157144",
+ "modified": "2023-04-08 11:46:34.271558",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

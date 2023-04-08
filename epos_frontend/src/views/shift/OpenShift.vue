@@ -25,7 +25,6 @@
         <v-row v-if="payment_types.filter(p => p.allow_cash_float == 1).length > 1">
             <v-col cols="12" md="6" class="ma-0 pa-y">
                 <v-text-field readonly label="Total Cash Float" variant="solo" v-model="totalCashFloat"></v-text-field>
-
             </v-col>
         </v-row>
         <ComInput title="Enter Note" keyboard label="Open Note" v-model="opened_note" type="textarea"

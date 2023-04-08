@@ -3,7 +3,7 @@
 from py_linq import Enumerable
 import frappe
 from frappe.model.document import Document
-
+from frappe.model.naming import NamingSeries
 class CashierShift(Document):
 	def validate(self):
 		# #if close shift check current bill open 
@@ -32,6 +32,17 @@ class CashierShift(Document):
 		self.total_system_close_amount = Enumerable(self.cash_float).sum(lambda x: x.system_close_amount)
 		self.total_close_amount = Enumerable(self.cash_float).sum(lambda x: x.close_amount)
 		self.total_different_amount = self.total_close_amount -  self.total_system_close_amount
+
+		# check if close shift then check 
+		if self.is_closed==1:
+			pos_profile = frappe.get_doc("POS Profile", self.pos_profile)
+			if pos_profile.reset_waiting_number_after=="Close Cashier Shift":
+				prefix = pos_profile.waiting_number_prefix.replace('.','').replace("#",'')
+				naming_series = NamingSeries(prefix)
+				naming_series.update_counter(0)
+
+
+
 
 	def after_insert(self):
 		

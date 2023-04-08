@@ -13,7 +13,6 @@ import * as directives from 'vuetify/directives';
 import '@mdi/font/css/materialdesignicons.css'
 import { FrappeApp } from 'frappe-js-sdk';
 const frappe = new FrappeApp()
-const fdb = frappe.db()
 const vuetify = createVuetify({
 		components,
 		directives,
@@ -39,7 +38,7 @@ app.use(resourceManager);
 app.provide("$auth", auth);
 app.provide("$call", call);
 app.provide("$socket", socket);
-app.provide("$fdb", fdb);
+app.provide("$frappe", frappe);
 
 
 

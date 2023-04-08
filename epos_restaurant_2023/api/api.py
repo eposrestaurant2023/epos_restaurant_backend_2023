@@ -317,17 +317,17 @@ def get_pos_letter_head(doctype):
 def get_close_shift_summary(cashier_shift):
     data = []
     doc = frappe.get_doc("Cashier Shift",cashier_shift)
-    
-     
     #get close amount by payment type
     sql = "select payment_type, currency,sum(input_amount) as input_amount, sum(payment_amount) as payment_amount from `tabSale Payment` where cashier_shift='{}' and docstatus=1 group by payment_type, currency".format(cashier_shift)
     payments = frappe.db.sql(sql, as_dict=1)
-    
     #get cash in out 
-    sql = "select  payment_type,sum(if(transaction_status='Cash Out',input_amount*-1,input_amount)) as total_input_amount, sum(if(transaction_status='Cash Out',amount*-1,amount)) as total_amount from `tabCash Transaction`   where cashier_shift='{}'    group by  payment_type".format(cashier_shift)
+    sql = "select  payment_type,sum(if(transaction_status='Cash Out',input_amount*-1,input_amount)) as total_input_amount, sum(if(transaction_status='Cash Out',amount*-1,amount)) as total_amount from `tabCash Transaction`   where cashier_shift='{}' group by  payment_type".format(cashier_shift)
     cash_transactions = frappe.db.sql(sql, as_dict=1)
+    pos_config_name = frappe.get_value('POS Profile',doc.pos_profile,'pos_config')
+    pos_config = frappe.get_doc("POS Config",pos_config_name)
+    payment_types = Enumerable(pos_config.payment_type).where(lambda x:x.allow_cash_float == 1)
     
-
+    
     for d in doc.cash_float:
         cash_transaction = Enumerable( cash_transactions).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.total_amount or 0 )
         input_cash_transaction = Enumerable( cash_transactions).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.total_input_amount or 0 )
@@ -342,8 +342,22 @@ def get_close_shift_summary(cashier_shift):
             "system_close_amount": d.opening_amount +  Enumerable(payments).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.payment_amount or 0 ) + cash_transaction,
             "different_amount":0,
             "currency":d.currency
-        })
+    })
     
+    for pt in payment_types:
+        if not pt.payment_type  in [d.payment_method for d in doc.cash_float]:
+            data.append({
+                "payment_method":pt.payment_type,
+                "exchange_rate":pt.exchange_rate,
+                "input_amount":0,
+                "opening_amount":0,
+                "input_close_amount":0,
+                "input_system_close_amount": 0,
+                "system_close_amount": 0,
+                "different_amount":0,
+                "currency":pt.currency
+            })
+            
     
     for p in payments:
         if not p.payment_type  in [d.payment_method for d in doc.cash_float]:

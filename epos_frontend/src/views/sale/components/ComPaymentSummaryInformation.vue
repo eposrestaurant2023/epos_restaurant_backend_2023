@@ -44,7 +44,11 @@ const sale = inject('$sale')
 const gv = inject('$gv')
 
 const balance = computed(()=>{
+    if(sale.sale?.balance>0){ 
     return Number(sale.sale.balance.toFixed(gv.setting.pos_setting.main_currency_precision));
+    }else {
+        return 0;
+    }
 })
 
 

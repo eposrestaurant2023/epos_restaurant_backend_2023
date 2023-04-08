@@ -3,7 +3,7 @@
 
 import frappe
 from frappe.model.document import Document
-
+from frappe.model.naming import NamingSeries
 class WorkingDay(Document):
     
 	def validate(self):
@@ -27,3 +27,10 @@ class WorkingDay(Document):
 			pending_orders = frappe.db.sql("select name from `tabSale` where docstatus = 0 and working_day = '{}'".format(self.name), as_dict=1)
 			if pending_orders:
 				frappe.throw("Please close all pending order before close close working day.")
+
+			#check reset waiting number
+			pos_profile = frappe.get_doc("POS Profile", self.pos_profile)
+			if pos_profile.reset_waiting_number_after=="Close Working Day":
+				prefix = pos_profile.waiting_number_prefix.replace('.','').replace("#",'')
+				naming_series = NamingSeries(prefix)
+				naming_series.update_counter(0)

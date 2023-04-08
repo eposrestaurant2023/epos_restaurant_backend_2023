@@ -17,8 +17,11 @@
   "tax_rule",
   "default_pos_menu",
   "default_sale_type",
+  "column_break_12",
   "pos_config",
   "pos_branding",
+  "waiting_number_prefix",
+  "reset_waiting_number_after",
   "section_break_10",
   "pos_menus",
   "table_groups_section",
@@ -158,11 +161,28 @@
    "fieldtype": "Table",
    "label": "Table Group",
    "options": "POS Table Group"
+  },
+  {
+   "fieldname": "column_break_12",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "WN.-.####",
+   "fieldname": "waiting_number_prefix",
+   "fieldtype": "Data",
+   "label": "Waiting Number Prefix"
+  },
+  {
+   "default": "Close Working Day",
+   "fieldname": "reset_waiting_number_after",
+   "fieldtype": "Select",
+   "label": "Reset Waiting Number After",
+   "options": "Close Cashier Shift\nClose Working Day"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-06 18:13:55.484066",
+ "modified": "2023-04-08 11:38:40.997041",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Profile",

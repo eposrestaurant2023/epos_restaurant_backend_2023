@@ -30,7 +30,6 @@
           <span v-if="sale.sale.discount && sale.sale.discount_type == 'Percent'"> - {{ sale.sale.discount }}%</span>
         </div>
         <div class="font-bold">
-
           <CurrencyFormat :value="sale.sale.sale_discount" />
         </div>
       </div>

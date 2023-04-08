@@ -1038,6 +1038,11 @@ vue-router@^4:
   dependencies:
     "@vue/devtools-api" "^6.4.5"
 
+vue3-avatar@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vue3-avatar/-/vue3-avatar-1.0.1.tgz#0a762db03259b3c803e70ebf982ceff179d527a5"
+  integrity sha512-9M3IXcbF1IyAfXZtOnsT0LnILVkKwmo1WoYjH6C/oCWyT1ADffOvbjkdbGO1eNsF+mWKvmIlkwt3VBNtzEophg==
+
 vue@^3.2.47:
   version "3.2.47"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.47.tgz#3eb736cbc606fc87038dbba6a154707c8a34cff0"
