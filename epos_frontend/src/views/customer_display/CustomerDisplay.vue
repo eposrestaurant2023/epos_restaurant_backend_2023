@@ -10,22 +10,18 @@
             <v-col class="h-100vh !p-0" cols="12" xs="12" sm="4" md="4" lg="4" xl="4">
                 <div class="h-full flex-col flex px-1">
                     <div class="profile">
-                        <div style=" border-bottom: 1px solid black; width: 100%; height: 60px; margin: 0; ">
-                            <div style=" height: 50px;
-                                width: 50px;
-                                background: red;
-                                margin-top: 30px;
-                                border-radius: 25px;"></div>
-
+                        <div class="avatar-profile">
+                            <v-avatar v-if="data.customer_photo">
+                                <v-img :src="data.customer_photo"></v-img>
+                            </v-avatar>
+                            <avatar v-else :name="data.customer_name" class="mr-4" size="40"></avatar>
                         </div>
-         
                     </div>
                     <div class="product-list overflow-auto h-full">
                         <ul class="bg-violet-950" style=" padding: 12px;">
                             <li v-for="(p, index) in data.sale_products" :key="index" class="border-b">
                                 <div style="display: flex;">
-                                    <div style=" height: 50px; width: 50px; 
-                                    background: green;
+                                    <div style=" height: 50px; width: 50px; background: green;
                                         margin: 10px 15px 0px -10px;
                                         border-radius: 25px"></div>
                                     <div>
