@@ -3,30 +3,29 @@
         
         <v-row class="h-full !m-0">
             <v-col class="h-full !p-0" cols="hide" xs="12" sm="8" md="8" lg="8" xl="8">
-                <v-carousel height="100vh" cycle :show-arrows="false" hide-delimiters>
+                <v-carousel height="100vh" cycle :show-arrows="false" hide-delimiters :interval="6000" vertical-delimiters>
                     <v-carousel-item :src="item.photo" cover v-for="(item, index) in gv.setting.pos_setting.customer_display_slideshow" :key="index"></v-carousel-item> 
                 </v-carousel>
             </v-col>
             <v-col class="h-100vh !p-0" cols="12" xs="12" sm="4" md="4" lg="4" xl="4">
                 <div class="h-full flex-col flex px-1">
                     <div class="profile">
-                        <!-- <div style=" border-bottom: 1px solid black; width: 100%; height: 60px; margin: 0; ">
+                        <div style=" border-bottom: 1px solid black; width: 100%; height: 60px; margin: 0; ">
                             <div style=" height: 50px;
                                 width: 50px;
                                 background: red;
                                 margin-top: 30px;
                                 border-radius: 25px;"></div>
 
-                        </div> -->
+                        </div>
          
                     </div>
                     <div class="product-list overflow-auto h-full">
                         <ul class="bg-violet-950" style=" padding: 12px;">
                             <li v-for="(p, index) in data.sale_products" :key="index" class="border-b">
                                 <div style="display: flex;">
-                                    <div style=" height: 50px;
-                                        width: 50px;
-                                        background: green;
+                                    <div style=" height: 50px; width: 50px; 
+                                    background: green;
                                         margin: 10px 15px 0px -10px;
                                         border-radius: 25px"></div>
                                     <div>
@@ -39,12 +38,14 @@
                                             right: 3%;
                                     
                                             font-size: 20px;
-                                        ">{{ p.amount }}$</div>
+                                        "><CurrencyFormat :value="p.amount"></CurrencyFormat></div>
                                 </div>
                             </li>
                         </ul>
                     </div>
-                    <div class="summary">xx</div>
+                    <div class="summary"> 
+                        Total: <CurrencyFormat :value="data.grand_total" />
+                    </div>
                 </div>
             </v-col>
         </v-row>

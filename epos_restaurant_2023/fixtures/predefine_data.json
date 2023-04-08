@@ -994,5 +994,17 @@
   "name": "1019fc6b56",
   "sort": 145,
   "title": "Cashier Role"
+ },
+ {
+  "data": "{\r\n    \"home_page\": \"login\",\r\n    \"title_prefix\": \"ePOS\",\r\n    \"app_name\": \"ePOS System\",\r\n    \"disable_signup\": 1,\r\n    \"app_logo\": \"/files/logo.svg\",\r\n    \"website_theme\": \"Standard\",\r\n    \"hide_login\": 0,\r\n    \"navbar_search\": 0,\r\n    \"show_language_picker\": 0,\r\n    \"hide_footer_signup\": 0,\r\n    \"footer_powered\": \"ePOS\",\r\n    \"enable_view_tracking\": 0,\r\n    \"enable_google_indexing\": 0,\r\n    \"google_analytics_anonymize_ip\": 1,\r\n    \"auto_account_deletion\": 72,\r\n    \"show_account_deletion_link\": 0,\r\n    \"doctype\": \"Website Settings\",\r\n    \"top_bar_items\": [],\r\n    \"footer_items\": [],\r\n    \"route_redirects\": []\r\n}",
+  "doc_name": "login",
+  "doc_type": "Website Settings",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 1,
+  "modified": "2023-04-08 10:50:40.045773",
+  "name": "858f0c88a9",
+  "sort": 0,
+  "title": "login"
  }
 ]

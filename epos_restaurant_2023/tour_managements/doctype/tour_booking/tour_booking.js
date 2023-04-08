@@ -35,7 +35,19 @@ frappe.ui.form.on("Tour Booking", {
         });
 
        
-    },   
+    },  
+    start_date(frm){   
+        if (frm.doc.start_date && frm.doc.end_date){
+            frm.doc.duration = frappe.datetime.get_diff( frm.doc.end_date, frm.doc.start_date )
+            refresh_field('duration');
+        }  
+    },
+    end_date(frm){    
+        if (frm.doc.start_date && frm.doc.end_date){
+            frm.doc.duration = frappe.datetime.get_diff( frm.doc.end_date, frm.doc.start_date )
+            refresh_field('duration');
+        }
+    } 
 
 });
 frappe.ui.form.on('Tour Booking Hotels', {
