@@ -9,7 +9,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Defualt Letter Head",
- "modified": "2022-12-29 09:24:36.635489",
+ "modified": "2023-04-08 17:14:33.586266",
  "modified_by": "Administrator",
  "module": "Purchasing",
  "name": "Purchase Order Summary Report",
@@ -21,6 +21,12 @@
  "roles": [
   {
    "role": "System Manager"
+  },
+  {
+   "role": "Purchase Manager"
+  },
+  {
+   "role": "Purchase User"
   }
  ]
 }

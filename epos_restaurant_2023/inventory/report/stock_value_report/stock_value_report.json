@@ -9,7 +9,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Defualt Letter Head",
- "modified": "2022-12-22 13:57:42.471714",
+ "modified": "2023-04-08 17:10:14.485949",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Value Report",
@@ -21,6 +21,12 @@
  "roles": [
   {
    "role": "System Manager"
+  },
+  {
+   "role": "Stock Manager"
+  },
+  {
+   "role": "Stock User"
   }
  ]
 }
