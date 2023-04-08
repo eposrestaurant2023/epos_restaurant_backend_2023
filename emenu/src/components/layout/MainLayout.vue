@@ -14,8 +14,19 @@
             </template>
         </v-app-bar>
         <v-navigation-drawer v-model="drawer" temporary>
-            <!-- <MainLayoutDrawer /> -->
-            <MainLayoutDrawer/>
+            <div>
+        <ComCurrentUserAvatar/>
+        <v-divider></v-divider>
+
+        <v-list :lines="false" density="compact" nav>
+            <v-list-item active-color="primary" @click="onRoute('Home')">
+                <template v-slot:prepend>
+                <v-icon>mdi-home</v-icon>
+                </template>
+                <v-list-item-title>Home</v-list-item-title>
+            </v-list-item>
+            </v-list>
+        </div>
             <template v-slot:append>
                 <v-btn variant="tonal" prepend-icon="mdi-arrow-left" class="w-full" @click="onDrawer">
                     Close
@@ -29,12 +40,14 @@
 </template>
 <script setup>
     import {ref} from 'vue'
-    // import MainLayoutDrawer from './MainLayoutDrawer.vue';
-    import MainLayoutDrawer from '@/components/Layout/MainLayoutDrawer.vue'
+    import {useRouter} from 'vue-router'
+    const router = useRouter()
     const drawer = ref( false)
     const isFullscreen = ref( true)
     const appTitle = ref('ePOS')
-
+    function onRoute(page) {
+        router.push({name:page})
+    }
 </script>
 <style lang="">
     
