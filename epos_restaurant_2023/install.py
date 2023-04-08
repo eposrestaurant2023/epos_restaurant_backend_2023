@@ -7,6 +7,8 @@ import shlex, subprocess
 from frappe.utils import cstr
 import asyncio
 from frappe import conf
+from frappe.utils import get_url
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 
 def after_install():
@@ -258,6 +260,9 @@ def reset_data():
             frappe.db.sql("delete from `tabPOS Config Payment Type`")
             frappe.db.sql("delete from `tabPOS Profile`")
             frappe.db.sql("delete from `tabPOS Config`")
+            frappe.db.sql("delete from `tabUser` where LOWER(full_name) not in ('Administrator','Guest','admin','cashier')")
+            frappe.db.sql("delete from `tabRole Profile`")
+            frappe.db.sql("delete from `tabModule Profile`")
 
             # frappe.db.sql("delete from `tabPOS Profile Table Group`")
             # frappe.db.sql("delete from `tabRestaurant Table`")
@@ -312,4 +317,4 @@ def my_test():
     if frappe.local.request.method == "POST":
         return "Yes"
     else:
-        return frappe.response.get("type")
+        return "No"

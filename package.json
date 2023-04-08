@@ -18,5 +18,6 @@
   "bugs": {
     "url": "https://github.com/eposrestaurant2023/epos_restaurant_backend_2023/issues"
   },
-  "homepage": "https://github.com/eposrestaurant2023/epos_restaurant_backend_2023#readme"
+  "homepage": "https://github.com/eposrestaurant2023/epos_restaurant_backend_2023#readme",
+  "dependencies": {}
 }

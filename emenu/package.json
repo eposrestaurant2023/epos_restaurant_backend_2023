@@ -1,0 +1,27 @@
+{
+  "name": "emenu",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --base=/assets/epos_restaurant_2023/emenu/ && yarn copy-html-entry",
+    "preview": "vite preview",
+    "copy-html-entry": "cp ../epos_restaurant_2023/public/emenu/index.html ../epos_restaurant_2023/www/emenu.html"
+  },
+  "dependencies": {
+    "@mdi/font": "^7.2.96",
+    "frappe-js-sdk": "^1.2.3",
+    "socket.io-client": "^2.4.0",
+    "vue": "^3.2.47",
+    "vue-router": "^4",
+    "vuetify": "^3.1.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.1.0",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.3.1",
+    "vite": "^4.2.0"
+  }
+}

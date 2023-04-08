@@ -41,10 +41,10 @@ class Product(Document):
 		# 	frappe.msgprint(str(price["cost"]))
 
 	def autoname(self):
+		from frappe.model.naming import set_name_by_naming_series, get_default_naming_series,make_autoname
+		frappe.msgprint(make_autoname("PK.YY.MM.DD.-.######"))
 
 		if strip(self.naming_series) !="" and strip(self.product_code) =="":
-		 
-			from frappe.model.naming import set_name_by_naming_series
 			set_name_by_naming_series(self)
 			self.product_code = self.name		
 
@@ -68,7 +68,6 @@ class Product(Document):
 				)
 	
 	def on_update(self):
-		
 		#add_product_to_temp_menu(self)
 		frappe.enqueue("epos_restaurant_2023.inventory.doctype.product.product.add_product_to_temp_menu", queue='short', self=self)
 

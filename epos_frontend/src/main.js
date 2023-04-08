@@ -21,9 +21,7 @@ import ComPrintPreview from './components/ComPrintPreview.vue'
 import ComChip from './components/ComChip.vue'
 import ComModal from './components/ComModal.vue'
 import Avatar from "vue3-avatar";
- import socket from './utils/socketio';
- 
- 
+import socket from './utils/socketio';
 
 import Vue3DraggableResizable from 'vue3-draggable-resizable'
 //default styles

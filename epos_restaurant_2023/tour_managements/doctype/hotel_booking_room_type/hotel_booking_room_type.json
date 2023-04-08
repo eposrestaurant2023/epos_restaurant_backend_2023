@@ -7,6 +7,9 @@
  "engine": "InnoDB",
  "field_order": [
   "room_type",
+  "single_room",
+  "double_room",
+  "twin_room",
   "number_of_room",
   "column_break_3",
   "rate",
@@ -26,7 +29,7 @@
    "fieldname": "number_of_room",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Number of Room"
+   "label": "Total Rooms"
   },
   {
    "fieldname": "column_break_3",
@@ -52,12 +55,30 @@
    "fieldname": "note",
    "fieldtype": "Small Text",
    "label": "Note"
+  },
+  {
+   "fieldname": "single_room",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Single Bed"
+  },
+  {
+   "fieldname": "double_room",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Double Bed"
+  },
+  {
+   "fieldname": "twin_room",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Twin Bed"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-07 15:58:23.301848",
+ "modified": "2023-04-08 10:01:48.520007",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Hotel Booking Room Type",

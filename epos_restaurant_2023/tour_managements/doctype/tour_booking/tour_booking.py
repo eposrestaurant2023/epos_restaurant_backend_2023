@@ -5,6 +5,7 @@ import frappe
 from frappe.model.document import Document
 from py_linq import Enumerable
 from datetime import datetime
+from epos_restaurant_2023.utils import date_diff, get_room_rate, get_tour_package_price
 class TourBooking(Document):
 	def validate(self):
 		self.total_pax = self.total_pax or 1
@@ -33,10 +34,6 @@ class TourBooking(Document):
 		self.balance =(self.price + self.total_additional_charge + self.total_restaurant_amount + self.total_hotel_amount)  - self.total_paid
 
 		for d in self.guides_and_drivers:
-			d.total_days = date_diff(d.end_date, d.start_date) + 1
-			self.total_day = Enumerable(self.guides_and_drivers).sum(lambda x: (x.total_days or 0))
-			self.total_amount_2 = self.total_day * d.rate
-
 			if d.document_type == 'Tour Guides' and  not d.phone_number: 
 				d.phone_number = frappe.db.get_value('Tour Guides', d.name1, 'phone_number')
 				
@@ -44,6 +41,13 @@ class TourBooking(Document):
 				
 			if d.document_type == 'Tour Guides' and  not d.spoken_language: 
 				d.spoken_language = frappe.db.get_value('Tour Guides', d.name1, 'speaking_language') 
+
+		for d in self.guides_and_drivers:
+			d.total_days = date_diff(d.end_date, d.start_date) + 1
+			d.total_amount = d.total_days * d.rate
+
+		self.total_day = Enumerable(self.guides_and_drivers).sum(lambda x: (x.total_days or 0))
+		self.total_amount_2 = Enumerable(self.guides_and_drivers).sum(lambda x: (x.total_amount or 0))
 
 		#update total amount in hotel room
 		for d in self.hotels:
@@ -61,26 +65,10 @@ class TourBooking(Document):
 
 		self.total_restaurant_amount =   Enumerable(self.restaurants).sum(lambda x: (x.total_amount or 0))
 
-		self.total_transportation_amount = Enumerable(self.transportation).sum(lambda x: (x.rate or 0))
+
+		for d in self.transportation:
+			d.total_day = date_diff(d.to_date, d.from_date) + 1
+			d.total_amount = d.rate * d.total_day
+
+		self.total_transportation_amount = Enumerable(self.transportation).sum(lambda x: (x.total_amount or 0))
 				
-				
-
-def date_diff(end_date, start_date):
-	date_format = "%Y-%m-%d"
-	date1 = datetime.strptime(start_date, date_format)
-	date2 = datetime.strptime(end_date, date_format)
-
-	delta = date2 - date1
-	return delta.days
-
-def get_tour_package_price(self):
-	data = frappe.db.sql("select coalesce(max(price),0) as price from `tabTour Package Prices` where parent='{}' and number_of_person = {}".format(self.tour_package,self.total_pax or 1), as_dict=1)
-	if data:
-		return data[0]["price"]
-	return self.price 
-
-def get_room_rate(hotel_name, room_type):
-	data = frappe.db.sql("select coalesce(max(room_rate),0) as rate from `tabTour Hotel Room Type` where parent='{}' and room_type = '{}'".format(hotel_name, room_type), as_dict=1)
-	if data:
-		return data[0]["rate"]
-	return 0

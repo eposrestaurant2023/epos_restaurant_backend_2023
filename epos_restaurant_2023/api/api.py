@@ -85,7 +85,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "tax_1_name":doc.tax_1_name,
         "tax_2_name":doc.tax_2_name,
         "tax_3_name":doc.tax_3_name,
-
+        "customer_display_slideshow": pos_branding.customer_display_slideshow,
         "thank_you_message":pos_branding.thank_you_message,
         "cancel_print_bill_required_password":pos_config.cancel_print_bill_required_password,
         "cancel_print_bill_required_note":pos_config.cancel_print_bill_required_note,

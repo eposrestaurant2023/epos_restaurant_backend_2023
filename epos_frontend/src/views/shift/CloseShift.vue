@@ -16,7 +16,7 @@
                     <v-text-field label="Cashier Shift" v-model="cashierShiftResource.doc.name" variant="solo"
                         readonly></v-text-field>
                 </v-col>
-                <v-col  cols="12" md="6" class="pa-0 ma-0">
+                <v-col  cols="12" md="6">
                     <v-text-field label="Close Date" v-model="current_date" variant="solo" readonly></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6" class="pa-0 ma-0">

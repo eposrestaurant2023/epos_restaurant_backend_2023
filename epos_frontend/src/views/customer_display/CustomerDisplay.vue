@@ -1,21 +1,51 @@
 <template>
-    <div class="wrap">
-        <v-row class="h-full">
-            <v-col class="h-full bg-red-600" cols="hide" xs="12" sm="8" md="8" lg="8" xl="8">
-                <v-carousel show-arrows="hover">
-                    <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" cover></v-carousel-item>
-
-                    <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/hotel.jpg" cover></v-carousel-item>
-
-                    <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" cover></v-carousel-item>
+    <div class="wrap"> 
+        
+        <v-row class="h-full !m-0">
+            <v-col class="h-full !p-0" cols="hide" xs="12" sm="8" md="8" lg="8" xl="8">
+                <v-carousel height="100vh" cycle :show-arrows="false" hide-delimiters>
+                    <v-carousel-item :src="item.photo" cover v-for="(item, index) in gv.setting.pos_setting.customer_display_slideshow" :key="index"></v-carousel-item> 
                 </v-carousel>
             </v-col>
-            <v-col class="h-100vh bg-green-500" cols="12" xs="12" sm="4" md="4" lg="4" xl="4">
-                <ul class="bg-violet-950">
-                    <li v-for="(p, index) in data.sale_products" :key="index">
-                        {{ p.product_code }} - {{ p.product_name }}
-                    </li>
-                </ul>
+            <v-col class="h-100vh !p-0" cols="12" xs="12" sm="4" md="4" lg="4" xl="4">
+                <div class="h-full flex-col flex px-1">
+                    <div class="profile">
+                        <!-- <div style=" border-bottom: 1px solid black; width: 100%; height: 60px; margin: 0; ">
+                            <div style=" height: 50px;
+                                width: 50px;
+                                background: red;
+                                margin-top: 30px;
+                                border-radius: 25px;"></div>
+
+                        </div> -->
+         
+                    </div>
+                    <div class="product-list overflow-auto h-full">
+                        <ul class="bg-violet-950" style=" padding: 12px;">
+                            <li v-for="(p, index) in data.sale_products" :key="index" class="border-b">
+                                <div style="display: flex;">
+                                    <div style=" height: 50px;
+                                        width: 50px;
+                                        background: green;
+                                        margin: 10px 15px 0px -10px;
+                                        border-radius: 25px"></div>
+                                    <div>
+                                        <div>{{ p.product_code }}</div>
+                                        <div>{{ p.price }} x {{ p.quantity }}</div>
+                                        {{ p.product_name }}
+                                    </div>
+                                    <div style="
+                                            position: absolute;
+                                            right: 3%;
+                                    
+                                            font-size: 20px;
+                                        ">{{ p.amount }}$</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="summary">xx</div>
+                </div>
             </v-col>
         </v-row>
     </div>
@@ -23,7 +53,6 @@
 <script setup>
 import { inject } from '@/plugin';
 import { ref } from 'vue';
-
 const data = ref({
     "doctype": "Sale",
     "sale_status": "New",
@@ -239,7 +268,7 @@ const socket = inject("$socket")
 const gv = inject("$gv")
 const sale = ref({})
 const open = ref(true)
-
+ 
 socket.on("ShowOrderInCustomerDisplay", (arg) => {
     sale.value = arg;
 })
@@ -248,8 +277,6 @@ socket.on("ShowOrderInCustomerDisplay", (arg) => {
 
 
 </script>
-<style>
-.v-carousel__controls {
-    display: none !important;
-}
+<style scoped>
+
 </style>

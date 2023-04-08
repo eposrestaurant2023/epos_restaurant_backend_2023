@@ -1,8 +1,19 @@
 # Copyright (c) 2023, Tes Pheakdey and contributors
 # For license information, please see license.txt
 
-# import frappe
+import frappe
 from frappe.model.document import Document
-
+from py_linq import Enumerable
+from epos_restaurant_2023.utils import date_diff, get_room_rate
 class HotelBooking(Document):
-	pass
+	def validate(self):
+		self.total_nights = date_diff(self.departure_date, self.arrival_date)
+		
+		for d in self.room_types:
+			d.number_of_room = d.single_room + d.double_room + d.twin_room
+			d.rate = get_room_rate(self.hotel_name,d.room_type)
+			d.total_amount = d.rate * d.number_of_room * self.total_nights
+
+		self.total_rooms = Enumerable(self.room_types).sum(lambda x: (x.number_of_room or 0))
+		self.total_room_night = self.total_rooms * self.total_nights
+		self.total_amount = Enumerable(self.room_types).sum(lambda x:(x.total_amount or 0))
