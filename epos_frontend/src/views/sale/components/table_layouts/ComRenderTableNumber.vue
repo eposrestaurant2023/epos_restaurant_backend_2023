@@ -94,7 +94,6 @@ function onTableClick(table, guest_cover) {
                         }
                       
                     })
-                  
 
                 }else{
                     

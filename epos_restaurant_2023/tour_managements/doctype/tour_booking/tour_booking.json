@@ -11,13 +11,18 @@
   "naming_series",
   "branch",
   "booking_date",
-  "tour_package",
-  "tour_package_title",
-  "price",
-  "column_break_4",
   "start_date",
   "end_date",
   "duration",
+  "column_break_4",
+  "tour_package",
+  "tour_package_title",
+  "total_pax",
+  "price",
+  "total_tour_package_price",
+  "column_break_12",
+  "adult",
+  "child",
   "guest_information_section",
   "guest_profile",
   "customer_name",
@@ -29,9 +34,6 @@
   "nationality",
   "market_source",
   "market_segment",
-  "total_pax",
-  "adult",
-  "child",
   "section_break_22",
   "additional_guest",
   "cancelation_policy_section",
@@ -48,7 +50,7 @@
   "guides_and_drivers",
   "section_break_32",
   "total_day",
-  "total_amount_2",
+  "total_tour_guide_amount",
   "tour_guide_note",
   "transportations_tab",
   "transportation",
@@ -216,8 +218,6 @@
    "label": "Cancelation Policy"
   },
   {
-   "fetch_from": "tour_package.price",
-   "fetch_if_empty": 1,
    "fieldname": "price",
    "fieldtype": "Currency",
    "label": "Price"
@@ -443,7 +443,17 @@
    "read_only": 1
   },
   {
-   "fieldname": "total_amount_2",
+   "fieldname": "column_break_12",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_tour_package_price",
+   "fieldtype": "Currency",
+   "label": "Total Tour Package Price",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_tour_guide_amount",
    "fieldtype": "Currency",
    "label": "Total Amount",
    "read_only": 1
@@ -451,7 +461,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-06 10:50:48.297558",
+ "modified": "2023-04-10 10:42:36.157204",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking",

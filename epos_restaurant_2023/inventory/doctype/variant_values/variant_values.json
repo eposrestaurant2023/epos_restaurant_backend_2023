@@ -1,0 +1,33 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2023-04-08 18:00:59.547023",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "variant_value"
+ ],
+ "fields": [
+  {
+   "fieldname": "variant_value",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Variant Value",
+   "options": "Variant Code"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-04-09 23:20:11.325247",
+ "modified_by": "Administrator",
+ "module": "Inventory",
+ "name": "Variant Values",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

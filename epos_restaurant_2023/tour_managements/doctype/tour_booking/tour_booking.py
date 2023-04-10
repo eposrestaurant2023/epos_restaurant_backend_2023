@@ -12,8 +12,15 @@ class TourBooking(Document):
 		# calculate date total day
 		
 		self.duration = date_diff(self.end_date, self.start_date) + 1
-		self.price = get_tour_package_price(self)
+		if self.is_new():
+			self.price = get_tour_package_price(self)
+		else:
+			old_doc = frappe.get_doc("Tour Booking", self.name)
+			if self.tour_package != old_doc.tour_package or self.total_pax != old_doc.total_pax:
+				self.price = get_tour_package_price(self)
+
 		
+		self.total_tour_package_price = self.price * self.total_pax
 		# calculate additional charge
 		for d in self.additional_charges:
 			d.amount = d.price * d.quantity
@@ -31,8 +38,7 @@ class TourBooking(Document):
 		self.total_paid = self.total_paid or 0
 
 		
-		self.balance =(self.price + self.total_additional_charge + self.total_restaurant_amount + self.total_hotel_amount)  - self.total_paid
-
+	
 		for d in self.guides_and_drivers:
 			if d.document_type == 'Tour Guides' and  not d.phone_number: 
 				d.phone_number = frappe.db.get_value('Tour Guides', d.name1, 'phone_number')
@@ -47,7 +53,7 @@ class TourBooking(Document):
 			d.total_amount = d.total_days * d.rate
 
 		self.total_day = Enumerable(self.guides_and_drivers).sum(lambda x: (x.total_days or 0))
-		self.total_amount_2 = Enumerable(self.guides_and_drivers).sum(lambda x: (x.total_amount or 0))
+		self.total_tour_guide_amount = Enumerable(self.guides_and_drivers).sum(lambda x: (x.total_amount or 0))
 
 		#update total amount in hotel room
 		for d in self.hotels:
@@ -71,4 +77,11 @@ class TourBooking(Document):
 			d.total_amount = d.rate * d.total_day
 
 		self.total_transportation_amount = Enumerable(self.transportation).sum(lambda x: (x.total_amount or 0))
+
+		self.balance =(self.total_tour_package_price + self.total_additional_charge + self.total_restaurant_amount + self.total_hotel_amount + self.total_transportation_amount + self.total_tour_guide_amount)  - self.total_paid
+
+	@frappe.whitelist()
+	def get_tour_price(self):
+		return get_tour_package_price(self)
+
 				

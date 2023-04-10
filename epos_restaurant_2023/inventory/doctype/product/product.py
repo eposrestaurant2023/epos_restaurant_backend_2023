@@ -10,7 +10,7 @@ from frappe.utils.data import strip
 from py_linq import Enumerable
 from frappe.utils import add_years
 from epos_restaurant_2023.inventory.inventory import add_to_inventory_transaction, get_uom_conversion, update_product_quantity,get_stock_location_product
-
+import itertools
 class Product(Document):
 	def validate(self):
 
@@ -92,6 +92,47 @@ class Product(Document):
 			"precision": frappe.db.get_default("float_precision")
 		}
 
+	@frappe.whitelist()
+	def generate_variant(self):
+	
+		variant_1 =  [d.variant_value for d in self.variant_1_value]
+		variant_2 =  [d.variant_value for d in self.variant_2_value]
+		variant_3 =  [d.variant_value for d in self.variant_3_value]
+		product_variants = []
+		if variant_1 and not variant_2 and not variant_3:
+			for v1 in variant_1:
+				product_variants.append({
+					"variant_code":"",
+					"variant_name": v1,
+					"variant_1":v1,
+					"opening_qty":0,
+					"cost": 0,
+					"price":0
+				})
+		elif variant_1 and   variant_2 and not variant_3:
+			for v1, v2 in itertools.product(variant_1, variant_2):
+				product_variants.append({
+					"variant_code":"",
+					"variant_name": "{}-{}".format(v1,v2 ),
+					"variant_1":v1,
+					"variant_2":v2,
+					"opening_qty":0,
+					"cost": 0,
+					"price":0
+				})
+		else:
+			for v1, v2,v3   in itertools.product(variant_1, variant_2, variant_3):
+				product_variants.append({
+					"variant_code":"",
+					"variant_name": "{}-{}-{}".format(v1,v2,v3 ),
+					"variant_1":v1,
+					"variant_2":v2,
+					"variant_3": v3,
+					"opening_qty":0,
+					"cost": 0,
+					"price":0
+				})
+		return  product_variants
 
 
 @frappe.whitelist()

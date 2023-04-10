@@ -1,0 +1,78 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2023-04-09 11:19:33.711183",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "variant_name",
+  "variant_code",
+  "variant_1",
+  "variant_2",
+  "variant_3",
+  "opening_qty",
+  "cost",
+  "price"
+ ],
+ "fields": [
+  {
+   "fieldname": "variant_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Variant Name"
+  },
+  {
+   "fieldname": "variant_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Variant Code"
+  },
+  {
+   "fieldname": "variant_1",
+   "fieldtype": "Data",
+   "label": "Variant 1"
+  },
+  {
+   "fieldname": "variant_2",
+   "fieldtype": "Data",
+   "label": "Variant 2"
+  },
+  {
+   "fieldname": "variant_3",
+   "fieldtype": "Data",
+   "label": "Variant 3"
+  },
+  {
+   "fieldname": "opening_qty",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Opening Qty"
+  },
+  {
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Cost"
+  },
+  {
+   "fieldname": "price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Price"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-04-09 11:19:33.711183",
+ "modified_by": "Administrator",
+ "module": "Inventory",
+ "name": "Product Variants",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -51,7 +51,21 @@
   "product_price_tab",
   "product_price",
   "modifiers_tab",
-  "product_modifiers"
+  "product_modifiers",
+  "variant_tab",
+  "variant_options_section",
+  "variant_1_name",
+  "variant_1_value",
+  "column_break_47",
+  "variant_2_name",
+  "variant_2_value",
+  "column_break_50",
+  "variant_3_name",
+  "variant_3_value",
+  "section_break_50",
+  "generate_variant",
+  "product_variants_section",
+  "product_variants"
  ],
  "fields": [
   {
@@ -316,13 +330,84 @@
    "fieldname": "append_quantity",
    "fieldtype": "Check",
    "label": "Append Quantity"
+  },
+  {
+   "fieldname": "variant_tab",
+   "fieldtype": "Tab Break",
+   "label": "Variant"
+  },
+  {
+   "fieldname": "variant_1_name",
+   "fieldtype": "Data",
+   "label": "Variant 1 Name"
+  },
+  {
+   "fieldname": "variant_1_value",
+   "fieldtype": "Table MultiSelect",
+   "label": "Variant 1 Value",
+   "options": "Variant Values"
+  },
+  {
+   "fieldname": "column_break_47",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "variant_2_name",
+   "fieldtype": "Data",
+   "label": "Variant 2 Name"
+  },
+  {
+   "fieldname": "variant_2_value",
+   "fieldtype": "Table MultiSelect",
+   "label": "Variant 2 Value",
+   "options": "Variant Values"
+  },
+  {
+   "fieldname": "section_break_50",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "generate_variant",
+   "fieldtype": "Button",
+   "label": "Generate"
+  },
+  {
+   "fieldname": "column_break_50",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "variant_3_name",
+   "fieldtype": "Data",
+   "label": "Variant 3 Name"
+  },
+  {
+   "fieldname": "variant_3_value",
+   "fieldtype": "Table MultiSelect",
+   "label": "Variant 3 Value",
+   "options": "Variant Values"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "variant_options_section",
+   "fieldtype": "Section Break",
+   "label": "Variant Options"
+  },
+  {
+   "fieldname": "product_variants_section",
+   "fieldtype": "Section Break",
+   "label": "Product Variants"
+  },
+  {
+   "fieldname": "product_variants",
+   "fieldtype": "Table",
+   "options": "Product Variants"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-04-05 17:13:30.075572",
+ "modified": "2023-04-09 23:26:24.994228",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Product",

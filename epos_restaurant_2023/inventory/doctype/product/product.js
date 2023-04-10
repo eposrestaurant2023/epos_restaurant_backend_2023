@@ -18,7 +18,21 @@ frappe.ui.form.on("Product", {
                 }
             }
         });
-    },    
+    },  
+    generate_variant(frm){
+        frm.call({
+            method: 'generate_variant',
+            doc:frm.doc,
+            callback:function(r){
+                 
+                if(r.message){
+                    frm.set_value('product_variants',r.message);
+                }
+                
+            },
+            async: true,
+        });
+    }  ,
 });
 
 function print_barcode_button(frm) {

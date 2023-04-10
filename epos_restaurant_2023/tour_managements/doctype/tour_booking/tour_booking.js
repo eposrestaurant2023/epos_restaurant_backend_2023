@@ -47,7 +47,13 @@ frappe.ui.form.on("Tour Booking", {
             frm.doc.duration = frappe.datetime.get_diff( frm.doc.end_date, frm.doc.start_date )
             refresh_field('duration');
         }
-    } 
+    } ,
+    total_pax(frm){
+        updateTourPackagePrice(frm);
+    },
+    tour_package(frm){
+        updateTourPackagePrice(frm);
+    },
 
 });
 frappe.ui.form.on('Tour Booking Hotels', {
@@ -79,16 +85,18 @@ function set_indicator(frm){
     if(frm.doc.__islocal)
 			return;
   
-    if (frm.doc.price > 0 ) frm.dashboard.add_indicator(__("Tour Package Price: {0}",[format_currency(frm.doc.price)]) ,"blue");
+    if (frm.doc.price > 0 ) frm.dashboard.add_indicator(__("Tour Package Price: {0}",[format_currency(frm.doc.total_tour_package_price)]) ,"blue");
 
     if (frm.doc.total_hotel_amount > 0 )  frm.dashboard.add_indicator(__("Hotel: {0}",[format_currency(frm.doc.total_hotel_amount)]) ,"blue");
     if (frm.doc.total_restaurant_amount > 0 )  frm.dashboard.add_indicator(__("Restaurant: {0}",[format_currency(frm.doc.total_restaurant_amount)]) ,"blue");
+    if (frm.doc.total_tour_guide_amount > 0 )  frm.dashboard.add_indicator(__("Tour Guide: {0}",[format_currency(frm.doc.total_tour_guide_amount)]) ,"blue");
     if (frm.doc.total_transportation_amount > 0 )  frm.dashboard.add_indicator(__("Transportation: {0}",[format_currency(frm.doc.total_transportation_amount)]) ,"blue");
 
     if (frm.doc.total_additional_charge > 0 )  frm.dashboard.add_indicator(__("Additional Charge: {0}",[format_currency(frm.doc.total_additional_charge)]) ,"blue");
 
-    if (  frm.doc.price > 0 && (frm.doc.total_additional_charge   + frm.doc.total_hotel_amount + frm.doc.total_restaurant_amount + frm.doc.total_transportation_amount)>0)  frm.dashboard.add_indicator(__("Total Charge: {0}",[format_currency(frm.doc.total_additional_charge + frm.doc.price + frm.doc.total_restaurant_amount + frm.doc.total_hotel_amount + frm.doc.total_transportation_amount)]) ,"blue");
+    if (  frm.doc.price > 0 && (frm.doc.total_additional_charge   + frm.doc.total_hotel_amount + frm.doc.total_restaurant_amount + frm.doc.total_transportation_amount + frm.doc.total_tour_guide_amount)>0)  frm.dashboard.add_indicator(__("Total Charge: {0}",[format_currency(frm.doc.total_additional_charge + frm.doc.total_tour_package_price + frm.doc.total_restaurant_amount + frm.doc.total_hotel_amount + frm.doc.total_transportation_amount)]) ,"blue");
     if (frm.doc.total_expense > 0 )  frm.dashboard.add_indicator(__("Additional Expense: {0}",[format_currency(frm.doc.total_expense)]) ,"red");
+
     if (frm.doc.total_paid > 0 )  frm.dashboard.add_indicator(__("Total Paid: {0}",[format_currency(frm.doc.total_paid)]) ,"green");
     if (frm.doc.balance > 0 )  frm.dashboard.add_indicator(__("Balance: {0}",[format_currency(frm.doc.balance)]) ,"red");
 }
@@ -101,4 +109,25 @@ function set_query(frm,field_name, filters){
         }
     });
  
+}
+
+function updateTourPackagePrice(frm){
+    frm.call({
+        method: 'get_tour_price',
+        doc:frm.doc,
+        callback:function(r){
+            if(r.message){
+                 frm.doc.price = r.message;
+                 frm.doc.total_tour_package_price =frm.doc.price * frm.doc.total_pax;
+                 refresh_field('price');
+                 
+                 refresh_field('total_tour_package_price');
+                 set_indicator(frm);
+                 console.log(frm.dashboard)
+
+            }
+            
+        },
+        async: true,
+    });
 }
