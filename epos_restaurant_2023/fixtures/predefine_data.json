@@ -924,13 +924,13 @@
   "title": "ePOS Settings"
  },
  {
-  "data": "{\r\n    \"business_branch\": \"Main Branch\",\r\n    \"pos_profile_name\": \"Main POS Profile\",\r\n    \"outlet\": \"Main Outlet\",\r\n    \"stock_location\": \"Main Warehouse\",\r\n    \"price_rule\": \"Normal Rate\",\r\n    \"tax_rule\": \"\",\r\n    \"default_pos_menu\": \"Root Menu\",\r\n    \"default_sale_type\": \"Dine In\",\r\n    \"pos_config\": \"Main POS Config\",\r\n    \"pos_branding\": \"Main POS Branding\",\r\n    \"default_payment_type\": \"Cash Dollar\",\r\n    \"second_currency_payment_type\": \"Cash Riel\",\r\n    \"default_customer\": \"000001\",\r\n    \"default_pos_receipt\": \"Sale Receipt\",\r\n    \"doctype\": \"POS Profile\",\r\n    \"pos_menus\": [\r\n        {\r\n            \"pos_menu\": \"Root Menu\",\r\n            \"parent\": \"Main POS Profile\",\r\n            \"parentfield\": \"pos_menus\",\r\n            \"parenttype\": \"POS Profile\",\r\n            \"doctype\": \"POS Profile Root Menu\"\r\n        }\r\n    ],\r\n    \"table_groups\": [\r\n        {\r\n            \"doctype\": \"POS Table Group\",\r\n            \"parent\": \"Main POS Profile\",\r\n            \"parentfield\": \"table_groups\",\r\n            \"parenttype\": \"POS Profile\",\r\n            \"table_group\": \"Main Group\"\r\n        }\r\n    ]\r\n}",
+  "data": "{\r\n    \"business_branch\": \"Main Branch\",\r\n    \"pos_profile_name\": \"Main POS Profile\",\r\n    \"outlet\": \"Main Outlet\",\r\n    \"stock_location\": \"Main Warehouse\",\r\n    \"price_rule\": \"Normal Rate\",\r\n    \"tax_rule\": \"\",\r\n    \"default_pos_menu\": \"Root Menu\",\r\n    \"default_sale_type\": \"Dine In\",\r\n    \"pos_config\": \"Main POS Config\",\r\n    \"pos_branding\": \"Main POS Branding\",\r\n    \"waiting_number_prefix\": \"WN.-.####\",\r\n    \"reset_waiting_number_after\": \"Close Working Day\",\r\n    \"default_payment_type\": \"Cash Dollar\",\r\n    \"second_currency_payment_type\": \"Cash Riel\",\r\n    \"default_customer\": \"000001\",\r\n    \"default_pos_receipt\": \"Sale Receipt\",\r\n    \"doctype\": \"POS Profile\",\r\n    \"pos_menus\": [\r\n        {\r\n            \"pos_menu\": \"Root Menu\",\r\n            \"parent\": \"Main POS Profile\",\r\n            \"parentfield\": \"pos_menus\",\r\n            \"parenttype\": \"POS Profile\",\r\n            \"doctype\": \"POS Profile Root Menu\"\r\n        }\r\n    ],\r\n    \"table_groups\": [\r\n        {\r\n            \"doctype\": \"POS Table Group\",\r\n            \"parent\": \"Main POS Profile\",\r\n            \"parentfield\": \"table_groups\",\r\n            \"parenttype\": \"POS Profile\",\r\n            \"table_group\": \"Main Group\"\r\n        }\r\n    ]\r\n}",
   "doc_name": "Main POS Profile",
   "doc_type": "POS Profile",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-07 10:57:14.973296",
+  "modified": "2023-04-11 10:16:36.098376",
   "name": "a7beaf6a79",
   "sort": 35,
   "title": "Main POS Profile"
