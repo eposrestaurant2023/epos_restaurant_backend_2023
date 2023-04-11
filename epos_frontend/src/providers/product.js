@@ -122,7 +122,7 @@ export default class Product {
     onCheckModifier(modifiers){
         if(modifiers){
             const data = modifiers.filter((r)=>{
-                return r.items.some(x => x.branch == this.setting?.business_branch || r.branch == '')
+                return r.items.some(x => x.branch == this.setting?.business_branch || x.branch == '')
             })
             return data.length > 0;
         }

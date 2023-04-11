@@ -107,7 +107,7 @@ import { ref } from 'vue';
 const data = ref({})
 const socket = inject("$socket")
 const gv = inject("$gv")
-const show_thankyou = ref(true)
+const show_thankyou = ref(false)
  
 const open = ref(true)
  
