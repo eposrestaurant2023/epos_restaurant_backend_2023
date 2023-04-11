@@ -912,13 +912,13 @@
   "title": "Root Menu"
  },
  {
-  "data": "{\r\n    \"epos_app_name\": \"ePOS 2023\",\r\n    \"tax_1_name\": \"SC\",\r\n    \"tax_2_name\": \"PL\",\r\n    \"tax_3_name\": \"VAT\",\r\n    \"changed_payment_type\": \"Cash Dollar\",\r\n    \"country\": \"Cambodia\",\r\n    \"default_table_number_background_color\": \"#4F9DD9\",\r\n    \"pos_sale_order_background_image\": \"/files/bgsale.jpg\",\r\n    \"doctype\": \"ePOS Settings\"\r\n}",
+  "data": "{\r\n    \"epos_app_name\": \"ePOS 2023\",\r\n    \"tax_1_name\": \"SC\",\r\n    \"tax_2_name\": \"PL\",\r\n    \"tax_3_name\": \"VAT\",\r\n    \"changed_payment_type\": \"Cash Dollar\",\r\n    \"country\": \"Cambodia\",\r\n    \"default_table_number_background_color\": \"#4F9DD9\",\r\n    \"doctype\": \"ePOS Settings\"\r\n}",
   "doc_name": "ePOS Settings",
   "doc_type": "ePOS Settings",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 1,
-  "modified": "2023-04-07 10:53:43.044448",
+  "modified": "2023-04-11 11:11:57.206001",
   "name": "d1b8266d82",
   "sort": 36,
   "title": "ePOS Settings"
