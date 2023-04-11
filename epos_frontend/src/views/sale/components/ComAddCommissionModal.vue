@@ -1,0 +1,99 @@
+<template>
+    <ComModal
+        :mobileFullscreen="true"
+        @onClose="onClose"
+        @onOk="onConfirm"
+        titleButtonOk="OK"
+        >
+        <template #title>
+            {{ params.title }}
+        </template>
+        <template #content>
+            <v-row class="!m-0">
+                <v-col cols="12" md="6">
+                    <ComInput v-model="data.agent_name" :required="true" keyboard label="Agent Name"/>   
+                </v-col>
+                <v-col cols="12" md="6">
+                    <ComInput v-model="data.agent_phone_number" keyboard label="Phone Number"/>   
+                </v-col>
+                <v-col cols="12" md="6">
+                    <v-select
+                        label="Commission Type"
+                        v-model="data.commission_type" 
+                        :items="['Percent','Amount']"
+                        density="compact"
+                        variant="solo"
+                        @update:modelValue="onUpdatedData" 
+                        hide-details
+                        type="number"
+                    ></v-select>
+                </v-col>
+                <v-col cols="12" md="6">
+                    <ComInput type="number" v-model="data.commission" v-debounce="onUpdatedData"  keyboard label="Commission"/>   
+                </v-col>
+                <v-col cols="12">
+                    <ComInput readonly type="number" v-model="data.commission_amount" label="Amount"/>   
+                </v-col>
+                <v-col cols="12">
+                    <ComInput v-model="data.commission_note" keyboard label="Commission Note" type="textarea"/>
+                </v-col>
+            </v-row>
+        </template>
+        <template #action>
+            <v-btn variant="flat" @click="onRemove()" color="error" prepend-icon="mdi-delete">
+                Remove
+            </v-btn>
+        </template>
+    </ComModal>
+</template>
+  
+<script setup>
+import { ref,defineEmits,createToaster,confirmDialog,onMounted } from '@/plugin'
+import ComInput from '@/components/form/ComInput.vue';
+const toaster = createToaster({ position: 'top' })
+const props = defineProps({
+    params: {
+        type: Object,
+        require: true
+    }
+})
+let data = ref(props.params.data)
+const emit = defineEmits(["resolve","reject"])
+onMounted(() => {
+    onUpdatedData()
+})
+function onUpdatedData(){
+    if (data.value.commission_type=="Percent"){
+        data.value.commission_amount = (data.value.grand_total * data.value.commission/100); 
+    }else {
+        data.value.commission_amount = data.value.commission;
+    }
+}
+async function onRemove(){
+    if(await confirmDialog({ title: 'Delete Commission', text: 'Are you sure you want delete this commission?' })){
+        data.value.agent_name = ""
+        data.value.agent_phone_number = ""
+        data.value.commission = 0
+        data.value.commission_type = "Percent"
+        data.value.commission_amount = 0
+        data.value.commission_note = ""
+        emit("resolve",{ data: data.value })
+    }
+    
+}
+function onConfirm(){
+    if(data.value.agent_name){
+        emit("resolve",{ data: data.value })
+    }else{
+        toaster.warning("Invalid Agent Name", {
+            position: "top",
+        });
+    }
+    
+}
+
+function onClose() {
+    emit('reject',false);
+}
+
+</script>

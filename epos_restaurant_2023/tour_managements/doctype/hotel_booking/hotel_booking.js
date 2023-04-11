@@ -59,6 +59,16 @@ frappe.ui.form.on('Hotel Booking Room Type', {
     },
 })
 
+frappe.ui.form.on('Tour Booking Payments', {
+ 
+    payment_amount:function (frm,cdt, cdn) {
+        const payments=  frm.doc.payments;
+        frm.set_value('total_payment', payments.reduce((n, d) => n + d.payment_amount,0));
+
+    },
+     
+})
+
 
 
 function updateRoomTypeRow(frm,doc){

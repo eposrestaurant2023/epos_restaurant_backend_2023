@@ -79,6 +79,17 @@
   "taxable_amount_3",
   "column_break_66",
   "tax_3_amount",
+  "commission_section",
+  "agent_name",
+  "column_break_93",
+  "agent_phone_number",
+  "section_break_95",
+  "commission",
+  "column_break_97",
+  "commission_type",
+  "section_break_99",
+  "commission_amount",
+  "commission_note",
   "note_tab",
   "amended_from",
   "total_cost",
@@ -647,6 +658,60 @@
    "fieldname": "waiting_number",
    "fieldtype": "Data",
    "label": "Waiting Number"
+  },
+  {
+   "fieldname": "commission_section",
+   "fieldtype": "Tab Break",
+   "label": "Commission"
+  },
+  {
+   "fieldname": "agent_name",
+   "fieldtype": "Data",
+   "label": "Agent Name"
+  },
+  {
+   "fieldname": "column_break_93",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "agent_phone_number",
+   "fieldtype": "Data",
+   "label": "Agent Phone Number"
+  },
+  {
+   "fieldname": "section_break_95",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Percent",
+   "fieldname": "commission_type",
+   "fieldtype": "Select",
+   "label": "Commission Type",
+   "options": "Percent\nAmount"
+  },
+  {
+   "fieldname": "commission",
+   "fieldtype": "Float",
+   "label": "Commission"
+  },
+  {
+   "fieldname": "commission_amount",
+   "fieldtype": "Currency",
+   "label": "Commission Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_97",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_99",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "commission_note",
+   "fieldtype": "Small Text",
+   "label": "Commission Note"
   }
  ],
  "image_field": "photo",
@@ -659,7 +724,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-04-10 11:41:04.944710",
+ "modified": "2023-04-11 14:17:12.139055",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

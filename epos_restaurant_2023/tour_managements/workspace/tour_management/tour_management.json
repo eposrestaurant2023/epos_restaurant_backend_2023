@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Tour Tourmanagement</span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Booking\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hotel Booking\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Package\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Profile\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Guides\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Drivers\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Feedback\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hotels\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Restaurants\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transportation Company\",\"col\":3}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Setup\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Other Setting\",\"col\":4}}]",
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Tour Tourmanagement</span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Booking\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hotel Booking\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Restaurant Booking\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Package\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Profile\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tour Guides\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Drivers\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Feedback\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transportation Company\",\"col\":3}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Master Data Setup\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"People\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Setup\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Other Setting\",\"col\":4}}]",
  "creation": "2023-03-28 23:47:31.207430",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -13,8 +13,56 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Setup",
-   "link_count": 6,
+   "label": "Other Setting",
+   "link_count": 4,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Bank",
+   "link_count": 0,
+   "link_to": "Bank",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Vehicle Type",
+   "link_count": 0,
+   "link_to": "Vehicle Types",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Branch",
+   "link_count": 0,
+   "link_to": "Business Branch",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Meal Plan",
+   "link_count": 0,
+   "link_to": "Restaurant Meal Plan Type",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Master Data Setup",
+   "link_count": 3,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -27,6 +75,34 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Hotels",
+   "link_count": 0,
+   "link_to": "Hotels",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Restaurant",
+   "link_count": 0,
+   "link_to": "Restaurant",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Setup",
+   "link_count": 5,
+   "onboard": 0,
+   "type": "Card Break"
   },
   {
    "hidden": 0,
@@ -81,17 +157,17 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Other Setting",
-   "link_count": 3,
+   "label": "People",
+   "link_count": 4,
    "onboard": 0,
    "type": "Card Break"
   },
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Bank",
+   "label": "Guest Profile",
    "link_count": 0,
-   "link_to": "Bank",
+   "link_to": "Customer",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -99,9 +175,9 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Vehicle Type",
+   "label": "Tour Guide",
    "link_count": 0,
-   "link_to": "Vehicle Types",
+   "link_to": "Tour Guides",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -109,15 +185,25 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Branch",
+   "label": "Driver",
    "link_count": 0,
-   "link_to": "Business Branch",
+   "link_to": "Drivers",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Contact ",
+   "link_count": 0,
+   "link_to": "Contact",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
   }
  ],
- "modified": "2023-04-07 15:38:19.520677",
+ "modified": "2023-04-11 15:01:25.198712",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Management",
@@ -128,14 +214,6 @@
  "roles": [],
  "sequence_id": 6.0,
  "shortcuts": [
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Hotels",
-   "link_to": "Hotels",
-   "stats_filter": "{\"hotel_name\":[\"is\",\"set\"]}",
-   "type": "DocType"
-  },
   {
    "color": "Grey",
    "doc_view": "List",
@@ -178,14 +256,6 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Restaurants",
-   "link_to": "Restaurant",
-   "stats_filter": "{\"name\":[\"is\",\"set\"]}",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
    "label": "Guest Profile",
    "link_to": "Customer",
    "type": "DocType"
@@ -195,6 +265,14 @@
    "doc_view": "List",
    "label": "Tour Guides",
    "link_to": "Tour Guides",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Restaurant Booking",
+   "link_to": "Restaurant Booking",
+   "stats_filter": "{\"name\":[\"is\",\"set\"]}",
    "type": "DocType"
   },
   {

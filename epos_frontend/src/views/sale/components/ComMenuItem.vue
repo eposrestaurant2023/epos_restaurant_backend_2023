@@ -144,7 +144,6 @@ async function onClickProduct() {
                 if (productPrices) {
                     if (productPrices.portion != undefined) {
                         p.price = productPrices.portion.price;
-                        
                         p.portion = productPrices.portion.portion;
                     }
                     p.modifiers = productPrices.modifiers.modifiers;

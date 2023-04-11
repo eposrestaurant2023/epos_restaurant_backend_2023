@@ -16,6 +16,7 @@ import ComSaleTypeChip from './ComSaleTypeChip.vue';
 import { inject,keyboardDialog,changePriceRuleDialog, createToaster  } from '@/plugin';
 const toaster = createToaster({position: 'top'})
 const sale = inject("$sale")
+const product = inject("$product")
 const setting = JSON.parse(localStorage.getItem("setting"))
 
 async function onUpdateGuestCover(){

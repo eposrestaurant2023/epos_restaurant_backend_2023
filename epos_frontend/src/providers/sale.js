@@ -109,8 +109,11 @@ export default class Sale {
             sub_total: 0,
             payment:[],
             posting_date: moment(new Date()).format('yyyy-MM-DD'),
+            commission_type: "Percent",
+            commission: 0,
+            commission_note: '',
+            commission_amount:0
             
-
         }
        
     }
@@ -363,6 +366,13 @@ export default class Sale {
         //grand_total
         this.sale.grand_total = (this.sale.sub_total - this.sale.total_discount) + this.sale.total_tax
         this.sale.balance = this.sale.grand_total;
+
+        // commission
+        if (this.sale.commission_type=="Percent"){
+            this.sale.commission_amount = (this.sale.grand_total * this.sale.commission/100); 
+        }else {
+            this.sale.commission_amount = this.sale.commission;
+        }
 
         socket.emit("ShowOrderInCustomerDisplay",this.sale);
     }

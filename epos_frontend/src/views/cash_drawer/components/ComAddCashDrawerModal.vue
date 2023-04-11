@@ -18,7 +18,6 @@
                                 ></v-select>
                         </v-col>
                         <v-col cols="12" md="6">
-                            
                             <v-text-field  
                             density="compact"
                             label="Input Amount" 
@@ -28,6 +27,7 @@
                             @click:append-inner="OpenKeyboard()"
                             v-debounce="updateAmount" 
                             type="number"
+                            hide-details
                             ></v-text-field>
 
                         </v-col>

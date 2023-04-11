@@ -10,6 +10,7 @@
         </v-list-item>
         <v-list-item prepend-icon="mdi-note-outline" title="Note" @click="sale.onSaleNote(sale.sale)" v-else />
     </template>
+    <v-list-item prepend-icon="mdi-currency-usd" title="Commission" @click="onAddCommission()" />
     <v-list-item prepend-icon="mdi-bulletin-board" title="Change Price Rule" @click="onChangePriceRule()" />
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-silverware" title="Change POS Menu" @click="onChangePOSMenu()" />
     <v-list-item v-if="isWindow" prepend-icon="mdi-cash-100" title="Open Cash Drawer" @click="onOpenCashDrawer()" />
@@ -34,7 +35,7 @@
     </v-list-item>
 </template>
 <script setup>
-import { useRouter, viewBillModelModel,ref, inject,confirm, keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog ,createResource } from "@/plugin"
+import { useRouter, addCommissionDialog,viewBillModelModel,ref, inject,confirm, keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog ,createResource } from "@/plugin"
 import { useDisplay } from 'vuetify'
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
 const { mobile } = useDisplay()
@@ -191,4 +192,12 @@ function onInfoDeveloping(){
     toaster.info('This function is developing.')
 }
 
+async function onAddCommission(){ 
+    if (!sale.isBillRequested()) {
+        const result = await addCommissionDialog({ title: "Add / Edit Commition", name: 'Sale Commission', data: sale.sale });
+        if (result != false) { 
+            sale.sale = result.data
+        }
+    }
+}
 </script>

@@ -57,7 +57,6 @@ const props = defineProps({
 const toaster = createToaster({ position: "top" })
 let open = ref(true)
 let discount_note = ref('')
-
 let discount_type = ref(props.params.data.discount_type)
 let discount = ref(props.params.data.discount_value)
 let amount = ref(parseFloat(props.params.value))

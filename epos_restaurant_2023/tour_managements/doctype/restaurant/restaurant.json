@@ -22,7 +22,28 @@
   "column_break_12",
   "lunch",
   "column_break_14",
-  "diner"
+  "diner",
+  "section_break_16",
+  "business_hour_section",
+  "start_business_hour",
+  "column_break_20",
+  "close_business_hour",
+  "section_break_22",
+  "monday",
+  "column_break_24",
+  "tuesday",
+  "column_break_26",
+  "wednesday",
+  "column_break_28",
+  "thursday",
+  "column_break_30",
+  "friday",
+  "column_break_32",
+  "saturday",
+  "column_break_34",
+  "sunday",
+  "meal_plan_tab",
+  "meal_plan"
  ],
  "fields": [
   {
@@ -107,12 +128,115 @@
    "fieldname": "diner",
    "fieldtype": "Check",
    "label": "Diner"
+  },
+  {
+   "fieldname": "meal_plan_tab",
+   "fieldtype": "Tab Break",
+   "label": "Meal Plan"
+  },
+  {
+   "fieldname": "meal_plan",
+   "fieldtype": "Table",
+   "options": "Restaurant Meal Plan"
+  },
+  {
+   "fieldname": "business_hour_section",
+   "fieldtype": "Section Break",
+   "label": "Business Hour"
+  },
+  {
+   "fieldname": "start_business_hour",
+   "fieldtype": "Time",
+   "label": "Start Business Hour"
+  },
+  {
+   "fieldname": "column_break_20",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "close_business_hour",
+   "fieldtype": "Time",
+   "label": "Close Business Hour"
+  },
+  {
+   "fieldname": "section_break_22",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "monday",
+   "fieldtype": "Check",
+   "label": "Monday"
+  },
+  {
+   "fieldname": "column_break_24",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "tuesday",
+   "fieldtype": "Check",
+   "label": "Tuesday"
+  },
+  {
+   "fieldname": "column_break_26",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "wednesday",
+   "fieldtype": "Check",
+   "label": "Wednesday"
+  },
+  {
+   "fieldname": "column_break_28",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "thursday",
+   "fieldtype": "Check",
+   "label": "Thursday"
+  },
+  {
+   "fieldname": "column_break_30",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "friday",
+   "fieldtype": "Check",
+   "label": "Friday"
+  },
+  {
+   "fieldname": "column_break_32",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "saturday",
+   "fieldtype": "Check",
+   "label": "Saturday"
+  },
+  {
+   "fieldname": "column_break_34",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "sunday",
+   "fieldtype": "Check",
+   "label": "Sunday"
+  },
+  {
+   "fieldname": "section_break_16",
+   "fieldtype": "Section Break"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-05 17:56:16.560119",
+ "modified": "2023-04-11 14:28:25.267853",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Restaurant",

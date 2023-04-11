@@ -19,6 +19,8 @@
   "pax",
   "adult",
   "child",
+  "confirm_booking_by",
+  "confirm_booking_phone_number",
   "guest_information_section",
   "guest_profile",
   "phone_number",
@@ -38,7 +40,11 @@
   "column_break_27",
   "total_amount",
   "additional_guest_tab",
-  "additional_guest"
+  "additional_guest",
+  "payment_tab",
+  "payments",
+  "section_break_36",
+  "total_payment"
  ],
  "fields": [
   {
@@ -219,11 +225,45 @@
    "label": "Branch",
    "options": "Business Branch",
    "reqd": 1
+  },
+  {
+   "fieldname": "confirm_booking_by",
+   "fieldtype": "Link",
+   "label": "Confirm Booking By",
+   "options": "Contact"
+  },
+  {
+   "fetch_from": "confirm_booking_by.phone",
+   "fieldname": "confirm_booking_phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "payment_tab",
+   "fieldtype": "Tab Break",
+   "label": "Payment"
+  },
+  {
+   "fieldname": "payments",
+   "fieldtype": "Table",
+   "label": "Payments",
+   "options": "Tour Booking Payments"
+  },
+  {
+   "fieldname": "section_break_36",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_payment",
+   "fieldtype": "Currency",
+   "label": "Total Payment",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-07 16:12:10.853603",
+ "modified": "2023-04-11 14:54:44.404733",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Hotel Booking",

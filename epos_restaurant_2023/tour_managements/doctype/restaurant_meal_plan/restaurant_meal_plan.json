@@ -1,0 +1,47 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2023-04-11 14:06:24.581254",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "meal_plan",
+  "adult_price",
+  "child_price"
+ ],
+ "fields": [
+  {
+   "fieldname": "meal_plan",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Meal Plan",
+   "options": "Restaurant Meal Plan Type"
+  },
+  {
+   "fieldname": "adult_price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Adult Price"
+  },
+  {
+   "fieldname": "child_price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Child Price"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-04-11 14:19:11.791292",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Restaurant Meal Plan",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

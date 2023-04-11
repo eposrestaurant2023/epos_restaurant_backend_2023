@@ -142,7 +142,12 @@ class Sale(Document):
 			sale_status_doc = frappe.get_doc("Sale Status", self.sale_status)
 			self.sale_status_color = sale_status_doc.background_color
 			self.sale_status_priority  = sale_status_doc.priority
-
+		# commission
+		if self.agent_name:
+			if self.commission_type=="Percent":
+				self.commission_amount = (self.grand_total * self.commission/100); 
+			else:
+				self.commission_amount = self.commission
 
 	def before_submit(self):
 		self.append_quantity = None
