@@ -8,6 +8,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "logo",
   "pos_branding_name",
   "login_background",
   "home_background",
@@ -64,11 +65,18 @@
    "fieldtype": "Table",
    "label": "Customer Display Slideshow",
    "options": "Customer Display Slideshow"
+  },
+  {
+   "fieldname": "logo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Logo"
   }
  ],
+ "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-06 17:53:26.674482",
+ "modified": "2023-04-11 10:44:09.400948",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Branding",
