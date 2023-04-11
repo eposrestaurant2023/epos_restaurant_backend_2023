@@ -247,7 +247,7 @@ def reset_data():
             frappe.db.sql("delete from `tabPrice Rule`")
             frappe.db.sql("delete from `tabRevenue Group`")
             frappe.db.sql("delete from `tabPayment Type Group`")
-            frappe.db.sql("delete from `tabPOS Profile Payment Type`")
+            # frappe.db.sql("delete from `tabPOS Profile Payment Type`")
             frappe.db.sql("delete from `tabProduct`")
             frappe.db.sql("delete from `tabProduct Category`")
             frappe.db.sql("delete from `tabPOS Price Rule`")
