@@ -10,6 +10,7 @@
   "name1",
   "phone_number",
   "spoken_language",
+  "is_tour_leader",
   "column_break_4",
   "start_date",
   "end_date",
@@ -117,12 +118,18 @@
    "fieldtype": "Currency",
    "label": "Total Amount",
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_tour_leader",
+   "fieldtype": "Check",
+   "label": "Is Tour Leader"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-07 16:29:49.778522",
+ "modified": "2023-04-10 15:21:21.337301",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking Guide And Driver",

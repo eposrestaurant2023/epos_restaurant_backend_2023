@@ -105,6 +105,8 @@ def get_products(parent_menu):
 
 @frappe.whitelist()
 def get_product_by_barcode(barcode):
+    
+
     return {
         "menu_product_name": "f345104b55",
         "name": "9696",

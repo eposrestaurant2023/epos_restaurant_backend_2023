@@ -26,10 +26,12 @@
    "options": "Hotel Room Type"
   },
   {
+   "default": "1",
    "fieldname": "number_of_room",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Total Rooms"
+   "label": "Total Rooms",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_3",
@@ -78,7 +80,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-10 08:43:42.744548",
+ "modified": "2023-04-10 16:16:50.906009",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Hotel Booking Room Type",

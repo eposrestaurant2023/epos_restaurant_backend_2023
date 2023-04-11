@@ -59,12 +59,16 @@ class Product(Document):
 						"doctype":"Inventory Transaction",
 						"transaction_date":datetime.now(),
 						"product_code":self.name,
+
 						"stock_location":self.stock_location,
 						"in_quantity":self.opening_quantity,
 						"price":self.cost,
 						"note":"Opening Quantity"
 					}
 				)
+
+
+				
 	
 	def on_update(self):
 		#add_product_to_temp_menu(self)
@@ -98,6 +102,7 @@ class Product(Document):
 		variant_1 =  [d.variant_value for d in self.variant_1_value]
 		variant_2 =  [d.variant_value for d in self.variant_2_value]
 		variant_3 =  [d.variant_value for d in self.variant_3_value]
+
 		product_variants = []
 		if variant_1 and not variant_2 and not variant_3:
 			for v1 in variant_1:
@@ -123,7 +128,7 @@ class Product(Document):
 		else:
 			for v1, v2,v3   in itertools.product(variant_1, variant_2, variant_3):
 				product_variants.append({
-					"variant_code":"",
+					"variant_code":"{}-{}-{}-{}".format(self.name,frappe.db.get_value("Variant Code", v1,"code_prefix"),frappe.db.get_value("Variant Code", v2,"code_prefix"),frappe.db.get_value("Variant Code", v3,"code_prefix")),
 					"variant_name": "{}-{}-{}".format(v1,v2,v3 ),
 					"variant_1":v1,
 					"variant_2":v2,

@@ -56,6 +56,7 @@ frappe.ui.form.on("Tour Booking", {
     },
 
 });
+
 frappe.ui.form.on('Tour Booking Hotels', {
    departure:function (frm,cdt, cdn) {
     let doc = locals[cdt][cdn];

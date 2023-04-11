@@ -24,7 +24,6 @@ frappe.ui.form.on("Product", {
             method: 'generate_variant',
             doc:frm.doc,
             callback:function(r){
-                 
                 if(r.message){
                     frm.set_value('product_variants',r.message);
                 }

@@ -215,7 +215,7 @@ fixtures = [
 
 website_route_rules = [
         {'from_route': '/epos_frontend/<path:app_path>', 'to_route': 'epos_frontend'},
-        {'from_route': '/login/<path:app_path>', 'to_route': 'epos_frontend'},
-        
+        {'from_route': '/emenu/<path:app_path>', 'to_route': 'emenu'},
+        {'from_route': '/login/<path:app_path>', 'to_route': 'epos_frontend'},     
 ]
-website_route_rules = [{'from_route': '/emenu/<path:app_path>', 'to_route': 'emenu'},]
+# website_route_rules = [{'from_route': '/emenu/<path:app_path>', 'to_route': 'emenu'},]
