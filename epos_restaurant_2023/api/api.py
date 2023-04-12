@@ -405,10 +405,10 @@ def update_print_bill_requested(name):
 @frappe.whitelist()
 def get_working_day_list_report():
     days = int(frappe.db.get_default("number_of_day_cashier_can_view_report"))
-    date = add_to_date(today(),days=days*-1)
+    date = add_to_date(today(),days*-1)
     working_day =frappe.db.get_list('Working Day',
         filters={
-            "posting_date":[">=", date]
+            "posting_date":["<=", date]
         },
         fields=["name","posting_date","creation","modified_by","owner","is_closed","closed_date"],
         order_by='posting_date desc',

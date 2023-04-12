@@ -36,7 +36,7 @@ frappe.ui.form.on('Restaurant Booking Meal Plan', {
             },
             callback:function(r){
                 if(r.message){
-                    console.log(r.message)
+                  
                    doc.adult_price = r.message[0].adult_price;
                    doc.child_price = r.message[0].child_price;
                   
