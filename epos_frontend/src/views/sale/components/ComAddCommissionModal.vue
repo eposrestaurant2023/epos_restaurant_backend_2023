@@ -3,7 +3,7 @@
         :mobileFullscreen="true"
         @onClose="onClose"
         @onOk="onConfirm"
-        titleButtonOk="OK"
+        titleOKButton="OK"
         >
         <template #title>
             {{ params.title }}
@@ -29,7 +29,7 @@
                     ></v-select>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <ComInput type="number" v-model="data.commission" v-debounce="onUpdatedData"  keyboard label="Commission"/>   
+                    <ComInput type="number" v-model="data.commission" v-debounce="onUpdatedData" keyboard label="Commission"/>   
                 </v-col>
                 <v-col cols="12">
                     <ComInput readonly type="number" v-model="data.commission_amount" label="Amount"/>   
@@ -82,7 +82,7 @@ async function onRemove(){
     
 }
 function onConfirm(){
-    if(data.value.agent_name){
+    if(data.value.agent_name){ 
         emit("resolve",{ data: data.value })
     }else{
         toaster.warning("Invalid Agent Name", {

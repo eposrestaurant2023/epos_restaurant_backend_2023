@@ -175,8 +175,11 @@ const validAutofocus = computed(()=>{
 const emit = defineEmits(['update:modelValue'])
 
 const updateValue = (event) => {
-    // props.modelValue = event.target.value;
-    emit('update:modelValue', event.target.value)
+    let value = event.target.value;
+    if(props.type == 'number'){
+        value = parseFloat(value)
+    }
+    emit('update:modelValue', value)
 }
 
 async function onDialog() {
