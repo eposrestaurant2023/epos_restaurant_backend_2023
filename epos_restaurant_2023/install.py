@@ -265,6 +265,7 @@ def reset_data():
             frappe.db.sql("delete from `tabModule Profile`")
             frappe.db.sql("delete from `tabNavbar Item`")
             frappe.db.sql("delete from `tabDiscount Code`")
+            frappe.db.sql("delete from `tabPOS User Permission`")
 
             # frappe.db.sql("delete from `tabPOS Profile Table Group`")
             # frappe.db.sql("delete from `tabRestaurant Table`")
