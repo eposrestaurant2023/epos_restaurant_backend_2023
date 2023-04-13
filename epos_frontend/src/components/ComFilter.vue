@@ -1,5 +1,5 @@
 <template>
-    <div class="pb-3">
+    <div class="pb-3"> 
         <div class="flex items-end"  :class="mobile ? 'justify-end' : 'justify-between'" v-if="resource?.data">
             <div v-if="!mobile">
                 <div class="flex flex-wrap items-end">
@@ -7,28 +7,30 @@
                         <ComInput keyboard placeholder="ID" v-model="name" variant="solo" class="m-1" v-debounce="onSearch" @onInput="onSearch"/>
                     </div>
                     <template v-for="(f, index) in resource.data.fields.filter(r => r.in_standard_filter == 1)" :key="index">
-                        <div style="min-width: 200px">
-                            <ComInput keyboard
-                                v-if="f.fieldtype == 'Data' || f.fieldtype == 'Text' || f.fieldtype == 'Small Text' || f.fieldtype == 'Long Text'"
-                                v-model="f.value" :placeholder="f.label" variant="solo" class="m-1" />
-                            <ComInput keyboard type="number"
-                                v-if="f.fieldtype == 'Int' || f.fieldtype == 'Float' || f.fieldtype == 'Currency'" v-model="f.value"
-                                :placeholder="f.label" variant="solo" class="m-1"/>
-                            <ComInput type="date" v-if="f.fieldtype == 'Date'" v-model="f.value" class="m-1"></ComInput>
-                            <ComAutoComplete v-model="f.value" v-if="f.fieldtype == 'Link'" :doctype="f.options"   variant="solo" class="m-1"/>
-                            <v-select 
-                                density="compact"
-                                v-if="f.fieldtype == 'Select'" 
-                                v-model="f.value" 
-                                :placeholder="f.label"
-                                :items="f.options.split('\n')"
-                                @click:clear="f.value=''"
-                                hide-no-data
-                                hide-details 
-                                clearable
-                                variant="solo" class="m-1"
-                                ></v-select>
-                        </div>
+                        <template v-if="f.options != 'Business Branch' || !gv.setting.specific_bench">
+                            <div style="min-width: 200px">
+                                <ComInput keyboard
+                                    v-if="f.fieldtype == 'Data' || f.fieldtype == 'Text' || f.fieldtype == 'Small Text' || f.fieldtype == 'Long Text'"
+                                    v-model="f.value" :placeholder="f.label" variant="solo" class="m-1" />
+                                <ComInput keyboard type="number"
+                                    v-if="f.fieldtype == 'Int' || f.fieldtype == 'Float' || f.fieldtype == 'Currency'" v-model="f.value"
+                                    :placeholder="f.label" variant="solo" class="m-1"/>
+                                <ComInput type="date" v-if="f.fieldtype == 'Date'" v-model="f.value" class="m-1"></ComInput>
+                                <ComAutoComplete v-model="f.value" v-if="f.fieldtype == 'Link'" :doctype="f.options"   variant="solo" class="m-1"/>
+                                <v-select 
+                                    density="compact"
+                                    v-if="f.fieldtype == 'Select'" 
+                                    v-model="f.value" 
+                                    :placeholder="f.label"
+                                    :items="f.options.split('\n')"
+                                    @click:clear="f.value=''"
+                                    hide-no-data
+                                    hide-details 
+                                    clearable
+                                    variant="solo" class="m-1"
+                                    ></v-select>
+                            </div>
+                        </template>
                     </template>
                 </div>
             </div>
@@ -109,14 +111,11 @@ function generateFilter() {
             filter[r.field.fieldname] = [r.operator, getFiltervalue(r,r.operator)]
         }
     });
-
+   
     emit('onFilter', filter, order_by.value)
 }
 watch(resource, (newValue)=>{
-    if(!disableFirstLoading.value){
-        onSearch()
-    }
-    disableFirstLoading.value = false
+    onSearch()
 })
 function getFiltervalue(d, operator="=") {
     let value ="";

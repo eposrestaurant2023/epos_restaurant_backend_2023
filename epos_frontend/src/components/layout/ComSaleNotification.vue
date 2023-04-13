@@ -15,11 +15,12 @@ const sale = inject('$sale')
 const router = useRouter();
 const socket = inject('$socket');
 const toaster = createToaster({position:"top"});
+const setting = JSON.parse(localStorage.getItem("setting"))
 async function onSearchSale(){
     const sp = Enumerable.from(sale.sale.sale_products);
 
 if (sp.where("$.name==undefined").toArray().length > 0) {
-    toaster.warning("Please submit your current order first");
+    toaster.warning(`Please ${setting.table_groups && setting.table_groups.length > 0 ? 'submit' : 'save'} your current order first`);
     
 }else {
     const result = await searchSaleDialog({ })

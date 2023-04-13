@@ -45,8 +45,10 @@ function onCreateNewBill() {
 }
 
 async function onSaleOrderClick(s) {
-   
-
+    if (s.sale_status == "Bill Requested") {
+        toaster.warning("You cannot merge order to the bill requested.");
+        return;
+    }
     if (s.name == sale.sale.name) {
         toaster.warning("You cannot merge order to the current order.");
         return;
@@ -69,10 +71,13 @@ async function onSaleOrderClick(s) {
 
         sale_products.push(...change_table_sale_products);
 
-      
+        toaster.warning("start merge")
         await resource.setValue.submit({ sale_products: sale_products }).then(async (data) => {
             if (sale.sale.name) {
+                toaster.warning("start delete")
                 await sale.saleResource.delete.submit().then(() => {
+                    toaster.warning("end delete")
+                    
                     toaster.warning("Sale document " + sale.sale.name + " has been delete.")
                     router.push({
                         name: "AddSale", params: {

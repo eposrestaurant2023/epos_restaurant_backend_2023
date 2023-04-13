@@ -53,7 +53,7 @@ const props = defineProps({
   }
 });
 const emit = defineEmits(["onPrint"])
-const toaster = createToaster({ poisition: 'top' })
+const toaster = createToaster({ position: 'top' })
 async function onPrintReport(r) {
   if (sale.sale.sale_products?.length == 0) {
     toaster.warning("Please select a menu item to submit order");

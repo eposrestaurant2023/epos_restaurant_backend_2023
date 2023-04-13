@@ -138,15 +138,11 @@ function getTable(tables,keyword) {
 
 
 async function onSelectTable(t) {
-   if(t.sales?.length==0){
-
-    
+   if(t.sales?.length==0){    
         sale.sale.table_id = t.id;
         sale.sale.tbl_number = t.tbl_no;
         toaster.success("Change to table: " + t.tbl_no);
-
         emit("resolve", true)
- 
    }
    else {
     const result = await changeTableSelectSaleOrderDialog({data:t});

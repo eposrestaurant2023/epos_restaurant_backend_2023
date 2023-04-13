@@ -85,6 +85,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "tax_1_name":doc.tax_1_name,
         "tax_2_name":doc.tax_2_name,
         "tax_3_name":doc.tax_3_name,
+        "specific_bench":doc.specific_bench,
         "customer_display_slideshow": pos_branding.customer_display_slideshow,
         "thank_you_message":pos_branding.thank_you_message,
         "cancel_print_bill_required_password":pos_config.cancel_print_bill_required_password,
@@ -140,6 +141,7 @@ def get_system_settings(pos_profile="", device_name=''):
 
     data={
         "app_name":doc.epos_app_name,
+        "specific_bench":doc.specific_bench,
         "business_branch":profile.business_branch,
         "address":pos_config.address,
         "logo":pos_branding.logo,
@@ -403,13 +405,19 @@ def update_print_bill_requested(name):
     doc.save()
 
 @frappe.whitelist()
-def get_working_day_list_report():
+def get_working_day_list_report(business_branch = ''):
     days = int(frappe.db.get_default("number_of_day_cashier_can_view_report"))
     date = add_to_date(today(),days*-1, as_string=True)
+    filters = {
+        "posting_date":["<=", date]
+    }
+    if(business_branch != ''):
+        filters = {
+            "posting_date":["<=", date],
+            "business_branch":["=", business_branch]
+        }
     working_day =frappe.db.get_list('Working Day',
-        filters={
-            "posting_date":["<=", date]
-        },
+        filters = filters,
         fields=["name","posting_date","creation","modified_by","owner","is_closed","closed_date"],
         order_by='posting_date desc',
         page_length=100,

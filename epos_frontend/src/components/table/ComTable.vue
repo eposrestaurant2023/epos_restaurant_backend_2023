@@ -123,14 +123,14 @@ const props = defineProps({
         default: ''
     },
     extraFields: String,
-  
+    businessBranchField: String
 })
  
 let pagerOption = reactive({
     itemPerPage: 20,
     currentPage: 1,
     orderBy: '',
-    filters:{}
+    filters: {}
 })
 
 let totalRecord = ref(0)
@@ -155,7 +155,6 @@ const meta = createResource({
         data.fields.forEach(function (r) {
             r.value = null
         })
-
         await countResource.fetch()
     }
 })
@@ -178,10 +177,11 @@ let dataResource = createResource({
 })
 
 function getDataResourceParams (){
+ 
     return {  
          doctype: props.doctype,
             fields: getFieldName(),
-            filters: pagerOption.filters,
+            filters: getFilter(),
             order_by: pagerOption.orderBy ? pagerOption.orderBy : order.value.sort_field && order.value.sort_order ? order.value?.sort_field + ' ' + order.value?.sort_order : '',
             limit_page_length: pagerOption.itemPerPage,
             limit_start: ( (pagerOption.currentPage -1) * pagerOption.itemPerPage )
@@ -190,15 +190,22 @@ function getDataResourceParams (){
 function getCountResourceParams (){
     return {   
             doctype: props.doctype, 
-            filters: pagerOption.filters
+            filters: getFilter()
         }
+}
+
+function getFilter(){
+    let filters = JSON.parse(JSON.stringify(pagerOption.filters))
+    if(gv.setting.specific_bench && props.businessBranchField){
+        filters[props.businessBranchField] = ["=", gv.setting.business_branch]
+    }
+    return filters
 }
  
 watch(pagerOption , (currentValue) => {
     setTimeout(function(){
-        dataResource.params =   getDataResourceParams()
+        dataResource.params = getDataResourceParams()
         dataResource.fetch()
-
         countResource.params = getCountResourceParams()
         countResource.fetch()
     },500);
@@ -216,11 +223,6 @@ function getFieldName() {
     return fieldnames;
 
 }
-
-
- 
-
-
 
 function getFieldFromTemplate(str) {
     var results = [], re = /{([^}]+)}/g, text;
@@ -252,7 +254,7 @@ function callback(header, data) {
 
 }
 
-function onFilter($event, orderBy){ 
+function onFilter($event, orderBy){
     pagerOption.currentPage = 1;
     pagerOption.filters = $event;
     pagerOption.orderBy = orderBy;
