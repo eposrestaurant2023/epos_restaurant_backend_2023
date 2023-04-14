@@ -4,6 +4,7 @@ import frappe
 import base64
 from py_linq import Enumerable
 from frappe.utils import today, add_to_date
+from datetime import datetime, timedelta
 from frappe import _
 @frappe.whitelist(allow_guest=True)
 def check_username(pin_code):
@@ -407,18 +408,22 @@ def update_print_bill_requested(name):
 @frappe.whitelist()
 def get_working_day_list_report(business_branch = ''):
 
-    x = frappe.db.get_default("number_of_day_cashier_can_view_report")
- 
+     
     days = int(frappe.db.get_default("number_of_day_cashier_can_view_report"))
-    date = add_to_date(today(),days*-1, as_string=True)
+    
+   
+    date = datetime.today()
+    new_date = date + timedelta(days=days*-1)
+ 
+
     filters = {
         "posting_date":["<=", date]
     }
-    if(business_branch != ''):
-        filters = {
-            "posting_date":["<=", date],
-            "business_branch":["=", business_branch]
-        }
+    # if(business_branch != ''):
+    #     filters = {
+    #         "posting_date":["<=", date],
+    #         "business_branch":["=", business_branch]
+    #     }
     working_day =frappe.db.get_list('Working Day',
         filters = filters,
         fields=["name","posting_date","creation","modified_by","owner","is_closed","closed_date"],
