@@ -48,13 +48,13 @@
   "title": "Main Outlet"
  },
  {
-  "data": "{  \n    \"doctype\": \"Table Group\",\n    \"photo\": \"/files/loginbgc5e5e2.JPG\",\n    \"outlet\": \"Main Outlet\",\n    \"business_branch\": \"Main Branch\",\n    \"table_group_name_en\": \"Main Group\",\n    \"table_group_name_kh\": \"Main Group\"\n}",
+  "data": "{  \n    \"doctype\": \"Table Group\",\n    \"photo\": \"/assets/frappe/images/table_bg.png\",\n    \"outlet\": \"Main Outlet\",\n    \"business_branch\": \"Main Branch\",\n    \"table_group_name_en\": \"Main Group\",\n    \"table_group_name_kh\": \"Main Group\"\n}",
   "doc_name": "Main Group",
   "doc_type": "Table Group",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-07 09:25:29.720000",
+  "modified": "2023-04-17 15:22:46.233104",
   "name": "8760f8ef24",
   "sort": 7,
   "title": "Main Group"
