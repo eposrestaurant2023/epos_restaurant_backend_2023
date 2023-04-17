@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="h-60 bg-no-repeat bg-cover"
-            v-bind:style="{ 'background-image': 'url(' + gv.setting.login_background + ')' }">
+            v-bind:style="{ 'background-image': 'url(' + gv.setting.home_background + ')' }">
             <div class="wrap-overlay w-full h-full flex items-end justify-center">
                 <div>
                     <div class="text-center text-white mb-3">
@@ -35,7 +35,7 @@
                         <ComButton @click="onCashInCashOut" title="Cash Drawer" icon-color="#e99417"
                             icon="mdi-currency-usd" />
                         <ComButton @click="onRoute('Report')" title="Report" icon="mdi-chart-bar" icon-color="#e99417" />
-                        <ComButton @click="onRoute('Report')" title="Wifi Password" icon="mdi-chart-bar" icon-color="#e99417" />
+                        <ComButton @click="onWifi()" title="Wifi Password" icon="mdi-wifi" icon-color="#e99417" />
                         
                         <ComButton @click="onLogout()" text-color="#fff" icon-color="#fff" title="Logout" icon="mdi-logout"
                             background-color="#b00020" />
@@ -148,6 +148,10 @@ async function onViewPendingOrder() {
         }
         
     })
+}
+
+async function onWifi() {
+    alert('HELLO')
 }
 
 async function onViewCloseOrder(){

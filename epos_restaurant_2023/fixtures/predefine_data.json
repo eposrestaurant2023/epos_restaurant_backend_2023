@@ -12,13 +12,13 @@
   "title": "Sale Invoice A4"
  },
  {
-  "data": "{\n  \"doctype\": \"Business Information\",\n  \"business_name_en\": \"EPOS\",\n  \"business_name_kh\": \"EPOS\",\n  \"phone_number\": \"+855(0)123 456 789\",\n  \"office_number\": \"System Administrator\",\n  \"contact_name\": \"Admin System\",\n  \"contact_number\": \"+855(0)123 456 789\",\n  \"contact_email\": \"epos@mail.com\",\n  \"email\":\"system@mail.com\",\n  \"photo\": \"/private/files/qr-code-scan.jpg\",\n  \"address\": \"Krous Village Rd, Krong Siem Reap\"\n}",
+  "data": "{\n  \"doctype\": \"Business Information\",\n  \"business_name_en\": \"EPOS\",\n  \"business_name_kh\": \"EPOS\",\n  \"phone_number\": \"+855(0)123 456 789\",\n  \"office_number\": \"System Administrator\",\n  \"contact_name\": \"Admin System\",\n  \"contact_number\": \"+855(0)123 456 789\",\n  \"contact_email\": \"epos@mail.com\",\n  \"email\":\"system@mail.com\",\n  \"photo\": \"/assets/frappe/images/frappe-favicon.svg\",\n  \"address\": \"Krous Village Rd, Krong Siem Reap\"\n}",
   "doc_name": "Business Information",
   "doc_type": "Business Information",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 1,
-  "modified": "2023-04-03 10:32:29.105906",
+  "modified": "2023-04-17 16:47:15.469249",
   "name": "5097c19c46",
   "sort": 0,
   "title": "Business Information"
@@ -876,13 +876,13 @@
   "title": "Main Warehouse"
  },
  {
-  "data": "{\r\n    \"logo\": \"/assets/frappe/images/frappe-framework-logo.svg\",\r\n    \"pos_branding_name\": \"Main POS Branding\",\r\n    \"login_background\": \"/files/loginbg.jpg\",\r\n    \"home_background\": \"/files/bannerb0378a.png\",\r\n    \"pos_sale_order_background_image\": \"/files/bgsale1aea47.jpg\",\r\n    \"thank_you_background\": \"/files/thank3931e7.jpg\",\r\n    \"thank_you_message\": \"Thank you, see you again\",\r\n    \"doctype\": \"POS Branding\",\r\n    \"customer_display_slideshow\": [\r\n        {\r\n            \"title\": \"Slideshow 1\",\r\n            \"photo\": \"/files/thank.jpg\",\r\n            \"parent\": \"Main POS Branding\",\r\n            \"parentfield\": \"customer_display_slideshow\",\r\n            \"parenttype\": \"POS Branding\",\r\n            \"doctype\": \"Customer Display Slideshow\"\r\n        },\r\n        {\r\n            \"title\": \"Slideshow 2\",\r\n            \"photo\": \"/files/loginbg.JPG\",\r\n            \"parent\": \"Main POS Branding\",\r\n            \"parentfield\": \"customer_display_slideshow\",\r\n            \"parenttype\": \"POS Branding\",\r\n            \"doctype\": \"Customer Display Slideshow\"\r\n        }\r\n    ]\r\n}",
+  "data": "{\r\n    \"logo\": \"/assets/frappe/images/login.png\",\r\n    \"pos_branding_name\": \"Main POS Branding\",\r\n    \"login_background\": \"/assets/frappe/images/login_backround.jpg\",\r\n    \"home_background\": \"/assets/frappe/images/home_background.png\",\r\n    \"pos_sale_order_background_image\": \"/files/bgsale1aea47.jpg\",\r\n    \"thank_you_background\": \"/assets/frappe/images/thankyou.avif\",\r\n    \"thank_you_message\": \"Thank you, see you again\",\r\n    \"doctype\": \"POS Branding\",\r\n    \"customer_display_slideshow\": []\r\n}",
   "doc_name": "Main POS Branding",
   "doc_type": "POS Branding",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-11 10:59:40.274950",
+  "modified": "2023-04-17 17:29:25.794470",
   "name": "584607e6c1",
   "sort": 10,
   "title": "Main POS Branding"
