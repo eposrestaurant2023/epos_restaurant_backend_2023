@@ -1054,5 +1054,17 @@
   "name": "a3c4f15d80",
   "sort": 300,
   "title": "Cashier Permission"
+ },
+ {
+  "data": "{\r\n   \r\n    \"posting_date\": \"2023-04-01\",\r\n    \"from_currency\": \"USD\",\r\n    \"to_currency\": \"RIEL\",\r\n    \"exchange_rate\": 4000,\r\n    \"doctype\": \"Currency Exchange\"\r\n}",
+  "doc_name": "Currency Exchange",
+  "doc_type": "Currency Exchange",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 0,
+  "modified": "2023-04-17 14:14:05.575183",
+  "name": "478efdb2c7",
+  "sort": 400,
+  "title": "Currency Exchange"
  }
 ]
