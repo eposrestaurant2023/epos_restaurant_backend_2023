@@ -77,6 +77,14 @@
           {{sale.sale.note}}
         </div>
       </div>
+      <div class="flex justify-between my-1" v-if="sale.sale.note">
+        <div>
+          Commission
+        </div>
+        <div>
+          {{sale.sale.note}}
+        </div>
+      </div>
  
   </div>
 </template>

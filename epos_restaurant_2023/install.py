@@ -275,7 +275,7 @@ def reset_data():
 
             #update 
             frappe.db.sql("update `tabCurrency` set enabled = 1, name='RIEL', currency_name='RIEL' where name='KHR'")
-            frappe.db.sql("update `tabCurrency` set pos_currency_format='#,###,##0. ៛', currency_precision=0 where name = in ('KHR','RIEL')")
+            frappe.db.sql("update `tabCurrency` set pos_currency_format='#,###,##0. ៛', currency_precision=0 where name in ('KHR','RIEL')")
             frappe.db.sql("update `tabCurrency` set pos_currency_format = '$ #,###,##0.00##',currency_precision=2  where name='USD'")
 
             frappe.db.commit()
