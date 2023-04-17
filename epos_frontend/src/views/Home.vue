@@ -35,6 +35,7 @@
                         <ComButton @click="onCashInCashOut" title="Cash Drawer" icon-color="#e99417"
                             icon="mdi-currency-usd" />
                         <ComButton @click="onRoute('Report')" title="Report" icon="mdi-chart-bar" icon-color="#e99417" />
+                        <ComButton @click="onRoute('Report')" title="Wifi Password" icon="mdi-chart-bar" icon-color="#e99417" />
                         
                         <ComButton @click="onLogout()" text-color="#fff" icon-color="#fff" title="Logout" icon="mdi-logout"
                             background-color="#b00020" />

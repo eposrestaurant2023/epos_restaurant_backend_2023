@@ -77,12 +77,13 @@
           {{sale.sale.note}}
         </div>
       </div>
-      <div class="flex justify-between my-1" v-if="sale.sale.note">
+      <div class="flex justify-between my-1" v-if="(sale.sale.commission_amount || 0) >0">
         <div>
           Commission
         </div>
         <div>
-          {{sale.sale.note}}
+          <CurrencyFormat :value="sale.sale.commission_amount" />
+          
         </div>
       </div>
  
