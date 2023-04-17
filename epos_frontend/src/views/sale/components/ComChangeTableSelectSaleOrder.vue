@@ -71,12 +71,12 @@ async function onSaleOrderClick(s) {
 
         sale_products.push(...change_table_sale_products);
 
-        toaster.warning("start merge")
+
         await resource.setValue.submit({ sale_products: sale_products }).then(async (data) => {
             if (sale.sale.name) {
-                toaster.warning("start delete")
+              
                 await sale.saleResource.delete.submit().then(() => {
-                    toaster.warning("end delete")
+                   
                     
                     toaster.warning("Sale document " + sale.sale.name + " has been delete.")
                     router.push({
