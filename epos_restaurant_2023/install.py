@@ -274,7 +274,8 @@ def reset_data():
             frappe.db.sql("delete from `tabPrint Format`")
 
             #update 
-            frappe.db.sql("update `tabCurrency` set enabled = 1, name='RIEL', currency_name='RIEL'  where name='KHR'")
+            frappe.db.sql("update `tabCurrency` set enabled = 1, name='RIEL', currency_name='RIEL',pos_currency_format='#,###,##0. ៛', currency_precision=0 where name='KHR'")
+            frappe.db.sql("update `tabCurrency` set pos_currency_format = '$ #,###,##0.00##',currency_precision=2  where name='USD'")
 
             frappe.db.commit()
             return {"You was cleared all data and configuration."}
