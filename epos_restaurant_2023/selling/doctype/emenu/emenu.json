@@ -140,7 +140,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "#ffffff",
+   "default": "#e8e8e8",
    "fieldname": "shortcut_background",
    "fieldtype": "Color",
    "label": "Shortcut Background"
@@ -159,6 +159,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "#e8e8e8",
    "fieldname": "shortcut_active_background",
    "fieldtype": "Color",
    "label": "Shortcut Active Background"
@@ -166,7 +167,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-18 17:04:39.532602",
+ "modified": "2023-04-18 17:51:26.672191",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "eMenu",
