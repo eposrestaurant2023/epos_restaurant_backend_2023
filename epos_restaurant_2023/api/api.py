@@ -140,7 +140,6 @@ def get_system_settings(pos_profile="", device_name=''):
     letter_heads.append({"name":"No Letterhead","is_default":0})
  
 
-
     data={
         "app_name":doc.epos_app_name,
         "specific_business_branch":doc.specific_business_branch,
