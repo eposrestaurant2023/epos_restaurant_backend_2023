@@ -143,7 +143,9 @@ const workingDayReportsTmp = createResource({
     url: "epos_restaurant_2023.api.api.get_working_day_list_report",
     auto: true,
     params:{
-        business_branch: gv.setting.specific_bench ? gv.setting?.business_branch : ''
+        business_branch: gv.setting.specific_business_branch ? gv.setting?.business_branch : '',
+        pos_profile: gv.setting.specific_pos_profile ? localStorage.getItem('pos_profile') : '',
+        
     },
     onSuccess(doc) {
         if (doc.length > 0) {

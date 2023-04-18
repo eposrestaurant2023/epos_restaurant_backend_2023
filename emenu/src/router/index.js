@@ -5,7 +5,7 @@ import TestPage from "../views/TestPage.vue";
 
 const routes = [
   { path: "/", redirect: '/emenu/dashboard'},
-  { path: "/emenu/dashboard/:branch?", name: "Home", component: Home },
+  { path: "/emenu/:branch?/dashboard", name: "Home", component: Home },
   { path: "/emenu/test-page", name: "TestPage", component: TestPage},
   // ...authRoutes,
 ];

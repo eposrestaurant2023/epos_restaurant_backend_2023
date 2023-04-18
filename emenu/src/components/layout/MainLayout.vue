@@ -33,8 +33,10 @@
                 </v-btn>
             </template>
         </v-navigation-drawer>
-        <v-main class="overflow-auto h-screen">
-            <router-view />
+        <v-main class="bg-gray-100"> 
+            <v-sheet rounded max-width="750px" class="m-auto" elevation="2">
+                <router-view />
+            </v-sheet> 
         </v-main>
     </v-app>
 </template>

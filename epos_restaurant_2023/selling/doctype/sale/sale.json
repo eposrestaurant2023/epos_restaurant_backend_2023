@@ -310,6 +310,7 @@
   {
    "fieldname": "pos_profile",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "POS Profile",
    "options": "POS Profile"
   },
@@ -724,7 +725,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-04-11 14:17:12.139055",
+ "modified": "2023-04-18 10:36:48.171660",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

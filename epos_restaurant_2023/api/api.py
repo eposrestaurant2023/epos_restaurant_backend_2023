@@ -86,7 +86,8 @@ def get_system_settings(pos_profile="", device_name=''):
         "tax_1_name":doc.tax_1_name,
         "tax_2_name":doc.tax_2_name,
         "tax_3_name":doc.tax_3_name,
-        "specific_bench":doc.specific_bench,
+        "specific_business_branch":doc.specific_business_branch,
+        "specific_pos_profile":doc.specific_pos_profile,
         "customer_display_slideshow": pos_branding.customer_display_slideshow,
         "thank_you_message":pos_branding.thank_you_message,
         "cancel_print_bill_required_password":pos_config.cancel_print_bill_required_password,
@@ -142,7 +143,8 @@ def get_system_settings(pos_profile="", device_name=''):
 
     data={
         "app_name":doc.epos_app_name,
-        "specific_bench":doc.specific_bench,
+        "specific_business_branch":doc.specific_business_branch,
+        "specific_pos_profile":doc.specific_pos_profile,
         "business_branch":profile.business_branch,
         "address":pos_config.address,
         "logo":pos_branding.logo,
@@ -406,7 +408,7 @@ def update_print_bill_requested(name):
     doc.save()
 
 @frappe.whitelist()
-def get_working_day_list_report(business_branch = ''):
+def get_working_day_list_report(business_branch = '', pos_profile = ''):
 
      
     days = int(frappe.db.get_default("number_of_day_cashier_can_view_report"))
@@ -419,11 +421,18 @@ def get_working_day_list_report(business_branch = ''):
     filters = {
         "posting_date":["<=", date]
     }
-    # if(business_branch != ''):
-    #     filters = {
-    #         "posting_date":["<=", date],
-    #         "business_branch":["=", business_branch]
-    #     }
+
+    if business_branch and not pos_profile:
+        filters = {
+            "posting_date":["<=", date],
+            "business_branch":["=", business_branch]
+        }
+    elif pos_profile:
+        filters = {
+            "posting_date":["<=", date],
+            "pos_profile":["=", pos_profile]
+        }
+ 
     working_day =frappe.db.get_list('Working Day',
         filters = filters,
         fields=["name","posting_date","creation","modified_by","owner","is_closed","closed_date"],
@@ -543,3 +552,33 @@ def get_filter_for_close_sale_list(business_branch,pos_profile):
     "table_groups":table_groups
 
     }
+
+
+@frappe.whitelist(allow_guest=True)
+def get_emenu_settings(business_branch = ''):
+    doc = frappe.get_doc('ePOS Settings')
+    emenus = Enumerable(doc.emenu).where(lambda x:x.business_branch == business_branch or '')
+    emenu = frappe.get_doc('eMenu', emenus[0].emenu)
+  
+    pos_menu = frappe.db.sql("SELECT `name`, pos_menu_name_en, pos_menu_name_kh,parent_pos_menu FROM `tabPOS Menu` WHERE parent_pos_menu = '{}' ORDER BY sort_order".format(emenu.pos_menu), as_dict=1)
+    return { 
+        "title": emenu.title,
+        "welcome_title": emenu.welcome_title,
+        "welcome_description": emenu.welcome_description,
+        "slideshow": emenu.slideshow,
+        "pos_menu": pos_menu,
+        "template_style": {
+            "title_color": emenu.title_color,
+            "title_class": emenu.title_class,
+            "subtitle_color": emenu.subtitle_color,
+            "text_color": emenu.text_color,
+            "text_class": emenu.text_class,
+            "shortcut_color": emenu.shortcut_color,
+            "shortcut_active_color": emenu.shortcut_active_color,
+            "shortcut_background": emenu.shortcut_background,
+            "shortcut_active_background": emenu.shortcut_active_background
+        }
+    }
+
+# @frappe.whitelist(allow_guest=True)
+# def get_emenu_shortcut()

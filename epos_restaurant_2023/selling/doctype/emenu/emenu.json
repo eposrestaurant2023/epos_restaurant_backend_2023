@@ -1,0 +1,192 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:title",
+ "creation": "2023-04-18 14:06:11.941363",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "pos_menu",
+  "welcome_title",
+  "welcome_description",
+  "slideshow",
+  "template_style_tab",
+  "title_color",
+  "column_break_7",
+  "title_class",
+  "section_break_9",
+  "subtitle_color",
+  "column_break_11",
+  "subtitle_class",
+  "section_break_13",
+  "text_color",
+  "column_break_15",
+  "text_class",
+  "section_break_18",
+  "shortcut_color",
+  "column_break_20",
+  "shortcut_background",
+  "section_break_22",
+  "shortcut_active_color",
+  "column_break_24",
+  "shortcut_active_background"
+ ],
+ "fields": [
+  {
+   "fieldname": "slideshow",
+   "fieldtype": "Table",
+   "label": "Slideshow",
+   "options": "eMenu Slideshow"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "welcome_description",
+   "fieldtype": "Text Editor",
+   "label": "Welcome Description"
+  },
+  {
+   "fieldname": "template_style_tab",
+   "fieldtype": "Tab Break",
+   "label": "Template Style"
+  },
+  {
+   "default": "#d89b43",
+   "fieldname": "title_color",
+   "fieldtype": "Color",
+   "label": "Title Color"
+  },
+  {
+   "default": "#696969",
+   "fieldname": "subtitle_color",
+   "fieldtype": "Color",
+   "label": "Subtitle Color"
+  },
+  {
+   "default": "#7d7d7d",
+   "fieldname": "text_color",
+   "fieldtype": "Color",
+   "label": "Text Color"
+  },
+  {
+   "fieldname": "welcome_title",
+   "fieldtype": "Data",
+   "label": "Welcome Title"
+  },
+  {
+   "fieldname": "column_break_7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "title_class",
+   "fieldtype": "Data",
+   "label": "Title Class"
+  },
+  {
+   "fieldname": "section_break_9",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_11",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "#696969",
+   "fieldname": "subtitle_class",
+   "fieldtype": "Data",
+   "label": "Subtitle Class"
+  },
+  {
+   "fieldname": "section_break_13",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_15",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "text_class",
+   "fieldtype": "Data",
+   "label": "Text Class"
+  },
+  {
+   "fieldname": "pos_menu",
+   "fieldtype": "Link",
+   "label": "POS Menu",
+   "options": "POS Menu",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_18",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "#d89b43",
+   "fieldname": "shortcut_color",
+   "fieldtype": "Color",
+   "label": "Shortcut Color"
+  },
+  {
+   "fieldname": "column_break_20",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "#ffffff",
+   "fieldname": "shortcut_background",
+   "fieldtype": "Color",
+   "label": "Shortcut Background"
+  },
+  {
+   "fieldname": "section_break_22",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "shortcut_active_color",
+   "fieldtype": "Color",
+   "label": "Shortcut Active Color"
+  },
+  {
+   "fieldname": "column_break_24",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "shortcut_active_background",
+   "fieldtype": "Color",
+   "label": "Shortcut Active Background"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-04-18 17:04:39.532602",
+ "modified_by": "Administrator",
+ "module": "Selling",
+ "name": "eMenu",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

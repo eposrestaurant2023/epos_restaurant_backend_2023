@@ -21,6 +21,7 @@
   "column_break_4",
   "is_group",
   "shortcut_menu",
+  "is_emenu",
   "price_rule",
   "sort_order",
   "is_standard",
@@ -157,6 +158,12 @@
    "fieldname": "is_standard",
    "fieldtype": "Check",
    "label": "Is Standard"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_emenu",
+   "fieldtype": "Check",
+   "label": "Is eMenu"
   }
  ],
  "image_field": "photo",
@@ -164,7 +171,7 @@
  "is_tree": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-04-05 16:12:58.527928",
+ "modified": "2023-04-18 16:34:24.586609",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Menu",
@@ -181,6 +188,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Guest",
    "share": 1,
    "write": 1
   }

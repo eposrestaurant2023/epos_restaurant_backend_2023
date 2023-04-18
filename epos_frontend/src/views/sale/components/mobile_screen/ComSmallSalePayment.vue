@@ -24,7 +24,11 @@ import ComSalePaymentGrandTotalInformation from '../ComSalePaymentGrandTotalInfo
 import ComSalePaymentList from '../ComSalePaymentList.vue';
 import ComSalePaymentMethodList from '../ComSalePaymentMethodList.vue';
 const sale = inject('$sale')
+const gv = inject('$gv')
 async function onShowCurrencyPrefine(){
-    const result = await smallCurrencyPrefineModel({})
+    if(gv.setting.pos_setting.main_currency_predefine_payment_amount){
+        const result = await smallCurrencyPrefineModel({})
+    }
+        
 }
 </script> 

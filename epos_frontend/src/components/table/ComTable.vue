@@ -123,7 +123,8 @@ const props = defineProps({
         default: ''
     },
     extraFields: String,
-    businessBranchField: String
+    businessBranchField: String,
+    posProfileField: String
 })
  
 let pagerOption = reactive({
@@ -196,7 +197,10 @@ function getCountResourceParams (){
 
 function getFilter(){
     let filters = JSON.parse(JSON.stringify(pagerOption.filters))
-    if(gv.setting.specific_bench && props.businessBranchField){
+    if(gv.setting.specific_pos_profile && props.posProfileField){
+        filters[props.posProfileField] = ["=", localStorage.getItem('pos_profile')]
+    }
+    else if(gv.setting.specific_business_branch && props.businessBranchField){
         filters[props.businessBranchField] = ["=", gv.setting.business_branch]
     }
     return filters

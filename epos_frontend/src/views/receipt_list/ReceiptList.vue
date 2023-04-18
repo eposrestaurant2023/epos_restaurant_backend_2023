@@ -1,7 +1,7 @@
 <template>
     <PageLayout title="Receipt List" icon="mdi-note-outline" full>
       <ComReceiptListCard :headers="headers" doctype="Sale" extra-fields="customer_name,sale_status_color" @callback="onCallback" v-if="mobile"/>
-      <ComTable :headers="headers" doctype="Sale" extra-fields="customer_name,sale_status_color" business-branch-field="business_branch" @callback="onCallback" v-else/>
+      <ComTable :headers="headers" doctype="Sale" extra-fields="customer_name,sale_status_color" business-branch-field="business_branch" pos-profile-field="pos_profile" @callback="onCallback" v-else/>
     </PageLayout>
 </template>
 <script setup>

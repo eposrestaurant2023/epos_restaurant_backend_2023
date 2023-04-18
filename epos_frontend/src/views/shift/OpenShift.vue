@@ -14,7 +14,7 @@
 
         </v-row>
         <h1 class="my-4">Cash Float</h1>
-        <div v-if="payment_types">
+        <div v-if="payment_types && payment_types.filter(p => p.allow_cash_float == 1).length > 0">
             <v-row>
                 <v-col cols="12" md="6" class="ma-0 py-0" v-for="p in payment_types.filter(p => p.allow_cash_float == 1)">
                     <v-text-field :label="p.payment_method" v-model="p.input_amount" variant="solo"
@@ -22,7 +22,7 @@
                 </v-col>
             </v-row>
         </div>
-        <v-row v-if="payment_types.filter(p => p.allow_cash_float == 1).length > 1">
+        <v-row v-if="payment_types && payment_types.filter(p => p.allow_cash_float == 1).length > 1">
             <v-col cols="12" md="6" class="ma-0 pa-y">
                 <v-text-field readonly label="Total Cash Float" variant="solo" v-model="totalCashFloat"></v-text-field>
             </v-col>

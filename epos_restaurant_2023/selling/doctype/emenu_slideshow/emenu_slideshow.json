@@ -1,0 +1,42 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2023-04-18 14:05:18.316864",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "photo"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Title",
+   "options": "Slideshow Image"
+  },
+  {
+   "fetch_from": "title.photo",
+   "fieldname": "photo",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Photo"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-04-18 14:05:18.316864",
+ "modified_by": "Administrator",
+ "module": "Selling",
+ "name": "eMenu Slideshow",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

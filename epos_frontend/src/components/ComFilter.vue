@@ -7,7 +7,7 @@
                         <ComInput keyboard placeholder="ID" v-model="name" variant="solo" class="m-1" v-debounce="onSearch" @onInput="onSearch"/>
                     </div>
                     <template v-for="(f, index) in resource.data.fields.filter(r => r.in_standard_filter == 1)" :key="index">
-                        <template v-if="f.options != 'Business Branch' || !gv.setting.specific_bench">
+                        <template v-if="!(f.options == 'POS Profile' && gv.setting.specific_pos_profile) && !(f.options == 'Business Branch' && gv.setting.specific_business_branch)">
                             <div style="min-width: 200px">
                                 <ComInput keyboard
                                     v-if="f.fieldtype == 'Data' || f.fieldtype == 'Text' || f.fieldtype == 'Small Text' || f.fieldtype == 'Long Text'"
@@ -70,7 +70,6 @@ const gv = inject('$gv')
 let filter = reactive({})
 let order_by = ref('modified desc')
 const advancefilters = ref([])
-let disableFirstLoading = ref(true)
 
 const resource = props.meta
 
