@@ -1,18 +1,17 @@
 <template>
     <div class="py-4">
-        <div v-style="{
-                color: (active == item.name ? gv.setting.template_style.shortcut_active_color : gv.setting.template_style.shortcut_color),
-                backgroundColor: (active == item.name ? gv.setting.template_style.shortcut_active_background : gv.setting.template_style.shortcut_background)
-                }">xxx</div>
-        <div class="overflow-x-auto -m-1" v-if="gv.setting.pos_menu">
-            
-            <v-chip class="m-1" v-for="(item, index) in gv.setting.pos_menu" :key="index" @click="onSelect(item.name)" v-style="{
-                color: (active == item.name ? gv.setting.template_style.shortcut_active_color : gv.setting.template_style.shortcut_color),
-                backgroundColor: (active == item.name ? gv.setting.template_style.shortcut_active_background : gv.setting.template_style.shortcut_background)
-                }"> 
-                {{ active }}
-                {{ item.pos_menu_name_en }} - {{ active == item.name ? gv.setting.template_style.shortcut_active_color : gv.setting.template_style.shortcut_color }}
-            </v-chip>
+        <div class="flex flex-nowrap overflow-x-auto pb-1 wrap-sm" v-if="gv.setting.pos_menu">
+            <v-btn 
+                class="flex-shrink-0 m-1"
+                v-for="(item, index) in gv.setting.pos_menu" :key="index" 
+                @click="onSelect(item.name)"
+                rounded="pill"
+                variant="tonal"
+                size="small"
+                v-bind:style="{'background-color': (active == item.name ? gv.setting.template_style.shortcut_active_background : gv.setting.template_style.shortcut_background)}"
+                >
+                    <span v-bind:style="{'color': (active == item.name ? gv.setting.template_style.shortcut_active_color : gv.setting.template_style.shortcut_color)}">{{ item.pos_menu_name_en }}</span>
+            </v-btn>
         </div>
     </div>
 </template>
