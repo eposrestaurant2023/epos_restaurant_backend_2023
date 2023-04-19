@@ -60,11 +60,7 @@ const gv = inject('$gv');
 const sale = inject('$sale');
 const moment = inject('$moment')
 const router = useRouter()
-
-
-
-
-
+ 
 const device_name = computed(() => {
     return localStorage.getItem('device_name')
 })

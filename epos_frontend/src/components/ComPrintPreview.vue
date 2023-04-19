@@ -65,7 +65,7 @@ import { inject, ref,computed,saleDetailDialog, onUnmounted } from '@/plugin'
 import { createToaster } from '@meforma/vue-toaster';
 const gv = inject("$gv")
 
-const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + gv.pos_setting.backend_port;
+const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + gv.setting.pos_setting.backend_port;
 
 const toaster = createToaster({position:"top"})
 

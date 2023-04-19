@@ -1,6 +1,6 @@
 <template>
     <ComModal @onClose="onClose(false)" :fullscreen="true" :isPrint="true" @onPrint="onPrint()" :hide-ok-button="true"
-        :hide-close-button="true" :isShowBarMoreButton="true">
+        :hide-close-button="true" :isShowBarMoreButton="canOpenOrder || canEdit || canDelete">
         <template #title>
             Sale Detail: {{ params.name }}
         </template>
@@ -18,7 +18,7 @@
                     </template>
                     <v-list-item-title>Edit Order</v-list-item-title>
                 </v-list-item>
-                <v-list-item v-if="canDelete" @click="OnDeleteOrder()">
+                <v-list-item @click="OnDeleteOrder()" v-if="canDelete">
                     <template v-slot:prepend>
                         <v-icon color="error">mdi-delete</v-icon>
                     </template>
