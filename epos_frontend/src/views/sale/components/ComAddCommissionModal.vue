@@ -7,7 +7,7 @@
         :hideOkButton="isReadonly"
         >
         <template #title>
-            {{ params.title }}
+            <span><span v-if="isReadonly">View</span><span v-else>Add / Edit</span> Commition</span>
         </template>
         <template #content>
             <v-row class="!m-0">
@@ -60,7 +60,7 @@ const props = defineProps({
         require: true
     }
 })
-let data = ref(props.params.data)
+let data = ref(JSON.parse(JSON.stringify(props.params.data)))
 const emit = defineEmits(["resolve","reject"])
 onMounted(() => {
     onUpdatedData()

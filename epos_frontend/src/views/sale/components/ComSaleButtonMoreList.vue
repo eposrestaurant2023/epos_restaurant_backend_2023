@@ -193,10 +193,7 @@ function onInfoDeveloping(){
 }
 
 async function onAddCommission(){
-    let title = "Add / Edit Commition";
-    if(sale.isBillRequested())
-        title = "View Commition"
-    const result = await addCommissionDialog({ title: title, name: 'Sale Commission', data: sale.sale });
+    const result = await addCommissionDialog({ title: 'title', name: 'Sale Commission', data: sale.sale });
     if (result != false) { 
         sale.sale = result.data
     }

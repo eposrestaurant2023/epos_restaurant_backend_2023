@@ -47,7 +47,7 @@
         <div v-else>
             <v-text-field
                 :autofocus="validAutofocus"
-                clearable
+                :clearable="!readonly"
                 :required="required"
                 v-if="keyboard && !mobile"
                 :type="type"
