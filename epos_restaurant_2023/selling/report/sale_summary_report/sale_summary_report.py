@@ -206,6 +206,7 @@ def get_conditions(filters,group_filter=None):
 
 
 	if(group_filter!=None):
+		 
 		conditions += " and {} ='{}'".format(group_filter["field"],group_filter["value"].replace("'","''").replace("%","%%"))
 
 	conditions += " AND b.posting_date between '{}' AND '{}'".format(start_date,end_date)
@@ -228,20 +229,20 @@ def get_conditions(filters,group_filter=None):
 	return conditions
 
 def get_report_data(filters,parent_row_group=None,indent=0,group_filter=None):
-	
+
 	hide_columns = filters.get("hide_columns")
 	row_group = [d["fieldname"] for d in get_row_groups() if d["label"]==filters.row_group][0]
 	
 	if(parent_row_group!=None):
 		row_group = [d["fieldname"] for d in get_row_groups() if d["label"]==parent_row_group][0]
-
+		
 	report_fields = get_report_field(filters)
 	
+
 	sql = "select {} as row_group, {} as indent ".format(row_group, indent)
 	if filters.column_group != "None":
 		fields = get_fields(filters)
 		for f in fields:
-			
 			sql = strip(sql)
 			if sql[-1]!=",":
 				sql = sql + ','
@@ -275,6 +276,8 @@ def get_report_data(filters,parent_row_group=None,indent=0,group_filter=None):
 		{1} {2} {3}
 	""".format(get_conditions(filters,group_filter), row_group,item_code,groupdocstatus,normal_filter)	
 	
+
+
 	data = frappe.db.sql(sql,filters, as_dict=1)
 	
 	return data
@@ -394,7 +397,7 @@ def get_row_groups():
 			"parent_row_group_filter_field":"row_group"
 		},
 		{
-			"fieldname":"a.product_group",
+			"fieldname":"if(ifnull(a.product_group,'')='','Not Set',a.product_group)",
 			"label":"Product Group",
 			"parent_row_group_filter_field":"row_group"
 		},
@@ -434,7 +437,7 @@ def get_row_groups():
 			"parent_row_group_filter_field":"row_group"
 		},
 		{
-			"fieldname":"b.customer_group",
+			"fieldname":"if(ifnull(b.customer_group,'')='','Not Set',b.customer_group)",
 			"label":"Customer Group",
 			"parent_row_group_filter_field":"row_group"
 		},		
