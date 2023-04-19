@@ -44,7 +44,7 @@ socket.on("PrintReceipt", (arg) => {
 		const data = JSON.parse(arg) ;
 		if(data.sale.pos_profile == localStorage.getItem("pos_profile")){
 			window.chrome.webview.postMessage(arg);
-			toaster.warning("Print Receipt in Progress")
+			toaster.info("Print Receipt in Progress")
 		}
 	}
 })

@@ -30,8 +30,6 @@
         <template #content>
             <ComLoadingDialog v-if="isLoading" />
             <v-card>
-
-
                 <template #title>
                     <div class="px-1 py-2 -m-1 whitespace-normal">
                         <v-row>
@@ -49,15 +47,16 @@
                                     <v-row>
                                         <v-col cols="12" sm="7">
                                             <v-select prepend-inner-icon="mdi-content-paste" density="compact"
-                                                v-model="selectedLetterhead" :items=gv.setting.letter_heads item-title="name"
-                                                item-value="name" hide-no-data hide-details variant="solo" class="mx-1"></v-select>
+                                                v-model="selectedLetterhead" :items=gv.setting.letter_heads
+                                                item-title="name" item-value="name" hide-no-data hide-details variant="solo"
+                                                class="mx-1"></v-select>
                                         </v-col>
                                         <v-col cols="12" sm="5">
                                             <div class="flex items-center">
                                                 <v-select prepend-inner-icon="mdi-google-translate" density="compact"
-                                                    v-model="selectedLang" :items="gv.setting.lang" item-title="language_name"
-                                                    item-value="language_code" hide-no-data hide-details variant="solo"
-                                                    class="mx-1"></v-select>
+                                                    v-model="selectedLang" :items="gv.setting.lang"
+                                                    item-title="language_name" item-value="language_code" hide-no-data
+                                                    hide-details variant="solo" class="mx-1"></v-select>
                                                 <v-icon class="mx-1" icon="mdi-refresh" size="small" @click="onRefresh()" />
                                             </div>
                                         </v-col>
@@ -80,12 +79,11 @@
 import { inject, ref, computed, onUnmounted, createDocumentResource, useRouter, createResource, confirm } from '@/plugin'
 import { createToaster } from '@meforma/vue-toaster';
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
-import { webserver_port } from "../../../../../../../sites/common_site_config.json"
+
 const gv = inject("$gv")
+const socket = inject("$socket")
 
-
-
-const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + webserver_port;
+const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + gv.setting.pos_setting.backend_port;
 
 const toaster = createToaster({ position: "top" })
 const router = useRouter();
@@ -189,23 +187,31 @@ function onRefresh() {
 }
 
 async function onPrint() {
-
+    const data = {
+        action: "print_receipt",
+        print_setting: activeReport.value,
+        setting: gv.setting?.pos_setting,
+        sale: sale.doc
+    }
     if (localStorage.getItem("is_window") == "1") {
 
         if (activeReport.value.pos_receipt_file_name != "" && activeReport.value.pos_receipt_file_name != null) {
             if (await confirm({ title: 'Print Receipt', text: 'Are you sure you want to price receipt?' })) {
-                const data = {
-                    action: "print_receipt",
-                    print_setting: activeReport.value,
-                    setting: gv.setting?.pos_setting,
-                    sale: sale.doc
-                }
+
                 window.chrome.webview.postMessage(JSON.stringify(data));
             }
 
             return;
         }
 
+    } else {
+        if (activeReport.value.pos_receipt_file_name != "" && activeReport.value.pos_receipt_file_name != null) {
+
+
+            socket.emit('PrintReceipt', JSON.stringify(data));
+            return
+
+        }
     }
 
     window.open(printPreviewUrl.value + "&trigger_print=1").print();

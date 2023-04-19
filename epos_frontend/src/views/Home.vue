@@ -21,7 +21,7 @@
             <div class="pb-16">
                 <div class="mx-auto mt-4 mb-0 md:w-[600px]">
                     <div class="grid xs:grid-cols-2 md:grid-cols-4 grid-cols-2" style="grid-gap: 20px;">
-                    
+                   
                         <WorkingDayButton />
                         <OpenShiftButton />
                         <ComButton @click="onPOS()" title="POS" icon="mdi-cart" class="bg-green-600 text-white"

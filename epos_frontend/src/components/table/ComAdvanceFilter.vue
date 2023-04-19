@@ -11,7 +11,8 @@
                     <ComPlaceholder text="Please add filter button to set filter" :is-not-empty="advancefilters.length > 0" icon-size="40px" class-color="text-gray-300" icon="mdi-filter-outline">
                         <div v-if="!loadingFilter">
                             <div v-for="(f, index) in advancefilters" :key="index">
-                                <ComAdvanceFilterKey 
+                                <ComAdvanceFilterKey
+                                    v-if="!(f.options == 'POS Profile' && gv.setting.specific_pos_profile) && !(f.options == 'Business Branch' && gv.setting.specific_business_branch)"
                                     :filter="f"
                                     :fields="resource.data.fields" 
                                     @onRemove="removeFilter" />
@@ -34,7 +35,7 @@
 </template>
 <script setup>
 import ComAdvanceFilterKey from '../form/ComAdvanceFilterKey.vue';
-import {  ref,defineProps, defineEmits  } from '@/plugin'
+import {  ref,defineProps, defineEmits, inject  } from '@/plugin'
 import {useDisplay} from 'vuetify'
 const {mdAndDown} = useDisplay()
 const props = defineProps({
@@ -42,6 +43,7 @@ const props = defineProps({
         type: Object
     }
 })
+const gv = inject('$gv')
 const emit = defineEmits(['onApplyFilter'])
 let loadingFilter = ref(false)
 const menu = ref(false) 

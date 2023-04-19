@@ -1,5 +1,5 @@
 <template>
-    <div class="pb-3"> 
+    <div class="pb-3">
         <div class="flex items-end"  :class="mobile ? 'justify-end' : 'justify-between'" v-if="resource?.data">
             <div v-if="!mobile">
                 <div class="flex flex-wrap items-end">
