@@ -162,7 +162,7 @@ async function onDeleteBill() {
                 toaster.success("Delete sale order successfully");
                 sale.newSale();
                 if (sale.setting.table_groups.length > 0) {
-                    router.push({ name: "setting" });
+                    router.push({ name: 'TableLayout' });
                 }else {
                     router.push({ name: "AddSale" });
                 }
