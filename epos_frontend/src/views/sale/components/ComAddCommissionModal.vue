@@ -4,6 +4,7 @@
         @onClose="onClose"
         @onOk="onConfirm"
         titleOKButton="OK"
+        :hideOkButton="isReadonly"
         >
         <template #title>
             {{ params.title }}
@@ -11,10 +12,10 @@
         <template #content>
             <v-row class="!m-0">
                 <v-col cols="12" md="6">
-                    <ComInput v-model="data.agent_name" :required="true" keyboard label="Agent Name"/>   
+                    <ComInput v-model="data.agent_name" :required="true" keyboard label="Agent Name" :readonly="isReadonly"/>   
                 </v-col>
                 <v-col cols="12" md="6">
-                    <ComInput v-model="data.agent_phone_number" keyboard label="Phone Number"/>   
+                    <ComInput v-model="data.agent_phone_number" keyboard label="Phone Number" :readonly="isReadonly"/>   
                 </v-col>
                 <v-col cols="12" md="6">
                     <v-select
@@ -26,21 +27,22 @@
                         @update:modelValue="onUpdatedData" 
                         hide-details
                         type="number"
+                        :readonly="isReadonly"
                     ></v-select>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <ComInput type="number" v-model="data.commission" v-debounce="onUpdatedData" keyboard label="Commission"/>   
+                    <ComInput type="number" v-model="data.commission" v-debounce="onUpdatedData" keyboard label="Commission" :readonly="isReadonly"/>   
                 </v-col>
                 <v-col cols="12">
                     <ComInput readonly type="number" v-model="data.commission_amount" label="Amount"/>   
                 </v-col>
                 <v-col cols="12">
-                    <ComInput v-model="data.commission_note" keyboard label="Commission Note" type="textarea"/>
+                    <ComInput v-model="data.commission_note" keyboard label="Commission Note" type="textarea" :readonly="isReadonly"/>
                 </v-col>
             </v-row>
         </template>
         <template #action>
-            <v-btn variant="flat" @click="onRemove()" color="error" prepend-icon="mdi-delete">
+            <v-btn variant="flat" @click="onRemove()" color="error" prepend-icon="mdi-delete" v-if="!isReadonly">
                 Remove
             </v-btn>
         </template>
@@ -48,9 +50,10 @@
 </template>
   
 <script setup>
-import { ref,defineEmits,createToaster,confirmDialog,onMounted } from '@/plugin'
+import { ref,defineEmits,createToaster,confirmDialog,onMounted, computed, inject } from '@/plugin'
 import ComInput from '@/components/form/ComInput.vue';
 const toaster = createToaster({ position: 'top' })
+const sale = inject('$sale')
 const props = defineProps({
     params: {
         type: Object,
@@ -61,6 +64,9 @@ let data = ref(props.params.data)
 const emit = defineEmits(["resolve","reject"])
 onMounted(() => {
     onUpdatedData()
+})
+const isReadonly = computed(()=>{
+    return sale.isBillRequested()
 })
 function onUpdatedData(){
     if (data.value.commission_type=="Percent"){

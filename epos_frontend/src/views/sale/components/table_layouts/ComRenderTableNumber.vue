@@ -2,8 +2,8 @@
 <template>
 <template v-for="g in tableLayout.table_groups">
         <v-window-item :value="g.key"
-            v-bind:style="{ 'background-image': 'url(' + g.background + ')', 'min-height': 'calc(100vh - 200px)' }"
-            class="bg-cover bg-center overflow-auto" v-if="!mobile">
+            v-bind:style="{ 'background-image': 'url(' + g.background + ')', 'min-height': 'calc(100vh - 200px)','background-size':'100% 100%' }"
+            class="bg-center overflow-auto" v-if="!mobile">
             <template v-for="(t, index) in g.tables" :key="index">
 
                 <div v-bind:style="{ 'height': t.h + 'px', 'width': t.w + 'px', 'left': t.x + 'px', 'top': t.y + 'px', 'background-color': t.background_color, 'position': 'absolute', 'box-sizing': 'border-box' }"

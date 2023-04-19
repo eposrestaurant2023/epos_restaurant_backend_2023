@@ -192,12 +192,13 @@ function onInfoDeveloping(){
     toaster.info('This function is developing.')
 }
 
-async function onAddCommission(){ 
-    if (!sale.isBillRequested()) {
-        const result = await addCommissionDialog({ title: "Add / Edit Commition", name: 'Sale Commission', data: sale.sale });
-        if (result != false) { 
-            sale.sale = result.data
-        }
+async function onAddCommission(){
+    let title = "Add / Edit Commition";
+    if(sale.isBillRequested())
+        title = "View Commition"
+    const result = await addCommissionDialog({ title: title, name: 'Sale Commission', data: sale.sale });
+    if (result != false) { 
+        sale.sale = result.data
     }
 }
 </script>
