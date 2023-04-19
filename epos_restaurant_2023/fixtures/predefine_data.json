@@ -876,13 +876,13 @@
   "title": "Main Warehouse"
  },
  {
-  "data": "{\r\n    \"logo\": \"/assets/frappe/images/login.png\",\r\n    \"pos_branding_name\": \"Main POS Branding\",\r\n    \"login_background\": \"/assets/frappe/images/login_backround.jpg\",\r\n    \"home_background\": \"/assets/frappe/images/home_background.png\",\r\n    \"pos_sale_order_background_image\": \"/files/bgsale1aea47.jpg\",\r\n    \"thank_you_background\": \"/assets/frappe/images/thankyou.avif\",\r\n    \"thank_you_message\": \"Thank you, see you again\",\r\n    \"doctype\": \"POS Branding\",\r\n    \"customer_display_slideshow\": []\r\n}",
+  "data": "{\r\n    \"logo\": \"/assets/frappe/images/login.png\",\r\n    \"pos_branding_name\": \"Main POS Branding\",\r\n    \"login_background\": \"/assets/frappe/images/login_backround.jpg\",\r\n    \"home_background\": \"/assets/frappe/images/home_background.png\",\r\n     \"pos_sale_order_background_image\": \"/assets/frappe/images/login_backround.jpg\",\r\n    \"thank_you_background\": \"/assets/frappe/images/thankyou.avif\",\r\n    \"thank_you_message\": \"Thank you, see you again\",\r\n    \"doctype\": \"POS Branding\",\r\n    \"customer_display_slideshow\": []\r\n}",
   "doc_name": "Main POS Branding",
   "doc_type": "POS Branding",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-04-17 17:29:25.794470",
+  "modified": "2023-04-19 10:47:53.982626",
   "name": "584607e6c1",
   "sort": 10,
   "title": "Main POS Branding"

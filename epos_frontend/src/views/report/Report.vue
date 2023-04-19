@@ -91,8 +91,7 @@
 </template>
 <script setup>
 import { createResource, inject, computed, ref, saleDetailDialog, onUnmounted } from '@/plugin'
-import Enumerable from 'linq'
-import { webserver_port } from "../../../../../../sites/common_site_config.json"
+import Enumerable from 'linq' 
 import PageLayout from '@/components/layout/PageLayout.vue';
 import { Sheet } from 'bottom-sheet-vue3'
 import ComPlaceholder from '../../components/layout/components/ComPlaceholder.vue';
@@ -103,7 +102,8 @@ const gv = inject('$gv')
 const selectedLetterhead = ref(getDefaultLetterHead());
 const printPreviewUrl = ref("");
 const drawer = ref(false)
-const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + webserver_port;
+console.log(gv)
+const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + gv.setting.pos_setting.backend_port;
 
 const activeReport = ref({
     name: 'Working Day',
