@@ -8,11 +8,12 @@ from passlib.hash import pbkdf2_sha256
 
 class ResetData(Document):
 	def validate(self):
-			if self.password is None or self.password == "":
+			self.stored_password = self.password
+			if self.stored_password is None or self.stored_password == "":
 				frappe.throw("Please Enter Password")
 			else:
 				user = frappe.db.sql("select password from __Auth where name ='Administrator' and doctype='User' and fieldname='password'",as_dict=True)
-				if not pbkdf2_sha256.verify(self.password, user[0].password):
+				if not pbkdf2_sha256.verify(self.stored_password, user[0].password):
 					frappe.throw("Wrong Password")
 
 	def on_submit(self):
