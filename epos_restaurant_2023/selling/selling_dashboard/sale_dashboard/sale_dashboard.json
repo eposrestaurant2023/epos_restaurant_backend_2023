@@ -10,9 +10,6 @@
    "card": "YTD Sale Revenue"
   },
   {
-   "card": "YTD Profit"
-  },
-  {
    "card": "Outstanding Receivable"
   }
  ],
@@ -49,7 +46,7 @@
  "idx": 0,
  "is_default": 0,
  "is_standard": 1,
- "modified": "2022-12-29 12:12:23.469171",
+ "modified": "2023-04-20 11:10:53.172527",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Dashboard",
