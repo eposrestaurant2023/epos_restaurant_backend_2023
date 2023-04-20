@@ -36,17 +36,18 @@ const emit = defineEmits(['resolve'])
 const router = useRouter();
 
 function onGoHome(){
-
     if (gv.setting.table_groups.length > 0) {
         sale.sale = {};
-        router.push({ name: 'TableLayout' })
+        router.push({ name: 'TableLayout' }).then(()=>{
+            emit('resolve', true)
+        });
     }
     else {
         sale.newSale()
-        router.push({ name: "AddSale" });
+        router.push({ name: "AddSale" }).then(()=>{
+            emit('resolve', true)
+        });
     }
-
-    emit('resolve', true)
 }
 
 function onClose() {
@@ -55,12 +56,14 @@ function onClose() {
 function onAddNewProduct(){
     if (!sale.isBillRequested()) {
     sale.no_loading = true
-    onClose()
+    
     router.push({
         name: "AddSale", params: {
             name: sale.sale.name
         }
-    });
+    }).then(()=>{
+        onClose()
+    })
 }
 }
 

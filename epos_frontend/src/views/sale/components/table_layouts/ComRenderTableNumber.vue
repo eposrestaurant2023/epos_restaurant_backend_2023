@@ -1,20 +1,15 @@
-
-<template>
-<template v-for="g in tableLayout.table_groups">
-        <v-window-item :value="g.key"
-            v-bind:style="{ 'background-image': 'url(' + g.background + ')', 'min-height': 'calc(100vh - 200px)','background-size':'100% 100%' }"
+<template>  
+    <template v-for="g in tableLayout.table_groups">
+        <v-window-item :value="g.key" v-bind:style="{ 'background-image': 'url(' + g.background + ')', 'min-height': 'calc(100vh - 200px)','background-size':'100% 100%' }"
             class="bg-center overflow-auto" v-if="!mobile">
             <template v-for="(t, index) in g.tables" :key="index">
-
                 <div v-bind:style="{ 'height': t.h + 'px', 'width': t.w + 'px', 'left': t.x + 'px', 'top': t.y + 'px', 'background-color': t.background_color, 'position': 'absolute', 'box-sizing': 'border-box' }"
                     class="text-center text-gray-100 cursor-pointer" @click="onTableClick(t)">
                     <v-badge :content="t.sales?.length" color="error" style="float: right;"
                         v-if="t.sales?.length > 1"></v-badge>
                     <div class="flex items-center justify-center h-full">
                         <div>
-
                             <div><span class="font-bold">{{ t.tbl_no }}</span><span v-if="t.guest_cover">({{ t.guest_cover }})</span></div>
-
                             <div v-if="t.grand_total">
                                 <CurrencyFormat :value="t.grand_total"></CurrencyFormat>
                             </div>
@@ -24,16 +19,11 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </template>
         </v-window-item>
-
-        <v-window-item v-else :value="g.key" v-bind:style="{ 'min-height': 'calc(100vh - 200px)' }" class="mt-2">
-        
+        <v-window-item v-else :value="g.key" v-bind:style="{ 'min-height': 'auto' }" class="mt-2 mb-4">
             <v-row>
-               
                 <v-col cols="6" v-for="(t, index) in g.tables" :key="index">
                     <div v-bind:style="{ 'height': '75px', 'background-color': t.background_color }"
                         class="text-center text-gray-100 cursor-pointer  rounded-lg" @click="onTableClick(t)">
@@ -41,10 +31,7 @@
                             v-if="t.sales?.length > 1"></v-badge>
                         <div class="flex items-center justify-center h-full">
                             <div>
-
-                                <div><span class="font-bold">{{ t.tbl_no }}</span><span v-if="t.guest_cover">({{
-                                    t.guest_cover }})</span></div>
-
+                                <div><span class="font-bold">{{ t.tbl_no }}</span><span v-if="t.guest_cover">({{ t.guest_cover }})</span></div>
                                 <div v-if="t.grand_total">
                                     <CurrencyFormat :value="t.grand_total"></CurrencyFormat>
                                 </div>
@@ -57,26 +44,19 @@
                     </div>
                 </v-col>
             </v-row>
-
         </v-window-item>
-
     </template>
 </template>
 <script setup>
-
 import { inject, useRouter, createToaster, selectSaleOrderDialog, keyboardDialog,createDocumentResource,smallViewSaleProductListModel } from '@/plugin';
 import { Timeago } from 'vue2-timeago'
-import { useDisplay } from 'vuetify'
-
+import { useDisplay } from 'vuetify' 
 const { mobile,platform } = useDisplay()
 const toaster = createToaster({ position: "top" });
 const tableLayout = inject("$tableLayout");
 const gv = inject("$gv");
 const sale = inject("$sale");
-
 const router = useRouter()
-
-
 function onTableClick(table, guest_cover) {
     gv.authorize("open_order_required_password", "make_order").then(async (v) => {
         if (v) {

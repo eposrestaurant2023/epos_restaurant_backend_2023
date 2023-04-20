@@ -9,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
+  "booking_reference",
   "branch",
   "hotel_name",
   "booking_date",
@@ -56,6 +57,7 @@
   {
    "fieldname": "hotel_name",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Hotel Name",
    "options": "Hotels"
   },
@@ -181,6 +183,7 @@
   {
    "fieldname": "total_nights",
    "fieldtype": "Int",
+   "in_list_view": 1,
    "label": "Total Nights",
    "read_only": 1
   },
@@ -259,11 +262,16 @@
    "fieldtype": "Currency",
    "label": "Total Payment",
    "read_only": 1
+  },
+  {
+   "fieldname": "booking_reference",
+   "fieldtype": "Data",
+   "label": "Booking Reference"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-11 14:54:44.404733",
+ "modified": "2023-04-20 17:14:39.665061",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Hotel Booking",

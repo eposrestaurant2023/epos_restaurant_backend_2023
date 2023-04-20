@@ -32,26 +32,29 @@ const props = defineProps({
     }
 });
 
-const searchProductResource = createResource({
-    url: "epos_restaurant_2023.api.product.get_product_by_barcode",
-        params: {
-            barcode:"12645"
-        }
-});
+
 
 function onSearch(key) {
     product.searchProductKeyword = key;
 }
 function onKeyDown(event) {
-    //   if(event.key =="Enter"){
-    //     toaster.info(product.searchProductKeywordStore)
-    //     product.searchProductKeywordStore = "";
-    //     searchProductResource.fetch().then((doc)=>{
-    //         sale.addSaleProduct(doc);
-    //     });
+      if(event.key =="Enter"){
+        toaster.info(product.searchProductKeywordStore)
+       
+        const searchProductResource = createResource({
+                url: "epos_restaurant_2023.api.product.get_product_by_barcode",
+                    params: {
+                        barcode:product.searchProductKeywordStore
+                    }
+            });
+
+        searchProductResource.fetch().then((doc)=>{
+            sale.addSaleProduct(doc);
+            product.searchProductKeywordStore = "";
+        });
 
         
-    //   }
+      }
     }
 
 </script>

@@ -103,17 +103,32 @@ function onOpenOrder(sale_id) {
     onSuccess(data) {
       if (data.cashier_shift == null) {
         toaster.warning("Please start cashier shift first");
-        router.push({ name: "OpenShift" });
+        router.push({ name: "OpenShift" }).then(()=>{
+            onClose()
+          })
       } else if (data.working_day == null) {
         toaster.warning("Please start working day first");
-        router.push({ name: "StartWorkingDay" });
+        router.push({ name: "StartWorkingDay" }).then(()=>{
+            onClose()
+          }) 
       } else {
-        router.push({ name: "AddSale", params: { name: sale_id } });
+        if(sale_id){
+          router.push({ name: "AddSale", params: { name: sale_id } }).then(()=>{
+            onClose()
+          })
+        } 
+        else{
+          toaster.error("Cannot get sale name")
+        }
+          
       }
+    },
+    onError(er){
+      toaster.error(JSON.stringify(er))
     }
   })
 
-  onClose()
+  
 }
 
 async function onViewSaleOrder(sale_id) {

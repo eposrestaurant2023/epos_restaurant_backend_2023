@@ -44,21 +44,25 @@ async function onToTableLayout() {
         }
         await sale.onSubmit().then(async (value) => {
           if (value) {
-            router.push({ name: "TableLayout" });
-            emit('closeModel')
+            router.push({ name: "TableLayout" }).then(()=>{
+              emit('closeModel')
+            })
+            
           }
         });
       } else {
         //continue
         sale.sale = {};
-        router.push({ name: "TableLayout" })
-        emit('closeModel')
+        router.push({ name: "TableLayout" }).then(()=>{
+          emit('closeModel')
+        })
       }
     }
   } else {
     sale.sale = {};
-    router.push({ name: "TableLayout" })
-    emit('closeModel')
+    router.push({ name: "TableLayout" }).then(()=>{
+      emit('closeModel')
+    })
   }
 }
 </script> 

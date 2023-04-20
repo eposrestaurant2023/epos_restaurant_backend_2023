@@ -6,14 +6,11 @@
         <template #action>
             <ComTableLayoutActionButton/>
         </template>
-    
         <template v-if="tableLayout.table_groups">
-    
             <v-window v-model="tableLayout.tab">
                 <ComArrangeTable  v-if="tableLayout.canArrangeTable"/>
                 <ComRenderTableNumber v-else/>
             </v-window>
-            
         </template>
         <ComSaleStatusInformation />
     </PageLayout>

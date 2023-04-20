@@ -56,7 +56,7 @@
                     v-if="tableLayout.table_groups && tableLayout.table_groups.length > 1"
                     v-model="tableLayout.tab">
                     <v-tab v-for="g in tableLayout.table_groups" :key="g.key" :value="g.key">
-                        {{ g.table_group }}   {{ g.search_table_keyword }}
+                        {{ g.table_group }}
                     </v-tab>
                 </v-tabs>
                 <template v-if="tableLayout.table_groups">

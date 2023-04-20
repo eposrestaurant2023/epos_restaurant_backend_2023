@@ -1,5 +1,5 @@
 <template>
-    <ComModal @onPrint="onPrint" mobileFullscreen @onClose="onClose" @onOk="onSave">
+    <ComModal @onPrint="onPrint" :mobileFullscreen="true" @onClose="onClose" @onOk="onSave">
         <template #title>
             {{ params.title }}
         </template>
