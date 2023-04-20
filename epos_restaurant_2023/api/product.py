@@ -1,5 +1,6 @@
 
 import frappe
+import json
 
 @frappe.whitelist(allow_guest=True)
 def get_product_by_menu(root_menu=""):
@@ -110,22 +111,22 @@ def get_product_by_barcode(barcode):
     data  = frappe.db.sql(sql,as_dict=1)
     if data:
             p = frappe.get_doc('Product', data[0].name)
-            frappe.msgprint(p.product_name)
+            frappe.msgprint(str(p.printers))
             return {
                 "menu_product_name": barcode,
                 "name": p.name,
                 "name_en": p.product_name_en,
-                "name_kh": p.product_name,
+                "name_kh": p.product_name_kh,
                 "parent": "",
-                "price": 0,
+                "price": str(p.price),
                 "unit": "Unit",
-                "allow_discount": 0,
-                "allow_change_price": 1,
-                "allow_free": 1,
-                "is_open_product": 0,
-                "is_inventory_product": 1,
-                "prices": "[{\"price\": 1.84, \"branch\": \"\", \"price_rule\": \"Normal Rate\", \"portion\": \"Normal\"}, {\"price\": 2, \"branch\": \"\", \"price_rule\": \"Khmer New Year Rate\", \"portion\": \"Normal\"}]",
-                "printers": "[]",
+                "allow_discount": p.allow_discount,
+                "allow_change_price": p.allow_change_price,
+                "allow_free": p.allow_free,
+                "is_open_product": p.is_open_product,
+                "is_inventory_product": p.is_inventory_product,
+                "prices": json.dumps(p.product_price),
+                "printers":json.dumps(p.printers),
                 "modifiers": "",
                 "photo": "",
                 "type": "product",

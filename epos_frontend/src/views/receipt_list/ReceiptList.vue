@@ -34,9 +34,9 @@ const headers = ref([
     key: 'name',
     callback: true
   },
-  { title: 'Customer Name', align: 'center', key: 'customer', template: '{customer}-{customer_name}', callback: true },
+  { title: 'Customer Name', align: 'start', key: 'customer', template: '{customer}-{customer_name}', callback: true },
   { title: 'Date', align: 'center', key: 'posting_date', fieldtype: "Date" },
-  { title: 'QTY', align: 'end', key: 'total_quantity', },
+  { title: 'QTY', align: 'center', key: 'total_quantity', },
   { title: 'Grand Total', align: 'end', key: 'grand_total', fieldtype: "Currency" },
   { title: 'Total Discount', align: 'end', key: 'total_discount', fieldtype: "Currency" },
   { title: 'Total Paid', align: 'end', key: 'total_paid', fieldtype: "Currency" },

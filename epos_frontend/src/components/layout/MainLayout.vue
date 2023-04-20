@@ -52,7 +52,7 @@
                 </v-btn>
             </template>
         </v-navigation-drawer>
-        <v-main class="overflow-auto">
+        <v-main>
             <router-view />
         </v-main>
     </v-app>

@@ -22,6 +22,12 @@
   "child",
   "confirm_booking_by",
   "confirm_booking_phone_number",
+  "company_profile_section",
+  "company_profile",
+  "company_name",
+  "column_break_18",
+  "company_contact_name",
+  "company_contact_phone_number",
   "guest_information_section",
   "guest_profile",
   "phone_number",
@@ -267,11 +273,46 @@
    "fieldname": "booking_reference",
    "fieldtype": "Data",
    "label": "Booking Reference"
+  },
+  {
+   "fieldname": "company_profile_section",
+   "fieldtype": "Section Break",
+   "label": "Company Profile"
+  },
+  {
+   "fieldname": "company_profile",
+   "fieldtype": "Link",
+   "label": "Company Profile",
+   "options": "Company Profile"
+  },
+  {
+   "fetch_from": "company_profile.company_name",
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name"
+  },
+  {
+   "fieldname": "column_break_18",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "company_profile.contact_name",
+   "fetch_if_empty": 1,
+   "fieldname": "company_contact_name",
+   "fieldtype": "Data",
+   "label": "Contact Name"
+  },
+  {
+   "fetch_from": "company_profile.contact_phone",
+   "fetch_if_empty": 1,
+   "fieldname": "company_contact_phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-20 17:14:39.665061",
+ "modified": "2023-04-20 18:18:04.352538",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Hotel Booking",

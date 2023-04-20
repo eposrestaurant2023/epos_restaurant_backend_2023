@@ -291,4 +291,13 @@ function onRefresh() {
 .v-table__wrapper table {
     white-space: nowrap;
 }
+.v-data-table-header__content {
+    display: inline-block !important;
+}
+.v-data-table .v-table__wrapper > table > thead > tr > td.v-data-table-column--align-center,
+.v-data-table .v-table__wrapper > table > thead > tr th.v-data-table-column--align-center,
+.v-data-table .v-table__wrapper > table tbody > tr > td.v-data-table-column--align-center,
+.v-data-table .v-table__wrapper > table tbody > tr th.v-data-table-column--align-center {
+  text-align: center;
+}
 </style>
