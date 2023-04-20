@@ -14,8 +14,7 @@
                 :custom-filter="OnFilter"
                 :menu-props="{ maxHeight: 250 }"
                 variant="solo"
-                class="ma-0"
-                >
+                class="ma-0">
                 <template v-slot:item="{ props, item }">
                     <v-list-item v-bind="props" :title="item.raw.label" @click="onSelected(item.raw)">
                     </v-list-item>

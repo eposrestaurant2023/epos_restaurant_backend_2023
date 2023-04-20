@@ -10,7 +10,8 @@
  "field_order": [
   "transaction_type",
   "password",
-  "amended_from"
+  "amended_from",
+  "stored_password"
  ],
  "fields": [
   {
@@ -24,7 +25,8 @@
    "fieldname": "password",
    "fieldtype": "Password",
    "label": "Password",
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only_depends_on": "eval:doc.already_validate==1"
   },
   {
    "fieldname": "amended_from",
@@ -34,12 +36,17 @@
    "options": "Reset Data",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "stored_password",
+   "fieldtype": "Data",
+   "label": "Stored Password"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-04-19 11:00:28.913916",
+ "modified": "2023-04-20 11:08:14.416312",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Reset Data",
@@ -59,7 +66,6 @@
    "write": 1
   }
  ],
- "queue_in_background": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

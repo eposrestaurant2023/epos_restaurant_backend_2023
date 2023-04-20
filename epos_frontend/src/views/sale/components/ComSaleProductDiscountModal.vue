@@ -88,7 +88,7 @@ function onOK(){
         toaster.warning("Please select a discount");
     }
     else if(discount_type.value == 'Amount' && discountAmount.value < discount.value){
-        toaster.warning(`This product can max discount ${maxDiscountPercent.value * 100}% : ${discountAmount.value}$ `);
+        toaster.warning(`Max discount ${maxDiscountPercent.value * 100}% : ${discountAmount.value}$ `);
     }
     else if(categoryNoteName.value && !discount_note.value){
         toaster.warning("Please select note");

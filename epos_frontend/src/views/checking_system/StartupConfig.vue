@@ -78,7 +78,6 @@
             },
             auto:true,
             onSuccess(doc){
-                console.log(doc)
                 localStorage.setItem('device_name',state.device_name)
                 localStorage.setItem('pos_profile',state.pos_profile)
                 location.reload();

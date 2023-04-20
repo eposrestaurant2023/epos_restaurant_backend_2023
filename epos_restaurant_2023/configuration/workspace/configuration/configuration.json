@@ -301,9 +301,9 @@
    "type": "Link"
   }
  ],
- "modified": "2023-03-31 14:51:36.547786",
+ "modified": "2023-04-20 09:36:19.402902",
  "modified_by": "Administrator",
- "module": "ePOS Restaurant",
+ "module": "Configuration",
  "name": "Configuration",
  "owner": "Administrator",
  "parent_page": "",

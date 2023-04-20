@@ -1,8 +1,8 @@
 
 <template>
-    <div style="height: calc(100% - 150px)">
-        <div  class="flex flex-col h-full"> 
-            <div class="overflow-auto h-full">
+    <div class="h-full">
+        <div  class="h-full flex-col flex">
+            <div class="overflow-auto mb-20">
                 <div class="pt-2">
                     <div class="px-2 pb-2">
                         <ComSelectCustomer  />
@@ -11,7 +11,7 @@
                     <ComMenu /> 
                 </div>
             </div>
-            <div class="bg-red-500 text-white text-sm px-2 py-1 fixed left-0 bottom-0 right-0 h-20" v-ripple @click="onViewDetail">
+            <div class="bg-red-500 text-white text-sm px-2 py-1 h-20 fixed left-0 right-0 bottom-0" v-ripple @click="onViewDetail">
                 <div>
                     <div class="text-xs" v-if="lastProduct">{{ lastProduct.product_code }} - {{ lastProduct.product_name }} ({{ lastProduct.quantity }})</div>
                     <div class="flex items-center justify-between">

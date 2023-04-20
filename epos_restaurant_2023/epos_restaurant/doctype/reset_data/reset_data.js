@@ -1,8 +1,8 @@
 // Copyright (c) 2023, Tes Pheakdey and contributors
 // For license information, please see license.txt
 
-// frappe.ui.form.on("Reset Data", {
-// 	refresh(frm) {
-
-// 	},
-// });
+frappe.ui.form.on("Reset Data", {
+	refresh(frm) {
+        frm.set_value("stored_password", frm.doc.password);
+	},
+});

@@ -1,61 +1,52 @@
 <template>
-    <PageLayout title="Open Shift" icon="mdi-clock" class="pa-4">
+    <PageLayout title="Open Shift" icon="mdi-clock" class="p-3">
         <v-row v-if="!working_day.loading && working_day.data">
-            <v-col cols="12" md="6" class="ma-0 py-0">
-                <v-text-field label="Open Shift Date" v-model="working_day.data.name" variant="solo"
-                    readonly></v-text-field>
+            <v-col cols="12" md="6">
+                <ComInput label="Open Shift Date" type="text" v-model="working_day.data.name" readonly/>
             </v-col>
-            <v-col cols="12" md="6" class="ma-0 py-0">
-                <v-text-field label="Working Day" v-model="working_date" variant="solo" readonly></v-text-field>
+            <v-col cols="12" md="6">
+                <ComInput label="Working Day" v-model="working_date" variant="solo" readonly/>
             </v-col>
-            <v-col cols="12" md="6" class="ma-0 py-0">
-                <v-text-field label="POS Profile" v-model="pos_profile" variant="solo" readonly></v-text-field>
+            <v-col cols="12" md="6">
+                <ComInput label="POS Profile" v-model="pos_profile" readonly/>
             </v-col>
 
         </v-row>
         <h1 class="my-4">Cash Float</h1>
-        <div v-if="payment_types && payment_types.filter(p => p.allow_cash_float == 1).length > 0">
-            <v-row>
-                <v-col cols="12" md="6" class="ma-0 py-0" v-for="p in payment_types.filter(p => p.allow_cash_float == 1)">
-                    <v-text-field :label="p.payment_method" v-model="p.input_amount" variant="solo"
-                        append-inner-icon="mdi-keyboard" @click:append-inner="OpenKeyboard(p)"></v-text-field>
-                </v-col>
-            </v-row>
-        </div>
-        <v-row v-if="payment_types && payment_types.filter(p => p.allow_cash_float == 1).length > 1">
-            <v-col cols="12" md="6" class="ma-0 pa-y">
-                <v-text-field readonly label="Total Cash Float" variant="solo" v-model="totalCashFloat"></v-text-field>
+        <v-row v-if="payment_types && payment_types.filter(p => p.allow_cash_float == 1).length > 0">
+            <v-col cols="12" md="6" v-for="p in payment_types.filter(p => p.allow_cash_float == 1)">
+                    <ComInput type="number" :label="p.payment_method" v-model="p.input_amount" :keyboard="!mobile"/>
             </v-col>
         </v-row>
-        <ComInput title="Enter Note" keyboard label="Open Note" v-model="opened_note" type="textarea"
-            class="mt-0 mb-8 py-0"></ComInput>
-
-        <div class="flex items-center justify-between">
+        <v-row v-if="payment_types && payment_types.filter(p => p.allow_cash_float == 1).length > 1">
+            <v-col cols="12" md="6">
+                <ComInput readonly label="Total Cash Float" v-model="totalCashFloat" :keyboard="!mobile"/>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="12">
+                <ComInput title="Enter Note" label="Open Note" v-model="opened_note" type="textarea" :keyboard="!mobile"></ComInput>
+            </v-col>
+        </v-row>
+        <div class="flex items-center justify-between mt-8 mb-3">
             <v-btn @click="onOpenShift" :loading="addCashierShiftResource.loading" color="primary">Open Shift</v-btn>
             <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">Cancel</v-btn>
         </div>
     </PageLayout>
 </template>
-
-
 <script setup>
-
 import PageLayout from '../../components/layout/PageLayout.vue';
-import { createResource, ref, createToaster, useRouter, reactive, computed, inject, confirm, inputNumberDialog } from '@/plugin'
+import { createResource, ref, createToaster, useRouter, reactive, computed, inject, confirm } from '@/plugin'
 import moment from '@/utils/moment.js'
-
-
 import ComInput from '../../components/form/ComInput.vue';
-
 const gv = inject("$gv")
-
 const opened_note = ref("")
 const working_date = ref("")
 const pos_profile = localStorage.getItem("pos_profile");
 const setting = JSON.parse(localStorage.getItem("setting"));
 const payment_types = reactive(setting.payment_types)
 const totalCashFloat = computed(() => {
-    const total = payment_types.reduce((n, r) => n + parseFloat(r.input_amount) / parseFloat(r.exchange_rate), 0)
+    const total = payment_types.reduce((n, r) => n + parseFloat(r.input_amount || 0) / parseFloat(r.exchange_rate), 0)
     return Number(total.toFixed(gv.setting.pos_setting.main_currency_precision));
 })
 
@@ -122,25 +113,5 @@ async function onOpenShift() {
         addCashierShiftResource.submit();
     }
 
-}
-
-
-async function OpenKeyboard(data) {
-
-    const result = await inputNumberDialog({ "title": "Cash Float for " + data.payment_method });
-    if (result) {
-
-        data.input_amount = getNumber(result);
-    }
-
-}
-
-function getNumber(val) {
-
-    val = (val = val == null ? 0 : val)
-    if (isNaN(val)) {
-        return 0;
-    }
-    return parseFloat(val);
 }
 </script>

@@ -10,9 +10,8 @@
                 <v-card-text>
                     <ComPlaceholder text="Please add filter button to set filter" :is-not-empty="advancefilters.length > 0" icon-size="40px" class-color="text-gray-300" icon="mdi-filter-outline">
                         <div v-if="!loadingFilter">
-                            <div v-for="(f, index) in advancefilters" :key="index">
+                            <div v-for="(f, index) in advancefilters" :key="index"> 
                                 <ComAdvanceFilterKey
-                                    v-if="!(f.options == 'POS Profile' && gv.setting.specific_pos_profile) && !(f.options == 'Business Branch' && gv.setting.specific_business_branch)"
                                     :filter="f"
                                     :fields="resource.data.fields" 
                                     @onRemove="removeFilter" />

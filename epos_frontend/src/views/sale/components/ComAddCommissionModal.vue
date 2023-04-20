@@ -31,7 +31,7 @@
                     ></v-select>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <ComInput type="number" v-model="data.commission" v-debounce="onUpdatedData" keyboard label="Commission" :readonly="isReadonly"/>   
+                    <ComInput type="number" v-model="data.commission" v-debounce="onUpdatedData" keyboard label="Input Commission" :readonly="isReadonly"/>   
                 </v-col>
                 <v-col cols="12">
                     <ComInput readonly type="number" v-model="data.commission_amount" label="Amount"/>   
