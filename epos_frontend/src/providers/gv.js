@@ -79,8 +79,7 @@ export default class Gv {
 								const resultNote = await noteDialog({name:categoryNoteName,data:{product_code:""}}) ;
 								if(resultNote){
 									resolve({user:currentUser.full_name, discount_codes:currentUser.permission.discount_codes,note:resultNote,username:currentUser.name});
-								}else{
-									toaster.warning("You don't have permission to perform this action.")
+								}else{ 
 									resolve(false);
 								}
 							}

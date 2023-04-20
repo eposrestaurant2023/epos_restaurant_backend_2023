@@ -1,5 +1,5 @@
 <template>
-    <ComModal @onPrint="onPrint"  width="900px" @onClose="onClose" @onOk="onSave">
+    <ComModal @onPrint="onPrint" mobileFullscreen @onClose="onClose" @onOk="onSave">
         <template #title>
             {{ params.title }}
         </template>
@@ -9,13 +9,14 @@
                     <v-col cols="12" sm="6"  md="6" >
                         <ComInput v-model="customer.customer_name_en" :required="true" keyboard label="Customer Name En"/>    
                     </v-col>
+                    
+                    <v-col cols="12" sm="6"  md="6">
+                        <ComInput v-model="customer.customer_name_kh" keyboard label="Customer Name Kh"/>
+                    </v-col>
                     <v-col cols="12" sm="6"  md="6">
                         <ComAutoComplete v-model="customer.customer_group" doctype="Customer Group" variant="solo"/> 
                     </v-col>
                     <v-col cols="12" sm="6"  md="6">
-                        <ComInput v-model="customer.customer_name_kh" keyboard label="Customer Name Kh"/>
-                    </v-col>
-                    <v-col>
                         <ComInput v-model="customer.date_of_birth" type="date" label="Date of Birth"/>
                     </v-col>
                 </v-row>
@@ -44,20 +45,18 @@
                     <v-col cols="12" sm="6"  md="6">
                         <ComInput v-model="customer.phone_number" keyboard label="Phone Number 1"/>
                     </v-col>
-                    <v-col cols="12" sm="6"  md="6">
-                        <ComAutoComplete v-model="customer.country" feild="country_name" doctype="Country" variant="solo"/>
-                    </v-col>
+                    
                     <v-col cols="12" sm="6"  md="6">
                         <ComInput v-model="customer.phone_number_2" keyboard label="Phone Number 2"/>
+                    </v-col>
+                    <v-col>
+                        <ComInput v-model="customer.email_address" keyboard label="Email Address"/> 
                     </v-col>
                     <v-col cols="12" sm="6"  md="6"> 
                         <ComAutoComplete v-model="customer.province" feild="province" doctype="Province" variant="solo"/>
                    </v-col>
-                    <v-col>
-                        <ComInput v-model="customer.email_address" keyboard label="Email Address"/> 
-                    </v-col>
-                    <v-col cols="12" sm="6"  md="6">
-
+                   <v-col cols="12" sm="6"  md="6">
+                        <ComAutoComplete v-model="customer.country" feild="country_name" doctype="Country" variant="solo"/>
                     </v-col>
                 </v-row>
                 <p class="font-weight-bold pt-6 pb-2">

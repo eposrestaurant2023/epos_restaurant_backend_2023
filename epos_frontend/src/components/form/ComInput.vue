@@ -2,7 +2,7 @@
     <div>
         <div v-if="type=='textarea'">
             <v-textarea
-                v-if="keyboard"
+                v-if="keyboard && !mobile"
                 :required="required"
                 :type="type"
                 :density="density"

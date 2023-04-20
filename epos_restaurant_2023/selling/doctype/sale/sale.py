@@ -148,10 +148,15 @@ class Sale(Document):
 				self.commission_amount = (self.grand_total * self.commission/100); 
 			else:
 				self.commission_amount = self.commission
+		if self.docstatus ==1:
+			self.sale_status = "Closed"
+			 
+			self.sale_status_color = frappe.get_value("Sale Status","Closed","background_color")
 
 	def before_submit(self):
 		self.append_quantity = None
 		self.scan_barcode = None
+		
 
 	def on_update(self):
 		pass

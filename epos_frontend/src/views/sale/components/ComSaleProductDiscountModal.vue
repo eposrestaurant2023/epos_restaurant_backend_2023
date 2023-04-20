@@ -14,7 +14,7 @@
                                 </v-alert> 
                             </div>
                             <ComInput 
-                                keyboard
+                                :keyboard="discount_type != 'Percent'"
                                 type="number"
                                 v-model="discount"
                                 :disabled="discount_type == 'Percent'"

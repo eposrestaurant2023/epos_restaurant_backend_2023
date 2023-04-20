@@ -92,7 +92,7 @@ function onRemoveSaleProduct() {
                     if(result){ 
                         if(props.saleProduct.quantity < result.number)
                             result.number = props.saleProduct.quantity
-                            props.saleProduct.deleted_item_note = result.note;
+                        props.saleProduct.deleted_item_note = result.note;
                         sale.onRemoveSaleProduct(props.saleProduct, result.number);
 
                     } 

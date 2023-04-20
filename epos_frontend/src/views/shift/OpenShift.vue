@@ -15,17 +15,17 @@
         <h1 class="my-4">Cash Float</h1>
         <v-row v-if="payment_types && payment_types.filter(p => p.allow_cash_float == 1).length > 0">
             <v-col cols="12" md="6" v-for="p in payment_types.filter(p => p.allow_cash_float == 1)">
-                    <ComInput type="number" :label="p.payment_method" v-model="p.input_amount" :keyboard="!mobile"/>
+                    <ComInput type="number" :label="p.payment_method" v-model="p.input_amount" keyboard/>
             </v-col>
         </v-row>
         <v-row v-if="payment_types && payment_types.filter(p => p.allow_cash_float == 1).length > 1">
             <v-col cols="12" md="6">
-                <ComInput readonly label="Total Cash Float" v-model="totalCashFloat" :keyboard="!mobile"/>
+                <ComInput readonly label="Total Cash Float" v-model="totalCashFloat" keyboard/>
             </v-col>
         </v-row>
         <v-row>
             <v-col cols="12">
-                <ComInput title="Enter Note" label="Open Note" v-model="opened_note" type="textarea" :keyboard="!mobile"></ComInput>
+                <ComInput title="Enter Note" label="Open Note" v-model="opened_note" type="textarea" keyboard></ComInput>
             </v-col>
         </v-row>
         <div class="flex items-center justify-between mt-8 mb-3">

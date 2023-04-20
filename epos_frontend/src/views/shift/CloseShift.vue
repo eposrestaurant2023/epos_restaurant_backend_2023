@@ -9,19 +9,16 @@
             
             <v-row v-if="cashierShiftResource.doc" class="mt-2 mx-2">
                 <v-col cols="12" md="6">
-                    <v-text-field label="Working Day" v-model="cashierShiftResource.doc.working_day" variant="solo"
-                        readonly hide-details></v-text-field>
+                    <ComInput label="Working Day" v-model="cashierShiftResource.doc.working_day" readonly></ComInput>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <v-text-field label="Cashier Shift" v-model="cashierShiftResource.doc.name" variant="solo"
-                        readonly hide-details></v-text-field>
+                    <ComInput label="Cashier Shift" v-model="cashierShiftResource.doc.name" readonly></ComInput>
                 </v-col>
                 <v-col  cols="12" md="6">
-                    <v-text-field label="Close Date" v-model="current_date" variant="solo" readonly></v-text-field>
+                    <ComInput label="Close Date" v-model="current_date" readonly></ComInput>
                 </v-col>
-                <v-col cols="12" md="6">
-                    <v-text-field label="POS Profile" v-model="cashierShiftResource.doc.pos_profile" variant="solo"
-                        readonly hide-details></v-text-field>
+                <v-col cols="12" md="6"> 
+                    <ComInput label="POS Profile" v-model="cashierShiftResource.doc.pos_profile" readonly/>
                 </v-col>
             </v-row>
             <v-row class="mx-4"> 
@@ -58,8 +55,7 @@
                                 <CurrencyFormat :value="d.input_system_close_amount" :currency="d.currency" />
                             </td>
                             <td>
-                                <ComInput title="Close Amount" keyboard type="number" v-model="d.input_close_amount">
-                                </ComInput>
+                                <ComInput type="number" v-model="d.input_close_amount" keyboard> </ComInput>
                             </td>
                             <td>
                                 <CurrencyFormat :value="d.input_different_amount" :currency="d.currency" />
@@ -72,14 +68,10 @@
                                 Total
                             </td>
                             <td>
-                                <CurrencyFormat
-                                    :value="cashierShiftSummary.data.reduce((n, r) => n + r.opening_amount, 0)" />
-
-
+                                <CurrencyFormat :value="cashierShiftSummary.data.reduce((n, r) => n + r.opening_amount, 0)" />
                             </td>
                             <td>
-                                <CurrencyFormat
-                                    :value="cashierShiftSummary.data.reduce((n, r) => n + r.system_close_amount, 0)" />
+                                <CurrencyFormat :value="cashierShiftSummary.data.reduce((n, r) => n + r.system_close_amount, 0)" />
 
                             </td>
                             <td>
@@ -94,7 +86,7 @@
                 </v-table>
             </v-row>
 
-            <ComInput class="my-8 mx-4" title="Enter Note" keyboard label="Closed Note" v-model="doc.closed_note"
+            <ComInput class="my-8 mx-4" title="Enter Note" label="Closed Note" v-model="doc.closed_note"
                 type="textarea">
             </ComInput>
             <div class="flex justify-between items-center mx-4">
@@ -115,7 +107,8 @@ import PageLayout from '../../components/layout/PageLayout.vue';
 import ComInput from '../../components/form/ComInput.vue';
 import { printPreviewDialog, confirm } from '@/utils/dialog';
 import ComAlertPendingOrder from '../../components/layout/components/ComAlertPendingOrder.vue';
-
+import { useDisplay } from 'vuetify'
+const { mobile } = useDisplay()
 
 const router = useRouter();
 const toaster = createToaster();
@@ -142,20 +135,12 @@ const totalCloseAmount = computed(() => {
     return 0;
 })
 
-
-
-
 let cashierShiftInfo = createResource({
     url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
     params: {
         pos_profile: localStorage.getItem("pos_profile")
     }
 });
-
-
-
-        
-
 
 onMounted(async () => {
     await cashierShiftInfo.fetch();

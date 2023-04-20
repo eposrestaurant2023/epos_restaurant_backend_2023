@@ -8,7 +8,8 @@ from passlib.hash import pbkdf2_sha256
 
 class ResetData(Document):
 	def validate(self):
-			self.stored_password = self.password
+			if self.stored_password is None or self.stored_password == "" : 
+				self.stored_password = self.password
 			if self.stored_password is None or self.stored_password == "":
 				frappe.throw("Please Enter Password")
 			else:
@@ -17,16 +18,17 @@ class ResetData(Document):
 					frappe.throw("Wrong Password")
 
 	def on_submit(self):
-		# if self.transaction_type == "Reset Database":
-		# 	frappe.call('epos_restaurant_2023.install.reset_database')
-		# elif self.transaction_type == "Reset Sale Transaction":
-		# 	frappe.call('epos_restaurant_2023.install.reset_sale_transaction')
-		# else:
-		# 	frappe.msgprint("?")
+		if self.transaction_type == "Reset Database":
+			frappe.call('epos_restaurant_2023.install.reset_database')
+		elif self.transaction_type == "Reset Sale Transaction":
+			frappe.call('epos_restaurant_2023.install.reset_sale_transaction')
+		else:
+			frappe.msgprint("?")
 		pass
 
 	def on_update(self):
-		frappe.db.sql("update `tabReset Data` set already_validate = 0 where docstatus = 1 and name = '{0}'".format(self.name))
+		frappe.db.sql("""update `tabReset Data` set stored_password = '' where docstatus = 1 and name = '{0}'""".format(self.name))
+		self.reload()
 		
 
 	
