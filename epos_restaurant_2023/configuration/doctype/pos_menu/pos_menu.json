@@ -21,13 +21,27 @@
   "column_break_4",
   "is_group",
   "shortcut_menu",
-  "is_emenu",
   "price_rule",
   "sort_order",
   "is_standard",
   "disabled",
   "old_parent",
-  "products"
+  "products",
+  "emenu_tab",
+  "is_emenu",
+  "is_main_emenu",
+  "emenu_business_branch",
+  "column_break_23",
+  "position_main_menu",
+  "section_break_24",
+  "title_en",
+  "column_break_22",
+  "title_kh",
+  "section_break_26",
+  "background_image",
+  "context_section",
+  "show_description",
+  "description"
  ],
  "fields": [
   {
@@ -164,6 +178,78 @@
    "fieldname": "is_emenu",
    "fieldtype": "Check",
    "label": "Is eMenu"
+  },
+  {
+   "fieldname": "emenu_tab",
+   "fieldtype": "Tab Break",
+   "label": "eMenu"
+  },
+  {
+   "fieldname": "background_image",
+   "fieldtype": "Attach Image",
+   "label": "Background Image"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_22",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_24",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "title_en",
+   "fieldtype": "Data",
+   "label": "Title En"
+  },
+  {
+   "fieldname": "title_kh",
+   "fieldtype": "Data",
+   "label": "Title Kh"
+  },
+  {
+   "fieldname": "section_break_26",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_main_emenu",
+   "fieldtype": "Check",
+   "label": "Is Main eMenu"
+  },
+  {
+   "fieldname": "column_break_23",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "description": "Set into submenu of main menu.",
+   "fieldname": "position_main_menu",
+   "fieldtype": "Check",
+   "label": "Position Main Menu"
+  },
+  {
+   "description": "If it is main emenu can select specifi business branch.",
+   "fieldname": "emenu_business_branch",
+   "fieldtype": "Link",
+   "label": "eMenu Business Branch",
+   "options": "Business Branch"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_description",
+   "fieldtype": "Check",
+   "label": "Show Description"
+  },
+  {
+   "fieldname": "context_section",
+   "fieldtype": "Section Break",
+   "label": "Context"
   }
  ],
  "image_field": "photo",
@@ -171,7 +257,7 @@
  "is_tree": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-04-18 16:34:24.586609",
+ "modified": "2023-04-21 14:16:55.835653",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Menu",

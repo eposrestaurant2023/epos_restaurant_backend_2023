@@ -52,9 +52,7 @@ export default class TableLayout {
             onSuccess(data) {
                 parent.table_groups.forEach(function (g) {
                     g.tables.forEach(function (t) {
-                    
                         t.sales = data.filter(r => r.tbl_group == g.table_group && r.tbl_number == t.tbl_no)
-                     
                         if (t.sales.length > 0) {
                             t.guest_cover = t.sales.reduce((n, r) => n + r.guest_cover, 0)
                             t.grand_total = t.sales.reduce((n, r) => n + r.grand_total, 0)
@@ -65,7 +63,6 @@ export default class TableLayout {
                             t.grand_total = 0;
                             t.creation = null;
                             t.background_color = t.default_bg_color;
-      
                         }
 
                     })

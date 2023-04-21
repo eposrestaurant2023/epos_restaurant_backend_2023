@@ -4,7 +4,7 @@
             <div v-if="!mobile">
                 <div class="flex flex-wrap items-end">
                     <div style="min-width: 140px"> 
-                        <ComInput keyboard placeholder="ID" v-model="name" variant="solo" class="m-1" v-debounce="onSearch" @onInput="onSearch"/>
+                        <ComInput keyboard label="ID" v-model="name" variant="solo" class="m-1" v-debounce="onSearch" @onInput="onSearch"/>
                     </div>
                     <template v-for="(f, index) in resource.data.fields.filter(r => r.in_standard_filter == 1)" :key="index">
                         <template v-if="!(f.options == 'POS Profile' && gv.setting.specific_pos_profile) && !(f.options == 'Business Branch' && gv.setting.specific_business_branch)">
@@ -14,14 +14,14 @@
                                     v-model="f.value" :placeholder="f.label" variant="solo" class="m-1" />
                                 <ComInput keyboard type="number"
                                     v-if="f.fieldtype == 'Int' || f.fieldtype == 'Float' || f.fieldtype == 'Currency'" v-model="f.value"
-                                    :placeholder="f.label" variant="solo" class="m-1"/>
-                                <ComInput type="date" v-if="f.fieldtype == 'Date'" v-model="f.value" class="m-1"></ComInput>
-                                <ComAutoComplete v-model="f.value" v-if="f.fieldtype == 'Link'" :doctype="f.options"   variant="solo" class="m-1"/>
+                                    :label="f.label" variant="solo" class="m-1"/>
+                                <ComInput type="date" v-if="f.fieldtype == 'Date'" v-model="f.value" class="m-1" :label="f.label"></ComInput>
+                                <ComAutoComplete v-model="f.value" v-if="f.fieldtype == 'Link'" :doctype="f.options"   variant="solo"  :label="f.label" class="m-1"/>
                                 <v-select 
                                     density="compact"
                                     v-if="f.fieldtype == 'Select'" 
                                     v-model="f.value" 
-                                    :placeholder="f.label"
+                                    :label="f.label"
                                     :items="f.options.split('\n')"
                                     @click:clear="f.value=''"
                                     hide-no-data

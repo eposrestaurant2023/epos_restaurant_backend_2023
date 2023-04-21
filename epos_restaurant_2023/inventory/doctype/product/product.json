@@ -24,6 +24,7 @@
   "opening_quantity",
   "stock_location",
   "tax_rule",
+  "is_recipe",
   "disabled",
   "pos_setting_section",
   "allow_discount",
@@ -65,7 +66,12 @@
   "section_break_50",
   "generate_variant",
   "product_variants_section",
-  "product_variants"
+  "product_variants",
+  "recipe_tab",
+  "product_recipe",
+  "total_quantity",
+  "combo_menu_item_tab",
+  "total_menu_item"
  ],
  "fields": [
   {
@@ -401,13 +407,47 @@
    "fieldname": "product_variants",
    "fieldtype": "Table",
    "options": "Product Variants"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_recipe",
+   "fieldtype": "Check",
+   "label": "Is Recipe"
+  },
+  {
+   "depends_on": "eval:doc.is_inventory_product==0 && doc.is_recipe==0 && !doc.__islocal",
+   "fieldname": "recipe_tab",
+   "fieldtype": "Tab Break",
+   "label": "Recipe"
+  },
+  {
+   "fieldname": "total_quantity",
+   "fieldtype": "Float",
+   "label": "Total Quantity"
+  },
+  {
+   "fieldname": "product_recipe",
+   "fieldtype": "Table",
+   "label": "Product Recipe",
+   "options": "Product Recipe"
+  },
+  {
+   "depends_on": "eval:doc.is_composite_menu==1 && doc.is_inventory_product==0 && !doc.__islocal",
+   "fieldname": "combo_menu_item_tab",
+   "fieldtype": "Tab Break",
+   "label": "Combo Menu Item"
+  },
+  {
+   "fieldname": "total_menu_item",
+   "fieldtype": "Int",
+   "label": "Total Menu Item"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-04-09 23:26:24.994228",
+ "modified": "2023-04-21 16:54:32.905376",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Product",

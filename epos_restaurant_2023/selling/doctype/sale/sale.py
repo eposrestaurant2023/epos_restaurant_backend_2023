@@ -153,15 +153,14 @@ class Sale(Document):
 			 
 			self.sale_status_color = frappe.get_value("Sale Status","Closed","background_color")
 
-	def before_submit(self):
-		self.append_quantity = None
-		self.scan_barcode = None
-		
+
 
 	def on_update(self):
 		pass
 
 	def before_submit(self):
+		self.append_quantity = None
+		self.scan_barcode = None
 		for d in self.sale_products:
 			if d.is_inventory_product:
 				if d.unit !=d.base_unit:
@@ -201,7 +200,7 @@ def update_inventory_on_submit(self):
 			})
 		else:
 			#udpate cost for none stock product
-			doc = frappe.get_doc("Product","F01")
+			doc = frappe.get_doc("Product",p.product_code)
 			cost = doc.cost or 0
 			if doc.product_price:
 				prices = Enumerable(doc.product_price).where(lambda x:x.business_branch == self.business_branch and x.price_rule == self.price_rule and x.unit == "Unit" and x.portion ==p.portion).first_or_default()

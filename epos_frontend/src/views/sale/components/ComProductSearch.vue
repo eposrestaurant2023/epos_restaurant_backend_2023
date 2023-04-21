@@ -49,7 +49,9 @@ function onKeyDown(event) {
             });
 
         searchProductResource.fetch().then((doc)=>{
+
             sale.addSaleProduct(doc);
+            
             product.searchProductKeywordStore = "";
         });
 

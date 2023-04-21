@@ -14,6 +14,9 @@ import itertools
 class Product(Document):
 	def validate(self):
 
+		if self.is_composite_menu==1:
+			self.is_recipe=0
+			
 
 		# lock uncheck inventory product
 		if not self.is_new():

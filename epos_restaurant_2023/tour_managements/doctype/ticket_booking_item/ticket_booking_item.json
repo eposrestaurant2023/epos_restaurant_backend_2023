@@ -1,0 +1,70 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2023-04-21 16:07:46.459540",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "ticket_code",
+  "ticket_name",
+  "quantity",
+  "price",
+  "total_amount",
+  "note"
+ ],
+ "fields": [
+  {
+   "fieldname": "ticket_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Ticket Code",
+   "options": "Ticket"
+  },
+  {
+   "fetch_from": "ticket_code.ticket_name",
+   "fieldname": "ticket_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Ticket Name"
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity"
+  },
+  {
+   "fetch_from": "ticket_code.price",
+   "fieldname": "price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Price"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Total Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-04-21 18:51:21.112867",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Ticket Booking Item",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

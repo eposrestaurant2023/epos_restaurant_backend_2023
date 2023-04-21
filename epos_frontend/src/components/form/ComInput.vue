@@ -65,6 +65,7 @@
                 :prepend-inner-icon="prependInnerIcon"
                 @input="updateValue"
                 @click:clear="onClear"
+                :class="type=='date'?'date-input':''"
                 >
             </v-text-field>
             <v-text-field
@@ -85,7 +86,8 @@
                 @click:append-inner="emit('onClickAppendInner')"
                 :prepend-inner-icon="prependInnerIcon"
                 @click:prepend-inner="emit('onClickPrependInner')"
-                @input="updateValue">
+                @input="updateValue"
+                :class="type=='date'?'date-input':''">
             </v-text-field>
         </div>
     </div>
@@ -201,4 +203,8 @@ function onClear(){
     emit('update:modelValue', "")
 }
 </script>
- 
+<style>
+    input[type=date]{
+        display: initial !important;
+    }
+</style>

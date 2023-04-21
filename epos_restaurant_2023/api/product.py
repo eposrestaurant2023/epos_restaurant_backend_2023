@@ -1,6 +1,7 @@
 
 import frappe
 import json
+from frappe.utils.response import json_handler
 
 @frappe.whitelist(allow_guest=True)
 def get_product_by_menu(root_menu=""):
@@ -107,52 +108,32 @@ def get_products(parent_menu):
 @frappe.whitelist()
 def get_product_by_barcode(barcode):
     #check if barcode have in product
-    sql = "select * from `tabProduct` where name='{}'".format(barcode)
-    data  = frappe.db.sql(sql,as_dict=1)
+    data  = frappe.db.sql("select name from `tabProduct` where name='{}'".format(barcode),as_dict=1)
     if data:
-            p = frappe.get_doc('Product', data[0].name)
-            frappe.msgprint(str(p.printers))
-            return {
-                "menu_product_name": barcode,
-                "name": p.name,
-                "name_en": p.product_name_en,
-                "name_kh": p.product_name_kh,
-                "parent": "",
-                "price": str(p.price),
-                "unit": "Unit",
-                "allow_discount": p.allow_discount,
-                "allow_change_price": p.allow_change_price,
-                "allow_free": p.allow_free,
-                "is_open_product": p.is_open_product,
-                "is_inventory_product": p.is_inventory_product,
-                "prices": json.dumps(p.product_price),
-                "printers":json.dumps(p.printers),
-                "modifiers": "",
-                "photo": "",
-                "type": "product",
-                "append_quantity": 1,
-                "modifiers_data": "[]"
-            }
-    
-    frappe.throw("Not Found")
-    return {
-        "menu_product_name": "f345104b55",
-        "name": "9696",
-        "name_en": "Coffee Frappe",
-        "name_kh": "កាហ្វេក្រឡុក",
-        "parent": "កាហ្វេត្រជាក់-Ice Coffee",
-        "price": 1.75,
-        "unit": "Unit",
-        "allow_discount": 0,
-        "allow_change_price": 1,
-        "allow_free": 1,
-        "is_open_product": 0,
-        "is_inventory_product": 1,
-        "prices": "[{\"price\": 1.84, \"branch\": \"\", \"price_rule\": \"Normal Rate\", \"portion\": \"Normal\"}, {\"price\": 2, \"branch\": \"\", \"price_rule\": \"Khmer New Year Rate\", \"portion\": \"Normal\"}]",
-        "printers": "[]",
-        "modifiers": "",
-        "photo": "",
-        "type": "product",
-        "append_quantity": 1,
-        "modifiers_data": "[]"
-    }
+            if data[0].name:
+                p = frappe.get_doc('Product', data[0].name)
+                return {
+                    "menu_product_name": barcode,
+                    "name": p.name,
+                    "name_en": p.product_name_en,
+                    "name_kh": p.product_name_kh,
+                    "parent": p.product_category,
+                    "price": p.price,
+                    "unit": p.unit,
+                    "allow_discount": p.allow_discount,
+                    "allow_change_price": p.allow_change_price,
+                    "allow_free": p.allow_free,
+                    "is_open_product": p.is_open_product,
+                    "is_inventory_product": p.is_inventory_product,
+                    "prices": json.dumps(([pr.price,pr.business_branch,pr.price_rule,pr.portion] for pr in  p.product_price),default=json_handler),
+                    "printers":json.dumps(([pr.printer,pr.group_item_type] for pr in p.printers),default=json_handler),
+                    "modifiers": "",
+                    "photo": p.photo,
+                    "type": "product",
+                    "append_quantity": 1,
+                    "modifiers_data": json.dumps(([pr.business_branch,pr.modifier_category,pr.prefix,pr.modifier_code,pr.price] for pr in p.product_modifiers),default=json_handler),
+                }
+            else:
+                frappe.throw("Item No Name ?")
+    else:
+        frappe.throw("Product Not Found")

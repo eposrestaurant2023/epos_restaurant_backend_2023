@@ -1,0 +1,75 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "field:ticket_category",
+ "creation": "2023-04-21 14:12:37.808114",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "ticket_category",
+  "ticket_code_prefix",
+  "note"
+ ],
+ "fields": [
+  {
+   "fieldname": "ticket_category",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Ticket Category",
+   "unique": 1
+  },
+  {
+   "fieldname": "ticket_code_prefix",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Ticket Code Prefix"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Note"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-04-21 14:12:37.808114",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Ticket Category",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Tour Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

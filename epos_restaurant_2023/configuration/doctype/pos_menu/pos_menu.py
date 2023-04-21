@@ -2,6 +2,7 @@
 # For license information, please see license.txt
 
 import frappe
+from frappe import _
 from frappe.utils.nestedset import NestedSet
 
 class POSMenu(NestedSet):
@@ -13,6 +14,23 @@ class POSMenu(NestedSet):
             self.pos_menu_name_kh = self.pos_menu_name_en
 
         self.pos_menu_path = get_menu_path(self.pos_menu_name_en)
+
+        if not self.title_kh:
+            self.title_en = self.title_en
+
+        if self.is_emenu:
+            if self.is_main_emenu:
+                filter_emenu_business_branch = 'IS NULL'
+                if self.emenu_business_branch:
+                    filter_emenu_business_branch = '= ' + "'{}'".format(self.emenu_business_branch)
+
+                main_emnu = frappe.db.sql("SELECT count(`name`) AS total FROM `tabPOS Menu` WHERE is_main_emenu = 1 and emenu_business_branch {}".format(filter_emenu_business_branch), as_dict=1)
+                if main_emnu[0].total > 0:
+                    frappe.throw(_("Main eMenu has already."))
+            if not self.title_en:
+                frappe.throw(_("Please insert title."))
+            if self.is_main_emenu and self.position_main_menu:
+                frappe.throw(_("Main eMenu cannot become sub menu of itselft."))
 
     def on_trash(self):
         if self.pos_menu_name_en == "Root Menu":

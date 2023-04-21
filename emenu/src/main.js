@@ -3,7 +3,7 @@ import { createApp, reactive } from "vue";
 import App from "./App.vue";
 import router from './router';
 import resourceManager from "../../../doppio/libs/resourceManager";
-import call from "../../../doppio/libs/controllers/call";
+// import call from "../../../doppio/libs/controllers/call";
 import socket from "../../../doppio/libs/controllers/socket";
 import Auth from "../../../doppio/libs/controllers/auth";
 import Gv from "./providers/gv";
@@ -38,10 +38,18 @@ app.use(resourceManager);
 // Global Properties,
 // components can inject this
 app.provide("$auth", auth);
-app.provide("$call", call);
+// app.provide("$call", call);
 app.provide("$socket", socket);
 app.provide("$frappe", frappe);
 app.provide("$gv", gv);
+
+// execute code
+/* get global data */
+const call = frappe.call()
+await call.get('epos_restaurant_2023.api.api.get_emenu_settings')
+.then((r)=> {
+	gv.setting = r.message 
+}).catch(er=> console.log(er))
 
 
 

@@ -1,0 +1,235 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2023-04-21 14:48:53.783332",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "branch",
+  "booking_date",
+  "arrival_date",
+  "ticket_type",
+  "column_break_5",
+  "transportation_company",
+  "confirm_booking_by",
+  "confirm_booking_by_phone_number",
+  "guest_information_section",
+  "guest_profile",
+  "guest_name",
+  "customer_phone_number",
+  "contact_name",
+  "contact_phone_number",
+  "column_break_15",
+  "nationality",
+  "market_source",
+  "market_segment",
+  "ticket_details_section",
+  "ticket_booking_item",
+  "section_break_20",
+  "total_quantity",
+  "column_break_22",
+  "total_amount",
+  "cancellation_policy_section",
+  "cancellation_policy"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Document Number",
+   "options": "TB.YYYY.-.####"
+  },
+  {
+   "fieldname": "booking_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Booking Date"
+  },
+  {
+   "fieldname": "arrival_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Arrival Date"
+  },
+  {
+   "fieldname": "ticket_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Ticket Category",
+   "options": "Ticket Category"
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "transportation_company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Transportation Company",
+   "options": "Transportation Company"
+  },
+  {
+   "fieldname": "confirm_booking_by",
+   "fieldtype": "Link",
+   "label": "Confirm Booking By",
+   "options": "Contact"
+  },
+  {
+   "fetch_from": "confirm_booking_by.phone",
+   "fetch_if_empty": 1,
+   "fieldname": "confirm_booking_by_phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "guest_information_section",
+   "fieldtype": "Section Break",
+   "label": "Guest Information"
+  },
+  {
+   "fieldname": "guest_profile",
+   "fieldtype": "Link",
+   "label": "Guest Profile",
+   "options": "Customer"
+  },
+  {
+   "fetch_from": "guest_profile.customer_name_en",
+   "fieldname": "guest_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Guest Name"
+  },
+  {
+   "fetch_from": "guest_profile.phone_number",
+   "fetch_if_empty": 1,
+   "fieldname": "customer_phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "contact_name",
+   "fieldtype": "Link",
+   "label": "Contact Name",
+   "options": "Contact"
+  },
+  {
+   "fetch_from": "contact_name.phone",
+   "fieldname": "contact_phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "column_break_15",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "nationality",
+   "fieldtype": "Link",
+   "label": "Nationality",
+   "options": "Country"
+  },
+  {
+   "fieldname": "market_source",
+   "fieldtype": "Link",
+   "label": "Market Source",
+   "options": "Market Source"
+  },
+  {
+   "fieldname": "market_segment",
+   "fieldtype": "Link",
+   "label": "Market Segment",
+   "options": "Market Segment"
+  },
+  {
+   "fieldname": "ticket_details_section",
+   "fieldtype": "Section Break",
+   "label": "Ticket Details"
+  },
+  {
+   "fieldname": "section_break_20",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total Quantity"
+  },
+  {
+   "fieldname": "column_break_22",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Amount"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "cancellation_policy_section",
+   "fieldtype": "Section Break",
+   "label": "Cancellation Policy"
+  },
+  {
+   "fieldname": "cancellation_policy",
+   "fieldtype": "Text Editor",
+   "label": "Policy"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Business Branch",
+   "reqd": 1
+  },
+  {
+   "fieldname": "ticket_booking_item",
+   "fieldtype": "Table",
+   "options": "Ticket Booking Item"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-04-21 18:24:30.403463",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Ticket Booking",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Tour Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

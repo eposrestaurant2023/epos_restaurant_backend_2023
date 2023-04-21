@@ -31,13 +31,17 @@
         <template #prepend>
             <v-icon color="error" icon="mdi-delete"></v-icon>
         </template>
-        <v-list-item-title class="text-red-700">Delete Bill</v-list-item-title>
+        <v-list-item-title class="text-red-700">Delete Bill {{ showSplitBill }}</v-list-item-title>
     </v-list-item>
+
+
+
 </template>
 <script setup>
 import { useRouter, addCommissionDialog,viewBillModelModel,ref, inject,confirm, keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog ,createResource } from "@/plugin"
 import { useDisplay } from 'vuetify'
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
+import ComSplitBill from "./ComSplitBill.vue";
 const { mobile } = useDisplay()
 const toaster = createToaster({ position: 'top' })
 const router = useRouter();
@@ -189,7 +193,9 @@ async function onClearOrder(){
      
 }
 function onInfoDeveloping(){
-    toaster.info('This function is developing.')
+    showSplitBill.value = true
+
+
 }
 
 async function onAddCommission(){

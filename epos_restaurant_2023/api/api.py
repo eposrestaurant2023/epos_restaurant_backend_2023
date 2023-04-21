@@ -560,7 +560,7 @@ def get_emenu_settings(business_branch = ''):
     emenus = Enumerable(doc.emenu).where(lambda x:x.business_branch == business_branch or '')
     emenu = frappe.get_doc('eMenu', emenus[0].emenu)
   
-    pos_menu = frappe.db.sql("SELECT `name`, pos_menu_name_en, pos_menu_name_kh,parent_pos_menu FROM `tabPOS Menu` WHERE parent_pos_menu = '{}' ORDER BY sort_order".format(emenu.pos_menu), as_dict=1)
+    pos_menu = frappe.db.sql("SELECT `name`, pos_menu_name_en, pos_menu_name_kh,parent_pos_menu, is_main_emenu FROM `tabPOS Menu` WHERE parent_pos_menu = '{}' ORDER BY sort_order".format(emenu.pos_menu), as_dict=1)
     return { 
         "title": emenu.title,
         "welcome_title": emenu.welcome_title,
@@ -580,5 +580,9 @@ def get_emenu_settings(business_branch = ''):
         }
     }
 
-# @frappe.whitelist(allow_guest=True)
-# def get_emenu_shortcut()
+@frappe.whitelist(allow_guest=True)
+def get_emenu_category(shortcut,is_main_emenu = False):
+    filter_main_emenu = ""
+    if is_main_emenu:
+        filter_main_emenu = "or position_main_menu = 1"
+    return frappe.db.sql("SELECT `name`, title_en,title_kh,description,show_description, parent_pos_menu,background_image FROM `tabPOS Menu` WHERE parent_pos_menu = '{0}' {1} ORDER BY sort_order".format(shortcut,filter_main_emenu), as_dict=1)
