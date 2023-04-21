@@ -35,7 +35,7 @@
             </v-col>
         </v-row>
     </div>
-    <ComSplitBill />
+    
 </template>
 <script setup>
 import { inject, useRoute, useRouter, ref, onMounted, onUnmounted, onBeforeRouteLeave,createResource} from '@/plugin';
