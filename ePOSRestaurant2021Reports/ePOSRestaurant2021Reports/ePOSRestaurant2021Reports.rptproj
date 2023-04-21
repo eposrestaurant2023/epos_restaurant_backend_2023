@@ -86,6 +86,7 @@
     <Report Include="rptCustomerList.rdl" />
     <Report Include="rptDailySaleCouponTransaction.rdl" />
     <Report Include="rptDailySaleSummary.rdl" />
+    <Report Include="rptDailySaleTaxReverseByRevenueGroup.rdl" />
     <Report Include="rptExpenseList.rdl" />
     <Report Include="rptFOCSaleSummaryByCustomer.rdl" />
     <Report Include="rptFOCSaleTransaction.rdl" />
