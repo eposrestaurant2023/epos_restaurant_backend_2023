@@ -30,7 +30,11 @@
   "hotel_prices_tab",
   "low_season",
   "column_break_22",
-  "high_season"
+  "high_season",
+  "cost_breakdown_detail_tab",
+  "cost_breakdowns",
+  "section_break_26",
+  "total_cost"
  ],
  "fields": [
   {
@@ -159,11 +163,31 @@
    "fieldtype": "Table",
    "label": "High Season",
    "options": "Tour Package Hotel Price"
+  },
+  {
+   "fieldname": "cost_breakdown_detail_tab",
+   "fieldtype": "Tab Break",
+   "label": "Cost Breakdown Detail"
+  },
+  {
+   "fieldname": "cost_breakdowns",
+   "fieldtype": "Table",
+   "label": "Cost",
+   "options": "Tour Package Cost Breakdown"
+  },
+  {
+   "fieldname": "section_break_26",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_cost",
+   "fieldtype": "Currency",
+   "label": "Total Cost"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-07 14:32:26.767924",
+ "modified": "2023-04-23 11:10:14.202344",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Packages",
