@@ -10,8 +10,8 @@ class TourPackages(Document):
 		self.total_cost =   Enumerable(self.cost_breakdowns).sum(lambda x: (x.rate or 0))
 		self.total_fix_cost=   Enumerable(self.fix_cost).sum(lambda x: (x.rate or 0))
 		for d in self.transportation_cost:
-			d.rate = (d.daily_rate or 0) * (d.days or 1)
-			
+			d.rate =( (d.daily_rate or 0) * (d.days or 1) ) + (d.extra_charge or 0)
+
 		if self.total_cost:
 			for d in self.tour_package_prices:
 				d.fix_cost = self.total_fix_cost

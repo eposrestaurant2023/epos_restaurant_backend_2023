@@ -17,7 +17,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Type",
-   "options": "Transportation\nTour Guide\nLand Service Fee\nEntrance Fee"
+   "options": "Tour Guide\nLand Service Fee\nEntrance Fee\nExtra Charge\nOthers"
   },
   {
    "fieldname": "description",
@@ -43,7 +43,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-23 13:40:08.013600",
+ "modified": "2023-04-23 15:10:11.915402",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Package Cost Breakdown",
