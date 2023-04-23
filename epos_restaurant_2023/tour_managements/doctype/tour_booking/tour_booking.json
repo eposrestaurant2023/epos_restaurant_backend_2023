@@ -19,6 +19,7 @@
   "tour_package_title",
   "total_pax",
   "price",
+  "child_rate",
   "total_tour_package_price",
   "column_break_12",
   "adult",
@@ -221,12 +222,13 @@
   {
    "fieldname": "price",
    "fieldtype": "Currency",
-   "label": "Price"
+   "label": "Adut Rate"
   },
   {
    "fieldname": "total_pax",
    "fieldtype": "Int",
-   "label": "Total Pax"
+   "label": "Total Pax",
+   "read_only": 1
   },
   {
    "fieldname": "itenaries",
@@ -458,11 +460,16 @@
    "fieldtype": "Currency",
    "label": "Total Amount",
    "read_only": 1
+  },
+  {
+   "fieldname": "child_rate",
+   "fieldtype": "Currency",
+   "label": "Child Rate"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-20 18:10:19.237619",
+ "modified": "2023-04-23 10:42:17.328886",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking",

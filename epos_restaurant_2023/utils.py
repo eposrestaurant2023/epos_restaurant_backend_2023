@@ -11,7 +11,7 @@ def date_diff(end_date, start_date):
 	return delta.days
 
 def get_tour_package_price(self):
-	data = frappe.db.sql("select coalesce(max(price),0) as price from `tabTour Package Prices` where parent='{}' and number_of_person = {}".format(self.tour_package,self.total_pax or 1), as_dict=1)
+	data = frappe.db.sql("select coalesce(max(price),0) as price from `tabTour Package Prices` where parent='{}' and number_of_person = {}".format(self.tour_package,self.adult or 1), as_dict=1)
 	if data[0]["price"]>0:
 		return data[0]["price"]
 	price = frappe.db.get_value("Tour Packages",self.tour_package, "price")

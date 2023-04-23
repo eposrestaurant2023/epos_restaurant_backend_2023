@@ -40,12 +40,12 @@ class TourBooking(Document):
 		
 	
 		for d in self.guides_and_drivers:
-			if d.document_type == 'Tour Guides' and  not d.phone_number: 
+			if not d.phone_number: 
 				d.phone_number = frappe.db.get_value('Tour Guides', d.name1, 'phone_number')
 				
 				
 				
-			if d.document_type == 'Tour Guides' and  not d.spoken_language: 
+			if not d.spoken_language: 
 				d.spoken_language = frappe.db.get_value('Tour Guides', d.name1, 'speaking_language') 
 
 		for d in self.guides_and_drivers:

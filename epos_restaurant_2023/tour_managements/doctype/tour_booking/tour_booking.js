@@ -48,8 +48,24 @@ frappe.ui.form.on("Tour Booking", {
             refresh_field('duration');
         }
     } ,
-    total_pax(frm){
+    adult(frm){
+        frm.doc.total_pax = (frm.doc.adult || 1) + (frm.doc.child || 0) 
+        refresh_field('total_pax');
         updateTourPackagePrice(frm);
+    },
+
+    child(frm){
+        frm.doc.total_pax = (frm.doc.adult || 1) + (frm.doc.child || 0) 
+        refresh_field('total_pax');
+        frm.doc.total_tour_package_price =frm.doc.price * (frm.doc.adult || 1) + frm.doc.child_rate * (frm.doc.child || 0);
+        refresh_field('total_tour_package_price');
+        
+    },
+    price(frm){
+        updateTotalRate(frm);
+    },
+    child_rate(frm){
+        updateTotalRate(frm);
     },
     tour_package(frm){
         updateTourPackagePrice(frm);
@@ -112,6 +128,12 @@ function set_query(frm,field_name, filters){
  
 }
 
+function updateTotalRate(frm){
+    frm.doc.total_tour_package_price =frm.doc.price * (frm.doc.adult || 1) + frm.doc.child_rate * (frm.doc.child || 0);
+    
+    refresh_field('total_tour_package_price');
+}
+
 function updateTourPackagePrice(frm){
     frm.call({
         method: 'get_tour_price',
@@ -119,12 +141,15 @@ function updateTourPackagePrice(frm){
         callback:function(r){
             if(r.message){
                  frm.doc.price = r.message;
-                 frm.doc.total_tour_package_price =frm.doc.price * frm.doc.total_pax;
+                 frm.doc.child_rate = r.message;
+
+                 frm.doc.total_tour_package_price =frm.doc.price * (frm.doc.adult || 1) + frm.doc.child_rate * (frm.doc.child || 0);
                  refresh_field('price');
+                 refresh_field('child_rate');
                  
                  refresh_field('total_tour_package_price');
-                 set_indicator(frm);
-                 console.log(frm.dashboard)
+                 //set_indicator(frm);
+                 //console.log(frm.dashboard)
 
             }
             
