@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "type",
+  "days",
   "description",
   "rate"
  ],
@@ -30,12 +31,19 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Rate"
+  },
+  {
+   "fieldname": "days",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Days",
+   "options": "Day 1\nDay 2\nDay 3\nDay 4\nDay 5\nDay 6\nDay 7\nDay 8\nDay 9\nDay 10\nDay 11\nDay 12\nDay 13\nDay 14\nDay 15\nDay 16\nDay 17\nDay 18\nDay 19\nDay 20\nDay 21\nDay 22\nDay 23\nDay 24\nDay 25\nDay 26\nDay 27\nDay 28\nDay 29\nDay 30\nDay 31"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-23 11:10:40.792535",
+ "modified": "2023-04-23 13:40:08.013600",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Package Cost Breakdown",

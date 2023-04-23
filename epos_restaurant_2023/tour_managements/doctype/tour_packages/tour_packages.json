@@ -25,6 +25,12 @@
   "column_break_12",
   "exclusions",
   "exclusions_detail",
+  "fix_cost_tab",
+  "fix_cost",
+  "section_break_20",
+  "total_fix_cost",
+  "transportation_cost_tab",
+  "transportation_cost",
   "price_detail_tab",
   "tour_package_prices",
   "hotel_prices_tab",
@@ -77,13 +83,15 @@
   {
    "fieldname": "cost",
    "fieldtype": "Currency",
+   "hidden": 1,
    "label": "Estimate Cost"
   },
   {
    "fieldname": "price",
    "fieldtype": "Currency",
+   "hidden": 1,
    "in_list_view": 1,
-   "label": "Price"
+   "label": "Fix Cost"
   },
   {
    "fieldname": "itenaries_section",
@@ -167,7 +175,7 @@
   {
    "fieldname": "cost_breakdown_detail_tab",
    "fieldtype": "Tab Break",
-   "label": "Cost Breakdown Detail"
+   "label": "Misc. Cost"
   },
   {
    "fieldname": "cost_breakdowns",
@@ -183,11 +191,43 @@
    "fieldname": "total_cost",
    "fieldtype": "Currency",
    "label": "Total Cost"
+  },
+  {
+   "fieldname": "fix_cost_tab",
+   "fieldtype": "Tab Break",
+   "label": "Fix Cost"
+  },
+  {
+   "fieldname": "fix_cost",
+   "fieldtype": "Table",
+   "label": "Fix Cost",
+   "options": "Tour Package Fix Cost"
+  },
+  {
+   "fieldname": "section_break_20",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_fix_cost",
+   "fieldtype": "Currency",
+   "label": "Total Fix Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "transportation_cost_tab",
+   "fieldtype": "Tab Break",
+   "label": "Transportation Cost"
+  },
+  {
+   "fieldname": "transportation_cost",
+   "fieldtype": "Table",
+   "label": "Transportation Cost",
+   "options": "Tour Package Transportation Rate"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-23 11:10:14.202344",
+ "modified": "2023-04-23 13:41:07.563364",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Packages",

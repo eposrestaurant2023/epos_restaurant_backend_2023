@@ -9,6 +9,10 @@
   "title",
   "section",
   "number_of_person",
+  "fix_cost",
+  "transportation_type",
+  "transportation_cost",
+  "additional_cost",
   "price"
  ],
  "fields": [
@@ -36,12 +40,36 @@
    "in_list_view": 1,
    "label": "Section",
    "options": "Section 1\nSection 2\nSection 3\nSection 4\nSection 5\nSection 6\nSection 7\nSection 8\nSection 9\nSection 10"
+  },
+  {
+   "fieldname": "fix_cost",
+   "fieldtype": "Currency",
+   "label": "Fix Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "transportation_type",
+   "fieldtype": "Data",
+   "label": "Transportation Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "transportation_cost",
+   "fieldtype": "Currency",
+   "label": "Transportation Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "additional_cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Misc. Cost"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-05 16:30:05.141012",
+ "modified": "2023-04-23 13:48:51.953547",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Package Prices",

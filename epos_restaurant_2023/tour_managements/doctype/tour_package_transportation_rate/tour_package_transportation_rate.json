@@ -1,0 +1,54 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2023-04-23 12:35:58.475233",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "min_pax",
+  "max_pax",
+  "transportation_type",
+  "rate"
+ ],
+ "fields": [
+  {
+   "fieldname": "min_pax",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Min Pax"
+  },
+  {
+   "fieldname": "max_pax",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Max Pax"
+  },
+  {
+   "fieldname": "transportation_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Transportation Type",
+   "options": "Vehicle Types"
+  },
+  {
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-04-23 12:43:31.265921",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Tour Package Transportation Rate",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
