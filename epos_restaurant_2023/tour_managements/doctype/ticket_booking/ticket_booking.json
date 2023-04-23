@@ -14,8 +14,8 @@
   "booking_date",
   "ticket_type",
   "column_break_6",
-  "arrival_date",
   "departure",
+  "arrival_date",
   "column_break_5",
   "transportation_company",
   "destination",
@@ -29,6 +29,7 @@
   "service_class",
   "is_round_trip",
   "return_date",
+  "return_flight_number",
   "guest_information_section",
   "guest_profile",
   "guest_name",
@@ -275,11 +276,16 @@
    "fieldname": "departure",
    "fieldtype": "Datetime",
    "label": "Departure"
+  },
+  {
+   "fieldname": "return_flight_number",
+   "fieldtype": "Data",
+   "label": "Return Flight Number"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-23 17:31:23.117222",
+ "modified": "2023-04-23 17:53:29.379127",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Ticket Booking",
