@@ -19,6 +19,8 @@ class TourPackages(Document):
 				d.transportation_type = transportation_cost["transportation_type"]
 				d.transportation_cost = transportation_cost["cost"] / (d.number_of_person or 1)
 				d.additional_cost = ( self.total_cost / (d.number_of_person or 1))
+				if d.number_of_person>= (self.total_pax_include_tour_leader or 1):
+					d.additional_cost = d.additional_cost + (self.tour_leader_cost  / (d.number_of_person or 1))
 				d.price = self.total_fix_cost + d.transportation_cost  + d.additional_cost 
 
 

@@ -40,7 +40,11 @@
   "cost_breakdown_detail_tab",
   "cost_breakdowns",
   "section_break_26",
-  "total_cost"
+  "total_cost",
+  "tour_leader_section",
+  "total_pax_include_tour_leader",
+  "column_break_36",
+  "tour_leader_cost"
  ],
  "fields": [
   {
@@ -223,11 +227,30 @@
    "fieldtype": "Table",
    "label": "Transportation Cost",
    "options": "Tour Package Transportation Rate"
+  },
+  {
+   "fieldname": "tour_leader_section",
+   "fieldtype": "Section Break",
+   "label": "Tour Leader"
+  },
+  {
+   "fieldname": "total_pax_include_tour_leader",
+   "fieldtype": "Int",
+   "label": "Number of Pax Include Tour Leader Charge"
+  },
+  {
+   "fieldname": "column_break_36",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tour_leader_cost",
+   "fieldtype": "Currency",
+   "label": "Tour Leader Cost"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-23 14:46:51.460830",
+ "modified": "2023-04-23 16:06:29.165416",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Packages",
