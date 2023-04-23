@@ -12,8 +12,10 @@
   "branch",
   "reference",
   "booking_date",
-  "arrival_date",
   "ticket_type",
+  "column_break_6",
+  "arrival_date",
+  "departure",
   "column_break_5",
   "transportation_company",
   "destination",
@@ -22,9 +24,11 @@
   "fight_information_section",
   "fight_number",
   "air_plane_type",
-  "service_class",
-  "column_break_16",
   "filght_note",
+  "column_break_16",
+  "service_class",
+  "is_round_trip",
+  "return_date",
   "guest_information_section",
   "guest_profile",
   "guest_name",
@@ -61,7 +65,7 @@
   },
   {
    "fieldname": "arrival_date",
-   "fieldtype": "Date",
+   "fieldtype": "Datetime",
    "in_list_view": 1,
    "label": "Arrival Date"
   },
@@ -251,11 +255,31 @@
    "fieldtype": "Check",
    "hidden": 1,
    "label": "show_flight_information"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_round_trip",
+   "fieldtype": "Check",
+   "label": "Is Round Trip"
+  },
+  {
+   "fieldname": "return_date",
+   "fieldtype": "Datetime",
+   "label": "Return Date"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "departure",
+   "fieldtype": "Datetime",
+   "label": "Departure"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-23 17:15:21.784896",
+ "modified": "2023-04-23 17:31:23.117222",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Ticket Booking",
