@@ -10,13 +10,21 @@
  "field_order": [
   "naming_series",
   "branch",
+  "reference",
   "booking_date",
   "arrival_date",
   "ticket_type",
   "column_break_5",
   "transportation_company",
+  "destination",
   "confirm_booking_by",
   "confirm_booking_by_phone_number",
+  "fight_information_section",
+  "fight_number",
+  "air_plane_type",
+  "service_class",
+  "column_break_16",
+  "filght_note",
   "guest_information_section",
   "guest_profile",
   "guest_name",
@@ -34,7 +42,8 @@
   "column_break_22",
   "total_amount",
   "cancellation_policy_section",
-  "cancellation_policy"
+  "cancellation_policy",
+  "show_flight_information"
  ],
  "fields": [
   {
@@ -193,11 +202,60 @@
    "fieldname": "ticket_booking_item",
    "fieldtype": "Table",
    "options": "Ticket Booking Item"
+  },
+  {
+   "fieldname": "reference",
+   "fieldtype": "Data",
+   "label": "Reference"
+  },
+  {
+   "fieldname": "destination",
+   "fieldtype": "Link",
+   "label": "Destination",
+   "options": "Transportation Destination"
+  },
+  {
+   "depends_on": "eval:doc.show_flight_information ==1",
+   "fieldname": "fight_information_section",
+   "fieldtype": "Section Break",
+   "label": "Fight Information"
+  },
+  {
+   "fieldname": "fight_number",
+   "fieldtype": "Data",
+   "label": "Fight Number"
+  },
+  {
+   "fieldname": "air_plane_type",
+   "fieldtype": "Data",
+   "label": "Air Plane Type"
+  },
+  {
+   "fieldname": "service_class",
+   "fieldtype": "Data",
+   "label": "Service Class"
+  },
+  {
+   "fieldname": "column_break_16",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "filght_note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "default": "0",
+   "fetch_from": "ticket_type.show_flight_information",
+   "fieldname": "show_flight_information",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "show_flight_information"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-21 18:24:30.403463",
+ "modified": "2023-04-23 17:15:21.784896",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Ticket Booking",

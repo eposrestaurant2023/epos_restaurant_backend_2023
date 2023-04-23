@@ -11,7 +11,9 @@
  "field_order": [
   "ticket_category",
   "ticket_code_prefix",
-  "note"
+  "note",
+  "column_break_4",
+  "show_flight_information"
  ],
  "fields": [
   {
@@ -32,11 +34,21 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Note"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_flight_information",
+   "fieldtype": "Check",
+   "label": "Show Flight Information"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-21 14:12:37.808114",
+ "modified": "2023-04-23 17:08:19.576231",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Ticket Category",
