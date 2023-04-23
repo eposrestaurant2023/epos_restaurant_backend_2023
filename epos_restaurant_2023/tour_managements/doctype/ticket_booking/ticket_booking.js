@@ -6,7 +6,7 @@ frappe.ui.form.on("Ticket Booking", {
 
 	},
     ticket_type(frm){
-        alert(frm.doc.ticket_type)
+        
         frm.set_query("ticket_code","ticket_booking_item", function() {
             return {
                 filters: [
