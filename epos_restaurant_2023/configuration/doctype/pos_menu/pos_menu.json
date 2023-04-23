@@ -39,6 +39,7 @@
   "title_kh",
   "section_break_26",
   "background_image",
+  "banner",
   "context_section",
   "show_description",
   "description"
@@ -250,6 +251,11 @@
    "fieldname": "context_section",
    "fieldtype": "Section Break",
    "label": "Context"
+  },
+  {
+   "fieldname": "banner",
+   "fieldtype": "Attach Image",
+   "label": "Banner"
   }
  ],
  "image_field": "photo",
@@ -257,7 +263,7 @@
  "is_tree": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-04-21 14:16:55.835653",
+ "modified": "2023-04-22 10:56:52.888307",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Menu",

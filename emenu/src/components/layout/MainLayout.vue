@@ -34,7 +34,7 @@
             </template>
         </v-navigation-drawer>
         <v-main class="bg-gray-100"> 
-            <v-sheet rounded max-width="750px" class="m-auto" elevation="2">
+            <v-sheet rounded max-width="750px" class="m-auto">
                 <router-view />
             </v-sheet> 
         </v-main>

@@ -6,7 +6,6 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "document_type",
   "name1",
   "phone_number",
   "spoken_language",
@@ -26,14 +25,6 @@
   "note"
  ],
  "fields": [
-  {
-   "fieldname": "document_type",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Type",
-   "options": "DocType",
-   "reqd": 1
-  },
   {
    "fetch_if_empty": 1,
    "fieldname": "phone_number",
@@ -90,10 +81,10 @@
   },
   {
    "fieldname": "name1",
-   "fieldtype": "Dynamic Link",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Name",
-   "options": "document_type",
+   "options": "Tour Guides",
    "reqd": 1
   },
   {
@@ -129,7 +120,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-10 15:21:21.337301",
+ "modified": "2023-04-23 10:25:07.049390",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking Guide And Driver",

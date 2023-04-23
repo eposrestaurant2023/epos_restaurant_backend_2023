@@ -1,5 +1,5 @@
 <template>
-    <div class="py-4"> 
+    <div class="py-2"> 
         <div class="flex flex-nowrap overflow-x-auto pb-1 wrap-sm" v-if="gv.setting.pos_menu">
             <v-btn 
                 class="flex-shrink-0 m-1"

@@ -179,7 +179,7 @@ const emit = defineEmits(['update:modelValue'])
 const updateValue = (event) => {
     let value = event.target.value;
     if(props.type == 'number'){
-        value = parseFloat(value)
+        value = parseFloat(value || 0)
     }
     emit('update:modelValue', value)
 }

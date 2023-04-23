@@ -32,7 +32,11 @@
   "section_break_22",
   "shortcut_active_color",
   "column_break_24",
-  "shortcut_active_background"
+  "shortcut_active_background",
+  "banner_section",
+  "height_banner",
+  "background_color_banner",
+  "background_image_banner"
  ],
  "fields": [
   {
@@ -163,11 +167,33 @@
    "fieldname": "shortcut_active_background",
    "fieldtype": "Color",
    "label": "Shortcut Active Background"
+  },
+  {
+   "fieldname": "banner_section",
+   "fieldtype": "Section Break",
+   "label": "Banner"
+  },
+  {
+   "default": "120px",
+   "fieldname": "height_banner",
+   "fieldtype": "Data",
+   "label": "Height Banner"
+  },
+  {
+   "default": "#c5c5c5",
+   "fieldname": "background_color_banner",
+   "fieldtype": "Data",
+   "label": "Background Color"
+  },
+  {
+   "fieldname": "background_image_banner",
+   "fieldtype": "Attach Image",
+   "label": "Background Image"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-18 17:51:26.672191",
+ "modified": "2023-04-22 10:46:41.606527",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "eMenu",

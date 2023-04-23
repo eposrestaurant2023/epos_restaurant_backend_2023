@@ -50,7 +50,6 @@ import ComSaleSummaryList from './components/ComSaleSummaryList.vue';
 import ComSaleButtonPaymentSubmit from './components/ComSaleButtonPaymentSubmit.vue';
 import { createToaster } from '@meforma/vue-toaster';
 import { useDisplay } from 'vuetify'
-import ComSplitBill from './components/ComSplitBill.vue';
 const { mobile } = useDisplay()
 
 const sale = inject("$sale")
