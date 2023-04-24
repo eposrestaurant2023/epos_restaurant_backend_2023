@@ -46,9 +46,14 @@
   "total_quantity",
   "column_break_22",
   "total_amount",
+  "balance",
   "cancellation_policy_section",
   "cancellation_policy",
-  "show_flight_information"
+  "show_flight_information",
+  "payments_tab",
+  "payments",
+  "section_break_44",
+  "total_payment"
  ],
  "fields": [
   {
@@ -281,11 +286,36 @@
    "fieldname": "return_flight_number",
    "fieldtype": "Data",
    "label": "Return Flight Number"
+  },
+  {
+   "fieldname": "payments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Payments"
+  },
+  {
+   "fieldname": "payments",
+   "fieldtype": "Table",
+   "options": "Tour Booking Payments"
+  },
+  {
+   "fieldname": "section_break_44",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_payment",
+   "fieldtype": "Currency",
+   "label": "Total Payment"
+  },
+  {
+   "fieldname": "balance",
+   "fieldtype": "Currency",
+   "label": "Balance",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-23 17:58:41.700758",
+ "modified": "2023-04-24 11:30:16.943653",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Ticket Booking",
