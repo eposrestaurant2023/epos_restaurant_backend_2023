@@ -35,7 +35,6 @@
             </v-col>
         </v-row>
     </div>
-    
 </template>
 <script setup>
 import { inject, useRoute, useRouter, ref, onMounted, onUnmounted, onBeforeRouteLeave,createResource} from '@/plugin';
