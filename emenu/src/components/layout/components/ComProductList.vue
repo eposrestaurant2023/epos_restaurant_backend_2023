@@ -13,13 +13,7 @@
                 </div>
                 <div>
                     <div class="flex justify-end">
-                        <template v-if="qty > 0">
-                            <v-btn class="m-1" size="x-small" color="error" icon="mdi-delete" variant="tonal" @click.stop="onDelete()"></v-btn>
-                            <v-btn class="m-1" size="x-small" color="pink" icon="mdi-minus" variant="tonal" @click.stop="onMinus()"></v-btn>
-                            <div class="p-2">{{ qty }}</div>
-                        </template>
-                        <v-btn class="m-1" size="x-small" color="success" icon="mdi-plus" variant="tonal" @click.stop="onAdd()"></v-btn>
-                        <ComButton/>
+                        <ComButtonAddOn/>
                     </div>
                 </div>
             </div>
@@ -27,8 +21,8 @@
     </v-card>
 </template>
 <script setup>
-    import { inject,ref } from 'vue'
-    import ComButton from '../../form/ComButton.vue';
+    import { inject,ref } from 'vue' 
+    import ComButtonAddOn from '../../form/ComButtonAddOn.vue';
     const gv = inject('$gv')
     const props = defineProps({
         product: Object
@@ -38,13 +32,5 @@
     function onView(){
         emit('onView', props.product)
     }
-    function onAdd(){ 
-        qty.value++
-    }
-    function onMinus(){
-        qty.value--
-    }
-    function onDelete(){
-        qty.value = 0
-    }
+    
 </script>

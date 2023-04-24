@@ -24,6 +24,14 @@
   "column_break_12",
   "adult",
   "child",
+  "company_information_section",
+  "company_profile",
+  "company_contact_name",
+  "company_contact_number",
+  "column_break_21",
+  "company_email",
+  "company_address",
+  "section_break_24",
   "guest_information_section",
   "guest_profile",
   "customer_name",
@@ -41,8 +49,11 @@
   "cancelation_policy",
   "hotels_tab",
   "hotels",
+  "section_break_34",
   "total_hotel_amount",
+  "column_break_35",
   "total_room_nights",
+  "column_break_37",
   "total_pax1",
   "restaurants_tab",
   "restaurants",
@@ -51,7 +62,9 @@
   "guides_and_drivers",
   "section_break_32",
   "total_day",
+  "column_break_47",
   "total_tour_guide_amount",
+  "section_break_49",
   "tour_guide_note",
   "transportations_tab",
   "transportation",
@@ -60,6 +73,8 @@
   "additional_charges",
   "section_break_38",
   "total_additional_charge",
+  "column_break_58",
+  "total_quantity",
   "expenses_tab",
   "expenses",
   "section_break_42",
@@ -465,11 +480,80 @@
    "fieldname": "child_rate",
    "fieldtype": "Currency",
    "label": "Child Rate"
+  },
+  {
+   "fieldname": "column_break_35",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_37",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_34",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_47",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_49",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_58",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_quantity",
+   "fieldtype": "Float",
+   "label": "Total Quantity",
+   "read_only": 1
+  },
+  {
+   "fieldname": "company_information_section",
+   "fieldtype": "Section Break",
+   "label": "Company Information"
+  },
+  {
+   "fieldname": "company_profile",
+   "fieldtype": "Link",
+   "label": "Company Profile",
+   "options": "Company Profile"
+  },
+  {
+   "fieldname": "company_contact_name",
+   "fieldtype": "Data",
+   "label": "Contact Name"
+  },
+  {
+   "fieldname": "company_contact_number",
+   "fieldtype": "Data",
+   "label": "Contact Number"
+  },
+  {
+   "fieldname": "column_break_21",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company_email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "company_address",
+   "fieldtype": "Data",
+   "label": "Address"
+  },
+  {
+   "fieldname": "section_break_24",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-23 10:42:17.328886",
+ "modified": "2023-04-24 13:51:16.177006",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking",

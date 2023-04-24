@@ -12,6 +12,7 @@
   "company_name",
   "contact_name",
   "contact_phone",
+  "email",
   "address",
   "registration_number",
   "market_segment",
@@ -66,12 +67,17 @@
    "fieldtype": "Attach Image",
    "hidden": 1,
    "label": "Photo"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-20 18:08:50.239852",
+ "modified": "2023-04-24 13:44:45.853085",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Company Profile",

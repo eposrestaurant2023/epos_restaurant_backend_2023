@@ -64,4 +64,13 @@ const props = defineProps({
 })
 const gv = inject("$gv")
 </script>
+<style scoped>
+.te-xt {
+    line-height: 60px;
+}
+
+.a {
+    background-image: radial-gradient(500px 350px at 20% bottom, rgb(0 0 0 / 34%), rgb(0 0 0 / 3%));
+}
+</style>
  

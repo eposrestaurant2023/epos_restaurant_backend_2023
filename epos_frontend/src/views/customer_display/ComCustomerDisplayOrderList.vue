@@ -55,11 +55,16 @@
                     </div>
     
 </template>
-<script>
-export default {
-
-}
+<script setup>
+import { inject } from '@/plugin';
+const gv = inject("$gv")
+const props = defineProps({
+    data: Object,
+})
 </script>
-<style lang="">
-    
+<style scoped>
+.b {
+    position: absolute;
+    right: 5%;
+}
 </style>

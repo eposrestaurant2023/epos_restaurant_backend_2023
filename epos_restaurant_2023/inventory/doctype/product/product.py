@@ -25,6 +25,9 @@ class Product(Document):
 			item = frappe.db.sql("select name from `tabProduct` where name = '{0}'".format(v.variant_code),as_dict=1)
 			if item : 
 				error_list.append("""Row: {0} Product Code {1} Already Exist""".format(v.idx,frappe.bold(v.variant_code)))
+			variant = frappe.db.sql("select name from `tabProduct Variants` where variant_code = '{0}' and name != '{1}'".format(v.variant_code,v.name),as_dict=1)
+			if variant : 
+				error_list.append("""Row: {0} Product Code {1} Already Exist""".format(v.idx,frappe.bold(v.variant_code)))
 		if len(error_list) > 0:
 				for msg in error_list:
 					frappe.msgprint(msg)

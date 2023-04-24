@@ -15,6 +15,7 @@
   "min_pax",
   "column_break_4",
   "duration",
+  "total_night",
   "cost",
   "price",
   "itenaries_section",
@@ -246,11 +247,16 @@
    "fieldname": "tour_leader_cost",
    "fieldtype": "Currency",
    "label": "Tour Leader Cost"
+  },
+  {
+   "fieldname": "total_night",
+   "fieldtype": "Data",
+   "label": "Total Night"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-23 16:06:29.165416",
+ "modified": "2023-04-24 14:04:17.155559",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Packages",

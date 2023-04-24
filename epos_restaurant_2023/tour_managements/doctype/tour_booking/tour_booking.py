@@ -26,7 +26,7 @@ class TourBooking(Document):
 			d.amount = d.price * d.quantity
 
 		self.total_additional_charge =   Enumerable(self.additional_charges).sum(lambda x: (x.amount or 0))
-
+		self.total_quantity = Enumerable(self.additional_charges).sum(lambda x: (x.quantity or 0))
 		
 		self.total_paid =   Enumerable(self.tour_booking_payment).sum(lambda x: (x.payment_amount or 0))
 		self.total_expense =   Enumerable(self.expenses).sum(lambda x: (x.expense_amount or 0))

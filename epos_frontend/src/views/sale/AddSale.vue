@@ -174,7 +174,7 @@ onUnmounted(() => {
     sale.saleResource = null;
     sale.tableSaleListResource = null;
     
-    socket.emit("ShowOrderInCustomerDisplay",{});
+    socket.emit("ShowOrderInCustomerDisplay",{},true);
 
 })
 

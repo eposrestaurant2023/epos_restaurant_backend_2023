@@ -35,7 +35,9 @@
                         <ComButton @click="onCashInCashOut" title="Cash Drawer" icon-color="#e99417"
                             icon="mdi-currency-usd" />
                         <ComButton @click="onRoute('Report')" title="Report" icon="mdi-chart-bar" icon-color="#e99417" />
-                        <!-- <ComButton @click="onRoute('CustomerDisplay')" title="Wifi Password" icon="mdi-wifi" icon-color="#e99417" /> -->
+
+                        <ComButton @click="onPrintWifiPassword" title="Wifi Password" icon="mdi-wifi" icon-color="#e99417" /> 
+
                         
                         <ComButton @click="onLogout()" text-color="#fff" icon-color="#fff" title="Logout" icon="mdi-logout"
                             background-color="#b00020" />
@@ -46,13 +48,13 @@
             </div>
         </v-container>
     </div>
+    
 </template>
 <script setup>
-import { useRouter, createResource, computed, createToaster,pendingSaleListDialog,inject,onMounted } from '@/plugin'
+import { useRouter, createResource, computed, createToaster,pendingSaleListDialog,inject,onMounted,printWifiPasswordModal } from '@/plugin'
 import ComButton from '../components/ComButton.vue';
 import WorkingDayButton from './shift/components/WorkingDayButton.vue';
 import OpenShiftButton from './shift/components/OpenShiftButton.vue';
-
 
 const toaster = createToaster({ position: "top" })
 const auth = inject('$auth')
@@ -174,6 +176,9 @@ onMounted(async () => {
     await workingDayResource.fetch()
 })
 
+async function onPrintWifiPassword(){
+    await printWifiPasswordModal({})
+}
 
 </script>
 
