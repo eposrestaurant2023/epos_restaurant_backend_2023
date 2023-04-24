@@ -718,6 +718,7 @@ export default class Sale {
                 }else { 
                 if (await confirmDialog({ title: "Payment", text: "Are you sure you process payment and close order?" })) {
                     
+                    socket.emit("ShowOrderInCustomerDisplay",{}, true);
 
                     
                     this.generateProductPrinters();
@@ -943,7 +944,8 @@ export default class Sale {
                 this.updatePaymentAmount();
               
                 this.paymentInputNumber = this.sale.balance.toFixed(this.setting.pos_setting.main_currency_precision);
-               
+                
+                
             
             }else{
                 toaster.warning("Please enter payment amount");

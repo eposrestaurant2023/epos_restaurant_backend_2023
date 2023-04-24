@@ -26,8 +26,8 @@ io.on('connection', (socket) => {
   })
 
 
-  socket.on("ShowOrderInCustomerDisplay",(arg)=>{
-    io.emit("ShowOrderInCustomerDisplay",arg)
+  socket.on("ShowOrderInCustomerDisplay",(arg,show_thank_you = false)=>{
+    io.emit("ShowOrderInCustomerDisplay",arg, show_thank_you)
   })
 
 

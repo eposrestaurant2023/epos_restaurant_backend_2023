@@ -19,14 +19,16 @@
                             <div class="p-2">{{ qty }}</div>
                         </template>
                         <v-btn class="m-1" size="x-small" color="success" icon="mdi-plus" variant="tonal" @click.stop="onAdd()"></v-btn>
+                        <ComButton/>
                     </div>
                 </div>
             </div>
         </div> 
-    </v-card> 
+    </v-card>
 </template>
 <script setup>
     import { inject,ref } from 'vue'
+    import ComButton from '../../form/ComButton.vue';
     const gv = inject('$gv')
     const props = defineProps({
         product: Object

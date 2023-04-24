@@ -142,6 +142,7 @@ async function onPaymentWithoutPrint() {
 
     sale.onSubmitPayment(false).then((v) => {
         if (v) {
+            
             emit("resolve", true);
         }
     })

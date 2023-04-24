@@ -11,12 +11,24 @@ from py_linq import Enumerable
 from frappe.utils import add_years
 from epos_restaurant_2023.inventory.inventory import add_to_inventory_transaction, get_uom_conversion, update_product_quantity,get_stock_location_product
 import itertools
+
 class Product(Document):
 	def validate(self):
 
 		if self.is_composite_menu==1:
 			self.is_recipe=0
-			
+
+		error_list=[]
+		for v in self.product_variants:
+			if v.variant_code is None or v.variant_code == "":
+				error_list.append("""Row: {0} Product Code Can't Be Empty""".format(v.idx))
+			item = frappe.db.sql("select name from `tabProduct` where name = '{0}'".format(v.variant_code),as_dict=1)
+			if item : 
+				error_list.append("""Row: {0} Product Code {1} Already Exist""".format(v.idx,frappe.bold(v.variant_code)))
+		if len(error_list) > 0:
+				for msg in error_list:
+					frappe.msgprint(msg)
+				raise frappe.ValidationError(error_list)
 
 		# lock uncheck inventory product
 		if not self.is_new():

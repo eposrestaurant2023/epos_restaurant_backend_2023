@@ -19,6 +19,7 @@
                             <div class="p-2">{{ qty }}</div>
                         </template>
                         <v-btn class="m-1" size="x-small" color="success" icon="mdi-plus" variant="tonal" @click.stop="onAdd()"></v-btn>
+                        <ComButton/>
                     </div>
                 </div>
             </div> 
@@ -28,6 +29,7 @@
 <script setup>
 import {inject} from 'vue'
 import ComModal from '../../components/ComModal.vue';
+import ComButton from '../../components/form/ComButton.vue';
 const props = defineProps({
     product: Object
 })
