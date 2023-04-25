@@ -49,7 +49,7 @@
                     <v-row class="!m-0">
                         <v-col class="!p-0" cols="6">
                             <div class="p-1">
-                                
+
                                 <v-btn size="small" class="w-full" color="primary" @click="onPayment" stacked
                                     prepend-icon="mdi-printer">
                                     <span>Payment with Print</span>
@@ -60,7 +60,7 @@
                             <div class="p-1">
                                 <v-btn size="small" class="w-full" color="primary" @click="onPaymentWithoutPrint" stacked
                                     prepend-icon="mdi-currency-usd">Payment</v-btn>
-                                    
+
                             </div>
                         </v-col>
                     </v-row>
@@ -71,7 +71,7 @@
 </template>
 <script setup>
 
-import { inject, ref, onUnmounted,onMounted } from '@/plugin';
+import { inject, ref, onUnmounted } from '@/plugin';
 import ComPaymentInputNumber from "./ComPaymentInputNumber.vue"
 import ComSmallSalePayment from "./mobile_screen/ComSmallSalePayment.vue"
 import { useDisplay } from 'vuetify'
@@ -81,7 +81,7 @@ import ComSalePaymentList from './ComSalePaymentList.vue';
 import ComSelectPaymentPrinter from './ComSelectPaymentPrinter.vue';
 import ComPaymentSummaryInformation from './ComPaymentSummaryInformation.vue';
 
- 
+
 import { createToaster } from '@meforma/vue-toaster';
 
 const { mobile } = useDisplay()
@@ -99,7 +99,7 @@ const selectedReceipt = ref({})
 selectedReceipt.value = gv.setting.default_pos_receipt;
 
 sale.paymentInputNumber = sale.sale?.grand_total.toFixed(sale.setting.pos_setting.main_currency_precision);
- 
+
 function onSelectedReceipt(r) {
     selectedReceipt.value = r;
 
@@ -111,7 +111,7 @@ function onClose() {
 
 async function onPayment() {
 
-    if (sale.sale.payment.filter(r => r.required_customer == 1).length>0) {
+    if (sale.sale.payment.filter(r => r.required_customer == 1).length > 0) {
 
         if (sale.sale.customer == sale.setting.customer) {
 
@@ -128,7 +128,7 @@ async function onPayment() {
     })
 }
 async function onPaymentWithoutPrint() {
-    if (sale.sale.payment.filter(r => r.required_customer == 1).length>0) {
+    if (sale.sale.payment.filter(r => r.required_customer == 1).length > 0) {
 
         if (sale.sale.customer == sale.setting.customer) {
 
@@ -138,19 +138,19 @@ async function onPaymentWithoutPrint() {
     }
     sale.pos_receipt = undefined;
     sale.message = "Payment successfully";
- 
+
 
     sale.onSubmitPayment(false).then((v) => {
         if (v) {
-            
+
             emit("resolve", true);
         }
     })
 }
 
- 
- 
- 
+
+
+
 onUnmounted(() => {
     sale.sale.payment = [];
 })

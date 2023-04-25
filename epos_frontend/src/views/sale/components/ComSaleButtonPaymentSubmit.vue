@@ -1,6 +1,5 @@
 <template>
-
-        <div>
+  <div>
     <div>
       <div class="flex">
         <div class="w-4/5 cursor-pointer bg-green-600 text-white px-2 py-0  hover:bg-green-700" @click="onPayment()">
@@ -39,16 +38,16 @@
 </template>
 <script setup>
 import { inject, useRouter, paymentDialog, createToaster } from '@/plugin';
- 
+
 import ComExchangeRate from './ComExchangeRate.vue';
 const sale = inject("$sale")
 const gv = inject("$gv")
 const product = inject("$product")
 const tableLayout = inject("$tableLayout");
 const router = useRouter();
-const toaster = createToaster({position: 'top'}) 
+const toaster = createToaster({ position: 'top' })
 async function onSubmit() {
- 
+
   if (!sale.isBillRequested()) {
     sale.action = "submit_order";
     sale.message = "Submit Order Successfully";
@@ -56,11 +55,11 @@ async function onSubmit() {
     await sale.onSubmit().then((doc) => {
       product.onClearKeyword()
       if (doc) {
-        if (tableLayout.table_groups.length>0){ 
+        if (tableLayout.table_groups.length > 0) {
           sale.sale = {};
           router.push({ name: 'TableLayout' })
         }
-        else{ 
+        else {
           sale.newSale()
           router.push({ name: "AddSale" });
           sale.tableSaleListResource.fetch();
@@ -80,12 +79,15 @@ async function onPayment() {
 
   const result = await paymentDialog({})
   if (result) {
+
+
+
     product.onClearKeyword()
     sale.newSale();
     if (sale.setting.table_groups.length > 0) {
       router.push({ name: "TableLayout" });
-    }else{
-    sale.tableSaleListResource.fetch();
+    } else {
+      sale.tableSaleListResource.fetch();
       router.push({ name: "AddSale" });
     }
   }

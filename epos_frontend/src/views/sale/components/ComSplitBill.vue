@@ -1,54 +1,83 @@
 <template>
-    <ComModal fullscreen>
-      <template #title>
-        Scan Membership Card Number
-      </template>
-      <template #content>
-       
-     
-        <ul>
-          <li @click="onSelectProduct(sp)"  v-for="(sp, index) in sale.sale.sale_products" :key="index">{{ sp.product_name }} X {{ sp.quantity }} ({{ sp.selected_quantity }})</li>
-        </ul>
-
-        <div v-for="(b, index) in bill_list" :key="index">
-          <v-btn @click="AddSelectedProductToBill(b)">Add Selected Product To This Bill</v-btn>
-        <h1>{{b.bill_number}}</h1>
-        <ul>
-          <li v-for="(sp, index) in b.sale_products" :key="index">{{ sp.product_name }} x {{ sp.quantity }}</li>
-        </ul>
+  <ComModal :fullscreen="true" :persistent="true" @onClose="onClose" @onOk="onConfirm" :loading="resource.loading">
+    <template #title>
+      <span>{{ props.params.title }}</span>
+    </template>
+    <template #content>
+        <div v-for="(item, index) in groupSales" :key="index">    
+          <h1>{{ item.sale.name}}</h1>    
+          <div v-for="(sp, _index) in item.sale.sale_products??[]" :key="_index">    
+            <div style="margin:5px; padding-left: 10px;">
+              <ComSplitBillSaleProductCard :sale-product="sp"/>
+            </div>
+          </div> 
+          <ComSplitBillSaleSummary :sale="item.sale"/>
         </div>
-        <v-btn @click="onAddNewBill">Add New Bill</v-btn>
-      </template> 
-    </ComModal>
-  </template>
+    </template>
+    <template #action>
+
+    </template>
+  </ComModal>
+</template>
+
 <script setup>
-   import { inject,ref } from '@/plugin';
-   const sale = inject("$sale")
-   const bill_list = ref([])
+import { ref,onMounted, defineEmits, createToaster, createResource, inject } from '@/plugin'
+import ComSplitBillSaleProductCard from './split_bill/ComSplitBillSaleProductCard.vue';
+import ComSplitBillSaleSummary from "./split_bill/ComSplitBillSaleSummary.vue";
+const emit = defineEmits(["resolve", "reject"])
+const toaster = createToaster({ position: 'top' })
+const sale = inject('$sale')
+const resource = ref({})
+const props = defineProps({
+  params: {
+    type: Object,
+    require: true
+  }
+})
+
+const groupSales=ref([])
 
 
-   function onSelectProduct(sp){
-    if((sp.selected_quantity || 0) == sp.quantity){
-      sp.selected_quantity = 0;
-    }
-    else {
-      sp.selected_quantity = (sp.selected_quantity || 0) + 1;
-    }
-   }
+// let data = ref(JSON.parse(JSON.stringify(props.params.data)))
+onMounted(()=>{
+  if (sale.sale.table_id) {
+    resource.value = createResource({
+      url: "frappe.client.get_list",
+      params: {
+        doctype: "Sale",
+        fields: ["*"],
+        filters: {
+          pos_profile: localStorage.getItem("pos_profile"),
+          table_id: sale.sale.table_id,
+          docstatus: 0
+        },
+        limit_page_length: 500,
+      },
+      auto: true,
+      onSuccess(data) { 
+        data.forEach(s => {
 
-   function onAddNewBill(){
-    bill_list.value.push({
-      bill_number : bill_list.value.length + 1,
-      sale_products:[]
-    })
-   }
-   function AddSelectedProductToBill(b){
-    const selected = sale.sale.sale_products.filter((r)=>(r.selected_quantity || 0)>0 );
-    selected.forEach(x => {
-      b.sale_products.push({
-        product_name:x.product_name,
-        quantity:x.selected_quantity
-      })
+          sale.LoadSaleData(s.name).then((v)=>{
+            groupSales.value.push({
+                  no:1,
+                  sale:v
+                });
+          });
+        });
+      }
     });
-   }
+  }
+
+});
+
+
+
+function onConfirm() {
+  emit("resolve", { data: data.value });
+}
+
+function onClose() {
+  emit('resolve', false);
+}
+
 </script>

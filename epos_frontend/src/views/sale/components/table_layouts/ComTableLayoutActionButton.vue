@@ -18,26 +18,38 @@
                 <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
         </template>
-        <v-list>
-            <v-list-item v-if="!mobile" @click="onEnableArrageTable">
-                <v-list-item-title>Arrange Table Layout</v-list-item-title>
-            </v-list-item>
-            <template v-if="mobile">
-                <v-list-item @click="onViewPendingOrder">
-                    <v-list-item-title>Pending Order</v-list-item-title>
-                </v-list-item>
-                
+        <v-card>
+            <!-- <v-list v-if="gv.setting?.pos_setting?.sale_types && gv.setting?.pos_setting?.sale_types.filter(r=>r.is_order_use_table == false).length > 0">
+                <v-list-subheader>Change Sale Type</v-list-subheader>
+                <template  v-for="(st, index) in gv.setting?.pos_setting.sale_types.filter(r=>r.is_order_use_table == false)" :key="index">
+                    <v-list-item @click="onSaleType(st.name)">
+                        <v-list-item-title>{{ st.sale_type_name }}</v-list-item-title>
+                    </v-list-item>
+                </template>
+            </v-list> -->
+            <v-list>
+                <template  v-if="!mobile"> 
+                    <v-list-subheader>Table Position</v-list-subheader>
+                    <v-list-item @click="onEnableArrageTable">
+                        <v-list-item-title>Arrange Table Layout</v-list-item-title>
+                    </v-list-item>
+                </template>
+                <template v-if="mobile">
+                    <v-list-item @click="onViewPendingOrder">
+                        <v-list-item-title>Pending Order</v-list-item-title>
+                    </v-list-item>
+                </template>
 
-            </template>
-
-        </v-list>
+            </v-list>
+        </v-card>
     </v-menu>
 </template>
 <script setup>
-import { inject, pendingSaleListDialog,createResource,createToaster } from '@/plugin';
+import { inject, pendingSaleListDialog,createResource,createToaster, useRouter } from '@/plugin';
 import { useDisplay } from 'vuetify'
 const gv = inject('$gv')
 const tableLayout = inject("$tableLayout");
+const router = useRouter()
 const { mobile } = useDisplay()
 const toaster = createToaster({position: 'top'})
 const posProfile = localStorage.getItem('pos_profile')
@@ -84,5 +96,7 @@ url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
     auto:true
 });
 
-
+function onSaleType(name){
+    router.push({name:'AddSaleNoTable',params:{sale_type: name}})
+}
 </script>

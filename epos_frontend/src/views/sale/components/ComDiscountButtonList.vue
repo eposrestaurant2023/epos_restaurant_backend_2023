@@ -22,7 +22,7 @@ function onSaleDiscount(discount_type) {
         toaster.warning("Please select a menu item to discount");
         resolve(false);
     }
-    else if (!sale.isBillRequested()) {
+    else if (!sale.isBillRequested()) { 
         gv.authorize("discount_sale_required_password", "discount_sale", "discount_sale_required_note", "Discount Sale Note", "", true).then((v) => {
             if (v) {
                 sale.onDiscount(

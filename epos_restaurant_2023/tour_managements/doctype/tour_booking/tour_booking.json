@@ -24,6 +24,9 @@
   "column_break_12",
   "adult",
   "child",
+  "section_break_17",
+  "vat",
+  "is_include_tax",
   "company_information_section",
   "company_profile",
   "company_contact_name",
@@ -34,6 +37,7 @@
   "section_break_24",
   "guest_information_section",
   "guest_profile",
+  "guest_group",
   "customer_name",
   "phone_number",
   "email",
@@ -79,6 +83,9 @@
   "expenses",
   "section_break_42",
   "total_expense",
+  "discount_tab",
+  "discounts",
+  "total_discount",
   "payments_tab",
   "tour_booking_payment",
   "section_break_46",
@@ -549,11 +556,49 @@
   {
    "fieldname": "section_break_24",
    "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "guest_profile.customer_group",
+   "fieldname": "guest_group",
+   "fieldtype": "Data",
+   "label": "Guest Group"
+  },
+  {
+   "fieldname": "discount_tab",
+   "fieldtype": "Tab Break",
+   "label": "Discount"
+  },
+  {
+   "fieldname": "total_discount",
+   "fieldtype": "Currency",
+   "label": "Total Discount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "discounts",
+   "fieldtype": "Table",
+   "options": "Tour Booking Discount"
+  },
+  {
+   "fieldname": "section_break_17",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "vat",
+   "fieldtype": "Float",
+   "label": "VAT",
+   "precision": "2"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_include_tax",
+   "fieldtype": "Check",
+   "label": "Is include Tax"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-24 13:51:16.177006",
+ "modified": "2023-04-25 14:22:12.229472",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking",

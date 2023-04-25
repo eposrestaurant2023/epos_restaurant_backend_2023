@@ -187,7 +187,10 @@ frappe.ui.form.on('Sale Product', {
 		update_sale_product_amount(frm,row);
 		
 	},
-
+	product_code(frm,cdt, cdn) {
+		let row = locals[cdt][cdn];
+		
+	},
 })
 
 frappe.ui.form.on('POS Sale Payment',{
@@ -331,7 +334,7 @@ function updateSumTotal(frm) {
 		if(products==undefined){
 			return false;
 		}
- 
+		
 		frm.set_value('sub_total', products.reduce((n, d) => n + d.sub_total,0));
 		frm.set_value('total_quantity', products.reduce((n, d) => n + d.quantity,0));
 		frm.set_value('product_discount', products.reduce((n, d) => n + d.discount_amount,0));
@@ -468,6 +471,15 @@ function set_product_tax(doc, tax_rule){
 		doc.calculate_tax_3_after_adding_tax_1=0;
 		doc.calculate_tax_3_after_adding_tax_2= 0;
 	}
+}
+
+function update_product_variants(frm,doc){
+	frm.set_query("product_variants", "Product Variants", function(doc, cdt, cdn) {
+		let d = locals[cdt][cdn];
+		return {
+			filters: {"docstatus": 0} 
+		}
+	})
 }
 
 function update_sale_product_amount(frm,doc){

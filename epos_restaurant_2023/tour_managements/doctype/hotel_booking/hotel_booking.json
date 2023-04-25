@@ -12,6 +12,7 @@
   "booking_reference",
   "branch",
   "hotel_name",
+  "hotel_star",
   "booking_date",
   "arrival_date",
   "departure_date",
@@ -25,11 +26,14 @@
   "company_profile_section",
   "company_profile",
   "company_name",
+  "company_address",
   "column_break_18",
   "company_contact_name",
   "company_contact_phone_number",
+  "company_email",
   "guest_information_section",
   "guest_profile",
+  "guest_group",
   "phone_number",
   "email",
   "contact_name",
@@ -46,6 +50,10 @@
   "total_room_night",
   "column_break_27",
   "total_amount",
+  "section_break_43",
+  "inclusions",
+  "section_break_45",
+  "note",
   "additional_guest_tab",
   "additional_guest",
   "payment_tab",
@@ -308,11 +316,51 @@
    "fieldname": "company_contact_phone_number",
    "fieldtype": "Data",
    "label": "Phone Number"
+  },
+  {
+   "fetch_from": "hotel_name.star_level",
+   "fieldname": "hotel_star",
+   "fieldtype": "Rating",
+   "label": "Star"
+  },
+  {
+   "fieldname": "company_email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "company_address",
+   "fieldtype": "Data",
+   "label": "Address"
+  },
+  {
+   "fetch_from": "guest_profile.customer_group",
+   "fieldname": "guest_group",
+   "fieldtype": "Data",
+   "label": "Guest Group"
+  },
+  {
+   "fieldname": "section_break_43",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "inclusions",
+   "fieldtype": "Small Text",
+   "label": "Inclusions"
+  },
+  {
+   "fieldname": "section_break_45",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-20 18:18:04.352538",
+ "modified": "2023-04-25 09:53:15.696786",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Hotel Booking",

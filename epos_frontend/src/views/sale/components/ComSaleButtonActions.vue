@@ -58,6 +58,7 @@ import { useDisplay } from 'vuetify'
 const { mobile } = useDisplay()
 const router = useRouter()
 const sale = inject("$sale")
+const socket = inject("$socket")
 const product = inject("$product")
 const gv = inject("$gv")
 const setting = gv.setting;
@@ -151,7 +152,7 @@ function newSale() {
   }
   sale.newSale()
   sale.sale.sale_products = [],
-    sale.sale.name = "";
+  sale.sale.name = "";
   sale.sale.creation = "";
   sale.sale.modified = "";
   sale.sale.sale_status = "New";
@@ -178,6 +179,8 @@ function newSale() {
 
 
   sale.updateSaleSummary();
+  
+  socket.emit("ShowOrderInCustomerDisplay",sale, "new");
 
 }
 

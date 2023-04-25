@@ -36,7 +36,7 @@
                             icon="mdi-currency-usd" />
                         <ComButton @click="onRoute('Report')" title="Report" icon="mdi-chart-bar" icon-color="#e99417" />
 
-                        <ComButton @click="onPrintWifiPassword" title="Wifi Password" icon="mdi-wifi" icon-color="#e99417" /> 
+                        <ComButton v-if="isWindow()"  @click="onPrintWifiPassword" title="Wifi Password" icon="mdi-wifi" icon-color="#e99417" /> 
 
                         
                         <ComButton @click="onLogout()" text-color="#fff" icon-color="#fff" title="Logout" icon="mdi-logout"
@@ -62,7 +62,9 @@ const gv = inject('$gv');
 const sale = inject('$sale');
 const moment = inject('$moment')
 const router = useRouter()
- 
+function isWindow(){
+    return localStorage.getItem('is_window') == 1;
+}
 const device_name = computed(() => {
     return localStorage.getItem('device_name')
 })

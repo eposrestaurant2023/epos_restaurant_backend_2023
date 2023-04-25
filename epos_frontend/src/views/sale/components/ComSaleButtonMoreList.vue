@@ -38,10 +38,9 @@
 
 </template>
 <script setup>
-import { useRouter, addCommissionDialog,viewBillModelModel,ref, inject,confirm, keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog ,createResource } from "@/plugin"
+import { useRouter, splitBillDialog,addCommissionDialog,viewBillModelModel,ref, inject,confirm, keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog ,createResource } from "@/plugin"
 import { useDisplay } from 'vuetify'
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
-import ComSplitBill from "./ComSplitBill.vue";
 const { mobile } = useDisplay()
 const toaster = createToaster({ position: 'top' })
 const router = useRouter();
@@ -203,5 +202,14 @@ async function onAddCommission(){
     if (result != false) { 
         sale.sale = result.data
     }
+}
+
+
+//split bills method
+async function onSplitBill(){ 
+    const res = await splitBillDialog({ title: 'Split Bill by Items', name: 'Split Bill', data: sale.sale });     
+    if (res != false) {  
+        // /
+    } 
 }
 </script>

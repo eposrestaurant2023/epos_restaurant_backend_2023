@@ -47,7 +47,7 @@ class Product(Document):
 		if self.is_inventory_product == False and self.is_new():
 			self.opening_quantity = 0
    
-		elif self.is_inventory_product and self.opening_quantity > 0 and not self.stock_location:
+		elif self.is_inventory_product and self.opening_quantity > 0 and not self.stock_location and self.is_new():
 			frappe.throw(_("Please select stock location"))
 			
 
@@ -261,7 +261,7 @@ def add_product_to_temp_menu(self):
 		for p in self.product_price:
 			prices.append({"price":p.price,'branch':p.business_branch or "",'price_rule':p.price_rule, 'portion':p.portion})
 		modifier_categories = Enumerable(self.product_modifiers).select(lambda x: x.modifier_category).distinct()
-
+		
 		modifiers = []
 		for c in modifier_categories:
 			doc_category = frappe.get_doc("Modifier Category",c)
@@ -297,3 +297,58 @@ def update_product_to_temp_product_menu():
 		add_product_to_temp_menu(doc)
 	frappe.db.commit()
 	return "Done"
+
+@frappe.whitelist()
+def assign_printer(products,printer):
+ 
+	printer_doc = frappe.get_doc("Printer",printer)
+	for p in products.split(","):
+		product = frappe.get_doc("Product",p)
+	 
+		if len(product.printers) ==0:
+			# Create a new child document
+			child_doc = frappe.new_doc("Product Printer")
+			child_doc.printer =printer 
+			child_doc.printer_name= printer_doc.printer_name
+			# Add the child document to the parent document
+			product.append("printers", child_doc)
+		else:
+			result = [d for d in product.printers if d.printer== printer]
+			
+			if not result:
+				
+				child_doc = frappe.new_doc("Product Printer")
+				child_doc.printer =printer 
+				child_doc.printer_name= printer_doc.printer_name
+				# Add the child document to the parent document
+				product.append("printers", child_doc)
+
+			 
+			 
+		product.save()
+
+	frappe.db.commit()
+
+	#frappe.throw("u run assign pritner")
+
+@frappe.whitelist()
+def remove_printer(products,printer):
+	for p in products.split(","):
+		product = frappe.get_doc("Product",p)
+		printers = product.get('printers')
+		for row in printers:
+			if row.printer == printer:
+				printers.remove(row)
+		product.save()
+
+	frappe.db.commit()
+
+
+@frappe.whitelist()
+def clear_all_printer_from_product(products):
+	for p in products.split(","):
+		product = frappe.get_doc("Product",p)
+		product.printers = []
+		product.save()
+
+	frappe.db.commit()

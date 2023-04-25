@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "transaction_date",
+  "reference",
   "item_charge",
   "decription",
   "quantity",
@@ -62,12 +63,18 @@
    "fieldtype": "Date",
    "in_list_view": 1,
    "label": "Transaction Date"
+  },
+  {
+   "fieldname": "reference",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Reference"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-06 08:40:20.787627",
+ "modified": "2023-04-25 10:19:39.267473",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking Additional Charge",

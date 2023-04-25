@@ -104,6 +104,11 @@ def get_products(parent_menu):
    
     return data
 
+@frappe.whitelist()
+def get_product_variants(parent):
+    data  = frappe.db.sql("select name from `tabProduct Variants` where parent='{}'".format(parent),as_dict=1)
+    if data :
+        return data
 
 @frappe.whitelist()
 def get_product_by_barcode(barcode):

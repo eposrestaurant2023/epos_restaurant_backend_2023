@@ -37,7 +37,7 @@
     </div>
 </template>
 <script setup>
-import { inject, useRoute, useRouter, ref, onMounted, onUnmounted, onBeforeRouteLeave,createResource} from '@/plugin';
+import { inject, useRoute, useRouter, ref, onMounted, onUnmounted, onBeforeRouteLeave, createResource } from '@/plugin';
 import Enumerable from 'linq';
 import ComMenu from './components/ComMenu.vue';
 import ComSelectCustomer from './components/ComSelectCustomer.vue';
@@ -83,7 +83,7 @@ function onSearchProduct(open) {
     openSearch.value = open
 }
 
-onMounted(() => { 
+onMounted(() => {
     if (sale.getString(route.params.name) == "") {
         if (sale.sale.sale_status == undefined) {
             if (sale.setting.table_groups.length > 0) {
@@ -93,9 +93,9 @@ onMounted(() => {
                 sale.newSale();
             }
         }
-       
+
     }
- 
+
     //check working day and cashier shift
     createResource({
         url: "epos_restaurant_2023.api.api.get_current_shift_information",
@@ -104,14 +104,14 @@ onMounted(() => {
             pos_profile: localStorage.getItem("pos_profile")
         },
         auto: true,
-        onSuccess(data) { 
+        onSuccess(data) {
             if (data.cashier_shift == null) {
                 toaster.warning("Please start cashier shift first");
-                router.push({name:"OpenShift"});
-            } else if(data.working_day==null){
+                router.push({ name: "OpenShift" });
+            } else if (data.working_day == null) {
                 toaster.warning("Please start working day first");
-                router.push({name:"StartWorkingDay"});
-            }else {
+                router.push({ name: "StartWorkingDay" });
+            } else {
                 sale.sale.working_day = data.working_day.name;
                 sale.sale.cashier_shift = data.cashier_shift.name;
                 sale.working_day = data.working_day.name;
@@ -119,7 +119,7 @@ onMounted(() => {
 
                 gv.confirm_close_working_day(data.working_day.posting_date);
             }
-        } 
+        }
     })
 
 
@@ -128,11 +128,11 @@ onMounted(() => {
         sale.LoadSaleData(route.params.name).then((v) => {
             if (v) {
                 if (v.docstatus == 1 || v.docstatus == 2) {
-                    
-                    if(v.docstatus==1){
+
+                    if (v.docstatus == 1) {
                         toaster.warning("This sale order is already closed");
-                        
-                    }else{
+
+                    } else {
                         toaster.warning("This sale order is already cancel");
                     }
                     if (gv.setting.table_groups.length > 0) {
@@ -142,15 +142,15 @@ onMounted(() => {
                         router.push({ name: 'Home' });
                     }
                 }
-                socket.emit("ShowOrderInCustomerDisplay",sale.sale);
+                socket.emit("ShowOrderInCustomerDisplay", sale.sale);
                 sale.getTableSaleList();
             }
         });
-    }else{
+    } else {
         sale.getTableSaleList()
     }
-    socket.emit("ShowOrderInCustomerDisplay",sale.sale);
-    
+    socket.emit("ShowOrderInCustomerDisplay", sale.sale, "new");
+
 })
 
 onBeforeRouteLeave(() => {
@@ -173,8 +173,8 @@ onUnmounted(() => {
     sale.newSaleResource = null;
     sale.saleResource = null;
     sale.tableSaleListResource = null;
-    
-    socket.emit("ShowOrderInCustomerDisplay",{},true);
+
+    socket.emit("ShowOrderInCustomerDisplay", {}, true);
 
 })
 

@@ -18,7 +18,9 @@ def check_username(pin_code):
     frappe.throw(_("Invalid pin code"))
 
 @frappe.whitelist(allow_guest=True)
-def get_user_info(name):
+def get_user_info(name=""):
+    if  name=="":
+        name = frappe.session.user
     data = frappe.db.sql("select name,full_name,user_image,role_profile_name,pos_user_permission from `tabUser` where name='{}'".format(name),as_dict=1)
     if data:
         permission= frappe.get_doc("POS User Permission",data[0]["pos_user_permission"])      
@@ -35,6 +37,8 @@ def get_system_settings(pos_profile="", device_name=''):
     profile = frappe.get_doc("POS Profile",pos_profile)
     pos_config = frappe.get_doc("POS Config",profile.pos_config)
     pos_branding = frappe.get_doc("POS Branding", profile.pos_branding)
+
+    sale_types = frappe.get_list("Sale Type",fields=['name', 'sale_type_name','color','is_order_use_table','sort_order'],order_by="sort_order")
     
     doc = frappe.get_doc('ePOS Settings')
     table_groups = []
@@ -75,7 +79,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "vattin_number":pos_config.vattin_number,
         "email":pos_config.email,
         "website":pos_config.website,
-
+        "sale_types":sale_types,
         "main_currency_name":main_currency.name,
         "main_currency_symbol":main_currency.symbol,
         "main_currency_format":main_currency.pos_currency_format,

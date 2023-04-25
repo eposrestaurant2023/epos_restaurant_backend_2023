@@ -31,7 +31,9 @@ import ComChangeTableSelectSaleOrder from '@/views/sale/components/ComChangeTabl
 import ComPendingSaleList from '@/views/sale/ComPendingSaleList.vue'
 import ComInputNumber from '@/components/ComInputNumber.vue'
 import ComAddCommission from '@/views/sale/components/ComAddCommissionModal.vue'
-import ComSaleProductDiscountModal from '@/components/ComPrintWifiPasswordModal.vue'
+import ComPrintWifiPassword from '@/components/ComPrintWifiPasswordModal.vue'
+
+import ComSplitBill from "@/views/sale/components/ComSplitBill.vue"
 
 
 interface params {
@@ -84,5 +86,5 @@ export  const changePOSMenuDialog = createPromiseDialog<params, object>(ComChang
 export  const pendingSaleListDialog = createPromiseDialog<params, object>(ComPendingSaleList);
 export  const inputNumberDialog = createPromiseDialog<params, object>(ComInputNumber);
 export  const addCommissionDialog = createPromiseDialog<params, object>(ComAddCommission);
-export  const printWifiPasswordModal = createPromiseDialog<params, object>(ComSaleProductDiscountModal);
-
+export  const printWifiPasswordModal = createPromiseDialog<params, object>(ComPrintWifiPassword);
+export  const splitBillDialog = createPromiseDialog<params, object>(ComSplitBill);

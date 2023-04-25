@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import AddSale from "../views/sale/AddSale.vue";
+import AddSaleNoTable from "../views/sale/AddSaleNoTable.vue";
 import Sale from "../views/sale/Sale.vue";
 import ClosedSaleList from "../views/sale/ClosedSaleList.vue";
 import TableLayout from "../views/sale/TableLayout.vue";
@@ -42,6 +43,7 @@ const routes = [
   { path: "/epos_frontend/server-error", name: "ServerError", component: ServerError },
   { path: "/epos_frontend/closed-sale-list", name: "ClosedSaleList", component: ClosedSaleList, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/customer-display", name: "CustomerDisplay", component: CustomerDisplay },
+  { path: "/epos_frontend/add-quite-sale/:sale_type?", name: "AddSaleNoTable", component: AddSaleNoTable, meta: { layout: "main_layout" } },
   ...authRoutes,
 ];
 

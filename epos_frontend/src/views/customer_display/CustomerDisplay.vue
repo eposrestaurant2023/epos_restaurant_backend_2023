@@ -2,10 +2,10 @@
     <div class="wrap">
         <template v-if="!show_thankyou">
             <v-row class="h-full !m-0">
-                <v-col class="h-full !p-0 a" cols="hide" xs="12" sm="8" md="8" lg="8" xl="8">
+                <v-col class="h-full !p-0 a" cols="hide" xs="12" sm="7" md="7" lg="7" xl="7">
                     <ComCustomerDisplaySliceshow />
                 </v-col>
-                <v-col class="h-100vh !p-0" cols="12" xs="12" sm="4" md="4" lg="4" xl="4">
+                <v-col class="h-100vh !p-0" cols="12" xs="12" sm="5" md="5" lg="5" xl="5    ">
                     <ComCustomerDisplayOrderList :data="data" />
                 </v-col>
             </v-row>
@@ -26,20 +26,20 @@ const data = ref({})
 const dataThankYou = ref({})
 const socket = inject("$socket")
 const show_thankyou = ref(false)
-const open = ref(true)
 
 socket.on("ShowOrderInCustomerDisplay", async (arg, show) => {
-    data.value = arg; 
-    if(Object.entries(data.value).length > 0){ 
+    data.value = arg;
+    console.log(data.value)
+    if (Object.entries(data.value).length > 0) {
         dataThankYou.value = JSON.parse(JSON.stringify(data.value))
     }
-    
-    if(Object.entries(data.value).length > 0 && show != true){
-        onHideThankYou()
-    }
-    else if (show) {
+
+    if (show == 'paid') {
         show_thankyou.value = true
         await setTimeout(onHideThankYou, 5000)
+    }
+    else if (show == "new") {
+        onHideThankYou()
     }
 })
 

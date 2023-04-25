@@ -99,7 +99,7 @@ function onConfirm(){
 }
 
 function onClose() {
-    emit('reject',false);
+    emit('resolve',false);
 }
 
 </script>

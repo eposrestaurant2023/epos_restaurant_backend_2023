@@ -37,6 +37,8 @@ class TourBooking(Document):
 		self.total_hotel_amount = self.total_hotel_amount or 0 
 		self.total_paid = self.total_paid or 0
 
+
+
 		
 	
 		for d in self.guides_and_drivers:
@@ -77,6 +79,20 @@ class TourBooking(Document):
 			d.total_amount = d.rate * d.total_day
 
 		self.total_transportation_amount = Enumerable(self.transportation).sum(lambda x: (x.total_amount or 0))
+
+		#validate discount
+		for d in self.discounts:
+			if d.discount_on =="Tour Package":
+				d.amount = self.total_tour_package_price
+			elif d.discount_on =="Hotel":
+				d.amount = self.total_hotel_amount
+
+			if (d.discount_type =="Percent"):
+				d.discount_amount = (d.amount or 0) * (d.discount or 0) / 100
+			else:
+				d.discount_amount = d.discount
+				
+			self.total_discount = Enumerable(self.discounts).sum(lambda x: (x.discount_amount or 0))
 
 		self.balance =(self.total_tour_package_price + self.total_additional_charge + self.total_restaurant_amount + self.total_hotel_amount + self.total_transportation_amount + self.total_tour_guide_amount)  - self.total_paid
 

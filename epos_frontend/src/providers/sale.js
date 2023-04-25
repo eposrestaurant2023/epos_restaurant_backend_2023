@@ -101,6 +101,7 @@ export default class Sale {
             price_rule: this.price_rule || this.setting?.price_rule,
             business_branch: this.setting?.business_branch,
             sale_products: [],
+            product_variants:[],
             sale_type: this.sale_type || this.setting?.default_sale_type,
             discount_type: "Percent",
             grand_total: 0,
@@ -113,9 +114,7 @@ export default class Sale {
             commission: 0,
             commission_note: '',
             commission_amount:0
-            
         }
-       
     }
 
 
@@ -252,10 +251,11 @@ export default class Sale {
                 order_by : this.getOrderBy(),
                 order_time : this.getOrderTime(),
                 printers:p.printers,
+                product_variants: []
             }
             this.sale.sale_products.push(saleProduct);
-
             this.updateSaleProduct(saleProduct);
+             
         }
         this.updateSaleSummary()
     }
@@ -340,7 +340,7 @@ export default class Sale {
         sp.amount = sp.sub_total - sp.total_discount + sp.total_tax;
     }
 
-    updateSaleSummary() {
+    updateSaleSummary(sale_status = '') {
         const sp = Enumerable.from(this.sale.sale_products);
         this.sale.total_quantity = this.getNumber(sp.sum("$.quantity"));
         this.sale.sub_total = this.getNumber(sp.sum("$.sub_total"));
@@ -374,7 +374,7 @@ export default class Sale {
             this.sale.commission_amount = this.sale.commission;
         }
 
-        socket.emit("ShowOrderInCustomerDisplay",this.sale);
+        socket.emit("ShowOrderInCustomerDisplay",this.sale, sale_status);
     }
 
     updateQuantity(sp, n) {
@@ -718,7 +718,7 @@ export default class Sale {
                 }else { 
                 if (await confirmDialog({ title: "Payment", text: "Are you sure you process payment and close order?" })) {
                     
-                    socket.emit("ShowOrderInCustomerDisplay",{}, true);
+                    socket.emit("ShowOrderInCustomerDisplay",{}, "paid");
 
                     
                     this.generateProductPrinters();

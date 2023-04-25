@@ -1,10 +1,10 @@
 <template>
     <div class="flex justify-end">
-        <template v-if="qty > 0">
-            <button type="button" class="btn-delete h-7 w-7 rounded-sm mr-2" @click.stop="onDelete()">
+        <template v-if="qty > 0 || full">
+            <button type="button" class="btn-delete h-7 w-7 rounded-sm mr-2" @click.stop="onDelete()" v-if="full != true">
                 <v-icon>mdi-delete</v-icon>
             </button>
-            <button type="button" class="btn-add h-7 w-7 rounded-sm" @click.stop="onMinus()">
+            <button type="button" class="btn-add h-7 w-7 rounded-sm" @click.stop="onMinus()" :disabled="qty < 1">
                 <v-icon>mdi-minus</v-icon>
             </button>
             <div class="h-7 px-2 flex items-center justify-center">{{ qty }}</div>
@@ -16,6 +16,9 @@
 </template>
 <script setup>
     import {ref} from 'vue'
+    const props = defineProps({
+        full: Boolean
+    })
     let qty = ref(0)
     function onAdd() {
         qty.value++

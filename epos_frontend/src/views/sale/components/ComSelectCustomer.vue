@@ -39,6 +39,7 @@
 <script setup>
 import { computed, inject, searchCustomerDialog, customerDetailDialog, scanCustomerCodeDialog, confirmDialog, onMounted,createToaster,addCustomerDialog } from "@/plugin"
 const sale = inject("$sale")
+const socket = inject("$socket")
 const toaster = createToaster({ position: "top" });
 async function onSearchCustomer() {
     if (!sale.isBillRequested()) {
@@ -61,6 +62,8 @@ function assignCustomerToOrder(result) {
         sale.updateSaleSummary();
         toaster.info("This customer has default discount " + sale.sale.discount + '%');
     }
+
+    socket.emit("ShowOrderInCustomerDisplay",sale.sale);
 }
 
 const setting = computed(() => {

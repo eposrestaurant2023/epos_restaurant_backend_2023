@@ -11,6 +11,7 @@
   "name1",
   "phone_number",
   "spoken_language",
+  "quantity",
   "is_tour_leader",
   "column_break_4",
   "start_date",
@@ -92,7 +93,8 @@
   {
    "fieldname": "total_days",
    "fieldtype": "Int",
-   "label": "Total Days"
+   "label": "Total Days",
+   "read_only": 1
   },
   {
    "fieldname": "start_date",
@@ -130,12 +132,17 @@
    "label": "Tour Package",
    "options": "Tour Packages",
    "reqd": 1
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Data",
+   "label": "Quantity"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-24 14:51:40.541954",
+ "modified": "2023-04-24 15:06:59.626089",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking Guide And Driver",

@@ -48,7 +48,6 @@
                             <ComQuantityInput :sale-product="sp" />
                         </div>
                     </div>
-
                     <div v-if="sp.selected" class="-mx-1 flex pt-1">
                         <v-chip color="teal" class="mx-1 grow text-center justify-center" variant="elevated"
                             size="small" @click="onChangePrice(sp)">Price</v-chip>
