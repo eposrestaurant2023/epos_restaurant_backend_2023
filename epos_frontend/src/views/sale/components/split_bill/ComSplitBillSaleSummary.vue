@@ -1,6 +1,5 @@
 <template lang="">
-    <div class="px-2">
-      <template v-if="(sale.total_discount + sale.total_tax) > 0">
+    <div class="px-2"> 
         <div class="flex justify-between my-1">
           <div>
             Sub Total
@@ -66,8 +65,7 @@
           <div class="font-bold">
             <CurrencyFormat :value="sale.total_tax" />
           </div>
-        </div>
-      </template>
+        </div> 
    
         <div class="flex justify-between my-1" v-if="sale.note">
           <div>

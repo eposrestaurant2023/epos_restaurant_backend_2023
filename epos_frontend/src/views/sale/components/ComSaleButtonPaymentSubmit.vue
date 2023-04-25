@@ -52,6 +52,7 @@ async function onSubmit() {
     sale.action = "submit_order";
     sale.message = "Submit Order Successfully";
     sale.sale.sale_status = "Submitted";
+    
     await sale.onSubmit().then((doc) => {
       product.onClearKeyword()
       if (doc) {

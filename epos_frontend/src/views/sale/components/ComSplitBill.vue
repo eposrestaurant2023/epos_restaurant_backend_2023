@@ -3,16 +3,8 @@
     <template #title>
       <span>{{ props.params.title }}</span>
     </template>
-    <template #content>
-        <div v-for="(item, index) in groupSales" :key="index">    
-          <h1>{{ item.sale.name}}</h1>    
-          <div v-for="(sp, _index) in item.sale.sale_products??[]" :key="_index">    
-            <div style="margin:5px; padding-left: 10px;">
-              <ComSplitBillSaleProductCard :sale-product="sp"/>
-            </div>
-          </div> 
-          <ComSplitBillSaleSummary :sale="item.sale"/>
-        </div>
+    <template #content> 
+          <ComSplitBillList :data="groupSales"/> 
     </template>
     <template #action>
 
@@ -22,8 +14,7 @@
 
 <script setup>
 import { ref,onMounted, defineEmits, createToaster, createResource, inject } from '@/plugin'
-import ComSplitBillSaleProductCard from './split_bill/ComSplitBillSaleProductCard.vue';
-import ComSplitBillSaleSummary from "./split_bill/ComSplitBillSaleSummary.vue";
+import ComSplitBillList from './split_bill/ComSplitBillList.vue';
 const emit = defineEmits(["resolve", "reject"])
 const toaster = createToaster({ position: 'top' })
 const sale = inject('$sale')
@@ -36,10 +27,18 @@ const props = defineProps({
 })
 
 const groupSales=ref([])
-
-
-// let data = ref(JSON.parse(JSON.stringify(props.params.data)))
 onMounted(()=>{
+  //get current sale
+  groupSales.value = [];
+  groupSales.value.push({
+                  generate_id:sale.sale.name,
+                  no:1,
+                  sale: sale.sale
+                });
+                
+              
+                
+  //get other sale in same table
   if (sale.sale.table_id) {
     resource.value = createResource({
       url: "frappe.client.get_list",
@@ -47,6 +46,7 @@ onMounted(()=>{
         doctype: "Sale",
         fields: ["*"],
         filters: {
+          name: ['!=',sale.sale.name],
           pos_profile: localStorage.getItem("pos_profile"),
           table_id: sale.sale.table_id,
           docstatus: 0
@@ -54,11 +54,11 @@ onMounted(()=>{
         limit_page_length: 500,
       },
       auto: true,
-      onSuccess(data) { 
-        data.forEach(s => {
-
+      onSuccess(data) {  
+        data.forEach(s => { 
           sale.LoadSaleData(s.name).then((v)=>{
             groupSales.value.push({
+              generate_id:s.name,
                   no:1,
                   sale:v
                 });

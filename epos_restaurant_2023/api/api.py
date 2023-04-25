@@ -122,6 +122,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "start_cashier_shift_required_password":pos_config.start_cashier_shift_required_password,
         "close_cashier_shift_required_password":pos_config.close_cashier_shift_required_password,
         "cash_in_check_out_required_password":pos_config.cash_in_check_out_required_password,
+        "print_waiting_order_after_submit_order":pos_config.print_waiting_order_after_submit_order
         
         }
     

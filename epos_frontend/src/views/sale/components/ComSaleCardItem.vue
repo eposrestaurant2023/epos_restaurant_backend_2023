@@ -3,8 +3,7 @@
         <v-card-title class="!p-0">
             <v-toolbar height="55">
                 <v-toolbar-title class="text">
-                    <span>#: {{ s.name }}</span> -
-                    <Timeago class="!text-sm" :long="long" :datetime="s.modified" />
+                    <span>#: {{ s.name }}</span> - <Timeago class="!text-sm" :long="long" :datetime="s.modified" />
                 </v-toolbar-title>
                 <template v-slot:append>
                     <v-chip class="ma-2" :color="s.sale_status_color" text-color="white">
@@ -30,7 +29,6 @@
                         {{ s.customer }}
                     </template>
                 </v-list-item>
-
                 <v-list-item title="Customer Name">
                     <template v-slot:append>
                         {{ s.customer_name }}
@@ -59,6 +57,7 @@
     </v-card>
 </template>
 <script setup>
+import { Timeago } from 'vue2-timeago'
 const props = defineProps({
     data: Object
 })

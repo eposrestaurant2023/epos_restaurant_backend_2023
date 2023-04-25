@@ -40,11 +40,13 @@ let state = reactive({
 
  
 socket.on("PrintReceipt", (arg) => {
+	
+ 
 	if(localStorage.getItem("is_window")=="1"){
 		const data = JSON.parse(arg) ;
+	
 		if(data.sale.pos_profile == localStorage.getItem("pos_profile")){
 			window.chrome.webview.postMessage(arg);
-			toaster.info("Print Receipt in Progress")
 		}
 	}
 })

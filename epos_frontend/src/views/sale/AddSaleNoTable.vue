@@ -1,15 +1,30 @@
 <template>
-    <PageLayout :title="`Sale Order: ${route.params.sale_type}`" icon="mdi-note-outline">
+    <PageLayout :title="`Sale Order: ${route.params.sale_type}`" icon="mdi-note-outline" full>
+        <template #centerCotent>
+            <v-tabs align-tabs="center"  v-model="selected" v-if="gv.setting?.pos_setting?.sale_types && gv.setting?.pos_setting?.sale_types.filter(r=>r.is_order_use_table == false).length > 0 && !mobile" @update:modelValue="onSelected">
+                <v-tab v-for="st in gv.setting?.pos_setting?.sale_types.filter(r=>r.is_order_use_table == false)" :key="st.name" :value="st.name">
+                    {{ st.name }}
+                </v-tab> 
+            </v-tabs>
+            <v-bottom-navigation align-tabs="center"  v-if="gv.setting?.pos_setting?.sale_types && gv.setting?.pos_setting?.sale_types.filter(r=>r.is_order_use_table == false).length > 0 && mobile">
+                <v-tabs height="100%"  center-active  v-model="selected" @update:modelValue="onSelected">
+                    <v-tab v-for="g in gv.setting?.pos_setting?.sale_types.filter(r=>r.is_order_use_table == false)" :key="st.name" :value="st.name" :disabled="selected == st.name">
+                        {{ g.name }}
+                    </v-tab>
+                </v-tabs>
+            </v-bottom-navigation> 
+        </template>
         <template #action>
+            <v-btn color="info" variant="tonal" icon="mdi-view-dashboard" type="button" @click="onTableLayout"></v-btn>
             <v-btn color="error" variant="tonal" prepend-icon="mdi-cart" type="button" @click="onAddCustomer">
                 New Order
             </v-btn>
         </template>
-        <template #default>
+        <template #default> 
             <ComPlaceholder :is-not-empty="saleResource.data?.length > 0" :loading="saleResource.loading">
                 <div>
-                    <div class="grid gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-                        <ComSaleCardItem :data="saleResource.data"/> 
+                    <div class="grid gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                        <ComSaleCardItem :data="saleResource.data" @onOpenOrder="onOpenOrder" @onViewSaleOrder="onViewSaleOrder"/> 
                     </div>
                 </div>
             </ComPlaceholder>
@@ -18,11 +33,12 @@
 </template>
 <script setup>
 import PageLayout from '../../components/layout/PageLayout.vue';
-import { useRouter, useRoute, createResource, ref, inject, createToaster } from "@/plugin"
-import { Timeago } from 'vue2-timeago'
+import { useRouter, useRoute, createResource, ref, inject, createToaster,onMounted } from "@/plugin"
 import { saleDetailDialog } from "@/utils/dialog";
 import ComPlaceholder from "@/components/layout/components/ComPlaceholder.vue";
 import ComSaleCardItem from './components/ComSaleCardItem.vue';
+import { useDisplay } from 'vuetify'
+const {mobile} = useDisplay()
 const router = useRouter();
 const route = useRoute();
 const emit = defineEmits(["resolve"])
@@ -35,6 +51,7 @@ const props = defineProps({
         required: true,
     }
 })
+let selected = ref(route.params.sale_type)
 let filter = ref({
     working_day: null,
     cashier_shift: null
@@ -46,7 +63,14 @@ const workingDayResource = createResource({
     },
     auto: true
 });
-
+function onSelected(selected){ 
+    router.push({name: 'AddSaleNoTable', params: {sale_type: selected}}).then(()=>{
+        onLoad()
+    })
+}
+function onTableLayout(){
+    router.push({name: 'TableLayout'})
+}
 const cashierShiftResource = createResource({
     url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
     params: {
@@ -66,18 +90,14 @@ function onOpenOrder(sale_id) {
         onSuccess(data) {
             if (data.cashier_shift == null) {
                 toaster.warning("Please start cashier shift first");
-                router.push({ name: "OpenShift" }).then(() => {
-                    onClose()
-                })
+                router.push({ name: "OpenShift" })
             } else if (data.working_day == null) {
                 toaster.warning("Please start working day first");
-                router.push({ name: "StartWorkingDay" }).then(() => {
-                    onClose()
-                })
+                router.push({ name: "StartWorkingDay" })
             } else {
                 if (sale_id) {
-                    router.push({ name: "AddSale", params: { name: sale_id } }).then(() => {
-                        onClose()
+                    router.push({ name: "AddSale", params: { name: sale_id } }).then(()=>{
+                        localStorage.setItem('redirect_sale_type', selected.value)
                     })
                 }
                 else {
@@ -123,56 +143,17 @@ const saleResource = createResource({
     url: "frappe.client.get_list",
     params: params.value
 });
-
-saleResource.params = params.value
-saleResource.fetch()
-
-
-function onTableClick(table, guest_cover) {
-    gv.authorize("open_order_required_password", "make_order").then(async (v) => {
-        if (v) {
-            sale.orderBy = v.user;
-            if (table.sales.length == 0) {
-                newSale(table);
-
-            } else if (table.sales.length == 1) {
-
-                if (mobile.value) {
-                    await sale.LoadSaleData(table.sales[0].name).then(async (v) => {
-                        const result = await smallViewSaleProductListModel({ title: sale.sale.name ? sale.sale.name : 'New Sale', data: { from_table: true } });
-                        if (result) {
-                            tableLayout.saleListResource.fetch();
-                        }
-
-                    })
-
-                } else {
-
-                    router.push({
-                        name: "AddSale", params: {
-                            name: table.sales[0].name
-                        }
-                    });
-
-                }
-
-
-
-            } else {
-                sale.sale.table_id = table.id;
-                sale.sale.tbl_number = table.tbl_no;
-                const result = await selectSaleOrderDialog({ data: table.sales, table: table });
-                if (result) {
-                    if (result.action == "new_sale") {
-                        newSale(table);
-                    }
-                }
-            }
-            return;
-        }
-    })
+function onLoad(){
+    params.value.filters.sale_type = route.params.sale_type
+    saleResource.params = params.value
+    saleResource.fetch()
 }
 
+onMounted(() => {
+    onLoad()
+})
+
+ 
 async function newSale(table) {
     let guest_cover = 0;
     if (gv.setting.use_guest_cover == 1) {

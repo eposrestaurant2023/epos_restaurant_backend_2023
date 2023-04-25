@@ -27,6 +27,7 @@
   "section_break_17",
   "vat",
   "is_include_tax",
+  "tax",
   "company_information_section",
   "company_profile",
   "company_contact_name",
@@ -594,11 +595,18 @@
    "fieldname": "is_include_tax",
    "fieldtype": "Check",
    "label": "Is include Tax"
+  },
+  {
+   "fieldname": "tax",
+   "fieldtype": "Float",
+   "label": "Tax",
+   "precision": "2",
+   "read_only_depends_on": "eval:doc.is_include_tax==0 && !doc.__islocal"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-25 14:22:12.229472",
+ "modified": "2023-04-25 16:19:57.926807",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Booking",

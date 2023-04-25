@@ -19,14 +19,14 @@
             </v-btn>
         </template>
         <v-card>
-            <!-- <v-list v-if="gv.setting?.pos_setting?.sale_types && gv.setting?.pos_setting?.sale_types.filter(r=>r.is_order_use_table == false).length > 0">
+            <v-list v-if="gv.setting?.pos_setting?.sale_types && gv.setting?.pos_setting?.sale_types.filter(r=>r.is_order_use_table == false).length > 0">
                 <v-list-subheader>Change Sale Type</v-list-subheader>
                 <template  v-for="(st, index) in gv.setting?.pos_setting.sale_types.filter(r=>r.is_order_use_table == false)" :key="index">
                     <v-list-item @click="onSaleType(st.name)">
                         <v-list-item-title>{{ st.sale_type_name }}</v-list-item-title>
                     </v-list-item>
                 </template>
-            </v-list> -->
+            </v-list>
             <v-list>
                 <template  v-if="!mobile"> 
                     <v-list-subheader>Table Position</v-list-subheader>
