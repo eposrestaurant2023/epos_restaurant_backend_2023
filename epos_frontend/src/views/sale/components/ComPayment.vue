@@ -83,6 +83,7 @@ import ComPaymentSummaryInformation from './ComPaymentSummaryInformation.vue';
 
 
 import { createToaster } from '@meforma/vue-toaster';
+import router from '../../../router';
 
 const { mobile } = useDisplay()
 
@@ -110,7 +111,6 @@ function onClose() {
 }
 
 async function onPayment() {
-
     if (sale.sale.payment.filter(r => r.required_customer == 1).length > 0) {
 
         if (sale.sale.customer == sale.setting.customer) {
@@ -142,14 +142,10 @@ async function onPaymentWithoutPrint() {
 
     sale.onSubmitPayment(false).then((v) => {
         if (v) {
-
             emit("resolve", true);
         }
     })
 }
-
-
-
 
 onUnmounted(() => {
     sale.sale.payment = [];

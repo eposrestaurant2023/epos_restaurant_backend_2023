@@ -15,7 +15,7 @@
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-silverware" title="Change POS Menu" @click="onChangePOSMenu()" />
     <v-list-item v-if="isWindow" prepend-icon="mdi-cash-100" title="Open Cash Drawer" @click="onOpenCashDrawer()" />
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-grid-large" title="Change/Merge Table" @click="onChangeTable()" />
-    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-cash-100" title="Split Bill" @click="onInfoDeveloping()" />
+    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-cash-100" title="Split Bill" @click="onSplitBill()" />
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0 && setting.use_guest_cover == 1" prepend-icon="mdi-account-multiple-outline" :title="`Change Guest Cover (${sale.sale.guest_cover})`" @click="onUpdateGuestCover()" />
     <v-list-item prepend-icon="mdi-cart" title="Change Sale Type" @click="onChangeSaleType()" />
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-chair-school" title="Seat#" @click="onSeatNumber()" />
@@ -136,8 +136,7 @@ async function onSeatNumber(){
         }
 }
 async function onDeleteBill() {
-    //check authorize and     check reason
- 
+    //check authorize and     check reason 
     gv.authorize("delete_bill_required_password", "delete_bill", "delete_bill_required_note", "Delete Bill Note").then(async (v) => {
         if (v) {
             if(v.show_confirm==1){
@@ -176,7 +175,6 @@ async function onDeleteBill() {
            
         }
     })
-
 }
 
 async function onClearOrder(){

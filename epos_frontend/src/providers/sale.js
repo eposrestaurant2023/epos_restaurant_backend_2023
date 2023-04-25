@@ -1033,6 +1033,4 @@ export default class Sale {
 
         this.action
     }
-
-
 }

@@ -70,17 +70,29 @@ async function onQuickPay() {
     if (value) {
       product.onClearKeyword()
       sale.newSale();
-      if (sale.setting.table_groups.length > 0) {
-        router.push({ name: "TableLayout" });
-      } else {
-        sale.getTableSaleList();
+      if(onRedirectSaleType()){
+        if (sale.setting.table_groups.length > 0) {
+          router.push({ name: "TableLayout" });
+        } else {
+          sale.getTableSaleList();
+        }
       }
+      
+
       //this code is send message to modal saleproduct list in mobile view
       //we use this below code to send signal close modal when complete task
       window.postMessage("close_modal", "*");
 
     }
   });
+}
+function onRedirectSaleType(){
+    const redirect_sale_type = localStorage.getItem("redirect_sale_type") || null
+    if(redirect_sale_type){
+        this.router.push({name: 'AddSaleNoTable', params: {sale_type: redirect_sale_type}})
+        return false
+    }
+    return true
 }
 function closeModel() {
   emit('onClose')

@@ -98,5 +98,8 @@ onUnmounted(()=>{
       
 });
  
+if(localStorage.getItem('redirect_sale_type')){
+    localStorage.removeItem('redirect_sale_type')
+}
 
 </script> 

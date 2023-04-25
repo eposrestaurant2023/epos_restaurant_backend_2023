@@ -1,5 +1,5 @@
 <template>
-  <ComModal :fullscreen="true" :persistent="true" @onClose="onClose" @onOk="onConfirm" :loading="resource.loading">
+  <ComModal :fullscreen="true" :persistent="true" @onClose="onClose" @onOk="onConfirm" :loading="resource.loading" :customActions="true">
     <template #title>
       <span>{{ props.params.title }}</span>
     </template>
@@ -7,7 +7,9 @@
           <ComSplitBillList :data="groupSales"/> 
     </template>
     <template #action>
-
+      <v-btn variant="flat" color="error">
+          Closeddd
+      </v-btn>
     </template>
   </ComModal>
 </template>

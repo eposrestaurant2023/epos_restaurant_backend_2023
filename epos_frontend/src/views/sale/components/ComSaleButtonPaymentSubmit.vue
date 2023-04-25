@@ -56,19 +56,22 @@ async function onSubmit() {
     await sale.onSubmit().then((doc) => {
       product.onClearKeyword()
       if (doc) {
-        if (tableLayout.table_groups.length > 0) {
-          sale.sale = {};
-          router.push({ name: 'TableLayout' })
-        }
-        else {
-          sale.newSale()
-          router.push({ name: "AddSale" });
-          sale.tableSaleListResource.fetch();
+        if(onRedirectSaleType()){
+          if (tableLayout.table_groups.length > 0) {
+            sale.sale = {};
+            router.push({ name: 'TableLayout' })
+          }
+          else {
+            sale.newSale()
+            router.push({ name: "AddSale" });
+            sale.tableSaleListResource.fetch();
+          }
         }
       }
     });
   }
 }
+
 async function onPayment() {
   if (sale.sale.sale_products.length == 0) {
     toaster.warning("Please select a menu item to submit order");
@@ -80,20 +83,31 @@ async function onPayment() {
 
   const result = await paymentDialog({})
   if (result) {
-
-
-
     product.onClearKeyword()
     sale.newSale();
-    if (sale.setting.table_groups.length > 0) {
-      router.push({ name: "TableLayout" });
-    } else {
-      sale.tableSaleListResource.fetch();
-      router.push({ name: "AddSale" });
+    if(onRedirectSaleType()){
+      if (sale.setting.table_groups.length > 0) {
+        router.push({ name: "TableLayout" });
+      } else {
+        sale.tableSaleListResource.fetch();
+        router.push({ name: "AddSale" });
+      }
     }
+    
   }
 
 }
+
+function onRedirectSaleType(){
+    const redirect_sale_type = localStorage.getItem("redirect_sale_type") || null
+    if(redirect_sale_type){
+        this.router.push({name: 'AddSaleNoTable', params: {sale_type: redirect_sale_type}})
+        return false
+    }
+    return true
+}
+
+
 </script>
 <style lang="">
 

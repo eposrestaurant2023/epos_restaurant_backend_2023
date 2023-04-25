@@ -51,14 +51,18 @@ frappe.ui.form.on("Stock Take",{
 });
 
 frappe.ui.form.on("Stock Take", "stock_take_product", function(frm) {
-	frm.fields_dict.items.grid.update_docfield_property("product_variants","options",["Loan Accepted"]);
+	frm.fields_dict.items?.grid.update_docfield_property("product_variants","options",["Loan Accepted"]);
 	frm.refresh_field('stock_take_product');
 })
 
 frappe.ui.form.on("Stock Take Products", {
     product_code(frm,cdt, cdn){
         product_code(frm,cdt,cdn);
-		frm.fields_dict.items.grid.update_docfield_property("product_variants","options",["Loan Accepted"]);
+		frm.fields_dict["stock_take_products"].grid.update_docfield_property(
+			"product_variants",
+			"options",
+			[""].concat(["ratha"])
+			);
         frm.refresh_field('stock_take_products');
     },
     quantity(frm,cdt, cdn){

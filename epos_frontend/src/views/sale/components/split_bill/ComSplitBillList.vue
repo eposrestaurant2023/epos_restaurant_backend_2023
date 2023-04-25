@@ -4,7 +4,8 @@
             <v-card-title class="!p-0">
                 <v-toolbar height="55">
                     <v-toolbar-title class="text">
-                        <span>#: {{ g.no }}</span> - <span>{{g.sale.name}}</span>
+                        <div style="font-size:16px;">No: {{ g.no }}</div>
+                        <div style="font-size:14px;">#{{g.sale.name || "New"}}</div>
                     </v-toolbar-title>
                     <template v-slot:append>
                        
