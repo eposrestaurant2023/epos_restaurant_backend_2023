@@ -16,7 +16,7 @@
         </template>
         <template #action>
             <v-btn color="info" variant="tonal" icon="mdi-view-dashboard" type="button" @click="onTableLayout"></v-btn>
-            <v-btn color="error" variant="tonal" prepend-icon="mdi-cart" type="button" @click="onAddCustomer">
+            <v-btn color="error" variant="tonal" prepend-icon="mdi-cart" type="button" @click="newSale">
                 New Order
             </v-btn>
         </template>
@@ -43,6 +43,7 @@ const router = useRouter();
 const route = useRoute();
 const emit = defineEmits(["resolve"])
 const gv = inject('$gv')
+const sale = inject('$sale')
 const toaster = createToaster({ position: "top" })
 const posProfile = localStorage.getItem('pos_profile')
 const props = defineProps({
@@ -154,6 +155,7 @@ onMounted(() => {
 })
 
  
+ 
 async function newSale(table) {
     let guest_cover = 0;
     if (gv.setting.use_guest_cover == 1) {
@@ -172,28 +174,14 @@ async function newSale(table) {
     }
     sale.newSale();
     sale.sale.guest_cover = guest_cover;
-    sale.sale.table_id = table.id
-    sale.sale.tbl_number = table.tbl_no;
-    if (parseFloat(table.default_discount) > 0) {
-        sale.sale.discount_type = table.discount_type;
-        sale.sale.discount = parseFloat(table.default_discount);
-        if (table.discount_type == "Percent") {
-            toaster.info("This table is discount " + table.default_discount + '%')
-        } else {
-            toaster.info("This table is discount " + table.default_discount + ' ' + gv.setting.pos_setting.main_currency_name)
-        }
-    }
-
-
-    if (table.sale_type) {
-        sale.sale.sale_type = table.sale_type
-    }
-    if (table.price_rule) {
-        sale.sale.price_rule = table.price_rule;
-    }
+    sale.sale.table_id = '';
+    sale.sale.tbl_number = '';
+    sale.sale.sale_type = route.params.sale_type
     if (gv.setting.price_rule != sale.sale.price_rule) {
         toaster.info("Your current price rule is " + sale.sale.price_rule);
     }
-    router.push({ name: "AddSale" });
+    router.push({ name: "AddSale" }).then(()=>{
+        localStorage.setItem('redirect_sale_type', selected.value)
+    });
 }
 </script> 

@@ -98,6 +98,62 @@ frappe.ui.form.on('Tour Booking Hotels', {
     },
 })
 
+frappe.ui.form.on('Tour Booking Discount', {
+
+    discounts_remove:function(frm){
+        frm.set_value('total_discount', frm.doc.discounts.reduce((n, d) => n + (d.discount_amount || 0),0));
+       
+    },
+    discount_on:function (frm,cdt, cdn) {
+        calculate_discount(frm,locals[cdt][cdn])
+   },
+    discount_type:function (frm,cdt, cdn) {
+        calculate_discount(frm,locals[cdt][cdn])
+   },
+   
+   discount:function (frm,cdt, cdn) {
+        calculate_discount(frm,locals[cdt][cdn])
+   },
+
+ 
+ })
+
+ function calculate_discount(frm,doc){
+    
+    if (doc.discount_on=="Tour Package"){
+       
+        doc.amount = frm.doc.total_tour_package_price
+    }else if(doc.discount_on=="Hotel"){
+        doc.amount = frm.doc.total_hotel_amount
+    }else if(doc.discount_on=="Restaurant"){
+        doc.amount = frm.doc.total_restaurant_amount
+    }
+    else if(doc.discount_on=="Tour Guide"){
+        doc.amount = frm.doc.total_tour_guide_amount
+    }else if(doc.discount_on=="Transportation"){
+        doc.amount = frm.doc.total_transportation_amount
+    }else if(doc.discount_on=="Additional Charge"){
+        doc.amount = frm.doc.total_additional_charge
+    }else{
+        doc.amount = 0
+    }
+    
+    
+    
+        if (doc.discount_type=="Percent"){
+           doc.discount_amount = (doc.amount || 0) * (doc.discount || 0)/100;
+        }else {
+           doc.discount_amount =doc.discount || 0;
+        }
+        
+
+        refresh_field('discounts');
+        frm.set_value('total_discount', frm.doc.discounts.reduce((n, d) => n + (d.discount_amount || 0),0));
+        refresh_field('total_discount');
+     
+ }
+
+ 
 function set_indicator(frm){
     if(frm.doc.__islocal)
 			return;
