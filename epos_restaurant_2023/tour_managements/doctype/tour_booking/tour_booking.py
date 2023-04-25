@@ -92,9 +92,9 @@ class TourBooking(Document):
 			else:
 				d.discount_amount = d.discount
 				
-			self.total_discount = Enumerable(self.discounts).sum(lambda x: (x.discount_amount or 0))
+		self.total_discount = Enumerable(self.discounts).sum(lambda x: (x.discount_amount or 0)) or 0
 
-		self.balance =(self.total_tour_package_price + self.total_additional_charge + self.total_restaurant_amount + self.total_hotel_amount + self.total_transportation_amount + self.total_tour_guide_amount)  - self.total_paid
+		self.balance =(self.total_tour_package_price + self.total_additional_charge + self.total_restaurant_amount + self.total_hotel_amount + self.total_transportation_amount + self.total_tour_guide_amount - self.total_discount)  - self.total_paid 
 
 	@frappe.whitelist()
 	def get_tour_price(self):

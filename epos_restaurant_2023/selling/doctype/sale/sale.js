@@ -189,9 +189,6 @@ frappe.ui.form.on('Sale Product', {
 	},
 	product_code(frm,cdt, cdn) {
 		let row = locals[cdt][cdn];
-		row.set_df_property("product_variants","options",["Loan Accepted"]);
-		
-		frm.refresh_field('sale_products');
 	},
 })
 

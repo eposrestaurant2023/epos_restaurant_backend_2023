@@ -17,15 +17,16 @@
             <v-card-text :class="fill ? '!p-0' : '!p-2'" class="!overflow-x-hidden"> 
                 <slot name="content"></slot>
             </v-card-text>
-            <v-card-actions v-if="$slots.action || !hideCloseButton || !hideOkButton" class="justify-end flex-wrap" :class="{'!p-0' : fill}">
-            
+            <v-card-actions v-if="$slots.action || !hideCloseButton || !hideOkButton" class="justify-end flex-wrap" :class="{'!p-0' : fill}">            
                 <slot name="action"></slot>
-                <v-btn variant="flat" @click="onClose()" color="error" :disabled="loading" v-if="!hideCloseButton">
-                    Close
-                </v-btn>
-                <v-btn variant="flat" type="button" color="primary" :disabled="loading" v-if="!hideOkButton" @click="onOK()">
-                    {{ titleOKButton }}
-                </v-btn>
+                <template v-if="!customActions">
+                    <v-btn variant="flat" @click="onClose()" color="error" :disabled="loading" v-if="!hideCloseButton">
+                        Close
+                    </v-btn>
+                    <v-btn variant="flat" type="button" color="primary" :disabled="loading" v-if="!hideOkButton" @click="onOK()">
+                        {{ titleOKButton }}
+                    </v-btn>
+                </template>
             </v-card-actions>
  
         </v-card>
@@ -89,6 +90,10 @@ const props =defineProps({
         default: false
     },
     fill: {
+        type: Boolean,
+        default: false
+    },
+    customActions: {
         type: Boolean,
         default: false
     }

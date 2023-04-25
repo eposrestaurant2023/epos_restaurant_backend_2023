@@ -89,7 +89,7 @@ async function onQuickPay() {
 function onRedirectSaleType(){
     const redirect_sale_type = localStorage.getItem("redirect_sale_type") || null
     if(redirect_sale_type){
-        this.router.push({name: 'AddSaleNoTable', params: {sale_type: redirect_sale_type}})
+        router.push({name: 'AddSaleNoTable', params: {sale_type: redirect_sale_type}})
         return false
     }
     return true

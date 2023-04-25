@@ -17,8 +17,7 @@
   "quantity",
   "price",
   "amount",
-  "is_inventory_product",
-  "product_variants"
+  "is_inventory_product"
  ],
  "fields": [
   {
@@ -98,17 +97,12 @@
    "fieldname": "base_cost",
    "fieldtype": "Currency",
    "label": "Base Cost"
-  },
-  {
-   "fieldname": "product_variants",
-   "fieldtype": "Select",
-   "label": "Product Variants"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-25 16:29:20.832244",
+ "modified": "2023-04-25 17:21:21.570263",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Take Products",
