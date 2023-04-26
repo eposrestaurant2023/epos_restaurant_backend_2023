@@ -126,10 +126,10 @@ class Sale(Document):
 			if self.changed_amount< 0:
 				self.changed_amount = 0
 				
-		else:
-			self.changed_amount = 0
-			if self.total_paid > self.grand_total:
-				frappe.throw(_("Paid amount cannot greater than grand total amount"))
+		# else:
+		# 	self.changed_amount = 0
+		# 	if self.total_paid > self.grand_total:
+		# 		frappe.throw(_("Paid amount cannot greater than grand total amount"))
 		 
 		if not self.created_by:
 			self.created_by = frappe.get_user().doc.full_name

@@ -83,12 +83,13 @@ onMounted(()=>{
 function onCreateNew(){ 
   const _sale = JSON.parse(JSON.stringify(sale.sale));
   _sale.name = "";
-  _sale.sale_products =[];  
-  groupSales.value.push({
+  _sale.sale_products =[]; 
+  const _newGroup = {
     generate_id:uuidv4(),
     no:groupSales.value.length + 1,
     sale: _sale
-  });
+  }
+  groupSales.value.push(_newGroup);
 }
 
 function uuidv4() {
