@@ -110,7 +110,7 @@ function  showDownload(){
 }
 
 function onDownloadPressed(group){
- const result =   props.data.flatMap(a => (a.sale.sale_products||[]).filter((r)=>(r.total_selected||0) >0) )
+ const result = props.data.flatMap(a => (a.sale.sale_products||[]).filter((r)=>(r.total_selected||0) >0) )
     result.forEach((sp)=>{
         sp.quantity -=  sp.total_selected;        
         const _sp = JSON.parse(JSON.stringify(sp));

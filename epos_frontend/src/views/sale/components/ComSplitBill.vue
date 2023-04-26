@@ -90,6 +90,8 @@ function onCreateNew(){
     sale: _sale
   }
   groupSales.value.push(_newGroup);
+
+  onDownloadPressed(_newGroup);
 }
 
 function uuidv4() {
@@ -98,6 +100,16 @@ function uuidv4() {
   );
 }
 
+function onDownloadPressed(group){
+ const result = groupSales.value.flatMap(a => (a.sale.sale_products||[]).filter((r)=>(r.total_selected||0) >0) )
+    result.forEach((sp)=>{
+        sp.quantity -=  sp.total_selected;        
+        const _sp = JSON.parse(JSON.stringify(sp));
+        _sp.quantity =  sp.total_selected ;
+        _sp.total_selected  =sp.total_selected = 0;
+        group.sale.sale_products.push(_sp)
+    }) 
+}
 
 
 function onSave() {

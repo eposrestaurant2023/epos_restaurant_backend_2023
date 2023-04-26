@@ -120,11 +120,14 @@ class Sale(Document):
 		self.balance = self.grand_total  - (self.total_paid or 0)
 		
 		if self.pos_profile:
-			if self.balance<0:
-				self.balance = 0
 			self.changed_amount = self.total_paid - self.grand_total
 			if self.changed_amount< 0:
 				self.changed_amount = 0
+
+		if self.balance<0:
+			self.balance = 0
+		
+		
 				
 		# else:
 		# 	self.changed_amount = 0
