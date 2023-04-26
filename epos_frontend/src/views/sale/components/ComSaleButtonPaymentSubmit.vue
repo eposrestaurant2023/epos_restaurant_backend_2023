@@ -38,7 +38,6 @@
 </template>
 <script setup>
 import { inject, useRouter, paymentDialog, createToaster } from '@/plugin';
-
 import ComExchangeRate from './ComExchangeRate.vue';
 const sale = inject("$sale")
 const gv = inject("$gv")
@@ -52,11 +51,11 @@ async function onSubmit() {
     sale.action = "submit_order";
     sale.message = "Submit Order Successfully";
     sale.sale.sale_status = "Submitted";
-    
+
     await sale.onSubmit().then((doc) => {
       product.onClearKeyword()
       if (doc) {
-        if(onRedirectSaleType()){
+        if (onRedirectSaleType()) {
           if (tableLayout.table_groups.length > 0) {
             sale.sale = {};
             router.push({ name: 'TableLayout' })
@@ -80,12 +79,11 @@ async function onPayment() {
   else if (sale.onCheckPriceSmallerThanZero()) {
     return;
   }
-
   const result = await paymentDialog({})
   if (result) {
     product.onClearKeyword()
     sale.newSale();
-    if(onRedirectSaleType()){
+    if (onRedirectSaleType()) {
       if (sale.setting.table_groups.length > 0) {
         router.push({ name: "TableLayout" });
       } else {
@@ -93,21 +91,17 @@ async function onPayment() {
         router.push({ name: "AddSale" });
       }
     }
-    
   }
-
 }
 
-function onRedirectSaleType(){
-    const redirect_sale_type = localStorage.getItem("redirect_sale_type") || null
-    if(redirect_sale_type){
-        router.push({name: 'AddSaleNoTable', params: {sale_type: redirect_sale_type}})
-        return false
-    }
-    return true
+function onRedirectSaleType() {
+  const redirect_sale_type = localStorage.getItem("redirect_sale_type") || null
+  if (redirect_sale_type) {
+    router.push({ name: 'AddSaleNoTable', params: { sale_type: redirect_sale_type } })
+    return false
+  }
+  return true
 }
-
-
 </script>
 <style lang="">
 

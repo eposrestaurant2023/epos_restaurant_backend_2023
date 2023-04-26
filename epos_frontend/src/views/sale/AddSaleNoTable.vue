@@ -1,5 +1,5 @@
 <template>
-    <PageLayout :title="`Sale Order: ${route.params.sale_type}`" icon="mdi-note-outline" full>
+    <PageLayout :title="`Sale Order: ${route.params.sale_type}`" icon="mdi-cart" full>
         <template #centerCotent>
             <v-tabs align-tabs="center"  v-model="selected" v-if="gv.setting?.pos_setting?.sale_types && gv.setting?.pos_setting?.sale_types.filter(r=>r.is_order_use_table == false).length > 0 && !mobile" @update:modelValue="onSelected">
                 <v-tab v-for="st in gv.setting?.pos_setting?.sale_types.filter(r=>r.is_order_use_table == false)" :key="st.name" :value="st.name">
@@ -8,8 +8,8 @@
             </v-tabs>
             <v-bottom-navigation align-tabs="center"  v-if="gv.setting?.pos_setting?.sale_types && gv.setting?.pos_setting?.sale_types.filter(r=>r.is_order_use_table == false).length > 0 && mobile">
                 <v-tabs height="100%"  center-active  v-model="selected" @update:modelValue="onSelected">
-                    <v-tab v-for="g in gv.setting?.pos_setting?.sale_types.filter(r=>r.is_order_use_table == false)" :key="st.name" :value="st.name" :disabled="selected == st.name">
-                        {{ g.name }}
+                    <v-tab v-for="st in gv.setting?.pos_setting?.sale_types.filter(r=>r.is_order_use_table == false)" :key="st.name" :value="st.name" :disabled="selected == st.name">
+                        {{ st.name }}
                     </v-tab>
                 </v-tabs>
             </v-bottom-navigation> 
@@ -17,12 +17,12 @@
         <template #action>
             <v-btn color="info" variant="tonal" icon="mdi-view-dashboard" type="button" @click="onTableLayout"></v-btn>
             <v-btn color="error" variant="tonal" prepend-icon="mdi-cart" type="button" @click="newSale">
-                New Order
+                <span>New</span><span v-if="!mobile"> Order</span>
             </v-btn>
         </template>
         <template #default> 
             <ComPlaceholder :is-not-empty="saleResource.data?.length > 0" :loading="saleResource.loading">
-                <div>
+                <div class="pb-2">
                     <div class="grid gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                         <ComSaleCardItem :data="saleResource.data" @onOpenOrder="onOpenOrder" @onViewSaleOrder="onViewSaleOrder"/> 
                     </div>
@@ -129,7 +129,7 @@ async function onViewSaleOrder(sale_id) {
 
 let params = ref({
     doctype: "Sale",
-    fields: ["name", "modified", "sale_status", "sale_status_color", "sale_type", "tbl_number", "guest_cover", "customer", "customer_name", "total_quantity", "grand_total"],
+    fields: ["name", "modified", "sale_status", "sale_status_color", "sale_type","sale_type_color", "tbl_number", "guest_cover", "customer", "customer_name", "total_quantity", "grand_total"],
     order_by: "modified desc",
     filters: {
         'docstatus': 0,

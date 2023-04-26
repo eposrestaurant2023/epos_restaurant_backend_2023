@@ -7,7 +7,7 @@ from frappe.model.document import Document
 class PaymentType(Document):
 	def validate(self):
 		 
-		data = frappe.db.sql("select exchange_rate from `tabCurrency Exchange` where to_currency='{}' order by posting_date limit 1".format(self.currency))
+		data = frappe.db.sql("select exchange_rate from `tabCurrency Exchange` where to_currency='{}' order by posting_date desc limit 1".format(self.currency))
 		if data:
 			 
 			self.exchange_rate = data[0][0] or 1

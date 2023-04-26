@@ -1,8 +1,9 @@
 <template>
     <v-list class="!p-0">
-        <v-list-item v-for="sp, index in sale.getSaleProducts(groupKey)" :key="index" @click="sale.onSelectSaleProduct(sp)"
-            class="!border-t !border-gray-300 !mb-0 !p-2 item-list"
-            :class="{ 'selected': sp.selected, 'submitted relative': sp.sale_product_status == 'Submitted' }">
+        <v-list-item v-for="sp, index in (readonly == true ? getSaleProducts(groupKey) : sale.getSaleProducts(groupKey))"
+            :key="index" @click="!readonly ? { click: sale.onSelectSaleProduct(sp) } : {}"
+            class="!border-t !border-gray-300 !mb-0 !p-2"
+            :class="{ 'selected': (sp.selected && !readonly), 'submitted relative': sp.sale_product_status == 'Submitted', 'item-list': !readonly }">
             <template v-slot:prepend>
                 <v-avatar v-if="sp.product_photo">
                     <v-img :src="sp.product_photo"></v-img>
@@ -13,16 +14,18 @@
                 <div class="text-sm">
                     <div class="flex">
                         <div class="grow">
-                            <div> {{ sp.product_name }}<v-chip class="ml-1" size="x-small"
-                                    color="error" variant="outlined" v-if="sp.portion">{{ sp.portion }}</v-chip> <v-chip
-                                    v-if="sp.is_free" size="x-small" color="success" variant="outlined">Free</v-chip>
+                            <div> {{ sp.product_name }}<v-chip class="ml-1" size="x-small" color="error" variant="outlined"
+                                    v-if="sp.portion">{{ sp.portion }}</v-chip> <v-chip v-if="sp.is_free" size="x-small"
+                                    color="success" variant="outlined">Free</v-chip>
                             </div>
                             <div>
-                                {{ sp.quantity }} x <CurrencyFormat :value="sp.price" />
+                                {{ sp.quantity }} x
+                                <CurrencyFormat :value="sp.price" />
                             </div>
-                            <div class="text-xs pt-1"> 
+                            <div class="text-xs pt-1">
                                 <div v-if="sp.modifiers">
-                                    <span>{{ sp.modifiers }} (<CurrencyFormat :value="sp.modifiers_price * sp.quantity" />)
+                                    <span>{{ sp.modifiers }} (
+                                        <CurrencyFormat :value="sp.modifiers_price * sp.quantity" />)
                                     </span>
                                 </div>
                                 <div class="text-red-500" v-if="sp.discount > 0">
@@ -42,15 +45,14 @@
                         </div>
                         <div class="flex-none text-right w-36">
                             <div class="text-lg">
-                             
                                 <CurrencyFormat :value="sp.amount" />
                             </div>
-                            <ComQuantityInput :sale-product="sp" />
+                            <ComQuantityInput v-if="!readonly" :sale-product="sp" />
                         </div>
                     </div>
-                    <div v-if="sp.selected" class="-mx-1 flex pt-1">
-                        <v-chip color="teal" class="mx-1 grow text-center justify-center" variant="elevated"
-                            size="small" @click="onChangePrice(sp)">Price</v-chip>
+                    <div v-if="sp.selected && !readonly" class="-mx-1 flex pt-1">
+                        <v-chip color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
+                            @click="onChangePrice(sp)">Price</v-chip>
                         <v-chip
                             :disabled="sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == 'Submitted'"
                             color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
@@ -59,16 +61,8 @@
                             :disabled="sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == 'Submitted'"
                             color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
                             @click="onEditSaleProduct(sp)">Edit</v-chip>
-
-                        
-                        <v-chip
-                            color="teal" 
-                            class="mx-1 grow text-center justify-center" 
-                            variant="elevated"
-                             size="small"
+                        <v-chip color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
                             @click="onReorder(sp)">Reorder</v-chip>
-                        
-                  
                         <ComSaleProductButtonMore :sale-product="sp" />
                     </div>
                 </div>
@@ -77,27 +71,30 @@
     </v-list>
 </template>
 <script setup>
-import { inject, defineProps,createToaster } from '@/plugin'
+import { inject, defineProps, createToaster } from '@/plugin'
 import ComSaleProductButtonMore from './ComSaleProductButtonMore.vue';
 import ComQuantityInput from '../../../components/form/ComQuantityInput.vue';
 import Enumerable from 'linq';
 const sale = inject('$sale')
 const product = inject('$product')
 const gv = inject('$gv')
-const toaster = createToaster({position: 'top'})
+const toaster = createToaster({ position: 'top' })
 
 const props = defineProps({
-    groupKey: Object
+    groupKey: Object,
+    readonly: Boolean,
+    saleCustomerDisplay: Object
 })
+
 
 function onEditSaleProduct(sp) {
     if (!sale.isBillRequested()) {
         if (sp.sale_product_status == "New" || sale.setting.pos_setting.allow_change_quantity_after_submit == 1) {
             product.setSelectedProductByMenuID(sp.menu_product_name);
-            
+
             product.setModifierSelection(sp)
-            
-            if(product.modifiers.length > 0 || product.prices.filter(r=>r.price_rule == sale.setting.price_rule && (r.branch == sale.setting.business_branch || r.branch == '')).length > 1)
+
+            if (product.modifiers.length > 0 || product.prices.filter(r => r.price_rule == sale.setting.price_rule && (r.branch == sale.setting.business_branch || r.branch == '')).length > 1)
                 sale.OnEditSaleProduct(sp)
             else
                 toaster.warning("This product has no option to edit.")
@@ -120,37 +117,50 @@ function onChangePrice(sp) {
     }
 }
 
-function onReorder(sp){
-   
-    if(!sale.isBillRequested()){
-        if(sp.sale_product_status == "New" || sale.setting.pos_setting.allow_change_quantity_after_submit == 1){
+function onReorder(sp) {
+
+    if (!sale.isBillRequested()) {
+        if (sp.sale_product_status == "New" || sale.setting.pos_setting.allow_change_quantity_after_submit == 1) {
             sale.updateQuantity(sp, sp.quantity + 1)
-        }else{
-          
-                let strFilter = `$.product_code=='${sp.product_code}' && $.append_quantity ==1 && $.price==${sp.price} && $.portion=='${sp.portion}'  && $.modifiers=='${sp.modifiers}'  && $.unit=='${sp.unit}'  && $.is_free==0`
-            
+        } else {
+
+            let strFilter = `$.product_code=='${sp.product_code}' && $.append_quantity ==1 && $.price==${sp.price} && $.portion=='${sp.portion}'  && $.modifiers=='${sp.modifiers}'  && $.unit=='${sp.unit}'  && $.is_free==0`
+
             if (!gv.setting?.pos_setting?.allow_change_quantity_after_submit) {
                 strFilter = strFilter + ` && $.sale_product_status == 'New'`
             }
-         
-            const sale_product  = Enumerable.from(sale.sale.sale_products).where(strFilter).firstOrDefault()
 
-            if (sale_product  != undefined) {
+            const sale_product = Enumerable.from(sale.sale.sale_products).where(strFilter).firstOrDefault()
+
+            if (sale_product != undefined) {
                 sale_product.quantity = parseFloat(sale_product.quantity) + 1;
                 sale.updateSaleProduct(sp);
 
-            }else{
+            } else {
                 setTimeout(() => {
-                sale.cloneSaleProduct(sp,sp.quantity+1);   
-            }, 100);
+                    sale.cloneSaleProduct(sp, sp.quantity + 1);
+                }, 100);
             }
-              
-           
-            
-         
+
+
+
+
         }
-        
+
     }
+}
+function getSaleProducts(groupByKey) {
+    if (props.saleCustomerDisplay && props.saleCustomerDisplay.sale_products) {
+        if (groupByKey) {
+            return Enumerable.from(props.saleCustomerDisplay.sale_products).where(`$.order_by=='${groupByKey.order_by}' && $.order_time=='${groupByKey.order_time}'`).orderByDescending("$.modified").toArray()
+        } else {
+            return Enumerable.from(props.saleCustomerDisplay.sale_products).orderByDescending("$.modified").toArray()
+
+        }
+    }
+    return []
+
+
 }
 </script>
 <style scoped>
@@ -158,11 +168,11 @@ function onReorder(sp){
 .item-list:hover {
     background-color: #ffebcc !important;
 }
- 
-.item-list.submitted::before{
+
+.submitted::before {
     content: '';
     position: absolute;
-    top: 1px; 
+    top: 1px;
     bottom: 1px;
     left: 0px;
     width: 2px;

@@ -16,7 +16,7 @@
             <ComGroupSaleProductList/>
         </template>
         <template #action>
-            <ComSmallSaleSummary @onClose="onGoHome()" @onSubmitAndNew="onClose()"/>
+            <ComSmallSaleSummary @onClose="onGoHome()" @onSubmitAndNew="onSubmitAndNew()"/>
         </template>
     </ComModal>
 </template>
@@ -36,20 +36,34 @@ const emit = defineEmits(['resolve'])
 const router = useRouter();
 
 function onGoHome(){
-    if (gv.setting.table_groups.length > 0) {
+    if(onRedirectSaleType()){
+        if (gv.setting.table_groups.length > 0) {
         sale.sale = {};
         router.push({ name: 'TableLayout' }).then(()=>{
             emit('resolve', true)
         });
-    }
-    else {
-        sale.newSale()
-        router.push({ name: "AddSale" }).then(()=>{
-            emit('resolve', true)
-        });
+        }
+        else {
+            sale.newSale()
+            router.push({ name: "AddSale" }).then(()=>{
+                emit('resolve', true)
+            });
+        }
     }
 }
-
+function onRedirectSaleType(){
+    const redirect_sale_type = localStorage.getItem("redirect_sale_type") || null
+    if(redirect_sale_type){
+        router.push({name: 'AddSaleNoTable', params: {sale_type: redirect_sale_type}}).then(()=>{
+            onClose()
+        })
+        return false
+    }
+    return true
+}
+function onSubmitAndNew(){
+    onRedirectSaleType()
+}
 function onClose() {
     emit('resolve', false)
 }

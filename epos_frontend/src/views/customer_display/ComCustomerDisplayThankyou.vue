@@ -15,8 +15,7 @@
                         <div>SEE YOU AGAIN!</div>
                     </div>
                     <div class="h-40 w-40 border-4 border-green-600 m-auto rounded-full">
-                        <div class="h-10 w-10 m-auto bg-gray-300 rounded-full"></div>
-                        <div class="text-center	text-small text-xs text-gray-400">{{ data?.customer_photo }}</div>
+                        <v-icon class="mdi mdi-check"></v-icon>
                     </div>
                     <div>
                         <div class="flex justify-evenly mt-6">

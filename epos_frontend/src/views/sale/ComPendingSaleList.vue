@@ -24,9 +24,14 @@
               </v-card-title>
               <v-card-text class="!pt-0 !pr-0 !pb-14 !pl-0">
                 <v-list :lines="false" density="compact" class="pa-0">
-                  <v-list-item title="Table #">
+                  <v-list-item title="Table #" v-if="s.tbl_number">
                     <template v-slot:append>
                       {{ s.tbl_number }}
+                    </template>
+                  </v-list-item>
+                  <v-list-item title="Sale Type" v-else>
+                    <template v-slot:append>
+                      <v-chip size="x-small" :color="s.sale_type_color">{{ s.sale_type }}</v-chip>
                     </template>
                   </v-list-item>
                   <v-list-item title="Guest Cover" v-if="s.guest_cover">
@@ -144,7 +149,7 @@ async function onViewSaleOrder(sale_id) {
 }
 let params = ref({
   doctype: "Sale",
-  fields: ["name", "modified", "sale_status", "sale_status_color", "tbl_number", "guest_cover", "customer", "customer_name", "total_quantity", "grand_total"],
+  fields: ["name", "modified", "sale_status", "sale_status_color","sale_type","sale_type_color", "tbl_number", "guest_cover", "customer", "customer_name", "total_quantity", "grand_total"],
   order_by: "modified desc",
   filters: {
     'docstatus': 0,

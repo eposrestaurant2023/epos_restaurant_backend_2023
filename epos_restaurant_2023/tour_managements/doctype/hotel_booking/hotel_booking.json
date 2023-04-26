@@ -53,9 +53,15 @@
   "total_room_night",
   "column_break_27",
   "total_amount",
-  "section_break_43",
+  "balance",
+  "section_break_46",
+  "discount_type",
+  "column_break",
+  "discount",
+  "column_break_50",
+  "discount_amount",
+  "section_break",
   "inclusions",
-  "section_break_45",
   "note",
   "additional_guest_tab",
   "additional_guest",
@@ -343,10 +349,6 @@
    "label": "Guest Group"
   },
   {
-   "fieldname": "section_break_43",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "note",
    "fieldtype": "Small Text",
    "label": "Note"
@@ -355,10 +357,6 @@
    "fieldname": "inclusions",
    "fieldtype": "Small Text",
    "label": "Inclusions"
-  },
-  {
-   "fieldname": "section_break_45",
-   "fieldtype": "Section Break"
   },
   {
    "fieldname": "section_break_16",
@@ -375,11 +373,51 @@
    "fieldname": "is_include_tax",
    "fieldtype": "Check",
    "label": "Is include Tax"
+  },
+  {
+   "fieldname": "section_break_46",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Percent",
+   "fieldname": "discount_type",
+   "fieldtype": "Select",
+   "label": "Discount Type",
+   "options": "Percent\nAmount"
+  },
+  {
+   "fieldname": "discount_amount",
+   "fieldtype": "Currency",
+   "label": "Discount Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_50",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "discount",
+   "fieldtype": "Float",
+   "label": "Discount"
+  },
+  {
+   "fieldname": "balance",
+   "fieldtype": "Currency",
+   "label": "Balance",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-25 15:34:05.765477",
+ "modified": "2023-04-26 15:10:30.776038",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Hotel Booking",

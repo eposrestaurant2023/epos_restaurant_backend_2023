@@ -1,85 +1,54 @@
-<template lang="">
-        <div class="h-full flex-col flex">
-            <div class="profile  px-4 flex bg-stone-400 pt-3 pb-3 ">
-                <div class="avatar-profile">
-                    <v-avatar v-if="data?.customer_photo">
-                        <v-img :src="data?.customer_photo"></v-img>
-                    </v-avatar>
-                    <avatar v-else :name="data?.customer_name || 'No Customer'" class="mr-4" size="40">
-                    </avatar>
-                </div>
-                <div class="px-5 pt-2 text-xl">{{ data.customer_name }}</div>
-            </div>
-            <div class="product-list overflow-auto h-full">
-                <div class="">
-                    <ul class="bg-violet-950 items-group " style=" padding: 12px;">
-                        <li  v-for="(p, index) in data.sale_products" :key="index" class="border-b item">
-                            <div class="flex">
-                                <div class="avatar-profile b">
-                                    <v-avatar v-if="p.product_photo">
-                                        <v-img :src="p.product_photo"></v-img>
-                                    </v-avatar>
-                                    <avatar v-else :name="p.product_code" size="40"></avatar>
-                                </div>
-                                <div style="width: 400px ">
-                                    <div>{{ p.product_name }}</div>
-                                    <div>{{ p.quantity }} x <CurrencyFormat :value="p.price"></CurrencyFormat></div>
-                                    <!-- {{ p.product_name }} -->
-                                </div>
-                                <div style="right: 3%; font-size: 20px;width:100%;text-align:right;">
-                                    <CurrencyFormat :value="p.amount"></CurrencyFormat>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="summary bg-green-500 p-5 text-white">
-                <div class="flex justify-between">
-                    <div class="">Total: </div>
-                    <div>
-                        <CurrencyFormat :value="data.grand_total" />
+<template lang=""> 
+    <div class="h-full flex-col flex">
+        <ComCustomerDisplayCustomerProfile :data="data" />
+        <div class="product-list overflow-auto h-full">  
+            <template v-if="getSaleProducts.length > 0">
+                <div v-for="(g, index) in getSaleProductGroupByKey" :key="index">
+                    <div class="bg-red-700 text-white flex items-center justify-between" style="font-size: 10px; padding: 2px;">
+                        <div><v-icon icon="mdi-clock" size="small" class="mr-1"></v-icon>{{
+                            moment(g.order_time).format('HH:mm:ss')
+                        }}</div>
+                        <div><v-icon icon="mdi-account-outline" size="small" class="mr-1"></v-icon>{{ g.order_by }}</div>
                     </div>
+                    <ComSaleProductList :saleCustomerDisplay="data" :group-key="g" :readonly="true"/>
                 </div>
-                <div class=" flex justify-between">
-                    <div> total Item: </div>
-                    <div class="b">
-                        <CurrencyFormat :value="data.grand_total * data.exchange_rate"
-                            :currency="gv.setting.pos_setting.second_currency_name" />
-                    </div>
-                </div>
+            </template>
+        </div>
+        <div class="mt-auto">
+            <div class="-mx-1 bg-blue-100 rounded-tl-md rounded-tr-md text-xs">
+                <ComCustomerDisplaySummary :data="data"/>
+                <ComCustomerDisplaySummarPayment :data="data"/>
             </div>
-        </div> 
+        </div>
+    </div> 
 
 </template>
 <script setup>
-import { inject } from '@/plugin';
+import { inject, computed } from '@/plugin';
+import Enumerable from 'linq';
+import ComCustomerDisplaySummary from './components/ComCustomerDisplaySummary.vue';
+import ComCustomerDisplaySummarPayment from './components/ComCustomerDisplaySummarPayment.vue';
+import moment from '@/utils/moment.js';
+import ComSaleProductList from '../sale/components/ComSaleProductList.vue';
+import ComCustomerDisplayCustomerProfile from './components/ComCustomerDisplayCustomerProfile.vue';
 const gv = inject("$gv")
 const props = defineProps({
     data: Object,
 })
-</script>
-<style scoped>
-.b {
-    display: grid;
-    align-items: center;
-    margin-right: 20px;
+const getSaleProducts = computed(() => {
 
+    return Enumerable.from(props.data.sale_products).orderByDescending("$.modified").toArray()
 
-}
-
-.items-group {
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-}
-
-.items-group,
-.item {
-    flex: 0 0 100%;
-    scroll-snap-align: start;
-}
-
-.product-list {
-    height: 76.4vh;
-}
-</style>
+})
+const getSaleProductGroupByKey = computed(() => {
+    if (!props.data.sale_products) {
+        return []
+    } else {
+        if (props.data?.sale_products) {
+            const group = Enumerable.from(props.data.sale_products).groupBy("{order_by:$.order_by,order_time:$.order_time}", "", "{order_by:$.order_by,order_time:$.order_time}", "$.order_by+','+$.order_time");
+            return group.orderByDescending("$.order_time").toArray();
+        }
+        return []
+    }
+})
+</script> 

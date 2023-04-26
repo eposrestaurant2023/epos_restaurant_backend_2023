@@ -71,7 +71,7 @@
 </template>
 <script setup>
 
-import { inject, ref, onUnmounted } from '@/plugin';
+import { inject, ref, onUnmounted,onMounted } from '@/plugin';
 import ComPaymentInputNumber from "./ComPaymentInputNumber.vue"
 import ComSmallSalePayment from "./mobile_screen/ComSmallSalePayment.vue"
 import { useDisplay } from 'vuetify'
@@ -95,7 +95,7 @@ const toaster = createToaster({ position: "top" })
 const props = defineProps({
     params: Object
 })
-
+let backup = ref({})
 const selectedReceipt = ref({})
 selectedReceipt.value = gv.setting.default_pos_receipt;
 
@@ -106,7 +106,14 @@ function onSelectedReceipt(r) {
 
 }
 
+onMounted(() => {
+    backup.value = JSON.parse(JSON.stringify(sale))  
+})
+
 function onClose() {
+    sale.sale.total_paid = backup.value.sale.total_paid
+    sale.sale.balance = backup.value.sale.balance
+    sale.sale.changed_amount = backup.value.sale.changed_amount
     emit("resolve", false);
 }
 

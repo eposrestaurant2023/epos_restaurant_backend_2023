@@ -3,7 +3,7 @@
         <v-card-title class="!p-0">
             <v-toolbar height="55">
                 <v-toolbar-title class="text">
-                    <span>#: {{ s.name }}</span> - <Timeago class="!text-sm" :long="long" :datetime="s.modified" />
+                    <span class="text-sm">#: {{ s.name }}</span> - <Timeago class="!text-sm" :long="false" :datetime="s.modified" />
                 </v-toolbar-title>
                 <template v-slot:append>
                     <v-chip class="ma-2" :color="s.sale_status_color" text-color="white">
@@ -14,9 +14,14 @@
         </v-card-title>
         <v-card-text class="!pt-0 !pr-0 !pb-14 !pl-0">
             <v-list :lines="false" density="compact" class="pa-0">
-                <v-list-item title="Table #">
+                <v-list-item title="Table #" v-if="s.tbl_number">
                     <template v-slot:append>
                         {{ s.tbl_number }}
+                    </template>
+                </v-list-item>
+                <v-list-item v-else title="Sale Type">
+                    <template v-slot:append>
+                        <v-chip size="x-small" :color="s.sale_type_color">{{s.sale_type}}</v-chip>
                     </template>
                 </v-list-item>
                 <v-list-item title="Guest Cover" v-if="s.guest_cover">

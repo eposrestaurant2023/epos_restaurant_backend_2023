@@ -2,9 +2,11 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Hotel Booking", {
-	refresh(frm) {
+	refresh(frm){
+     
+        set_indicator(frm);
 
-	},
+    },
     arrival_date(frm){   
         setTotalNights(frm);  
         $.each(frm.doc.room_types,  function(i, d)  {
@@ -22,6 +24,15 @@ frappe.ui.form.on("Hotel Booking", {
     },
     total_nights(frm){
         setTotalRoomNight(frm);
+    },
+    discount_type(frm){
+        updateDiscount(frm); 
+    },
+    discount(frm){
+        updateDiscount(frm); 
+    },
+    discount_amount(frm){
+        updateDiscount(frm); 
     }
 
 });
@@ -56,7 +67,7 @@ frappe.ui.form.on('Hotel Booking Room Type', {
     },
     twin_room:function (frm,cdt, cdn) {
         updateRoomTypeRow(frm, locals[cdt][cdn] )
-    },
+    }
 })
 
 frappe.ui.form.on('Tour Booking Payments', {
@@ -66,6 +77,9 @@ frappe.ui.form.on('Tour Booking Payments', {
         frm.set_value('total_payment', payments.reduce((n, d) => n + d.payment_amount,0));
 
     },
+    payments_remove:function(frm){
+        frm.set_value('total_payment', frm.doc.payments.reduce((n, d) => n + (d.payment_amount || 0),0));   
+    }
      
 })
 
@@ -90,4 +104,28 @@ function setTotalRoomNight(frm){
         frm.doc.total_room_night = frm.doc.total_nights * frm.doc.total_rooms
         frm.refresh_field('total_room_night');
     }
+}
+function updateDiscount(frm){
+    if (frm.doc.discount_type=="Percent" && frm.doc.discount){
+        frm.doc.discount_amount = (frm.doc.total_amount || 0) * (frm.doc.discount || 0)/100;  
+        frm.refresh_field('discount_amount')
+    }
+    else{
+        frm.doc.discount_amount = (frm.doc.discount||0)
+        frm.refresh_field('discount_amount')
+    }
+    
+    
+
+}
+function set_indicator(frm){
+    if(frm.doc.__islocal)
+			return;
+
+    if (frm.doc.total_rooms > 0 )  frm.dashboard.add_indicator(__("Total Room: {0}", [frm.doc.total_rooms]),"blue");
+    if (frm.doc.total_room_night > 0 )  frm.dashboard.add_indicator(__("Total Room Night: {0}",[frm.doc.total_room_night]) ,"blue");        
+    if (frm.doc.total_amount > 0 )  frm.dashboard.add_indicator(__("Total Hotel Booking: {0}",[format_currency(frm.doc.total_amount)]) ,"blue");
+    if (frm.doc.discount_amount > 0 )  frm.dashboard.add_indicator(__("Discount: {0}",[format_currency(frm.doc.discount_amount)]) ,"blue");
+    if (frm.doc.total_payment > 0 )  frm.dashboard.add_indicator(__("Paid: {0}",[format_currency(frm.doc.total_payment)]) ,"blue");
+    if (frm.doc.balance > 0 )  frm.dashboard.add_indicator(__("Balance: {0}",[format_currency(frm.doc.balance)]) ,"blue");
 }

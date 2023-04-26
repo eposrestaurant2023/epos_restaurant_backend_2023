@@ -41,7 +41,7 @@ export default class Sale {
         this.saleResource = null;
         this.paymentInputNumber = "";
         this.isPrintReceipt = false;
-        
+
 
 
         //use this variable to show toast after database submit in resource
@@ -65,7 +65,7 @@ export default class Sale {
         //use this resource to load sale list in current table number
         this.tableSaleListResource = null;
         this.orderChanged = false;
-        this.printWaitingOrderAfterPayment = false ;
+        this.printWaitingOrderAfterPayment = false;
 
 
         this.createNewSaleResource();
@@ -314,7 +314,6 @@ export default class Sale {
 
 
     onSelectSaleProduct(sp) {
-
         this.clearSelected();
         sp.selected = true;
 
@@ -382,9 +381,9 @@ export default class Sale {
         } else {
             this.sale.commission_amount = this.sale.commission;
         }
-   
+
         this.orderChanged = true;
- 
+
         socket.emit("ShowOrderInCustomerDisplay", this.sale, sale_status);
     }
 
@@ -451,6 +450,7 @@ export default class Sale {
             const result = await noteDialog({ title: "Note", name: 'Items Note', data: sp });
             if (result != false) {
                 sp.note = result
+                socket.emit("ShowOrderInCustomerDisplay", this.sale);
             }
         }
     }
@@ -534,6 +534,7 @@ export default class Sale {
             const result = await keyboardDialog({ title: "Set Seat Number", type: 'number', value: sp.seat_number })
             if (result != false) {
                 sp.seat_number = result
+                socket.emit("ShowOrderInCustomerDisplay", this.sale);
             }
         }
     }
@@ -702,12 +703,12 @@ export default class Sale {
                     if (this.getString(this.sale.name) == "") {
                         if (this.newSaleResource == null) {
                             this.createNewSaleResource();
-                            
+
                         }
-                        this.printWaitingOrderAfterPayment =true;
+                        this.printWaitingOrderAfterPayment = true;
                         await this.newSaleResource.submit({ doc: this.sale })
-         
-                        
+
+
                     } else {
                         await this.saleResource.setValue.submit(this.sale);
                     }
@@ -772,7 +773,7 @@ export default class Sale {
             this.onPrintToKitchen(doc);
             //print waiting doc
 
-            if ( this.setting.pos_setting.print_waiting_order_after_submit_order) {
+            if (this.setting.pos_setting.print_waiting_order_after_submit_order) {
                 this.onPrintWaitingOrder(doc);
 
             }
@@ -788,9 +789,9 @@ export default class Sale {
         else if (this.action == "quick_pay") {
             this.onPrintReceipt(this.setting?.default_pos_receipt, "print_receipt", doc);
             this.onPrintToKitchen(doc);
-           
-            if (this.printWaitingOrderAfterPayment){
-                 
+
+            if (this.printWaitingOrderAfterPayment) {
+
                 this.onPrintWaitingOrder(doc);
             }
 
@@ -804,7 +805,7 @@ export default class Sale {
             }
             this.onPrintToKitchen(doc);
 
-            if (this.printWaitingOrderAfterPayment){
+            if (this.printWaitingOrderAfterPayment) {
                 this.onPrintWaitingOrder(doc);
             }
 
@@ -942,30 +943,30 @@ export default class Sale {
     }
 
     onPrintWaitingOrder(doc) {
-        if(this.setting.pos_setting.print_waiting_order_after_submit_order){
-            if(this.orderChanged){ 
+        if (this.setting.pos_setting.print_waiting_order_after_submit_order) {
+            if (this.orderChanged) {
                 const data = {
                     action: "print_waiting_order",
                     setting: this.setting?.pos_setting,
                     sale: doc
                 }
-        
-        
-                if (localStorage.getItem("is_window")=="1") {
-        
-        
+
+
+                if (localStorage.getItem("is_window") == "1") {
+
+
                     window.chrome.webview.postMessage(JSON.stringify(data));
-        
+
                 } else {
-                
+
                     socket.emit('PrintReceipt', JSON.stringify(data));
                 }
-                this.printWaitingOrderAfterPayment  = false;
+                this.printWaitingOrderAfterPayment = false;
                 this.orderChanged = false;
-        
+
+            }
+
         }
-        
-    }
 
     }
 
