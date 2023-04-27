@@ -28,6 +28,7 @@
                                                 color="error" variant="outlined" v-if="sp.portion">{{ sp.portion }}</v-chip> <v-chip
                                                 v-if="sp.is_free" size="x-small" color="success" variant="outlined">Free</v-chip>
                                         </div> 
+                                        {{sp.name}}
                                         <div class="text-xs pt-1"> 
                                             <div v-if="sp.modifiers">
                                                 <span>{{ sp.modifiers }} (<CurrencyFormat :value="sp.modifiers_price * sp.quantity" />)
@@ -45,9 +46,10 @@
                                             }}</v-chip>
                                             <div class="text-gray-500" v-if="sp.note">
                                                 Note: <span>{{ sp.note }}</span>
-                                            </div>
+                                            </div> 
                                         </div>
                                     </div>
+                                  
                                     <div class="flex-none text-right w-36">
                                         <div class="text-sm"> 
                                             {{ sp.quantity }} x <CurrencyFormat :value="sp.price" /> 
@@ -111,13 +113,51 @@ function  showDownload(){
 
 function onDownloadPressed(group){
  const result = props.data.flatMap(a => (a.sale.sale_products||[]).filter((r)=>(r.total_selected||0) >0) )
-    result.forEach((sp)=>{
-        sp.quantity -=  sp.total_selected;        
-        const _sp = JSON.parse(JSON.stringify(sp));
-        _sp.quantity =  sp.total_selected ;
-        _sp.total_selected  =sp.total_selected = 0;
-        group.sale.sale_products.push(_sp)
-    }) 
+  
+  const temp =[];
+  result.forEach((sp)=>{    
+    const _sp = JSON.parse(JSON.stringify(sp));
+    sp.quantity -=  sp.total_selected; 
+    if(sp.quantity <=0){      
+        temp.push(sp);
+    }
+    else{ 
+        _sp.name ="";
+        _sp.quantity =  sp.total_selected ;     
+    }
+    
+    //check 
+    let _sale_products = group.sale.sale_products.filter((sp)=>sp.original_name == _sp.original_name);
+    if(_sale_products.length > 0){
+        if(_sale_products[0].quantity == _sp.original_quantity){
+            _sale_products[0].name =  _sp.original_name;
+            _sp.total_selected  = sp.total_selected = 0;
+            group.sale.sale_products.push(_sp);
+        }
+        else{
+            //check update sale product id (name)
+            
+
+            _sale_products[0].quantity += sp.total_selected;
+            _sale_products[0].total_selected  = sp.total_selected = 0;
+        }
+    }
+    else{
+        _sp.total_selected  = sp.total_selected = 0;
+        group.sale.sale_products.push(_sp);
+    } 
+}); 
+ 
+  //remove sale product when qty equal zero
+  temp.forEach((t)=>{   
+    props.data.filter((x)=>x.no != group.no).forEach((z)=>{
+      let sp = z.sale.sale_products;
+      if(sp.filter((y)=>y.quantity==0).length > 0){
+        sp.splice(sp.indexOf(t), 1);      
+      }
+    });    
+  }); 
+
 }
 
 

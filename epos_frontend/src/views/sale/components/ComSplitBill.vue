@@ -78,6 +78,14 @@ onMounted(()=>{
     });
   }
 
+  const result =  groupSales.value.flatMap(a => (a.sale.sale_products||[]));
+  result.forEach((sp)=>{
+      sp.original_quantity = sp.quantity;
+      sp.original_id = sp.generate_id = uuidv4();
+      sp.original_parent = sp.parent;
+      sp.original_name = sp.name;
+  });
+
 });
 
 function onCreateNew(){ 
@@ -101,14 +109,33 @@ function uuidv4() {
 }
 
 function onDownloadPressed(group){
- const result = groupSales.value.flatMap(a => (a.sale.sale_products||[]).filter((r)=>(r.total_selected||0) >0) )
-    result.forEach((sp)=>{
-        sp.quantity -=  sp.total_selected;        
-        const _sp = JSON.parse(JSON.stringify(sp));
-        _sp.quantity =  sp.total_selected ;
-        _sp.total_selected  =sp.total_selected = 0;
-        group.sale.sale_products.push(_sp)
-    }) 
+  const result = groupSales.value.flatMap(a => (a.sale.sale_products||[]).filter((r)=>(r.total_selected||0) >0));
+  const temp =[];
+  result.forEach((sp)=>{    
+    const _sp = JSON.parse(JSON.stringify(sp));
+    sp.quantity -=  sp.total_selected; 
+    if(sp.quantity <=0){      
+      temp.push(sp);
+    }
+    else{ 
+      _sp.name ="";
+      _sp.quantity =  sp.total_selected ;     
+    }
+    _sp.total_selected  = sp.total_selected = 0;
+    group.sale.sale_products.push(_sp);
+  }); 
+ 
+  //remove sale product when qty equal zero
+  temp.forEach((t)=>{   
+    groupSales.value.filter((x)=>x.no != group.no).forEach((z)=>{
+      let sp = z.sale.sale_products;
+      if(sp.filter((y)=>y.quantity==0).length > 0){
+        sp.splice(sp.indexOf(t), 1);      
+      }
+    });    
+  }); 
+
+  //end remove sale product when qty equal zero
 }
 
 

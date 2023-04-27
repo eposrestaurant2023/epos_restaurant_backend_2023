@@ -1,12 +1,12 @@
 <template lang="">
     <v-card v-for="(s, index) in data" :key="index">
         <v-card-title class="!p-0">
-            <v-toolbar height="55">
+            <v-toolbar height="48">
                 <v-toolbar-title class="text">
-                    <span class="text-sm">#: {{ s.name }}</span> - <Timeago class="!text-sm" :long="false" :datetime="s.modified" />
+                    <span class="text-sm font-bold">#: {{ s.name }}</span> - <Timeago class="!text-sm" :long="false" :datetime="s.modified" />
                 </v-toolbar-title>
                 <template v-slot:append>
-                    <v-chip class="ma-2" :color="s.sale_status_color" text-color="white">
+                    <v-chip size="small" class="ma-2" :color="s.sale_status_color" text-color="white">
                         {{ s.sale_status }}
                     </v-chip>
                 </template>

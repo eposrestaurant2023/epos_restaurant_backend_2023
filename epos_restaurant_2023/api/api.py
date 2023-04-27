@@ -19,8 +19,11 @@ def check_username(pin_code):
 
 @frappe.whitelist(allow_guest=True)
 def get_user_info(name=""):
+   
     if  name=="":
         name = frappe.session.user
+    if name == "Guest":
+        frappe.throw("Please login to start using epos system")
     data = frappe.db.sql("select name,full_name,user_image,role_profile_name,pos_user_permission from `tabUser` where name='{}'".format(name),as_dict=1)
     if data:
         permission= frappe.get_doc("POS User Permission",data[0]["pos_user_permission"])      

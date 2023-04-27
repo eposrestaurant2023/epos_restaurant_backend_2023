@@ -734,7 +734,7 @@ export default class Sale {
             } else {
                 if (await confirmDialog({ title: "Payment", text: "Are you sure you process payment and close order?" })) {
 
-                    socket.emit("ShowOrderInCustomerDisplay", {}, "paid");
+                    socket.emit("ShowOrderInCustomerDisplay", this.sale, "paid");
 
 
                     this.generateProductPrinters();

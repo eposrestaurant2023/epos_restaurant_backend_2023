@@ -130,6 +130,7 @@ async function onPayment() {
     sale.message = "Payment successfully";
     sale.onSubmitPayment(true).then((v) => {
         if (v) {
+            
             emit("resolve", true);
         }
     })

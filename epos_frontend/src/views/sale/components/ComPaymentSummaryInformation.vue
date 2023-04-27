@@ -1,5 +1,5 @@
 <template> 
-    <div class="mt-auto bg-green-600 border border-gray-500 text-white rounded-sm px-1 pt-1" :class="mobile ? 'mx-1' : ''">
+    <div v-if="sale.sale.total_paid > 0 || balance > 0 || sale.sale.changed_amount > 0" class="mt-auto bg-green-600 border border-gray-500 text-white rounded-sm px-1 pt-1" :class="mobile ? 'mx-1' : ''">
         <div class="mb-1 flex justify-between" v-if="sale.sale.total_paid > 0">
             <div>Total Payment:</div>
             <div>

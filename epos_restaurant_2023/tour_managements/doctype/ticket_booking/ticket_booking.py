@@ -13,7 +13,12 @@ class TicketBooking(Document):
 		self.total_amount =   Enumerable(self.ticket_booking_item).sum(lambda x: (x.total_amount or 0))
 
 		self.total_payment =   Enumerable(self.payments).sum(lambda x: (x.payment_amount or 0)) or 0
-		self.balance = (self.total_amount or 0) - (self.total_payment or 0)
+		self.balance = (self.total_amount or 0) - (self.total_payment or 0)-(self.total_discount or 0)
+		
+		if(self.discount_type == "Percent"):
+			self.total_discount = (self.total_amount or 0) * (self.discount or 0) / 100
+		else:
+			self.total_discount = (self.discount or 0)
 
 		
 

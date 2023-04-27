@@ -9,7 +9,7 @@ from frappe.model.document import Document
 from frappe.utils.data import strip
 from py_linq import Enumerable
 from frappe.utils import add_years
-from epos_restaurant_2023.inventory.inventory import add_to_inventory_transaction, get_uom_conversion, update_product_quantity,get_stock_location_product
+from epos_restaurant_2023.inventory.inventory import add_to_inventory_transaction, check_uom_conversion, get_uom_conversion, update_product_quantity,get_stock_location_product
 import itertools
 
 class Product(Document):
@@ -36,9 +36,11 @@ class Product(Document):
 		# lock uncheck inventory product
 		if not self.is_new():
 			old_product = frappe.get_doc('Product', self.product_code)
-			if old_product.is_inventory_product and not self.is_inventory_product:
+			has_inventory_transaction = frappe.db.exists("Inventory Transaction", {"product_code": self.name})
+			if old_product.is_inventory_product and not self.is_inventory_product and has_inventory_transaction:
 				frappe.throw(_("Cannot uncheck inventory product"))
-			if old_product.unit != self.unit:
+
+			if old_product.unit != self.unit and has_inventory_transaction:
 				frappe.throw(_("Cannot change unit"))
     
 		if strip(self.naming_series) =="" and strip(self.product_code) =="":
@@ -53,6 +55,15 @@ class Product(Document):
 
 		if strip(self.product_name_kh)=="":
 			self.product_name_kh = strip(self.product_name_en)
+
+		#validate product recipe
+		for d in self.product_recipe:
+			if d.unit != d.base_unit:
+				if not check_uom_conversion(d.base_unit, d.unit):
+						frappe.throw(_("There is no UoM conversion for product {}-{} from {} to {}".format(d.product, d.product_name, d.base_unit, d.unit)))
+
+
+		self.total_recipe_quantity = Enumerable(self.product_recipe).sum(lambda x: x.quantity)
 		
 		# price = get_product_price(product=self, business_branch="SR Branch",portion="Normal", price_rule="Normal Rate", unit="Box" )
 		# if price:
@@ -101,17 +112,18 @@ class Product(Document):
 					filters={
 						'product_code': self.name
 					},
-					fields=['stock_location', 'quantity'],
+					fields=['stock_location', 'quantity','unit'],
 				)
 
 		if stock_data:
 			for d in stock_data:
-				stock_information.append({"stock_location": d.stock_location, "quantity":d.quantity})
+				stock_information.append({"stock_location": d.stock_location, "quantity":d.quantity,"unit":d.unit})
 
 		return {
 			"total_annual_sale":get_product_annual_sale(self),
 			"stock_information":stock_information,
-			"precision": frappe.db.get_default("float_precision")
+			"precision": frappe.db.get_default("float_precision"),
+			
 		}
 
 	@frappe.whitelist()

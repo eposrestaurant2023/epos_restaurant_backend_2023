@@ -44,9 +44,17 @@
   "ticket_booking_item",
   "section_break_20",
   "total_quantity",
+  "vat",
+  "is_include_tax",
   "column_break_22",
   "total_amount",
   "balance",
+  "section_break_42",
+  "discount_type",
+  "column_break_44",
+  "discount",
+  "column_break_46",
+  "total_discount",
   "cancellation_policy_section",
   "cancellation_policy",
   "show_flight_information",
@@ -311,11 +319,52 @@
    "fieldtype": "Currency",
    "label": "Balance",
    "read_only": 1
+  },
+  {
+   "fieldname": "vat",
+   "fieldtype": "Float",
+   "label": "VAT"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_include_tax",
+   "fieldtype": "Check",
+   "label": "Is Include Tax"
+  },
+  {
+   "fieldname": "section_break_42",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Percent",
+   "fieldname": "discount_type",
+   "fieldtype": "Select",
+   "label": "Discount Type",
+   "options": "Percent\nAmount"
+  },
+  {
+   "fieldname": "discount",
+   "fieldtype": "Float",
+   "label": "Discount"
+  },
+  {
+   "fieldname": "total_discount",
+   "fieldtype": "Currency",
+   "label": "Total Discount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_44",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_46",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-24 11:30:16.943653",
+ "modified": "2023-04-27 11:39:59.068361",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Ticket Booking",

@@ -10,13 +10,13 @@
           <div class="grid gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
             <v-card v-for="(s, index) in saleResource.data" :key="index">
               <v-card-title class="!p-0">
-                <v-toolbar height="55">
+                <v-toolbar height="48">
                   <v-toolbar-title class="text">
-                    <span>#: {{ s.name }}</span> -
-                    <Timeago class="!text-sm" :long="long" :datetime="s.modified" />
+                    <span class="font-bold text-sm">#: {{ s.name }}</span> -
+                    <Timeago class="!text-sm" :long="false" :datetime="s.modified" />
                   </v-toolbar-title>
                   <template v-slot:append>
-                    <v-chip class="ma-2" :color="s.sale_status_color" text-color="white">
+                    <v-chip size="small" class="ma-2" :color="s.sale_status_color" text-color="white">
                       {{ s.sale_status }}
                     </v-chip>
                   </template>

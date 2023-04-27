@@ -9,6 +9,9 @@
  "engine": "InnoDB",
  "field_order": [
   "modifier",
+  "product_recipe_section",
+  "product_recipe",
+  "section_break_4",
   "note"
  ],
  "fields": [
@@ -25,11 +28,25 @@
    "fieldtype": "Small Text",
    "in_list_view": 1,
    "label": "Note"
+  },
+  {
+   "fieldname": "product_recipe_section",
+   "fieldtype": "Section Break",
+   "label": "Product Recipe"
+  },
+  {
+   "fieldname": "section_break_4",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "product_recipe",
+   "fieldtype": "Table",
+   "options": "Product Recipe"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-20 11:04:58.044469",
+ "modified": "2023-04-26 20:10:30.130190",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Modifier Code",

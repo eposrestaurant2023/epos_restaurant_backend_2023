@@ -19,7 +19,16 @@ frappe.ui.form.on("Ticket Booking", {
                 ]
             }
         });
-    }
+    },
+    total_discount(frm){
+        updateDiscount(frm);
+    },
+    discount_type(frm){
+        updateDiscount(frm); 
+    },
+    discount(frm){
+        updateDiscount(frm); 
+    },
 });
 
 frappe.ui.form.on('Tour Booking Payments', {
@@ -37,4 +46,12 @@ frappe.ui.form.on('Tour Booking Payments', {
 
 
 })
- 
+function updateDiscount(frm){
+    if (frm.doc.discount_type=="Percent" && frm.doc.discount){
+        frm.doc.total_discount = (frm.doc.total_amount || 0) * (frm.doc.discount || 0)/100;  
+    }
+    else{
+        frm.doc.total_discount = (frm.doc.discount||0)
+    }
+    frm.refresh_field('total_discount')
+}

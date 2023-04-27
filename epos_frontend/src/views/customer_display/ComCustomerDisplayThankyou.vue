@@ -14,8 +14,12 @@
                         <div>THANK YOU </div>
                         <div>SEE YOU AGAIN!</div>
                     </div>
-                    <div class="h-40 w-40 border-4 border-green-600 m-auto rounded-full">
-                        <v-icon class="mdi mdi-check"></v-icon>
+                    <div class="h-40 w-40 border-4 border-green-600 m-auto rounded-full sqare">
+                        <div class="customer-profile">
+                            <div class="font-bold text-lg">{{data.customer_name}}</div>
+                            <div class="font-bold">{{data.phone_number}}</div>
+                        </div>
+                        <v-icon class="mdi mdi-check te-xtt"></v-icon>
                     </div>
                     <div>
                         <div class="flex justify-evenly mt-6">
@@ -25,7 +29,7 @@
                                         <CurrencyFormat :value="data.grand_total" />
                                     </div>
                                     <div>
-                                        <CurrencyFormat :value="data.grand_total * data.exchange_rate"
+                                        <CurrencyFormat :value="(data.grand_total || 0) * (data.exchange_rate || 0)"
                                             :currency="gv.setting.pos_setting.second_currency_name" />
                                     </div>
                                 </div>
@@ -38,7 +42,7 @@
                                         <CurrencyFormat :value="data.changed_amount" />
                                     </div>
                                     <div>
-                                        <CurrencyFormat :value="data.changed_amount * data.exchange_rate"
+                                        <CurrencyFormat :value="(data.changed_amount || 0) * (data.exchange_rate || 0) "
                                             :currency="gv.setting.pos_setting.second_currency_name" />
                                     </div>
                                 </div>
@@ -48,7 +52,7 @@
                     </div>
                     <div class="text-center text-gray-500">Paid amount:
                         <CurrencyFormat :value="data.total_paid" /> /
-                        <CurrencyFormat :value="data.total_paid * data.exchange_rate"
+                        <CurrencyFormat :value="(data.total_paid || 0) * (data.exchange_rate || 0)"
                             :currency="gv.setting.pos_setting.second_currency_name" />
                     </div>
 
@@ -70,6 +74,29 @@ const gv = inject("$gv")
 
 .a {
     background-image: radial-gradient(500px 350px at 20% bottom, rgb(0 0 0 / 34%), rgb(0 0 0 / 3%));
+}
+
+.sqare {
+    position: relative;
+}
+
+.customer-profile {
+    font-size: 11px;
+    text-align: center;
+    color: gray;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.te-xtt {
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    font-size: 50px;
+    color: #139313;
 }
 </style>
  

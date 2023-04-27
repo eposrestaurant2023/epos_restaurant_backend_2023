@@ -74,7 +74,7 @@ function set_product_indicator(frm){
                         indicator = "red";
                     }
                     total_total_quantity = total_total_quantity + d.quantity;
-                    frm.dashboard.add_indicator(d.stock_location + ": " + d.quantity.toFixed(r.message.precision), indicator);
+                    frm.dashboard.add_indicator(d.stock_location + ": " + d.quantity.toFixed(r.message.precision) + " " +d.unit , indicator);
                 });
                 if (r.message.stock_information.length>1){
                     frm.dashboard.add_indicator(__("Total Quantity: {0}",[total_total_quantity.toFixed(r.message.precision)]) ,total_total_quantity>0?"blue":"red");

@@ -10,7 +10,7 @@
             <div>Total Qty : <span>{{ data.total_quantity }}</span></div>
             <div>
                 <ComExchangeRate />
-                <CurrencyFormat :value="data.grand_total * (data.exchange_rate || 1)"
+                <CurrencyFormat :value="(data.grand_total || 0) * (data.exchange_rate || 1)"
                     :currency="gv.setting.pos_setting.second_currency_name" />
             </div>
         </div>

@@ -1,6 +1,7 @@
 # Copyright (c) 2022, Tes Pheakdey and contributors
 # For license information, please see license.txt
 
+import json
 from epos_restaurant_2023.inventory.inventory import add_to_inventory_transaction, check_uom_conversion, get_product_cost, get_stock_location_product, get_uom_conversion, update_product_quantity
 import frappe
 from frappe import utils
@@ -202,15 +203,55 @@ def update_inventory_on_submit(self):
     			'action': 'Submit'
 			})
 		else:
-			#udpate cost for none stock product
 			doc = frappe.get_doc("Product",p.product_code)
+			#check if product has receipt and loop update from product receip
+			for d in doc.product_recipe:
+				if d.is_inventory_product:
+					uom_conversion = get_uom_conversion(d.base_unit, d.unit)
+					add_to_inventory_transaction({
+						'doctype': 'Inventory Transaction',
+						'transaction_type':"Sale",
+						'transaction_date':self.posting_date,
+						'transaction_number':self.name,
+						'product_code': d.product,
+						'unit':d.unit,
+						'stock_location':self.stock_location,
+						'out_quantity':(p.quantity* d.quantity) / uom_conversion,
+						"uom_conversion":uom_conversion,
+						'note': 'Update Recipe Quantity after New sale submitted.',
+						'action': 'Submit'
+					})
+
+			#udpate cost for none stock product
+			
 			cost = doc.cost or 0
 			if doc.product_price:
 				prices = Enumerable(doc.product_price).where(lambda x:x.business_branch == self.business_branch and x.price_rule == self.price_rule and x.unit == "Unit" and x.portion ==p.portion).first_or_default()
 				if prices:
 					cost = prices.cost
-    
+		#check if product have modifier then check receipt in modifer and update to inventory
+		if p.modifiers_data:
+			for m in json.loads(p.modifiers_data):
 
+				modifier_doc = frappe.get_doc("Modifier Code",m['modifier'])
+				for d in modifier_doc.product_recipe:
+					if d.is_inventory_product:
+						uom_conversion = get_uom_conversion(d.base_unit, d.unit)
+						add_to_inventory_transaction({
+							'doctype': 'Inventory Transaction',
+							'transaction_type':"Sale",
+							'transaction_date':self.posting_date,
+							'transaction_number':self.name,
+							'product_code': d.product,
+							'unit':d.unit,
+							'stock_location':self.stock_location,
+							'out_quantity':(p.quantity* d.quantity) / uom_conversion,
+							"uom_conversion":uom_conversion,
+							'note': 'Update Recipe Quantity from modifer ({}) after New sale submitted.'.format(m["modifier"]),
+							'action': 'Submit'
+						})
+
+		
 		frappe.db.sql("update `tabSale Product` set cost = {} where name='{}'".format(cost, p.name))
    
 	#update total cost to sale and profit to sale
@@ -240,8 +281,45 @@ def update_inventory_on_cancel(self):
 				'note': 'Sale invoice cancelled.',
 				'action': 'Cancel'
 			})
-			
-			
+		else:
+			doc = frappe.get_doc("Product",p.product_code)
+			for d in doc.product_recipe:
+				if d.is_inventory_product:
+					uom_conversion = get_uom_conversion(d.base_unit, d.unit)
+					
+					add_to_inventory_transaction({
+						'doctype': 'Inventory Transaction',
+						'transaction_type':"Sale",
+						'transaction_date':self.posting_date,
+						'transaction_number':self.name,
+						'product_code': d.product,
+						'unit':d.unit,
+						'stock_location':self.stock_location,
+						'in_quantity':(p.quantity* d.quantity) / uom_conversion,
+						"uom_conversion":uom_conversion,
+						'note': 'Update Recipe Quantity after Sale Invoice Cancelled.',
+						'action': 'Cancel'
+					})	
+		#check if product has modifier and then chekc if modiifer have receipt then run script to update receipe
+
+		if p.modifiers_data:
+			for m in json.loads(p.modifiers_data):
+				modifier_doc = frappe.get_doc("Modifier Code",m['modifier'])
+				for d in modifier_doc.product_recipe:	
+					uom_conversion = get_uom_conversion(d.base_unit, d.unit)
+					add_to_inventory_transaction({
+						'doctype': 'Inventory Transaction',
+						'transaction_type':"Sale",
+						'transaction_date':self.posting_date,
+						'transaction_number':self.name,
+						'product_code': d.product,
+						'unit':d.unit,
+						'stock_location':self.stock_location,
+						'in_quantity':(p.quantity* d.quantity) / uom_conversion,
+						"uom_conversion":uom_conversion,
+						'note': 'Update Recipe Quantity from modifer ({}) after Sale Invoice Cancelled.'.format(m["modifier"]),
+						'action': 'Cancel'
+					})	
 
 def add_payment_to_sale_payment(self):
 	if self.payment:
