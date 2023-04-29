@@ -12,6 +12,7 @@ export default class Sale {
     constructor() {
         this.mobile = false;
         this.platform = {};
+        this.promotion = null;
         this.working_day = "";
         this.cashier_shift = "";
         this.setting = null;
@@ -23,6 +24,7 @@ export default class Sale {
         this.customer = '';
         this.customer_photo = '';
         this.customer_name = '';
+        this.customer_group = '';
         this.exchange_rate = 1;
         this.guest_cover = 0;
         this.orderTime = undefined;
@@ -106,6 +108,7 @@ export default class Sale {
             customer: this.customer || this.setting?.customer,
             customer_photo: this.customer_photo || this.customer_name ? this.customer_photo : this.setting?.customer_photo,
             customer_name: this.customer_name || this.setting?.customer_name,
+            customer_group: this.customer_group || this.setting?.customer_group,
             price_rule: this.price_rule || this.setting?.price_rule,
             business_branch: this.setting?.business_branch,
             sale_products: [],
@@ -404,14 +407,10 @@ export default class Sale {
 
     }
     async onChangeQuantity(sp, gv) {
-
-
         if (!this.isBillRequested()) {
             const result = await keyboardDialog({ title: "Change Quantity", type: 'number', value: sp.quantity });
             if (result) {
                 let quantity = this.getNumber(result);
-
-
                 if (this.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == "New") {
                     if (quantity == 0) {
                         quantity = 1
@@ -1033,5 +1032,15 @@ export default class Sale {
         }
 
         this.action
+    }
+    isOrdered(message = "Please save or submit your current order."){
+        if((this.sale.sale_products || []).length > 0 ){
+            const sp = Enumerable.from(this.sale.sale_products);
+            if (sp.where("$.name==undefined").toArray().length > 0) {
+                toaster.warning(message);
+                return true
+            } 
+        }
+        return false
     }
 }

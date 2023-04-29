@@ -6,7 +6,11 @@ from frappe.model.document import Document
 
 class RestaurantBooking(Document):
 	def validate(self):
-		self.balance = (self.total_amount or 0) - (self.total_payment or 0)
+		if(self.discount_type == "Percent"):
+				self.total_discount = (self.total_amount or 0) * (self.discount or 0) / 100
+		else:
+				self.total_discount = (self.discount or 0)
+		self.balance = (self.total_amount or 0) - (self.total_payment or 0) - (self.total_discount or 0)
 
 @frappe.whitelist()
 def get_meal_plan_rate(restaurant_name, meal_plan):

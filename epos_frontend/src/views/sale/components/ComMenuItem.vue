@@ -35,12 +35,12 @@
     v-ripple
         class="relative overflow-hidden h-full bg-cover bg-no-repeat rounded-lg shadow-lg cursor-pointer bg-gray-300 "
         v-bind:style="{ 'background-image': 'url(' + image + ')' }" @click="onClickProduct()">
+ 
         <div class="absolute top-0 bottom-0 right-0 left-0" v-if="!image">
             <avatar class="!h-full !w-full" :name="data.name_en" :rounded="false" background="#f1f1f1"></avatar>
         </div>
         <div class="block relative p-2 w-full h-full">
             <div class="absolute left-0 top-0 bg-red-700 text-white p-1 rounded-tl-lg rounded-br-lg text-sm">
-           
                 <span>
                     <span v-if="productPrices.length > 1">
                         <span><CurrencyFormat :value="minPrice"/></span> <v-icon icon="mdi-arrow-right" size="x-small"/> <span><CurrencyFormat :value="maxPrice"/></span>
@@ -107,9 +107,7 @@ function onBack(parent) {
 }
 async function onClickProduct() { 
     if (!sale.isBillRequested()) { 
-        
-        const p = JSON.parse(JSON.stringify(props.data));
-        
+        const p = JSON.parse(JSON.stringify(props.data)); 
         if (p.is_open_product == 1) {
 
             let productPrices = await keypadWithNoteDialog({ 
@@ -134,6 +132,7 @@ async function onClickProduct() {
             const check_modifiers = product.onCheckModifier(JSON.parse(p.modifiers));
             if(portions.length == 1){
                 p.price = portions[0].price
+                p.unit = portions[0].unit
             }
             
             if (check_modifiers || portions.length > 1) {
@@ -145,6 +144,7 @@ async function onClickProduct() {
                     if (productPrices.portion != undefined) {
                         p.price = productPrices.portion.price;
                         p.portion = productPrices.portion.portion;
+                        p.unit = productPrices.portion.unit
                     }
                     p.modifiers = productPrices.modifiers.modifiers;
                     p.modifiers_data = productPrices.modifiers.modifiers_data;

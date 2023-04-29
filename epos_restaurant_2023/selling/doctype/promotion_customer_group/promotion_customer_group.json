@@ -1,0 +1,42 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2023-04-27 17:11:49.968771",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "customer_group_name_en",
+  "customer_group_name_kh"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer_group_name_en",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer Group Name En",
+   "options": "Customer Group"
+  },
+  {
+   "fetch_from": "customer_group_name_en.customer_group_kh",
+   "fieldname": "customer_group_name_kh",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Customer Group Name Kh"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-04-27 17:13:31.203444",
+ "modified_by": "Administrator",
+ "module": "Selling",
+ "name": "Promotion Customer Group",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

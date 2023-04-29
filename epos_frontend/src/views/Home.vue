@@ -20,8 +20,8 @@
         <v-container>
             <div class="pb-16">
                 <div class="mx-auto mt-4 mb-0 md:w-[600px]">
+                    <!-- <ComMessagePromotion /> -->
                     <div class="grid xs:grid-cols-2 md:grid-cols-4 grid-cols-2" style="grid-gap: 20px;">
-                   
                         <WorkingDayButton />
                         <OpenShiftButton />
                         <ComButton @click="onPOS()" title="POS" icon="mdi-cart" class="bg-green-600 text-white"
@@ -55,6 +55,7 @@ import { useRouter, createResource, computed, createToaster,pendingSaleListDialo
 import ComButton from '../components/ComButton.vue';
 import WorkingDayButton from './shift/components/WorkingDayButton.vue';
 import OpenShiftButton from './shift/components/OpenShiftButton.vue';
+// import ComMessagePromotion from '../components/ComMessagePromotion.vue';
 
 const toaster = createToaster({ position: "top" })
 const auth = inject('$auth')
@@ -150,22 +151,6 @@ async function onViewPendingOrder() {
     })
 }
 
-async function onWifi() {
-    alert('HELLO')
-}
-
-async function onViewCloseOrder(){
-    await cashierShiftResource.fetch().then((doc)=>{
-        if(doc.working_day == null){
-            toaster.warning("Please start your working day and cashier shift")
-        }else {
-            router.push({name:"ClosedSaleList"})
-        }
-    });
-}
-
-
-
 function onLogout() {
 
     auth.logout().then((r) => {
@@ -181,10 +166,7 @@ onMounted(async () => {
 async function onPrintWifiPassword(){
     await printWifiPasswordModal({})
 }
-
 </script>
-
-
 <style scoped>
 .wrap-overlay {
     background: rgb(0, 0, 0);

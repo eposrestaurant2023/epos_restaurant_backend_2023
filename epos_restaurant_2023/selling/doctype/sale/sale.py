@@ -173,7 +173,7 @@ class Sale(Document):
 
 	
 	def on_submit(self):
-		#update_inventory_on_submit(self)
+		# update_inventory_on_submit(self)
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_submit", queue='short', self=self)
 		add_payment_to_sale_payment(self)
 	
@@ -183,12 +183,11 @@ class Sale(Document):
 
 
 def update_inventory_on_submit(self):
-	cost = 0
+	cost = 0 
 	for p in self.sale_products:
 		if p.is_inventory_product:
 			uom_conversion = get_uom_conversion(p.base_unit, p.unit)
 			cost = get_product_cost(self.stock_location, p.product_code)
-			
 			add_to_inventory_transaction({
 				'doctype': 'Inventory Transaction',
 				'transaction_type':"Sale",

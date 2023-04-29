@@ -134,6 +134,7 @@ function onSaleProductCancelDiscount() {
     if (!sale.isBillRequested()) {
         props.saleProduct.discount = 0;
         props.saleProduct.discount_type = 'Amount'
+        props.saleProduct.happy_hour_promotion = ''
         sale.updateSaleProduct(props.saleProduct)
         sale.updateSaleSummary();
     }

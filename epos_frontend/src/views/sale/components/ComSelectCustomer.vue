@@ -37,7 +37,7 @@
     </div>
 </template>
 <script setup>
-import { computed, inject, searchCustomerDialog, customerDetailDialog, scanCustomerCodeDialog, confirmDialog, onMounted,createToaster,addCustomerDialog } from "@/plugin"
+import { computed, inject, searchCustomerDialog,createResource, customerDetailDialog, scanCustomerCodeDialog, confirmDialog, onMounted,createToaster,addCustomerDialog } from "@/plugin"
 const sale = inject("$sale")
 const socket = inject("$socket")
 const toaster = createToaster({ position: "top" });
@@ -55,8 +55,15 @@ function assignCustomerToOrder(result) {
     sale.sale.customer_name = result.customer_name_en;
     sale.sale.customer_photo = result.photo;
     sale.sale.phone_number = result.phone_number;
-
-    if (parseFloat(result.default_discount)) {
+    sale.sale.customer_group = result.customer_group;
+    if(sale.promotion){
+        const isCustomerPromotion = sale.promotion.customer_groups.filter(r=>r.customer_group_name_en == result.customer_group).length > 0
+        if(isCustomerPromotion){
+            toaster.info("This customer has happy hours promotion " + ((sale.promotion.info.percentage_discount || 0) * 100)  + '%');
+        }
+        updateProductAfterSelectCustomer(isCustomerPromotion)
+    }
+    if (parseFloat(result.default_discount) && !isCustomerPromotion) {
         sale.sale.discount_type="Percent";
         sale.sale.discount = parseFloat(result.default_discount);
         sale.updateSaleSummary();
@@ -83,7 +90,51 @@ function onViewCustomerDetail() {
         name: sale.sale.customer
     });
 }
-
+function updateProductAfterSelectCustomer(is_promotion){
+    if(sale.sale.sale_products.length > 0){
+        if(is_promotion){
+            let product_checks = []
+            sale.sale.sale_products.forEach(r => {
+                product_checks.push(r.product_code)
+            });
+            createResource({
+                url: 'epos_restaurant_2023.api.promotion.get_promotion_products',
+                auto: true,
+                params: { 
+                    products: product_checks,
+                    promotion_name: sale.promotion.info.name || ''
+                },
+                onSuccess(doc) {
+                    if(doc){
+                        /// update products promotion
+                        doc.forEach(r=>{ 
+                            if(sale.sale.sale_products.find(s=>s.product_code == r.product_code)){
+                                let product = sale.sale.sale_products.find(s=>s.product_code == r.product_code)
+                                product.discount = sale.promotion?.info?.percentage_discount
+                                product.happy_hours_promotion_title = sale.promotion?.info?.happy_hours_promotion_title
+                                product.happy_hour_promotion = sale.promotion?.info?.happy_hour_promotion
+                            }
+                        })
+                    }else{
+                        gv.promotion = null
+                        sale.promotion = null
+                    }
+                }
+            });
+        }else{
+        sale.sale.sale_products = sale.sale.sale_products.map(r=>{
+                return {
+                    ...r,
+                    discount: 0,
+                    happy_hours_promotion_title: '',
+                    happy_hour_promotion: ''
+                }
+                return r
+            })
+        }
+        
+    }
+}
 async function onScanCustomerCode() {
     if (!sale.isBillRequested()) {
         const result = await scanCustomerCodeDialog({});

@@ -190,7 +190,7 @@
    "type": "Link"
   }
  ],
- "modified": "2023-04-20 11:09:52.838711",
+ "modified": "2023-04-27 15:52:06.413836",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Selling",
@@ -212,7 +212,7 @@
   }
  ],
  "roles": [],
- "sequence_id": 1.0,
+ "sequence_id": 2.0,
  "shortcuts": [
   {
    "color": "Grey",

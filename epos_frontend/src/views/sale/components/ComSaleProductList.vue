@@ -16,7 +16,9 @@
                         <div class="grow">
                             <div> {{ sp.product_name }}<v-chip class="ml-1" size="x-small" color="error" variant="outlined"
                                     v-if="sp.portion">{{ sp.portion }}</v-chip> <v-chip v-if="sp.is_free" size="x-small"
-                                    color="success" variant="outlined">Free</v-chip>
+                                    color="success" variant="outlined">Free</v-chip> <v-chip v-else-if="sp.happy_hour_promotion && sp.discount > 0" size="x-small" variant="outlined" color="orange" text-color="white" prepend-icon="mdi-cake-variant">
+                                        <span>{{ sp.discount }}%</span>
+                                    </v-chip> 
                             </div>
                             <div>
                                 {{ sp.quantity }} x
@@ -28,12 +30,12 @@
                                         <CurrencyFormat :value="sp.modifiers_price * sp.quantity" />)
                                     </span>
                                 </div>
-                                <div class="text-red-500" v-if="sp.discount > 0">
-                                    Discount :
-                                    <span v-if="sp.discount_type == 'Percent'">{{
-                                        sp.discount
-                                    }}%</span>
-                                    <CurrencyFormat v-else :value="parseFloat(sp.discount)" />
+                                <div v-if="sp.discount > 0">
+                                    <span  class="text-red-500">
+                                        Discount :
+                                        <span v-if="sp.discount_type == 'Percent'">{{ sp.discount }}%</span>
+                                        <CurrencyFormat v-else :value="parseFloat(sp.discount)" />
+                                    </span>
                                 </div>
                                 <v-chip color="blue" size="x-small" v-if="sp.seat_number">Seat# {{
                                     sp.seat_number
@@ -66,6 +68,7 @@
                         <ComSaleProductButtonMore :sale-product="sp" />
                     </div>
                 </div>
+                <ComCheckHappyHourPromotion :product-name="sp.product_code" @on-handle="onPromotion($event,sp)"/>
             </template>
         </v-list-item>
     </v-list>
@@ -75,6 +78,7 @@ import { inject, defineProps, createToaster } from '@/plugin'
 import ComSaleProductButtonMore from './ComSaleProductButtonMore.vue';
 import ComQuantityInput from '../../../components/form/ComQuantityInput.vue';
 import Enumerable from 'linq';
+import ComCheckHappyHourPromotion from './happy_hour_promotion/ComCheckHappyHourPromotion.vue';
 const sale = inject('$sale')
 const product = inject('$product')
 const gv = inject('$gv')
@@ -85,7 +89,6 @@ const props = defineProps({
     readonly: Boolean,
     saleCustomerDisplay: Object
 })
-
 
 function onEditSaleProduct(sp) {
     if (!sale.isBillRequested()) {
@@ -161,6 +164,22 @@ function getSaleProducts(groupByKey) {
     return []
 
 
+}
+
+function onPromotion(is_promotion, sp){ 
+    if((gv.promotion?.customer_groups || []).length > 0){
+        if(gv.promotion?.customer_groups.filter(r=>r.customer_group_name_en == sale.sale.customer_group).length == 0)
+            return
+    }
+
+    if(is_promotion && sp.allow_discount){
+        sp.discount_type = 'Percent'
+        sp.discount = (gv.promotion?.info?.percentage_discount || 0) * 100
+        sp.happy_hour_promotion = gv.promotion?.info?.name
+        sp.happy_hour_promotion_title = gv.promotion?.info?.promotion_name
+        sale.updateSaleProduct(sp);
+        sale.updateSaleSummary();
+    }
 }
 </script>
 <style scoped>

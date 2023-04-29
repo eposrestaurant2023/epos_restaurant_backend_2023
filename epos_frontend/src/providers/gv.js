@@ -7,7 +7,8 @@ export default class Gv {
 		this.setting = {},
 		this.customerMeta = null,
 		this.saleMeta = null,
-		this.countries = [] 
+		this.countries = [],
+		this.promotion = null
 		//use this variable to control state of open/close shift in drawer
 
 		this.workingDay = "";

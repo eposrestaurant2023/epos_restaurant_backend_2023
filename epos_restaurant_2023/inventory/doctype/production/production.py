@@ -97,7 +97,7 @@ def update_production_on_submit(self):
 				'product_code': self.product,
 				'unit':self.unit,
 				'stock_location':self.stock_location,
-				'out_quantity':self.quantity / uom_conversion,
+				'in_quantity':self.quantity / uom_conversion,
 				"price":0,
 				'note': 'New Production submitted.',
 				"action": "Submit"
@@ -111,10 +111,10 @@ def update_production_on_cancel(self):
 			'transaction_type':"Production",
 			'transaction_date':self.posting_date,
 			'transaction_number':self.name,
-			'product_code': self.product_code,
+			'product_code': self.product,
 			'unit':self.unit,
 			'stock_location':self.stock_location,
-			'in_quantity':self.quantity / uom_conversion,
+			'out_quantity':self.quantity / uom_conversion,
 			"price":0,
 			'note': 'Production cancelled.',
 			"action": "Cancel"

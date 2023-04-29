@@ -15,7 +15,7 @@
  "idx": 0,
  "label": "Employee Management",
  "links": [],
- "modified": "2023-03-29 00:01:39.267614",
+ "modified": "2023-04-27 15:52:06.732125",
  "modified_by": "Administrator",
  "module": "Employee Management",
  "name": "Employee Management",
@@ -24,7 +24,7 @@
  "public": 1,
  "quick_lists": [],
  "roles": [],
- "sequence_id": 5.0,
+ "sequence_id": 6.0,
  "shortcuts": [
   {
    "color": "Grey",

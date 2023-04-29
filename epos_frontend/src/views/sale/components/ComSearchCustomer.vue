@@ -34,7 +34,8 @@
               <avatar v-else :name="c.customer_name_en" class="mr-4" size="40"></avatar>
             </template>
             <template v-slot:append>
-              <v-chip v-if="c.default_discount > 0" color="error">{{ c.default_discount }} % OFF</v-chip>
+              <ComCustomerPromotionChip :customer="c"></ComCustomerPromotionChip>
+              
             </template>
           </v-card>
         </ComPlaceholder>
@@ -67,6 +68,7 @@
   import { addCustomerDialog, ref, defineProps, defineEmits, createResource,inject } from '@/plugin'
   import ComToolbar from '@/components/ComToolbar.vue';
   import ComInput from '@/components/form/ComInput.vue';
+  import ComCustomerPromotionChip from './ComCustomerPromotionChip.vue';
   import { useDisplay } from 'vuetify'
  
  const { mobile } = useDisplay()

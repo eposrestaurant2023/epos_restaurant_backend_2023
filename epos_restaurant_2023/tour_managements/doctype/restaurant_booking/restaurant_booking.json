@@ -9,7 +9,9 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
+  "reference",
   "restaurant",
+  "food_type",
   "booking_date",
   "arrival_date",
   "arrival_time",
@@ -19,6 +21,14 @@
   "child",
   "confirm_booking_by",
   "confirm_by_phone_number",
+  "company_information_section",
+  "company_profile",
+  "company_name",
+  "company_contact_name",
+  "column_break_17",
+  "contact_phone",
+  "company_email",
+  "address",
   "amended_from",
   "guest_profile_section",
   "guest_name",
@@ -36,8 +46,17 @@
   "total_adult_amount",
   "column_break_27",
   "total_child_amount",
+  "vat",
+  "is_include_tax",
   "column_break_29",
   "total_amount",
+  "balance",
+  "section_break_35",
+  "discount_type",
+  "column_break_37",
+  "discount",
+  "column_break_39",
+  "total_discount",
   "cancellation_policy_section",
   "cancellation_policy",
   "additional_guest_tab",
@@ -45,8 +64,7 @@
   "payment_tab",
   "payments",
   "section_break_31",
-  "total_payment",
-  "balance"
+  "total_payment"
  ],
  "fields": [
   {
@@ -273,13 +291,112 @@
   {
    "fieldname": "balance",
    "fieldtype": "Currency",
-   "hidden": 1,
-   "label": "Balance"
+   "label": "Balance",
+   "read_only": 1
+  },
+  {
+   "fieldname": "vat",
+   "fieldtype": "Float",
+   "label": "VAT"
+  },
+  {
+   "fieldname": "section_break_35",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Percent",
+   "fieldname": "discount_type",
+   "fieldtype": "Select",
+   "label": "Discount Type",
+   "options": "Percent\nAmount"
+  },
+  {
+   "fieldname": "column_break_37",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "discount",
+   "fieldtype": "Float",
+   "label": "Discount"
+  },
+  {
+   "fieldname": "column_break_39",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_discount",
+   "fieldtype": "Currency",
+   "label": "Total Discount",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_include_tax",
+   "fieldtype": "Check",
+   "label": "Is Include Tax"
+  },
+  {
+   "fieldname": "reference",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Reference"
+  },
+  {
+   "fieldname": "food_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Food Type"
+  },
+  {
+   "fieldname": "company_information_section",
+   "fieldtype": "Section Break",
+   "label": "Company Information"
+  },
+  {
+   "fieldname": "company_profile",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company Profile",
+   "options": "Company Profile"
+  },
+  {
+   "fetch_from": "company_profile.company_name",
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name"
+  },
+  {
+   "fetch_from": "company_profile.contact_name",
+   "fieldname": "company_contact_name",
+   "fieldtype": "Data",
+   "label": "Contact Name"
+  },
+  {
+   "fieldname": "column_break_17",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "company_profile.contact_phone",
+   "fieldname": "contact_phone",
+   "fieldtype": "Data",
+   "label": "Contact Phone"
+  },
+  {
+   "fetch_from": "company_profile.email",
+   "fieldname": "company_email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fetch_from": "company_profile.address",
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "label": "Address"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-11 15:48:00.737706",
+ "modified": "2023-04-29 14:09:27.460681",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Restaurant Booking",

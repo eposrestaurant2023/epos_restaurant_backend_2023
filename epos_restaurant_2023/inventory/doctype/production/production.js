@@ -4,10 +4,6 @@
 frappe.ui.form.on("Production", {
     product(frm,cdt, cdn) {
         const row = locals[cdt][cdn];
-
-        // get unit from stock location product
-        get_location_product(row)
-
         frappe.model.with_doc("Product", row.product, function() {
             var doc = frappe.model.get_doc("Product", row.product);
             frm.doc.produce_products = []
@@ -27,17 +23,6 @@ frappe.ui.form.on("Production", {
         });
     },
 });
-
-function get_location_product(doc){
-    frappe.db.get_list("Stock Location Product", {
-        filters: [
-            ['stock_location','=', doc.stock_location],
-            ['product_code','=', doc.product]
-        ]
-    }).then((r)=>{
-        console.log(r)
-    })
-}
 
 function update_stock_take_product_amount(frm,cdt, cdn)  {
     let doc = locals[cdt][cdn];

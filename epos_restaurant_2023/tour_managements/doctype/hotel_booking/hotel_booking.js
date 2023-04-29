@@ -114,9 +114,6 @@ function updateDiscount(frm){
         frm.doc.discount_amount = (frm.doc.discount||0)
         frm.refresh_field('discount_amount')
     }
-    
-    
-
 }
 function set_indicator(frm){
     if(frm.doc.__islocal)

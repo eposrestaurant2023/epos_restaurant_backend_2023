@@ -116,8 +116,9 @@ onMounted(() => {
                 sale.sale.cashier_shift = data.cashier_shift.name;
                 sale.working_day = data.working_day.name;
                 sale.cashier_shift = data.cashier_shift.name;
-
                 gv.confirm_close_working_day(data.working_day.posting_date);
+
+                onCheckExpireHappyHoursPromotion()
             }
         }
     })
@@ -152,17 +153,25 @@ onMounted(() => {
     socket.emit("ShowOrderInCustomerDisplay", sale.sale, "new");
 
 })
-
+function onCheckExpireHappyHoursPromotion(){
+        createResource({
+            url: 'epos_restaurant_2023.api.promotion.check_promotion',
+            auto: true,
+            params: { 
+                check_time: 1,
+                business_branch: gv.setting.business_branch || ''
+            },
+            onSuccess(doc) {
+                if(!doc){
+                    // expired
+                    gv.promotion = null
+                }
+            }
+        });
+  
+}
 onBeforeRouteLeave(() => {
-
-    const sp = Enumerable.from(sale.sale.sale_products);
-
-    if (sp.where("$.name==undefined").toArray().length > 0) {
-        toaster.warning("Please save or submit your current order.");
-        return false;
-    } else {
-        return true;
-    }
+    return !sale.isOrdered()
 });
 
 onUnmounted(() => {

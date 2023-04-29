@@ -4,11 +4,12 @@
             <v-chip 
                 v-bind="props" 
                 style="margin: 1px;" 
-                :size="screen.chipSize"
+                :size="size"
                 :rounded="rounded" 
                 :variant="variant"
                 :prepend-icon="prependIcon"
                 :append-icon="appendIcon"
+                :color="color"
                 @click="onClick"
                 >
                 <slot></slot>
@@ -18,8 +19,7 @@
 </template>
 <script setup>
     import { defineProps, inject } from 'vue'
-    const emit = defineEmits(["onClick"])
-    const screen = inject('$screen')
+    const emit = defineEmits(["onClick"]) 
     const props = defineProps({
         tooltip: String,
         rounded: {
@@ -30,6 +30,11 @@
             type: String,
             default: 'tonal'
         },
+        size: {
+            type: String,
+            default: 'small'
+        },
+        color: String,
         prependIcon: String,
         appendIcon: String,
         rounded: {

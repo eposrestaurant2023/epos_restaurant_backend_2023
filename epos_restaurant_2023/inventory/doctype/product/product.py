@@ -56,7 +56,15 @@ class Product(Document):
 		if strip(self.product_name_kh)=="":
 			self.product_name_kh = strip(self.product_name_en)
 
-		#validate product recipe
+		#validate uom conversion product price
+		if self.is_inventory_product:
+			for d in self.product_price:
+				if d.unit != self.unit:
+					if not check_uom_conversion(d.unit, self.unit):
+							frappe.throw(_("There is no UoM conversion  from {} to {}".format( d.unit, self.unit)))
+
+
+		#validate uom product recipe
 		for d in self.product_recipe:
 			if d.unit != d.base_unit:
 				if not check_uom_conversion(d.base_unit, d.unit):
@@ -271,7 +279,7 @@ def add_product_to_temp_menu(self):
 	
 		prices = []
 		for p in self.product_price:
-			prices.append({"price":p.price,'branch':p.business_branch or "",'price_rule':p.price_rule, 'portion':p.portion})
+			prices.append({"price":p.price,'branch':p.business_branch or "",'price_rule':p.price_rule, 'portion':p.portion, 'unit':p.unit, 'price_rule' : p.price_rule})
 		modifier_categories = Enumerable(self.product_modifiers).select(lambda x: x.modifier_category).distinct()
 		
 		modifiers = []

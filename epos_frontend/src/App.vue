@@ -88,6 +88,9 @@ if (!localStorage.getItem("pos_profile")) {
 			tableLayout.setting = doc;
 			tableLayout.table_groups = doc.table_groups || '';
 			localStorage.setItem("table_groups", JSON.stringify(doc.table_groups || null))
+			
+			checkPromotionDay(gv.setting.business_branch)
+
 			let current_user = localStorage.getItem("current_user");
 			if (current_user) {
 				createResource({
@@ -126,6 +129,15 @@ if (!localStorage.getItem("pos_profile")) {
 
 }
 
+async function onViewCloseOrder(){
+    await cashierShiftResource.fetch().then((doc)=>{
+        if(doc.working_day == null){
+            toaster.warning("Please start your working day and cashier shift")
+        }else {
+            router.push({name:"ClosedSaleList"})
+        }
+    });
+}
 //get user info 
 let current_user = localStorage.getItem('current_user')
 current_user = current_user ? JSON.parse(current_user) : null
@@ -145,6 +157,24 @@ if (!current_user) {
 	})
  
 	
+}
+function checkPromotionDay(business_branch){
+	if(auth.isLoggedIn){ 
+	// check promotion
+	createResource({
+		url: 'epos_restaurant_2023.api.promotion.check_promotion',
+		// cache: "check_promotion",
+		auto: true,
+		params: {
+			business_branch: business_branch
+		},
+		onSuccess(doc) {
+			console.log(doc)
+			gv.promotion = doc;
+			sale.promotion = doc;
+		}
+	});
+}
 }
 
 function onResize() {

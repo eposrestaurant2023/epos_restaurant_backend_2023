@@ -5,7 +5,6 @@ import frappe
 from frappe.model.document import Document
 class InventoryTransaction(Document):
 	def validate(self):
-		
 		data = frappe.db.sql("select name, quantity, cost from `tabStock Location Product` where product_code ='{}' and stock_location = '{}' limit 1".format(self.product_code, self.stock_location), as_dict=1)
 		if data:
 			current_qty = data[0]["quantity"]

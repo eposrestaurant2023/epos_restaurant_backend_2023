@@ -9,8 +9,24 @@ frappe.ui.form.on("Restaurant Booking", {
         // $.each(frm.doc.room_types,  function(i, d)  {
         //     updateRoomTypeRow(frm,d)
         // });
-    }
-    
+    },
+    discount_type(frm){
+        updateDiscount(frm); 
+    },
+    discount(frm){
+        updateDiscount(frm); 
+        updateBalance(frm);
+    },
+    total_discount(frm){
+        updateDiscount(frm); 
+        updateBalance(frm);
+    },
+    total_amount(frm){
+        updateBalance(frm);
+    },
+    total_payment(frm){
+        updateBalance(frm);
+    },
 
 });
 
@@ -82,6 +98,22 @@ function updateMealPlanSummary(frm,doc){
     frm.set_value('total_child_amount', amount_child);
     frm.set_value('total_amount', amount_adult + amount_child);
     refresh_field('meal_plan');
+}
+function updateDiscount(frm){
+    if (frm.doc.discount_type=="Percent" && frm.doc.discount){
+        frm.doc.total_discount = (frm.doc.total_amount || 0) * (frm.doc.discount || 0)/100;  
+        frm.refresh_field('total_discount')
+    }
+    else{
+        frm.doc.total_discount = (frm.doc.discount||0)
+        frm.refresh_field('total_discount')
+    }
+}
+function updateBalance(frm){
+    if(frm.doc.total_amount && frm.doc.total_payment && frm.doc.discount && frm.doc.total_discount){
+        frm.doc.balance = (frm.doc.total_amount || 0) - (frm.doc.total_payment || 0) -(frm.doc.total_discount || 0)
+        frm.refresh_field('balance')
+    }
 }
 function set_indicator(frm){
     if(frm.doc.__islocal)

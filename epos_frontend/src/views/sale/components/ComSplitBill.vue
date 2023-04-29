@@ -20,9 +20,11 @@
   </ComModal>
 </template>
 
-<script setup>
-import { ref,onMounted, defineEmits, createToaster, createResource, inject } from '@/plugin'
+<script setup>  
+
+import { ref,onMounted, defineEmits, createToaster, createResource,createDocumentResource, inject } from '@/plugin'
 import ComSplitBillList from './split_bill/ComSplitBillList.vue';
+import { onUnmounted } from 'vue';
 const emit = defineEmits(["resolve", "reject"])
 const toaster = createToaster({ position: 'top' })
 const sale = inject('$sale')
@@ -34,65 +36,83 @@ const props = defineProps({
   }
 })
 
+let current_sale_id ="";
+
 const groupSales=ref([])
-onMounted(()=>{
-  //get current sale
+
+onMounted(()=>{ 
+  //get current sale 
+ const current_sale = JSON.parse(JSON.stringify(sale.sale))
+ current_sale_id = current_sale.name;
+
+  
   groupSales.value = [];
-  groupSales.value.push({
+  groupSales.value.push({   
+    deleted:false,
     is_current:true,
     show_download:false,
     generate_id:uuidv4(),
     no:1,
-    sale: sale.sale
-  });
-                
+    sale: current_sale
+  }); 
+  
+  
+  //generate temp field 
+  onGenerateTempField((current_sale.sale_products||[]));
+
   //get other sale in same table
-  if (sale.sale.table_id) {
-    resource.value = createResource({
-      url: "frappe.client.get_list",
-      params: {
-        doctype: "Sale",
-        fields: ["*"],
-        filters: {
-          name: ['!=',sale.sale.name],
-          pos_profile: localStorage.getItem("pos_profile"),
-          table_id: sale.sale.table_id,
-          docstatus: 0
-        },
-        limit_page_length: 500,
+  if (current_sale.table_id) {
+    createResource({
+      url: "epos_restaurant_2023.api.split_bill.get_sales",
+      params:{
+        sale_id:current_sale_id
       },
-      auto: true,
-      onSuccess(data) {  
-        data.forEach(s => { 
-          sale.LoadSaleData(s.name).then((v)=>{
-            groupSales.value.push({
-              is_current:false,
-              show_download:false,
-              generate_id:s.name,
-              no:1,
-              sale:v
-            });
+      auto:true,
+      onSuccess(values){ 
+        console.log(values)
+        values.forEach((v)=>{
+          onGenerateTempField((v.sale_products||[]));
+          groupSales.value.push({
+            deleted:false,
+            is_current:false,
+            show_download:false,
+            generate_id:uuidv4(),
+            no: groupSales.value.length +1,
+            sale:v
           });
-        });
-      }
-    });
-  }
-
-  const result =  groupSales.value.flatMap(a => (a.sale.sale_products||[]));
-  result.forEach((sp)=>{
-      sp.original_quantity = sp.quantity;
-      sp.original_id = sp.generate_id = uuidv4();
-      sp.original_parent = sp.parent;
-      sp.original_name = sp.name;
-  });
-
+        });        
+      },
+      onError(err){ 
+        toaster.warning("Sales cannot load, please reload for try again.");
+      }      
+  });  
+  }  
 });
+ 
+
+function onGenerateTempField(sale_products){
+  sale_products.forEach((sp)=>{
+    sp.original_quantity = sp.quantity;
+    sp.original_id = sp.generate_id = uuidv4();
+    sp.original_parent = sp.parent;
+    sp.original_name = sp.name;
+  });
+}
 
 function onCreateNew(){ 
+  const deleted = groupSales.value.filter((r)=>r.deleted ==true && r.sale.name !="");
   const _sale = JSON.parse(JSON.stringify(sale.sale));
   _sale.name = "";
+  if(deleted.length >0){
+    _sale.name = deleted[0].sale.name;
+    deleted[0].sale.name = "";
+  }
+ 
   _sale.sale_products =[]; 
   const _newGroup = {
+    deleted:false,
+    is_current:false,
+    show_download:false,
     generate_id:uuidv4(),
     no:groupSales.value.length + 1,
     sale: _sale
@@ -109,6 +129,7 @@ function uuidv4() {
 }
 
 function onDownloadPressed(group){
+  //
   const result = groupSales.value.flatMap(a => (a.sale.sale_products||[]).filter((r)=>(r.total_selected||0) >0));
   const temp =[];
   result.forEach((sp)=>{    
@@ -121,6 +142,12 @@ function onDownloadPressed(group){
       _sp.name ="";
       _sp.quantity =  sp.total_selected ;     
     }
+    //set sale product parent id
+    _sp.parent = "";
+      if(_sp.original_parent == group.sale.name){
+          _sp.parent = _sp.original_parent;
+      }
+
     _sp.total_selected  = sp.total_selected = 0;
     group.sale.sale_products.push(_sp);
   }); 
@@ -139,8 +166,43 @@ function onDownloadPressed(group){
 }
 
 
-function onSave() {
-  emit("resolve", { data: data.value });
+function onSave() { 
+  let _active_sales = groupSales.value.filter((r)=>r.deleted == false); 
+  _active_sales.forEach((a)=>{
+
+    //check if empty sale products in sale
+    if((a.sale.sale_products||[]).length <= 0){
+      a.deleted = true;
+    }
+
+    //update parent id of sale product 
+    (a.sale.sale_products||[]).forEach((sp)=>{
+        sp.parent = a.name;
+    });
+  });  
+
+  const sales = [];
+  _active_sales.forEach((g)=>{
+    g.sale.temp_deleted = g.deleted;
+    sales.push(g.sale);
+  });   
+
+  createResource({
+      url: "epos_restaurant_2023.api.split_bill.on_save",
+      params:{
+        data:sales,
+        current_sale_id:current_sale_id
+      },
+      auto:true,
+      onSuccess(doc){ 
+        sale.sale = doc ; 
+        toaster.success("Split was successed.");
+      },
+      onError(err){ 
+        toaster.warning("There're some trouble during save, please reload data and try again.");
+      }      
+  });  
+  emit("resolve", false);
 }
 
 function onClose() {

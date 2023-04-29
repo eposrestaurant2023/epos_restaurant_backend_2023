@@ -1,0 +1,49 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2023-04-27 17:04:26.694206",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "product_code",
+  "product_name_en",
+  "product_name_kh"
+ ],
+ "fields": [
+  {
+   "fieldname": "product_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Product Code",
+   "options": "Product"
+  },
+  {
+   "fetch_from": "product_code.product_name_en",
+   "fieldname": "product_name_en",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Product Name En"
+  },
+  {
+   "fetch_from": "product_code.product_name_kh",
+   "fieldname": "product_name_kh",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Product Name Kh"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-04-27 17:09:00.563911",
+ "modified_by": "Administrator",
+ "module": "Selling",
+ "name": "Promotion Products",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

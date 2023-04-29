@@ -31,14 +31,16 @@
   "amount",
   "discount_section",
   "discount_type",
+  "happy_hour_promotion",
   "sale_discount_percent",
   "column_break_18",
   "discount",
+  "happy_hours_promotion_title",
   "sale_discount_amount",
-  "discount_note",
   "column_break_20",
   "discount_amount",
   "total_discount",
+  "discount_note",
   "tax_tab",
   "tax_rule",
   "column_break_30",
@@ -605,12 +607,24 @@
    "fieldtype": "Currency",
    "label": "Total Revenue",
    "read_only": 1
+  },
+  {
+   "fieldname": "happy_hour_promotion",
+   "fieldtype": "Link",
+   "label": "Happy Hours Promotion",
+   "options": "Happy Hours Promotion"
+  },
+  {
+   "fetch_from": "happy_hour_promotion.promotion_name",
+   "fieldname": "happy_hours_promotion_title",
+   "fieldtype": "Data",
+   "label": "Happy Hours Promotion Title"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-25 16:14:14.662445",
+ "modified": "2023-04-29 11:23:44.834193",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Product",

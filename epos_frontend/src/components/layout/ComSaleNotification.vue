@@ -17,22 +17,18 @@ const socket = inject('$socket');
 const toaster = createToaster({position:"top"});
 const setting = JSON.parse(localStorage.getItem("setting"))
 async function onSearchSale(){
-    const sp = Enumerable.from(sale.sale.sale_products);
+    const isOrdered = sale.isOrdered(`Please ${setting.table_groups && setting.table_groups.length > 0 ? 'submit' : 'save'} your current order first`)
+    if(isOrdered == false) {
+        const result = await searchSaleDialog({ })
+        if(result != false){ 
+            router.push({
+                name: "AddSale", params: {
+                    name: result.name
+                }
+            });
 
-if (sp.where("$.name==undefined").toArray().length > 0) {
-    toaster.warning(`Please ${setting.table_groups && setting.table_groups.length > 0 ? 'submit' : 'save'} your current order first`);
-    
-}else {
-    const result = await searchSaleDialog({ })
-    if(result != false){ 
-        router.push({
-            name: "AddSale", params: {
-                name: result.name
-            }
-        });
-
-        sale.LoadSaleData(result.name)
+            sale.LoadSaleData(result.name)
+        }
     }
-}
 }
 </script>

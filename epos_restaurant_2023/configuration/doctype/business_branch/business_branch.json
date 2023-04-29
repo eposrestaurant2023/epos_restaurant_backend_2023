@@ -19,7 +19,13 @@
   "address_kh",
   "note",
   "disabled",
-  "is_standard"
+  "is_standard",
+  "bank_account_information_section",
+  "bank_name",
+  "account_name",
+  "column_break_16",
+  "bank_account_number",
+  "swift_code"
  ],
  "fields": [
   {
@@ -93,12 +99,41 @@
    "fieldname": "is_standard",
    "fieldtype": "Check",
    "label": "Is Standard"
+  },
+  {
+   "fieldname": "bank_account_information_section",
+   "fieldtype": "Section Break",
+   "label": "Bank Account Information"
+  },
+  {
+   "fieldname": "bank_account_number",
+   "fieldtype": "Data",
+   "label": "Bank Account Number"
+  },
+  {
+   "fieldname": "bank_name",
+   "fieldtype": "Data",
+   "label": "Bank Name"
+  },
+  {
+   "fieldname": "account_name",
+   "fieldtype": "Data",
+   "label": "Account Name"
+  },
+  {
+   "fieldname": "column_break_16",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "swift_code",
+   "fieldtype": "Data",
+   "label": "Swift Code"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-07 09:47:47.386315",
+ "modified": "2023-04-27 15:22:31.609482",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Business Branch",

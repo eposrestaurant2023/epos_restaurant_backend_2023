@@ -77,14 +77,13 @@ import MainLayoutDrawer from './MainLayoutDrawer.vue';
 import SaleLayoutDrawer from './SaleLayoutDrawer.vue';
 import ComTimeUpdate from './components/ComTimeUpdate.vue';
 import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue';
-
 import ComSaleNotivication from './ComSaleNotification.vue';
 import { useDisplay } from 'vuetify'
-import { useRouter } from '@/plugin';
+import { useRouter,createToaster } from '@/plugin';
+import Enumerable from 'linq'; 
 
 export default {
     inject: ["$auth", "$sale","$gv"],
-
     name: "MainLayout",
     components: {
         ComProductSearch,
@@ -123,9 +122,12 @@ export default {
             location.reload()
         },
         onLogout(){
-            this.$auth.logout().then((r)=>{
-                this.$router.push({name: 'Login'})
-            })
+            const isOrdered = this.$sale.isOrdered()
+            if(isOrdered == false){
+                this.$auth.logout().then((r)=>{
+                    this.$router.push({name: 'Login'})
+                })
+            }
         },
 
         onFullScreen(){

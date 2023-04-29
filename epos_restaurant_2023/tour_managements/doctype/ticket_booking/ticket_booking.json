@@ -13,9 +13,15 @@
   "reference",
   "booking_date",
   "ticket_type",
+  "is_round_trip_bus",
+  "return_date_bus",
   "column_break_6",
   "departure",
   "arrival_date",
+  "duration",
+  "total_tax",
+  "adult",
+  "child",
   "column_break_5",
   "transportation_company",
   "destination",
@@ -24,6 +30,7 @@
   "fight_information_section",
   "fight_number",
   "air_plane_type",
+  "air_line_code",
   "filght_note",
   "column_break_16",
   "service_class",
@@ -360,11 +367,48 @@
   {
    "fieldname": "column_break_46",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_round_trip_bus",
+   "fieldtype": "Check",
+   "label": "Is Round Trip"
+  },
+  {
+   "depends_on": "eval:doc.is_round_trip_bus ==1",
+   "fieldname": "return_date_bus",
+   "fieldtype": "Datetime",
+   "label": "Return Date"
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Data",
+   "label": "Duration"
+  },
+  {
+   "fieldname": "total_tax",
+   "fieldtype": "Int",
+   "label": "Total Tax"
+  },
+  {
+   "fieldname": "adult",
+   "fieldtype": "Int",
+   "label": "Adult"
+  },
+  {
+   "fieldname": "child",
+   "fieldtype": "Int",
+   "label": "Child"
+  },
+  {
+   "fieldname": "air_line_code",
+   "fieldtype": "Data",
+   "label": "Air Line Code"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-27 11:39:59.068361",
+ "modified": "2023-04-29 15:15:11.615380",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Ticket Booking",
@@ -398,5 +442,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }

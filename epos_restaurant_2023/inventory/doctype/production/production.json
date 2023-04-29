@@ -31,7 +31,8 @@
   "section_break_8",
   "note",
   "amended_from",
-  "base_unit"
+  "base_unit",
+  "is_inventory_product"
  ],
  "fields": [
   {
@@ -59,8 +60,8 @@
   {
    "fieldname": "produce_products",
    "fieldtype": "Table",
-   "label": "Produce Products",
-   "options": "Produce Products",
+   "label": "Production Ingredients",
+   "options": "Production Ingredients",
    "reqd": 1
   },
   {
@@ -142,6 +143,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "default": "1",
    "fieldname": "quantity",
    "fieldtype": "Float",
    "label": "Quantity"
@@ -151,6 +153,8 @@
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "product.unit",
+   "fetch_if_empty": 1,
    "fieldname": "unit",
    "fieldtype": "Link",
    "label": "Unit",
@@ -161,17 +165,25 @@
    "fieldtype": "Section Break"
   },
   {
+   "fetch_from": "product.unit",
    "fieldname": "base_unit",
    "fieldtype": "Link",
    "hidden": 1,
    "label": "Base Unit",
    "options": "Unit Of Measurement"
+  },
+  {
+   "default": "0",
+   "fetch_from": "product.is_inventory_product",
+   "fieldname": "is_inventory_product",
+   "fieldtype": "Check",
+   "label": " Is Inventory Product"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-04-27 11:10:15.450296",
+ "modified": "2023-04-27 12:43:54.579740",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Production",

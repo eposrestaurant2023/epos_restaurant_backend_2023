@@ -187,6 +187,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "customer":default_customer.name,
         "customer_name":default_customer.customer_name_en,
         "customer_photo":default_customer.photo,
+        "customer_group":default_customer.customer_group,
         "default_sale_type":profile.default_sale_type,
         "default_payment_type":profile.default_payment_type,
         "default_pos_receipt":default_pos_receipt,
@@ -613,3 +614,6 @@ def get_emenu_product(menu):
             product = frappe.get_doc("Product", d.product_code)
             data.append(product)
     return data
+
+
+

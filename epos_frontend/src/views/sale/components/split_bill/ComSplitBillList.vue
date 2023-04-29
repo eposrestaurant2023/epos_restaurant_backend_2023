@@ -1,6 +1,6 @@
 <template lang=""> 
      <div class="grid gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
-        <v-card v-for="(g, index) in data" :key="index">
+        <v-card v-for="(g, index) in data.filter((x)=>x.deleted == false)" :key="index">
             <v-card-title class="!p-0">
                 <v-toolbar height="55">
                     <v-toolbar-title class="text">
@@ -12,7 +12,7 @@
                         <v-btn v-if="g.show_download" @click="onDownloadPressed(g)" style="height:35px; width:35px; margin-right:5px" variant="outlined" color="primary" icon="mdi-download-circle-outline">
              
                         </v-btn>
-                        <v-btn v-if="(!g.is_current)" style="height:35px; width:35px; margin-left:5px" variant="outlined" color="error" icon="mdi-delete-outline">
+                        <v-btn v-if="(!g.is_current)" @click="onDeleteBillPressed(g)" style="height:35px; width:35px; margin-left:5px" variant="outlined" color="error" icon="mdi-delete-outline">
                             
                         </v-btn> 
                     </template>
@@ -28,7 +28,6 @@
                                                 color="error" variant="outlined" v-if="sp.portion">{{ sp.portion }}</v-chip> <v-chip
                                                 v-if="sp.is_free" size="x-small" color="success" variant="outlined">Free</v-chip>
                                         </div> 
-                                        {{sp.name}}
                                         <div class="text-xs pt-1"> 
                                             <div v-if="sp.modifiers">
                                                 <span>{{ sp.modifiers }} (<CurrencyFormat :value="sp.modifiers_price * sp.quantity" />)
@@ -68,9 +67,8 @@
                     </v-list-item> 
                 </v-list>
             </v-card-text>
-            <v-card-actions class="pt-0 flex items-center justify-between absolute bottom-0 w-full bg-gray-400">
-                <!-- <ComSplitBillSaleSummary :sale="g.sale"/> -->
-                {{g.generate_id}}
+            <v-card-actions style="min-height:20px !important" class="pt-0 flex items-center justify-between absolute bottom-0 w-full bg-gray-300">
+               
             </v-card-actions>
         </v-card>
         {{ showDownload()}}
@@ -80,7 +78,7 @@
 import ComSplitBillSaleSummary from './ComSplitBillSaleSummary.vue';
 const props = defineProps({
     data: Object
-}) 
+}); 
 
 function onSelected(sp){
     if((sp.total_selected || 0) >= sp.quantity){
@@ -91,12 +89,12 @@ function onSelected(sp){
 
     showDownload();
 }
-
+ 
 
 function  showDownload(){
-    const _sale_products = props.data.flatMap(a => (a.sale.sale_products||[]).filter((r)=>(r.total_selected||0) >0) ); 
+    const _sale_products = props.data.filter((d)=>d.deleted ==false).flatMap(a => (a.sale.sale_products||[]).filter((r)=>(r.total_selected||0) >0) ); 
     if(_sale_products.length > 0){ 
-        props.data.forEach((g)=>{
+        props.data.filter((d)=>d.deleted ==false).forEach((g)=>{
             g.show_download = true;
             const chk = (g.sale.sale_products||[]).filter((r)=>(r.total_selected||0) > 0);
             if(chk.length > 0){
@@ -105,59 +103,87 @@ function  showDownload(){
         });
     }
     else{
-        props.data.forEach((g)=>{
+        props.data.filter((d)=>d.deleted ==false).forEach((g)=>{
             g.show_download = false;
         });
     } 
 }
 
 function onDownloadPressed(group){
- const result = props.data.flatMap(a => (a.sale.sale_products||[]).filter((r)=>(r.total_selected||0) >0) )
-  
-  const temp =[];
-  result.forEach((sp)=>{    
-    const _sp = JSON.parse(JSON.stringify(sp));
-    sp.quantity -=  sp.total_selected; 
-    if(sp.quantity <=0){      
-        temp.push(sp);
-    }
-    else{ 
-        _sp.name ="";
-        _sp.quantity =  sp.total_selected ;     
-    }
-    
-    //check 
-    let _sale_products = group.sale.sale_products.filter((sp)=>sp.original_name == _sp.original_name);
-    if(_sale_products.length > 0){
-        if(_sale_products[0].quantity == _sp.original_quantity){
-            _sale_products[0].name =  _sp.original_name;
-            _sp.total_selected  = sp.total_selected = 0;
-            group.sale.sale_products.push(_sp);
+    const result = props.data.filter((d)=>d.deleted ==false).flatMap(a => (a.sale.sale_products||[]).filter((r)=>(r.total_selected||0) >0) )    
+    const temp =[];
+    result.forEach((sp)=>{    
+        const _sp = JSON.parse(JSON.stringify(sp)); 
+        sp.quantity -=  sp.total_selected; 
+        if(sp.quantity <=0){      
+            temp.push(sp); 
+        }
+        else{ 
+            _sp.name ="";
+            _sp.quantity =  sp.total_selected ;     
+        }
+
+        //set sale product parent id
+        _sp.parent = "";
+        if(_sp.original_parent == group.sale.name){
+            _sp.parent = _sp.original_parent;
+        }
+
+        //check 
+        let _sale_products = (group.sale.sale_products||[]).filter((sp)=>sp.original_name == _sp.original_name);   
+
+        if(_sale_products.length > 0){
+            if(_sale_products[0].quantity == _sp.original_quantity){
+                _sale_products[0].name =  _sp.original_name;
+                _sp.total_selected  = sp.total_selected = 0;
+                group.sale.sale_products.push(_sp);
+            }
+            else{
+
+                if(sp.quantity==0 && _sale_products[0].name ==""){
+                    _sale_products[0].name = sp.original_name;
+                }
+
+                _sale_products[0].quantity += sp.total_selected;
+                _sale_products[0].total_selected  = sp.total_selected = 0;
+            }
         }
         else{
-            //check update sale product id (name)
-            
+            _sp.total_selected  = sp.total_selected = 0;
+            group.sale.sale_products.push(_sp);
+        } 
+    
+    }); 
 
-            _sale_products[0].quantity += sp.total_selected;
-            _sale_products[0].total_selected  = sp.total_selected = 0;
-        }
-    }
-    else{
-        _sp.total_selected  = sp.total_selected = 0;
-        group.sale.sale_products.push(_sp);
-    } 
-}); 
  
-  //remove sale product when qty equal zero
-  temp.forEach((t)=>{   
-    props.data.filter((x)=>x.no != group.no).forEach((z)=>{
-      let sp = z.sale.sale_products;
-      if(sp.filter((y)=>y.quantity==0).length > 0){
-        sp.splice(sp.indexOf(t), 1);      
-      }
-    });    
-  }); 
+    //remove sale product when qty equal zero
+    temp.forEach((t)=>{   
+        props.data.filter((x)=>x.no != group.no && x.deleted == false).forEach((z)=>{
+            let sp = z.sale.sale_products;
+            if(sp.filter((y)=>y.quantity==0).length > 0){
+                sp.splice(sp.indexOf(t), 1);      
+            }
+        });    
+    }); 
+}
 
+
+//method delete bill 
+function onDeleteBillPressed(group){ 
+    const _current_sale = props.data.filter((r)=>r.is_current == true && r.deleted == false); 
+    if(_current_sale.length >0){
+        const result = props.data.filter((x)=> x.deleted == false).flatMap(a => (a.sale.sale_products||[]));
+        result.forEach((r)=>r.total_selected = 0);    
+        (group.sale.sale_products||[]).forEach((r)=>r.total_selected = r.quantity);
+        onDownloadPressed(_current_sale[0]);
+        
+        if(group.sale.name == ""){
+            props.data.splice(props.data.indexOf(group),1);
+        }
+        else{
+           group.deleted = true;
+        }
+    } 
 }
 
 

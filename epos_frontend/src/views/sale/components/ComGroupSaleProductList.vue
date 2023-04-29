@@ -9,7 +9,6 @@
                     <div><v-icon icon="mdi-account-outline" size="small" class="mr-1"></v-icon>{{ g.order_by }}</div>
                 </div>
                 <ComSaleProductList :group-key="g" />
-
         </div>
     </ComPlaceholder>
 </template>

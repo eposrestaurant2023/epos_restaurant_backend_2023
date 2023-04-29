@@ -110,6 +110,8 @@
 import { reactive, inject, computed, useStore, useRouter, createResource, createToaster } from '@/plugin'
 import { useDisplay } from 'vuetify'
 const moment = inject('$moment')
+const gv = inject('$gv')
+const sale = inject('$sale')
 const { mobile } = useDisplay()
 const toast = createToaster()
 const router = useRouter()
@@ -169,6 +171,7 @@ const login = async () => {
         let res = await auth.login(state.username, state.password);
         if (res) {
           getCurrentUserInfo(doc)
+          checkPromotionDay()
         } else {
           toast.warning(`Login fail. Invalid username or password.`);
           store.dispatch('endLoading');
@@ -197,6 +200,22 @@ function getCurrentUserInfo(user) {
       store.dispatch('endLoading');
     }
   })
+}
+
+function checkPromotionDay(){ 
+  // check promotion 
+	createResource({
+		url: 'epos_restaurant_2023.api.promotion.check_promotion',
+		cache: "check_promotion",
+		auto: true,
+		params: {
+			business_branch: gv.setting.business_branch
+		},
+		onSuccess(doc) {
+			gv.promotion = doc;
+			sale.promotion = doc;
+		}
+	});
 }
 function onExitWindow() {
   const data = {
