@@ -11,6 +11,7 @@ class TicketBooking(Document):
 
 		self.total_quantity =   Enumerable(self.ticket_booking_item).sum(lambda x: (x.quantity or 0))
 		self.total_amount =   Enumerable(self.ticket_booking_item).sum(lambda x: (x.total_amount or 0))
+		self.total_pax = (self.adult or 0) + (self.child or 0)
 
 		self.total_payment =   Enumerable(self.payments).sum(lambda x: (x.payment_amount or 0)) or 0
 		self.balance = (self.total_amount or 0) - (self.total_payment or 0)-(self.total_discount or 0)

@@ -2,7 +2,7 @@
     <div class="p-1 border border-gray-600 rounded-md">
         <div class="flex">
             <div class="flex-auto cursor-pointer" @click="onSearchCustomer">
-                <div class="flex">
+                <div class="flex items-center">
                     <v-avatar v-if="sale.sale.customer_photo">
                         <v-img :src="sale.sale.customer_photo"></v-img>
                     </v-avatar>
@@ -13,6 +13,9 @@
                     <div class="px-2">
                         <div class="font-bold">{{ sale.sale.customer_name }}</div>
                         <div class="text-gray-400 text-sm">{{ subTitle }}</div>
+                    </div>
+                    <div>
+                        <ComCustomerPromotionChip :customer="customer"/>
                     </div>
                 </div>
             </div>
@@ -38,9 +41,16 @@
 </template>
 <script setup>
 import { computed, inject, searchCustomerDialog,createResource, customerDetailDialog, scanCustomerCodeDialog, confirmDialog, onMounted,createToaster,addCustomerDialog } from "@/plugin"
+import ComCustomerPromotionChip from "./ComCustomerPromotionChip.vue";
 const sale = inject("$sale")
 const socket = inject("$socket")
 const toaster = createToaster({ position: "top" });
+const customer = computed(()=>{
+    return {
+        default_discount: sale.sale.customer_default_discount,
+        customer_group: sale.sale.customer_group
+    }
+})
 async function onSearchCustomer() {
     if (!sale.isBillRequested()) {
         const result = await searchCustomerDialog({});
@@ -56,14 +66,18 @@ function assignCustomerToOrder(result) {
     sale.sale.customer_photo = result.photo;
     sale.sale.phone_number = result.phone_number;
     sale.sale.customer_group = result.customer_group;
+    sale.sale.customer_default_discount = result.default_discount
+    let isCustomerPromotion = false;
     if(sale.promotion){
-        const isCustomerPromotion = sale.promotion.customer_groups.filter(r=>r.customer_group_name_en == result.customer_group).length > 0
+        isCustomerPromotion = sale.promotion.customer_groups.filter(r=>r.customer_group_name_en == result.customer_group).length > 0
         if(isCustomerPromotion){
-            toaster.info("This customer has happy hours promotion " + ((sale.promotion.info.percentage_discount || 0) * 100)  + '%');
+            toaster.info("This customer has happy hours promotion " + ((sale.promotion.info.percentage_discount || 0))  + '%');
         }
         updateProductAfterSelectCustomer(isCustomerPromotion)
     }
+
     if (parseFloat(result.default_discount) && !isCustomerPromotion) {
+ 
         sale.sale.discount_type="Percent";
         sale.sale.discount = parseFloat(result.default_discount);
         sale.updateSaleSummary();
@@ -110,10 +124,11 @@ function updateProductAfterSelectCustomer(is_promotion){
                         doc.forEach(r=>{ 
                             if(sale.sale.sale_products.find(s=>s.product_code == r.product_code)){
                                 let product = sale.sale.sale_products.find(s=>s.product_code == r.product_code)
-                                product.discount = sale.promotion?.info?.percentage_discount
-                                product.happy_hours_promotion_title = sale.promotion?.info?.happy_hours_promotion_title
-                                product.happy_hour_promotion = sale.promotion?.info?.happy_hour_promotion
+                                product.discount = sale.promotion?.info?.percentage_discount || 0
+                                product.happy_hours_promotion_title = sale.promotion?.info?.happy_hours_promotion_title || ''
+                                product.happy_hour_promotion = sale.promotion?.info?.name || ''
                             }
+
                         })
                     }else{
                         gv.promotion = null
@@ -129,7 +144,6 @@ function updateProductAfterSelectCustomer(is_promotion){
                     happy_hours_promotion_title: '',
                     happy_hour_promotion: ''
                 }
-                return r
             })
         }
         

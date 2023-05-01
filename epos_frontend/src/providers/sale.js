@@ -216,7 +216,7 @@ export default class Sale {
         //check for append quantity rule
         //product code, allow_append_qty,price, unit,modifier, portion, is_free,sale_product_status
         //and check system have feature to send to kitchen
-
+        
         let strFilter = `$.product_code=='${p.name}' && $.append_quantity ==1 && $.price==${p.price} && $.portion=='${this.getString(p.portion)}'  && $.modifiers=='${p.modifiers}'  && $.unit=='${p.unit}'  && $.is_free==0`
 
         if (!this.setting?.pos_setting?.allow_change_quantity_after_submit) {
@@ -263,7 +263,12 @@ export default class Sale {
                 order_by: this.getOrderBy(),
                 order_time: this.getOrderTime(),
                 printers: p.printers,
-                product_variants: []
+                product_variants: [],
+                is_combo_menu: p.is_combo_menu,
+                use_combo_group: p.use_combo_group,
+                combo_menu: p.combo_menu_items,
+                combo_menu_data: p.combo_menu,
+                combo_group_data: p.combo_group
             }
             this.sale.sale_products.push(saleProduct);
             this.updateSaleProduct(saleProduct);

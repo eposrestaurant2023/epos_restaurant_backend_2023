@@ -28,7 +28,7 @@
   "disabled",
   "pos_setting_section",
   "allow_discount",
-  "is_composite_menu",
+  "is_combo_menu",
   "column_break_13",
   "allow_free",
   "append_quantity",
@@ -71,7 +71,14 @@
   "product_recipe",
   "total_recipe_quantity",
   "combo_menu_item_tab",
+  "use_combo_group",
+  "section_break_64",
+  "product_combo_menus",
+  "combo_menu_data",
   "total_menu_item",
+  "combo_group_section",
+  "combo_groups",
+  "combo_group_data",
   "produce_tab",
   "produce_products",
   "emenu_section",
@@ -164,12 +171,6 @@
    "fieldname": "is_open_product",
    "fieldtype": "Check",
    "label": "Is Open Product"
-  },
-  {
-   "default": "0",
-   "fieldname": "is_composite_menu",
-   "fieldtype": "Check",
-   "label": "Is Composite Menu"
   },
   {
    "fieldname": "pochasing_section",
@@ -313,6 +314,7 @@
   },
   {
    "default": "0",
+   "depends_on": "eval:doc.is_combo_menu == 0",
    "fieldname": "product_price_tab",
    "fieldtype": "Tab Break",
    "label": "Price"
@@ -324,6 +326,7 @@
    "options": "Tax Rule"
   },
   {
+   "depends_on": "eval:doc.is_combo_menu == 0",
    "fieldname": "modifiers_tab",
    "fieldtype": "Tab Break",
    "label": "Modifiers"
@@ -341,6 +344,7 @@
    "label": "Append Quantity"
   },
   {
+   "depends_on": "eval:doc.is_combo_menu ==0 && doc.is_inventory_product == 1",
    "fieldname": "variant_tab",
    "fieldtype": "Tab Break",
    "label": "Variant"
@@ -418,7 +422,7 @@
    "label": "Is Recipe"
   },
   {
-   "depends_on": "eval:doc.is_inventory_product==0 && doc.is_recipe==0 && !doc.__islocal",
+   "depends_on": "eval:doc.is_inventory_product==0 && doc.is_recipe==0 && !doc.__islocal && doc.is_combo_menu == 0",
    "fieldname": "recipe_tab",
    "fieldtype": "Tab Break",
    "label": "Recipe"
@@ -430,7 +434,7 @@
    "options": "Product Recipe"
   },
   {
-   "depends_on": "eval:doc.is_composite_menu==1 && doc.is_inventory_product==0 && !doc.__islocal",
+   "depends_on": "eval:doc.is_combo_menu==1 && doc.is_inventory_product==0 && !doc.__islocal",
    "fieldname": "combo_menu_item_tab",
    "fieldtype": "Tab Break",
    "label": "Combo Menu Item"
@@ -451,6 +455,7 @@
    "label": "Description"
   },
   {
+   "depends_on": "eval:doc.is_combo_menu ==0",
    "fieldname": "produce_tab",
    "fieldtype": "Tab Break",
    "label": "Production"
@@ -465,13 +470,59 @@
    "fieldname": "total_recipe_quantity",
    "fieldtype": "Float",
    "label": "Total Quantity"
+  },
+  {
+   "fieldname": "product_combo_menus",
+   "fieldtype": "Table",
+   "label": "Products",
+   "options": "Product Combo Menu"
+  },
+  {
+   "default": "0",
+   "fieldname": "use_combo_group",
+   "fieldtype": "Check",
+   "label": "Use Combo Group"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_combo_menu",
+   "fieldtype": "Check",
+   "label": "Is Combo Menu"
+  },
+  {
+   "depends_on": "eval:doc.use_combo_group ==0",
+   "fieldname": "section_break_64",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.use_combo_group == 1",
+   "fieldname": "combo_group_section",
+   "fieldtype": "Section Break",
+   "label": "Combo Group"
+  },
+  {
+   "fieldname": "combo_groups",
+   "fieldtype": "Table",
+   "options": "Product Combo Group"
+  },
+  {
+   "fieldname": "combo_menu_data",
+   "fieldtype": "JSON",
+   "hidden": 1,
+   "label": "Combo Menu Data"
+  },
+  {
+   "fieldname": "combo_group_data",
+   "fieldtype": "JSON",
+   "hidden": 1,
+   "label": "Combo Group Data"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-04-27 12:48:39.438797",
+ "modified": "2023-05-01 16:15:12.418994",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Product",
@@ -504,6 +555,7 @@
   }
  ],
  "search_fields": "product_code, product_name_en, product_category",
+ "show_name_in_global_search": 1,
  "show_preview_popup": 1,
  "sort_field": "modified",
  "sort_order": "DESC",

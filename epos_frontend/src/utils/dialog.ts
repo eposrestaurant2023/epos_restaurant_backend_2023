@@ -11,6 +11,7 @@ import ComModelKeyboard from '@/components/form/ComModalKeyboard.vue';
 import ComSelectSaleOrder from '@/views/sale/components/ComSelectSaleOrder.vue';
 import ComSaleProductNoteModal from '@/views/sale/components/ComSaleProductNoteModal.vue';
 import ComAddModifier from '@/views/sale/components/ComAddModifier.vue';
+import ComSaleProductComboMenuGroupModal from '@/views/sale/components/combo_menu/ComSaleProductComboMenuGroupModal.vue';
 import ComAddCustomer from '@/views/customer/ComAddCustomer.vue';
 import ComConfirmBackToTableLayout from '@/views/sale/components/ComConfirmBackToTableLayout.vue';
 import ComSearchCustomer from '@/views/sale/components/ComSearchCustomer.vue';
@@ -88,3 +89,4 @@ export  const inputNumberDialog = createPromiseDialog<params, object>(ComInputNu
 export  const addCommissionDialog = createPromiseDialog<params, object>(ComAddCommission);
 export  const printWifiPasswordModal = createPromiseDialog<params, object>(ComPrintWifiPassword);
 export  const splitBillDialog = createPromiseDialog<params, object>(ComSplitBill);
+export  const SaleProductComboMenuGroupModal = createPromiseDialog<params, object>(ComSaleProductComboMenuGroupModal);

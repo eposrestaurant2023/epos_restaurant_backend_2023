@@ -172,7 +172,6 @@ export default class Product {
         }
 
     }
-
     validateModifier(){
         return new Promise((resolve)=>{
             this.modifiers.forEach((c)=>{

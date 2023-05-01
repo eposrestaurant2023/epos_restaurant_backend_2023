@@ -24,7 +24,11 @@
   "printers",
   "prices",
   "modifiers",
-  "photo"
+  "photo",
+  "is_combo_menu",
+  "use_combo_group",
+  "combo_menu",
+  "combo_group"
  ],
  "fields": [
   {
@@ -140,11 +144,37 @@
    "fieldname": "append_quantity",
    "fieldtype": "Check",
    "label": "Append Quantity"
+  },
+  {
+   "default": "0",
+   "fetch_from": "product_code.is_combo_menu",
+   "fieldname": "is_combo_menu",
+   "fieldtype": "Check",
+   "label": "Is Combo Menu"
+  },
+  {
+   "fetch_from": "product_code.combo_menu_data",
+   "fieldname": "combo_menu",
+   "fieldtype": "JSON",
+   "label": "Combo Menu"
+  },
+  {
+   "fetch_from": "product_code.combo_group_data",
+   "fieldname": "combo_group",
+   "fieldtype": "JSON",
+   "label": "Combo Group"
+  },
+  {
+   "default": "0",
+   "fetch_from": "product_code.use_combo_group",
+   "fieldname": "use_combo_group",
+   "fieldtype": "Check",
+   "label": "Use Combo Group"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-26 17:02:54.612523",
+ "modified": "2023-05-01 13:36:10.527857",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Temp Product Menu",

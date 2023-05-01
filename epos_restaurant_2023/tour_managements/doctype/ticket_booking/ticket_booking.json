@@ -13,20 +13,25 @@
   "reference",
   "booking_date",
   "ticket_type",
-  "is_round_trip_bus",
-  "return_date_bus",
   "column_break_6",
   "departure",
   "arrival_date",
   "duration",
-  "total_tax",
-  "adult",
-  "child",
   "column_break_5",
   "transportation_company",
   "destination",
   "confirm_booking_by",
   "confirm_booking_by_phone_number",
+  "section_break_15",
+  "is_round_trip_bus",
+  "return_date_bus",
+  "return_destination",
+  "section_break_17",
+  "total_pax",
+  "column_break_19",
+  "adult",
+  "column_break_21",
+  "child",
   "fight_information_section",
   "fight_number",
   "air_plane_type",
@@ -36,6 +41,8 @@
   "service_class",
   "is_round_trip",
   "return_date",
+  "arrival_return_date",
+  "destination_flight_return",
   "return_flight_number",
   "guest_information_section",
   "guest_profile",
@@ -284,6 +291,7 @@
    "label": "Is Round Trip"
   },
   {
+   "depends_on": "eval:doc.is_round_trip ==1",
    "fieldname": "return_date",
    "fieldtype": "Datetime",
    "label": "Return Date"
@@ -298,6 +306,7 @@
    "label": "Departure"
   },
   {
+   "depends_on": "eval:doc.is_round_trip ==1",
    "fieldname": "return_flight_number",
    "fieldtype": "Data",
    "label": "Return Flight Number"
@@ -386,11 +395,6 @@
    "label": "Duration"
   },
   {
-   "fieldname": "total_tax",
-   "fieldtype": "Int",
-   "label": "Total Tax"
-  },
-  {
    "fieldname": "adult",
    "fieldtype": "Int",
    "label": "Adult"
@@ -404,11 +408,50 @@
    "fieldname": "air_line_code",
    "fieldtype": "Data",
    "label": "Air Line Code"
+  },
+  {
+   "fieldname": "section_break_17",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_19",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_21",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_15",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_pax",
+   "fieldtype": "Int",
+   "label": "Total Pax"
+  },
+  {
+   "depends_on": "eval:doc.is_round_trip ==1",
+   "fieldname": "arrival_return_date",
+   "fieldtype": "Datetime",
+   "label": "Arrival Date"
+  },
+  {
+   "depends_on": "eval:doc.is_round_trip_bus ==1",
+   "fieldname": "return_destination",
+   "fieldtype": "Data",
+   "label": "Destination"
+  },
+  {
+   "depends_on": "eval:doc.is_round_trip ==1",
+   "fieldname": "destination_flight_return",
+   "fieldtype": "Data",
+   "label": "Destination"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-29 15:15:11.615380",
+ "modified": "2023-05-01 09:49:59.658451",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Ticket Booking",

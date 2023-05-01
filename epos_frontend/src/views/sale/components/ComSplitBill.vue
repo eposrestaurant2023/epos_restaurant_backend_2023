@@ -68,8 +68,12 @@ onMounted(()=>{
         sale_id:current_sale_id
       },
       auto:true,
-      onSuccess(values){ 
-        console.log(values)
+      onSuccess(values){  
+
+        values.sort(function(a,b){          
+          return ('' + a.name).localeCompare(b.name);
+        });
+
         values.forEach((v)=>{
           onGenerateTempField((v.sale_products||[]));
           groupSales.value.push({
@@ -177,15 +181,26 @@ function onSave() {
 
     //update parent id of sale product 
     (a.sale.sale_products||[]).forEach((sp)=>{
-        sp.parent = a.name;
+        if(sp.parent != a.sale.name){
+          sp.name = ""
+        } 
     });
   });  
 
   const sales = [];
-  _active_sales.forEach((g)=>{
-    g.sale.temp_deleted = g.deleted;
-    sales.push(g.sale);
-  });   
+  groupSales.value.forEach((g)=>{
+    if(g.deleted && g.sale.name == ""){
+      //nothing do
+    }else{
+      g.sale.temp_deleted = g.deleted;
+      sales.push(g.sale);
+    }
+  });  
+
+  sales.sort(function(a,b){          
+          return ('' + a.name).localeCompare(b.name);
+  });
+  
 
   createResource({
       url: "epos_restaurant_2023.api.split_bill.on_save",
@@ -197,12 +212,13 @@ function onSave() {
       onSuccess(doc){ 
         sale.sale = doc ; 
         toaster.success("Split was successed.");
+        emit("resolve", false);
       },
       onError(err){ 
         toaster.warning("There're some trouble during save, please reload data and try again.");
+        // emit("resolve", false);
       }      
   });  
-  emit("resolve", false);
 }
 
 function onClose() {

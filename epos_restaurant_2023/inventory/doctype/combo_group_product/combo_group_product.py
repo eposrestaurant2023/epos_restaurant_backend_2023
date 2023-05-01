@@ -4,6 +4,5 @@
 # import frappe
 from frappe.model.document import Document
 
-class HappyHoursPromotion(Document):
-	def validate(self):
-		self.number_discount = self.percentage_discount / 100
+class ComboGroupProduct(Document):
+	pass

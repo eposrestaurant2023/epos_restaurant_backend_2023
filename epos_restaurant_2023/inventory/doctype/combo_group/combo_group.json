@@ -1,0 +1,130 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:combo_group_name",
+ "creation": "2023-04-29 17:36:41.344868",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "combo_group_name",
+  "pos_title",
+  "column_break_3",
+  "item_selection",
+  "combo_items_section",
+  "products",
+  "section_break_6",
+  "total_quantity",
+  "column_break_8",
+  "total_amount",
+  "note_section",
+  "note",
+  "combo_menu_data"
+ ],
+ "fields": [
+  {
+   "fieldname": "combo_group_name",
+   "fieldtype": "Data",
+   "label": "Combo Group Name",
+   "unique": 1
+  },
+  {
+   "fieldname": "item_selection",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Item Selection"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Note"
+  },
+  {
+   "fieldname": "combo_items_section",
+   "fieldtype": "Section Break",
+   "label": "Combo Items"
+  },
+  {
+   "fieldname": "products",
+   "fieldtype": "Table",
+   "options": "Combo Group Product"
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_quantity",
+   "fieldtype": "Float",
+   "label": "Total Quantity"
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount"
+  },
+  {
+   "fieldname": "pos_title",
+   "fieldtype": "Data",
+   "label": "POS Title"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "note_section",
+   "fieldtype": "Section Break",
+   "label": "Note"
+  },
+  {
+   "fieldname": "combo_menu_data",
+   "fieldtype": "JSON",
+   "hidden": 1,
+   "label": "Combo Menu Data"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-05-01 11:34:15.369511",
+ "modified_by": "Administrator",
+ "module": "Inventory",
+ "name": "Combo Group",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stock User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

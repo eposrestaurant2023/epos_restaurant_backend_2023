@@ -18,7 +18,7 @@
                                     v-if="sp.portion">{{ sp.portion }}</v-chip> <v-chip v-if="sp.is_free" size="x-small"
                                     color="success" variant="outlined">Free</v-chip> <v-chip v-else-if="sp.happy_hour_promotion && sp.discount > 0" size="x-small" variant="outlined" color="orange" text-color="white" prepend-icon="mdi-cake-variant">
                                         <span>{{ sp.discount }}%</span>
-                                    </v-chip> 
+                                    </v-chip>
                             </div>
                             <div>
                                 {{ sp.quantity }} x
@@ -30,6 +30,9 @@
                                         <CurrencyFormat :value="sp.modifiers_price * sp.quantity" />)
                                     </span>
                                 </div>
+                                <div v-if="sp.is_combo_menu">
+                                    <span>{{ sp.combo_menu }}</span>
+                                </div>
                                 <div v-if="sp.discount > 0">
                                     <span  class="text-red-500">
                                         Discount :
@@ -40,6 +43,7 @@
                                 <v-chip color="blue" size="x-small" v-if="sp.seat_number">Seat# {{
                                     sp.seat_number
                                 }}</v-chip>
+                                
                                 <div class="text-gray-500" v-if="sp.note">
                                     Note: <span>{{ sp.note }}</span>
                                 </div>
@@ -166,20 +170,21 @@ function getSaleProducts(groupByKey) {
 
 }
 
-function onPromotion(is_promotion, sp){ 
+function onPromotion(is_promotion, sp){
     if((gv.promotion?.customer_groups || []).length > 0){
         if(gv.promotion?.customer_groups.filter(r=>r.customer_group_name_en == sale.sale.customer_group).length == 0)
             return
     }
-
     if(is_promotion && sp.allow_discount){
         sp.discount_type = 'Percent'
-        sp.discount = (gv.promotion?.info?.percentage_discount || 0) * 100
+        sp.discount = (gv.promotion?.info?.number_discount || 0)
         sp.happy_hour_promotion = gv.promotion?.info?.name
         sp.happy_hour_promotion_title = gv.promotion?.info?.promotion_name
         sale.updateSaleProduct(sp);
         sale.updateSaleSummary();
+        
     }
+    
 }
 </script>
 <style scoped>

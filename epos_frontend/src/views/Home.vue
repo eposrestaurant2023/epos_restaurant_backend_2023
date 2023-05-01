@@ -20,7 +20,7 @@
         <v-container>
             <div class="pb-16">
                 <div class="mx-auto mt-4 mb-0 md:w-[600px]">
-                    <!-- <ComMessagePromotion /> -->
+                    <ComMessagePromotion />
                     <div class="grid xs:grid-cols-2 md:grid-cols-4 grid-cols-2" style="grid-gap: 20px;">
                         <WorkingDayButton />
                         <OpenShiftButton />
@@ -55,7 +55,7 @@ import { useRouter, createResource, computed, createToaster,pendingSaleListDialo
 import ComButton from '../components/ComButton.vue';
 import WorkingDayButton from './shift/components/WorkingDayButton.vue';
 import OpenShiftButton from './shift/components/OpenShiftButton.vue';
-// import ComMessagePromotion from '../components/ComMessagePromotion.vue';
+import ComMessagePromotion from '../components/ComMessagePromotion.vue';
 
 const toaster = createToaster({ position: "top" })
 const auth = inject('$auth')

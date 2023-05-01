@@ -20,8 +20,9 @@
             </v-card-title>
             <v-card-text class="!pt-0 !pr-0 !pb-14 !pl-0">       
                 <v-list>
-                    <v-list-item v-for="(sp, _index) in g.sale.sale_products" :key="_index">                       
-                            <div class="text-sm" style="margin-bottom:10px;">
+                    <v-list-item class="!p-0" v-for="(sp, _index) in g.sale.sale_products" :key="_index"  @click="onSelected(sp)">                       
+                            <div class="text-sm relative p-3 border-b" >
+                                <v-badge :content="sp.total_selected" color="success" class="absolute top-2 right-2" v-if="sp.total_selected > 0"></v-badge>
                                 <div class="flex">
                                     <div class="grow">
                                         <div> {{ sp.product_name }}<v-chip class="ml-1" size="x-small"
@@ -48,146 +49,140 @@
                                             </div> 
                                         </div>
                                     </div>
-                                  
-                                    <div class="flex-none text-right w-36">
-                                        <div class="text-sm"> 
-                                            {{ sp.quantity }} x <CurrencyFormat :value="sp.price" /> 
-                                        </div> 
-                                        <v-btn color="success"  style="height:35px; margin-right:5px" variant="outlined" @click="onSelected(sp)">
-                                            <span>Selected
-                                                <template v-if="((sp.total_selected || 0)>0)">
-                                                    ({{sp.total_selected}})
-                                                </template>
-                                            </span>
-                                        </v-btn>
+                                    <div class="flex-none text-right w-36"> 
+                                        <div class="">
+                                            <div class="text-sm"> 
+                                                {{ sp.quantity }} x <CurrencyFormat :value="sp.price" />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>           
-                            <hr/>          
-                    </v-list-item> 
+                                </div>                                
+                            </div>     
+                    </v-list-item>
+                    <v-divider></v-divider>
                 </v-list>
             </v-card-text>
-            <v-card-actions style="min-height:20px !important" class="pt-0 flex items-center justify-between absolute bottom-0 w-full bg-gray-300">
-               
-            </v-card-actions>
+            <v-card-actions style="min-height:8px !important" class="!p-0 flex items-center justify-between absolute bottom-0 w-full bg-gray-300"></v-card-actions>
         </v-card>
         {{ showDownload()}}
     </div>
 </template>
 <script setup> 
-import ComSplitBillSaleSummary from './ComSplitBillSaleSummary.vue';
 const props = defineProps({
     data: Object
-}); 
+});
 
-function onSelected(sp){
-    if((sp.total_selected || 0) >= sp.quantity){
+function onSelected(sp) {
+    if ((sp.total_selected || 0) >= sp.quantity) {
         sp.total_selected = 0;
-    }else{
+    } else {
         sp.total_selected = (sp.total_selected || 0) + 1;
     }
 
     showDownload();
 }
- 
 
-function  showDownload(){
-    const _sale_products = props.data.filter((d)=>d.deleted ==false).flatMap(a => (a.sale.sale_products||[]).filter((r)=>(r.total_selected||0) >0) ); 
-    if(_sale_products.length > 0){ 
-        props.data.filter((d)=>d.deleted ==false).forEach((g)=>{
+
+function showDownload() {
+    const _sale_products = props.data.filter((d) => d.deleted == false).flatMap(a => (a.sale.sale_products || []).filter((r) => (r.total_selected || 0) > 0));
+    if (_sale_products.length > 0) {
+        props.data.filter((d) => d.deleted == false).forEach((g) => {
             g.show_download = true;
-            const chk = (g.sale.sale_products||[]).filter((r)=>(r.total_selected||0) > 0);
-            if(chk.length > 0){
+            const chk = (g.sale.sale_products || []).filter((r) => (r.total_selected || 0) > 0);
+            if (chk.length > 0) {
                 g.show_download = false;
             }
         });
     }
-    else{
-        props.data.filter((d)=>d.deleted ==false).forEach((g)=>{
+    else {
+        props.data.filter((d) => d.deleted == false).forEach((g) => {
             g.show_download = false;
         });
-    } 
+    }
 }
 
-function onDownloadPressed(group){
-    const result = props.data.filter((d)=>d.deleted ==false).flatMap(a => (a.sale.sale_products||[]).filter((r)=>(r.total_selected||0) >0) )    
-    const temp =[];
-    result.forEach((sp)=>{    
-        const _sp = JSON.parse(JSON.stringify(sp)); 
-        sp.quantity -=  sp.total_selected; 
-        if(sp.quantity <=0){      
-            temp.push(sp); 
+function onDownloadPressed(group) {
+    const result = props.data.filter((d) => d.deleted == false).flatMap(a => (a.sale.sale_products || []).filter((r) => (r.total_selected || 0) > 0))
+    const temp = [];
+    result.forEach((sp) => {
+        const _sp = JSON.parse(JSON.stringify(sp));
+        sp.quantity -= sp.total_selected;
+        if (sp.quantity <= 0) {
+            temp.push(sp);
         }
-        else{ 
-            _sp.name ="";
-            _sp.quantity =  sp.total_selected ;     
+        else {
+            _sp.name = "";
+            _sp.quantity = sp.total_selected;
         }
 
         //set sale product parent id
         _sp.parent = "";
-        if(_sp.original_parent == group.sale.name){
+        if (_sp.original_parent == group.sale.name) {
             _sp.parent = _sp.original_parent;
         }
 
         //check 
-        let _sale_products = (group.sale.sale_products||[]).filter((sp)=>sp.original_name == _sp.original_name);   
+        let _sale_products = (group.sale.sale_products || []).filter((sp) => sp.original_name == _sp.original_name);
 
-        if(_sale_products.length > 0){
-            if(_sale_products[0].quantity == _sp.original_quantity){
-                _sale_products[0].name =  _sp.original_name;
-                _sp.total_selected  = sp.total_selected = 0;
+        if (_sale_products.length > 0) {
+            if (_sale_products[0].quantity == _sp.original_quantity) {
+                _sale_products[0].name = _sp.original_name;
+                _sp.total_selected = sp.total_selected = 0;
                 group.sale.sale_products.push(_sp);
             }
-            else{
+            else {
 
-                if(sp.quantity==0 && _sale_products[0].name ==""){
+                if (sp.quantity == 0 && _sale_products[0].name == "") {
                     _sale_products[0].name = sp.original_name;
                 }
 
                 _sale_products[0].quantity += sp.total_selected;
-                _sale_products[0].total_selected  = sp.total_selected = 0;
+                _sale_products[0].total_selected = sp.total_selected = 0;
             }
         }
-        else{
-            _sp.total_selected  = sp.total_selected = 0;
+        else {
+            _sp.total_selected = sp.total_selected = 0;
             group.sale.sale_products.push(_sp);
-        } 
-    
-    }); 
+        }
 
- 
+    });
+
+
     //remove sale product when qty equal zero
-    temp.forEach((t)=>{   
-        props.data.filter((x)=>x.no != group.no && x.deleted == false).forEach((z)=>{
+    temp.forEach((t) => {
+        props.data.filter((x) => x.no != group.no && x.deleted == false).forEach((z) => {
             let sp = z.sale.sale_products;
-            if(sp.filter((y)=>y.quantity==0).length > 0){
-                sp.splice(sp.indexOf(t), 1);      
+            if (sp.filter((y) => y.quantity == 0).length > 0) {
+                sp.splice(sp.indexOf(t), 1);
             }
-        });    
-    }); 
+        });
+    });
 }
 
 
 //method delete bill 
-function onDeleteBillPressed(group){ 
-    const _current_sale = props.data.filter((r)=>r.is_current == true && r.deleted == false); 
-    if(_current_sale.length >0){
-        const result = props.data.filter((x)=> x.deleted == false).flatMap(a => (a.sale.sale_products||[]));
-        result.forEach((r)=>r.total_selected = 0);    
-        (group.sale.sale_products||[]).forEach((r)=>r.total_selected = r.quantity);
+function onDeleteBillPressed(group) {
+    const _current_sale = props.data.filter((r) => r.is_current == true && r.deleted == false);
+    if (_current_sale.length > 0) {
+        const result = props.data.filter((x) => x.deleted == false).flatMap(a => (a.sale.sale_products || []));
+        result.forEach((r) => r.total_selected = 0);
+        (group.sale.sale_products || []).forEach((r) => r.total_selected = r.quantity);
         onDownloadPressed(_current_sale[0]);
-        
-        if(group.sale.name == ""){
-            props.data.splice(props.data.indexOf(group),1);
+
+        if (group.sale.name == "") {
+            props.data.splice(props.data.indexOf(group), 1);
         }
-        else{
-           group.deleted = true;
+        else {
+            group.deleted = true;
         }
-    } 
+    }
 }
 
 
 </script>
-<style lang="">
-    
+<style>
+.wrapper-badge-split-bill .v-badge__wrapper {
+    display: block !important;
+    padding: 6px;
+}
 </style>

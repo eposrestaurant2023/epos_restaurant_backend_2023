@@ -94,7 +94,11 @@ def get_products(parent_menu):
                 modifiers,
                 photo,
                 'product' as type,
-                append_quantity
+                append_quantity,
+                is_combo_menu,
+                use_combo_group,
+                combo_menu,
+                combo_group
             from  `tabTemp Product Menu` 
             where 
                 pos_menu='{0}' 

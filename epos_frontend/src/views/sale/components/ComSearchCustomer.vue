@@ -35,7 +35,6 @@
             </template>
             <template v-slot:append>
               <ComCustomerPromotionChip :customer="c"></ComCustomerPromotionChip>
-              
             </template>
           </v-card>
         </ComPlaceholder>

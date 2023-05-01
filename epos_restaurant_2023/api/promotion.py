@@ -16,12 +16,12 @@ def check_promotion(business_branch = '', check_time = False):
         filters.append(['end_time','>=', format_time(date,'HH:mm:ss')])
   
     promotions = frappe.get_list("Happy Hours Promotion", 
-                                fields=['name', 'promotion_name','business_branch','start_time','end_time','percentage_discount','note'], 
+                                fields=['name', 'promotion_name','business_branch','start_time','end_time','percentage_discount','note','number_discount'], 
                                 filters=filters,
                                 order_by="priority")
     
     data =  Enumerable(promotions).where(lambda x:x.business_branch == business_branch or '')
-    if len(data) > 0:
+    if data[0]:
         if check_time:
             return True
         else:

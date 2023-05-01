@@ -15,7 +15,7 @@ import itertools
 class Product(Document):
 	def validate(self):
 
-		if self.is_composite_menu==1:
+		if self.is_combo_menu==1:
 			self.is_recipe=0
 
 		error_list=[]
@@ -72,6 +72,31 @@ class Product(Document):
 
 
 		self.total_recipe_quantity = Enumerable(self.product_recipe).sum(lambda x: x.quantity)
+
+		#generate combo menu to json and update to combo menu data 
+		if self.is_combo_menu and self.product_combo_menus and self.use_combo_group==0:
+			combo_menus = []
+			for m in self.product_combo_menus:
+				combo_menus.append({
+					"product_code":m.product,
+					"product_name":m.product_name,
+					"unit":m.unit,
+					"quantity":m.quantity,
+					"price":m.price
+				})
+			self.combo_menu_data = json.dumps(combo_menus)
+		if self.is_combo_menu and self.combo_groups and self.use_combo_group==1:
+			combo_groups = []
+			for m in self.combo_groups:
+				combo_groups.append({
+					"combo_group":m.combo_group,
+					"pos_title":m.pos_title,
+					"item_selection":m.item_selection,
+					"menus":json.loads(m.combo_menu_data),
+				})
+			
+			self.combo_group_data = json.dumps(combo_groups)
+
 		
 		# price = get_product_price(product=self, business_branch="SR Branch",portion="Normal", price_rule="Normal Rate", unit="Box" )
 		# if price:
@@ -279,7 +304,14 @@ def add_product_to_temp_menu(self):
 	
 		prices = []
 		for p in self.product_price:
-			prices.append({"price":p.price,'branch':p.business_branch or "",'price_rule':p.price_rule, 'portion':p.portion, 'unit':p.unit, 'price_rule' : p.price_rule})
+			prices.append({
+					"price":p.price,
+					'branch':p.business_branch or "",
+					'price_rule':p.price_rule, 
+					'portion':p.portion,
+					  'unit':p.unit, 
+					  'price_rule' : p.price_rule
+					})
 		modifier_categories = Enumerable(self.product_modifiers).select(lambda x: x.modifier_category).distinct()
 		
 		modifiers = []

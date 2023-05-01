@@ -204,10 +204,22 @@ async function onAddCommission(){
 
 
 //split bills method
-async function onSplitBill(){ 
-    const res = await splitBillDialog({ title: 'Split Bill by Items', name: 'Split Bill', data: sale.sale });     
-    if (res != false) {  
-        // /
-    } 
+async function onSplitBill(){
+    if(!sale.isBillRequested()) {
+        if(sale.sale.sale_products.length == 0){
+            toaster.warning("Please select a menu item to submit order");
+            return;
+        }
+        else if(sale.sale.sale_status != 'Submitted' || sale.sale.sale_products.find(r=>r.sale_product_status != 'Submitted')){
+            toaster.warning("Please submit your current order.")
+        }else{
+            const res = await splitBillDialog({ title: 'Split Bill by Items', name: 'Split Bill', data: sale.sale });     
+            if (res != false) {  
+                // /
+            }
+        }
+        
+    }
+    
 }
 </script>
