@@ -44,6 +44,7 @@ import { computed, inject, searchCustomerDialog,createResource, customerDetailDi
 import ComCustomerPromotionChip from "./ComCustomerPromotionChip.vue";
 const sale = inject("$sale")
 const socket = inject("$socket")
+const moment = inject("$moment")
 const toaster = createToaster({ position: "top" });
 const customer = computed(()=>{
     return {
@@ -121,14 +122,13 @@ function updateProductAfterSelectCustomer(is_promotion){
                 onSuccess(doc) {
                     if(doc){
                         /// update products promotion
-                        doc.forEach(r=>{ 
-                            if(sale.sale.sale_products.find(s=>s.product_code == r.product_code)){
-                                let product = sale.sale.sale_products.find(s=>s.product_code == r.product_code)
-                                product.discount = sale.promotion?.info?.percentage_discount || 0
-                                product.happy_hours_promotion_title = sale.promotion?.info?.happy_hours_promotion_title || ''
-                                product.happy_hour_promotion = sale.promotion?.info?.name || ''
-                            }
-
+                        doc.forEach(r=>{
+                            let sale_products = sale.sale.sale_products.filter(x=>x.product_code == r.product_code)
+                            sale_products.forEach((s)=>{
+                                s.discount = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? 0 : (sale.promotion?.info?.percentage_discount || 0))
+                                s.happy_hours_promotion_title = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? '' : (sale.promotion?.info?.happy_hours_promotion_title || ''))
+                                s.happy_hour_promotion = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? '' : (sale.promotion?.info?.name || ''))
+                            })
                         })
                     }else{
                         gv.promotion = null

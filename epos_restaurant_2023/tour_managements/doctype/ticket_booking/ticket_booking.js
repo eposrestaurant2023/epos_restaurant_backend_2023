@@ -55,7 +55,11 @@ frappe.ui.form.on('Tour Booking Payments', {
        const payments = frm.doc.payments
        frm.set_value('total_payment', payments.reduce((n, d) => n + d.payment_amount,0));
        frm.refresh_field('total_payment'); 
-    }
+    },
+    payments_remove:function(frm){
+        frm.set_value('total_payment', frm.doc.payments.reduce((n, d) => n + (d.payment_amount || 0),0));
+        frm.refresh_field('total_payment'); 
+    },
 });
 frappe.ui.form.on('Ticket Booking Item', {
     quantity:function (frm,cdt, cdn) {

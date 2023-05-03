@@ -7,10 +7,13 @@
  "field_order": [
   "product",
   "product_name",
+  "product_name_kh",
   "unit",
   "quantity",
   "price",
-  "total_amount"
+  "total_amount",
+  "photo",
+  "product_category"
  ],
  "fields": [
   {
@@ -29,6 +32,7 @@
   },
   {
    "fetch_from": "product.unit",
+   "fetch_if_empty": 1,
    "fieldname": "unit",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -36,12 +40,14 @@
    "options": "Unit Of Measurement"
   },
   {
+   "default": "1",
    "fieldname": "quantity",
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Quantity"
   },
   {
+   "fetch_from": "product.price",
    "fieldname": "price",
    "fieldtype": "Currency",
    "in_list_view": 1,
@@ -52,12 +58,31 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Total Amount"
+  },
+  {
+   "fetch_from": "product.photo",
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  },
+  {
+   "fetch_from": "product.product_name_kh",
+   "fieldname": "product_name_kh",
+   "fieldtype": "Data",
+   "label": "Product Name Kh"
+  },
+  {
+   "fetch_from": "product.product_category",
+   "fieldname": "product_category",
+   "fieldtype": "Data",
+   "label": "Product Category"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-29 17:44:13.295029",
+ "modified": "2023-05-02 16:13:11.683369",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Combo Group Product",

@@ -1,6 +1,6 @@
 import Enumerable from 'linq'
 import moment from '@/utils/moment.js';
-import { noteDialog, printPreviewDialog, keyboardDialog, createResource, createDocumentResource, addModifierDialog, useRouter, confirmDialog, saleProductDiscountDialog } from "@/plugin"
+import { noteDialog, printPreviewDialog,SaleProductComboMenuGroupModal, keyboardDialog, createResource, createDocumentResource, addModifierDialog, useRouter, confirmDialog, saleProductDiscountDialog } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
 import { webserver_port } from "../../../../../sites/common_site_config.json"
 import socket from '@/utils/socketio';
@@ -216,13 +216,17 @@ export default class Sale {
         //check for append quantity rule
         //product code, allow_append_qty,price, unit,modifier, portion, is_free,sale_product_status
         //and check system have feature to send to kitchen
-        
-        let strFilter = `$.product_code=='${p.name}' && $.append_quantity ==1 && $.price==${p.price} && $.portion=='${this.getString(p.portion)}'  && $.modifiers=='${p.modifiers}'  && $.unit=='${p.unit}'  && $.is_free==0`
+        let strFilter = `$.product_code=='${p.name}' && $.append_quantity ==1 && $.price==${p.price} && $.portion=='${this.getString(p.portion)}'  && $.modifiers=='${p.modifiers}'  && $.unit=='${p.unit}' && $.is_free==0`
 
         if (!this.setting?.pos_setting?.allow_change_quantity_after_submit) {
             strFilter = strFilter + ` && $.sale_product_status == 'New'`
         }
+        if(p.is_combo_menu && p.use_combo_group){
+            strFilter = strFilter + ` && $.combo_group_data == '${p.combo_group_data}'`
+        }
+        
         let sp = Enumerable.from(this.sale.sale_products).where(strFilter).firstOrDefault()
+
         if (sp != undefined) {
             sp.quantity = parseFloat(sp.quantity) + 1;
             this.clearSelected();
@@ -266,9 +270,9 @@ export default class Sale {
                 product_variants: [],
                 is_combo_menu: p.is_combo_menu,
                 use_combo_group: p.use_combo_group,
-                combo_menu: p.combo_menu_items,
-                combo_menu_data: p.combo_menu,
-                combo_group_data: p.combo_group
+                combo_menu: p.combo_menu,
+                combo_menu_data: p.combo_menu_data,
+                combo_group_data: p.combo_group_data
             }
             this.sale.sale_products.push(saleProduct);
             this.updateSaleProduct(saleProduct);
@@ -602,29 +606,53 @@ export default class Sale {
 
 
     async OnEditSaleProduct(sp) {
-
-        let result = await addModifierDialog();
-
-        if (result) {
-            if (result.portion != undefined) {
-                sp.portion = this.getString(result.portion.portion);
-                sp.price = this.getNumber(result.portion.price);
+        if(sp.is_combo_menu && sp.use_combo_group){
+            const result = await SaleProductComboMenuGroupModal();
+            if(result){
+                if(result.combo_groups.length > 0){
+                    let combo_menu_items = ''
+                    if (result.combo_groups.length > 0) {
+                        result.combo_groups.forEach(r => {
+                            combo_menu_items = combo_menu_items + r.product_name + ' x' + r.quantity + ', '
+                        });
+                        sp.combo_menu = combo_menu_items.slice(0, combo_menu_items.length - 2)
+                        sp.combo_group_data = JSON.stringify(result.combo_groups)
+                    }else{
+                        sp.combo_menu = ''
+                        sp.combo_group_data = '[]'
+                    }
+                }else{
+                    sp.combo_menu = ''
+                    sp.combo_group_data = "[]"
+                }
+                this.updateSaleProduct(sp);
+                this.updateSaleSummary();
+                toaster.success("Update sale product successfully")
             }
+        }
+        else{
+            const result = await addModifierDialog();
+            if (result) {
+                if (result.portion != undefined) {
+                    sp.portion = this.getString(result.portion.portion);
+                    sp.price = this.getNumber(result.portion.price);
+                }
 
-            if (result.modifiers != undefined) {
+                if (result.modifiers != undefined) {
 
-                sp.modifiers = this.getString(result.modifiers.modifiers);
-                sp.modifiers_price = this.getNumber(result.modifiers.price);
-                sp.modifiers_data = result.modifiers.modifiers_data;
-            } else {
-                sp.modifiers = "";
-                sp.modifiers_price = 0;
-                sp.modifiers_data = "[]";
+                    sp.modifiers = this.getString(result.modifiers.modifiers);
+                    sp.modifiers_price = this.getNumber(result.modifiers.price);
+                    sp.modifiers_data = result.modifiers.modifiers_data;
+                } else {
+                    sp.modifiers = "";
+                    sp.modifiers_price = 0;
+                    sp.modifiers_data = "[]";
+                }
+                this.updateSaleProduct(sp);
+                this.updateSaleSummary();
+                toaster.success("Update sale product successfully")
+
             }
-            this.updateSaleProduct(sp);
-            this.updateSaleSummary();
-            toaster.success("Update sale product successfully")
-
         }
     }
 
@@ -873,7 +901,8 @@ export default class Sale {
                     note: r.note,
                     quantity: r.quantity,
                     is_deleted: false,
-                    is_free: r.is_free == 1
+                    is_free: r.is_free == 1,
+                    combo_menu:r.combo_menu
 
                 })
             });

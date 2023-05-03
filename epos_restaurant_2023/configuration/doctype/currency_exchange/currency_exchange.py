@@ -5,11 +5,23 @@ import frappe
 from frappe.model.document import Document
 
 class CurrencyExchange(Document):
-	
-	def on_submit(self):   
-		frappe.db.sql("update `tabPayment Type` set exchange_rate = {} where currency='{}'".format(self.exchange_rate,self.to_currency))
+	def validate(self):
+	 
+		if  frappe.db.get_default("currency") == self.from_currency:
+			self.exchange_rate = self.exchange_rate_input
+		else:
+			if frappe.db.get_default("exchange_rate_main_currency") == self.from_currency and    frappe.db.get_default("currency")  != frappe.db.get_default("exchange_rate_main_currency"):
+				self.exchange_rate = 1/ self.exchange_rate_input
+		
+ 
+	def on_submit(self):
+		currency = self.to_currency
+		if frappe.db.get_default("exchange_rate_main_currency") == self.from_currency and    frappe.db.get_default("currency")  != frappe.db.get_default("exchange_rate_main_currency"):
+			currency = self.from_currency
+
+		frappe.db.sql("update `tabPayment Type` set exchange_rate = {} where currency='{}'".format(self.exchange_rate,currency))
 		#update to pos profile payment type
-		sql = "update `tabPOS Config Payment Type` set exchange_rate = {} where currency='{}'".format(self.exchange_rate,self.to_currency)
+		sql = "update `tabPOS Config Payment Type` set exchange_rate = {} where currency='{}'".format(self.exchange_rate,currency)
 		frappe.db.sql(sql)
 
-	
+

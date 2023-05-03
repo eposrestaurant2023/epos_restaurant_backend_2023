@@ -84,6 +84,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "website":pos_config.website,
         "sale_types":sale_types,
         "main_currency_name":main_currency.name,
+        "exchange_rate_main_currency":frappe.db.get_default("exchange_rate_main_currency"),
         "main_currency_symbol":main_currency.symbol,
         "main_currency_format":main_currency.pos_currency_format,
         "main_currency_precision":frappe.db.get_default("currency_precision"),

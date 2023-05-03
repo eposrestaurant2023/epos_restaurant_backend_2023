@@ -30,9 +30,9 @@
                                         <CurrencyFormat :value="sp.modifiers_price * sp.quantity" />)
                                     </span>
                                 </div>
-                                <div v-if="sp.is_combo_menu">
+                                <div>
                                     <span>{{ sp.combo_menu }}</span>
-                                </div>
+                                </div> 
                                 <div v-if="sp.discount > 0">
                                     <span  class="text-red-500">
                                         Discount :
@@ -86,6 +86,7 @@ import ComCheckHappyHourPromotion from './happy_hour_promotion/ComCheckHappyHour
 const sale = inject('$sale')
 const product = inject('$product')
 const gv = inject('$gv')
+const moment = inject('$moment')
 const toaster = createToaster({ position: 'top' })
 
 const props = defineProps({
@@ -101,7 +102,11 @@ function onEditSaleProduct(sp) {
 
             product.setModifierSelection(sp)
 
-            if (product.modifiers.length > 0 || product.prices.filter(r => r.price_rule == sale.setting.price_rule && (r.branch == sale.setting.business_branch || r.branch == '')).length > 1)
+            if(sp.is_combo_menu && sp.use_combo_group){
+                product.setComboGroupSelection(sp)
+            }
+
+            if ((sp.is_combo_menu && sp.use_combo_group) || product.modifiers.length > 0 || product.prices.filter(r => r.price_rule == sale.setting.price_rule && (r.branch == sale.setting.business_branch || r.branch == '')).length > 1)
                 sale.OnEditSaleProduct(sp)
             else
                 toaster.warning("This product has no option to edit.")
@@ -175,11 +180,13 @@ function onPromotion(is_promotion, sp){
         if(gv.promotion?.customer_groups.filter(r=>r.customer_group_name_en == sale.sale.customer_group).length == 0)
             return
     }
+
     if(is_promotion && sp.allow_discount){
         sp.discount_type = 'Percent'
-        sp.discount = (gv.promotion?.info?.number_discount || 0)
+        sp.discount = (gv.promotion?.info?.percentage_discount || 0)
         sp.happy_hour_promotion = gv.promotion?.info?.name
         sp.happy_hour_promotion_title = gv.promotion?.info?.promotion_name
+        
         sale.updateSaleProduct(sp);
         sale.updateSaleSummary();
         

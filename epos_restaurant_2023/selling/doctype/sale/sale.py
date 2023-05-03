@@ -12,7 +12,7 @@ from frappe.model.document import Document
 
 class Sale(Document):
 	def validate(self):
-		
+
 		#frappe.throw(_("Please select your working day"))
 		if self.pos_profile:
 			if not self.working_day:
@@ -20,6 +20,7 @@ class Sale(Document):
 
 			if not self.cashier_shift: 
 				frappe.throw(_("Please select your cashier shift"))
+
 		# if self.posting_date:
 		# 	if self.posting_date>utils.today():
 		# 		frappe.throw(_("Sale date cannot greater than current date"))
@@ -55,7 +56,8 @@ class Sale(Document):
 			if frappe.get_value("Stock Location",self.stock_location,"business_branch") != self.business_branch:
 				frappe.throw(_("The stock location {} is not belong to business branch {}".format(self.stock_location, self.business_branch)))
 		
-		#validate exhcange ratefchangef
+
+		#validate exhcange rate change
 		exchange_rate =frappe.get_last_doc('Currency Exchange', filters={"to_currency": frappe.db.get_default("second_currency")})# frappe.get_last_doc("Currency Exchange",{})
 		if exchange_rate:
 			self.exchange_rate = exchange_rate.exchange_rate
@@ -154,7 +156,6 @@ class Sale(Document):
 				self.commission_amount = self.commission
 		if self.docstatus ==1:
 			self.sale_status = "Closed"
-			 
 			self.sale_status_color = frappe.get_value("Sale Status","Closed","background_color")
 
 
@@ -204,22 +205,9 @@ def update_inventory_on_submit(self):
 		else:
 			doc = frappe.get_doc("Product",p.product_code)
 			#check if product has receipt and loop update from product receip
-			for d in doc.product_recipe:
-				if d.is_inventory_product:
-					uom_conversion = get_uom_conversion(d.base_unit, d.unit)
-					add_to_inventory_transaction({
-						'doctype': 'Inventory Transaction',
-						'transaction_type':"Sale",
-						'transaction_date':self.posting_date,
-						'transaction_number':self.name,
-						'product_code': d.product,
-						'unit':d.unit,
-						'stock_location':self.stock_location,
-						'out_quantity':(p.quantity* d.quantity) / uom_conversion,
-						"uom_conversion":uom_conversion,
-						'note': 'Update Recipe Quantity after New sale submitted.',
-						'action': 'Submit'
-					})
+
+			update_product_recipe_to_inventory(self,doc, p.quantity, "Submit")
+			
 
 			#udpate cost for none stock product
 			
@@ -251,6 +239,10 @@ def update_inventory_on_submit(self):
 						})
 
 		
+		#check if product is combo menu then get item from the combo menu item and update to inventory
+		if p.is_combo_menu:
+			update_combo_menu_to_inventory(self,p,"Submit")
+		
 		frappe.db.sql("update `tabSale Product` set cost = {} where name='{}'".format(cost, p.name))
    
 	#update total cost to sale and profit to sale
@@ -260,6 +252,73 @@ def update_inventory_on_submit(self):
 		total_cost = cost_datas[0][0]
   
 	frappe.db.sql("update `tabSale` set total_cost = {0} , profit=grand_total - {0} where name='{1}'".format(total_cost, self.name))
+
+def update_product_recipe_to_inventory(self,product,base_quantity,action):
+
+	for d in product.product_recipe:
+		if d.is_inventory_product:
+			uom_conversion = get_uom_conversion(d.base_unit, d.unit)
+			note = ""
+			if action =="Submit":
+				note = 'Update Recipe Quantity after New sale submitted.'
+			else:
+				note =  'Update Recipe Quantity after cancel order.'
+
+			add_to_inventory_transaction({
+				'doctype': 'Inventory Transaction',
+				'transaction_type':"Sale",
+				'transaction_date':self.posting_date,
+				'transaction_number':self.name,
+				'product_code': d.product,
+				'unit':d.unit,
+				'stock_location':self.stock_location,
+				'in_quantity':(base_quantity* d.quantity) / uom_conversion if action=="Cancel" else 0,
+				'out_quantity':(base_quantity* d.quantity) / uom_conversion if action=="Submit" else 0,
+				"uom_conversion":uom_conversion,
+				'note': note,
+				'action': action
+			})
+
+def update_combo_menu_to_inventory(self, product,action):
+	if product.is_combo_menu:
+		if product.use_combo_group:
+			combo_menu_data = json.loads(product.combo_group_data)
+			update_combo_menu_to_inventor_transaction(self,product,action, combo_menu_data)
+		else:
+			#get combo menu item from combo_menu_data field 
+			combo_menu_data = json.loads(product.combo_menu_data)
+			update_combo_menu_to_inventor_transaction(self,product,action,combo_menu_data)
+			
+def update_combo_menu_to_inventor_transaction(self,product,action,combo_menu_data):
+	for p in combo_menu_data:
+		doc = frappe.get_doc("Product",p["product_code"])
+		if doc.is_inventory_product:
+			uom_conversion = get_uom_conversion( doc.unit,p["unit"])
+			note =""
+			if action =="Submit":
+				note = 'New sale submitted. Inventory deduct from combo menu {}({})'.format(product.product_name, product.product_code)
+			else:
+				note = "Order cancelled. Inventory added from combo menu {}({})".format(product.product_name, product.product_code)
+			
+			add_to_inventory_transaction({
+				'doctype': 'Inventory Transaction',
+				'transaction_type':"Sale",
+				'transaction_date':self.posting_date,
+				'transaction_number':self.name,
+				'product_code': doc.name,
+				'unit':p["unit"],
+				'stock_location':self.stock_location,
+				"in_quantity": (p["quantity"] * product.quantity) / uom_conversion if action =="Cancel" else 0,
+				'out_quantity': (p["quantity"] * product.quantity) / uom_conversion if action =="Submit" else 0,
+				"uom_conversion":uom_conversion,
+				'note': note,
+				'action': action
+			})
+		else:
+			#check if product have receipt then update to stock
+			# base qty here is = sale product quantity * combo product quantity
+			update_product_recipe_to_inventory(self,doc,product.quantity * p["quantity"], action)
+					
 
 
 def update_inventory_on_cancel(self):
@@ -319,6 +378,11 @@ def update_inventory_on_cancel(self):
 						'note': 'Update Recipe Quantity from modifer ({}) after Sale Invoice Cancelled.'.format(m["modifier"]),
 						'action': 'Cancel'
 					})	
+
+		#check if product is combo menu then get item from the combo menu item and update to inventory
+		if p.is_combo_menu:
+			update_combo_menu_to_inventory(self,p,"Cancel")
+		
 
 def add_payment_to_sale_payment(self):
 	if self.payment:

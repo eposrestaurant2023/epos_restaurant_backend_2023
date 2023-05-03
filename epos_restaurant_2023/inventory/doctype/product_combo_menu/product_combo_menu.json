@@ -9,10 +9,13 @@
  "field_order": [
   "product",
   "product_name",
+  "base_unit",
   "unit",
   "quantity",
   "price",
-  "total_amount"
+  "total_amount",
+  "is_inventory_product",
+  "photo"
  ],
  "fields": [
   {
@@ -60,12 +63,31 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Total Amount"
+  },
+  {
+   "default": "0",
+   "fetch_from": "product.is_inventory_product",
+   "fieldname": "is_inventory_product",
+   "fieldtype": "Check",
+   "label": "Is Inventory Product"
+  },
+  {
+   "fetch_from": "product.photo",
+   "fieldname": "photo",
+   "fieldtype": "Data",
+   "label": "Photo"
+  },
+  {
+   "fetch_from": "product.unit",
+   "fieldname": "base_unit",
+   "fieldtype": "Data",
+   "label": "Base Unit"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-05-01 10:43:12.179658",
+ "modified": "2023-05-02 12:26:54.630350",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Product Combo Menu",

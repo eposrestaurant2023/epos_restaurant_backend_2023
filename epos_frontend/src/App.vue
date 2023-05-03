@@ -168,8 +168,7 @@ function checkPromotionDay(business_branch){
 		params: {
 			business_branch: business_branch
 		},
-		onSuccess(doc) {
-			console.log(doc)
+		onSuccess(doc) { 
 			gv.promotion = doc;
 			sale.promotion = doc;
 		}

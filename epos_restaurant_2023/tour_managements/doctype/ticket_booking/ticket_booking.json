@@ -200,7 +200,8 @@
    "fieldname": "total_quantity",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Total Quantity"
+   "label": "Total Quantity",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_22",
@@ -210,7 +211,8 @@
    "fieldname": "total_amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Total Amount"
+   "label": "Total Amount",
+   "read_only": 1
   },
   {
    "collapsible": 1,
@@ -428,7 +430,8 @@
   {
    "fieldname": "total_pax",
    "fieldtype": "Int",
-   "label": "Total Pax"
+   "label": "Total Pax",
+   "read_only": 1
   },
   {
    "depends_on": "eval:doc.is_round_trip ==1",
@@ -439,19 +442,21 @@
   {
    "depends_on": "eval:doc.is_round_trip_bus ==1",
    "fieldname": "return_destination",
-   "fieldtype": "Data",
-   "label": "Destination"
+   "fieldtype": "Link",
+   "label": "Destination",
+   "options": "Transportation Destination"
   },
   {
    "depends_on": "eval:doc.is_round_trip ==1",
    "fieldname": "destination_flight_return",
-   "fieldtype": "Data",
-   "label": "Destination"
+   "fieldtype": "Link",
+   "label": "Destination",
+   "options": "Transportation Destination"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-01 09:49:59.658451",
+ "modified": "2023-05-02 11:12:46.296969",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Ticket Booking",

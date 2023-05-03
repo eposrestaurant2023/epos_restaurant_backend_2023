@@ -9,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
+  "branch",
   "reference",
   "restaurant",
   "food_type",
@@ -392,11 +393,17 @@
    "fieldname": "address",
    "fieldtype": "Data",
    "label": "Address"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Business Branch"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-29 14:09:27.460681",
+ "modified": "2023-05-02 11:55:52.638195",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Restaurant Booking",

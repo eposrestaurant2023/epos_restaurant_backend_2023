@@ -14,10 +14,12 @@
                 <v-list-item-title class="text-red-700">Cancel Free</v-list-item-title>
             </v-list-item>
             <template v-if="!saleProduct.is_free">
-                <v-list-item prepend-icon="mdi-percent" title="Discount Percent"
-                    @click="onSaleProductDiscount('Percent')"></v-list-item>
-                <v-list-item prepend-icon="mdi-currency-usd" title="Discount Amount"
-                    @click="onSaleProductDiscount('Amount')"></v-list-item>
+                <template v-if="!saleProduct.happy_hour_promotion">
+                    <v-list-item prepend-icon="mdi-percent" title="Discount Percent"
+                        @click="onSaleProductDiscount('Percent')"></v-list-item>
+                    <v-list-item prepend-icon="mdi-currency-usd" title="Discount Amount"
+                        @click="onSaleProductDiscount('Amount')"></v-list-item>
+                </template>
                 <v-list-item v-if="saleProduct.discount > 0" @click="onSaleProductCancelDiscount()">
                     <template v-slot:prepend>
                         <v-icon icon="mdi-tag-multiple" color="error"></v-icon>
@@ -135,6 +137,7 @@ function onSaleProductCancelDiscount() {
         props.saleProduct.discount = 0;
         props.saleProduct.discount_type = 'Amount'
         props.saleProduct.happy_hour_promotion = ''
+        props.saleProduct.happy_hours_promotion_title = ''
         sale.updateSaleProduct(props.saleProduct)
         sale.updateSaleSummary();
     }

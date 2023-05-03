@@ -11,6 +11,14 @@ frappe.ui.form.on("Product", {
                 ]
             }
         });
+        frm.set_query("product","product_combo_menus", function() {
+            return {
+                filters: [
+                    ["Product","is_combo_menu", "=", 0]
+                ]
+            }
+        });
+
         print_barcode_button(frm);
 
         set_product_indicator(frm);

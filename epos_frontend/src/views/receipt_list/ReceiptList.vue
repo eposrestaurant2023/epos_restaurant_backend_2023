@@ -5,20 +5,23 @@
     </PageLayout>
 </template>
 <script setup>
-import { ref, useRouter, saleDetailDialog, customerDetailDialog } from '@/plugin'
+import { ref, useRouter, saleDetailDialog, customerDetailDialog} from '@/plugin'
 import PageLayout from '@/components/layout/PageLayout.vue';
 import ComTable from '@/components/table/ComTable.vue';
 import {useDisplay} from 'vuetify' 
 import ComReceiptListCard from './components/ComReceiptListCard.vue';
 const {mobile} = useDisplay()
 const router = useRouter()
-function onCallback(data) {
+async function onCallback(data) {
  
  if(data.fieldname=="name"){
   const name =  data.data.name;
-    saleDetailDialog({
+  const result = await  saleDetailDialog({
       name:name
     });
+    if (result=="delete_order"){
+      window.parent.postMessage('refresh', '*');
+    }
    
   }
   else if(data.fieldname == "customer"){

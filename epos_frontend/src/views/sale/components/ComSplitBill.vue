@@ -10,12 +10,13 @@
       <v-btn variant="flat" color="error" @click="onClose()">
           Close
       </v-btn>
-      <v-btn variant="flat" color="primary" @click="onCreateNew()">
-          New Bill
+      <v-btn variant="flat" color="accent" large  elevation="2" outlined  plain @click="onCreateNew()">        
+          New Bill        
       </v-btn>
       <v-btn variant="flat" color="success" @click="onSave()">
           Save
       </v-btn>
+ 
     </template>
   </ComModal>
 </template>
@@ -49,6 +50,7 @@ onMounted(()=>{
   groupSales.value = [];
   groupSales.value.push({   
     deleted:false,
+    visibled:true,
     is_current:true,
     show_download:false,
     generate_id:uuidv4(),
@@ -78,6 +80,7 @@ onMounted(()=>{
           onGenerateTempField((v.sale_products||[]));
           groupSales.value.push({
             deleted:false,
+            visibled:true,
             is_current:false,
             show_download:false,
             generate_id:uuidv4(),
@@ -104,18 +107,19 @@ function onGenerateTempField(sale_products){
 }
 
 function onCreateNew(){ 
-  const deleted = groupSales.value.filter((r)=>r.deleted ==true && r.sale.name !="");
-  const _sale = JSON.parse(JSON.stringify(sale.sale));
+  const _deleted = groupSales.value.filter((r)=>r.deleted ==true && r.sale.name !="");
+  let _sale = JSON.parse(JSON.stringify(sale.sale));
   _sale.name = "";
-  if(deleted.length >0){
-    _sale.name = deleted[0].sale.name;
-    deleted[0].sale.name = "";
+  if(_deleted.length >0){
+    _sale = JSON.parse(JSON.stringify(_deleted[0].sale));
+    _deleted[0].sale.name = "";
   }
  
   _sale.sale_products =[]; 
   const _newGroup = {
     deleted:false,
     is_current:false,
+    visibled:true,
     show_download:false,
     generate_id:uuidv4(),
     no:groupSales.value.length + 1,
@@ -171,6 +175,21 @@ function onDownloadPressed(group){
 
 
 function onSave() { 
+  //check if current sale empty data
+  const _current_sale = groupSales.value.filter((r)=>r.deleted == false && r.is_current == true);
+  
+  if(_current_sale.length<=0){
+    toaster.warning("Invoice No: "+_current_sale[0].no+" (#"+_current_sale[0].sale.name + ") not allow to save without items.");
+    return;
+  }else{
+    if((_current_sale[0].sale.sale_products||[])<=0){
+
+      toaster.warning("Invoice No: "+_current_sale[0].no+" (#"+_current_sale[0].sale.name + ") not allow to save without items.");
+      return;
+    }
+  }
+
+
   let _active_sales = groupSales.value.filter((r)=>r.deleted == false); 
   _active_sales.forEach((a)=>{
 
@@ -201,7 +220,6 @@ function onSave() {
           return ('' + a.name).localeCompare(b.name);
   });
   
-
   createResource({
       url: "epos_restaurant_2023.api.split_bill.on_save",
       params:{
@@ -212,7 +230,7 @@ function onSave() {
       onSuccess(doc){ 
         sale.sale = doc ; 
         toaster.success("Split was successed.");
-        emit("resolve", false);
+        emit("resolve", true);
       },
       onError(err){ 
         toaster.warning("There're some trouble during save, please reload data and try again.");

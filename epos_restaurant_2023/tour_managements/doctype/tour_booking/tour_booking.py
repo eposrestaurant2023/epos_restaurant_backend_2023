@@ -86,6 +86,14 @@ class TourBooking(Document):
 				d.amount = self.total_tour_package_price
 			elif d.discount_on =="Hotel":
 				d.amount = self.total_hotel_amount
+			elif d.discount_on =="Restaurant":
+				d.amount = self.total_restaurant_amount
+			elif d.discount_on =="Tour Guide":
+				d.amount = self.total_tour_guide_amount	
+			elif d.discount_on =="Transportation":
+				d.amount = self.total_transportation_amount
+			else:
+				d.amount = self.total_additional_charge	
 
 			if (d.discount_type =="Percent"):
 				d.discount_amount = (d.amount or 0) * (d.discount or 0) / 100

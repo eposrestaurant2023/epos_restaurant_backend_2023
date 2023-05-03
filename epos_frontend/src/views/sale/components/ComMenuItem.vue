@@ -56,12 +56,13 @@
     </div>
 </template>
 <script setup>
-import { computed, addModifierDialog, inject, keypadWithNoteDialog } from '@/plugin'
+import { computed, addModifierDialog, inject, keypadWithNoteDialog,SaleProductComboMenuGroupModal, createToaster } from '@/plugin'
 import Enumerable from 'linq'
 // import ComPriceOnMenu from '../ComPriceOnMenu.vue';
 const props = defineProps({ data: Object })
 const sale = inject("$sale");
 const product = inject("$product");
+const toaster = createToaster({position: 'top'})
 // get image
 const image = computed(() => {
     return props.data.photo
@@ -113,7 +114,6 @@ async function onClickProduct() {
     if (!sale.isBillRequested()) {
         const p = JSON.parse(JSON.stringify(props.data));
         if (p.is_open_product == 1) {
-
             let productPrices = await keypadWithNoteDialog({
                 data: {
                     title: `Delete ${p.name}`,
@@ -124,17 +124,21 @@ async function onClickProduct() {
                     product_code: p.name
                 }
             });
+           
             if (productPrices) {
                 p.name_en = productPrices.note;
                 p.price = productPrices.number;
                 p.modifiers = '';
                 sale.addSaleProduct(p);
+            }else{
+                return
             }
 
         }
         else if (p.is_combo_menu) {
-            onComboMenu(p)
+            await onComboMenu(p)
             p.modifiers = "";
+            p.portion = "";
             p.modifiers_data = "[]";
         }
         else {
@@ -166,6 +170,7 @@ async function onClickProduct() {
             } else {
                 p.modifiers = "";
                 p.modifiers_data = "[]";
+                p.portion = "";
             }
         }
         sale.addSaleProduct(p);
@@ -174,20 +179,54 @@ async function onClickProduct() {
 
 }
 
-function onComboMenu(p){
+async function onComboMenu(p){
     
     if (p.is_combo_menu && p.use_combo_group) {
-        alert('group')
-    } else {
-        const combo_menus = JSON.parse(p.combo_menu)
-        let combo_menu_items = ''
-        if (combo_menus.length > 0) {
-            combo_menus.forEach(r => {
-                combo_menu_items = combo_menu_items + r.product_name + ' x' + r.quantity + ', '
-            });
+        product.setSelectedComboMenu(p)
+        const result = await SaleProductComboMenuGroupModal();
+        
+        if(result){
+            
+            if(result.combo_groups.length > 0){
+                p.combo_menu = getSeperateNameComboGroup(p,result.combo_groups)
+                
+                p.combo_group_data = JSON.stringify(result.combo_groups)
+
+            }else{
+                p.combo_menu = ''
+                p.combo_group_data = "[]"
+            }
         }
-        p.combo_menu_items = combo_menu_items.slice(0, combo_menu_items.length - 2)
-        console.log(p.combo_menu_items)
+    } else {
+        if(p.combo_menu){
+            const combo_menus = JSON.parse(p.combo_menu)
+            p.combo_menu = getSeperateName(combo_menus)
+        }        
     }
+}
+
+function getSeperateNameComboGroup(p,list){
+    let combo_groups = JSON.parse(p.combo_group)
+    let combo_menu_items = []
+    combo_groups.forEach((x)=>{
+        combo_menu_items.push(x.pos_title)
+        let combo_menus = []
+        list.forEach(r=> {
+        
+            if(r.group == x.combo_group){
+                combo_menus.push( r.product_name + ' x' + r.quantity)
+            }
+        })
+        
+        combo_menu_items.push(combo_menus.join(", "))
+    })
+    return combo_menu_items.join("|")
+}
+function getSeperateName(list){
+    let combo_menus = []
+        list.forEach(r=> {
+            combo_menus.push( r.product_name + ' x' + r.quantity)
+        })
+        return combo_menus.join(", ")
 }
 </script>

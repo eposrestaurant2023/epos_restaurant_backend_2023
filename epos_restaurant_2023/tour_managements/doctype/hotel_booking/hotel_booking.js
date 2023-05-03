@@ -19,12 +19,6 @@ frappe.ui.form.on("Hotel Booking", {
             updateRoomTypeRow(frm,d)
         });
     },
-    total_rooms(frm){
-        setTotalRoomNight(frm);
-    },
-    total_nights(frm){
-        setTotalRoomNight(frm);
-    },
     discount_type(frm){
         updateDiscount(frm); 
     },
@@ -33,6 +27,12 @@ frappe.ui.form.on("Hotel Booking", {
     },
     discount_amount(frm){
         updateDiscount(frm); 
+    },
+    total_rooms(frm){
+        updateTotalRoomNight(frm);
+    },
+    total_nights(frm){
+        updateTotalRoomNight(frm);
     }
 
 });
@@ -60,13 +60,15 @@ frappe.ui.form.on('Hotel Booking Room Type', {
     },
     single_room:function (frm,cdt, cdn) {
         updateRoomTypeRow(frm, locals[cdt][cdn] )
-
+        updateTotalRoom(frm, locals[cdt][cdn] )
     },
     double_room:function (frm,cdt, cdn) {
         updateRoomTypeRow(frm, locals[cdt][cdn] )
+        updateTotalRoom(frm, locals[cdt][cdn] )
     },
     twin_room:function (frm,cdt, cdn) {
         updateRoomTypeRow(frm, locals[cdt][cdn] )
+        updateTotalRoom(frm, locals[cdt][cdn] )
     }
 })
 
@@ -82,8 +84,17 @@ frappe.ui.form.on('Tour Booking Payments', {
     }
      
 })
-
-
+function updateTotalRoom(frm,doc){
+     frm.set_value('total_rooms', frm.doc.room_types.reduce((n,d) => n + d.number_of_room, 0));
+     frm.refresh_field('total_rooms');
+    
+}
+function updateTotalRoomNight(frm){
+    if(frm.doc.total_rooms && frm.doc.total_nights){
+        frm.doc.total_room_night = (frm.doc.total_rooms || 0) * (frm.doc.total_nights || 0)
+        frm.refresh_field('total_room_night');
+    }
+}
 
 function updateRoomTypeRow(frm,doc){
     
@@ -99,12 +110,7 @@ function setTotalNights(frm){
         frm.refresh_field('total_nights');
     }
 }
-function setTotalRoomNight(frm){
-    if(frm.doc.total_nights && frm.doc.total_rooms){
-        frm.doc.total_room_night = frm.doc.total_nights * frm.doc.total_rooms
-        frm.refresh_field('total_room_night');
-    }
-}
+
 function updateDiscount(frm){
     if (frm.doc.discount_type=="Percent" && frm.doc.discount){
         frm.doc.discount_amount = (frm.doc.total_amount || 0) * (frm.doc.discount || 0)/100;  

@@ -261,7 +261,7 @@
    "type": "Link"
   }
  ],
- "modified": "2023-04-27 15:52:06.777456",
+ "modified": "2023-05-02 09:00:08.359605",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Tour Management",
@@ -312,10 +312,11 @@
    "type": "DocType"
   },
   {
-   "color": "Cyan",
+   "color": "Pink",
    "doc_view": "List",
    "label": "Ticket Booking",
    "link_to": "Ticket Booking",
+   "stats_filter": "{\"name\":[\"is\",\"set\"]}",
    "type": "DocType"
   },
   {

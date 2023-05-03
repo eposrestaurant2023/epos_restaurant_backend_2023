@@ -28,6 +28,7 @@
    "label": "Total Menu"
   },
   {
+   "fetch_from": "combo_group.description",
    "fieldname": "description",
    "fieldtype": "Small Text",
    "in_list_view": 1,
@@ -44,6 +45,7 @@
    "fetch_from": "combo_group.combo_menu_data",
    "fieldname": "combo_menu_data",
    "fieldtype": "JSON",
+   "hidden": 1,
    "label": "Combo Menu Data"
   },
   {
@@ -56,7 +58,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-05-01 11:18:42.972239",
+ "modified": "2023-05-02 16:57:55.961655",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Product Combo Group",

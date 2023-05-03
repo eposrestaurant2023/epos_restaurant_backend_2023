@@ -20,7 +20,8 @@
   "total_amount",
   "note_section",
   "note",
-  "combo_menu_data"
+  "combo_menu_data",
+  "description"
  ],
  "fields": [
   {
@@ -58,7 +59,8 @@
   {
    "fieldname": "total_quantity",
    "fieldtype": "Float",
-   "label": "Total Quantity"
+   "label": "Total Quantity",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_8",
@@ -67,7 +69,8 @@
   {
    "fieldname": "total_amount",
    "fieldtype": "Currency",
-   "label": "Total Amount"
+   "label": "Total Amount",
+   "read_only": 1
   },
   {
    "fieldname": "pos_title",
@@ -88,11 +91,17 @@
    "fieldtype": "JSON",
    "hidden": 1,
    "label": "Combo Menu Data"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "hidden": 1,
+   "label": "Description"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-01 11:34:15.369511",
+ "modified": "2023-05-02 16:51:33.928632",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Combo Group",

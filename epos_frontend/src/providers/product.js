@@ -15,6 +15,7 @@ export default class Product {
         this.prices = [];
         this.modifiers = [];
         this.keyword="";
+        this.combo_group_temp = [];
         this.currentRootPOSMenu = null
         this.posMenuResource = createResource({
             url: 'epos_restaurant_2023.api.product.get_product_by_menu',
@@ -64,6 +65,7 @@ export default class Product {
         this.selectedProduct = p;
         this.prices = [];
         this.modifiers = [];
+        this.combo_group_temp = [];
         let prices=  JSON.parse( p.prices);
      
         prices.filter(r=>r.branch==this.setting?.business_branch || r.branch=="").forEach((p)=>{
@@ -81,6 +83,15 @@ export default class Product {
             r.selected = false
         });
         this.modifiers = modifiers;
+
+        if(p.is_combo_menu && p.use_combo_group){
+ 
+            let combo_groups = JSON.parse(p.combo_group)
+            combo_groups.forEach((r)=>{
+                r.selected = false
+            })
+            this.combo_group_temp = combo_groups
+        }
  
     }
     setSelectedProductByMenuID(id){
@@ -189,7 +200,73 @@ export default class Product {
         })
     }
       
+    setSelectedComboMenu(p){
+        this.selectedProduct = p;
+        let combo_group_data =  JSON.parse(p.combo_group);
+        combo_group_data.forEach((r)=>{
+            r.menus.forEach((x)=>{
+                x.selected = r.menus.length === 1,
+                x.group = r.combo_group
+            })
+        });
+        this.combo_group_temp = combo_group_data;
+    }
+    getSelectedComboGroup(){
+        let selected = Enumerable.from(this.combo_group_temp).selectMany("$.menus").where("$.selected==true").toArray();
+        if (selected == undefined) {
+            selected = []
+        }
+        
+        return selected;
+    }
+    validateComboGroup(){
+        return new Promise((resolve)=>{
+            this.combo_group_temp.forEach((c)=>{
+                const countSelected = c.menus.filter(r=>r.selected == true).length
+                if(countSelected === 0){
+                    toaster.warning(`Please select products of ${c.pos_title}`)
+                    resolve(false)
+                }
+                else if(countSelected != c.item_selection){
+                    toaster.warning(`Must select all ${c.item_selection} of ${c.pos_title}`);
+                    resolve(false)
+                }
+            })
+            resolve(true)
+        })
+    }
+    getComboMenu(group) {
+        if (this.keyword == "") {
+            return group.menus
+        } else {
 
+            return group.menus.filter((r) => {
+                return String(r.product_name).toLocaleLowerCase().includes(this.keyword.toLocaleLowerCase());
+            });
+        }
+    }
+
+    onSelectComboMenu(item, group){
+        if(group.item_selection == 1){
+            const selectedFilter = Enumerable.from(this.combo_group_temp).where(`$.combo_group == '${group.combo_group}'`)
+            selectedFilter.selectMany("$.menus").where('$.selected==true').forEach("$.selected=false");
+        }
+        item.group = group.combo_group
+        item.selected = !item.selected;
+    }
+
+    setComboGroupSelection(sp){
+        const selectedComboGroups = JSON.parse(sp.combo_group_data)
+        const comboGroupItems = Enumerable.from(this.combo_group_temp).selectMany("$.menus");
+        if(selectedComboGroups!=undefined){  
+            selectedComboGroups.forEach((r)=>{
+                    const item = comboGroupItems.where(`$.menu_name=='${r.menu_name}'`).firstOrDefault();
+                    if(item!=undefined){
+                        item.selected = true;
+                    }
+                })
+        }
+    }
      
     getString(val) {
         val = (val = val == null ? "" : val)

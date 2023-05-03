@@ -14,9 +14,12 @@ import itertools
 
 class Product(Document):
 	def validate(self):
-
+		#frappe.throw(  str(get_uom_conversion("Unit", "Case 24")))
 		if self.is_combo_menu==1:
 			self.is_recipe=0
+			if self.is_inventory_product:
+				self.is_inventory_product = 0
+			
 
 		error_list=[]
 		for v in self.product_variants:
@@ -77,12 +80,18 @@ class Product(Document):
 		if self.is_combo_menu and self.product_combo_menus and self.use_combo_group==0:
 			combo_menus = []
 			for m in self.product_combo_menus:
+				if m.unit != m.base_unit:
+					if not check_uom_conversion(m.base_unit, m.unit):
+							frappe.throw(_("There is no UoM conversion for product {}-{} from {} to {}".format(m.product, m.product_name, m.base_unit, m.unit)))
+
 				combo_menus.append({
+					"menu_name":m.name,
 					"product_code":m.product,
 					"product_name":m.product_name,
 					"unit":m.unit,
 					"quantity":m.quantity,
-					"price":m.price
+					"price":m.price,
+					"photo":m.photo
 				})
 			self.combo_menu_data = json.dumps(combo_menus)
 		if self.is_combo_menu and self.combo_groups and self.use_combo_group==1:

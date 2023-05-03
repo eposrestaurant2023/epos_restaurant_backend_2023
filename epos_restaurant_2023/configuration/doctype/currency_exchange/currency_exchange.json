@@ -11,6 +11,7 @@
   "posting_date",
   "from_currency",
   "to_currency",
+  "exchange_rate_input",
   "exchange_rate",
   "amended_from"
  ],
@@ -49,7 +50,7 @@
    "in_list_view": 1,
    "label": "Exchange Rate",
    "precision": "9",
-   "reqd": 1
+   "read_only": 1
   },
   {
    "fieldname": "amended_from",
@@ -59,12 +60,18 @@
    "options": "Currency Exchange",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "exchange_rate_input",
+   "fieldtype": "Float",
+   "label": "Exchange Rate Input",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-03-26 21:08:15.409835",
+ "modified": "2023-05-03 09:34:15.748643",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Currency Exchange",

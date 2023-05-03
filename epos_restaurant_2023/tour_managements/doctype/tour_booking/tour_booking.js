@@ -102,7 +102,7 @@ frappe.ui.form.on('Tour Booking Discount', {
 
     discounts_remove:function(frm){
         frm.set_value('total_discount', frm.doc.discounts.reduce((n, d) => n + (d.discount_amount || 0),0));
-       
+        frm.refresh_field('total_discount')
     },
     discount_on:function (frm,cdt, cdn) {
         calculate_discount(frm,locals[cdt][cdn])
@@ -116,6 +116,13 @@ frappe.ui.form.on('Tour Booking Discount', {
    },
 
  
+ })
+ frappe.ui.form.on('Tour Booking Payments', {
+
+    tour_booking_payment_remove:function(frm){
+        frm.set_value('total_paid', frm.doc.tour_booking_payment.reduce((n, d) => n + (d.payment_amount || 0),0));
+        frm.refresh_field('total_paid')
+    }
  })
 
  function calculate_discount(frm,doc){

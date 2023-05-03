@@ -105,7 +105,7 @@
   
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import { createResource, reactive, defineEmits, watch,inject,ref } from '@/plugin'
+import { createResource, reactive, defineEmits, watch,inject,ref,onMounted, onUnmounted } from '@/plugin'
 import ComFilter from '../ComFilter.vue';
 
 let filter = reactive({});
@@ -203,6 +203,7 @@ function getFilter(){
     else if(gv.setting.specific_business_branch && props.businessBranchField){
         filters[props.businessBranchField] = ["=", gv.setting.business_branch]
     }
+    filters["docstatus"] = ["in",[1,0]]
     return filters
 }
  
@@ -281,6 +282,24 @@ function onSearch(key, operator) {
 function onRefresh() {
     dataResource.fetch()
 }
+
+
+const pageListener = async function (e) {
+    if (e.isTrusted && typeof (e.data) == 'string') {
+        if(e.data=="refresh"){
+            dataResource.fetch()
+        }
+
+    }
+};
+
+
+
+window.addEventListener('message', pageListener, false);
+
+onUnmounted(() => {
+    window.removeEventListener('message', pageListener, false);
+}) 
 
 
 </script>

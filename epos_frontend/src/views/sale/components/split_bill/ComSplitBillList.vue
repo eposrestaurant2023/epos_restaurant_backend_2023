@@ -1,29 +1,38 @@
 <template lang=""> 
-     <div class="grid gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
-        <v-card v-for="(g, index) in data.filter((x)=>x.deleted == false)" :key="index">
-            <v-card-title class="!p-0">
-                <v-toolbar height="55">
-                    <v-toolbar-title class="text">
-                        <div class="text-lg">No: {{ g.no }}</div>
-                        <div class="text-sm">#{{g.sale.name || "New"}}</div>
-                       
-                    </v-toolbar-title>
-                    <template v-slot:append>  
-                        <v-btn v-if="g.show_download" @click="onDownloadPressed(g)" style="height:35px; width:35px; margin-right:5px" variant="outlined" color="primary" icon="mdi-download-circle-outline">
-             
-                        </v-btn>
-                        <v-btn v-if="(!g.is_current)" @click="onDeleteBillPressed(g)" style="height:35px; width:35px; margin-left:5px" variant="outlined" color="error" icon="mdi-delete-outline">
-                            
-                        </v-btn> 
-                    </template>
-                </v-toolbar>
-            </v-card-title>
-            <v-card-text class="!pt-0 !pr-0 !pb-14 !pl-0">       
-                <v-list>
-                    <v-list-item class="!p-0" v-for="(sp, _index) in g.sale.sale_products" :key="_index"  @click="onSelected(sp)">                       
+    <div>
+        <div class="flex -m-1 overflow-auto py-1">
+            <v-btn variant="tonal" class="m-1" :color="!g.visibled ? 'error' : 'gray'" :prepend-icon="!(g.visibled) ? 'mdi-eye-off':'mdi-eye'" 
+                    v-for="(g, index) in data.filter((x)=>x.deleted == false)" :key="index" @click="(()=>g.visibled = !g.visibled)" >
+                    {{g.no}}
+            </v-btn>
+        </div>
+        <hr/>
+
+        <div class="grid gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 mt-4">
+            <v-card v-for="(g, index) in data.filter((x)=>x.deleted == false && x.visibled)" :key="index">
+                <v-card-title class="!p-0">
+                    <v-toolbar height="55">
+                        <v-toolbar-title class="text">
+                            <div class="text-lg">No: {{ g.no }}</div>
+                            <div class="text-sm">#{{g.sale.name || "New"}}</div>                            
+                        </v-toolbar-title>
+                        <template v-slot:append>
+                            <v-btn v-if="g.show_download" @click="onDownloadPressed(g)" style="height:35px; width:35px; margin-right:5px" variant="outlined" color="primary" icon="mdi-download-circle-outline">
+                    
+                            </v-btn>
+                            <v-btn v-if="(!g.is_current)" @click="onDeleteBillPressed(g)" style="height:35px; width:35px; margin-left:5px" variant="outlined" color="error" icon="mdi-delete-outline">
+                                
+                            </v-btn> 
+                        </template>
+                    </v-toolbar>
+                </v-card-title>
+                <v-card-text class="!pt-0 !pr-0 !pb-14 !pl-0">       
+                    <v-list>
+                        <v-list-item class="!p-0" v-for="(sp, _index) in g.sale.sale_products" :key="_index"  @click="onSelected(sp)">                       
                             <div class="text-sm relative p-3 border-b" >
-                                <v-badge :content="sp.total_selected" color="success" class="absolute top-2 right-2" v-if="sp.total_selected > 0"></v-badge>
-                                <div class="flex">
+                                <v-badge :content="sp.total_selected" style="margin-top:2px; margin-right:2px" color="success" class="absolute top-2 right-2" v-if="sp.total_selected > 0"></v-badge>
+                        
+                                <div class="flex" style="margin-top:10px;">
                                     <div class="grow">
                                         <div> {{ sp.product_name }}<v-chip class="ml-1" size="x-small"
                                                 color="error" variant="outlined" v-if="sp.portion">{{ sp.portion }}</v-chip> <v-chip
@@ -58,13 +67,14 @@
                                     </div>
                                 </div>                                
                             </div>     
-                    </v-list-item>
-                    <v-divider></v-divider>
-                </v-list>
-            </v-card-text>
-            <v-card-actions style="min-height:8px !important" class="!p-0 flex items-center justify-between absolute bottom-0 w-full bg-gray-300"></v-card-actions>
-        </v-card>
-        {{ showDownload()}}
+                        </v-list-item>
+                        <v-divider></v-divider>
+                    </v-list>
+                </v-card-text>
+                <v-card-actions style="min-height:8px !important" class="!p-0 flex items-center justify-between absolute bottom-0 w-full bg-gray-300"></v-card-actions>
+            </v-card>
+            {{ showDownload()}}
+        </div>
     </div>
 </template>
 <script setup> 
