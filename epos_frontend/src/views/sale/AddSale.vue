@@ -39,7 +39,7 @@
 <script setup>
 import { inject, useRoute, useRouter, ref, onMounted, onUnmounted, onBeforeRouteLeave, createResource } from '@/plugin';
 import Enumerable from 'linq';
-import ComMenu from './comp`onents/ComMenu.vue';
+import ComMenu from './components/ComMenu.vue';
 import ComSelectCustomer from './components/ComSelectCustomer.vue';
 import ComSaleInformation from '@/views/sale/components/ComSaleInformation.vue';
 import ComLoadingDialog from '../../components/ComLoadingDialog.vue';
