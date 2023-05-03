@@ -33,7 +33,7 @@
 </template>
 <script setup>
 import PageLayout from '../../components/layout/PageLayout.vue';
-import { useRouter, useRoute, createResource, ref, inject, createToaster,onMounted } from "@/plugin"
+import { useRouter, useRoute, createResource, ref, inject, createToaster,onMounted,smallViewSaleProductListModel } from "@/plugin"
 import { saleDetailDialog } from "@/utils/dialog";
 import ComPlaceholder from "@/components/layout/components/ComPlaceholder.vue";
 import ComSaleCardItem from './components/ComSaleCardItem.vue';
@@ -81,21 +81,50 @@ const cashierShiftResource = createResource({
 });
 
 function onOpenOrder(sale_id) {
-    createResource({
-        url: "epos_restaurant_2023.api.api.get_current_shift_information",
-        params: {
-            business_branch: gv.setting?.business_branch,
-            pos_profile: localStorage.getItem("pos_profile")
-        },
-        auto: true,
-        onSuccess(data) {
-            if (data.cashier_shift == null) {
-                toaster.warning("Please start cashier shift first");
-                router.push({ name: "OpenShift" })
-            } else if (data.working_day == null) {
-                toaster.warning("Please start working day first");
-                router.push({ name: "StartWorkingDay" })
-            } else {
+    // createResource({
+    //     url: "epos_restaurant_2023.api.api.get_current_shift_information",
+    //     params: {
+    //         business_branch: gv.setting?.business_branch,
+    //         pos_profile: localStorage.getItem("pos_profile")
+    //     },
+    //     auto: true,
+    //     onSuccess(data) {
+    //         if (data.cashier_shift == null) {
+    //             toaster.warning("Please start cashier shift first");
+    //             router.push({ name: "OpenShift" })
+    //         } else if (data.working_day == null) {
+    //             toaster.warning("Please start working day first");
+    //             router.push({ name: "StartWorkingDay" })
+    //         } else {
+    //             if (sale_id) {
+    //                 router.push({ name: "AddSale", params: { name: sale_id } }).then(()=>{
+    //                     localStorage.setItem('redirect_sale_type', selected.value)
+    //                 })
+    //             }
+    //             else {
+    //                 toaster.error("Cannot get sale name")
+    //             }
+
+    //         }
+    //     },
+    //     onError(er) {
+    //         toaster.error(JSON.stringify(er))
+    //     }
+    // })
+
+
+    gv.authorize("open_order_required_password", "make_order").then(async (v) => {
+        if (v) {
+            if(mobile.value){
+                    await sale.LoadSaleData(sale_id).then(async (v)=>{
+                        localStorage.setItem('redirect_sale_type', selected.value)
+                        const result =  await smallViewSaleProductListModel ({title: sale.sale.name ? sale.sale.name : 'New Sale', data: {from_table: true}});
+                        if(result){
+                            //
+                        }
+                      
+                    })
+            }else{
                 if (sale_id) {
                     router.push({ name: "AddSale", params: { name: sale_id } }).then(()=>{
                         localStorage.setItem('redirect_sale_type', selected.value)
@@ -104,14 +133,11 @@ function onOpenOrder(sale_id) {
                 else {
                     toaster.error("Cannot get sale name")
                 }
-
-            }
-        },
-        onError(er) {
-            toaster.error(JSON.stringify(er))
+        
+            } 
+            return;
         }
     })
-
 
 }
 
@@ -156,7 +182,7 @@ onMounted(() => {
 
  
  
-async function newSale(table) {
+async function newSale() {
     let guest_cover = 0;
     if (gv.setting.use_guest_cover == 1) {
         const result = await keyboardDialog({ title: "Guest Cover", type: 'number', value: guest_cover });
