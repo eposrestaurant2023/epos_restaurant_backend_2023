@@ -58,12 +58,16 @@ class Sale(Document):
 		
 
 		#validate exhcange rate change
-
-		# exchange_rate = frappe.get_last_doc('Currency Exchange', filters={"to_currency": frappe.db.get_default("second_currency")})# frappe.get_last_doc("Currency Exchange",{})
-		# if exchange_rate:
-		# 	self.exchange_rate = exchange_rate.exchange_rate
-		# else:
-		# 	self.exchange_rate =1
+		to_currency = frappe.db.get_default("second_currency")
+		if( frappe.db.get_default("exchange_rate_main_currency") !=frappe.db.get_default("currency") ):
+			to_currency = frappe.db.get_default("currency") 
+			
+		exchange_rate = frappe.get_last_doc('Currency Exchange', filters={"to_currency": to_currency})# frappe.get_last_doc("Currency Exchange",{})
+		
+		if exchange_rate:
+			self.exchange_rate = exchange_rate.exchange_rate
+		else:
+			self.exchange_rate =1
    
 		#validate sale product 
 		validate_sale_product(self)
