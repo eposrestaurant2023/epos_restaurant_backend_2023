@@ -44,25 +44,36 @@ async function onToTableLayout() {
         }
         await sale.onSubmit().then(async (value) => {
           if (value) {
-            router.push({ name: "TableLayout" }).then(()=>{
+            if(mobile.value){
               emit('closeModel')
-            })
-            
+            }else{
+              router.push({ name: "TableLayout" }).then(()=>{
+                emit('closeModel')
+              })
+            }
           }
         });
       } else {
         //continue
         sale.sale = {};
-        router.push({ name: "TableLayout" }).then(()=>{
+        if(mobile.value){
           emit('closeModel')
-        })
+        }else{
+          router.push({ name: "TableLayout" }).then(()=>{
+            emit('closeModel')
+          })
+        }
       }
     }
   } else {
     sale.sale = {};
-    router.push({ name: "TableLayout" }).then(()=>{
+    if(mobile.value){
       emit('closeModel')
-    })
+    }else{
+      router.push({ name: "TableLayout" }).then(()=>{
+        emit('closeModel')
+      })
+    }
   }
 }
 </script> 

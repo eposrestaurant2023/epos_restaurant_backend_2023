@@ -74,7 +74,6 @@ function onTableClick(table, guest_cover) {
                         }
                       
                     })
-
                 }else{
                     
                     router.push({
