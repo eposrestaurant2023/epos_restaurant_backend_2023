@@ -13,10 +13,11 @@
             <div class="bg-red-500 text-white text-sm px-2 py-1 h-20 fixed left-0 right-0 bottom-0" v-ripple @click="onViewDetail">
                 <div>
                     <div class="text-xs" v-if="lastProduct">{{ lastProduct.product_code }} - {{ lastProduct.product_name }} ({{ lastProduct.quantity }})</div>
-                    <div class="flex items-center justify-between">
-                        <div>total Qty</div>
-                        <div>{{ sale.sale.total_quantity }}</div>
-                    </div>
+                    
+                    <div class="flex items-center justify-between">                        
+                        <div>Total Qty</div>
+                        <div>{{ sale.sale.total_quantity }}</div>                    
+                    </div> 
                     <div class="flex items-center justify-between">
                         <div>Total Amount</div>
                         <div style="font-size: 24px;"><CurrencyFormat :value="sale.sale.grand_total" /></div>

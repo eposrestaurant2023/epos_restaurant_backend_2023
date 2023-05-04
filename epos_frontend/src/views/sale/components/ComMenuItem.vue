@@ -24,7 +24,7 @@
             </div>
 
             <div class="p-1 rounded-md absolute bottom-1 right-1 left-1 bg-gray-50 bg-opacity-70 text-sm text-center">
-                <span>{{ data.name_en }}</span>
+                <span>{{ data.name_en }} </span>
             </div>
         </div>
     </div>
@@ -32,10 +32,9 @@
     <div v-else-if="data.type == 'product'" v-ripple
         class="relative overflow-hidden h-full bg-cover bg-no-repeat rounded-lg shadow-lg cursor-pointer bg-gray-300 "
         v-bind:style="{ 'background-image': 'url(' + image + ')' }" @click="onClickProduct()">
-
         <div class="absolute top-0 bottom-0 right-0 left-0" v-if="!image">
             <avatar class="!h-full !w-full" :name="data.name_en" :rounded="false" background="#f1f1f1"></avatar>
-        </div>
+        </div> 
         <div class="block relative p-2 w-full h-full">
             <div class="absolute left-0 top-0 bg-red-700 text-white p-1 rounded-tl-lg rounded-br-lg text-sm">
                 <span>
@@ -113,6 +112,7 @@ function onBack(parent) {
 async function onClickProduct() {
     if (!sale.isBillRequested()) {
         const p = JSON.parse(JSON.stringify(props.data));
+        
         if (p.is_open_product == 1) {
             let productPrices = await keypadWithNoteDialog({
                 data: {
@@ -180,11 +180,9 @@ async function onClickProduct() {
 }
 
 async function onComboMenu(p){
-    
     if (p.is_combo_menu && p.use_combo_group) {
         product.setSelectedComboMenu(p)
         const result = await SaleProductComboMenuGroupModal();
-        
         if(result){
             
             if(result.combo_groups.length > 0){
@@ -197,19 +195,20 @@ async function onComboMenu(p){
                 p.combo_group_data = "[]"
             }
         }
-    } else {
-        if(p.combo_menu){
-            const combo_menus = JSON.parse(p.combo_menu)
-            p.combo_menu = getSeperateName(combo_menus)
+    } else { 
+        if(p.is_combo_menu && p.combo_menu_data){
+            const combo_menu_data = JSON.parse(p.combo_menu_data)
+            p.combo_menu = getSeperateName(combo_menu_data)
+            
         }        
     }
 }
 
 function getSeperateNameComboGroup(p,list){
-    let combo_groups = JSON.parse(p.combo_group)
+    let combo_groups = JSON.parse(p.combo_group_data)
     let combo_menu_items = []
     combo_groups.forEach((x)=>{
-        combo_menu_items.push(x.pos_title)
+        combo_menu_items.push('***' + x.pos_title + '***')
         let combo_menus = []
         list.forEach(r=> {
         

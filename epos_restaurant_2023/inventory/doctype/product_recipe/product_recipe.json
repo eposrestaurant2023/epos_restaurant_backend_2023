@@ -12,8 +12,7 @@
   "quantity",
   "base_unit",
   "is_inventory_product",
-  "update_to_stock_location_from_sale_transaction",
-  "update_stock_location"
+  "sale_type"
  ],
  "fields": [
   {
@@ -66,24 +65,16 @@
    "label": "Is Inventory Product"
   },
   {
-   "default": "1",
-   "fieldname": "update_to_stock_location_from_sale_transaction",
-   "fieldtype": "Check",
-   "in_list_view": 1,
-   "label": "Update to Stock Location from Sale Transaction"
-  },
-  {
-   "fieldname": "update_stock_location",
+   "fieldname": "sale_type",
    "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Update Stock Location",
-   "options": "Stock Location"
+   "label": "Sale Type",
+   "options": "Sale Type"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-26 19:05:55.177833",
+ "modified": "2023-05-03 14:51:14.208011",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Product Recipe",

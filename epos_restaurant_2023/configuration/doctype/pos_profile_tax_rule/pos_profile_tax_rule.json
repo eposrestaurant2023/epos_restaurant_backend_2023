@@ -1,0 +1,40 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2023-05-03 16:16:57.154853",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "tax_rule",
+  "tax_rule_data"
+ ],
+ "fields": [
+  {
+   "fieldname": "tax_rule",
+   "fieldtype": "Link",
+   "label": "Tax Rule",
+   "options": "Tax Rule"
+  },
+  {
+   "fetch_from": "tax_rule.tax_rule_data",
+   "fieldname": "tax_rule_data",
+   "fieldtype": "JSON",
+   "hidden": 1,
+   "label": "Tax Rule Data"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-05-03 16:21:47.135955",
+ "modified_by": "Administrator",
+ "module": "Configuration",
+ "name": "POS Profile Tax Rule",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

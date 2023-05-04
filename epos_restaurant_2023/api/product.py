@@ -97,8 +97,10 @@ def get_products(parent_menu):
                 append_quantity,
                 is_combo_menu,
                 use_combo_group,
-                combo_menu,
-                combo_group
+                combo_menu_data,
+                combo_group_data,
+                tax_rule,
+                tax_rule_data
             from  `tabTemp Product Menu` 
             where 
                 pos_menu='{0}' 

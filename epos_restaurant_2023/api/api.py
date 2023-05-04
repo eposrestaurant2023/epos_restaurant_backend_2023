@@ -148,6 +148,16 @@ def get_system_settings(pos_profile="", device_name=''):
     reports = frappe.get_list("Print Format",fields=report_format_fields , filters={"doc_type":["in",["Cashier Shift","Working Day","Sale","POS Profile"]]},order_by="sort_order")
     letter_heads = frappe.get_list("Letter Head",fields=["name","is_default"],filters={"disabled":0})
     letter_heads.append({"name":"No Letterhead","is_default":0})
+
+    #get tax rules 
+    tax_rules = []
+    for d in profile.pos_profile_tax_rule: 
+        tax_rules.append({"tax_rule":d.tax_rule,"tax_rule_data":d.tax_rule_data})
+
+    #get default tax rule
+    tax_rule ={}
+    if profile.tax_rule:      
+        tax_rule = frappe.get_doc("Tax Rule", profile.tax_rule)
  
 
     data={
@@ -164,7 +174,8 @@ def get_system_settings(pos_profile="", device_name=''):
         "alert_close_working_day_after":pos_config.alert_close_working_day_after,
         "price_rule":profile.price_rule,
         "stock_location":profile.stock_location,
-        "tax_rule":profile.tax_rule,
+        "tax_rules":tax_rules,
+        "tax_rule":tax_rule,
         "login_background":pos_branding.login_background,
         "home_background":pos_branding.home_background,
         "thank_you_background":pos_branding.thank_you_background,

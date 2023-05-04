@@ -7,6 +7,9 @@
         <div class="absolute top left bg-red-700 rounded-br-sm z-20">
             <v-icon icon="mdi-checkbox-marked-circle-outline" color="white" v-if="product.selected"></v-icon>
         </div>
+        <div class="absolute top-1 right-1 bg-gray-100 rounded-md z-20 px-1" :class="{'!bg-red-700 text-white':product.selected}">
+            <span class="text-xs">x</span><b class="text-sm">{{ product.quantity }}</b>
+        </div>
         <div class="absolute top-0 bottom-0 right-0 left-0 z-10" v-if="!product.photo && product.product_name">
             <avatar class="!h-full !w-full" :name="product.product_name" :rounded="false" background="#f1f1f1"></avatar>
         </div>

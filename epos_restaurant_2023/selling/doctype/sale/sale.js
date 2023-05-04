@@ -4,12 +4,21 @@
 frappe.ui.form.on("Sale", {
 	refresh(frm){
 		if(!frm.doc.__islocal && frm.doc.docstatus == 1){
-			 
 			frm.dashboard.add_indicator(__("Total Quantity: {0}",[frm.doc.total_quantity]) ,"blue");
 			frm.dashboard.add_indicator(__("Grand Total: {0}",[format_currency(frm.doc.grand_total)]) ,"blue");
 			frm.dashboard.add_indicator(__("Paid: {0}",[format_currency(frm.doc.total_paid)]) ,"green");
 			if (frm.doc.changed_amount>0) frm.dashboard.add_indicator(__("Changed: {0}",[format_currency(frm.doc.changed_amount)]) ,"green");
 			frm.dashboard.add_indicator(__("Balance: {0}",[format_currency(frm.doc.balance)]) ,"blue");
+
+
+			var iframe = document.createElement('iframe');
+            iframe.height="1024";
+            iframe.width="100%";
+            iframe.style="border:none"
+            iframe.src = '/printview?doctype=Sale&name=' + frm.doc.name +  '&format=' + frappe.get_meta("Sale").fields.find(r=>r.fieldname=='inventory_transaction').default + '&no_letterhead=1&settings=%7B%7D&_lang=en&show_toolbar=0&view=ui';
+			
+            document.getElementById('inventory_transaction').appendChild(iframe);
+
 		}
 	},
 	setup(frm) {
@@ -569,4 +578,10 @@ let get_product_price = function (frm,doc) {
 
 
 
- 
+window.addEventListener('message', function(event) {
+	if (event.origin !== window.location.origin) {
+	  return;
+	}
+	frappe.set_route('app/product/' + event.data);
+	
+  });

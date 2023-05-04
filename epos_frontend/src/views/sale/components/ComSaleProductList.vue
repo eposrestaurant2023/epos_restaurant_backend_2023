@@ -1,4 +1,4 @@
-<template>
+<template> 
     <v-list class="!p-0">
         <v-list-item v-for="sp, index in (readonly == true ? getSaleProducts(groupKey) : sale.getSaleProducts(groupKey))"
             :key="index" @click="!readonly ? { click: sale.onSelectSaleProduct(sp) } : {}"
@@ -19,6 +19,7 @@
                                     color="success" variant="outlined">Free</v-chip> <v-chip v-else-if="sp.happy_hour_promotion && sp.discount > 0" size="x-small" variant="outlined" color="orange" text-color="white" prepend-icon="mdi-cake-variant">
                                         <span>{{ sp.discount }}%</span>
                                     </v-chip>
+                                 
                             </div>
                             <div>
                                 {{ sp.quantity }} x
@@ -30,8 +31,12 @@
                                         <CurrencyFormat :value="sp.modifiers_price * sp.quantity" />)
                                     </span>
                                 </div>
-                                <div>
-                                    <span>{{ sp.combo_menu }}</span>
+                                <div v-if="sp.is_combo_menu">
+                                    <div v-if="sp.use_combo_group && sp.combo_menu_data">
+                                        
+                                        <ComSaleProductComboMenuGroupItemDisplay :combo-menu-data="sp.combo_menu_data"/>
+                                    </div>
+                                    <span v-else>{{ sp.combo_menu }}</span>
                                 </div> 
                                 <div v-if="sp.discount > 0">
                                     <span  class="text-red-500">
@@ -83,6 +88,7 @@ import ComSaleProductButtonMore from './ComSaleProductButtonMore.vue';
 import ComQuantityInput from '../../../components/form/ComQuantityInput.vue';
 import Enumerable from 'linq';
 import ComCheckHappyHourPromotion from './happy_hour_promotion/ComCheckHappyHourPromotion.vue';
+import ComSaleProductComboMenuGroupItemDisplay from './combo_menu/ComSaleProductComboMenuGroupItemDisplay.vue';
 const sale = inject('$sale')
 const product = inject('$product')
 const gv = inject('$gv')
@@ -98,18 +104,21 @@ const props = defineProps({
 function onEditSaleProduct(sp) {
     if (!sale.isBillRequested()) {
         if (sp.sale_product_status == "New" || sale.setting.pos_setting.allow_change_quantity_after_submit == 1) {
-            product.setSelectedProductByMenuID(sp.menu_product_name);
+            
+            const is_has_product = product.setSelectedProductByMenuID(sp.menu_product_name);
+            if(is_has_product){
+                 
+                product.setModifierSelection(sp)
 
-            product.setModifierSelection(sp)
+                if(sp.is_combo_menu && sp.use_combo_group){
+                    product.setComboGroupSelection(sp)
+                }
 
-            if(sp.is_combo_menu && sp.use_combo_group){
-                product.setComboGroupSelection(sp)
+                if ((sp.is_combo_menu && sp.use_combo_group) || product.modifiers.length > 0 || product.prices.filter(r => r.price_rule == sale.setting.price_rule && (r.branch == sale.setting.business_branch || r.branch == '')).length > 1)
+                    sale.OnEditSaleProduct(sp)
+                else
+                    toaster.warning("This product has no option to edit.")
             }
-
-            if ((sp.is_combo_menu && sp.use_combo_group) || product.modifiers.length > 0 || product.prices.filter(r => r.price_rule == sale.setting.price_rule && (r.branch == sale.setting.business_branch || r.branch == '')).length > 1)
-                sale.OnEditSaleProduct(sp)
-            else
-                toaster.warning("This product has no option to edit.")
         } else {
             toaster.warning("Submitted order is not allow to edit.");
         }

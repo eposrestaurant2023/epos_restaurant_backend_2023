@@ -47,6 +47,7 @@
   "total_tax",
   "tax_1_section",
   "tax_1_rate",
+  "percentage_of_price_to_calculate_tax_1",
   "calculate_tax_1_after_discount",
   "column_break_32",
   "taxable_amount_1",
@@ -54,6 +55,7 @@
   "tax_1_amount",
   "section_break_15",
   "tax_2_rate",
+  "percentage_of_price_to_calculate_tax_2",
   "calculate_tax_2_after_discount",
   "calculate_tax_2_after_adding_tax_1",
   "column_break_40",
@@ -62,6 +64,7 @@
   "tax_2_amount",
   "section_break_44",
   "tax_3_rate",
+  "percentage_of_price_to_calculate_tax_3",
   "calculate_tax_3_after_discount",
   "calculate_tax_3_after_adding_tax_1",
   "calculate_tax_3_after_adding_tax_2",
@@ -97,8 +100,7 @@
   "is_combo_menu",
   "use_combo_group",
   "combo_menu",
-  "combo_menu_data",
-  "combo_group_data"
+  "combo_menu_data"
  ],
  "fields": [
   {
@@ -643,21 +645,34 @@
    "label": "Combo Menu Data"
   },
   {
-   "fieldname": "combo_group_data",
-   "fieldtype": "JSON",
-   "label": "Combo Group Data"
-  },
-  {
    "fieldname": "combo_menu",
    "fieldtype": "Data",
    "label": "Combo Menu",
    "read_only": 1
+  },
+  {
+   "default": "100",
+   "fieldname": "percentage_of_price_to_calculate_tax_1",
+   "fieldtype": "Float",
+   "label": "Percentage of Price to Calculate Tax 1"
+  },
+  {
+   "default": "100",
+   "fieldname": "percentage_of_price_to_calculate_tax_2",
+   "fieldtype": "Float",
+   "label": "Percentage of Price to Calculate Tax 2"
+  },
+  {
+   "default": "100",
+   "fieldname": "percentage_of_price_to_calculate_tax_3",
+   "fieldtype": "Float",
+   "label": "Percentage of Price to Calculate Tax 3"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-05-02 17:16:42.437850",
+ "modified": "2023-05-03 17:30:45.730555",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Product",

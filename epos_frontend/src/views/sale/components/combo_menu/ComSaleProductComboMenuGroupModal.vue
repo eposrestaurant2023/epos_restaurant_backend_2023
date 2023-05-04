@@ -61,6 +61,7 @@ const emit = defineEmits(["resolve","reject"])
 function onConfirm(){
     product.validateComboGroup().then((value)=>{
       if(value){
+        
         emit("resolve",{
             combo_groups:product.getSelectedComboGroup()
         }) 

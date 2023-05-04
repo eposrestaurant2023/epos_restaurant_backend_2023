@@ -22,6 +22,8 @@
   "pos_branding",
   "waiting_number_prefix",
   "reset_waiting_number_after",
+  "section_break_15",
+  "pos_profile_tax_rule",
   "section_break_10",
   "pos_menus",
   "table_groups_section",
@@ -178,11 +180,21 @@
    "fieldtype": "Select",
    "label": "Reset Waiting Number After",
    "options": "Close Cashier Shift\nClose Working Day"
+  },
+  {
+   "fieldname": "pos_profile_tax_rule",
+   "fieldtype": "Table",
+   "label": "POS Profile Tax Rule",
+   "options": "POS Profile Tax Rule"
+  },
+  {
+   "fieldname": "section_break_15",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-08 11:38:40.997041",
+ "modified": "2023-05-03 16:19:45.174037",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Profile",

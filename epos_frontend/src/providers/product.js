@@ -66,7 +66,10 @@ export default class Product {
         this.prices = [];
         this.modifiers = [];
         this.combo_group_temp = [];
-        let prices=  JSON.parse( p.prices);
+        let prices = []
+        if(p.prices){
+            prices = JSON.parse( p.prices)
+        }
      
         prices.filter(r=>r.branch==this.setting?.business_branch || r.branch=="").forEach((p)=>{
             p.selected = false;
@@ -86,9 +89,13 @@ export default class Product {
 
         if(p.is_combo_menu && p.use_combo_group){
  
-            let combo_groups = JSON.parse(p.combo_group)
+            let combo_groups = JSON.parse(p.combo_group_data)
             combo_groups.forEach((r)=>{
                 r.selected = false
+                r.menus.forEach((m)=>{
+                    m.group = r.combo_group
+                    m.group_title = r.pos_title
+                })
             })
             this.combo_group_temp = combo_groups
         }
@@ -96,7 +103,14 @@ export default class Product {
     }
     setSelectedProductByMenuID(id){
         const p = Enumerable.from( this.posMenuResource.data??[]).where(`$.menu_product_name=='${id}'`).firstOrDefault();
-        this.setSelectedProduct(p);
+        if(p){
+            this.setSelectedProduct(p);
+            return true;
+        }
+        else{
+            toaster.warning("Please add/delete to edit.")
+            return false;
+        }
 
     }
     setModifierSelection(sp){
@@ -202,26 +216,28 @@ export default class Product {
       
     setSelectedComboMenu(p){
         this.selectedProduct = p;
-        let combo_group_data =  JSON.parse(p.combo_group);
+        let combo_group_data =  JSON.parse(p.combo_group_data);
         combo_group_data.forEach((r)=>{
             r.menus.forEach((x)=>{
                 x.selected = r.menus.length === 1,
-                x.group = r.combo_group
+                x.group = r.combo_group,
+                x.group_title = r.pos_title
             })
         });
         this.combo_group_temp = combo_group_data;
     }
-    getSelectedComboGroup(){
+    getSelectedComboGroup(){ 
         let selected = Enumerable.from(this.combo_group_temp).selectMany("$.menus").where("$.selected==true").toArray();
         if (selected == undefined) {
             selected = []
-        }
+        } 
         
         return selected;
     }
     validateComboGroup(){
         return new Promise((resolve)=>{
             this.combo_group_temp.forEach((c)=>{
+
                 const countSelected = c.menus.filter(r=>r.selected == true).length
                 if(countSelected === 0){
                     toaster.warning(`Please select products of ${c.pos_title}`)
@@ -256,7 +272,7 @@ export default class Product {
     }
 
     setComboGroupSelection(sp){
-        const selectedComboGroups = JSON.parse(sp.combo_group_data)
+        const selectedComboGroups = JSON.parse(sp.combo_menu_data)
         const comboGroupItems = Enumerable.from(this.combo_group_temp).selectMany("$.menus");
         if(selectedComboGroups!=undefined){  
             selectedComboGroups.forEach((r)=>{

@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "hash",
+ "autoname": "field:pos_menu_id",
  "creation": "2023-01-07 00:28:51.666070",
  "default_view": "List",
  "doctype": "DocType",
@@ -27,8 +27,11 @@
   "photo",
   "is_combo_menu",
   "use_combo_group",
-  "combo_menu",
-  "combo_group"
+  "combo_menu_data",
+  "combo_group_data",
+  "tax_rule",
+  "tax_rule_data",
+  "pos_menu_id"
  ],
  "fields": [
   {
@@ -153,32 +156,51 @@
    "label": "Is Combo Menu"
   },
   {
-   "fetch_from": "product_code.combo_menu_data",
-   "fieldname": "combo_menu",
-   "fieldtype": "JSON",
-   "label": "Combo Menu"
-  },
-  {
-   "fetch_from": "product_code.combo_group_data",
-   "fieldname": "combo_group",
-   "fieldtype": "JSON",
-   "label": "Combo Group"
-  },
-  {
    "default": "0",
    "fetch_from": "product_code.use_combo_group",
    "fieldname": "use_combo_group",
    "fieldtype": "Check",
    "label": "Use Combo Group"
+  },
+  {
+   "fetch_from": "product_code.tax_rule",
+   "fieldname": "tax_rule",
+   "fieldtype": "Link",
+   "label": "Tax Rule",
+   "options": "Tax Rule"
+  },
+  {
+   "fetch_from": "tax_rule.tax_rule_data",
+   "fieldname": "tax_rule_data",
+   "fieldtype": "JSON",
+   "label": "Tax Rule Data"
+  },
+  {
+   "fetch_from": "product_code.combo_menu_data",
+   "fieldname": "combo_menu_data",
+   "fieldtype": "JSON",
+   "label": "Combo Menu Data"
+  },
+  {
+   "fetch_from": "product_code.combo_group_data",
+   "fieldname": "combo_group_data",
+   "fieldtype": "JSON",
+   "label": "Combo Group Data"
+  },
+  {
+   "fieldname": "pos_menu_id",
+   "fieldtype": "Data",
+   "label": "pos_menu_id",
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-01 13:36:10.527857",
+ "modified": "2023-05-03 18:27:18.578969",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Temp Product Menu",
- "naming_rule": "Random",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

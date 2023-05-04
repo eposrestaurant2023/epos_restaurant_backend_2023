@@ -179,8 +179,8 @@ class Sale(Document):
 
 	
 	def on_submit(self):
-		# update_inventory_on_submit(self)
-		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_submit", queue='short', self=self)
+		update_inventory_on_submit(self)
+		#frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_submit", queue='short', self=self)
 		add_payment_to_sale_payment(self)
 	
 	def on_cancel(self):
@@ -286,13 +286,8 @@ def update_product_recipe_to_inventory(self,product,base_quantity,action):
 
 def update_combo_menu_to_inventory(self, product,action):
 	if product.is_combo_menu:
-		if product.use_combo_group:
-			combo_menu_data = json.loads(product.combo_group_data)
-			update_combo_menu_to_inventor_transaction(self,product,action, combo_menu_data)
-		else:
-			#get combo menu item from combo_menu_data field 
-			combo_menu_data = json.loads(product.combo_menu_data)
-			update_combo_menu_to_inventor_transaction(self,product,action,combo_menu_data)
+		combo_menu_data = json.loads(product.combo_menu_data)
+		update_combo_menu_to_inventor_transaction(self,product,action, combo_menu_data)
 			
 def update_combo_menu_to_inventor_transaction(self,product,action,combo_menu_data):
 	for p in combo_menu_data:
@@ -460,8 +455,6 @@ def validate_sale_product(self):
 
 		d.total_discount = (d.sale_discount_amount or 0) + (d.discount_amount or 0)
 
-			
-   
 		validate_tax(d)
 		d.amount = (d.sub_total - d.discount_amount) + d.total_tax
 		d.total_revenue = (d.sub_total - d.total_discount) + d.total_tax

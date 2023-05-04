@@ -26,8 +26,7 @@ if (currency_name == "") {
     currency_name = gv.setting?.default_currency
 }
 const currency = gv.setting?.currencies.find(r => r.name == currency_name)
-console.log(gv.setting?.currencies)
-console.log(currency)
+
 if (currency) {
 
     format.value = currency.pos_currency_format

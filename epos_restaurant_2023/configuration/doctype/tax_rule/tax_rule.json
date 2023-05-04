@@ -23,7 +23,8 @@
   "percentage_of_price_to_calculate_tax_3",
   "calculate_tax_3_after_discount",
   "calculate_tax_3_after_adding_tax_1",
-  "calculate_tax_3_after_adding_tax_2"
+  "calculate_tax_3_after_adding_tax_2",
+  "tax_rule_data"
  ],
  "fields": [
   {
@@ -120,11 +121,16 @@
    "fieldname": "percentage_of_price_to_calculate_tax_3",
    "fieldtype": "Float",
    "label": "Percentage of Price to Calculate Tax 3"
+  },
+  {
+   "fieldname": "tax_rule_data",
+   "fieldtype": "JSON",
+   "label": "Tax Rule Data"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-07 09:21:24.781695",
+ "modified": "2023-05-03 15:21:08.675054",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Tax Rule",

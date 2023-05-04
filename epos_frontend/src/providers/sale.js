@@ -271,8 +271,10 @@ export default class Sale {
                 is_combo_menu: p.is_combo_menu,
                 use_combo_group: p.use_combo_group,
                 combo_menu: p.combo_menu,
-                combo_menu_data: p.combo_menu_data,
-                combo_group_data: p.combo_group_data
+                combo_menu_data: (p.combo_menu_data || p.combo_group_data),
+                product_tax_rule: p.tax_rule,
+                tax_rule : p.tax_rule,
+                
             }
             this.sale.sale_products.push(saleProduct);
             this.updateSaleProduct(saleProduct);
@@ -616,7 +618,7 @@ export default class Sale {
                             combo_menu_items = combo_menu_items + r.product_name + ' x' + r.quantity + ', '
                         });
                         sp.combo_menu = combo_menu_items.slice(0, combo_menu_items.length - 2)
-                        sp.combo_group_data = JSON.stringify(result.combo_groups)
+                        sp.combo_menu_data = JSON.stringify(result.combo_groups)
                     }else{
                         sp.combo_menu = ''
                         sp.combo_group_data = '[]'

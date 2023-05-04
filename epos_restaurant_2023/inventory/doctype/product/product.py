@@ -314,6 +314,7 @@ def add_product_to_temp_menu(self):
 		prices = []
 		for p in self.product_price:
 			prices.append({
+
 					"price":p.price,
 					'branch':p.business_branch or "",
 					'price_rule':p.price_rule, 
@@ -339,7 +340,9 @@ def add_product_to_temp_menu(self):
 			})
 	
 		for m in self.pos_menus:
+			
 			doc = frappe.get_doc({
+							"pos_menu_id":m.name,
 							'doctype': 'Temp Product Menu',
 							'product_code': self.name,
 							'pos_menu':m.pos_menu,
