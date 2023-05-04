@@ -219,7 +219,7 @@ export default class Product {
         let combo_group_data =  JSON.parse(p.combo_group_data);
         combo_group_data.forEach((r)=>{
             r.menus.forEach((x)=>{
-                x.selected = r.menus.length === 1,
+                x.selected = r.menus.length === r.item_selection,
                 x.group = r.combo_group,
                 x.group_title = r.pos_title
             })
@@ -263,12 +263,14 @@ export default class Product {
     }
 
     onSelectComboMenu(item, group){
-        if(group.item_selection == 1){
-            const selectedFilter = Enumerable.from(this.combo_group_temp).where(`$.combo_group == '${group.combo_group}'`)
-            selectedFilter.selectMany("$.menus").where('$.selected==true').forEach("$.selected=false");
+        if(group.item_selection != group.menus.length){
+            if(group.item_selection == 1){
+                const selectedFilter = Enumerable.from(this.combo_group_temp).where(`$.combo_group == '${group.combo_group}'`)
+                selectedFilter.selectMany("$.menus").where('$.selected==true').forEach("$.selected=false");
+            }
+            item.group = group.combo_group
+            item.selected = !item.selected;
         }
-        item.group = group.combo_group
-        item.selected = !item.selected;
     }
 
     setComboGroupSelection(sp){

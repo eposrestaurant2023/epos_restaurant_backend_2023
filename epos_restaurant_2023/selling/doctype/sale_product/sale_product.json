@@ -646,7 +646,7 @@
   },
   {
    "fieldname": "combo_menu",
-   "fieldtype": "Data",
+   "fieldtype": "Small Text",
    "label": "Combo Menu",
    "read_only": 1
   },
@@ -672,7 +672,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-05-03 17:30:45.730555",
+ "modified": "2023-05-04 16:24:12.688892",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Product",

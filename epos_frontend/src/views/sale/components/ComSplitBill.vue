@@ -228,7 +228,7 @@ function onSave() {
       },
       auto:true,
       onSuccess(doc){ 
-        sale.sale = doc ; 
+        sale.sale = doc ;
         toaster.success("Split was successed.");
         emit("resolve", true);
       },

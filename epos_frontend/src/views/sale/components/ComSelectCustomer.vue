@@ -125,6 +125,7 @@ function updateProductAfterSelectCustomer(is_promotion){
                         doc.forEach(r=>{
                             let sale_products = sale.sale.sale_products.filter(x=>x.product_code == r.product_code)
                             sale_products.forEach((s)=>{
+                                s.discount_type = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? 'Amount' : 'Percent')
                                 s.discount = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? 0 : (sale.promotion?.info?.percentage_discount || 0))
                                 s.happy_hours_promotion_title = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? '' : (sale.promotion?.info?.happy_hours_promotion_title || ''))
                                 s.happy_hour_promotion = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? '' : (sale.promotion?.info?.name || ''))

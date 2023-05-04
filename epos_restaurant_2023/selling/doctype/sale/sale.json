@@ -63,18 +63,21 @@
   "tax_rule",
   "section_break_44",
   "tax_1_rate",
+  "percentage_of_price_to_calculate_tax_1",
   "column_break_46",
   "taxable_amount_1",
   "column_break_48",
   "tax_1_amount",
   "tax_2_section",
   "tax_2_rate",
+  "percentage_of_price_to_calculate_tax_2",
   "column_break_55",
   "taxable_amount_2",
   "column_break_57",
   "tax_2_amount",
   "tax_3_section",
   "tax_3_rate",
+  "percentage_of_price_to_calculate_tax_3",
   "column_break_64",
   "taxable_amount_3",
   "column_break_66",
@@ -728,6 +731,21 @@
    "fieldtype": "HTML",
    "label": "Inventory Product Include in this Sale Invoice",
    "options": "<div id=\"inventory_transaction\">Inventory Product Include in this Sale Invoice</div>"
+  },
+  {
+   "fieldname": "percentage_of_price_to_calculate_tax_1",
+   "fieldtype": "Float",
+   "label": "Percentage of Price to Calculate Tax 1"
+  },
+  {
+   "fieldname": "percentage_of_price_to_calculate_tax_2",
+   "fieldtype": "Float",
+   "label": "Percentage of Price to Calculate Tax 2"
+  },
+  {
+   "fieldname": "percentage_of_price_to_calculate_tax_3",
+   "fieldtype": "Float",
+   "label": "Percentage of Price to Calculate Tax 3"
   }
  ],
  "image_field": "photo",
@@ -740,7 +758,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-05-03 17:07:49.444273",
+ "modified": "2023-05-04 13:42:48.421356",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

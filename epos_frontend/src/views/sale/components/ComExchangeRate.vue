@@ -29,7 +29,10 @@ const exchangeRateResource = createResource({
     params:{
         doctype: "Currency Exchange",
         fields: ["exchange_rate","exchange_rate_input"],
-        filters: {"from_currency":gv.setting.pos_setting.exchange_rate_main_currency,"to_currency":gv.setting.pos_setting.main_currency_name,"docstatus":1},
+        filters: {
+            "from_currency":gv.setting.pos_setting.main_currency_name,
+            "to_currency":to_currency.value,
+            "docstatus":1},
         order_by: "posting_date desc",
         limit_page_length: 1
         
@@ -39,6 +42,7 @@ const exchangeRateResource = createResource({
     onSuccess(data){
         let rate = 1;
         if(data.length>0){
+            
             exchange_rate.value=data[0].exchange_rate_input;
             sale.sale.exchange_rate = data[0].exchange_rate;
             rate =  data[0].exchange_rate;

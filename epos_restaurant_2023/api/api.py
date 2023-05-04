@@ -51,17 +51,19 @@ def get_system_settings(pos_profile="", device_name=''):
     pos_menus = []
     for m in profile.pos_menus:
         pos_menus.append({"pos_menu":m.pos_menu})   
-        
-    payment_types=[]
-    for p in pos_config.payment_type:
-        payment_types.append({ "payment_method":p.payment_type,"currency":p.currency,"is_single_payment_type":p.is_single_payment_type,"allow_cash_float":p.allow_cash_float, "input_amount":0,"exchange_rate":p.exchange_rate,"required_customer":p.required_customer,"is_foc":p.is_foc})
-    
-    #get currency
-    currencies = frappe.db.sql("select name,symbol,currency_precision,symbol_on_right,pos_currency_format from `tabCurrency` where enabled=1", as_dict=1)
     
     #main currency information
     main_currency = frappe.get_doc("Currency",frappe.db.get_default("currency"))
     second_currency = frappe.get_doc("Currency",frappe.db.get_default("second_currency"))
+
+    payment_types=[]
+    for p in pos_config.payment_type:
+        payment_types.append({ "payment_method":p.payment_type,"currency":p.currency,"is_single_payment_type":p.is_single_payment_type,"allow_cash_float":p.allow_cash_float, "input_amount":0,"exchange_rate":p.exchange_rate if p.currency != main_currency.name else 1,"required_customer":p.required_customer,"is_foc":p.is_foc})
+    
+    #get currency
+    currencies = frappe.db.sql("select name,symbol,currency_precision,symbol_on_right,pos_currency_format from `tabCurrency` where enabled=1", as_dict=1)
+    
+
 
     #get price rule
     price_rules = []

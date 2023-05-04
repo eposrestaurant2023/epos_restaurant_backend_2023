@@ -262,27 +262,28 @@ def update_product_recipe_to_inventory(self,product,base_quantity,action):
 
 	for d in product.product_recipe:
 		if d.is_inventory_product:
-			uom_conversion = get_uom_conversion(d.base_unit, d.unit)
-			note = ""
-			if action =="Submit":
-				note = 'Update Recipe Quantity after New sale submitted.'
-			else:
-				note =  'Update Recipe Quantity after cancel order.'
+			if not d.sale_type or d.sale_type == self.sale_type:
+				uom_conversion = get_uom_conversion(d.base_unit, d.unit)
+				note = ""
+				if action =="Submit":
+					note = 'Update Recipe Quantity after New sale submitted.'
+				else:
+					note =  'Update Recipe Quantity after cancel order.'
 
-			add_to_inventory_transaction({
-				'doctype': 'Inventory Transaction',
-				'transaction_type':"Sale",
-				'transaction_date':self.posting_date,
-				'transaction_number':self.name,
-				'product_code': d.product,
-				'unit':d.unit,
-				'stock_location':self.stock_location,
-				'in_quantity':(base_quantity* d.quantity) / uom_conversion if action=="Cancel" else 0,
-				'out_quantity':(base_quantity* d.quantity) / uom_conversion if action=="Submit" else 0,
-				"uom_conversion":uom_conversion,
-				'note': note,
-				'action': action
-			})
+				add_to_inventory_transaction({
+					'doctype': 'Inventory Transaction',
+					'transaction_type':"Sale",
+					'transaction_date':self.posting_date,
+					'transaction_number':self.name,
+					'product_code': d.product,
+					'unit':d.unit,
+					'stock_location':self.stock_location,
+					'in_quantity':(base_quantity* d.quantity) / uom_conversion if action=="Cancel" else 0,
+					'out_quantity':(base_quantity* d.quantity) / uom_conversion if action=="Submit" else 0,
+					"uom_conversion":uom_conversion,
+					'note': note,
+					'action': action
+				})
 
 def update_combo_menu_to_inventory(self, product,action):
 	if product.is_combo_menu:
@@ -466,37 +467,44 @@ def validate_pos_payment(self):
 
 def validate_tax(doc):
 		if doc.tax_rule:
-			if doc.calculate_tax_1_after_discount==1:
-				doc.taxable_amount_1 =   doc.sub_total - doc.total_discount
-			else:
-				doc.taxable_amount_1 = doc.sub_total 
-    
-			doc.tax_1_amount =  doc.taxable_amount_1 * doc.tax_1_rate/100
+			#Tax 1
+			doc.taxable_amount_1 = doc.sub_total 
+			#cal tax1 taxable after disc.
+			if doc.calculate_tax_1_after_discount == 1:
+				doc.taxable_amount_1 =   doc.sub_total - doc.total_discount			 
+				
+			doc.taxable_amount_1 *= (doc.percentage_of_price_to_calculate_tax_1/100)
+			doc.tax_1_amount =  (doc.taxable_amount_1 or 0) * ((doc.tax_1_rate or 0)/100)
 
-			#tax 2
-			if   doc.calculate_tax_2_after_discount==1:
+			#Tax 2
+			doc.taxable_amount_2 = doc.sub_total  
+			#cal tax2 taxable after disc.
+			if doc.calculate_tax_2_after_discount==1:
 				doc.taxable_amount_2 = doc.sub_total  - doc.total_discount
-			else:
-				doc.taxable_amount_2 = doc.sub_total  
-			
-			if doc.calculate_tax_2_after_adding_tax_1==1:
-					doc.taxable_amount_2 = doc.taxable_amount_2 +  doc.tax_1_amount
 
-			doc.tax_2_amount =  (doc.taxable_amount_2 or 0) *  (doc.tax_2_rate or 0) /100
+			#cal tax2 taxable after add tax1
+			if doc.calculate_tax_2_after_adding_tax_1==1:
+				doc.taxable_amount_2 +=  doc.tax_1_amount
+
+			doc.taxable_amount_2 *= (doc.percentage_of_price_to_calculate_tax_2/100)
+			doc.tax_2_amount =  (doc.taxable_amount_2 or 0) *  ((doc.tax_2_rate or 0) /100)
 
 			#tax 3
+			doc.taxable_amount_3 =  doc.sub_total
+			#cal tax3 taxable after disc.
 			if doc.calculate_tax_3_after_discount==1:
 				doc.taxable_amount_3 = doc.sub_total - doc.total_discount 
-			else:
-				doc.taxable_amount_3 =  doc.sub_total
 			
+			#cal tax3 taxable after add tax1
 			if doc.calculate_tax_3_after_adding_tax_1==1:
 				doc.taxable_amount_3 =   doc.taxable_amount_3 +  doc.tax_1_amount 
 			
+			#cal tax3 taxable after add tax2
 			if doc.calculate_tax_3_after_adding_tax_2==1:
 				doc.taxable_amount_3 = doc.taxable_amount_3 +  doc.tax_2_amount 
 			
-			doc.tax_3_amount =  doc.taxable_amount_3 * doc.tax_3_rate/100
+			doc.taxable_amount_3 *= (doc.percentage_of_price_to_calculate_tax_3/100)
+			doc.tax_3_amount =  (doc.taxable_amount_3 or 0) *  ((doc.tax_3_rate or 0) /100)
 			
 			#total tax
 			doc.total_tax = doc.tax_1_amount + doc.tax_2_amount + doc.tax_3_amount

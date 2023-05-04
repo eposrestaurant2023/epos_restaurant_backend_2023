@@ -31,20 +31,20 @@
                                         <CurrencyFormat :value="sp.modifiers_price * sp.quantity" />)
                                     </span>
                                 </div>
-                                <div v-if="sp.is_combo_menu">
-                                    <div v-if="sp.use_combo_group && sp.combo_menu_data">
-                                        
-                                        <ComSaleProductComboMenuGroupItemDisplay :combo-menu-data="sp.combo_menu_data"/>
+                                
+                                    <div v-if="sp.is_combo_menu">
+                                        <div v-if="sp.use_combo_group && sp.combo_menu_data">
+                                            <ComSaleProductComboMenuGroupItemDisplay :combo-menu-data="sp.combo_menu_data"/>
+                                        </div>
+                                        <span v-else>{{ sp.combo_menu }}</span>
+                                    </div>  
+                                    <div v-if="sp.discount > 0 && !sp.is_free">
+                                        <span  class="text-red-500">
+                                            Discount :
+                                            <span v-if="sp.discount_type == 'Percent'">{{ sp.discount }}%</span>
+                                            <CurrencyFormat v-else :value="parseFloat(sp.discount)" />
+                                        </span>
                                     </div>
-                                    <span v-else>{{ sp.combo_menu }}</span>
-                                </div> 
-                                <div v-if="sp.discount > 0">
-                                    <span  class="text-red-500">
-                                        Discount :
-                                        <span v-if="sp.discount_type == 'Percent'">{{ sp.discount }}%</span>
-                                        <CurrencyFormat v-else :value="parseFloat(sp.discount)" />
-                                    </span>
-                                </div>
                                 <v-chip color="blue" size="x-small" v-if="sp.seat_number">Seat# {{
                                     sp.seat_number
                                 }}</v-chip>

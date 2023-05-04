@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="p-4 bg-yellow-200">
     <v-btn @click="AddToDo">Add Todo</v-btn>
     <v-btn @click="APICall">Add Todo</v-btn>
@@ -55,4 +55,28 @@ function APICall(){
 }
 
 
+</script> -->
+
+
+<template>
+  <div class="v-container">
+    Test Slot
+    <childA> 
+        <template #defualt>
+          <h1>Defualt</h1>
+        </template>
+        <template #footer>
+          this is contact list:
+        </template>
+        <template #header>
+          Logo
+        </template>
+    </childA>
+  </div>
+</template>
+<script setup>
+ import childA from './deleteme/childA.vue'
 </script>
+<style lang="">
+  
+</style>

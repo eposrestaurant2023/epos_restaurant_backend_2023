@@ -215,7 +215,7 @@ async function onSplitBill(){
         }else{
             const res = await splitBillDialog({ title: 'Split Bill by Items', name: 'Split Bill', data: sale.sale });     
             if (res != false) {  
-                // /
+                sale.getTableSaleList()
             }
         }
         

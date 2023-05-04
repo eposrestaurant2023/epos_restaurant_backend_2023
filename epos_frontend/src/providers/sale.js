@@ -94,6 +94,8 @@ export default class Sale {
     }
 
     async newSale() {
+
+        const tax_rule = this.setting.tax_rule;
         this.orderChanged = false;
         this.sale = {
             doctype: "Sale",
@@ -124,13 +126,21 @@ export default class Sale {
             commission_type: "Percent",
             commission: 0,
             commission_note: '',
-            commission_amount: 0
+            commission_amount: 0,
+            tax_rule: tax_rule.name||"",
+            tax_1_rate:tax_rule.tax_1_rate||0,
+            percentage_of_price_to_calculate_tax_1: tax_rule.percentage_of_price_to_calculate_tax_1||100,
+            tax_2_rate:tax_rule.tax_2_rate||0,
+            percentage_of_price_to_calculate_tax_2: tax_rule.percentage_of_price_to_calculate_tax_2||100,
+            tax_3_rate:tax_rule.tax_3_rate||0,
+            percentage_of_price_to_calculate_tax_3: tax_rule.percentage_of_price_to_calculate_tax_3||100
         }
     }
 
 
 
     async LoadSaleData(name) {
+        
         return new Promise(async (resolve) => {
             const parent = this;
             this.saleResource = createDocumentResource({
@@ -222,7 +232,7 @@ export default class Sale {
             strFilter = strFilter + ` && $.sale_product_status == 'New'`
         }
         if(p.is_combo_menu && p.use_combo_group){
-            strFilter = strFilter + ` && $.combo_group_data == '${p.combo_group_data}'`
+            strFilter = strFilter + ` && $.combo_menu_data == '${p.combo_group_data}'`
         }
         
         let sp = Enumerable.from(this.sale.sale_products).where(strFilter).firstOrDefault()
@@ -234,6 +244,15 @@ export default class Sale {
             this.updateSaleProduct(sp);
         } else {
             this.clearSelected();
+            let tax_rule ="";    
+            if((p.tax_rule||"")==""){
+                tax_rule = JSON.parse(JSON.stringify(this.setting.tax_rule)) ;
+            }
+            else{
+                tax_rule = JSON.parse(p.tax_rule_data);
+            }
+ 
+
             var saleProduct = {
                 menu_product_name: p.menu_product_name,
                 product_code: p.name,
@@ -273,18 +292,35 @@ export default class Sale {
                 combo_menu: p.combo_menu,
                 combo_menu_data: (p.combo_menu_data || p.combo_group_data),
                 product_tax_rule: p.tax_rule,
-                tax_rule : p.tax_rule,
+                tax_rule : tax_rule.name||"",
+                tax_1_rate: tax_rule.tax_1_rate||0,
+                percentage_of_price_to_calculate_tax_1: tax_rule.percentage_of_price_to_calculate_tax_1||100,
+                calculate_tax_1_after_discount: tax_rule.calculate_tax_1_after_discount||false,
+
+                tax_2_rate: tax_rule.tax_2_rate||0,
+                percentage_of_price_to_calculate_tax_2: tax_rule.percentage_of_price_to_calculate_tax_2||100,
+                calculate_tax_2_after_discount: tax_rule.calculate_tax_2_after_discount||false,
+                calculate_tax_2_after_adding_tax_1 : tax_rule.calculate_tax_2_after_adding_tax_1||false,
+
+                tax_3_rate: tax_rule.tax_3_rate||0,
+                percentage_of_price_to_calculate_tax_3: tax_rule.percentage_of_price_to_calculate_tax_3||100,
+                calculate_tax_3_after_discount: tax_rule.calculate_tax_3_after_discount||false,
+                calculate_tax_3_after_adding_tax_1: tax_rule.calculate_tax_3_after_adding_tax_1||false,
+                calculate_tax_3_after_adding_tax_2: tax_rule.calculate_tax_3_after_adding_tax_2||false
                 
             }
             this.sale.sale_products.push(saleProduct);
             this.updateSaleProduct(saleProduct);
 
+
+            console.log("product tax =>"+p.tax_rule)
+            console.log(saleProduct)
+
         }
         this.updateSaleSummary()
     }
 
-
-
+    
 
     cloneSaleProduct(sp, quantity) {
         this.clearSelected();
@@ -323,15 +359,10 @@ export default class Sale {
         }
 
     }
-
-
-
-
+    
     onSelectSaleProduct(sp) {
         this.clearSelected();
         sp.selected = true;
-
-
     }
 
     clearSelected() {
@@ -358,8 +389,77 @@ export default class Sale {
 
         }
         sp.total_discount = sp.discount_amount + sp.sale_discount_amount;
-        sp.total_tax = 0
+
+
+        if((sp.name||"")=="" ){
+            this.onCalculateTax(sp);
+        }else{
+            if((sp.product_tax_rule||"")==""){
+                this.onCalculateTax(sp);
+            }
+        }
+
         sp.amount = sp.sub_total - sp.total_discount + sp.total_tax;
+    }
+
+    onCalculateTax(sp){        
+
+        //tax 1
+        sp.taxable_amount_1 = sp.sub_total;     
+        //tax 1 taxable amount
+        //if cal tax1 taxable after disc.
+        if(sp.calculate_tax_1_after_discount){
+            sp.taxable_amount_1 = (sp.sub_total - sp.total_discount);
+        }
+        sp.taxable_amount_1 *= (sp.percentage_of_price_to_calculate_tax_1/100);
+
+        //cal tax 1 amount
+        sp.tax_1_amount = sp.taxable_amount_1 * (sp.tax_1_rate/100);
+
+        
+        //tax 2
+        //tax 2 taxable amount
+        sp.taxable_amount_2 = sp.sub_total;
+        //if cal tax2 taxable after disc.
+        if(sp.calculate_tax_2_after_discount){
+            sp.taxable_amount_2 = (sp.sub_total - sp.total_discount);
+        }
+
+        //if cal tax2 taxable after add tax1
+        if(sp.calculate_tax_2_after_adding_tax_1){
+            sp.taxable_amount_2 += sp.tax_1_amount;
+        }
+        sp.taxable_amount_2 *= (sp.percentage_of_price_to_calculate_tax_2/100);       
+
+        //cal tax2 amount
+        sp.tax_2_amount = sp.taxable_amount_2 * (sp.tax_2_rate/100);
+
+
+        //tax 3
+        //tax 3 taxable amount
+        sp.taxable_amount_3 = sp.sub_total;
+        //if cal tax3 taxable after disc.
+        if(sp.calculate_tax_3_after_discount){
+            sp.taxable_amount_3 = (sp.sub_total - sp.total_discount);
+        }
+       
+        //if cal tax3 taxable after add tax1
+        if(sp.calculate_tax_3_after_adding_tax_1){
+            sp.taxable_amount_3 += sp.tax_1_amount;
+        }
+
+        //if cal tax3 taxable after add tax2
+        if(sp.calculate_tax_3_after_adding_tax_2){
+            sp.taxable_amount_3 += sp.tax_2_amount;
+        }
+        sp.taxable_amount_3 *= (sp.percentage_of_price_to_calculate_tax_3/100);    
+
+        //cal tax3 amount
+        sp.tax_3_amount = sp.taxable_amount_3 * (sp.tax_3_rate/100);
+
+
+        sp.total_tax = sp.tax_1_amount + sp.tax_2_amount + sp.tax_3_amount;
+
     }
 
     updateSaleSummary(sale_status = '') {
@@ -443,11 +543,7 @@ export default class Sale {
 
                             });
                         }
-                    }
-
-
-
-
+                    } 
                 }
 
             }
