@@ -191,9 +191,11 @@ async function onClearOrder(){
 }
 
 async function onAddCommission(){
-    const result = await addCommissionDialog({ title: 'title', name: 'Sale Commission', data: sale.sale });
-    if (result != false) { 
-        sale.sale = result.data
+    if(!sale.isBillRequested()) {
+        const result = await addCommissionDialog({ title: 'title', name: 'Sale Commission', data: sale.sale });
+        if (result != false) { 
+            sale.sale = result.data
+        }
     }
 }
 

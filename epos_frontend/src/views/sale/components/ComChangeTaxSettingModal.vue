@@ -47,8 +47,9 @@ const props = defineProps({
 })
 const toaster = createToaster({ position: "top" })
 const sale = inject('$sale')
-let note = ref(props.params.note) 
+let note = ref(props.params.data.note) 
 const data = ref([])
+
 onMounted(() => {
     data.value = JSON.parse(JSON.stringify(sale.setting.tax_rules))  
 
@@ -58,10 +59,13 @@ onMounted(() => {
             a.selected = true;
         }        
     }); 
+
 })
+
 const categoryNoteName = computed(()=>{
     return props.params.data?.category_note_name;
 })
+
 function onClick(item){
     data.value.forEach(((r)=>{
         if(r.selected){

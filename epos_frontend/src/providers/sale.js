@@ -630,8 +630,7 @@ export default class Sale {
 
     }
     // change tax setting
-    async onChangeTaxSetting(title, _tax_rule_name,_change_tax_setting_note,gv, is_sale_tax = true){
-
+    async onChangeTaxSetting(title, _tax_rule_name,_change_tax_setting_note,gv, sale_product){
         if(!this.isBillRequested()){
             
             // const tax_rule_name = tax_rule
@@ -647,8 +646,13 @@ export default class Sale {
                     })
                     if(resp != false){ 
                         const _tax_rule = JSON.parse(resp.tax_rule.tax_rule_data);   
-                        
-                        this.onSaleApplyTax(_tax_rule, this.sale);
+                        if(sale_product){ 
+
+                            this.onSaleProductApplyTax(_tax_rule,sale_product); 
+                        }
+                        else{
+                            this.onSaleApplyTax(_tax_rule, this.sale);
+                        }
                         this.updateSaleSummary();                         
                     }
                 }

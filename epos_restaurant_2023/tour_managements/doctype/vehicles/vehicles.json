@@ -12,6 +12,7 @@
   "plate_number",
   "vehicle_type",
   "brand",
+  "daily_rate",
   "column_break_4",
   "series_number",
   "year",
@@ -30,12 +31,14 @@
   {
    "fieldname": "vehicle_type",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Vehicle Type",
    "options": "Vehicle Types"
   },
   {
    "fieldname": "brand",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Brand"
   },
   {
@@ -45,11 +48,13 @@
   {
    "fieldname": "series_number",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Series"
   },
   {
    "fieldname": "year",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Year"
   },
   {
@@ -60,6 +65,7 @@
   {
    "fieldname": "owner_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Owner name"
   },
   {
@@ -69,6 +75,7 @@
   {
    "fieldname": "phone_number",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Phone Number"
   },
   {
@@ -76,13 +83,18 @@
    "fieldtype": "Attach Image",
    "hidden": 1,
    "label": "Photo"
+  },
+  {
+   "fieldname": "daily_rate",
+   "fieldtype": "Currency",
+   "label": "Daily Rate"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-05-05 16:22:52.549496",
+ "modified": "2023-05-05 16:24:26.833682",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Vehicles",

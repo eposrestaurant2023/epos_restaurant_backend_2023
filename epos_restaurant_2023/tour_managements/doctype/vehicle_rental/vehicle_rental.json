@@ -1,0 +1,302 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2023-05-05 16:26:04.110066",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "photo",
+  "naming_series",
+  "booking_date",
+  "start_date",
+  "end_date",
+  "column_break_6",
+  "adult",
+  "child",
+  "pax",
+  "driver",
+  "driver_name",
+  "column_break_10",
+  "vehicle",
+  "owner_name",
+  "owner_phone_number",
+  "guest_profile_section",
+  "customer",
+  "customer_group",
+  "phone_number",
+  "email",
+  "contact_name",
+  "contact_number",
+  "column_break_22",
+  "nationality",
+  "market_source",
+  "market_segment",
+  "summary_section",
+  "discount_type",
+  "discount",
+  "discount_amount",
+  "column_break_19",
+  "rate",
+  "total_days",
+  "total_amount",
+  "total_payment",
+  "balance",
+  "payment_tab",
+  "payments"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Booking Number",
+   "options": "VR.YYYY.-.####"
+  },
+  {
+   "fieldname": "booking_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Booking Date"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "End Date"
+  },
+  {
+   "fieldname": "total_days",
+   "fieldtype": "Int",
+   "label": "Total Days"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pax",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Pax",
+   "read_only": 1
+  },
+  {
+   "fieldname": "adult",
+   "fieldtype": "Int",
+   "label": "Adult"
+  },
+  {
+   "fieldname": "child",
+   "fieldtype": "Int",
+   "label": "Child"
+  },
+  {
+   "fieldname": "column_break_10",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "driver",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Driver",
+   "options": "Drivers"
+  },
+  {
+   "fetch_from": "driver.driver_name",
+   "fieldname": "driver_name",
+   "fieldtype": "Data",
+   "label": "Driver Name"
+  },
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Link",
+   "label": "Vehicle",
+   "options": "Vehicles"
+  },
+  {
+   "fetch_from": "vehicle.owner_name",
+   "fieldname": "owner_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Owner Name"
+  },
+  {
+   "fetch_from": "customer.phone_number",
+   "fetch_if_empty": 1,
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "summary_section",
+   "fieldtype": "Section Break",
+   "label": "Summary"
+  },
+  {
+   "default": "Percent",
+   "fieldname": "discount_type",
+   "fieldtype": "Select",
+   "label": "Discount Type",
+   "options": "Percent\nAmount"
+  },
+  {
+   "fieldname": "discount",
+   "fieldtype": "Currency",
+   "label": "Discount"
+  },
+  {
+   "fieldname": "discount_amount",
+   "fieldtype": "Currency",
+   "label": "Discount Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_19",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "vehicle.daily_rate",
+   "fetch_if_empty": 1,
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "label": "Rate"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Amount"
+  },
+  {
+   "fieldname": "total_payment",
+   "fieldtype": "Currency",
+   "label": "Total Payment"
+  },
+  {
+   "fieldname": "balance",
+   "fieldtype": "Currency",
+   "label": "Balance"
+  },
+  {
+   "fieldname": "guest_profile_section",
+   "fieldtype": "Section Break",
+   "label": "Guest Profile"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "fetch_from": "vehicle.phone_number",
+   "fieldname": "owner_phone_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Phone Number"
+  },
+  {
+   "fetch_from": "customer.customer_group",
+   "fieldname": "customer_group",
+   "fieldtype": "Data",
+   "label": "Customer Group"
+  },
+  {
+   "fetch_from": "customer.email_address",
+   "fetch_if_empty": 1,
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "contact_name",
+   "fieldtype": "Data",
+   "label": "Contact Name"
+  },
+  {
+   "fieldname": "contact_number",
+   "fieldtype": "Data",
+   "label": "Contact Number"
+  },
+  {
+   "fieldname": "column_break_22",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "customer.country",
+   "fetch_if_empty": 1,
+   "fieldname": "nationality",
+   "fieldtype": "Link",
+   "label": "Nationality",
+   "options": "Country"
+  },
+  {
+   "fetch_from": "customer.market_source",
+   "fetch_if_empty": 1,
+   "fieldname": "market_source",
+   "fieldtype": "Link",
+   "label": "Market Source",
+   "options": "Market Source"
+  },
+  {
+   "fetch_from": "customer.market_segment",
+   "fetch_if_empty": 1,
+   "fieldname": "market_segment",
+   "fieldtype": "Link",
+   "label": "Market Segment",
+   "options": "Market Segment"
+  },
+  {
+   "fieldname": "payment_tab",
+   "fieldtype": "Tab Break",
+   "label": "Payment"
+  },
+  {
+   "fieldname": "payments",
+   "fieldtype": "Table",
+   "options": "Tour Booking Payments"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  }
+ ],
+ "image_field": "photo",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "make_attachments_public": 1,
+ "modified": "2023-05-05 17:06:55.041607",
+ "modified_by": "Administrator",
+ "module": "Tour Managements",
+ "name": "Vehicle Rental",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

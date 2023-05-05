@@ -7,7 +7,7 @@
         :hideOkButton="isReadonly"
         >
         <template #title>
-            <span><span v-if="isReadonly">View</span><span v-else>Add / Edit</span> Commition</span>
+            <span><span v-if="isReadonly">View</span><span v-else>Add / Edit</span> Commission</span>
         </template>
         <template #content>
             <v-row class="!m-0">

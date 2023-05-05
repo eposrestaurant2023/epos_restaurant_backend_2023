@@ -37,6 +37,11 @@
                 </template>
                 <v-list-item-title class="text-red-700">Remove Note</v-list-item-title>
             </v-list-item>
+   
+
+            <v-list-item prepend-icon="mdi-cash-100" title="Tax Setting" v-if="saleProduct.product_tax_rule"  @click="sale.onSaleProductChangeTaxSetting(saleProduct)">
+            </v-list-item>
+
             <v-list-item @click="onRemoveSaleProduct()">
                 <template v-slot:prepend>
                     <v-icon icon="mdi-delete" color="error"></v-icon>
@@ -109,29 +114,28 @@ function onRemoveSaleProduct() {
 }
 
 function onSaleProductDiscount(discount_type) {
-    if(props.saleProduct.allow_discount){
+    if(props.saleProduct.allow_discount){     
+        if (!sale.isBillRequested()) {
+            gv.authorize("discount_item_required_password", "discount_item", "discount_item_required_note","Discount Item Note","",true).then((v) => {
+                if (v) {
+                    sale.onDiscount(
+                        `${props.saleProduct.product_name} Discount`,
+                        props.saleProduct.amount,
+                        props.saleProduct.discount,
+                        discount_type,
+                        v.discount_codes,
+                        props.saleProduct.discount_note,
+                        props.saleProduct,
+                        v.category_note_name
+                    );
+                }
+            });
 
-     
-    if (!sale.isBillRequested()) {
-        gv.authorize("discount_item_required_password", "discount_item", "discount_item_required_note","Discount Item Note","",true).then((v) => {
-            if (v) {
-                sale.onDiscount(
-                    `${props.saleProduct.product_name} Discount`,
-                    props.saleProduct.amount,
-                    props.saleProduct.discount,
-                    discount_type,
-                    v.discount_codes,
-                    props.saleProduct,
-                    v.category_note_name
-                );
-            }
-        });
-
+        }
     }
-}
-else{
-    toaster.warning("This product is not allow to discount");
-}
+    else{
+        toaster.warning("This product is not allow to discount");
+    }
 }
 function onSaleProductCancelDiscount() {
     if (!sale.isBillRequested()) {
@@ -143,5 +147,7 @@ function onSaleProductCancelDiscount() {
         sale.updateSaleSummary();
     }
 }
+
+
 
 </script>
