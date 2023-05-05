@@ -394,6 +394,9 @@ export default class Sale {
         sp.calculate_tax_3_after_discount = tax_rule.calculate_tax_3_after_discount||false;
         sp.calculate_tax_3_after_adding_tax_1 = tax_rule.calculate_tax_3_after_adding_tax_1||false;
         sp.calculate_tax_3_after_adding_tax_2 = tax_rule.calculate_tax_3_after_adding_tax_2||false;
+
+
+        this.updateSaleProduct(sp);
     }
 
     //on calculate tax
@@ -467,18 +470,13 @@ export default class Sale {
         s.tax_3_rate = tax_rule.tax_3_rate||0;
         s.percentage_of_price_to_calculate_tax_3 = tax_rule.percentage_of_price_to_calculate_tax_3||100;
 
-
         //update tax setting of sale product
         (s.sale_products||[]).forEach((sp)=>{
             if((sp.product_tax_rule||"")==""){
                 this.onSaleProductApplyTax(tax_rule,sp);
             }
-        });
-
-        
+        });        
     }
-
-
 
     //update sale summary
     updateSaleSummary(sale_status = '') {
@@ -525,6 +523,7 @@ export default class Sale {
         this.updateSaleProduct(sp)
         this.updateSaleSummary();
     }
+
     async onChangePrice(sp) {
 
         const result = await keyboardDialog({ title: "Change price", type: 'number', value: sp.price });
@@ -579,6 +578,7 @@ export default class Sale {
             }
         }
     }
+
     async onSaleNote(p) {
         if (!this.isBillRequested()) {
             const result = await noteDialog({ title: "Note", name: 'Sale Note', data: p });
@@ -587,6 +587,7 @@ export default class Sale {
             }
         }
     }
+
     async onSaleProductFree(sp) {
         let freeQty = 0;
         const result = sp.quantity == 1 ? 1 : await keyboardDialog({ title: "Change Free Quantity", type: 'number', value: sp.quantity });
@@ -613,7 +614,7 @@ export default class Sale {
                 freeSaleProduct.price = 0;
                 freeSaleProduct.modifiers_price = 0;
                 freeSaleProduct.selected = false;
-                freeSaleProduct.is_free = true
+                freeSaleProduct.is_free = true;
                 this.updateSaleProduct(freeSaleProduct);
                 this.sale.sale_products.push(freeSaleProduct)
 
@@ -629,34 +630,32 @@ export default class Sale {
 
     }
     // change tax setting
-    async onChangeTaxSetting(title, _tax_rule_name,_change_tax_setting_note,gv){
+    async onChangeTaxSetting(title, _tax_rule_name,_change_tax_setting_note,gv, is_sale_tax = true){
 
         if(!this.isBillRequested()){
-            if(this.sale.sale_products.length == 0){
-                toaster.warning("Please select a menu item.");
-                return;
-            }else{
-                // const tax_rule_name = tax_rule
-                gv.authorize("change_tax_setting_required_password", "change_tax_setting", "change_tax_setting_required_note", "Change Tax Setting", "", true).then(async (v) => {
-                    if(v){ 
-                        const result = await changeTaxSettingModal({
-                            title: 'Change Tax Setting',
-                            data: {
-                                tax_rule: _tax_rule_name,
-                                note: _change_tax_setting_note,
-                                category_note_name: "Change Tax Setting"
-                            }
-                        })
-                        if(result != false){
-                            console.log(result)
+            
+            // const tax_rule_name = tax_rule
+            await  gv.authorize("change_tax_setting_required_password", "change_tax_setting", "change_tax_setting_required_note", "Change Tax Setting", "", true).then(async (v) => {
+                if(v){ 
+                    const resp = await changeTaxSettingModal({
+                        title: title,
+                        data: {
+                            tax_rule: _tax_rule_name,
+                            note: _change_tax_setting_note,
+                            category_note_name: v.category_note_name
                         }
+                    })
+                    if(resp != false){ 
+                        const _tax_rule = JSON.parse(resp.tax_rule.tax_rule_data);   
+                        
+                        this.onSaleApplyTax(_tax_rule, this.sale);
+                        this.updateSaleSummary();                         
                     }
-                })
-                
-            }
+                }
+            });
         }
     }
-    async onDiscount(title, amount, discount_value, discount_type, discount_codes, sp, category_note_name) {
+    async onDiscount(title, amount, discount_value, discount_type, discount_codes,discount_note, sp, category_note_name) {
 
         const result = await saleProductDiscountDialog({
             title: title,
@@ -665,6 +664,7 @@ export default class Sale {
                 discount_value: discount_value,
                 discount_type: discount_type,
                 discount_codes: discount_codes,
+                discount_note: discount_note,
                 sale_product: sp,
                 category_note_name: category_note_name
             }
@@ -678,6 +678,7 @@ export default class Sale {
             } else {
                 this.sale.discount = result.discount
                 this.sale.discount_type = result.discount_type
+                this.sale.discount_note = result.discount_note
             }
             this.updateSaleSummary()
         }

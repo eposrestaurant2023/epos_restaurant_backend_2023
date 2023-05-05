@@ -38,7 +38,7 @@
 
 </template>
 <script setup>
-import { useRouter, splitBillDialog,changeTaxSettingModal,addCommissionDialog,viewBillModelModel,ref, inject,confirm, keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog ,createResource } from "@/plugin"
+import { useRouter, splitBillDialog,addCommissionDialog,viewBillModelModel,ref, inject,confirm, keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog ,createResource } from "@/plugin"
 import { useDisplay } from 'vuetify'
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
 const { mobile } = useDisplay()
@@ -219,6 +219,6 @@ async function onSplitBill(){
 }
 
 async function onChangeTaxSetting(){
-    const result = await sale.onChangeTaxSetting("Change Tax Setting",sale.sale.tax_rule,sale.sale.change_tax_setting_note,gv )
+    const resp = await sale.onChangeTaxSetting("Change Tax Setting",sale.sale.tax_rule,sale.sale.change_tax_setting_note,gv );     
 }
 </script>

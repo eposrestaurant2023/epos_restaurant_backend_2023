@@ -429,7 +429,6 @@ def add_payment_to_sale_payment(self):
 
 def validate_sale_product(self):
 	sale_discount = self.discount  
-	
 	if sale_discount>0:
 		if self.discount_type=="Amount":
 			discountable_amount = Enumerable(self.sale_products).where(lambda x: x.allow_discount==1 and x.discount==0).sum(lambda x: (x.quantity or 0)* (x.price or  0))
@@ -440,6 +439,10 @@ def validate_sale_product(self):
 			
  
 	for d in self.sale_products:
+		# validate product free
+		if(d.is_free and d.price > 0):
+			frappe.throw(_("Cannot set price becouse this product is free."))
+		
 		d.sub_total = (d.quantity or 0) * (d.price or 0) + (d.quantity or 0) * (d.modifiers_price or 0)
 		if (d.discount_type or "Percent")=="Percent":
 			d.discount_amount = d.sub_total * (d.discount or 0) / 100

@@ -66,6 +66,7 @@ function onSaleProductFree() {
     if (!sale.isBillRequested()) {
         gv.authorize("free_item_required_password", "free_item", "free_item_required_note", "Free Item Note", props.saleProduct.product_code).then((v) => {
             if (v) {
+                props.saleProduct.free_note = v.note
                 sale.onSaleProductFree(props.saleProduct);
             }
         });

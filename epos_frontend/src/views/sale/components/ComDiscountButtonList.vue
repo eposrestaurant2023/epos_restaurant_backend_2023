@@ -31,6 +31,7 @@ function onSaleDiscount(discount_type) {
                     sale.sale.discount,
                     discount_type,
                     v.discount_codes,
+                    sale.sale.discount_note,
                     null,
                     v.category_note_name
                 );

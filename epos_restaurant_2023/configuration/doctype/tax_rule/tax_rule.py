@@ -23,8 +23,12 @@ class TaxRule(Document):
 				"calculate_tax_3_after_adding_tax_1":self.calculate_tax_3_after_adding_tax_1,
 				"calculate_tax_3_after_adding_tax_2":self.calculate_tax_3_after_adding_tax_2
 				}
-		)
+		) 
+	
+	def after_rename(self, old_name, new_name, merge=False):
+		doc = frappe.get_doc("Tax Rule",new_name)
+		doc.save()
 
-	def on_update(self):
+	def on_update(self): 
 		frappe.db.sql("update `tabTemp Product Menu` set tax_rule_data='{}' where tax_rule='{}'".format(self.tax_rule_data, self.name))
 		frappe.db.sql("update `tabPOS Profile Tax Rule` set tax_rule_data='{}' where tax_rule='{}'".format(self.tax_rule_data, self.name))

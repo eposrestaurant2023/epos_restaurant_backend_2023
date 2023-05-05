@@ -108,8 +108,8 @@ const filterResource = createResource({
 
 const reportOption = computed(() => {
     let option = {};
-    if (activeReport.value.report_options) {
-        option = (JSON.parse(activeReport.value.report_options));
+    if (activeReport.value?.report_options) {
+        option = (JSON.parse(activeReport.value?.report_options));
     }
     return option;
 }) 
@@ -174,7 +174,6 @@ function onIframeLoaded(){
    iframe.height = iframe.contentWindow.document.body.scrollHeight;
 }
 function onSearch(f) {
-    console.log(f)
     filter.value = f;
     reportUrl.value = getReportUrl();
     drawer.value = false;

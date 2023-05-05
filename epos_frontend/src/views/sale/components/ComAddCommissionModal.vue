@@ -88,14 +88,7 @@ async function onRemove(){
     
 }
 function onConfirm(){
-    if(data.value.agent_name){ 
-        emit("resolve",{ data: data.value })
-    }else{
-        toaster.warning("Invalid Agent Name", {
-            position: "top",
-        });
-    }
-    
+    emit("resolve",{ data: data.value })
 }
 
 function onClose() {

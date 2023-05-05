@@ -10,8 +10,8 @@
                         <div class="mb-2">
                             <div class="mb-2">
                                 <v-alert variant="tonal" color="warning" class="!p-2">
-                                    Discountable Amount <CurrencyFormat :value="params.value" />. Max discount <span class="mr-2">({{maxDiscountPercent * 100}}%)</span><span>     <CurrencyFormat :value="Number(discountAmount)" /></span>
-                                </v-alert> 
+                                    <div>Discountable Amount <CurrencyFormat :value="params.value" />. Max discount <span class="mr-2">({{maxDiscountPercent * 100}}%)</span><span>     <CurrencyFormat :value="Number(discountAmount)" /></span></div>
+                                </v-alert>
                             </div>
                             <ComInput 
                                 :keyboard="discount_type != 'Percent'"
@@ -31,6 +31,10 @@
                                         @click="onClick(item)">
                                         {{ item.discount_code }}
                                     </v-btn> 
+                            </div>
+                            <div class="text-sm p-2 mt-4" v-if="discount_note">
+                                <div class="font-bold">Notice:</div>
+                                <div>{{ discount_note }}</div>
                             </div>
                         </div>
                     </v-col>
@@ -55,8 +59,8 @@ const props = defineProps({
     params:Object
 })
 const toaster = createToaster({ position: "top" })
-let open = ref(true)
-let discount_note = ref('')
+
+let discount_note = ref(props.params.data.discount_note)
 let discount_type = ref(props.params.data.discount_type)
 let discount = ref(props.params.data.discount_value)
 let amount = ref(parseFloat(props.params.value))
