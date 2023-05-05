@@ -6,10 +6,26 @@
         <template #content>
             <div>
                 <v-row :class="categoryNoteName ? '' : '!m-0'">
-                    <v-col cols="12" :md="categoryNoteName ? 6 : 12"> 
-                        <div v-for="(item, index) in data" :key="index">
-                            {{ item.tax_rule }}
-                            {{ item.selected }}
+                    <v-col cols="12" :md="categoryNoteName ? 6 : 12">
+                        <div class="grid gap-2" :class="mobile ? 'grid-cols-2' : 'sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'">
+                            <div 
+                                v-for="(item, index) in data" :key="index"
+                                v-ripple
+                                class="relative overflow-hidden h-full bg-cover bg-no-repeat rounded-lg shadow-md cursor-pointer"
+                                @click="onClick(item)">
+                                <div class="absolute top left bg-red-700 rounded-br-sm z-20">
+                                    <v-icon icon="mdi-checkbox-marked-circle-outline" color="white" v-if="item.selected"></v-icon>
+                                </div>
+                                <div class="block relative p-2 w-full h-full"> 
+                                        <div class="font-bold">{{ item.tax_rule}}</div>    
+                                                                     
+                                        <v-chip style="margin: 5px;"><strong>{{ sale.setting.tax_1_name }}</strong>: {{ getTax(item.tax_rule_data).tax_1_rate }}% of {{ getTax(item.tax_rule_data).percentage_of_price_to_calculate_tax_1 }}% Revenue</v-chip>
+                                        <v-chip style="margin: 5px;">{{ sale.setting.tax_2_name }}: {{ getTax(item.tax_rule_data).tax_2_rate }}% of {{ getTax(item.tax_rule_data).percentage_of_price_to_calculate_tax_2 }}% Revenue</v-chip>
+                                        <v-chip style="margin: 5px;">{{ sale.setting.tax_3_name }}: {{ getTax(item.tax_rule_data).tax_3_rate }}% of {{ getTax(item.tax_rule_data).percentage_of_price_to_calculate_tax_3 }}% Revenue</v-chip>
+                                      
+                                        
+                                </div>
+                            </div>
                         </div>
                     </v-col>
                     <v-col cols="12" v-if="categoryNoteName" md="6">
@@ -47,13 +63,12 @@ const categoryNoteName = computed(()=>{
     return props.params.data?.category_note_name;
 })
 function onClick(item){
-    //discount.value = (discount_type.value == 'Amount' ? 1 : 100) * item.discount_value;
+    item.value.selected = !item.value.selected
 }
 function onClose() {
     emit('resolve',false)
 }
 function onOK(){
- 
  
     if(categoryNoteName.value && !discount_note.value){
         toaster.warning("Please select note");
@@ -65,8 +80,12 @@ function onOK(){
         }
         emit('resolve', result)
     }
-    
-    
+}
+
+
+function getTax(tax_rule_data){
+    return JSON.parse(tax_rule_data);
+
 }
  
 </script>

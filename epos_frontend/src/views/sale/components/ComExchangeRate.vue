@@ -14,7 +14,6 @@ const sale = inject("$sale")
 let exchange_rate =ref(1);
 const toaster = createToaster({ position:"top" });
 
-
 const to_currency = computed(()=>{
     if(gv.setting.pos_setting.exchange_rate_main_currency!=gv.setting.pos_setting.main_currency_name){
         return gv.setting.pos_setting.main_currency_name;
@@ -30,10 +29,10 @@ const exchangeRateResource = createResource({
         doctype: "Currency Exchange",
         fields: ["exchange_rate","exchange_rate_input"],
         filters: {
-            "from_currency":gv.setting.pos_setting.main_currency_name,
+            "from_currency":gv.setting.pos_setting.exchange_rate_main_currency,
             "to_currency":to_currency.value,
             "docstatus":1},
-        order_by: "posting_date desc",
+        order_by: "creation desc",
         limit_page_length: 1
         
     },

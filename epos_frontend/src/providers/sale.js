@@ -127,8 +127,9 @@ export default class Sale {
             commission: 0,
             commission_note: '',
             commission_amount: 0            
-        }
-        this.onSaleApplyTax(tax_rule,this.sale);
+        } 
+        this.onSaleApplyTax(tax_rule,this.sale); 
+     
     }
 
 
