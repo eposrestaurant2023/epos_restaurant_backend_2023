@@ -66,6 +66,10 @@
   "column_break_40",
   "discount_sale_required_note",
   "section_break_42",
+  "change_tax_setting_required_password",
+  "section_break_60",
+  "change_tax_setting_required_note",
+  "section_break_63",
   "open_order_required_password",
   "section_break_44",
   "change_price_rule_require_password",
@@ -495,12 +499,32 @@
    "fieldname": "print_waiting_order_after_submit_order",
    "fieldtype": "Check",
    "label": "Print waiting order after submit order"
+  },
+  {
+   "default": "0",
+   "fieldname": "change_tax_setting_required_password",
+   "fieldtype": "Check",
+   "label": "Change Tax Setting Required Password"
+  },
+  {
+   "fieldname": "section_break_60",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "change_tax_setting_required_note",
+   "fieldtype": "Check",
+   "label": "Change Tax Setting Required Note"
+  },
+  {
+   "fieldname": "section_break_63",
+   "fieldtype": "Section Break"
   }
  ],
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-25 14:58:08.116346",
+ "modified": "2023-05-05 09:18:31.100331",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Config",

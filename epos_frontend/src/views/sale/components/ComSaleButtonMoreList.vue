@@ -19,7 +19,7 @@
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0 && setting.use_guest_cover == 1" prepend-icon="mdi-account-multiple-outline" :title="`Change Guest Cover (${sale.sale.guest_cover})`" @click="onUpdateGuestCover()" />
     <v-list-item prepend-icon="mdi-cart" title="Change Sale Type" @click="onChangeSaleType()" />
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-chair-school" title="Seat#" @click="onSeatNumber()" />
-    <v-list-item prepend-icon="mdi-cash-100" title="Tax Setting" @click="onInfoDeveloping()" />
+    <v-list-item prepend-icon="mdi-cash-100" title="Tax Setting" @click="onChangeTaxSetting()" />
     <v-list-item v-if="sale.sale.sale_products?.filter(r=>r.name == undefined).length>0" @click="onClearOrder()">
         <template #prepend>
             <v-icon color="error" icon="mdi-autorenew"></v-icon>
@@ -38,7 +38,7 @@
 
 </template>
 <script setup>
-import { useRouter, splitBillDialog,addCommissionDialog,viewBillModelModel,ref, inject,confirm, keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog ,createResource } from "@/plugin"
+import { useRouter, splitBillDialog,changeTaxSettingModal,addCommissionDialog,viewBillModelModel,ref, inject,confirm, keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog ,createResource } from "@/plugin"
 import { useDisplay } from 'vuetify'
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
 const { mobile } = useDisplay()
@@ -189,11 +189,6 @@ async function onClearOrder(){
     
      
 }
-function onInfoDeveloping(){
-    showSplitBill.value = true
-
-
-}
 
 async function onAddCommission(){
     const result = await addCommissionDialog({ title: 'title', name: 'Sale Commission', data: sale.sale });
@@ -221,5 +216,9 @@ async function onSplitBill(){
         
     }
     
+}
+
+async function onChangeTaxSetting(){
+    const result = await sale.onChangeTaxSetting("Change Tax Setting",sale.sale.tax_rule,sale.sale.change_tax_setting_note,gv )
 }
 </script>

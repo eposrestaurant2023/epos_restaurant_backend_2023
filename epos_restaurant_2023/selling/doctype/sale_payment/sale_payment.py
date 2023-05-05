@@ -7,7 +7,7 @@ from frappe.model.document import Document
 
 class SalePayment(Document):
 	def validate(self):
-		if (self.exchange_rate or 0) ==0:
+		if (self.exchange_rate or 0) ==0 or self.currency == frappe.db.get_default("currency"):
 			self.exchange_rate = 1
    
 		self.payment_amount = self.input_amount /self.exchange_rate 

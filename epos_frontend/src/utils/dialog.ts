@@ -35,6 +35,7 @@ import ComAddCommission from '@/views/sale/components/ComAddCommissionModal.vue'
 import ComPrintWifiPassword from '@/components/ComPrintWifiPasswordModal.vue'
 
 import ComSplitBill from "@/views/sale/components/ComSplitBill.vue"
+import ComChangeTaxSettingModal from "@/views/sale/components/ComChangeTaxSettingModal.vue"
 
 
 interface params {
@@ -90,3 +91,5 @@ export  const addCommissionDialog = createPromiseDialog<params, object>(ComAddCo
 export  const printWifiPasswordModal = createPromiseDialog<params, object>(ComPrintWifiPassword);
 export  const splitBillDialog = createPromiseDialog<params, object>(ComSplitBill);
 export  const SaleProductComboMenuGroupModal = createPromiseDialog<params, object>(ComSaleProductComboMenuGroupModal);
+export  const changeTaxSettingModal = createPromiseDialog<params, object>(ComChangeTaxSettingModal);
+

@@ -179,9 +179,10 @@ class Sale(Document):
 
 	
 	def on_submit(self):
-		update_inventory_on_submit(self)
-		#frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_submit", queue='short', self=self)
-		add_payment_to_sale_payment(self)
+		#update_inventory_on_submit(self)
+		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_submit", queue='short', self=self)
+		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.add_payment_to_sale_payment", queue='short', self=self)
+		
 	
 	def on_cancel(self):
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_cancel", queue='short', self=self)
@@ -461,9 +462,10 @@ def validate_sale_product(self):
 		d.total_revenue = (d.sub_total - d.total_discount) + d.total_tax
 
 def validate_pos_payment(self):
-    for d in self.payment:
-		
-        d.amount = (d.input_amount or 0 ) / (d.exchange_rate or 1)
+	currency = frappe.db.get_default("currency")
+	for d in self.payment:
+		d.exchange_rate = d.exchange_rate if d.currency != currency else 1
+		d.amount = (d.input_amount or 0 ) / (d.exchange_rate or 1)
 
 def validate_tax(doc):
 		if doc.tax_rule:

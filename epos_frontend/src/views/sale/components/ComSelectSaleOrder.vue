@@ -119,9 +119,11 @@ async function onQuickPay(isPrint=true) {
 }
 
 async function submitQuickPay(d,isPrint){
+
     const resource = createDocumentResource({
         doctype: "Sale",
         name: d.name,
+
     });
     await resource.get.fetch().then(async (v)=>{
         const payment = [];
@@ -130,6 +132,7 @@ async function submitQuickPay(d,isPrint){
             input_amount: v.grand_total,
             amount: v.grand_total
         })
+         
 		await resource.setValue.submit({
             payment:payment,
             docstatus:1,

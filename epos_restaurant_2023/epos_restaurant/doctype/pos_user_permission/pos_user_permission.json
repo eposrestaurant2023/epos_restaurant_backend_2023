@@ -20,6 +20,7 @@
   "change_item_price",
   "delete_item",
   "discount_item",
+  "change_tax_setting",
   "column_break_13",
   "open_cashdrawer",
   "start_working_day",
@@ -148,11 +149,17 @@
    "fieldname": "cash_in_check_out",
    "fieldtype": "Check",
    "label": "Cash In & Cash Out"
+  },
+  {
+   "default": "0",
+   "fieldname": "change_tax_setting",
+   "fieldtype": "Check",
+   "label": "Change Tax Setting"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-26 19:59:42.795465",
+ "modified": "2023-05-05 09:28:50.305250",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "POS User Permission",

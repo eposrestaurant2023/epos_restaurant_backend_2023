@@ -1,0 +1,72 @@
+<template>
+    <ComModal :persistent="true" :width="categoryNoteName ? '1200px' : '800px'" @onClose="onClose()" @onOk="onOK()" title-ok-button="OK" :fullscreen="mobile">
+        <template #title>
+            <div>{{ params.title ?? "Discount" }}</div>
+        </template>
+        <template #content>
+            <div>
+                <v-row :class="categoryNoteName ? '' : '!m-0'">
+                    <v-col cols="12" :md="categoryNoteName ? 6 : 12"> 
+                        <div v-for="(item, index) in data" :key="index">
+                            {{ item.tax_rule }}
+                            {{ item.selected }}
+                        </div>
+                    </v-col>
+                    <v-col cols="12" v-if="categoryNoteName" md="6">
+                        <ComInlineNote :category_note="categoryNoteName" v-model="note"/>
+                    </v-col>
+                </v-row>
+            </div>
+        </template>
+    </ComModal>
+</template>
+<script setup>
+import { ref, defineEmits, createToaster, computed, inject,onMounted } from '@/plugin'
+import ComInlineNote from '../../../components/ComInlineNote.vue';
+import { useDisplay } from 'vuetify'
+const emit = defineEmits(['resolve'])
+const { mobile } = useDisplay()
+const props = defineProps({
+    params:Object
+})
+const toaster = createToaster({ position: "top" })
+const sale = inject('$sale')
+let note = ref(props.params.note) 
+const data = ref([])
+onMounted(() => {
+    data.value = JSON.parse(JSON.stringify(sale.setting.tax_rules))  
+
+    data.value.forEach(a => {
+        a.selected = false;
+        if(a.tax_rule==props.params.data.tax_rule){
+            a.selected = true;
+        }        
+    }); 
+})
+const categoryNoteName = computed(()=>{
+    return props.params.data?.category_note_name;
+})
+function onClick(item){
+    //discount.value = (discount_type.value == 'Amount' ? 1 : 100) * item.discount_value;
+}
+function onClose() {
+    emit('resolve',false)
+}
+function onOK(){
+ 
+ 
+    if(categoryNoteName.value && !discount_note.value){
+        toaster.warning("Please select note");
+    }
+    else{
+        const result = {
+            change_tax_setting_note: note.value,
+            tax_rule: ''
+        }
+        emit('resolve', result)
+    }
+    
+    
+}
+ 
+</script>

@@ -31,7 +31,6 @@
                                         <CurrencyFormat :value="sp.modifiers_price * sp.quantity" />)
                                     </span>
                                 </div>
-                                
                                     <div v-if="sp.is_combo_menu">
                                         <div v-if="sp.use_combo_group && sp.combo_menu_data">
                                             <ComSaleProductComboMenuGroupItemDisplay :combo-menu-data="sp.combo_menu_data"/>

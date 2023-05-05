@@ -115,6 +115,8 @@ def get_system_settings(pos_profile="", device_name=''):
         "discount_sale_required_note":pos_config.discount_sale_required_note,
         "delete_bill_required_password":pos_config.delete_bill_required_password,
         "delete_bill_required_note":pos_config.delete_bill_required_note,
+        "change_tax_setting_required_password":pos_config.change_tax_setting_required_password,
+        "change_tax_setting_required_note":pos_config.change_tax_setting_required_note,
         "allow_change_quantity_after_submit":pos_config.allow_change_quantity_after_submit,
         "main_currency_predefine_payment_amount":pos_config.main_currency_predefine_payment_amount,
         "second_currency_predefine_payment_amount":pos_config.second_currency_predefine_payment_amount,

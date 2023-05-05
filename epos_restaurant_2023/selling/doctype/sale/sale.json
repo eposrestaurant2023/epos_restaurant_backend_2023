@@ -82,6 +82,8 @@
   "taxable_amount_3",
   "column_break_66",
   "tax_3_amount",
+  "section_break_75",
+  "change_tax_setting_note",
   "commission_section",
   "agent_name",
   "column_break_93",
@@ -746,6 +748,15 @@
    "fieldname": "percentage_of_price_to_calculate_tax_3",
    "fieldtype": "Float",
    "label": "Percentage of Price to Calculate Tax 3"
+  },
+  {
+   "fieldname": "change_tax_setting_note",
+   "fieldtype": "Small Text",
+   "label": "Change Tax Setting Note"
+  },
+  {
+   "fieldname": "section_break_75",
+   "fieldtype": "Section Break"
   }
  ],
  "image_field": "photo",
@@ -758,7 +769,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-05-04 13:42:48.421356",
+ "modified": "2023-05-05 10:18:15.658324",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",
