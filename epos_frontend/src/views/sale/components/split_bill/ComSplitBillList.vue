@@ -10,7 +10,7 @@
         </div>
         <hr/>
 
-        <div class="grid gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 mt-4">
+        <div class="grid gap-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 mt-4">
             <v-card v-for="(g, index) in data.filter((x)=>x.deleted == false && x.visibled)" :key="index">
                 <v-card-title class="!p-0">
                     <v-toolbar height="55">
@@ -31,8 +31,8 @@
                 <v-card-text class="!pt-0 !pr-0 !pb-14 !pl-0">       
                     <v-list>
                         <v-list-item class="!p-0" v-for="(sp, _index) in g.sale.sale_products" :key="_index"  @click="onSelected(sp)">                       
-                            <div class="text-sm relative p-3 border-b" >
-                                <v-badge :content="sp.total_selected" style="margin-top:2px; margin-right:2px" color="success" class="absolute top-2 right-2" v-if="sp.total_selected > 0"></v-badge>
+                            <div class="text-sm relative px-2 border-b" >
+                                <v-badge :content="sp.total_selected" style="margin-top:-10px; margin-right:2px" color="success" class="absolute top-2 right-2" v-if="sp.total_selected > 0"></v-badge>
                         
                                 <div class="flex" style="margin-top:10px;">
                                     <div class="grow">
