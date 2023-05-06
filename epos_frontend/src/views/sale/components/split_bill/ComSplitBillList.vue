@@ -10,7 +10,7 @@
         </div>
         <hr/>
 
-        <div class="grid gap-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 mt-4">
+        <div class="grid gap-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 mt-4">
             <v-card v-for="(g, index) in data.filter((x)=>x.deleted == false && x.visibled)" :key="index">
                 <v-card-title class="!p-0">
                     <v-toolbar height="55">
