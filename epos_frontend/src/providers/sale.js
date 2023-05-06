@@ -647,18 +647,29 @@ export default class Sale {
                     if(resp != false){ 
                         const _tax_rule = JSON.parse(resp.tax_rule.tax_rule_data);   
                         if(sale_product){ 
-
+                            sale_product.product_tax_rule = _tax_rule.name;
                             this.onSaleProductApplyTax(_tax_rule,sale_product); 
+                            this.onCalculateTax(sale_product);
+                            this.updateSaleProduct(sale_product);
                         }
                         else{
                             this.onSaleApplyTax(_tax_rule, this.sale);
                         }
-                        this.updateSaleSummary();                         
+                        this.updateSaleSummary();  
+
+                        console.log(this.sale)
                     }
                 }
             });
         }
     }
+
+
+    async  onSaleProductChangeTaxSetting(sp,gv){
+        const resp = await this.onChangeTaxSetting("Change Tax Setting",sp.product_tax_rule,sp.change_tax_setting_note, gv,sp);     
+    }
+
+    
     async onDiscount(title, amount, discount_value, discount_type, discount_codes,discount_note, sp, category_note_name) {
 
         const result = await saleProductDiscountDialog({
@@ -737,18 +748,11 @@ export default class Sale {
             this.sale.sale_products.splice(this.sale.sale_products.indexOf(sp), 1);
         } else {
             sp.quantity = sp.quantity - quantity;
-
             if (sp.sale_product_status == 'Submitted') {
                 let deletedRecord = JSON.parse(JSON.stringify(sp))
-
-
-
                 deletedRecord.quantity = quantity;
-
                 this.deletedSaleProducts.push(deletedRecord)
             }
-
-
         }
         this.updateSaleSummary();
 

@@ -453,6 +453,7 @@
   },
   {
    "fetch_from": "product_code.tax_rule",
+   "fetch_if_empty": 1,
    "fieldname": "product_tax_rule",
    "fieldtype": "Link",
    "label": "Product Tax Rule",
@@ -530,6 +531,7 @@
   {
    "fieldname": "modifiers_data",
    "fieldtype": "JSON",
+   "hidden": 1,
    "label": "Modifiers Data"
   },
   {
@@ -643,6 +645,7 @@
   {
    "fieldname": "combo_menu_data",
    "fieldtype": "JSON",
+   "hidden": 1,
    "label": "Combo Menu Data"
   },
   {
@@ -678,7 +681,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-05-05 17:07:12.428431",
+ "modified": "2023-05-06 09:34:54.152012",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Product",

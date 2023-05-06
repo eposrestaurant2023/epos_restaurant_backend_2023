@@ -53,10 +53,15 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="flex-none text-right w-36">
                             <div class="text-lg">
-                                <CurrencyFormat :value="sp.amount" />
+                                <CurrencyFormat :value="(sp.amount - sp.total_tax)" />
                             </div>
+                            <span v-if="sp.product_tax_rule" class="text-xs">
+                                Tax: 
+                                <CurrencyFormat :value="sp.total_tax" />
+                            </span>
                             <ComQuantityInput v-if="!readonly" :sale-product="sp" />
                         </div>
                     </div>

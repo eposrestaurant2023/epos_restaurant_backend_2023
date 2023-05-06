@@ -39,7 +39,7 @@
             </v-list-item>
    
 
-            <v-list-item prepend-icon="mdi-cash-100" title="Tax Setting" v-if="saleProduct.product_tax_rule"  @click="sale.onSaleProductChangeTaxSetting(saleProduct)">
+            <v-list-item prepend-icon="mdi-cash-100" title="Tax Setting" v-if="saleProduct.product_tax_rule"  @click="sale.onSaleProductChangeTaxSetting(saleProduct,gv)">
             </v-list-item>
 
             <v-list-item @click="onRemoveSaleProduct()">

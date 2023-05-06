@@ -1186,5 +1186,17 @@
   "name": "f7c7d4ece4",
   "sort": 14,
   "title": "T10"
+ },
+ {
+  "data": "{\r\n   \"category_note_name_en\":\"Change Tax Setting\",\r\n   \"category_note_name_kh\":\"Change Tax Setting\",\r\n   \"disabled\":0,\r\n   \"multiple_selected\":0,\r\n   \"doctype\":\"Category Note\",\r\n   \"notes\":[]\r\n}",
+  "doc_name": "Change Tax Setting",
+  "doc_type": "Category Note",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 0,
+  "modified": "2023-05-06 11:15:51.910210",
+  "name": "6e6ecbc8e8",
+  "sort": 80,
+  "title": "Change Tax Setting"
  }
 ]

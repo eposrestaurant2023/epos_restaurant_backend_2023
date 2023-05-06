@@ -14,7 +14,7 @@
                                 class="relative overflow-hidden h-full bg-cover bg-no-repeat rounded-lg cursor-pointer bg-gray-100 border-b border-gray-400"
                                 @click="onClick(item)"> 
                                 <div class="block relative p-2 w-full h-full"> 
-                                        <div class="font-bold mb-2 pb-2 border-b">
+                                        <div class="font-bold mb-2 pb-2 border-b flex items-center">
                                             <v-icon icon="mdi-checkbox-marked-circle-outline" color="success" v-if="item.selected"></v-icon>
                                             <v-icon icon="mdi-checkbox-blank-circle-outline" color="gray" v-else></v-icon>
                                             <span class="pl-2">{{ item.tax_rule}}</span>
@@ -50,7 +50,7 @@ const sale = inject('$sale')
 let note = ref(props.params.data.note) 
 const data = ref([])
 
-onMounted(() => {
+onMounted(() => { 
     data.value = JSON.parse(JSON.stringify(sale.setting.tax_rules))  
 
     data.value.forEach(a => {
