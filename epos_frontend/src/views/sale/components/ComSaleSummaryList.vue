@@ -40,23 +40,25 @@
         </div>
       </div>
       <div class="flex justify-between mb-1" v-if="sale.sale.tax_1_amount > 0">
-        <div>
-          {{ setting.tax_1_name }}
-        </div>
+         
+          <div v-if="sale.sale.percentage_of_price_to_calculate_tax_1==100">{{ setting.tax_1_name }} ({{sale.sale.tax_1_rate+"%"}})</div>
+          <div v-else>{{ setting.tax_1_name }} ({{sale.sale.tax_1_rate+"%"}} of {{sale.sale.percentage_of_price_to_calculate_tax_1+"% Revenue"}})</div>
+     
         <div class="font-bold">
           <CurrencyFormat :value="sale.sale.tax_1_amount" />
         </div>
       </div>
       <div class="flex justify-between mb-1" v-if="sale.sale.tax_2_amount > 0">
-        <div>{{ setting.tax_2_name }}</div>
+        
+        <div v-if="sale.sale.percentage_of_price_to_calculate_tax_2==100">{{ setting.tax_2_name }} ({{sale.sale.tax_2_rate+"%"}})</div>
+        <div v-else>{{ setting.tax_2_name }} ({{sale.sale.tax_2_rate+"%"}} of {{sale.sale.percentage_of_price_to_calculate_tax_2+"% Revenue"}})</div>
         <div class="font-bold">
           <CurrencyFormat :value="sale.sale.tax_2_amount" />
         </div>
       </div>
       <div class="flex justify-between mb-1" v-if="sale.sale.tax_3_amount > 0">
-        <div>
-          {{ setting.tax_3_name }}
-        </div>
+        <div v-if="sale.sale.percentage_of_price_to_calculate_tax_3==100">{{ setting.tax_3_name }} ({{sale.sale.tax_3_rate+"%"}})</div>
+          <div v-else>{{ setting.tax_3_name }} ({{sale.sale.tax_3_rate+"%"}} of {{sale.sale.percentage_of_price_to_calculate_tax_3+"% Revenue"}})</div>
         <div class="font-bold">
           <CurrencyFormat :value="sale.sale.tax_3_amount" />
         </div>

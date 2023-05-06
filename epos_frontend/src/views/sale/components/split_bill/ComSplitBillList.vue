@@ -1,5 +1,7 @@
 <template lang=""> 
     <div>
+      
+
         <div class="flex -m-1 overflow-auto py-1">
             <v-btn variant="tonal" class="m-1" :color="!g.visibled ? 'error' : 'gray'" :prepend-icon="!(g.visibled) ? 'mdi-eye-off':'mdi-eye'" 
                     v-for="(g, index) in data.filter((x)=>x.deleted == false)" :key="index" @click="(()=>g.visibled = !g.visibled)" >
@@ -78,6 +80,8 @@
     </div>
 </template>
 <script setup> 
+
+
 const props = defineProps({
     data: Object
 });

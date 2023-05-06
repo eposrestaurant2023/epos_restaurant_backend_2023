@@ -154,15 +154,11 @@ export default class Sale {
                         else {
                             toaster.success("Updated");
                         }
-
-
                     },
-
                 },
             });
 
             await this.saleResource.get.fetch().then(async (doc) => {
-
                 this.sale = doc;
                 this.action = "";
                 //check if current table dont hanve any sale list data then load it
@@ -170,19 +166,13 @@ export default class Sale {
                     this.getTableSaleList();
                 }
                 resolve(doc);
-
             });
             resolve(false);
-        }
-
-
-        )
+        })
     }
 
     getTableSaleList() {
-
         const parent = this;
-
         this.tableSaleListResource = createResource({
             url: "frappe.client.get_list",
             params: {
@@ -197,7 +187,6 @@ export default class Sale {
             },
             auto: true,
         })
-
     }
 
     getSaleProductGroupByKey() {
@@ -215,8 +204,6 @@ export default class Sale {
         } else {
             return Enumerable.from(this.sale.sale_products).orderByDescending("$.modified").toArray()
         }
-
-
     }
 
     addSaleProduct(p) {
@@ -365,15 +352,16 @@ export default class Sale {
         sp.total_discount = sp.discount_amount + sp.sale_discount_amount;
 
 
-        if((sp.name||"")=="" ){
-            this.onCalculateTax(sp);
-        }
-        else{
-            if((sp.product_tax_rule||"")==""){
-                this.onCalculateTax(sp);
-            }
-        }
+        // if((sp.name||"")=="" ){
+        //     this.onCalculateTax(sp);
+        // }
+        // else{
+        //     if((sp.product_tax_rule||"")==""){
+        //         this.onCalculateTax(sp);
+        //     }
+        // }
 
+        this.onCalculateTax(sp);
         sp.amount = sp.sub_total - sp.total_discount + sp.total_tax;
     }
 
@@ -649,7 +637,7 @@ export default class Sale {
                         if(sale_product){ 
                             sale_product.product_tax_rule = _tax_rule.name;
                             this.onSaleProductApplyTax(_tax_rule,sale_product); 
-                            this.onCalculateTax(sale_product);
+                            // this.onCalculateTax(sale_product);
                             this.updateSaleProduct(sale_product);
                         }
                         else{

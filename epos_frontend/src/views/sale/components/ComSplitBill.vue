@@ -1,9 +1,13 @@
 <template>
+
   <ComModal :fullscreen="true" :persistent="true" @onClose="onClose" @onOk="onConfirm" :loading="resource.loading" :customActions="true">
+    
+   
     <template #title>
       <span>{{ props.params.title }}</span>
     </template>
     <template #content> 
+      <ComLoadingDialog v-if="is_loading" />
           <ComSplitBillList :data="groupSales" /> 
     </template>
     <template #action>
@@ -23,6 +27,8 @@
 
 <script setup>  
 
+import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
+
 import { ref,onMounted, defineEmits, createToaster, createResource,createDocumentResource, inject } from '@/plugin'
 import ComSplitBillList from './split_bill/ComSplitBillList.vue';
 import { onUnmounted } from 'vue';
@@ -39,9 +45,12 @@ const props = defineProps({
 
 let current_sale_id ="";
 
+let is_loading = ref(true)
+
 const groupSales=ref([])
 
 onMounted(()=>{ 
+
   //get current sale 
  const current_sale = JSON.parse(JSON.stringify(sale.sale))
  current_sale_id = current_sale.name;
@@ -87,13 +96,17 @@ onMounted(()=>{
             no: groupSales.value.length +1,
             sale:v
           });
-        });        
+        });  
+        is_loading.value = false   ;   
       },
       onError(err){ 
         toaster.warning("Sales cannot load, please reload for try again.");
+        is_loading.value = false   ;   
       }      
   });  
-  }  
+  } else{
+    is_loading.value = false   ;   
+  } 
 });
  
 
@@ -189,6 +202,8 @@ function onSave() {
     }
   }
 
+  is_loading.value = true;
+
 
   let _active_sales = groupSales.value.filter((r)=>r.deleted == false); 
   _active_sales.forEach((a)=>{
@@ -228,11 +243,13 @@ function onSave() {
       },
       auto:true,
       onSuccess(doc){ 
+        is_loading.value = false;
         sale.sale = doc ;
         toaster.success("Split was successed.");
         emit("resolve", true);
       },
       onError(err){ 
+        is_loading.value = false;
         toaster.warning("There're some trouble during save, please reload data and try again.");
         // emit("resolve", false);
       }      

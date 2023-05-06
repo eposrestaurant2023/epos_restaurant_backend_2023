@@ -86,6 +86,7 @@ async function onQuickPay() {
     }
   });
 }
+ 
 function onRedirectSaleType(){
     const redirect_sale_type = localStorage.getItem("redirect_sale_type") || null
     if(redirect_sale_type){

@@ -4,7 +4,7 @@
             Sale# {{ params.title }}
         </template>
         <template #bar_custom>
-            <v-btn v-if="params.data?.from_table" icon @click="onAddNewProduct()" v-bind="props">
+            <v-btn v-if="params.data?.from_table" icon @click="onAddNewOrder()" v-bind="props">
                 <v-icon>mdi-plus</v-icon>
             </v-btn>
             <ComPrintBillButton doctype="Sale" title="Print Bill" :isMobile="true" />
@@ -67,7 +67,7 @@ function onSubmitAndNew(){
 function onClose() {
     emit('resolve', false)
 }
-function onAddNewProduct(){
+function onAddNewOrder(){
     if (!sale.isBillRequested()) {
     sale.no_loading = true
     
