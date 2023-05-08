@@ -1,0 +1,550 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:pos_config",
+ "creation": "2023-01-12 15:56:31.832213",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "pos_config",
+  "logo",
+  "business_branch",
+  "business_name_en",
+  "business_name_kh",
+  "address",
+  "address_kh",
+  "column_break_8",
+  "phone_number",
+  "email",
+  "website",
+  "main_currency_predefine_payment_amount",
+  "second_currency_predefine_payment_amount",
+  "section_break_12",
+  "vattin_number",
+  "section_break_13",
+  "payment_type",
+  "price_rules_section",
+  "price_rules",
+  "operation_tab",
+  "print_cashier_shift_summary_after_close_shift",
+  "print_cashier_shift_sale_product_summary_after_close_shift",
+  "print_working_day_summary_after_close_working_day",
+  "print_working_day_sale_product_summary_after_close_working_day",
+  "number_of_day_cashier_can_view_report",
+  "close_business_day_on",
+  "alert_close_working_day_after",
+  "print_waiting_order_after_submit_order",
+  "permission_and_note_tab",
+  "delete_bill_required_password",
+  "column_break_17",
+  "delete_bill_required_note",
+  "section_break_28",
+  "cancel_print_bill_required_password",
+  "cancel_print_bill_required_note",
+  "column_break_30",
+  "allow_change_quantity_after_submit",
+  "section_break_20",
+  "free_item_required_password",
+  "column_break_22",
+  "free_item_required_note",
+  "section_break_26",
+  "change_item_price_required_password",
+  "column_break_28",
+  "change_item_price_required_note",
+  "section_break_30",
+  "delete_item_required_password",
+  "section_break_32",
+  "delete_item_required_note",
+  "section_break_34",
+  "discount_item_required_password",
+  "section_break_36",
+  "discount_item_required_note",
+  "section_break_38",
+  "discount_sale_required_password",
+  "column_break_40",
+  "discount_sale_required_note",
+  "section_break_42",
+  "change_tax_setting_required_password",
+  "section_break_60",
+  "change_tax_setting_required_note",
+  "section_break_63",
+  "open_order_required_password",
+  "section_break_44",
+  "change_price_rule_require_password",
+  "section_break_53",
+  "open_cashdrawer_require_password",
+  "section_break_58",
+  "edit_closed_receipt_required_password",
+  "column_break_59",
+  "edit_closed_receipt_required_note",
+  "section_break_61",
+  "start_working_day_required_password",
+  "section_break_64",
+  "close_working_day_required_password",
+  "section_break_66",
+  "start_cashier_shift_required_password",
+  "section_break_68",
+  "close_cashier_shift_required_password",
+  "section_break_70",
+  "cash_in_check_out_required_password",
+  "use_guest_cover"
+ ],
+ "fields": [
+  {
+   "fieldname": "pos_config",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "POS Config",
+   "unique": 1
+  },
+  {
+   "fieldname": "logo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Logo"
+  },
+  {
+   "fieldname": "business_branch",
+   "fieldtype": "Link",
+   "label": "Business Branch",
+   "options": "Business Branch"
+  },
+  {
+   "fieldname": "business_name_en",
+   "fieldtype": "Data",
+   "label": "Business Name En"
+  },
+  {
+   "fieldname": "business_name_kh",
+   "fieldtype": "Data",
+   "label": "Business Name Kh"
+  },
+  {
+   "fetch_from": "business_branch.address_en",
+   "fetch_if_empty": 1,
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "label": "Address"
+  },
+  {
+   "fieldname": "address_kh",
+   "fieldtype": "Data",
+   "label": "Address Kh"
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "website",
+   "fieldtype": "Data",
+   "label": "Website"
+  },
+  {
+   "fieldname": "main_currency_predefine_payment_amount",
+   "fieldtype": "Data",
+   "label": "Main currency predefine payment amount ",
+   "length": 250
+  },
+  {
+   "fieldname": "second_currency_predefine_payment_amount",
+   "fieldtype": "Data",
+   "label": "Second currency predefine payment amount ",
+   "length": 500
+  },
+  {
+   "fieldname": "section_break_12",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "vattin_number",
+   "fieldtype": "Data",
+   "label": "VATTIN Number"
+  },
+  {
+   "fieldname": "section_break_13",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "payment_type",
+   "fieldtype": "Table",
+   "label": "Payment Type",
+   "options": "POS Config Payment Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "price_rules_section",
+   "fieldtype": "Section Break",
+   "label": "Price Rules"
+  },
+  {
+   "fieldname": "price_rules",
+   "fieldtype": "Table",
+   "label": "Price Rules",
+   "options": "POS Price Rule"
+  },
+  {
+   "fieldname": "operation_tab",
+   "fieldtype": "Tab Break",
+   "label": "Operation"
+  },
+  {
+   "default": "1",
+   "fieldname": "print_cashier_shift_summary_after_close_shift",
+   "fieldtype": "Check",
+   "label": "Print Cashier Shift Summary After Close Shift"
+  },
+  {
+   "default": "1",
+   "fieldname": "print_cashier_shift_sale_product_summary_after_close_shift",
+   "fieldtype": "Check",
+   "label": "Print Cashier Shift Sale Product Summary after Close Shift"
+  },
+  {
+   "default": "0",
+   "fieldname": "print_working_day_summary_after_close_working_day",
+   "fieldtype": "Check",
+   "label": "Print Working Day Summary After Close Working Day"
+  },
+  {
+   "default": "0",
+   "fieldname": "print_working_day_sale_product_summary_after_close_working_day",
+   "fieldtype": "Check",
+   "label": "Print Working Day Sale Product Summary After Close Working Day"
+  },
+  {
+   "default": "0",
+   "fieldname": "number_of_day_cashier_can_view_report",
+   "fieldtype": "Int",
+   "label": "Number of Day Cashier Can View Report"
+  },
+  {
+   "fieldname": "close_business_day_on",
+   "fieldtype": "Select",
+   "label": "Close Business Day On",
+   "options": "Current Day\nNext Day"
+  },
+  {
+   "fieldname": "alert_close_working_day_after",
+   "fieldtype": "Time",
+   "label": "Alert Close Working Day After"
+  },
+  {
+   "default": "0",
+   "fieldname": "print_waiting_order_after_submit_order",
+   "fieldtype": "Check",
+   "label": "Print waiting order after submit order"
+  },
+  {
+   "fieldname": "permission_and_note_tab",
+   "fieldtype": "Tab Break",
+   "label": "Permission and Note"
+  },
+  {
+   "default": "0",
+   "fieldname": "delete_bill_required_password",
+   "fieldtype": "Check",
+   "label": "Delete Bill Required Password"
+  },
+  {
+   "fieldname": "column_break_17",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "delete_bill_required_note",
+   "fieldtype": "Check",
+   "label": "Delete Bill Required Note"
+  },
+  {
+   "fieldname": "section_break_28",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "cancel_print_bill_required_password",
+   "fieldtype": "Check",
+   "label": "Cancel Print Bill Required Password"
+  },
+  {
+   "default": "1",
+   "fieldname": "cancel_print_bill_required_note",
+   "fieldtype": "Check",
+   "label": "Cancel Print Bill Required Note"
+  },
+  {
+   "fieldname": "column_break_30",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_change_quantity_after_submit",
+   "fieldtype": "Check",
+   "label": "Allow change quantity after submit"
+  },
+  {
+   "fieldname": "section_break_20",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "free_item_required_password",
+   "fieldtype": "Check",
+   "label": "Free Item Required Password"
+  },
+  {
+   "fieldname": "column_break_22",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "free_item_required_note",
+   "fieldtype": "Check",
+   "label": "Free Item Required Note"
+  },
+  {
+   "fieldname": "section_break_26",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "change_item_price_required_password",
+   "fieldtype": "Check",
+   "label": "Change Item Price Required Password"
+  },
+  {
+   "fieldname": "column_break_28",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "change_item_price_required_note",
+   "fieldtype": "Check",
+   "label": "Change Item Price Required Note"
+  },
+  {
+   "fieldname": "section_break_30",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "delete_item_required_password",
+   "fieldtype": "Check",
+   "label": "Delete Item Required Password"
+  },
+  {
+   "fieldname": "section_break_32",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "delete_item_required_note",
+   "fieldtype": "Check",
+   "label": "Delete Item Required Note"
+  },
+  {
+   "fieldname": "section_break_34",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "discount_item_required_password",
+   "fieldtype": "Check",
+   "label": "Discount Item Required Password"
+  },
+  {
+   "fieldname": "section_break_36",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "discount_item_required_note",
+   "fieldtype": "Check",
+   "label": "Discount Item Required Note"
+  },
+  {
+   "fieldname": "section_break_38",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "discount_sale_required_password",
+   "fieldtype": "Check",
+   "label": "Discount Sale Required Password"
+  },
+  {
+   "fieldname": "column_break_40",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "discount_sale_required_note",
+   "fieldtype": "Check",
+   "label": "Discount Sale Required Note"
+  },
+  {
+   "fieldname": "section_break_42",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "change_tax_setting_required_password",
+   "fieldtype": "Check",
+   "label": "Change Tax Setting Required Password"
+  },
+  {
+   "fieldname": "section_break_60",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "change_tax_setting_required_note",
+   "fieldtype": "Check",
+   "label": "Change Tax Setting Required Note"
+  },
+  {
+   "fieldname": "section_break_63",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "open_order_required_password",
+   "fieldtype": "Check",
+   "label": "Open Order Required Password"
+  },
+  {
+   "fieldname": "section_break_44",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "change_price_rule_require_password",
+   "fieldtype": "Check",
+   "label": "Change Price Rule Require Password"
+  },
+  {
+   "fieldname": "section_break_53",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "open_cashdrawer_require_password",
+   "fieldtype": "Check",
+   "label": "Open Cashdrawer Require Password"
+  },
+  {
+   "fieldname": "section_break_58",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "edit_closed_receipt_required_password",
+   "fieldtype": "Check",
+   "label": "Edit Closed Receipt Required Password"
+  },
+  {
+   "fieldname": "column_break_59",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "edit_closed_receipt_required_note",
+   "fieldtype": "Check",
+   "label": "Edit Closed Receipt Required Note"
+  },
+  {
+   "fieldname": "section_break_61",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "start_working_day_required_password",
+   "fieldtype": "Check",
+   "label": "Start Working Day Required Password"
+  },
+  {
+   "fieldname": "section_break_64",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "close_working_day_required_password",
+   "fieldtype": "Check",
+   "label": "Close Working Day Required Password"
+  },
+  {
+   "fieldname": "section_break_66",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "start_cashier_shift_required_password",
+   "fieldtype": "Check",
+   "label": "Start Cashier Shift Required Password"
+  },
+  {
+   "fieldname": "section_break_68",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "close_cashier_shift_required_password",
+   "fieldtype": "Check",
+   "label": "Close Cashier Shift Required Password"
+  },
+  {
+   "fieldname": "section_break_70",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "cash_in_check_out_required_password",
+   "fieldtype": "Check",
+   "label": "Cash In & Cash Out Required Password"
+  },
+  {
+   "default": "0",
+   "fieldname": "use_guest_cover",
+   "fieldtype": "Check",
+   "label": "Use Guest Cover"
+  }
+ ],
+ "image_field": "logo",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-05-08 10:46:05.153727",
+ "modified_by": "Administrator",
+ "module": "Configuration",
+ "name": "POS Config",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

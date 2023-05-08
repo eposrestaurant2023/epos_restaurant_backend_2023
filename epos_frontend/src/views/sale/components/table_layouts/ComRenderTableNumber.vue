@@ -48,7 +48,7 @@
     </template>
 </template>
 <script setup>
-import { inject, useRouter, createToaster, selectSaleOrderDialog, keyboardDialog,createDocumentResource,smallViewSaleProductListModel } from '@/plugin';
+import { inject, useRouter, createToaster, selectSaleOrderDialog, keyboardDialog,smallViewSaleProductListModel } from '@/plugin';
 import { Timeago } from 'vue2-timeago'
 import { useDisplay } from 'vuetify' 
 const { mobile,platform } = useDisplay()
