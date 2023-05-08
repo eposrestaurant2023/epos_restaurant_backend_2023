@@ -85,10 +85,16 @@
         </div>
         <div>
           <CurrencyFormat :value="sale.sale.commission_amount" />
-          
         </div>
       </div>
- 
+      <div class="flex justify-between my-1" v-if="sale.sale.reference_number">
+        <div>
+          Reference #
+        </div>
+        <div>
+          {{sale.sale.reference_number}}
+        </div>
+      </div>
   </div>
 </template>
 <script setup>

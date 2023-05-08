@@ -32,6 +32,7 @@ import ComChangeTableSelectSaleOrder from '@/views/sale/components/ComChangeTabl
 import ComPendingSaleList from '@/views/sale/ComPendingSaleList.vue'
 import ComInputNumber from '@/components/ComInputNumber.vue'
 import ComAddCommission from '@/views/sale/components/ComAddCommissionModal.vue'
+import ComSaleReferenceNumberModal from '@/views/sale/components/ComSaleReferenceNumberModal.vue'
 import ComPrintWifiPassword from '@/components/ComPrintWifiPasswordModal.vue'
 
 import ComSplitBill from "@/views/sale/components/ComSplitBill.vue"
@@ -92,4 +93,5 @@ export  const printWifiPasswordModal = createPromiseDialog<params, object>(ComPr
 export  const splitBillDialog = createPromiseDialog<params, object>(ComSplitBill);
 export  const SaleProductComboMenuGroupModal = createPromiseDialog<params, object>(ComSaleProductComboMenuGroupModal);
 export  const changeTaxSettingModal = createPromiseDialog<params, object>(ComChangeTaxSettingModal);
+export  const ComSaleReferenceNumberDialog = createPromiseDialog<params, object>(ComSaleReferenceNumberModal);
 

@@ -1,5 +1,6 @@
 <template>
      <ComLoadingDialog v-if="isLoading" />
+    <v-list-item prepend-icon="mdi-format-list-bulleted" title="Reference #" @click="onReferenceNumber()" />
     <v-list-item prepend-icon="mdi-eye-outline" title="View Bill" @click="onViewBill()" v-if="sale.sale.sale_products.length > 0"/>
     <template v-if="mobile">
         <v-list-item @click="onRemoveSaleNote()" v-if="sale.sale.note">
@@ -33,12 +34,9 @@
         </template>
         <v-list-item-title class="text-red-700">Delete Bill {{ showSplitBill }}</v-list-item-title>
     </v-list-item>
-
-
-
 </template>
 <script setup>
-import { useRouter, splitBillDialog,addCommissionDialog,viewBillModelModel,ref, inject,confirm, keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog ,createResource } from "@/plugin"
+import { useRouter, splitBillDialog,addCommissionDialog,ComSaleReferenceNumberDialog,viewBillModelModel,ref, inject,confirm, keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog ,createResource } from "@/plugin"
 import { useDisplay } from 'vuetify'
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
 const { mobile } = useDisplay()
@@ -134,6 +132,13 @@ async function onSeatNumber(){
         } else {
             return;
         }
+}
+async function onReferenceNumber(){
+    const reference_number = await ComSaleReferenceNumberDialog({
+        data: sale.sale
+    })
+    if(typeof(reference_number) != 'boolean')
+        sale.sale.reference_number = reference_number
 }
 async function onDeleteBill() {
     //check authorize and     check reason 
