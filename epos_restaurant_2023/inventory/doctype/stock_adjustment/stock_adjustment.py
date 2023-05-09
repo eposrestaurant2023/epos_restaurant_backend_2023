@@ -10,7 +10,7 @@ class StockAdjustment(Document):
 	def validate(self):
 		not_inventory_product =  Enumerable(self.products).where(lambda x: x.is_inventory_product==0).first_or_default()
 		if not_inventory_product:
-			frappe.throw(_("Product {} - {} is not an inventory product".format(not_inventory_product.product_code, not_inventory_product.product_name_en )))
+			frappe.throw(_("Product {} - {} is not an inventory product".format(not_inventory_product.product_code, not_inventory_product.product_name )))
 		if self.products:
 			for d in self.products:
 				current_product = get_stock_location_product(self.stock_location, d.product_code)

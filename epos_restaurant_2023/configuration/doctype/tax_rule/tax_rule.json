@@ -125,12 +125,13 @@
   {
    "fieldname": "tax_rule_data",
    "fieldtype": "JSON",
+   "hidden": 1,
    "label": "Tax Rule Data"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-03 15:21:08.675054",
+ "modified": "2023-05-08 15:37:40.604422",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Tax Rule",

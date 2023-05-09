@@ -2,9 +2,16 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Stock Adjustment", {
-	// refresh(frm) {
+	refresh(frm) {
+		frm.set_query("product_code","products", function() {
+            return {
+                filters: [
+                    ["Product","is_inventory_product", "=", 1]
+                ]
+            }
+        });
+	},
 
-	// },
     stock_location(frm){ 
         if(frm.doc.products.length > 0){
             $.each(frm.doc.products, function(i, d) {

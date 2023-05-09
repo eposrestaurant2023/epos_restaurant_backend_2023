@@ -381,6 +381,7 @@
   },
   {
    "default": "0",
+   "depends_on": "eval:doc.is_bus_ticket ==1",
    "fieldname": "is_round_trip_bus",
    "fieldtype": "Check",
    "label": "Is Round Trip"
@@ -450,7 +451,7 @@
    "options": "Transportation Destination"
   },
   {
-   "depends_on": "eval:doc.is_bus_ticket==1",
+   "depends_on": "eval:doc.is_bus_ticket ==1",
    "fieldname": "return_bus",
    "fieldtype": "Section Break",
    "label": "Return Bus"
@@ -458,7 +459,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-05 16:53:02.217686",
+ "modified": "2023-05-09 08:53:53.287046",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Ticket Booking",

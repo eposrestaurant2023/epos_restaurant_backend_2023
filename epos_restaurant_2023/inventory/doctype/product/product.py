@@ -11,10 +11,14 @@ from py_linq import Enumerable
 from frappe.utils import add_years
 from epos_restaurant_2023.inventory.inventory import add_to_inventory_transaction, check_uom_conversion, get_uom_conversion, update_product_quantity,get_stock_location_product
 import itertools
+import os
+
 
 class Product(Document):
 	def validate(self):
-		#frappe.throw(  str(get_uom_conversion("Unit", "Case 24")))
+
+		#frappe.throw(str(frappe.get_request_header('X-Forwarded-For')))
+
 		if self.is_combo_menu==1:
 			self.is_recipe=0
 			if self.is_inventory_product:
