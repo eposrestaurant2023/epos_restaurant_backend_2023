@@ -143,7 +143,12 @@ function updateProductAfterSelectCustomer(pro){
                                 s.discount = r.percentage_discount
                                 s.happy_hours_promotion_title =  r.promotion_title
                                 s.happy_hour_promotion = r.promotion_name
-                            }  
+                            }else{
+                                s.discount_type = ''
+                                s.discount = 0
+                                s.happy_hours_promotion_title =  ''
+                                s.happy_hour_promotion = ''
+                            }
                         }) 
                     })
                 }else{

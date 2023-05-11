@@ -1,5 +1,5 @@
-<template>
-    <ComChip :tooltip="product.happy_hour_promotion_title" v-if="product.happy_hour_promotion && product.discount > 0" size="x-small" variant="outlined" color="orange" text-color="white" prepend-icon="mdi-tag-multiple">
+<template> 
+    <ComChip :tooltip="product.happy_hours_promotion_title" v-if="product.happy_hour_promotion && product.discount > 0" size="x-small" variant="outlined" color="orange" text-color="white" prepend-icon="mdi-tag-multiple">
         <span>{{ product.discount }}%</span>
     </ComChip>
 </template>
