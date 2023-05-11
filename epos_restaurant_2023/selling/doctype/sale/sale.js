@@ -10,6 +10,9 @@ frappe.ui.form.on("Sale", {
 			if (frm.doc.changed_amount>0) frm.dashboard.add_indicator(__("Changed: {0}",[format_currency(frm.doc.changed_amount)]) ,"green");
 			frm.dashboard.add_indicator(__("Balance: {0}",[format_currency(frm.doc.balance)]) ,"blue");
 
+			if (frm.doc.commission_amount>0) {
+				frm.dashboard.add_indicator(__("Commission: {0}",[format_currency(frm.doc.commission_amount)]) ,"green");
+			}
 
 			var iframe = document.createElement('iframe');
             iframe.height="1024";

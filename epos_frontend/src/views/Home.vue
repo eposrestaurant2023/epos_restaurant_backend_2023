@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div> 
         <div class="h-60 bg-no-repeat bg-cover"
             v-bind:style="{ 'background-image': 'url(' + gv.setting.home_background + ')' }">
             <div class="wrap-overlay w-full h-full flex items-end justify-center">
@@ -41,8 +41,6 @@
                         
                         <ComButton @click="onLogout()" text-color="#fff" icon-color="#fff" title="Logout" icon="mdi-logout"
                             background-color="#b00020" />
-
-                       
                     </div>
                 </div>
             </div>
@@ -92,6 +90,7 @@ const workingDayResource = createResource({
 
 
 function onRoute(page) {
+   
     router.push({ name: page })
 }
 

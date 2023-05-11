@@ -222,7 +222,7 @@ def get_tables_number(table_group,device_name):
     #             fields=["name as id","tbl_number as tbl_no","shape","sale_type","default_discount","height as h","width as w","price_rule","discount_type"],
     #             filters={"tbl_group":table_group}
     #         )
-    data = frappe.db.sql("select name as id, tbl_number as tbl_no,sale_type, default_discount,height as h, width as w, price_rule,discount_type from `tabTables Number` where tbl_group='{}' order by sort_order, tbl_number".format(table_group), as_dict=1)
+    data = frappe.db.sql("select name as id, shape, tbl_number as tbl_no,sale_type, default_discount,height as h, width as w, price_rule,discount_type from `tabTables Number` where tbl_group='{}' order by sort_order, tbl_number".format(table_group), as_dict=1)
 
     background_color = frappe.db.get_default("default_table_number_background_color")
     for d in data:

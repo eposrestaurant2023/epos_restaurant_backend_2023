@@ -13,8 +13,7 @@
   "ticket_code_prefix",
   "note",
   "column_break_4",
-  "show_flight_information",
-  "is_bus_ticket"
+  "show_flight_information"
  ],
  "fields": [
   {
@@ -45,17 +44,11 @@
    "fieldname": "show_flight_information",
    "fieldtype": "Check",
    "label": "Show Flight Information"
-  },
-  {
-   "default": "0",
-   "fieldname": "is_bus_ticket",
-   "fieldtype": "Check",
-   "label": "Is Bus Ticket"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-05 16:50:42.505209",
+ "modified": "2023-05-09 09:04:21.844447",
  "modified_by": "Administrator",
  "module": "Tour Managements",
  "name": "Ticket Category",

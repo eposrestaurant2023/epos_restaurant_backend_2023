@@ -170,7 +170,7 @@
    "type": "Link"
   }
  ],
- "modified": "2023-05-08 11:25:34.962298",
+ "modified": "2023-05-09 09:32:01.209909",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Inventory",
@@ -212,18 +212,19 @@
    "type": "DocType"
   },
   {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Production",
-   "link_to": "Production",
-   "type": "DocType"
-  },
-  {
    "color": "Green",
    "doc_view": "List",
    "label": "Product",
    "link_to": "Product",
    "stats_filter": "{\"disabled\":[\"=\",0]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Production",
+   "link_to": "Production",
+   "stats_filter": "{\"posting_date\":[\"Timespan\",\"this month\"]}",
    "type": "DocType"
   },
   {

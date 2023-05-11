@@ -34,6 +34,7 @@ import ComInputNumber from '@/components/ComInputNumber.vue'
 import ComAddCommission from '@/views/sale/components/ComAddCommissionModal.vue'
 import ComSaleReferenceNumberModal from '@/views/sale/components/ComSaleReferenceNumberModal.vue'
 import ComPrintWifiPassword from '@/components/ComPrintWifiPasswordModal.vue'
+import ComViewHappyHourPromotionModal from '@/views/sale/components/happy_hour_promotion/ComViewHappyHourPromotionModal.vue'
 
 import ComSplitBill from "@/views/sale/components/ComSplitBill.vue"
 import ComChangeTaxSettingModal from "@/views/sale/components/ComChangeTaxSettingModal.vue"
@@ -94,4 +95,5 @@ export  const splitBillDialog = createPromiseDialog<params, object>(ComSplitBill
 export  const SaleProductComboMenuGroupModal = createPromiseDialog<params, object>(ComSaleProductComboMenuGroupModal);
 export  const changeTaxSettingModal = createPromiseDialog<params, object>(ComChangeTaxSettingModal);
 export  const ComSaleReferenceNumberDialog = createPromiseDialog<params, object>(ComSaleReferenceNumberModal);
+export  const viewHappyHourPromotionModal = createPromiseDialog<params, object>(ComViewHappyHourPromotionModal);
 

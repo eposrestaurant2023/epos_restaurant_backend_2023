@@ -81,7 +81,7 @@
                         <ComSaleProductButtonMore :sale-product="sp" />
                     </div>
                 </div>
-                <ComCheckHappyHourPromotion :product-name="sp.product_code" @on-handle="onPromotion($event,sp)"/>
+                <!-- <ComCheckHappyHourPromotion :product-name="sp.product_code" @on-handle="onPromotion($event,sp)"/> -->
             </template>
         </v-list-item>
     </v-list>
@@ -193,7 +193,7 @@ function onPromotion(is_promotion, sp){
         if(gv.promotion?.customer_groups.filter(r=>r.customer_group_name_en == sale.sale.customer_group).length == 0)
             return
     }
-
+    
     if(is_promotion && sp.allow_discount){
         sp.discount_type = 'Percent'
         sp.discount = (gv.promotion?.info?.percentage_discount || 0)

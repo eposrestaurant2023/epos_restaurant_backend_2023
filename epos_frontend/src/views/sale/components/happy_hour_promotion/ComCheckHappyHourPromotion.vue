@@ -1,3 +1,4 @@
+
 <script setup>
 import {inject,createResource} from '@/plugin'
 const gv = inject('$gv')
@@ -30,10 +31,10 @@ if(gv.promotion){
 
 let productDiscountResource = createResource({
     url: 'epos_restaurant_2023.api.promotion.check_promotion_product',
-    cache: "check_promotion_product",
+    //cache: "check_promotion_product",
     params: productDiscountResourceParams(),
     onSuccess(doc) {
-        if(doc.name){
+        if(doc.name){ 
             emit('onHandle', true)
         }else{
             emit('onHandle', false)

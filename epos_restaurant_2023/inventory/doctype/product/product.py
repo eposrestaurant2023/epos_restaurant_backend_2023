@@ -16,8 +16,10 @@ import os
 
 class Product(Document):
 	def validate(self):
+		from frappe import local
 
-		#frappe.throw(str(frappe.get_request_header('X-Forwarded-For')))
+		local.conf.show_error_snapshot = False
+		frappe.throw("xx")
 
 		if self.is_combo_menu==1:
 			self.is_recipe=0

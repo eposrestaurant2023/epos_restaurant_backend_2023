@@ -4,7 +4,7 @@
             class="bg-center overflow-auto" v-if="!mobile">
             <template v-for="(t, index) in g.tables" :key="index">
                 <div v-bind:style="{ 'height': t.h + 'px', 'width': t.w + 'px', 'left': t.x + 'px', 'top': t.y + 'px', 'background-color': t.background_color, 'position': 'absolute', 'box-sizing': 'border-box' }"
-                    class="text-center text-gray-100 cursor-pointer" @click="onTableClick(t)">
+                    class="text-center text-gray-100 cursor-pointer" :class="t.shape == 'Circle' ? 'shape-circle' : ''" @click="onTableClick(t)">
                     <v-badge :content="t.sales?.length" color="error" style="float: right;"
                         v-if="t.sales?.length > 1"></v-badge>
                     <div class="flex items-center justify-center h-full">
@@ -148,3 +148,8 @@ async function newSale(table) {
 
 
 </script>
+<style scoped>
+.shape-circle {
+    border-radius: 100%;
+}
+</style>

@@ -127,6 +127,36 @@ export default class Gv {
 		return ''
 	}
 
+	getPromotionByCustomerGroup(customer_group){
+		let promotions = []
+
+		if(this.promotion && this.promotion.length > 0){
+			
+			this.promotion.forEach(r => {
+				if(r.customer_groups.length > 0){
+					r.customer_groups.forEach(g=>{
+						if(g.customer_group_name_en == customer_group){
+							promotions.push(r)
+						}
+					})
+				}else{
+					promotions.push(r)
+				}
+				
+			});
+			
+			return promotions
+		}
+	
+		
+		return promotions
+	}
+
+	getPromotionByCustomerGroupSingleRecod(customer_group){
+		const data = this.getPromotionByCustomerGroup(customer_group)
+		return data[0]
+	}
+
 	checkCookie(name) {
 		var nameEQ = name + "=";
 		var ca = document.cookie.split(';');

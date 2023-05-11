@@ -14,8 +14,11 @@
                         <div class="font-bold">{{ sale.sale.customer_name }}</div>
                         <div class="text-gray-400 text-sm">{{ subTitle }}</div>
                     </div>
-                    <div>
-                        <ComCustomerPromotionChip :customer="customer"/>
+                    <div> 
+                        <template v-if="customerPromotion?.length > 0">
+                            <ComChip v-for="(item, index) in customerPromotion" :key="index" color="orange" tooltip="Happy Hour Promotion" prepend-icon="mdi-tag-multiple">{{ item.promotion_name }}</ComChip>
+                        </template>
+                        <v-chip v-else-if="sale.sale.customer_default_discount > 0" color="error">{{ sale.sale.customer_group }} % OFF</v-chip>
                     </div>
                 </div>
             </div>
@@ -40,16 +43,20 @@
     </div>
 </template>
 <script setup>
-import { computed, inject, searchCustomerDialog,createResource, customerDetailDialog, scanCustomerCodeDialog, confirmDialog, onMounted,createToaster,addCustomerDialog } from "@/plugin"
+import { computed, inject,ref, searchCustomerDialog,createResource, customerDetailDialog, scanCustomerCodeDialog, confirmDialog, onMounted,createToaster,addCustomerDialog } from "@/plugin"
 import ComCustomerPromotionChip from "./ComCustomerPromotionChip.vue";
 const sale = inject("$sale")
+const gv = inject("$gv")
 const socket = inject("$socket")
 const moment = inject("$moment")
 const toaster = createToaster({ position: "top" });
-const customer = computed(()=>{
-    return {
-        default_discount: sale.sale.customer_default_discount,
-        customer_group: sale.sale.customer_group
+
+let customerPromotion = computed({
+    get(){
+        return gv.getPromotionByCustomerGroup(sale.sale.customer_group)
+    },
+    set(newValue){
+        return newValue
     }
 })
 async function onSearchCustomer() {
@@ -68,16 +75,19 @@ function assignCustomerToOrder(result) {
     sale.sale.phone_number = result.phone_number;
     sale.sale.customer_group = result.customer_group;
     sale.sale.customer_default_discount = result.default_discount
-    let isCustomerPromotion = false;
-    if(sale.promotion){
-        isCustomerPromotion = sale.promotion.customer_groups.filter(r=>r.customer_group_name_en == result.customer_group).length > 0
-        if(isCustomerPromotion){
-            toaster.info("This customer has happy hours promotion " + ((sale.promotion.info.percentage_discount || 0))  + '%');
-        }
-        updateProductAfterSelectCustomer(isCustomerPromotion)
-    }
 
-    if (parseFloat(result.default_discount) && !isCustomerPromotion) {
+    if(sale.promotion){
+        customerPromotion.value = gv.getPromotionByCustomerGroup(sale.sale.customer_group)
+        //sale.promotion.customer_groups.filter(r=>r.customer_group_name_en == result.customer_group).length > 0
+ 
+        if(customerPromotion.value && customerPromotion.value.length > 0){
+            customerPromotion.value.forEach((r)=>{
+                toaster.info(`This customer has happy hours promotion ${r.promotion_name} : ${(( r.percentage_discount || 0))}%`);
+            }) 
+            updateProductAfterSelectCustomer(customerPromotion.value)
+        }
+    } 
+    if (parseFloat(result.default_discount) && !customerPromotion.value) {
  
         sale.sale.discount_type="Percent";
         sale.sale.discount = parseFloat(result.default_discount);
@@ -105,50 +115,95 @@ function onViewCustomerDetail() {
         name: sale.sale.customer
     });
 }
-function updateProductAfterSelectCustomer(is_promotion){
+function updateProductAfterSelectCustomer(pro){
+    const promotions = JSON.parse(JSON.stringify(pro))
     if(sale.sale.sale_products.length > 0){
-        if(is_promotion){
-            let product_checks = []
-            sale.sale.sale_products.forEach(r => {
-                product_checks.push(r.product_code)
-            });
-            createResource({
-                url: 'epos_restaurant_2023.api.promotion.get_promotion_products',
-                auto: true,
-                params: { 
-                    products: product_checks,
-                    promotion_name: sale.promotion.info.name || ''
-                },
-                onSuccess(doc) {
-                    if(doc){
-                        /// update products promotion
-                        doc.forEach(r=>{
-                            let sale_products = sale.sale.sale_products.filter(x=>x.product_code == r.product_code)
-                            sale_products.forEach((s)=>{
-                                s.discount_type = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? 'Amount' : 'Percent')
-                                s.discount = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? 0 : (sale.promotion?.info?.percentage_discount || 0))
-                                s.happy_hours_promotion_title = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? '' : (sale.promotion?.info?.happy_hours_promotion_title || ''))
-                                s.happy_hour_promotion = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? '' : (sale.promotion?.info?.name || ''))
-                            })
-                        })
-                    }else{
-                        gv.promotion = null
-                        sale.promotion = null
-                    }
-                }
-            });
-        }else{
-        sale.sale.sale_products = sale.sale.sale_products.map(r=>{
-                return {
-                    ...r,
-                    discount: 0,
-                    happy_hours_promotion_title: '',
-                    happy_hour_promotion: ''
-                }
+        let product_checks = []
+        sale.sale.sale_products.forEach((r)=>{
+            product_checks.push({
+                product_code: r.product_code,
+                order_time: r.order_time
             })
-        }
-        
+        })
+        createResource({
+            url: 'epos_restaurant_2023.api.promotion.get_promotion_products',
+            auto: true,
+            params: { 
+                products: product_checks,
+                promotions: promotions
+            },
+            onSuccess(doc) {
+                if(doc){
+                    console.log(doc)
+                    /// update products promotion
+                    // doc.forEach(r=>{
+                    //     let sale_products = sale.sale.sale_products.filter(x=>x.product_code == r.product_code)
+
+                    //     console.log(sale_products)
+                    //     sale_products.forEach((s)=>{
+                    //         s.discount_type = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? 'Amount' : 'Percent')
+                    //         s.discount = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? 0 : (sale.promotion?.info?.percentage_discount || 0))
+                    //         s.happy_hours_promotion_title = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? '' : (sale.promotion?.info?.happy_hours_promotion_title || ''))
+                    //         s.happy_hour_promotion = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? '' : (sale.promotion?.info?.name || ''))
+
+                    //         console.log(s.happy_hour_promotion)
+                    //     })
+                    // })
+                }else{
+                    gv.promotion = null
+                    sale.promotion = null
+                }
+            }
+        });
     }
+    // if(sale.sale.sale_products.length > 0){
+    //     if(is_promotion){
+    //         let product_checks = []
+    //         sale.sale.sale_products.forEach(r => {
+    //             product_checks.push({product_code: r.product_code, order_time: r.order_time})
+    //         });
+    //         createResource({
+    //             url: 'epos_restaurant_2023.api.promotion.get_promotion_products',
+    //             auto: true,
+    //             params: { 
+    //                 products: product_checks,
+    //                 promotion_name: sale.promotion.info.name || ''
+    //             },
+    //             onSuccess(doc) {
+    //                 if(doc){
+    //                     console.log(doc)
+    //                     /// update products promotion
+    //                     doc.forEach(r=>{
+    //                         let sale_products = sale.sale.sale_products.filter(x=>x.product_code == r.product_code)
+
+    //                         console.log(sale_products)
+    //                         sale_products.forEach((s)=>{
+    //                             s.discount_type = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? 'Amount' : 'Percent')
+    //                             s.discount = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? 0 : (sale.promotion?.info?.percentage_discount || 0))
+    //                             s.happy_hours_promotion_title = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? '' : (sale.promotion?.info?.happy_hours_promotion_title || ''))
+    //                             s.happy_hour_promotion = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? '' : (sale.promotion?.info?.name || ''))
+
+    //                             console.log(s.happy_hour_promotion)
+    //                         })
+    //                     })
+    //                 }else{
+    //                     gv.promotion = null
+    //                     sale.promotion = null
+    //                 }
+    //             }
+    //         });
+    //     }else{
+    //     sale.sale.sale_products = sale.sale.sale_products.map(r=>{
+    //             return {
+    //                 ...r,
+    //                 discount: 0,
+    //                 happy_hours_promotion_title: '',
+    //                 happy_hour_promotion: ''
+    //             }
+    //         })
+    //     }
+        
+    // }
 }
 async function onScanCustomerCode() {
     if (!sale.isBillRequested()) {

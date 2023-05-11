@@ -50,19 +50,21 @@
    "default": "0",
    "fieldname": "cost",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Cost"
   },
   {
    "default": "0",
    "fieldname": "price",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Price"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-02-22 14:43:32.212868",
+ "modified": "2023-05-09 09:16:05.750034",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Product Price",
