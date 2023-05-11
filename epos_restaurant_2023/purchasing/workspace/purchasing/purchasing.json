@@ -92,7 +92,7 @@
   {
    "hidden": 0,
    "is_query_report": 1,
-   "label": "Purchase Order Report",
+   "label": "Purchase Order Transaction",
    "link_count": 0,
    "link_to": "Purchase Order",
    "link_type": "Report",
@@ -102,7 +102,7 @@
   {
    "hidden": 0,
    "is_query_report": 1,
-   "label": "Purchase Order Summary Report",
+   "label": "Purchase Order Summary",
    "link_count": 0,
    "link_to": "Purchase Order Summary Report",
    "link_type": "Report",
@@ -120,7 +120,7 @@
    "type": "Link"
   }
  ],
- "modified": "2023-04-27 15:52:06.677414",
+ "modified": "2023-05-11 09:52:05.446435",
  "modified_by": "Administrator",
  "module": "Purchasing",
  "name": "Purchasing",

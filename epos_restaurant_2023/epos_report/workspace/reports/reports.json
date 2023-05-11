@@ -5,7 +5,7 @@
    "label": "Sale Revenue"
   }
  ],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Reports</span>\",\"col\":12}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"Sale Revenue\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Sales Report\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Purchase Order\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Inventory Report\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Expense\",\"col\":4}}]",
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Reports</span>\",\"col\":12}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"Sale Revenue\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Sales Report\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Purchase Order\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Stock Take &amp; Stock Transfer\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Expense\",\"col\":4}}]",
  "creation": "2022-12-17 18:04:27.765490",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -15,120 +15,6 @@
  "idx": 0,
  "label": "Reports",
  "links": [
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Inventory Report",
-   "link_count": 3,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Stock Take",
-   "link_count": 0,
-   "link_to": "Stock Take Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Purchase Order",
-   "link_count": 0,
-   "link_to": "Purchase Order",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Stock Transfer Report",
-   "link_count": 0,
-   "link_to": "Stock Transfer Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Purchase Order",
-   "link_count": 4,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Purchase Order Summary",
-   "link_count": 0,
-   "link_to": "Purchase Order Summary Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Purchase Order Transaction",
-   "link_count": 0,
-   "link_to": "Purchase Order",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Purchase Order Payment",
-   "link_count": 0,
-   "link_to": "Purchase Order Credit Balance Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Vendor Credit Balace",
-   "link_count": 0,
-   "link_to": "Purchase Order Credit Balance Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Expense",
-   "link_count": 2,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Daily Expense Transaction",
-   "link_count": 0,
-   "link_to": "Daily Expense Transaction Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Expense Summary",
-   "link_count": 0,
-   "link_to": "Expense Summary Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
   {
    "hidden": 0,
    "is_query_report": 0,
@@ -206,9 +92,163 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Stock Take &amp; Stock Transfer",
+   "link_count": 5,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Stock Value Report",
+   "link_count": 0,
+   "link_to": "Stock Value Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Stock Take Transaction",
+   "link_count": 0,
+   "link_to": "Stock Take Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Stock Transfer Transaction",
+   "link_count": 0,
+   "link_to": "Stock Transfer Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Stock Take Summary",
+   "link_count": 0,
+   "link_to": "Stock Take Summary Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Stock Transfer Summary",
+   "link_count": 0,
+   "link_to": "Stock Transfer Summary Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Purchase Order",
+   "link_count": 5,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Purchase Order Summary",
+   "link_count": 0,
+   "link_to": "Purchase Order Summary Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Purchase Order Transaction",
+   "link_count": 0,
+   "link_to": "Purchase Order",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Purchase Order Payment",
+   "link_count": 0,
+   "link_to": "Purchase Order Credit Balance Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Vendor Credit Balace",
+   "link_count": 0,
+   "link_to": "Purchase Order Credit Balance Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Daily PO Payment Transation",
+   "link_count": 0,
+   "link_to": "Daily PO Payment Transaction",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Expense",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Daily Expense Transaction",
+   "link_count": 0,
+   "link_to": "Daily Expense Transaction Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Expense Summary",
+   "link_count": 0,
+   "link_to": "Expense Summary Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Daily Expense Payment Transaction",
+   "link_count": 0,
+   "link_to": "Daily Expense Payment Transaction",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-05-09 09:32:56.355751",
+ "modified": "2023-05-11 09:52:07.740273",
  "modified_by": "Administrator",
  "module": "ePOS Report",
  "name": "Reports",

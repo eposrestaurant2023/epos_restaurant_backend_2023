@@ -16,9 +16,11 @@
                         <div class="grow">
                             <div> {{ sp.product_name }}<v-chip class="ml-1" size="x-small" color="error" variant="outlined"
                                     v-if="sp.portion">{{ sp.portion }}</v-chip> <v-chip v-if="sp.is_free" size="x-small"
-                                    color="success" variant="outlined">Free</v-chip> <v-chip v-else-if="sp.happy_hour_promotion && sp.discount > 0" size="x-small" variant="outlined" color="orange" text-color="white" prepend-icon="mdi-cake-variant">
+                                    color="success" variant="outlined">Free</v-chip> 
+                                    
+                                    <ComChip :tooltip="sp.happy_hour_promotion_title" v-else-if="sp.happy_hour_promotion && sp.discount > 0" size="x-small" variant="outlined" color="orange" text-color="white" prepend-icon="mdi-tag-multiple">
                                         <span>{{ sp.discount }}%</span>
-                                    </v-chip>
+                                    </ComChip>
                                  
                             </div>
                             <div>
@@ -81,7 +83,7 @@
                         <ComSaleProductButtonMore :sale-product="sp" />
                     </div>
                 </div>
-                <!-- <ComCheckHappyHourPromotion :product-name="sp.product_code" @on-handle="onPromotion($event,sp)"/> -->
+                <ComCheckHappyHourPromotion :product-name="sp.product_code" @on-handle="onPromotion($event,sp)"/>
             </template>
         </v-list-item>
     </v-list>
@@ -188,17 +190,17 @@ function getSaleProducts(groupByKey) {
 
 }
 
-function onPromotion(is_promotion, sp){
-    if((gv.promotion?.customer_groups || []).length > 0){
-        if(gv.promotion?.customer_groups.filter(r=>r.customer_group_name_en == sale.sale.customer_group).length == 0)
-            return
-    }
-    
-    if(is_promotion && sp.allow_discount){
+function onPromotion(promotion, sp){
+    // if((gv.promotion?.customer_groups || []).length > 0){
+    //     if(gv.promotion?.customer_groups.filter(r=>r.customer_group_name_en == sale.sale.customer_group).length == 0)
+    //         return
+    // }
+    alert(promotion.promotion_name)
+    if(promotion && sp.allow_discount){
         sp.discount_type = 'Percent'
-        sp.discount = (gv.promotion?.info?.percentage_discount || 0)
-        sp.happy_hour_promotion = gv.promotion?.info?.name
-        sp.happy_hour_promotion_title = gv.promotion?.info?.promotion_name
+        sp.discount = (promotion.percentage_discount || 0)
+        sp.happy_hour_promotion = promotion.name
+        sp.happy_hour_promotion_title = promotion.promotion_name
         
         sale.updateSaleProduct(sp);
         sale.updateSaleSummary();

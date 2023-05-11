@@ -9,6 +9,7 @@ const props = defineProps({
 })
 
 if(gv.promotion){
+    console.log(gv.promotion)
     createResource({
         url: 'epos_restaurant_2023.api.promotion.check_promotion',
         cache: "check_promotion_today",
@@ -17,7 +18,7 @@ if(gv.promotion){
             check_time: 1,
             business_branch: gv.setting.business_branch || ''
         },
-        onSuccess(doc) {
+        onSuccess(doc) { 
             if(doc){
                 productDiscountResource.params = productDiscountResourceParams()
                 productDiscountResource.fetch()
@@ -34,8 +35,9 @@ let productDiscountResource = createResource({
     //cache: "check_promotion_product",
     params: productDiscountResourceParams(),
     onSuccess(doc) {
-        if(doc.name){ 
-            emit('onHandle', true)
+        console.log(doc)
+        if(doc){ 
+            emit('onHandle', doc)
         }else{
             emit('onHandle', false)
         }
@@ -44,7 +46,7 @@ let productDiscountResource = createResource({
 function productDiscountResourceParams(){
     return {
             product_name: props.productName,
-            promotion_name: gv.promotion?.info?.name || ''
+            promotions: gv.promotion
         }
 }
 </script>

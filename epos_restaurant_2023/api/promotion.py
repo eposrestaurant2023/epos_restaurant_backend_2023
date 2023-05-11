@@ -48,17 +48,18 @@ def check_promotion(business_branch = '', check_time = False):
     return False
 
 @frappe.whitelist(allow_guest=True)
-def check_promotion_product(promotion_name = '', product_name = ''):
-    product_promotion = frappe.db.sql("SELECT `name` FROM `tabPromotion Products` WHERE parent = '{0}' AND product_code = '{1}' AND docstatus = 1".format(promotion_name, product_name), as_dict=1)
-    return product_promotion[0] if len(product_promotion) > 0  else ''
-
+def check_promotion_product(promotions = [], product_name = ''):
+    for p in promotions:
+        product_promotion = frappe.db.sql("SELECT `name` FROM `tabPromotion Products` WHERE parent = '{0}' AND product_code = '{1}' AND docstatus = 1".format(p['name'], product_name), as_dict=1)
+        if not product_promotion == []:
+            return p
+        
 @frappe.whitelist(allow_guest=True)
 def get_promotion_products(promotions = [],products = []):
     
     if len(promotions) > 0:
         promotion_list = []
         for p in json.loads(json.dumps(promotions)):
-            return frappe.throw(p)
             promotion_data = frappe.get_doc('Happy Hours Promotion',p.name)
             promotion_list.append(promotion_data)
         return promotion_list
