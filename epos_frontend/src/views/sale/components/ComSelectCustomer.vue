@@ -134,21 +134,18 @@ function updateProductAfterSelectCustomer(pro){
             },
             onSuccess(doc) {
                 if(doc){
-                    console.log(doc)
                     /// update products promotion
-                    // doc.forEach(r=>{
-                    //     let sale_products = sale.sale.sale_products.filter(x=>x.product_code == r.product_code)
-
-                    //     console.log(sale_products)
-                    //     sale_products.forEach((s)=>{
-                    //         s.discount_type = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? 'Amount' : 'Percent')
-                    //         s.discount = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? 0 : (sale.promotion?.info?.percentage_discount || 0))
-                    //         s.happy_hours_promotion_title = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? '' : (sale.promotion?.info?.happy_hours_promotion_title || ''))
-                    //         s.happy_hour_promotion = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? '' : (sale.promotion?.info?.name || ''))
-
-                    //         console.log(s.happy_hour_promotion)
-                    //     })
-                    // })
+                    doc.forEach(r=>{
+                        let sale_products = sale.sale.sale_products.filter(x=>x.product_code == r.product_code)
+                        sale_products.forEach((s)=>{
+                            if(moment(s.order_time).format('HH:mm:ss') == r.order_time){
+                                s.discount_type = 'Percent'
+                                s.discount = r.percentage_discount
+                                s.happy_hours_promotion_title =  r.promotion_title
+                                s.happy_hour_promotion = r.promotion_name
+                            }  
+                        }) 
+                    })
                 }else{
                     gv.promotion = null
                     sale.promotion = null
@@ -156,54 +153,6 @@ function updateProductAfterSelectCustomer(pro){
             }
         });
     }
-    // if(sale.sale.sale_products.length > 0){
-    //     if(is_promotion){
-    //         let product_checks = []
-    //         sale.sale.sale_products.forEach(r => {
-    //             product_checks.push({product_code: r.product_code, order_time: r.order_time})
-    //         });
-    //         createResource({
-    //             url: 'epos_restaurant_2023.api.promotion.get_promotion_products',
-    //             auto: true,
-    //             params: { 
-    //                 products: product_checks,
-    //                 promotion_name: sale.promotion.info.name || ''
-    //             },
-    //             onSuccess(doc) {
-    //                 if(doc){
-    //                     console.log(doc)
-    //                     /// update products promotion
-    //                     doc.forEach(r=>{
-    //                         let sale_products = sale.sale.sale_products.filter(x=>x.product_code == r.product_code)
-
-    //                         console.log(sale_products)
-    //                         sale_products.forEach((s)=>{
-    //                             s.discount_type = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? 'Amount' : 'Percent')
-    //                             s.discount = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? 0 : (sale.promotion?.info?.percentage_discount || 0))
-    //                             s.happy_hours_promotion_title = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? '' : (sale.promotion?.info?.happy_hours_promotion_title || ''))
-    //                             s.happy_hour_promotion = (sale.promotion.info.start_time > moment(s.order_time).format('HH:mm:ss') ? '' : (sale.promotion?.info?.name || ''))
-
-    //                             console.log(s.happy_hour_promotion)
-    //                         })
-    //                     })
-    //                 }else{
-    //                     gv.promotion = null
-    //                     sale.promotion = null
-    //                 }
-    //             }
-    //         });
-    //     }else{
-    //     sale.sale.sale_products = sale.sale.sale_products.map(r=>{
-    //             return {
-    //                 ...r,
-    //                 discount: 0,
-    //                 happy_hours_promotion_title: '',
-    //                 happy_hour_promotion: ''
-    //             }
-    //         })
-    //     }
-        
-    // }
 }
 async function onScanCustomerCode() {
     if (!sale.isBillRequested()) {

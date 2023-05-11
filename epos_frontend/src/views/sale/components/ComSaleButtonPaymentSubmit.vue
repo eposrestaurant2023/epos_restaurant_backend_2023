@@ -10,7 +10,7 @@
             </div>
           </div>
           <div class="flex justify-between">
-            <div>Total Qty : <span>{{ sale.sale.total_quantity }}</span></div>
+            <div>Total Qty : <span>{{ sale.sale.total_quantity ||0}}</span></div>
             <div>
               <ComExchangeRate />
               <CurrencyFormat :value="sale.sale.grand_total * (sale.sale.exchange_rate || 1)"
@@ -44,7 +44,8 @@ const gv = inject("$gv")
 const product = inject("$product")
 const tableLayout = inject("$tableLayout");
 const router = useRouter();
-const toaster = createToaster({ position: 'top' })
+const toaster = createToaster({ position: 'top' });
+
 async function onSubmit() {
 
   if (!sale.isBillRequested()) {

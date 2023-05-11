@@ -14,14 +14,10 @@
                 <div class="text-sm">
                     <div class="flex">
                         <div class="grow">
-                            <div> {{ sp.product_name }}<v-chip class="ml-1" size="x-small" color="error" variant="outlined"
-                                    v-if="sp.portion">{{ sp.portion }}</v-chip> <v-chip v-if="sp.is_free" size="x-small"
-                                    color="success" variant="outlined">Free</v-chip> 
-                                    
-                                    <ComChip :tooltip="sp.happy_hour_promotion_title" v-else-if="sp.happy_hour_promotion && sp.discount > 0" size="x-small" variant="outlined" color="orange" text-color="white" prepend-icon="mdi-tag-multiple">
-                                        <span>{{ sp.discount }}%</span>
-                                    </ComChip>
-                                 
+                            <div> {{ sp.product_name }}<v-chip class="ml-1" size="x-small" color="error" variant="outlined" v-if="sp.portion">{{ sp.portion }}</v-chip>
+                                <v-chip v-if="sp.is_free" size="x-small" color="success" variant="outlined">Free</v-chip> 
+                                <ComCheckHappyHourPromotion v-else :product="sp" @on-handle="onPromotion($event,sp)"/>
+                                
                             </div>
                             <div>
                                 {{ sp.quantity }} x
@@ -83,7 +79,6 @@
                         <ComSaleProductButtonMore :sale-product="sp" />
                     </div>
                 </div>
-                <ComCheckHappyHourPromotion :product-name="sp.product_code" @on-handle="onPromotion($event,sp)"/>
             </template>
         </v-list-item>
     </v-list>
@@ -191,11 +186,6 @@ function getSaleProducts(groupByKey) {
 }
 
 function onPromotion(promotion, sp){
-    // if((gv.promotion?.customer_groups || []).length > 0){
-    //     if(gv.promotion?.customer_groups.filter(r=>r.customer_group_name_en == sale.sale.customer_group).length == 0)
-    //         return
-    // }
-    alert(promotion.promotion_name)
     if(promotion && sp.allow_discount){
         sp.discount_type = 'Percent'
         sp.discount = (promotion.percentage_discount || 0)

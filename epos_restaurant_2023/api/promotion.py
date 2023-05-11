@@ -56,10 +56,31 @@ def check_promotion_product(promotions = [], product_name = ''):
         
 @frappe.whitelist(allow_guest=True)
 def get_promotion_products(promotions = [],products = []):
-    
+    result = []
     if len(promotions) > 0:
-        promotion_list = []
-        for p in json.loads(json.dumps(promotions)):
-            promotion_data = frappe.get_doc('Happy Hours Promotion',p.name)
-            promotion_list.append(promotion_data)
-        return promotion_list
+        promotion_list = Enumerable(promotions).order_by(lambda x:x['priority']).to_list()
+        for p in promotion_list:
+            promotion_data = frappe.get_doc('Happy Hours Promotion',p['name'])
+            for product in products:
+                order_time = datetime.strftime(datetime.strptime(product['order_time'][11:], '%H:%M:%S.%f'), "%H:%M:%S")
+                if order_time >= datetime.strftime(datetime.strptime(str(promotion_data.start_time), '%H:%M:%S'), '%H:%M:%S'):
+                    t = Enumerable(promotion_data.products).where(lambda x: x.product_code == product['product_code'])
+                    if t[0]:
+                        result.append({
+                            'product_code':product['product_code'],
+                            'order_time': order_time,
+                            'promotion_name': p['name'],
+                            'promotion_title': p['promotion_name'],
+                            'percentage_discount': p['percentage_discount']
+                        })
+                        products.remove(product)
+                    # else:
+                    #     result.append({
+                    #         'product_code':product['product_code'],
+                    #         'order_time': order_time,
+                    #         'promotion_name': '',
+                    #         'promotion_title': '',
+                    #         'percentage_discount': 0
+                    #     })
+                    # products.remove(product)
+    return result
