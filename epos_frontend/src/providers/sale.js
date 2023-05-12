@@ -330,6 +330,11 @@ export default class Sale {
     }
 
     updateSaleProduct(sp) {
+        //set property for re render comhappyhour check
+        sp.is_render = false; 
+
+        //end
+
         sp.sub_total = sp.quantity * sp.price + sp.quantity * sp.modifiers_price;
         sp.discount = parseFloat(sp.discount)
         if (sp.discount) {
@@ -363,6 +368,10 @@ export default class Sale {
 
         this.onCalculateTax(sp);
         sp.amount = sp.sub_total - sp.total_discount + sp.total_tax;
+
+
+        //set property for re render comhappyhour check
+        sp.is_render = true;
     }
 
     //on sale product apply tax setting
@@ -643,9 +652,7 @@ export default class Sale {
                         else{
                             this.onSaleApplyTax(_tax_rule, this.sale);
                         }
-                        this.updateSaleSummary();  
-
-                        console.log(this.sale)
+                        this.updateSaleSummary(); 
                     }
                 }
             });

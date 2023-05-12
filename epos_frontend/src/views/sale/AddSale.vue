@@ -162,10 +162,8 @@ function onCheckExpireHappyHoursPromotion(){
                 business_branch: gv.setting.business_branch || ''
             },
             onSuccess(doc) {
-                if(!doc){
-                    // expired
-                    gv.promotion = null
-                }
+                gv.promotion = doc
+                sale.promotion = doc
             }
         });
   

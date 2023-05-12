@@ -10,11 +10,14 @@
                         v-for="(p, index) in gv.promotion" :key="index"
                         class="rounded-lg bg-gray-100 border-b border-gray-400"> 
                         <div class="block p-2 w-full h-full">
-                            <div class="font-bold mb-2 pb-2 border-b flex items-center">
-                                <v-icon>mdi-tag-multiple</v-icon>
+                            <div class="font-bold mb-2 pb-2 border-b">
                                 <span class="pl-2">{{ p.promotion_name}}</span>
                             </div>
                             <div>
+                                <div class="flex items-center mb-2">
+                                    <v-icon size="x-small" icon="mdi-tag-multiple"></v-icon>
+                                    <div class="text-sm ml-1">{{p.percentage_discount}}%</div>
+                                </div>
                                 <div class="flex items-center">
                                     <v-icon size="x-small" icon="mdi-clock"></v-icon>
                                     <div class="text-sm ml-1">{{p.start_time}} - {{p.end_time}}</div>

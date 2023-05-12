@@ -43,7 +43,7 @@
     </div>
 </template>
 <script setup>
-import { computed, inject,ref, searchCustomerDialog,createResource, customerDetailDialog, scanCustomerCodeDialog, confirmDialog, onMounted,createToaster,addCustomerDialog } from "@/plugin"
+import { computed, inject, searchCustomerDialog,createResource, customerDetailDialog, scanCustomerCodeDialog, confirmDialog, onMounted,createToaster,addCustomerDialog } from "@/plugin"
 import ComCustomerPromotionChip from "./ComCustomerPromotionChip.vue";
 const sale = inject("$sale")
 const gv = inject("$gv")
@@ -79,13 +79,16 @@ function assignCustomerToOrder(result) {
     if(sale.promotion){
         customerPromotion.value = gv.getPromotionByCustomerGroup(sale.sale.customer_group)
         //sale.promotion.customer_groups.filter(r=>r.customer_group_name_en == result.customer_group).length > 0
- 
         if(customerPromotion.value && customerPromotion.value.length > 0){
             customerPromotion.value.forEach((r)=>{
                 toaster.info(`This customer has happy hours promotion ${r.promotion_name} : ${(( r.percentage_discount || 0))}%`);
-            }) 
+            })
             updateProductAfterSelectCustomer(customerPromotion.value)
         }
+        else{
+            onClearPromotionProduct()
+        }
+        
     } 
     if (parseFloat(result.default_discount) && !customerPromotion.value) {
  
@@ -134,23 +137,32 @@ function updateProductAfterSelectCustomer(pro){
             },
             onSuccess(doc) {
                 if(doc){
+                    onClearPromotionProduct()
                     /// update products promotion
-                    doc.forEach(r=>{
+                    doc.product_promotions.forEach(r=>{
                         let sale_products = sale.sale.sale_products.filter(x=>x.product_code == r.product_code)
                         sale_products.forEach((s)=>{
-                            if(moment(s.order_time).format('HH:mm:ss') == r.order_time){
+                            if(moment(s.order_time).format('HH:mm:ss') == r.order_time && s.is_free == false){
                                 s.discount_type = 'Percent'
                                 s.discount = r.percentage_discount
                                 s.happy_hours_promotion_title =  r.promotion_title
                                 s.happy_hour_promotion = r.promotion_name
-                            }else{
-                                s.discount_type = ''
-                                s.discount = 0
-                                s.happy_hours_promotion_title =  ''
-                                s.happy_hour_promotion = ''
                             }
                         }) 
                     })
+
+                    // remove expire promotion
+                    if(doc.expire_promotion.length > 0){
+                        doc.expire_promotion.forEach((p)=>{
+                            toaster.warning(`${p.promotion_name} was expired!!!`)
+                            const index = gv.promotion.findIndex(r=>r.name == p.name)
+                            if(index > -1){
+                                gv.promotion.splice(index, 1);
+                                sale.promotion.splice(index, 1);
+                            }
+                        })
+                        
+                    }
                 }else{
                     gv.promotion = null
                     sale.promotion = null
@@ -196,6 +208,17 @@ async function onAddCustomer() {
     }
 }
 
+function onClearPromotionProduct(){
+    // remove old promotion
+    sale.sale.sale_products.forEach((s) => { 
+        if(s.happy_hour_promotion){
+            s.discount_type = ''
+            s.discount = 0
+            s.happy_hours_promotion_title =  ''
+            s.happy_hour_promotion = ''
+        }
+    });
+}
 onMounted(() => {
     if(!sale.sale.customer){
         onRemove()

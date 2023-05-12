@@ -4,7 +4,7 @@
             :key="index" @click="!readonly ? { click: sale.onSelectSaleProduct(sp) } : {}"
             class="!border-t !border-gray-300 !mb-0 !p-2"
             :class="{ 'selected': (sp.selected && !readonly), 'submitted relative': sp.sale_product_status == 'Submitted', 'item-list': !readonly }">
-            <template v-slot:prepend>
+            <template v-slot:prepend> 
                 <v-avatar v-if="sp.product_photo">
                     <v-img :src="sp.product_photo"></v-img>
                 </v-avatar>
@@ -16,8 +16,10 @@
                         <div class="grow">
                             <div> {{ sp.product_name }}<v-chip class="ml-1" size="x-small" color="error" variant="outlined" v-if="sp.portion">{{ sp.portion }}</v-chip>
                                 <v-chip v-if="sp.is_free" size="x-small" color="success" variant="outlined">Free</v-chip> 
-                                <ComCheckHappyHourPromotion v-else :product="sp" @on-handle="onPromotion($event,sp)"/>
-                                
+                                <ComChip :tooltip="sp.happy_hours_promotion_title" v-if="sp.happy_hour_promotion && sp.discount > 0" size="x-small" variant="outlined" color="orange" text-color="white" prepend-icon="mdi-tag-multiple">
+                                    <span>{{ sp.discount }}%</span>        
+                                </ComChip>                   
+                                <ComHappyHour :saleProduct="sp" v-if="sp.is_render"/>
                             </div>
                             <div>
                                 {{ sp.quantity }} x
@@ -56,7 +58,7 @@
                             <div class="text-lg">
                                 <CurrencyFormat :value="(sp.amount - sp.total_tax)" />
                             </div>
-                            <span v-if="sp.product_tax_rule" class="text-xs">
+                            <span v-if="sp.product_tax_rule && sp.total_tax >0" class="text-xs">
                                 Tax: 
                                 <CurrencyFormat :value="sp.total_tax" />
                             </span>
@@ -88,8 +90,8 @@ import { inject, defineProps, createToaster } from '@/plugin'
 import ComSaleProductButtonMore from './ComSaleProductButtonMore.vue';
 import ComQuantityInput from '../../../components/form/ComQuantityInput.vue';
 import Enumerable from 'linq';
-import ComCheckHappyHourPromotion from './happy_hour_promotion/ComCheckHappyHourPromotion.vue';
-import ComSaleProductComboMenuGroupItemDisplay from './combo_menu/ComSaleProductComboMenuGroupItemDisplay.vue';
+import ComSaleProductComboMenuGroupItemDisplay from './combo_menu/ComSaleProductComboMenuGroupItemDisplay.vue'; 
+import ComHappyHour from './happy_hour_promotion/ComHappyHour.vue';
 const sale = inject('$sale')
 const product = inject('$product')
 const gv = inject('$gv')
@@ -171,6 +173,7 @@ function onReorder(sp) {
 
     }
 }
+
 function getSaleProducts(groupByKey) {
     if (props.saleCustomerDisplay && props.saleCustomerDisplay.sale_products) {
         if (groupByKey) {
@@ -185,20 +188,10 @@ function getSaleProducts(groupByKey) {
 
 }
 
-function onPromotion(promotion, sp){
-    if(promotion && sp.allow_discount){
-        sp.discount_type = 'Percent'
-        sp.discount = (promotion.percentage_discount || 0)
-        sp.happy_hour_promotion = promotion.name
-        sp.happy_hour_promotion_title = promotion.promotion_name
-        
-        sale.updateSaleProduct(sp);
-        sale.updateSaleSummary();
-        
-    }
-    
-}
+
 </script>
+
+
 <style scoped>
 .selected,
 .item-list:hover {
@@ -215,4 +208,5 @@ function onPromotion(promotion, sp){
     background: #75c34a;
     border-radius: 12px;
 }
+
 </style>

@@ -17,7 +17,7 @@
           @onInput="onSearch"/>
       </div>
       <div class="px-4 pb-4">
-        <ComPlaceholder v-if="customerResource.data?.length>0"  :is-not-empty="customerResource.data"
+        <ComPlaceholder :loading="customerResource.loading" :is-not-empty="customerResource.data"
           text="There is not customer" icon="mdi-account-outline">
           <v-card v-for="(c, index) in customerResource.data.filter(r=>r.disabled == 0)" :key="index" :title="c.customer_name_en"
             @click="onSelectCustomer(c)" class="mb-4">
@@ -37,27 +37,29 @@
               <ComCustomerPromotionChip :customer="c"></ComCustomerPromotionChip>
             </template>
           </v-card>
-        </ComPlaceholder>
-        <div v-else>
-          <v-alert v-if="!customerResource.loading"
-            title="Customer not found"
-            variant="tonal"
-          >
-            <div class="d-flex flex-row align-center justify-space-between">
-              <div>
-                There's no customer with keyword <strong>{{ search }}</strong>.
-              </div>
+          <template #empty>
+            <div>
+                <v-alert v-if="!customerResource.loading"
+                  title="Customer not found"
+                  variant="tonal"
+                >
+                  <div class="d-flex flex-row align-center justify-space-between">
+                    <div>
+                      There's no customer with keyword <strong>{{ search }}</strong>.
+                    </div>
 
-              <v-btn
-                color="info"
-                variant="outlined"
-                @click="addCustomer"
-              >
-                Add New Customer
-              </v-btn>
-            </div>
-          </v-alert>
-        </div>
+                    <v-btn
+                      color="info"
+                      variant="outlined"
+                      @click="addCustomer"
+                    >
+                      Add New Customer
+                    </v-btn>
+                  </div>
+                </v-alert>
+              </div>
+          </template>
+        </ComPlaceholder>
       </div>
       </div>
     </template>
