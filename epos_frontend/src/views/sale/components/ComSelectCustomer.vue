@@ -18,7 +18,7 @@
                         <template v-if="customerPromotion?.length > 0">
                             <ComChip v-for="(item, index) in customerPromotion" :key="index" color="orange" tooltip="Happy Hour Promotion" prepend-icon="mdi-tag-multiple">{{ item.promotion_name }}</ComChip>
                         </template>
-                        <v-chip v-else-if="sale.sale.customer_default_discount > 0" color="error">{{ sale.sale.customer_group }} % OFF</v-chip>
+                        <v-chip v-else-if="sale.sale.customer_default_discount > 0" color="error">{{ sale.sale.discount }} % OFF</v-chip>
                     </div>
                 </div>
             </div>
@@ -69,6 +69,7 @@ async function onSearchCustomer() {
 }
 
 function assignCustomerToOrder(result) {
+   
     sale.sale.customer = result.name;
     sale.sale.customer_name = result.customer_name_en;
     sale.sale.customer_photo = result.photo;
@@ -90,8 +91,9 @@ function assignCustomerToOrder(result) {
         }
         
     } 
-    if (parseFloat(result.default_discount) && !customerPromotion.value) {
- 
+
+    if (parseFloat(result.default_discount) && (customerPromotion.value||[]).length<=0) {
+
         sale.sale.discount_type="Percent";
         sale.sale.discount = parseFloat(result.default_discount);
         sale.updateSaleSummary();

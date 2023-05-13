@@ -8,10 +8,6 @@ import { onMounted } from 'vue';
     const props = defineProps({
         saleProduct: Object
     }) 
-
-
-
-
     async function onCheckPromotion(){
         return  new Promise(async (resolve) => {
             const check_promotion =  createResource({
