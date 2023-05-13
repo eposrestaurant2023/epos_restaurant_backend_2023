@@ -19,7 +19,6 @@ class Product(Document):
 		from frappe import local
 
 		local.conf.show_error_snapshot = False
-		frappe.throw("xx")
 
 		if self.is_combo_menu==1:
 			self.is_recipe=0
