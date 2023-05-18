@@ -95,7 +95,7 @@
                                 <v-icon class="mx-1" icon="mdi-refresh" size="small" @click="onRefresh"/>
                             </div>
                         </div>
-                        <div class="flex pt-2 px-2 items-center border-t border-gray-300 mt-2" v-if="activeReport.preview_report == 'Working Day Inventory Transcation' || activeReport.preview_report == 'Cashier Inventory Transaction'">
+                        <div class="flex pt-2 px-2 items-center border-t border-gray-300 mt-2" v-if="activeReport.preview_report == 'Working Day Inventory Transaction' || activeReport.preview_report == 'Cashier Inventory Transaction'">
                             <div class="flex-grow">
                                 <div style="max-width: 250px;">
                                     <ComAutoComplete v-model="filter.product_category" doctype="Product Category" variant="solo" @onSelected="onFilter"/> 

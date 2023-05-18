@@ -31,6 +31,12 @@ io.on('connection', (socket) => {
   })
 
 
+  //edoor raise event
+  socket.on("RefresheDoorDashboard",(arg)=>{
+    io.emit("RefresheDoorDashboard",arg)
+  })
+
+
 });
 
 
