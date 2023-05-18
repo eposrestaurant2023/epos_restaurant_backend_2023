@@ -1,253 +1,266 @@
-<template>
+ <template>
     <PageLayout class="pb-4" :title="`${activeReport.doc_type}: ${activeReport.report_id}`" icon="mdi-chart-bar" full>
         <template #action>
             <v-btn icon="mdi-printer" @click="onPrint()"></v-btn>
-            <v-btn v-if="mobile" icon="mdi-filter-outline" @click="onDrawer(true)"></v-btn>
         </template>
-        <v-row>
-            <v-col sm="4" md="4" lg="3" v-if="!mobile">
-                <v-card>
-                    <v-card-item>
-                        <v-card-subtitle>
-                            <div class="flex justify-between">
-                                <div>Working Day & Cashier Shift Report</div>
-                                <div>
-                                    <v-icon icon="mdi-reload" size="small" @click="onRefreshReport"></v-icon>
+    <v-row>
+        <v-col md="3">
+            <v-card subtitle="Working Day & Cashier Shift Report">
+                <v-card-text>
+                    <ComPlaceholder :loading="workingDayReportsTmp.loading === true || workingDayReports === null " :is-not-empty="workingDayReports?.length > 0">
+                        <template v-for="(c, index) in workingDayReports" :key="index">
+                            <v-card :color="activeReport.report_id == c.name ? 'info' : 'default'" :variant="activeReport.report_id == c.name || c.cashier_shifts.find(r=>r.name == activeReport.report_id) ? 'tonal' : 'text'" class="bg-gray-200 my-2 subtitle-opacity-1" @click="onWorkingDay(c)">
+                                <template v-slot:title>
+                                    <div class="flex justify-between">
+                                        <div>{{ c.name }}</div>
+                                        <div>
+                                            <v-chip v-if="c.is_closed" color="error" size="small"
+                                                variant="elevated">Closed</v-chip>
+                                            <v-chip v-else color="success" size="small" variant="elevated">Opening</v-chip>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template v-slot:subtitle>
+                                    <div>
+                                        <div><v-icon icon="mdi-calendar" size="x-small" /> <span class="font-bold">{{
+                                            c.posting_date
+                                        }}</span> It was opening by <span class="font-bold">{{ c.owner }}</span></div>
+                                        <div v-if="c.is_closed">
+                                            <v-icon icon="mdi-calendar-multiple" size="x-small" /> <span
+                                                class="font-bold">{{ c.closed_date }}</span> was closed by <span
+                                                class="font-bold">{{ c.modified_by }}</span>
+                                        </div>
+                                        <div><v-icon icon="mdi-note-text" size="x-small"></v-icon> Total Shift: <span
+                                                class="font-bold">{{ c.cashier_shifts.length }}</span></div>
+                                    </div>
+                                </template>
+                            </v-card>
+                            <div v-if="activeReport.report_id == c.name || c.cashier_shifts.find(r=>r.name == activeReport.report_id)">
+                                <div class="-m-1">
+                                    <v-btn :color="item.name == activeReport.report_id ? 'info' : 'default'" variant="tonal" stacked class="m-1" v-for="(item, index) in c.cashier_shifts" :key="index" @click="onCashierShift(item)">
+                                        <div>{{ moment(item.creation).format('h:mm:ss A') }}</div>
+                                        <div class="text-xs">#{{ item.name }}</div>
+                                    </v-btn>
                                 </div>
                             </div>
-                        </v-card-subtitle>
-                        <v-card-text style="height: calc(100vh - 214px); overflow-y: auto;">
-                            <ComReportFilter :loading="workingDayReportsTmp.loading"
-                                @onCashierShift="onCashierShift($event)" @onWorkingDay="onWorkingDay($event)"
-                                :active-report="activeReport" :workingDayReports="workingDayReports" /> 
-                        </v-card-text>
-                    </v-card-item>
-                </v-card>
-            </v-col>
-            <v-col sm="8" md="8" lg="9">
-                <v-card>
-                    <template #title>
-                        <div class="px-1 py-2 -m-1 whitespace-normal">
-                            <v-row>
-                                <v-col cols="12" lg="7" xl="8">
-                                    <v-tabs show-arrows>
-                                        <template v-if="activeReport.name == 'Cashier Shift'">
-                                            <v-tab
-                                                v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Cashier Shift' && r.show_in_pos == 1)"
-                                                :key="index" @click="onPrintFormat(r)">
-                                                {{ r.title }}
-                                            </v-tab>
-                                        </template>
-                                        <template v-else-if="activeReport.name == 'Working Day'">
-                                            <v-tab
-                                                v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Working Day' && r.show_in_pos == 1)"
-                                                :key="index" @click="onPrintFormat(r)">
-                                                {{ r.title }}
-                                            </v-tab>
-                                        </template>
-                                    </v-tabs>
-                                </v-col>
-                                <v-col cols="12" lg="5" xl="4">
-                                    <div>
-                                        <v-row>
-                                            <v-col cols="12" md="7">
-                                                <v-select prepend-inner-icon="mdi-content-paste" density="compact"
-                                                    v-model="selectedLetterhead" :items=gv.setting.letter_heads
-                                                    item-title="name" item-value="name" hide-no-data hide-details
-                                                    variant="solo" class="mx-1" @update:modelValue="onRefresh"></v-select>
-                                            </v-col>
-                                            <v-col cols="12" md="5">
-                                                <div class="flex items-center">
-                                                    <v-select prepend-inner-icon="mdi-google-translate" density="compact"
-                                                        v-model="activeReport.lang" :items="lang" item-title="language_name"
-                                                        item-value="language_code" hide-no-data hide-details variant="solo"
-                                                        class="mx-1" @update:modelValue="onRefresh"></v-select>
-                                                    <v-icon class="mx-1" icon="mdi-refresh" size="small"
-                                                        @click="onRefresh" />
-                                                </div>
-                                            </v-col>
-                                        </v-row>
-                                    </div>
-                                </v-col>
-                            </v-row>
+                            <div class="pt-2">
+                                <hr/>
+                            </div>
+                        </template>
+                    </ComPlaceholder>
+                </v-card-text>
+            </v-card>
+        </v-col>
+        <v-col md="9">
+            <v-card>
+                <template #title>
+                    <div class="px-1 py-2 -m-1">
+                        <div class="flex justify-between">
+                            <div> 
+                                <div v-if="!cashierShiftReports.loading && cashierShiftReports.data?.length > 0 && activeReport.name == 'Cashier Shift'"> 
+                                    <v-btn v-for="(r, index) in cashierShiftReports.data" :key="index" :color="activeReport.preview_report == r.name ? 'info' : 'default'" class="m-1" @click="onPrintFormat(r)">{{ r.title }}</v-btn>
+                                </div>
+                                <div v-else-if="workingDay?.length > 0 && activeReport.name == 'Working Day'">
+                                    
+                                    <v-btn v-for="(r, index) in workingDay" :key="index" class="m-1" :color="activeReport.preview_report == r.name ? 'info' : 'default'" @click="onPrintFormat(r)">{{ r.title }}</v-btn>
+                                </div>
+                            </div>
+                            <div class="flex items-center"> 
+                                <v-select 
+                                prepend-inner-icon="mdi-content-paste"
+                                density="compact"
+                                v-model="activeReport.letterhead"
+                                :items= gv.setting.letter_heads
+                                item-title="name"
+                                item-value="name"
+                                hide-no-data
+                                hide-details
+                                variant="solo"
+                                class="mx-1"
+                                @update:modelValue="onRefresh"
+                                ></v-select>
+                                <v-select 
+                                prepend-inner-icon="mdi-google-translate"
+                                density="compact"
+                                v-model="activeReport.lang"
+                                :items="lang" 
+                                item-title="language_name"
+                                item-value="language_code"
+                                hide-no-data
+                                hide-details
+                                variant="solo"
+                                class="mx-1"
+                                @update:modelValue="onRefresh"
+                                ></v-select>
+                                <v-icon class="mx-1" icon="mdi-refresh" size="small" @click="onRefresh"/>
+                            </div>
                         </div>
-                    </template>
-                    <v-card-text style="height: calc(100vh - 235px);">
-                        <ComPlaceholder :is-not-empty="activeReport.report_id != ''"
-                            :loading="workingDayReportsTmp.loading">
-                            <template #default>
-                                <iframe id="report-view" height="100%" width="100%" :src="printPreviewUrl"></iframe>
-                            </template>
-                        </ComPlaceholder>
-                    </v-card-text>
-                </v-card>
-            </v-col>
-        </v-row>
-        <Sheet v-if="mobile" v-model:visible="drawer" onlyHeaderSwipe>
-            <ComReportFilter :loading="workingDayReportsTmp.loading" @onCashierShift="onCashierShift($event)"
-                @onWorkingDay="onWorkingDay($event)" :active-report="activeReport" :workingDayReports="workingDayReports" />
-        </Sheet>
-    </PageLayout>
+                        <div class="flex pt-2 px-2 items-center border-t border-gray-300 mt-2" v-if="activeReport.preview_report == 'Working Day Inventory Transcation' || activeReport.preview_report == 'Cashier Inventory Transaction'">
+                            <div class="flex-grow">
+                                <div style="max-width: 250px;">
+                                    <ComAutoComplete v-model="filter.product_category" doctype="Product Category" variant="solo" @onSelected="onFilter"/> 
+                                </div>
+                            </div>
+                            <div class="flex-none">
+                                <v-btn prepend-icon="mdi-filter" color="primary" @click="onFilter">Filter</v-btn>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <v-card-text style="height: calc(100vh - 230px);">
+                    <iframe id="report-view" height="100%" width="100%" :src="printPreviewUrl"></iframe>
+                </v-card-text>
+            </v-card>
+        </v-col>
+    </v-row>
+</PageLayout>
 </template>
 <script setup>
-import { createResource, inject, computed, ref, saleDetailDialog, onUnmounted } from '@/plugin'
-import Enumerable from 'linq' 
+import { createResource, inject, computed,ref,saleDetailDialog,onUnmounted, reactive} from '@/plugin'
+import Enumerable from 'linq'
+import { webserver_port } from "../../../../../../sites/common_site_config.json"
 import PageLayout from '@/components/layout/PageLayout.vue';
-import { Sheet } from 'bottom-sheet-vue3'
-import ComPlaceholder from '../../components/layout/components/ComPlaceholder.vue';
-import { useDisplay } from 'vuetify'
-import ComReportFilter from './components/ComReportFilter.vue';
-const { mobile } = useDisplay()
+import { createToaster } from '@meforma/vue-toaster';
 const gv = inject('$gv')
-const selectedLetterhead = ref(getDefaultLetterHead());
-const printPreviewUrl = ref("");
-const drawer = ref(false)
-console.log(gv)
-const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + gv.setting.pos_setting.backend_port;
-
+const moment = inject('$moment')
+const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + webserver_port;
+const toaster = createToaster({position:"top"})
+ 
+let filter = reactive({
+    product_category: 'All Product Categories',
+    product_category_filter: ''
+})
 const activeReport = ref({
     name: 'Working Day',
     preview_report: '',
     print_report_name: '',
     report_id: '',
-    doc_type: 'Working Day',
+    doc_type: '',
     lang: 'en',
-    letterhead: gv.setting.letter_heads.find(r => r.is_default)?.name
+    letterhead: 'Defualt Letter Head',
+    filter: {
+        product_category : ''
+    }
 })
-function getReportUrl() {
-    let letterhead = "";
-    if (selectedLetterhead.value == "") {
-        letterhead = getDefaultLetterHead();
-    } else {
-        letterhead = selectedLetterhead.value;
-    }
-    const url = `${serverUrl}/printview?doctype=${activeReport.value.doc_type}&name=${activeReport.value.report_id}&format=${activeReport.value.preview_report}&no_letterhead=0&show_toolbar=0&letterhead=${letterhead}&settings=%7B%7D&_lang=${activeReport.value.lang}`;
-    return url;
-}
+const workingDay = ref(null)
 
-const printUrl = computed(() => {
-    let letterhead = "";
-    if (selectedLetterhead.value == "") {
-        letterhead = getDefaultLetterHead();
-    } else {
-        letterhead = selectedLetterhead.value;
-    }
-    const url = `${serverUrl}/printview?doctype=${activeReport.value.doc_type}&name=${activeReport.value.report_id}&format=${activeReport.value.print_report_name}&no_letterhead=0&show_toolbar=0&letterhead=${letterhead}&settings=%7B%7D&_lang=${activeReport.value.lang}`;
-    return url;
+const printPreviewUrl = computed(()=>{
+    return `${serverUrl}/printview?doctype=${activeReport.value.doc_type}&name=${activeReport.value.report_id}&product_category=${activeReport.value.filter.product_category}&format=${activeReport.value.preview_report}&no_letterhead=0&show_toolbar=0&letterhead=${activeReport.value.letterhead}&settings=%7B%7D&_lang=${activeReport.value.lang}`
+})
+const printUrl = computed(()=>{
+    return `${serverUrl}/printview?doctype=${activeReport.value.doc_type}&name=${activeReport.value.report_id}&product_category=${activeReport.value.filter.product_category}&format=${activeReport.value.print_report_name}&no_letterhead=0&show_toolbar=0&letterhead=${activeReport.value.letterhead}&settings=%7B%7D&_lang=${activeReport.value.lang}`
 })
 
 const lang = gv.setting.lang
-
 let workingDayReports = ref({})
 const workingDayReportsTmp = createResource({
     url: "epos_restaurant_2023.api.api.get_working_day_list_report",
     auto: true,
-    params:{
-        business_branch: gv.setting.specific_business_branch ? gv.setting?.business_branch : '',
-        pos_profile: gv.setting.specific_pos_profile ? localStorage.getItem('pos_profile') : '',
-        
-    },
-    onSuccess(doc) {
-        if (doc.length > 0) {
+    onSuccess(doc){
+
+        if(doc.length > 0){
             workingDayReports.value = Enumerable.from(doc).orderByDescending("$.creation").toArray()
-            const reports = gv.setting.reports.filter(r => r.doc_type == 'Working Day' && r.show_in_pos == 1);
             activeReport.value.report_id = workingDayReports.value[0].name
-            activeReport.value.preview_report = reports[0].name
-            activeReport.value.doc_type = "Working Day"
-            activeReport.value.print_report_name = reports[0].print_report_name || reports[0].name
-
-            printPreviewUrl.value = getReportUrl();
-
+            const workingDayTemp = createResource({
+                url: 'frappe.client.get_list',
+                params: {
+                    doctype: "Print Format",
+                    fields: ['*'],
+                    filters: {
+                        show_in_pos_report: 1,
+                        doc_type: 'Working Day'
+                    },
+                    order_by: 'sort_order asc'
+                },
+                auto: true,
+                onSuccess(doc){
+                    activeReport.value.preview_report = doc[0].name
+                    activeReport.value.name = "Working Day"
+                    activeReport.value.doc_type = doc[0].doc_type
+                    activeReport.value.print_report_name = doc[0].print_report_name || doc[0].name
+                    workingDay.value = doc
+                    
+                }
+            })
         }
     }
 })
-
-function onDrawer(open = true) {
-    drawer.value = open
-}
-
-
-function onCashierShift($event) {
-    const reports = gv.setting.reports.filter(r => r.doc_type == 'Cashier Shift' && r.show_in_pos == 1);
+const cashierShiftReports = createResource({
+    url: 'frappe.client.get_list',
+    params: {
+        doctype: "Print Format",
+        fields: ['name', 'doc_type', 'print_report_name', 'title'],
+        filters: {
+            show_in_pos_report: 1,
+            doc_type: 'Cashier Shift'
+        },
+        order_by: 'sort_order asc'
+    },
+    auto: true,
+    
+})
+ 
+function onCashierShift(data){
     activeReport.value.name = 'Cashier Shift'
-    activeReport.value.report_id = $event.name
-    if (activeReport.value.doc_type != "Cashier Shift") {
-        activeReport.value.preview_report = reports[0].name
-        activeReport.value.print_report_name = reports[0].print_report_name || reports[0].name
-    }
-    activeReport.value.doc_type = "Cashier Shift";
-    printPreviewUrl.value = getReportUrl();
-    onDrawer(false)
+    activeReport.value.report_id = data.name
+    activeReport.value.preview_report = cashierShiftReports.data[0].name
+    activeReport.value.doc_type = cashierShiftReports.data[0].doc_type 
+    activeReport.value.print_report_name = cashierShiftReports.data[0].print_report_name || cashierShiftReports.data[0].name
 }
-function onPrintFormat(report) {
-    activeReport.value.preview_report = report.name;
-    activeReport.value.print_report_name = report.print_report_name || report.name
-    printPreviewUrl.value = getReportUrl();
-
+function onPrintFormat(value){
+    activeReport.value.preview_report = value.name;
+    activeReport.value.print_report_name = value.print_report_name || value.name
     onRefresh()
-
+  
 }
 
-function onWorkingDay($event) {
-    const reports = gv.setting.reports.filter(r => r.doc_type == 'Working Day' && r.show_in_pos == 1);
-
+function onWorkingDay(working_day){
     activeReport.value.name = 'Working Day'
-    activeReport.value.report_id = $event.name
+    activeReport.value.report_id = working_day.name
+    activeReport.value.preview_report = workingDay.value[0]?.name
+    activeReport.value.doc_type = workingDay.value[0]?.doc_type 
 
-
-    if (activeReport.value.doc_type != "Working Day") {
-        activeReport.value.preview_report = reports[0].name
-        activeReport.value.print_report_name = reports[0].print_report_name || reports[0].name
-    }
-    activeReport.value.doc_type = "Working Day";
-
-    printPreviewUrl.value = getReportUrl();
-    onDrawer(false)
+    console.log(working_day)
+    const print_report_name = workingDay.value.filter(r=>r.name == working_day.name)
+    
+    activeReport.value.print_report_name = workingDay[0]?.print_report_name || workingDay[0]?.name
 }
 
-
-function getDefaultLetterHead() {
-    let letterhead = "";
-
-    letterhead = gv.setting.letter_heads.filter(r => r.is_default == 1)[0]?.name;
-    if (!letterhead) {
-        letterhead = "No Letterhead";
-    }
-    return letterhead;
-}
-
-function onRefresh() {
-    printPreviewUrl.value = getReportUrl();
+function onRefresh(){
     document.getElementById("report-view").contentWindow.location.replace(printPreviewUrl.value)
 }
 
-function onPrint() {
+function onPrint(){
     window.open(printUrl.value + "&trigger_print=1").print();
     window.close();
-}
+} 
 const reportClickHandler = async function (e) {
-    if (e.isTrusted && typeof (e.data) == 'string') {
-
+    if(e.isTrusted && typeof(e.data) == 'string'){
+      
         const data = e.data.split("|")
-
-        if (data.length > 0) {
-
-            if (data[0] == "view_sale_detail") {
+        
+        if(data.length>0){
+      
+            if(data[0]=="view_sale_detail"){
                 saleDetailDialog({
-                    name: data[1]
-                });
-
+            name:data[1]
+            });
+            
             }
-
+        
         }
-
+        
     }
 };
 
-function onRefreshReport() {
-    getDefaultLetterHead()
-    activeReport.value.name = 'Working Day'
-    workingDayReportsTmp.fetch()
+function onFilter(){ 
+    if(filter.product_category && filter.product_category != 'All Product Categories'){
+        activeReport.value.filter.product_category = filter.product_category
+        onRefresh()
+    }else{
+        activeReport.value.filter.product_category = ''
+        onRefresh()
+    }
 }
 
 window.addEventListener('message', reportClickHandler, false);
@@ -259,5 +272,4 @@ onUnmounted(() => {
 <style>
 .subtitle-opacity-1 .v-card-subtitle {
     opacity: 1 !important;
-}
-</style>
+}</style>

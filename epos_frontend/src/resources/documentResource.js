@@ -10,7 +10,7 @@ import { getLocal, saveLocal } from './local'
 let documentCache = reactive({})
 
 export function createDocumentResource(options, vm) {
- 
+  
   if (!(options.doctype && options.name)) return
 
   let cacheKey = getCacheKey([options.doctype, options.name])
@@ -21,6 +21,7 @@ export function createDocumentResource(options, vm) {
     }
     return cachedResource
   }
+
   let setValueOptions = {
     
     url: 'frappe.client.set_value',

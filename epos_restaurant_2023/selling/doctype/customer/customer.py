@@ -5,12 +5,13 @@ import frappe
 from frappe.model.document import Document
 from frappe import utils
 from frappe import _
-import datetime
+from datetime import datetime
 
 class Customer(Document):
 	def validate(self):
+		 
 		if self.date_of_birth:
-			if self.date_of_birth>utils.today():
+			if datetime.strptime(str(self.date_of_birth), "%Y-%m-%d").date() >datetime.strptime(utils.today(), "%Y-%m-%d").date():
 				frappe.throw(_("Date of birth cannot be greater than the current time"))
 
 		if not self.customer_name_kh:

@@ -1,7 +1,7 @@
 export function request(_options) {
  
   let options = Object.assign({}, _options)
-  
+ 
   if (!options.url) {
     throw new Error('[request] options.url is required')
   }
@@ -10,7 +10,7 @@ export function request(_options) {
   }
   if (!options.responseType) {
     options.responseType = 'json'
-  }
+  } 
   if (!options.method) {
     options.method = 'GET'
   }

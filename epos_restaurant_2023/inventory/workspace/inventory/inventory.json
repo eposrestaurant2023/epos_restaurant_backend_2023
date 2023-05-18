@@ -170,7 +170,7 @@
    "type": "Link"
   }
  ],
- "modified": "2023-05-11 09:49:27.268610",
+ "modified": "2023-05-15 10:48:28.423299",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Inventory",
@@ -201,7 +201,7 @@
   }
  ],
  "roles": [],
- "sequence_id": 3.0,
+ "sequence_id": 4.0,
  "shortcuts": [
   {
    "color": "Orange",

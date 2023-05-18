@@ -151,6 +151,7 @@
    "fieldname": "customer_name",
    "fieldtype": "Data",
    "hidden": 1,
+   "in_global_search": 1,
    "label": "Customer Name"
   },
   {
@@ -781,7 +782,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-05-08 11:33:33.086307",
+ "modified": "2023-05-16 19:47:26.497686",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",
@@ -819,6 +820,7 @@
  ],
  "search_fields": "customer_name, phone_number",
  "show_name_in_global_search": 1,
+ "show_preview_popup": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [

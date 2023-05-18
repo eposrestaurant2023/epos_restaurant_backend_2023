@@ -48,10 +48,19 @@
                                 <v-icon class="mx-1" icon="mdi-refresh" size="small" @click="onRefresh()"/>
                             </div>
                         </div>
+                        <div class="flex pt-2 px-2 items-center border-t border-gray-300 mt-2" v-if="activeReport.title == 'Inventory Transaction'">
+                            <div class="flex-grow">
+                                <div style="max-width: 250px;">
+                                    <ComAutoComplete v-model="filter.product_category" doctype="Product Category" variant="solo" @onSelected="onFilter"/> 
+                                </div>
+                            </div>
+                            <div class="flex-none">
+                                <v-btn prepend-icon="mdi-filter" color="primary" @click="onFilter">Filter</v-btn>
+                            </div>
+                        </div>
                     </div>
                 </template>
                 <v-card-text style="height: calc(100vh - 150px);">
-                    
                     <iframe id="report-view" height="100%" width="100%" :src="printPreviewUrl"></iframe>
                 </v-card-text>
             </v-card>
@@ -61,7 +70,7 @@
   
 <script setup>
 
-import { inject, ref,computed,saleDetailDialog, onUnmounted } from '@/plugin'
+import { inject, ref,computed,saleDetailDialog, onUnmounted,reactive } from '@/plugin'
 import { createToaster } from '@meforma/vue-toaster';
 const gv = inject("$gv")
 
@@ -78,7 +87,11 @@ const props = defineProps({
 const selectedLetterhead = ref(getDefaultLetterHead());
 const selectedLang = ref(gv.setting.lang[0].language_code);
 const activeReport = ref(gv.setting.reports.filter(r=>r.doc_type==props.params.doctype)[0]) ;
-
+ 
+let filter = reactive({
+    product_category: 'All Product Categories',
+    product_category_filter: ''
+})
 const printPreviewUrl = computed(()=>{
     let  letterhead = "";
     if(selectedLetterhead.value==""){
@@ -86,7 +99,7 @@ const printPreviewUrl = computed(()=>{
     }else {
         letterhead = selectedLetterhead.value;
     }
-    const url =`${serverUrl}/printview?doctype=${activeReport.value.doc_type}&name=${props.params.name}&format=${activeReport.value.name}&no_letterhead=0&show_toolbar=0&letterhead=${letterhead}&settings=%7B%7D&_lang=${selectedLang.value}`; 
+    const url =`${serverUrl}/printview?doctype=${activeReport.value.doc_type}&name=${props.params.name}&format=${activeReport.value.name}&product_category=${activeReport.value.filter?.product_category || ''}&no_letterhead=0&show_toolbar=0&letterhead=${letterhead}&settings=%7B%7D&_lang=${selectedLang.value}`; 
     return url;
 })
 
@@ -119,6 +132,7 @@ if (props.params.print) {
  
 function onViewReport(r){
     activeReport.value = r;
+    console.log(activeReport.value)
 }
 
 function onClose(isClose) {
@@ -165,6 +179,20 @@ const reportClickHandler = async function (e) {
         
     }
 };
+
+function onFilter(){ 
+    if(filter.product_category && filter.product_category != 'All Product Categories'){
+        
+        activeReport.value.filter = {
+            product_category: filter.product_category
+        }
+        console.log(activeReport.value)
+        onRefresh()
+    }else{
+        activeReport.value.filter.product_category = ''
+        onRefresh()
+    }
+}
 
 window.addEventListener('message', reportClickHandler, false);
 

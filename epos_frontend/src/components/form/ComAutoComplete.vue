@@ -44,7 +44,7 @@ let props = defineProps({
     default: 'solo'
   }
 })
-
+const emit = defineEmits(['onSelected'])
 const items = ref([])
 const search = ref("")
 const select = ref("")
@@ -106,7 +106,6 @@ onMounted(async () => {
       })
       doctypeResource.params = doctypeParams();
       doctypeResource.fetch();
-     
     }
   });
 });
@@ -153,5 +152,4 @@ function getTitleField(){
     return "name";
   }
 }
-
 </script>

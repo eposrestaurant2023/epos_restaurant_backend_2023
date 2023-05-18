@@ -1,5 +1,5 @@
 <template>
-    <PageLayout class="pa-4" title="Close Working Day:" icon="mdi-calendar-clock">
+    <PageLayout title="Close Working Day:" icon="mdi-calendar-clock">
         <template #title>
             {{ shiftInformation.data?.working_day?.name }}
         </template>
@@ -7,29 +7,31 @@
             <v-btn prepend-icon="mdi-printer" @click="onOpenReport">Report</v-btn>
         </template>
         <template #default>
-            <ComAlertPendingOrder v-if="shiftInformation.data?.working_day" type="warning" :working_day="shiftInformation.data?.working_day?.name" @getPendingOrder="onGetPendingOrder($event)"/>
-            <v-row v-if="shiftInformation.data?.working_day">
-                <v-col cols="12" md="6">
-                    <ComInput title="POS Profile" label="POS Profile" v-model="shiftInformation.data.working_day.pos_profile"
-                        readonly></ComInput>
+            <div class="pa-4">
+                <ComAlertPendingOrder v-if="shiftInformation.data?.working_day" type="warning" :working_day="shiftInformation.data?.working_day?.name" @getPendingOrder="onGetPendingOrder($event)"/>
+                <v-row v-if="shiftInformation.data?.working_day">
+                    <v-col cols="12" md="6">
+                        <ComInput title="POS Profile" label="POS Profile" v-model="shiftInformation.data.working_day.pos_profile"
+                            readonly></ComInput>
 
-                </v-col>
-                <v-col md="6" cols="12">
-                    <ComInput title="Working Date" label="Working Date" v-model="working_date" readonly></ComInput>
+                    </v-col>
+                    <v-col md="6" cols="12">
+                        <ComInput title="Working Date" label="Working Date" v-model="working_date" readonly></ComInput>
 
-                </v-col>
-                <v-col md="12">
-                    <ComInput class="mb-8" title="Enter Note" keyboard label="Closed Note" v-model="closed_note"
-                        type="textarea"></ComInput>
+                    </v-col>
+                    <v-col md="12">
+                        <ComInput class="mb-8" title="Enter Note" keyboard label="Closed Note" v-model="closed_note"
+                            type="textarea"></ComInput>
 
-                </v-col>
-            </v-row>
+                    </v-col>
+                </v-row>
 
-            <v-btn
-                :loading="(workingDayResourceResource.setValue && workingDayResourceResource.setValue.loading) ? workingDayResourceResource.setValue.loading : false"
-                @click="onCloseWorkingDay" color="primary">Close Working Day</v-btn>
+                <v-btn
+                    :loading="(workingDayResourceResource.setValue && workingDayResourceResource.setValue.loading) ? workingDayResourceResource.setValue.loading : false"
+                    @click="onCloseWorkingDay" color="primary">Close Working Day</v-btn>
 
-            <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">Cancel</v-btn>
+                <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">Cancel</v-btn>
+            </div>
         </template>
     </PageLayout>
 </template>

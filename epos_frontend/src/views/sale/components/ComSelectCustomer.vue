@@ -18,7 +18,7 @@
                         <template v-if="customerPromotion?.length > 0">
                             <ComChip v-for="(item, index) in customerPromotion" :key="index" color="orange" tooltip="Happy Hour Promotion" prepend-icon="mdi-tag-multiple">{{ item.promotion_name }}</ComChip>
                         </template>
-                        <v-chip v-else-if="sale.sale.customer_default_discount > 0" color="error">{{ sale.sale.discount }} % OFF</v-chip>
+                        <v-chip v-else-if="sale.sale.customer_default_discount > 0" color="error">{{ sale.sale.customer_default_discount }} % OFF</v-chip>
                     </div>
                 </div>
             </div>
@@ -69,13 +69,13 @@ async function onSearchCustomer() {
 }
 
 function assignCustomerToOrder(result) {
-   
     sale.sale.customer = result.name;
     sale.sale.customer_name = result.customer_name_en;
     sale.sale.customer_photo = result.photo;
     sale.sale.phone_number = result.phone_number;
     sale.sale.customer_group = result.customer_group;
-    sale.sale.customer_default_discount = result.default_discount
+    sale.sale.customer_default_discount = result.default_discount;
+
 
     if(sale.promotion){
         customerPromotion.value = gv.getPromotionByCustomerGroup(sale.sale.customer_group)
