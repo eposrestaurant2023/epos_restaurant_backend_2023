@@ -351,34 +351,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "eDoor Setting",
-   "link_count": 2,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Reservation Status",
-   "link_count": 0,
-   "link_to": "Reservation Status",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Housekeeping Status",
-   "link_count": 0,
-   "link_to": "Housekeeping Status",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "POS Setting",
    "link_count": 6,
    "onboard": 0,
@@ -443,9 +415,57 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "eDoor Setting",
+   "link_count": 4,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reservation Status",
+   "link_count": 0,
+   "link_to": "Reservation Status",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Housekeeping Status",
+   "link_count": 0,
+   "link_to": "Housekeeping Status",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Business Source",
+   "link_count": 0,
+   "link_to": "Business Source",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Business Source Type",
+   "link_count": 0,
+   "link_to": "Business Source Type",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-05-19 09:34:51.643329",
+ "modified": "2023-05-19 11:57:01.678618",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Configuration",
