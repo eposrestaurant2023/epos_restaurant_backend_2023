@@ -244,10 +244,15 @@ def get_tables_number(table_group,device_name):
     return data
 
 @frappe.whitelist(allow_guest=True)
-def check_pos_profile(pos_profile_name):
+def check_pos_profile(pos_profile_name, device_name):
+
     if not frappe.db.exists("POS Profile", pos_profile_name):
         frappe.throw("Invalid POS Profile")
-    return
+
+    if not frappe.db.exists("POS Station", device_name):
+        frappe.throw("Invalid POS Station")    
+
+    return frappe.get_value("POS Station",device_name,"is_order_station")
 
 
 @frappe.whitelist()

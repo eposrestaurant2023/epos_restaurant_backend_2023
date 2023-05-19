@@ -57,7 +57,7 @@
     const store = useStore()
     const state = reactive({
         valid: true,
-        device_name: 'Cashier Station',
+        device_name: '',
         pos_profile: 'Main POS Profile',
         loading: true
     })
@@ -75,9 +75,11 @@
             url: 'epos_restaurant_2023.api.api.check_pos_profile',
             params:{
                 pos_profile_name:state.pos_profile,
+                device_name:state.device_name
             },
             auto:true,
             onSuccess(doc){
+                localStorage.setItem('is_order_station',doc.message)
                 localStorage.setItem('device_name',state.device_name)
                 localStorage.setItem('pos_profile',state.pos_profile)
                 location.reload();
