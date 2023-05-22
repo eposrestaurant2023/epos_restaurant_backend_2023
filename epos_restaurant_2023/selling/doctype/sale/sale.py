@@ -56,7 +56,7 @@ class Sale(Document):
 			if frappe.get_value("Stock Location",self.stock_location,"business_branch") != self.business_branch:
 				frappe.throw(_("The stock location {} is not belong to business branch {}".format(self.stock_location, self.business_branch)))
 		
-		frappe.throw("hello 59")
+
 		#validate exhcange rate change
 		to_currency = frappe.db.get_default("second_currency")
 		if( frappe.db.get_default("exchange_rate_main_currency") !=frappe.db.get_default("currency") ):
@@ -83,7 +83,7 @@ class Sale(Document):
 			self.is_foc = 1
   
   
-		
+		frappe.throw("hello 86")
 
 		total_quantity = Enumerable(self.sale_products).sum(lambda x: x.quantity or 0)
 		sub_total = Enumerable(self.sale_products).sum(lambda x: (x.quantity or 0)* (x.price or  0) + ((x.quantity or 0)*(x.modifiers_price or 0)))
