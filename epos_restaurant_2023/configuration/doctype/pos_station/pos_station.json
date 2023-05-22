@@ -9,7 +9,11 @@
  "engine": "InnoDB",
  "field_order": [
   "station_name",
-  "is_order_station"
+  "is_order_station",
+  "show_start_close_working_day",
+  "show_start_close_cashier_shift",
+  "show_option_payment",
+  "is_used"
  ],
  "fields": [
   {
@@ -25,11 +29,35 @@
    "fieldtype": "Check",
    "in_list_view": 1,
    "label": "Is Order Station"
+  },
+  {
+   "default": "1",
+   "fieldname": "show_start_close_working_day",
+   "fieldtype": "Check",
+   "label": "Show option start/close working day"
+  },
+  {
+   "default": "1",
+   "fieldname": "show_start_close_cashier_shift",
+   "fieldtype": "Check",
+   "label": "Show option start/close cashier shift"
+  },
+  {
+   "default": "1",
+   "fieldname": "show_option_payment",
+   "fieldtype": "Check",
+   "label": "Show Option Payment"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_used",
+   "fieldtype": "Check",
+   "label": "Is Used"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-19 09:33:59.683972",
+ "modified": "2023-05-22 11:14:27.025758",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Station",

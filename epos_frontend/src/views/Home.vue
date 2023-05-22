@@ -22,8 +22,9 @@
                 <div class="mx-auto mt-4 mb-0 md:w-[600px]">
                     <ComMessagePromotion />
                     <div class="grid xs:grid-cols-2 md:grid-cols-4 grid-cols-2" style="grid-gap: 20px;">
-                        <WorkingDayButton />
-                        <OpenShiftButton />
+                        <WorkingDayButton  v-if="device_setting?.show_start_close_working_day==1"/>
+                        <OpenShiftButton  v-if="device_setting?.show_start_close_cashier_shift==1"/>
+                        
                         <ComButton @click="onPOS()" title="POS" icon="mdi-cart" class="bg-green-600 text-white"
                             icon-color="#fff" />
                         <ComButton @click="onViewPendingOrder()" title="Pending Order" icon="mdi-receipt"
@@ -61,6 +62,7 @@ const gv = inject('$gv');
 const sale = inject('$sale');
 const moment = inject('$moment')
 const router = useRouter()
+const device_setting = JSON.parse(localStorage.getItem("device_setting"))
 function isWindow(){
     return localStorage.getItem('is_window') == 1;
 }

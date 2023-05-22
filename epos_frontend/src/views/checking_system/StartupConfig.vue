@@ -79,8 +79,8 @@
             },
             auto:true,
             onSuccess(doc){
-                localStorage.setItem('is_order_station',doc.message)
                 localStorage.setItem('device_name',state.device_name)
+                localStorage.setItem('device_setting', JSON.stringify( doc))
                 localStorage.setItem('pos_profile',state.pos_profile)
                 location.reload();
             },

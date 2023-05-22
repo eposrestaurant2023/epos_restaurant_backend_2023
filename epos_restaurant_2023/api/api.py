@@ -211,9 +211,11 @@ def get_system_settings(pos_profile="", device_name=''):
         "price_rules":price_rules,
         "lang": lang,
         "reports":reports,
-        "letter_heads":letter_heads
+        "letter_heads":letter_heads,
+        "device_setting":frappe.get_doc("POS Station",device_name)
         
     }
+
     return  data
 
 @frappe.whitelist(allow_guest=True)
@@ -251,8 +253,14 @@ def check_pos_profile(pos_profile_name, device_name):
 
     if not frappe.db.exists("POS Station", device_name):
         frappe.throw("Invalid POS Station")    
+    station =  frappe.get_doc("POS Station",device_name)
+    if station.is_used:
+        frappe.throw("This station is already used")
+    frappe.db.sql("update `tabPOS Station` set is_used = 1 where name = '{}'".format(device_name))
+    
+    frappe.db.commit()
 
-    return frappe.get_value("POS Station",device_name,"is_order_station")
+    return station
 
 
 @frappe.whitelist()

@@ -49,7 +49,7 @@ const sale = inject("$sale")
 const gv = inject("$gv")
 const setting = gv.setting;
 const toaster = createToaster({ position: "top" })
-
+const device_setting = JSON.parse(localStorage.getItem("device_setting"))
 async function onSubmit() {
   if (!sale.isBillRequested()) {
     sale.action = "submit_order";
@@ -63,6 +63,10 @@ async function onSubmit() {
   }
 }
 async function onPayment() {
+  if (device_setting.show_option_payment==0){
+    return
+  }
+
   if (sale.sale.sale_products.length == 0) {
     toaster.warning("Please select a menu item to submit order");
     return

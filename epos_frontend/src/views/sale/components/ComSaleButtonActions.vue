@@ -28,7 +28,7 @@
       </v-btn>
 
 
-      <v-btn :stacked="!mobile" size="small" color="error" class="m-0-1 grow" :height="mobile ? '35px' : undefined" :variant="mobile ? 'tonal' : 'elevated'"
+      <v-btn v-if="device_setting.show_option_payment ==1" :stacked="!mobile" size="small" color="error" class="m-0-1 grow" :height="mobile ? '35px' : undefined" :variant="mobile ? 'tonal' : 'elevated'"
         :prepend-icon="mobile ? '' : 'mdi-currency-usd'" @click="onQuickPay">
         Quick Pay
       </v-btn>
@@ -64,6 +64,9 @@ const gv = inject("$gv")
 const setting = gv.setting;
 const toaster = createToaster({ position: "top" })
 const emit = defineEmits(["onSubmitAndNew", 'onClose'])
+
+const device_setting = JSON.parse(localStorage.getItem("device_setting"))
+
 async function onQuickPay() {
 
   await sale.onSubmitQuickPay().then((value) => {
