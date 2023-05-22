@@ -12,7 +12,7 @@ from frappe.model.document import Document
 
 class Sale(Document):
 	def validate(self):
-		frappe.throw("hello")
+		
 		#frappe.throw(_("Please select your working day"))
 		if self.pos_profile:
 			if not self.working_day:
@@ -56,7 +56,7 @@ class Sale(Document):
 			if frappe.get_value("Stock Location",self.stock_location,"business_branch") != self.business_branch:
 				frappe.throw(_("The stock location {} is not belong to business branch {}".format(self.stock_location, self.business_branch)))
 		
-
+		frappe.throw("hello 59")
 		#validate exhcange rate change
 		to_currency = frappe.db.get_default("second_currency")
 		if( frappe.db.get_default("exchange_rate_main_currency") !=frappe.db.get_default("currency") ):
