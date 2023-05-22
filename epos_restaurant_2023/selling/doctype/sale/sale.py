@@ -121,7 +121,7 @@ class Sale(Document):
 		if currency_precision=='':
 			currency_precision = "2"
 
-		self.grand_total =( sub_total - (self.total_discount or 0))  + self.total_tax 
+		self.grand_total =( sub_total - (self.total_discount or 0) - (self.commission_amount or 0))  + self.total_tax 
 	  
 		self.total_paid =  Enumerable(self.payment).where(lambda x: x.payment_type_group !='On Account').sum(lambda x: x.amount or 0)
 	

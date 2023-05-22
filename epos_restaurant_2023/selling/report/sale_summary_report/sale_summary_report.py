@@ -63,7 +63,6 @@ def validate(filters):
 def get_columns(filters):
 	
 	columns = []
-	frappe.msgprint(filters.row_group)
 	if filters.row_group == 'Sale Invoice':
 		columns.append({'fieldname':'row_group','label':filters.row_group,'fieldtype':'Link',"options":"Sale",'align':'left','width':250})
 	else:
