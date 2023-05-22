@@ -68,7 +68,7 @@ class Sale(Document):
 			self.exchange_rate = exchange_rate.exchange_rate
 		else:
 			self.exchange_rate =1
-   
+ 
 		#validate sale product 
 		validate_sale_product(self)
   
