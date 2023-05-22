@@ -11,10 +11,12 @@
   "photo",
   "business_banch_name_en",
   "business_banch_name_kh",
+  "property_code",
   "email",
   "phone_number_1",
   "phone_number_2",
   "data_9",
+  "province",
   "address_en",
   "address_kh",
   "note",
@@ -128,12 +130,23 @@
    "fieldname": "swift_code",
    "fieldtype": "Data",
    "label": "Swift Code"
+  },
+  {
+   "fieldname": "province",
+   "fieldtype": "Link",
+   "label": "Province",
+   "options": "Province"
+  },
+  {
+   "fieldname": "property_code",
+   "fieldtype": "Data",
+   "label": "Property Code"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-08 15:15:12.229922",
+ "modified": "2023-05-20 10:38:22.119647",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Business Branch",

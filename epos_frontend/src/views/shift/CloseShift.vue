@@ -130,7 +130,7 @@ let totalDifferentAmount = ref(0);
 const totalCloseAmount = computed(() => {
     if (cashierShiftSummary.value.data) {
 
-        return cashierShiftSummary.value.data.reduce((n, r) => n + r.input_close_amount / r.exchange_rate, 0);
+        return cashierShiftSummary.value.data.reduce((n, r) => n + (r.input_close_amount / r.exchange_rate), 0);
     }
     return 0;
 })
@@ -204,7 +204,7 @@ onMounted(async () => {
 
         });
         totalDifferentAmount.value = cashierShiftSummary.value.data.reduce((n, r) => n + r.different_amount, 0);
-    })
+    }); 
 })
 
 async function onCloseShift() {

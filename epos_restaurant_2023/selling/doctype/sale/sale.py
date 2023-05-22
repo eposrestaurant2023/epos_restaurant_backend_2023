@@ -12,7 +12,7 @@ from frappe.model.document import Document
 
 class Sale(Document):
 	def validate(self):
-		
+		frappe.throw("hello")
 		#frappe.throw(_("Please select your working day"))
 		if self.pos_profile:
 			if not self.working_day:

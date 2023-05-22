@@ -218,7 +218,7 @@
    "type": "Link"
   }
  ],
- "modified": "2023-05-16 16:37:09.411816",
+ "modified": "2023-05-20 08:57:00.781407",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Selling",
@@ -259,6 +259,14 @@
    "type": "DocType"
   },
   {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Sale Payment",
+   "link_to": "Sale Payment",
+   "stats_filter": "{\"name\":[\"is\",\"set\"]}",
+   "type": "DocType"
+  },
+  {
    "color": "Green",
    "doc_view": "List",
    "label": "Sale",
@@ -280,13 +288,6 @@
    "label": "Customer",
    "link_to": "Customer",
    "stats_filter": "{\"disabled\":[\"=\",0]}",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Sale Payment",
-   "link_to": "Sale Payment",
    "type": "DocType"
   },
   {
