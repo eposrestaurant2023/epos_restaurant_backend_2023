@@ -9,7 +9,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Defualt Letter Head",
- "modified": "2022-12-21 15:15:36.508534",
+ "modified": "2023-05-22 15:48:25.448461",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Inventory Transaction Report",
@@ -21,6 +21,12 @@
  "roles": [
   {
    "role": "System Manager"
+  },
+  {
+   "role": "Stock User"
+  },
+  {
+   "role": "Stock Manager"
   }
  ]
 }

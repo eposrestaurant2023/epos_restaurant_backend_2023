@@ -118,12 +118,13 @@
 <script setup>
 import { createResource, inject, computed,ref,saleDetailDialog,onUnmounted, reactive} from '@/plugin'
 import Enumerable from 'linq'
-import { webserver_port } from "../../../../../../sites/common_site_config.json"
+
 import PageLayout from '@/components/layout/PageLayout.vue';
 import { createToaster } from '@meforma/vue-toaster';
 const gv = inject('$gv')
 const moment = inject('$moment')
-const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + webserver_port;
+
+const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + gv.setting.pos_setting.backend_port;
 const toaster = createToaster({position:"top"})
  
 let filter = reactive({
