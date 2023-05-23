@@ -64,7 +64,6 @@ import { useDisplay } from 'vuetify'
 
 import { inject, ref, createResource, saleDetailDialog, onUnmounted, onMounted, computed,printPreviewDialog,customerDetailDialog } from '@/plugin'
 import { createToaster } from '@meforma/vue-toaster';
-import { webserver_port } from "../../../../../../sites/common_site_config.json"
 import ComClosedSaleFilter from './components/ComClosedSaleFilter.vue';
 import ComClosedSaleSelectedFilter from './components/ComClosedSaleSelectedFilter.vue';
 import { Sheet } from 'bottom-sheet-vue3'
@@ -73,7 +72,7 @@ const { mobile } = useDisplay()
 const gv = inject("$gv")
 const keyword = ref("")
 const drawer = ref(false)
-const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + webserver_port;
+const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + gv.setting.pos_setting.backend_port;
 
  
 const filter = ref({
