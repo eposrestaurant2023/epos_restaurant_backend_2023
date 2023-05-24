@@ -8,6 +8,12 @@
         </v-btn>
          
     </template>
+    <v-btn @click="onShowHideSaleStatus(true)">
+            Hide Sale Status
+    </v-btn>
+    <v-btn @click="onShowHideSaleStatus(false)">
+            Show Sale Status
+    </v-btn>
     <v-btn :loading="tableLayout.saveTablePositionResource.loading" v-if="tableLayout.canArrangeTable"
         @click="onSaveTablePosition">
         Save Table Position
@@ -49,6 +55,7 @@ import { inject, pendingSaleListDialog,createResource,createToaster, useRouter }
 import { useDisplay } from 'vuetify'
 const gv = inject('$gv')
 const tableLayout = inject("$tableLayout");
+const emit = defineEmits(['onShowHide'])
 const router = useRouter()
 const { mobile } = useDisplay()
 const toaster = createToaster({position: 'top'})
@@ -68,6 +75,10 @@ async function onViewPendingOrder() {
     else{
         toaster.error("Cannot get current working day or cashier shift")
     }
+}
+
+async function onShowHideSaleStatus(show_hide) {
+    emit('onShowHide',show_hide)
 }
 
 

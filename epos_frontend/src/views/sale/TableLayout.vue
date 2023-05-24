@@ -4,7 +4,7 @@
             <ComTableGroupTabHeader />
         </template>
         <template #action>
-            <ComTableLayoutActionButton/>
+            <ComTableLayoutActionButton @onShowHide="onClickChild"/>
         </template>
         <template v-if="tableLayout.table_groups">
             <v-window v-model="tableLayout.tab">
@@ -12,7 +12,10 @@
                 <ComRenderTableNumber v-else/>
             </v-window>
         </template>
-        <ComSaleStatusInformation />
+        <div>
+            hkjhkjh{{ onClickChild() }}
+        </div>
+        <ComSaleStatusInformation v-if="false"/>
     </PageLayout>
 </template>
 <script setup>
@@ -27,7 +30,6 @@ import ComTableLayoutActionButton from './components/table_layouts/ComTableLayou
 import ComArrangeTable from './components/table_layouts/ComArrangeTable.vue';
 import ComRenderTableNumber from './components/table_layouts/ComRenderTableNumber.vue';
 const toaster = createToaster({position:"top"})
-
 const tableLayout = inject("$tableLayout");
 const socket = inject("$socket");
 
@@ -39,7 +41,10 @@ socket.on("RefreshTable", () => {
  
 })
 
-
+function onClickChild (value) {
+    console.log("Parent",value);
+    return value;
+}
 
 tableLayout.getSaleList()
  

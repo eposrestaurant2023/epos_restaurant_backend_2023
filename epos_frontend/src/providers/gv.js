@@ -13,7 +13,8 @@ export default class Gv {
 
 		this.workingDay = "";
 		this.cashierShift= "";
-		this.isFullscreen = true
+		this.isFullscreen = true;
+		this.show_hide_gv = true
 	}
 
 	

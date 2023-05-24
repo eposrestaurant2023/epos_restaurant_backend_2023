@@ -34,6 +34,8 @@ frappe.listview_settings['Product'] = {
 
            
     });
+
+    
     me.page.add_action_item('Remove Printer', function() {
         let d = new frappe.ui.Dialog({
             title: 'Remove Printer',
