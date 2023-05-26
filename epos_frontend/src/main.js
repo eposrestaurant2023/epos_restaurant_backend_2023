@@ -26,6 +26,7 @@ import socket from './utils/socketio';
 import Vue3DraggableResizable from 'vue3-draggable-resizable'
 //default styles
 import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
+import { createI18n } from 'vue-i18n'
 
 
 import router from './router';
@@ -38,18 +39,30 @@ import Gv from "./providers/gv";
 import Product from "./providers/product";
 import Screen from "./providers/screen";
 import moment from "./utils/moment";
+import onKeyStroke from "./utils/keyStroke";
 import store from "./store";
 import Toaster from "@meforma/vue-toaster";
 import {resourcesPlugin} from "./resources"
+import { FrappeApp } from 'frappe-js-sdk';
 import { setConfig, frappeRequest } from './resource'
 setConfig('resourceFetcher', frappeRequest)
+
 
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import { createBottomSheet } from 'bottom-sheet-vue3'
 import 'bottom-sheet-vue3/style.css'
 
+//language
+import kh from "./locales/kh.json";
+import en from "./locales/en.json";
+
+// import { useI18n } from "vue-i18n";
+// const { t: $t } = useI18n({useScope: "global"});   
+
+
 const app = createApp(App);
+const frappe = new FrappeApp()
 const auth = reactive(new Auth());
 const gv = reactive(new Gv());
 const sale = reactive(new Sale());
@@ -66,9 +79,26 @@ const vuetify = createVuetify({
 	display: {
 		mobileBreakpoint: 'sm',
 		 
-	  },
-	
+	  },	
   });
+
+
+  //load langauge
+var lang = localStorage.getItem('lang'); 
+if((lang||"")==""){
+	localStorage.setItem('lang','en');
+	lang = 'en';
+} 
+
+// configure i18n
+const i18n = createI18n({
+	legacy: false,
+  locale: lang,
+  fallbackLocale: lang,
+  messages: {  en,kh,  },
+});
+app.use(i18n);
+
 
  
 app.use(router);
@@ -94,6 +124,8 @@ app.provide("$socket",socket)
 app.provide("$screen", screen);
 app.provide("$auth", auth);
 app.provide("$call", call);
+app.provide("$frappe", frappe);
+
 
 app.provide("$moment", moment)
 app.config.globalProperties.$filter = {
@@ -151,6 +183,7 @@ app.component('ComTableView',ComTableView)
 app.component('ComTdImage',ComTdImage)
 app.component('ComModal', ComModal)
 
+app.config.globalProperties.$onKeyStroke = onKeyStroke
 app.mount("#app");
 
  

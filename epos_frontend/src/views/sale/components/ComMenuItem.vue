@@ -62,6 +62,9 @@ const props = defineProps({ data: Object })
 const sale = inject("$sale");
 const product = inject("$product");
 const toaster = createToaster({position: 'top'})
+const frappe = inject("$frappe")
+const db = frappe.db();
+
 // get image
 const image = computed(() => {
     return props.data.photo
@@ -102,8 +105,17 @@ const minPrice = computed(() => {
 // end price menu
 
 function onClickMenu(menu) {
-    product.parentMenu = menu;
+    if(sale.setting.pos_menus.length>0){
+        product.parentMenu = menu;
+    } else{
+    
+        product.getProductMenuByProductCategory(db,menu)
+    }
+    
 }
+
+
+
 
 function onBack(parent) {
     const parent_menu = product.posMenuResource.data?.find(r => r.name == parent).parent;
@@ -111,6 +123,7 @@ function onBack(parent) {
 }
 async function onClickProduct() {
     if (!sale.isBillRequested()) {
+      
         const p = JSON.parse(JSON.stringify(props.data));
         
         if (p.is_open_product == 1) {
@@ -142,8 +155,10 @@ async function onClickProduct() {
             p.modifiers_data = "[]";
         }
         else {
+            console.log(p.prices)
             const portions = JSON.parse(p.prices).filter(r => (r.branch == sale.sale.business_branch || r.branch == '') && r.price_rule == sale.sale.price_rule);
             const check_modifiers = product.onCheckModifier(JSON.parse(p.modifiers));
+            console.log(portions)
             if (portions.length == 1) {
                 p.price = portions[0].price
                 p.unit = portions[0].unit

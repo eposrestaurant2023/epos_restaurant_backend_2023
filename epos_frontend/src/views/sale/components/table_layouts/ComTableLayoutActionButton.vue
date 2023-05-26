@@ -5,15 +5,12 @@
     <template v-if="!mobile">
         <v-btn @click="onViewPendingOrder">
             Pending order
-        </v-btn>
-         
+        </v-btn> 
+          <v-btn  @click="onShowHideSaleStatus()">
+           {{ !status ? "Show Status":"Hide Status" }}
+        </v-btn> 
     </template>
-    <v-btn @click="onShowHideSaleStatus(true)">
-            Hide Sale Status
-    </v-btn>
-    <v-btn @click="onShowHideSaleStatus(false)">
-            Show Sale Status
-    </v-btn>
+    {{ isShowTableStatus() }}
     <v-btn :loading="tableLayout.saveTablePositionResource.loading" v-if="tableLayout.canArrangeTable"
         @click="onSaveTablePosition">
         Save Table Position
@@ -44,6 +41,10 @@
                     <v-list-item @click="onViewPendingOrder">
                         <v-list-item-title>Pending Order</v-list-item-title>
                     </v-list-item>
+                    <v-list-item @click="onShowHideSaleStatus">
+                        <v-list-item-title>  {{ !status ? "Show Status":"Hide Status" }}</v-list-item-title>
+                    </v-list-item>
+                    
                 </template>
 
             </v-list>
@@ -51,7 +52,7 @@
     </v-menu>
 </template>
 <script setup>
-import { inject, pendingSaleListDialog,createResource,createToaster, useRouter } from '@/plugin';
+import { inject, pendingSaleListDialog,createResource,createToaster, useRouter,ref } from '@/plugin';
 import { useDisplay } from 'vuetify'
 const gv = inject('$gv')
 const tableLayout = inject("$tableLayout");
@@ -60,6 +61,10 @@ const router = useRouter()
 const { mobile } = useDisplay()
 const toaster = createToaster({position: 'top'})
 const posProfile = localStorage.getItem('pos_profile')
+
+
+
+let status = ref(false);
 function onRefreshSale() {
     tableLayout.saleListResource.fetch();
 }
@@ -75,10 +80,27 @@ async function onViewPendingOrder() {
     else{
         toaster.error("Cannot get current working day or cashier shift")
     }
+} 
+
+async function onShowHideSaleStatus() { 
+    status.value = !status.value;
+    localStorage.setItem('table_status_color', status.value)
+    emit('onShowHide',status.value)
 }
 
-async function onShowHideSaleStatus(show_hide) {
-    emit('onShowHide',show_hide)
+
+function isShowTableStatus(){
+    try{
+        const s = localStorage.getItem("table_status_color");
+        if(s == null){
+            status.value = false;
+        }
+        status.value = (s=="true"?true:false);
+    }catch(e)
+    {
+        status.value = false;
+    }
+   
 }
 
 

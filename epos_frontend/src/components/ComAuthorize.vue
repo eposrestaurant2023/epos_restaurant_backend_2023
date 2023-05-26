@@ -1,11 +1,11 @@
 <template>
-  <v-dialog v-model="open" persistent max-width="400">
+  <v-dialog v-model="open" persistent max-width="320">
     <v-card>
       <v-card-item>
-        <v-card-title>Enter Your Pin Code</v-card-title>
+        <v-card-title>{{ $t('Enter Your PIN Code') }}</v-card-title>
       </v-card-item>
       <v-card-text>
-        <v-text-field type="password" label="Enter pin code" variant="solo" v-model="number" clearable
+        <v-text-field type="password" :label="$t('PIN Code')" variant="solo" v-model="number" clearable
           maxlength="10"></v-text-field>
         <div>
           <div class="grid grid-cols-3 gap-3">
@@ -40,16 +40,16 @@
               0
             </v-btn>
             <v-btn class="col-span-2" color="error" @click="number = ''" size="large">
-              Clear
+              {{ $t('Clear') }}
             </v-btn>
           </div>
           <div>
               <div class="text-right pt-4">
                   <v-btn class="mr-2" variant="flat" @click="onCancel()" color="error" size="large">
-                      Close
+                      {{ $t('Close') }}
                   </v-btn>
                   <v-btn variant="flat" @click="onOk()" color="primary" size="large">
-                      OK
+                      {{ $t('Ok') }}
                   </v-btn>
               </div>
           </div>
@@ -60,8 +60,11 @@
   </v-dialog>
 </template>
 <script setup>
-import { ref, createResource, inject  } from "@/plugin"
+import { ref, createResource, inject,useI18n  } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
+
+const { t: $t } = useI18n({useScope: "global"});   
+
 const gv = inject("$gv")
 const toaster = createToaster({ position: "top" })
 
@@ -103,7 +106,7 @@ function onOk() {
        
         emit('resolve', {name:doc.full_name, discount_codes:doc.permission.discount_codes,username:doc.username})
       } else {
-        toaster.warning("You don't have permission to perform this action");
+        toaster.warning($t("msg.You do not have permission to perform this action"));
       }
 
 

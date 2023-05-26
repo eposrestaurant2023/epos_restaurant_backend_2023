@@ -8,11 +8,11 @@
                         <img :src="gv.setting.logo" class="w-24 inline-block mb-2" />
                         <p class="text-xl">{{ gv.setting.business_branch }}</p>
                         <p>
-                            <span class="font-bold">POS Profile</span> : {{ gv.setting.pos_profile }} /
-                            <span class="font-bold">Outlet</span> : {{ gv.setting.outlet }} /
-                            <span class="font-bold">Device Name</span> :{{ device_name }}
+                            <span class="font-bold">{{ $t('POS Profile') }}</span> : {{ gv.setting.pos_profile }} /
+                            <span class="font-bold">{{ $t('Outlet') }}</span> : {{ gv.setting.outlet }} /
+                            <span class="font-bold">{{ $t('Device Name') }}</span> :{{ device_name }}
                         </p>
-
+                        
                     </div>
                 </div>
             </div>
@@ -25,22 +25,22 @@
                         <WorkingDayButton  v-if="device_setting?.show_start_close_working_day==1"/>
                         <OpenShiftButton  v-if="device_setting?.show_start_close_cashier_shift==1"/>
                         
-                        <ComButton @click="onPOS()" title="POS" icon="mdi-cart" class="bg-green-600 text-white"
+                        <ComButton @click="onPOS()" :title="$t('POS')" icon="mdi-cart" class="bg-green-600 text-white"
                             icon-color="#fff" />
-                        <ComButton @click="onViewPendingOrder()" title="Pending Order" icon="mdi-receipt"
+                        <ComButton @click="onViewPendingOrder()" :title="$t('Pending Order')" icon="mdi-receipt"
                             icon-color="#e99417" />
-                        <ComButton @click="onRoute('ClosedSaleList')" title="Closed Receipt" icon="mdi-receipt"
+                        <ComButton @click="onRoute('ClosedSaleList')" :title="$t('Closed Receipt')" icon="mdi-receipt"
                             icon-color="#e99417" />
-                        <ComButton @click="onRoute('Customer')" title="Customer" icon-color="#e99417"
+                        <ComButton @click="onRoute('Customer')" :title="$t('Customer')" icon-color="#e99417"
                             icon="mdi-account-multiple-outline" />
-                        <ComButton @click="onCashInCashOut" title="Cash Drawer" icon-color="#e99417"
+                        <ComButton @click="onCashInCashOut" :title="$t('Cash Drawer')" icon-color="#e99417"
                             icon="mdi-currency-usd" />
-                        <ComButton @click="onRoute('Report')" title="Report" icon="mdi-chart-bar" icon-color="#e99417" />
+                        <ComButton @click="onRoute('Report')" :title="$t('Report')" icon="mdi-chart-bar" icon-color="#e99417" />
 
-                        <ComButton v-if="isWindow()"  @click="onPrintWifiPassword" title="Wifi Password" icon="mdi-wifi" icon-color="#e99417" /> 
+                        <ComButton v-if="isWindow()"  @click="onPrintWifiPassword" :title="$t('Wifi Password')" icon="mdi-wifi" icon-color="#e99417" /> 
 
                         
-                        <ComButton @click="onLogout()" text-color="#fff" icon-color="#fff" title="Logout" icon="mdi-logout"
+                        <ComButton @click="onLogout()" text-color="#fff" icon-color="#fff" :title="$t('Logout')" icon="mdi-logout"
                             background-color="#b00020" />
                     </div>
                 </div>
@@ -55,6 +55,11 @@ import ComButton from '../components/ComButton.vue';
 import WorkingDayButton from './shift/components/WorkingDayButton.vue';
 import OpenShiftButton from './shift/components/OpenShiftButton.vue';
 import ComMessagePromotion from '../components/ComMessagePromotion.vue';
+
+import { useI18n } from "vue-i18n";
+const { t: $t } = useI18n({useScope: "global"});   
+ 
+
 
 const toaster = createToaster({ position: "top" })
 const auth = inject('$auth')
@@ -108,9 +113,9 @@ async function onPOS() {
     await cashierShiftResource.fetch().then(async (v) => {
         if (v) {
             if (v.working_day == null) {
-                toaster.warning("Please start working first.")
+                toaster.warning($t("msg.Please start working first"))
             } else if (v.cashier_shift == null) {
-                toaster.warning("Please start cashier shift first.")
+                toaster.warning($t("msg.Please start shift first"))
             } else {
                 if (gv.setting.table_groups.length > 0) {
                     router.push({ name: 'TableLayout' })
@@ -146,7 +151,7 @@ async function onViewPendingOrder() {
                 const result = await pendingSaleListDialog({data:{working_day:working_day, cashier_shift: cashier_shift}})
             })
         }else{
-            toaster.warning("Please start working first.")
+            toaster.warning($t("msg.Please start working first"))
         }
         
     })

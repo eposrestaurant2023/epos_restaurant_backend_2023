@@ -1,7 +1,9 @@
 import { authorizeDialog,noteDialog,createResource,confirm } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
 import moment from '@/utils/moment.js';
+ 
 const toaster = createToaster({ position: "top" });
+ 
 export default class Gv {
 	constructor() {
 		this.setting = {},
@@ -14,7 +16,6 @@ export default class Gv {
 		this.workingDay = "";
 		this.cashierShift= "";
 		this.isFullscreen = true;
-		this.show_hide_gv = true
 	}
 
 	
@@ -29,7 +30,8 @@ export default class Gv {
 	}
 
 	async authorize(settingKey, permissionCode,requiredNoteKey="",categoryNoteName="", product_code = "", inlineNote = false) {
-		 
+
+
 		return new Promise(async (resolve,reject) => {
 
 			if (this.setting.pos_setting[settingKey] == 1) {
@@ -69,10 +71,8 @@ export default class Gv {
 				
 			 const currentUser = JSON.parse(localStorage.getItem("current_user"));
 				
-			 if (JSON.parse(localStorage.getItem("current_user")).permission[permissionCode] == 1) {
-					
-					if(requiredNoteKey && categoryNoteName){
-						
+			 if (JSON.parse(localStorage.getItem("current_user")).permission[permissionCode] == 1) {					
+					if(requiredNoteKey && categoryNoteName){						
 						//check if require note 
 						if(this.setting.pos_setting[requiredNoteKey] == 1){ 
 							if(inlineNote){ 
@@ -92,7 +92,6 @@ export default class Gv {
 					}else{
 					 
 						resolve({user:currentUser.full_name, discount_codes:currentUser.permission.discount_codes,note:"",username:currentUser.name});
-
 					}
 					
 					
@@ -116,7 +115,7 @@ export default class Gv {
 		}
  
 		if(new Date() > new Date(check_date)){
-		 await confirm({title:'Close Working Day', text:'Your working day is to long. Please close your working day.',hide_cancel:true});			
+			await confirm({title:'Close Working Day', text:'Your working day is to long. Please close your working day',hide_cancel:true});		
 			 
 		}
 	}
@@ -169,3 +168,5 @@ export default class Gv {
 		return null;
 	}
 }
+
+ 

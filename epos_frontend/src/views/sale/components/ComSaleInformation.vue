@@ -1,6 +1,6 @@
 <template>
     <div class="py-2 flex flex-wrap">
-        <ComSaleTypeChip/>
+        <ComSaleTypeChip v-if="product.setting.pos_menus.length>0"/>
         <ComChip tooltip="POS Profile" prepend-icon="mdi-desktop-classic">{{ sale.sale.pos_profile }}</ComChip>
         <ComChip v-if="sale.working_day_resource?.loading" tooltip="Working Day" prepend-icon="mdi-spin mdi-loading">loading...</ComChip>
         <ComChip v-else tooltip="Working Day" prepend-icon="mdi-calendar">{{ sale.sale.working_day }}</ComChip>
@@ -52,7 +52,13 @@ async function onChangePriceRule() {
     if (!sale.isBillRequested()) {
         const result = await changePriceRuleDialog({})
         if (result == true) {
-            product.loadPOSMenu()
+            if(product.setting.pos_menus.length>0){
+                product.loadPOSMenu()
+            }else{
+                product.loadPOSMenu()
+                product.getProductMenuByProductCategory(db,"All Product Categories")
+            }
+            
             toaster.success("Price Rule Was Change Successfull");
         }
     }

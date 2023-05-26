@@ -1,7 +1,10 @@
 <template>
     <div class="overlay">
         <div class="overlay__inner">
-            <div class="overlay__content"><span class="spinner"></span></div>
+            <div class="overlay__content">
+                <span class="spinner"></span>
+            </div>
+            
         </div>
     </div>
 </template>
@@ -13,7 +16,7 @@
     width: 100%;
     height: 100%;
     position: fixed;
-    background: rgb(164, 86, 9);
+    background: rgb(143, 15, 15);
 }
 
 .overlay__inner {
@@ -32,10 +35,10 @@
 }
 
 .spinner {
-    width: 75px;
-    height: 75px;
+    width: 50px;
+    height: 50px;
     display: inline-block;
-    border-width: 2px;
+    border-width:3px;
     border-color: rgba(255, 255, 255, 0.05);
     border-top-color: #fff;
     animation: spin 1s infinite linear;

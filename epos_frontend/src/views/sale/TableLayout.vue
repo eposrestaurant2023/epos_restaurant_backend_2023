@@ -4,25 +4,23 @@
             <ComTableGroupTabHeader />
         </template>
         <template #action>
-            <ComTableLayoutActionButton @onShowHide="onClickChild"/>
+            <ComTableLayoutActionButton @onShowHide="onTableStatusHidden"/>
+        {{ isShowTableStatus() }} 
         </template>
         <template v-if="tableLayout.table_groups">
             <v-window v-model="tableLayout.tab">
                 <ComArrangeTable  v-if="tableLayout.canArrangeTable"/>
                 <ComRenderTableNumber v-else/>
             </v-window>
-        </template>
-        <div>
-            hkjhkjh{{ onClickChild() }}
-        </div>
-        <ComSaleStatusInformation v-if="false"/>
+        </template> 
+        <ComSaleStatusInformation v-if="(table_status_color)"/>
     </PageLayout>
 </template>
 <script setup>
 import PageLayout from '../../components/layout/PageLayout.vue';
 
 
-import { inject, createResource, useRouter,createToaster,onMounted , onUnmounted} from "@/plugin"
+import { inject, createResource, useRouter,createToaster,onMounted , onUnmounted,ref} from "@/plugin"
 import ComTableGroupTabHeader from './components/table_layouts/ComTableGroupTabHeader.vue';
 import ComSaleStatusInformation from './components/ComSaleStatusInformation.vue';
  
@@ -33,6 +31,8 @@ const toaster = createToaster({position:"top"})
 const tableLayout = inject("$tableLayout");
 const socket = inject("$socket");
 
+const table_status_color = ref(false);
+
 const router = useRouter()
 
 socket.on("RefreshTable", () => {
@@ -41,10 +41,25 @@ socket.on("RefreshTable", () => {
  
 })
 
-function onClickChild (value) {
-    console.log("Parent",value);
-    return value;
+function onTableStatusHidden (value) { 
+    localStorage.setItem('table_status_color', value) 
+    table_status_color.value = value;
 }
+
+function isShowTableStatus(){
+    try{
+        const s = localStorage.getItem("table_status_color");
+        if(s == null){
+            table_status_color.value = false;
+        }
+        table_status_color.value = (s=="true"?true:false);
+    }catch(e)
+    {
+        table_status_color.value = false;
+    }
+   
+}
+
 
 tableLayout.getSaleList()
  

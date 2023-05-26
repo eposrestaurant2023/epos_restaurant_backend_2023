@@ -97,7 +97,10 @@ const props = defineProps({
 const selectedLetterhead = ref(getDefaultLetterHead());
 const selectedLang = ref(gv.setting.lang[0].language_code);
 const activeReport = ref(JSON.parse(JSON.stringify(gv.setting.reports.filter(r => r.doc_type == "Sale" && r.show_in_pos == 1)[0])));
-const isLoading = ref(false)
+const isLoading = ref(false);
+
+let deletedSaleProducts =[];
+let productPrinters = [];
 
 const sale = createDocumentResource({
     url: 'frappe.client.get',
@@ -247,11 +250,7 @@ function onEditOrder() {
 
                 isLoading.value = false;
                 emit('resolve', "open_order");
-
             })
-
-
-
         }
     })
 
@@ -270,6 +269,9 @@ function OnDeleteOrder() {
 
             //cancel payment first
             isLoading.value = true;
+            const _sale = JSON.parse(JSON.stringify(sale.sale));
+            generateSaleProductPrintToKitchen(_sale,v.note);
+
             const deleteSaleResource = createResource({
                 url: "epos_restaurant_2023.api.api.delete_sale",
                 params: {
@@ -283,6 +285,8 @@ function OnDeleteOrder() {
 
             await deleteSaleResource.fetch().then((v) => {
                 isLoading.value = false;
+                onProcessPrintToKitchen(_sale);
+
                 emit('resolve', "delete_order");
 
             })
@@ -292,6 +296,57 @@ function OnDeleteOrder() {
         }
     })
 
+}
+
+function generateSaleProductPrintToKitchen(doc,note){
+    this.deletedSaleProducts = [];
+    (doc.sale_products||[]).forEach((sp)=>{
+        if(sp.sale_product_status=="Submitted"){
+            sp.note = note;
+            sp.deleted_item_note = "Bill Deleted";
+            this.deletedSaleProducts.push(sp);
+        }
+    });
+
+    //generate deleted product to product printer list
+    this.deletedSaleProducts.filter(r => JSON.parse(r.printers).length > 0).forEach((r) => {
+            const pritners = JSON.parse(r.printers);
+            pritners.forEach((p) => {
+                this.productPrinters.push({
+                    printer: p.printer,
+                    group_item_type: p.group_item_type,
+                    product_code: r.product_code,
+                    product_name_en: r.product_name,
+                    product_name_kh: r.product_name_kh,
+                    portion: r.portion,
+                    unit: r.unit,
+                    modifiers: r.modifiers,
+                    note: r.note,
+                    quantity: r.quantity,
+                    is_deleted: true,
+                    is_free: r.is_free == 1,
+                    deleted_note: r.deleted_item_note
+                })
+            });
+        });
+}
+
+
+function onProcessPrintToKitchen(doc){
+    const data = {
+            action: "print_to_kitchen",
+            setting: this.setting?.pos_setting,
+            sale: doc,
+            product_printers: this.productPrinters
+        }
+
+        if (localStorage.getItem("is_window") == 1) {
+            window.chrome.webview.postMessage(JSON.stringify(data));
+        } else {
+            socket.emit("PrintReceipt", JSON.stringify(data))
+        }
+        this.deletedSaleProducts = [];
+        this.productPrinters = [];
 }
 
 

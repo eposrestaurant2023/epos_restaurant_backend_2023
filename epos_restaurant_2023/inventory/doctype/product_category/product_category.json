@@ -17,7 +17,12 @@
   "rgt",
   "is_group",
   "disabled",
-  "old_parent"
+  "old_parent",
+  "show_in_pos_shortcut_menu",
+  "allow_sale",
+  "background_color",
+  "text_color",
+  "photo"
  ],
  "fields": [
   {
@@ -92,12 +97,42 @@
    "fieldname": "product_code_prefix",
    "fieldtype": "Data",
    "label": "Product Code Prefix"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_in_pos_shortcut_menu",
+   "fieldtype": "Check",
+   "label": "Show in POS Shortcut Menu"
+  },
+  {
+   "fieldname": "background_color",
+   "fieldtype": "Color",
+   "label": "background_color"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Photo"
+  },
+  {
+   "fieldname": "text_color",
+   "fieldtype": "Color",
+   "label": "Text color"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_sale",
+   "fieldtype": "Check",
+   "label": "Allow Sale"
   }
  ],
+ "image_field": "photo",
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-04-05 17:23:28.383102",
+ "make_attachments_public": 1,
+ "modified": "2023-05-25 09:40:30.933676",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Product Category",

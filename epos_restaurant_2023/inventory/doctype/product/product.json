@@ -51,6 +51,7 @@
   "note",
   "product_price_tab",
   "product_price",
+  "prices",
   "modifiers_tab",
   "product_modifiers",
   "variant_tab",
@@ -519,13 +520,19 @@
    "fieldtype": "JSON",
    "hidden": 1,
    "label": "Combo Group Data"
+  },
+  {
+   "fieldname": "prices",
+   "fieldtype": "JSON",
+   "hidden": 1,
+   "label": "Prices"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-05-08 16:40:49.124533",
+ "modified": "2023-05-25 14:54:23.828357",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Product",

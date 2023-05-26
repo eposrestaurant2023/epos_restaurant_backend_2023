@@ -70,7 +70,14 @@ if (sale.orderBy == null) {
 
 sale.orderTime = "";
 if (product.posMenuResource.data?.length == 0) {
-    product.loadPOSMenu();
+    if(product.setting.pos_menus.length>0){
+        product.loadPOSMenu();
+        
+    }else{
+        product.getProductMenuByProductCategory(db,"All Product Categories")
+        product.loadPOSMenu();
+    }
+    
 }
 
 document.onkeydown = function (e) {
@@ -117,7 +124,7 @@ onMounted(() => {
                 sale.working_day = data.working_day.name;
                 sale.cashier_shift = data.cashier_shift.name;
                 gv.confirm_close_working_day(data.working_day.posting_date);
-
+                
                 onCheckExpireHappyHoursPromotion()
             }
         }

@@ -39,6 +39,8 @@
 import { useRouter, splitBillDialog,addCommissionDialog,ComSaleReferenceNumberDialog,viewBillModelModel,ref, inject,confirm, keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog ,createResource } from "@/plugin"
 import { useDisplay } from 'vuetify'
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
+import socket from '@/utils/socketio';
+
 const { mobile } = useDisplay()
 const toaster = createToaster({ position: 'top' })
 const router = useRouter();
@@ -48,6 +50,9 @@ const product = inject('$product')
 const setting = JSON.parse(localStorage.getItem("setting"))
 const isWindow = localStorage.getItem('is_window') == 1
 const isLoading = ref(false);
+
+let deletedSaleProducts = [];
+let productPrinters =[];
 
 
 async function onViewBill() {
@@ -88,7 +93,12 @@ async function onChangePriceRule() {
     if (!sale.isBillRequested()) {
         const result = await changePriceRuleDialog({})
         if (result == true) {
-            product.loadPOSMenu()
+            if(product.setting.pos_menus.length>0){
+                product.loadPOSMenu()
+            }else{
+                product.getProductMenuByProductCategory(db,"All Product Categories")
+            }
+            
             window.postMessage("close_modal","*");
             toaster.success("Price Rule Was Change Successfull");
         }
@@ -97,7 +107,12 @@ async function onChangePriceRule() {
 async function onChangePOSMenu() {
     const result = await changePOSMenuDialog({})
     if (result == true) {
-        product.loadPOSMenu()
+        if(product.setting.pos_menus.length>0){
+                product.loadPOSMenu()
+            }else{
+                product.loadPOSMenu()
+                product.getProductMenuByProductCategory(db,"All Product Categories")
+            }
         window.postMessage("close_modal","*");
         toaster.success("POS Menu Was Change Successfull ");
         
@@ -153,6 +168,12 @@ async function onDeleteBill() {
           
             //cancel payment first
             isLoading.value = true;
+
+            //send deleted sale product to temp deleted
+            const _sale = JSON.parse(JSON.stringify(sale.sale));
+            generateSaleProductPrintToKitchen(_sale,v.note);
+            
+
             const deleteSaleResource = createResource({
                 url:"epos_restaurant_2023.api.api.delete_sale",
                 params:{
@@ -167,19 +188,70 @@ async function onDeleteBill() {
             await deleteSaleResource.fetch().then((v)=>{
                 isLoading.value = false;
                 toaster.success("Delete sale order successfully");
+                //print to kitchen
+                onProcessPrintToKitchen(_sale);
+
                 sale.newSale();
                 if (sale.setting.table_groups.length > 0) {
                     router.push({ name: 'TableLayout' });
                 }else {
                     router.push({ name: "AddSale" });
-                }
-               
-            })
-
-
-           
+                }               
+            })           
         }
     })
+}
+
+
+function generateSaleProductPrintToKitchen(doc,note){
+    this.deletedSaleProducts = [];
+    (doc.sale_products||[]).forEach((sp)=>{
+        if(sp.sale_product_status=="Submitted"){
+            sp.note = note;
+            sp.deleted_item_note = "Bill Deleted";
+            this.deletedSaleProducts.push(sp);
+        }
+    });
+
+    //generate deleted product to product printer list
+    this.deletedSaleProducts.filter(r => JSON.parse(r.printers).length > 0).forEach((r) => {
+            const pritners = JSON.parse(r.printers);
+            pritners.forEach((p) => {
+                this.productPrinters.push({
+                    printer: p.printer,
+                    group_item_type: p.group_item_type,
+                    product_code: r.product_code,
+                    product_name_en: r.product_name,
+                    product_name_kh: r.product_name_kh,
+                    portion: r.portion,
+                    unit: r.unit,
+                    modifiers: r.modifiers,
+                    note: r.note,
+                    quantity: r.quantity,
+                    is_deleted: true,
+                    is_free: r.is_free == 1,
+                    deleted_note: r.deleted_item_note
+                })
+            });
+        });
+}
+
+
+function onProcessPrintToKitchen(doc){
+    const data = {
+            action: "print_to_kitchen",
+            setting: this.setting?.pos_setting,
+            sale: doc,
+            product_printers: this.productPrinters
+        }
+
+        if (localStorage.getItem("is_window") == 1) {
+            window.chrome.webview.postMessage(JSON.stringify(data));
+        } else {
+            socket.emit("PrintReceipt", JSON.stringify(data))
+        }
+        this.deletedSaleProducts = [];
+        this.productPrinters = [];
 }
 
 async function onClearOrder(){

@@ -23,6 +23,9 @@ import ComInput from '../../../components/form/ComInput.vue';
 import { createToaster } from '@meforma/vue-toaster';
 const product =inject("$product") 
 const sale=inject("$sale") 
+const frappe = inject("$frappe")
+const db = frappe.db();
+
 
 const toaster = createToaster({position:'bottom'});
 const props = defineProps({
@@ -35,7 +38,14 @@ const props = defineProps({
 
 
 function onSearch(key) {
-    product.searchProductKeyword = key;
+    if(product.setting.pos_menus.length>0){
+        product.searchProductKeyword = key;
+    }else{
+        //search product from db
+        product.getProductFromDbByKeyword(db,key)
+        
+    }
+    
 }
 function onKeyDown(event) {
       if(event.key =="Enter"){

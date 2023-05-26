@@ -92,8 +92,7 @@
    "fieldname": "pos_menus",
    "fieldtype": "Table",
    "label": "POS Menus",
-   "options": "POS Profile Root Menu",
-   "reqd": 1
+   "options": "POS Profile Root Menu"
   },
   {
    "fieldname": "column_break_5",
@@ -194,7 +193,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-08 11:15:00.332414",
+ "modified": "2023-05-24 18:19:09.492063",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Profile",

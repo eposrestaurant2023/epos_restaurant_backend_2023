@@ -37,14 +37,10 @@ export default class Sale {
             sale_products: []
         };
 
-
-
         this.newSaleResource = null;
         this.saleResource = null;
         this.paymentInputNumber = "";
         this.isPrintReceipt = false;
-
-
 
         //use this variable to show toast after database submit in resource
         this.message = undefined;
@@ -68,8 +64,6 @@ export default class Sale {
         this.tableSaleListResource = null;
         this.orderChanged = false;
         this.printWaitingOrderAfterPayment = false;
-
-
         this.createNewSaleResource();
 
     }
@@ -94,7 +88,6 @@ export default class Sale {
     }
 
     async newSale() {
-
         const tax_rule = this.setting.tax_rule;
         this.orderChanged = false;
         this.sale = {
@@ -128,14 +121,10 @@ export default class Sale {
             commission_note: '',
             commission_amount: 0            
         } 
-        this.onSaleApplyTax(tax_rule,this.sale); 
-     
+        this.onSaleApplyTax(tax_rule,this.sale);      
     }
 
-
-
-    async LoadSaleData(name) {
-        
+    async LoadSaleData(name) {        
         return new Promise(async (resolve) => {
             const parent = this;
             this.saleResource = createDocumentResource({
@@ -235,7 +224,6 @@ export default class Sale {
             else{
                 tax_rule = JSON.parse(p.tax_rule_data);
             }
- 
 
             var saleProduct = {
                 menu_product_name: p.menu_product_name,
@@ -276,11 +264,8 @@ export default class Sale {
                 combo_menu: p.combo_menu,
                 combo_menu_data: (p.combo_menu_data || p.combo_group_data),
                 product_tax_rule: p.tax_rule          
-            }
-
-       
-            this.onSaleProductApplyTax(tax_rule,saleProduct);        
-
+            }       
+            this.onSaleProductApplyTax(tax_rule,saleProduct); 
             this.sale.sale_products.push(saleProduct);
             this.updateSaleProduct(saleProduct);
         }
@@ -317,7 +302,6 @@ export default class Sale {
         } else {
             return this.orderBy
         }
-
     }
     
     onSelectSaleProduct(sp) {
@@ -332,9 +316,7 @@ export default class Sale {
     updateSaleProduct(sp) {
         //set property for re render comhappyhour check
         sp.is_render = false; 
-
         //end
-
         sp.sub_total = sp.quantity * sp.price + sp.quantity * sp.modifiers_price;
         sp.discount = parseFloat(sp.discount)
         if (sp.discount) {
@@ -348,27 +330,14 @@ export default class Sale {
         } else {
             sp.discount_amount = 0;
             //check if sale have discount then add discount to sale
-
         }
         if (sp.sale_discount_percent) {
             sp.sale_discount_amount = (sp.sub_total * sp.sale_discount_percent / 100);
-
         }
         sp.total_discount = sp.discount_amount + sp.sale_discount_amount;
 
-
-        // if((sp.name||"")=="" ){
-        //     this.onCalculateTax(sp);
-        // }
-        // else{
-        //     if((sp.product_tax_rule||"")==""){
-        //         this.onCalculateTax(sp);
-        //     }
-        // }
-
         this.onCalculateTax(sp);
         sp.amount = sp.sub_total - sp.total_discount + sp.total_tax;
-
 
         //set property for re render comhappyhour check
         sp.is_render = true;
@@ -522,16 +491,14 @@ export default class Sale {
     }
 
     async onChangePrice(sp) {
-
         const result = await keyboardDialog({ title: "Change price", type: 'number', value: sp.price });
         if (result != false) {
             sp.price = parseFloat(this.getNumber(result));
             this.updateSaleProduct(sp);
             this.updateSaleSummary();
         }
-
-
     }
+
     async onChangeQuantity(sp, gv) {
         if (!this.isBillRequested()) {
             const result = await keyboardDialog({ title: "Change Quantity", type: 'number', value: sp.quantity });
@@ -560,10 +527,8 @@ export default class Sale {
                         }
                     } 
                 }
-
             }
         }
-
     }
 
     async onSaleProductNote(sp) {
@@ -659,11 +624,9 @@ export default class Sale {
         }
     }
 
-
     async  onSaleProductChangeTaxSetting(sp,gv){
         const resp = await this.onChangeTaxSetting("Change Tax Setting",sp.product_tax_rule,sp.change_tax_setting_note, gv,sp);     
     }
-
     
     async onDiscount(title, amount, discount_value, discount_type, discount_codes,discount_note, sp, category_note_name) {
 
@@ -750,9 +713,7 @@ export default class Sale {
             }
         }
         this.updateSaleSummary();
-
     }
-
 
     async OnEditSaleProduct(sp) {
         if(sp.is_combo_menu && sp.use_combo_group){
@@ -800,13 +761,11 @@ export default class Sale {
                 this.updateSaleProduct(sp);
                 this.updateSaleSummary();
                 toaster.success("Update sale product successfully")
-
             }
         }
     }
 
     onCheckPriceSmallerThanZero() {
-
         if (this.sale.sale_products.filter(r => r.amount < 0).length > 0) {
             toaster.warning("Product price cannot smaller than zero");
             return true
@@ -822,7 +781,6 @@ export default class Sale {
 
     onSubmit() {
         return new Promise(async (resolve) => {
-
             if (this.sale.sale_products.length == 0) {
                 toaster.warning("Please select a menu item to submit order");
                 resolve(false);
@@ -833,13 +791,11 @@ export default class Sale {
             else {
                 let doc = JSON.parse(JSON.stringify(this.sale));
                 this.generateProductPrinters();
-
                 if (this.sale.sale_status != "Hold Order") {
                     doc.sale_products.filter(r => r.sale_product_status == "New").forEach(x => {
                         x.sale_product_status = "Submitted";
                     })
                 }
-
                 if (this.getString(this.sale.name) == "") {
                     if (this.newSaleResource == null) {
                         this.createNewSaleResource();
@@ -850,9 +806,6 @@ export default class Sale {
                     await this.saleResource.setValue.submit(doc);
                 }
                 //refresh tabl 
-
-
-
                 resolve(doc);
             }
 
@@ -861,7 +814,6 @@ export default class Sale {
     }
 
     async onSubmitQuickPay() {
-
         return new Promise(async (resolve) => {
             if (this.sale.sale_products.length == 0) {
                 toaster.warning("Please select a menu item to process payment");
@@ -878,29 +830,19 @@ export default class Sale {
                     this.sale.sale_status = "Submitted";
                     this.sale.docstatus = 1;
                     this.action = "quick_pay";
-
                     this.generateProductPrinters();
-
                     if (this.getString(this.sale.name) == "") {
                         if (this.newSaleResource == null) {
                             this.createNewSaleResource();
-
                         }
                         this.printWaitingOrderAfterPayment = true;
                         await this.newSaleResource.submit({ doc: this.sale })
-
-
                     } else {
                         await this.saleResource.setValue.submit(this.sale);
                     }
-
                     resolve(true);
                 }
-
             }
-
-
-
         })
     }
 
@@ -947,9 +889,7 @@ export default class Sale {
         })
     }
 
-
     onProcessTaskAfterSubmit(doc) {
-
         if (this.action == "submit_order") {
             this.onPrintToKitchen(doc);
             //print waiting doc
@@ -1020,13 +960,7 @@ export default class Sale {
         }
 
         if (localStorage.getItem("is_window") == 1) {
-
-
             window.chrome.webview.postMessage(JSON.stringify(data));
-
-
-
-
         } else {
             socket.emit("PrintReceipt", JSON.stringify(data))
         }
@@ -1059,7 +993,6 @@ export default class Sale {
 
         //generate deleted product to product printer list
         this.deletedSaleProducts.filter(r => JSON.parse(r.printers).length > 0).forEach((r) => {
-
             const pritners = JSON.parse(r.printers);
             pritners.forEach((p) => {
                 this.productPrinters.push({
@@ -1099,29 +1032,16 @@ export default class Sale {
             setting: this.setting?.pos_setting,
             sale: doc
         }
-
-
-
         if (receipt.pos_receipt_file_name && localStorage.getItem("is_window")) {
-
-
             window.chrome.webview.postMessage(JSON.stringify(data));
-
-
         } else {
             if (receipt.pos_receipt_file_name) {
-
                 socket.emit('PrintReceipt', JSON.stringify(data));
-
             }
             else {
                 this.onOpenBrowserPrint("Sale", doc.name, receipt.name)
             }
-
         }
-
-
-
     }
 
     onPrintWaitingOrder(doc) {
@@ -1133,23 +1053,15 @@ export default class Sale {
                     sale: doc
                 }
 
-
                 if (localStorage.getItem("is_window") == "1") {
-
-
                     window.chrome.webview.postMessage(JSON.stringify(data));
-
                 } else {
-
                     socket.emit('PrintReceipt', JSON.stringify(data));
                 }
                 this.printWaitingOrderAfterPayment = false;
                 this.orderChanged = false;
-
             }
-
         }
-
     }
 
     onOpenBrowserPrint(doctype, docname, filename) {
@@ -1189,8 +1101,6 @@ export default class Sale {
                 this.updatePaymentAmount();
 
                 this.paymentInputNumber = this.sale.balance.toFixed(this.setting.pos_setting.main_currency_precision);
-
-
 
             } else {
                 toaster.warning("Please enter payment amount");

@@ -15,12 +15,12 @@
               <v-divider></v-divider>
               <div class="py-3">
                 <v-list lines="one" bg-color="transparent">
-                  <v-list-item class="mb-2" :title="setting?.business_branch" subtitle="Business"></v-list-item>
-                  <v-list-item class="mb-2" :title="setting?.pos_profile" subtitle="POS Profile"></v-list-item>
-                  <v-list-item class="mb-2" :title="setting?.phone_number" subtitle="Phone Number"></v-list-item>
-                  <v-list-item :title="setting?.address" subtitle="Address"></v-list-item>
+                  <v-list-item class="mb-2" :title="setting?.business_branch" :subtitle="$t('Business')" ></v-list-item>
+                  <v-list-item class="mb-2" :title="setting?.pos_profile" :subtitle='$t("POS Profile")'></v-list-item>
+                  <v-list-item class="mb-2" :title="setting?.phone_number"  :subtitle='$t("Phone Number")'></v-list-item>
+                  <v-list-item :title="setting?.address" :subtitle="$t('Address')"></v-list-item>
                 </v-list>
-              </div>
+              </div> 
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@
               </div>
               <div class="mb-3">
                 <div class="relative">
-                  <v-text-field :readonly="mobile" type="password" density="compact" variant="solo" autofocus label="Password"
+                  <v-text-field :readonly="mobile" type="password" density="compact" variant="solo" autofocus :label="$t('Password')"
                     append-inner-icon="mdi-arrow-left" single-line hide-details v-model="state.password" height="200"
                     @click:append-inner="onDeleteBack()"></v-text-field>
                 </div>
@@ -51,7 +51,7 @@
               <div>
                 <div class="grid grid-cols-3 gap-3">
                   <v-btn @click="numpad_click('1')" size="x-large">
-                    1
+                  1
                   </v-btn>
                   <v-btn @click="numpad_click('2')" size="x-large">
                     2
@@ -81,25 +81,31 @@
                     0
                   </v-btn>
                   <v-btn class="col-span-2" color="error" @click="clear_password" size="x-large">
-                    Clear
+                    {{ $t("Clear") }}
                   </v-btn>
 
                 </div>
               </div>
               <div class="mt-6">
-                <v-btn type="submit" :loading="isLoading" size="x-large" class="w-full"
-                  color="primary">Login</v-btn>
-              </div>
+                <v-btn type="submit" :loading="isLoading" size="x-large" class="w-full" color="primary">{{ $t("Login") }}</v-btn>
+              </div> 
+              <div class="mt-2">
+                <v-btn size="x-large" class="w-full" color="light"  @click="(()=>{ 
+                    $i18n.locale=($i18n.locale=='kh'?'en':'kh');
+                    onChangeLang( $i18n.locale) 
+
+                })">{{ $i18n.locale=="en"?"ខ្មែរ":"English" }}</v-btn>
+              </div> 
               <div class="mt-4 text-center">
                 <p class="text-sm text-green-700">{{ setting?.pos_profile }}</p>
-              </div>
+              </div> 
             </div>
           </div>
         </form>
+ 
 
         <div class="fixed bottom-8 " v-if="isWindow()">
-
-          <v-btn block  class="w-full" prepend-icon="mdi-window-close"  size="x-large" color="error" @click="onExitWindow()">exit</v-btn>
+          <v-btn block  class="w-full" prepend-icon="mdi-window-close"  size="x-large" color="error" @click="onExitWindow()"> {{ $t("Exit") }}</v-btn>
         </div>
       </div>
     </v-col>
@@ -108,7 +114,8 @@
 </template>
 <script setup>
 import { reactive, inject, computed, useStore, useRouter, createResource, createToaster } from '@/plugin'
-import { useDisplay } from 'vuetify'
+import { useDisplay } from 'vuetify'; 
+
 const moment = inject('$moment')
 const gv = inject('$gv')
 const sale = inject('$sale')
@@ -116,6 +123,7 @@ const { mobile } = useDisplay()
 const toast = createToaster()
 const router = useRouter()
 
+ 
 let state = reactive({
   username: "",
   password: "",
@@ -128,8 +136,15 @@ const isLoading = computed(() => {
   return store.state.isLoading
 })
 
-const auth = inject("$auth")
+function onChangeLang(code){
+  localStorage.setItem('lang', code)
+ 
+    location.reload()
+ 
+}
 
+
+const auth = inject("$auth")
 store.state.isLoading = false;
 
 function numpad_click(n) {
@@ -144,9 +159,8 @@ function clear_password() {
 }
 
 function isWindow() {
-  return localStorage.getItem("is_window") == "1";
-
-}
+  return localStorage.getItem("is_window") == "1"; 
+} 
 
 function onDeleteBack() {
   state.password = state.password.substring(0, state.password.length - 1);

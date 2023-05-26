@@ -56,6 +56,8 @@ const gv = inject("$gv")
 const socket = inject("$socket")
 
 const product = inject("$product")
+const frappe = inject("$frappe")
+const db = frappe.db();
 let openSearch = ref(false)
 const route = useRoute()
 const router = useRouter()
@@ -67,10 +69,19 @@ sale.deletedSaleProducts = []
 if (sale.orderBy == null) {
     sale.orderBy = JSON.parse(localStorage.getItem("current_user")).full_name;
 }
-
+// this.$onKeyStroke('F1',()=>{
+//     console.log('AddSale')
+// })
 sale.orderTime = "";
 if (product.posMenuResource.data?.length == 0) {
-    product.loadPOSMenu();
+    if(product.setting.pos_menus.length>0){
+        product.loadPOSMenu();
+    }else{
+        
+        product.getProductMenuByProductCategory(db,"All Product Categories")
+        product.loadPOSMenu();
+    }
+    
 }
 
 document.onkeydown = function (e) {
@@ -116,8 +127,9 @@ onMounted(() => {
                 sale.sale.cashier_shift = data.cashier_shift.name;
                 sale.working_day = data.working_day.name;
                 sale.cashier_shift = data.cashier_shift.name;
+                product.getProductMenuByProductCategory(db,'All Product Categories')
                 gv.confirm_close_working_day(data.working_day.posting_date);
-
+                
                 onCheckExpireHappyHoursPromotion()
             }
         }

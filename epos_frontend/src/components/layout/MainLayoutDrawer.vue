@@ -13,79 +13,83 @@
               <v-icon>mdi-home</v-icon>
             </template>
 
-            <v-list-item-title>Home</v-list-item-title>
+            <v-list-item-title>{{$t('Home')}}</v-list-item-title>
           </v-list-item>
           
           <v-list-item v-if="gv.workingDay!=''" active-color="primary" @click="onCloseWorkingDay()">
             <template v-slot:prepend>
               <v-icon>mdi-calendar-clock</v-icon>
             </template>
-            <v-list-item-title>Close Working Day</v-list-item-title>
+            <v-list-item-title>{{$t('Close Working Day')}}</v-list-item-title>
           </v-list-item>
           <v-list-item v-else active-color="primary" @click="onStartWorkingDay()">
             <template v-slot:prepend>
               <v-icon>mdi-calendar-clock</v-icon>
             </template>
-            <v-list-item-title>Start Working Day</v-list-item-title>
+            <v-list-item-title>{{$t('Start Working Day')}}</v-list-item-title>
           </v-list-item>
           <v-list-item v-if="gv.cashierShift==''" active-color="primary" @click="onOpenShift()">
             <template v-slot:prepend>
               <v-icon>mdi-clock</v-icon>
             </template>
-            <v-list-item-title>Start Cashier Shift</v-list-item-title>
+            <v-list-item-title>{{$t('Start Shift')}}</v-list-item-title>
           </v-list-item>
           <v-list-item  v-else active-color="primary" @click="onCloseShift()">
             <template v-slot:prepend>
               <v-icon>mdi-calendar-clock</v-icon>
             </template>
-            <v-list-item-title>Close Cashier Shift</v-list-item-title>
+            <v-list-item-title>{{$t('Close Shift')}}</v-list-item-title>
           </v-list-item>
 
           <v-list-item active-color="primary" @click="onPOS()">
             <template v-slot:prepend>
               <v-icon>mdi-cart</v-icon>
             </template>
-            <v-list-item-title>POS</v-list-item-title>
+            <v-list-item-title>{{$t('POS')}}</v-list-item-title>
           </v-list-item>
           <v-list-item active-color="primary" @click="onRoute('ReceiptList')">
             <template v-slot:prepend>
               <v-icon>mdi-receipt</v-icon>
             </template>
-            <v-list-item-title>Receipt List</v-list-item-title>
+            <v-list-item-title>{{$t('Receipt List')}}</v-list-item-title>
           </v-list-item>
           <v-list-item active-color="primary" @click="onRoute('Customer')">
             <template v-slot:prepend>
               <v-icon>mdi-account-multiple</v-icon>
             </template>
-            <v-list-item-title>Customer</v-list-item-title>
+            <v-list-item-title>{{$t('Customer')}}</v-list-item-title>
           </v-list-item>
           <v-list-item active-color="primary" @click="onCashInCashOut">
             <template v-slot:prepend>
               <v-icon>mdi-currency-usd</v-icon>
             </template>
-            <v-list-item-title>Cash Drawer</v-list-item-title>
+            <v-list-item-title>{{$t('Cash Drawer')}}</v-list-item-title>
           </v-list-item>
           
           <v-list-item active-color="primary" @click="onRoute('Report')">
             <template v-slot:prepend>
               <v-icon>mdi-chart-bar</v-icon>
             </template>
-            <v-list-item-title>Report</v-list-item-title>
+            <v-list-item-title>{{$t('Report')}}</v-list-item-title>
           </v-list-item>
           <v-divider class="my-4"></v-divider>
           <v-list-item color="error" @click="onLogout()">
             <template v-slot:prepend>
               <v-icon>mdi-logout</v-icon>
             </template>
-            <v-list-item-title>Logout</v-list-item-title>
+            <v-list-item-title>{{$t('Logout')}}</v-list-item-title>
           </v-list-item>
         </v-list>
     </div>
 </template>
 <script setup>
-import { useRouter, inject, createResource} from '@/plugin'
+import { useRouter, inject, createResource,useI18n} from '@/plugin'
 import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue'
 import { createToaster } from '@meforma/vue-toaster';
+
+
+const { t: $t } = useI18n({useScope: "global"});   
+
 const router = useRouter()
 const auth = inject('$auth')
 const gv  = inject("$gv")
@@ -112,12 +116,9 @@ function onPOS(){
                         if(v){ 
                             router.push({ name: 'AddSale' })
                         }
-                    })
-                    
+                    })                    
     }
 }
-
-
 
 function onStartWorkingDay() {
     gv.authorize("start_working_day_required_password", "start_working_day").then(async (v) => {
@@ -142,7 +143,7 @@ async function onCloseWorkingDay() {
 
             await cashierShiftResource.fetch().then(async (v) => {
                 if (v) {
-                    toaster.warning("Please close cashier shift first.")
+                    toaster.warning($t("msg.Please close shift first"))
                 } else {
                     router.push({ name: "CloseWorkingDay" });
                 }
@@ -150,8 +151,6 @@ async function onCloseWorkingDay() {
             })
         }
     });
-
-
 }
 
 
@@ -178,6 +177,3 @@ function onCloseShift() {
 
  
 </script>
-<style lang="">
-    
-</style>

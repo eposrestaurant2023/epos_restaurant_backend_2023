@@ -29,14 +29,14 @@
                                 <template v-slot:prepend class="w-12">
                                     <v-icon icon="mdi-reload"></v-icon>
                                 </template>
-                                <v-list-item-title>Reload</v-list-item-title>
+                                <v-list-item-title>{{ $t('Reload') }}</v-list-item-title>
                             </v-list-item>
                             <v-divider></v-divider>
                             <v-list-item @click="onLogout">
                                 <template v-slot:prepend class="w-12">
                                     <v-icon icon="mdi-logout"></v-icon>
                                 </template>
-                                <v-list-item-title>Logout</v-list-item-title>
+                                <v-list-item-title>{{ $t('Logout') }}</v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </v-card>
@@ -48,7 +48,7 @@
             <MainLayoutDrawer />
             <template v-slot:append>
                 <v-btn variant="tonal" prepend-icon="mdi-arrow-left" class="w-full" @click="onDrawer">
-                    Close
+                    {{ $t('Close') }}
                 </v-btn>
             </template>
         </v-navigation-drawer>
