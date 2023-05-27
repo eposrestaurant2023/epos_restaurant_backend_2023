@@ -1,11 +1,11 @@
 <template>
   <ComModal :mobileFullscreen="true" @onClose="onClose()" width="1200px" :hideOkButton="true">
     <template #title>
-      Pending Sale
+      {{ $t('Pending Sale') }}
     </template>
     <template #content>
       <ComPlaceholder :loading="saleResource.loading" :is-not-empty="saleResource?.data?.length > 0"
-        text="No Pending Bill" icon="mdi-note-outline">
+        :text="$t('No Pending Bill')" icon="mdi-note-outline">
         <div>
           <div class="grid gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
             <v-card v-for="(s, index) in saleResource.data" :key="index">
@@ -24,38 +24,38 @@
               </v-card-title>
               <v-card-text class="!pt-0 !pr-0 !pb-14 !pl-0">
                 <v-list :lines="false" density="compact" class="pa-0">
-                  <v-list-item title="Table #" v-if="s.tbl_number">
+                  <v-list-item :title="($t('Table')+ ' #')" v-if="s.tbl_number">
                     <template v-slot:append>
                       {{ s.tbl_number }}
                     </template>
                   </v-list-item>
-                  <v-list-item title="Sale Type" v-else>
+                  <v-list-item :title="$t('Sale Type')" v-else>
                     <template v-slot:append>
                       <v-chip size="x-small" :color="s.sale_type_color">{{ s.sale_type }}</v-chip>
                     </template>
                   </v-list-item>
-                  <v-list-item title="Guest Cover" v-if="s.guest_cover">
+                  <v-list-item :title="$t('Guest Cover')" v-if="s.guest_cover">
                     <template v-slot:append>
                       {{ s.guest_cover }}
                     </template>
                   </v-list-item>
-                  <v-list-item title="Customer Code">
+                  <v-list-item :title="$t('Customer Code')">
                     <template v-slot:append>
                       {{ s.customer }}
                     </template>
                   </v-list-item>
 
-                  <v-list-item title="Customer Name">
+                  <v-list-item :title="$t('Customer Name')">
                     <template v-slot:append>
                       {{ s.customer_name }}
                     </template>
                   </v-list-item>
-                  <v-list-item title="Total Qty">
+                  <v-list-item :title="$t('Total Qty')">
                     <template v-slot:append>
                       {{ s.total_quantity }}
                     </template>
                   </v-list-item>
-                  <v-list-item title="Grand Total">
+                  <v-list-item :title="$t('Grand Total')">
                     <template v-slot:append>
                       <CurrencyFormat :value="s.grand_total" />
                     </template>
@@ -64,10 +64,10 @@
               </v-card-text>
               <v-card-actions class="pt-0 flex items-center justify-between absolute bottom-0 w-full">
                 <v-btn variant="tonal" color="primary" @click="onViewSaleOrder(s.name)">
-                  Sale Detail
+                  {{ $t('Sale Detail') }}
                 </v-btn>
                 <v-btn variant="tonal" color="success" @click="onOpenOrder(s.name)">
-                  Open Order
+                 {{ $t('Open Order') }}
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -78,11 +78,14 @@
   </ComModal>
 </template>
 <script setup>
-import { useRouter, defineProps, createResource, defineEmits, ref, inject, createToaster } from "@/plugin"
+import { useRouter, defineProps, createResource, defineEmits, ref, inject, createToaster,i18n } from "@/plugin"
 import { Timeago } from 'vue2-timeago'
 import { saleDetailDialog } from "@/utils/dialog";
 import ComModal from "../../components/ComModal.vue";
 import ComPlaceholder from "../../components/layout/components/ComPlaceholder.vue";
+
+const { t: $t } = i18n.global;  
+
 const router = useRouter();
 const emit = defineEmits(["resolve"])
 const gv = inject('$gv')
@@ -107,12 +110,12 @@ function onOpenOrder(sale_id) {
     auto: true,
     onSuccess(data) {
       if (data.cashier_shift == null) {
-        toaster.warning("Please start cashier shift first");
+        toaster.warning($t("msg.Please start shift first"));
         router.push({ name: "OpenShift" }).then(()=>{
             onClose()
           })
       } else if (data.working_day == null) {
-        toaster.warning("Please start working day first");
+        toaster.warning($t("msg.Please start working day first"));
         router.push({ name: "StartWorkingDay" }).then(()=>{
             onClose()
           }) 
@@ -123,9 +126,8 @@ function onOpenOrder(sale_id) {
           })
         } 
         else{
-          toaster.error("Cannot get sale name")
-        }
-          
+          toaster.error($t("msg.Sale cannot get"))
+        }          
       }
     },
     onError(er){

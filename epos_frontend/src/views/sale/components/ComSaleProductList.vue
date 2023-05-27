@@ -87,6 +87,7 @@
 </template>
 <script setup>
 import { inject, defineProps, createToaster } from '@/plugin'
+
 import ComSaleProductButtonMore from './ComSaleProductButtonMore.vue';
 import ComQuantityInput from '../../../components/form/ComQuantityInput.vue';
 import Enumerable from 'linq';
@@ -103,6 +104,8 @@ const props = defineProps({
     readonly: Boolean,
     saleCustomerDisplay: Object
 })
+
+
 
 function onEditSaleProduct(sp) {
     if (!sale.isBillRequested()) {

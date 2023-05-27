@@ -48,6 +48,25 @@
       "Working Day No":"លេខយោងថ្ងៃធ្វើការ",
       "Cash Float":"ទឹកប្រាក់",
       "Total Cash Float":"ទឹកប្រាក់សរុប",
+      "Pending Sale":"វិក្កយបត្រកំពុងរងចាំ",
+      "No Pending Bill":"ពុំមានវិក្កយបត្ររងចាំ",
+      "Open Order":"ចូលលក់",
+      "Sale Detail":"ពត៌មានលម្អិត",
+      "Sale Type":"ប្រភេទលក់",
+      "Customer Code":"លេខកូដអតិថិជន",
+      "Customer Name":"ឈ្មោះអតិថិជន",
+      "Total Qty":"ចំនួនសរុប",
+      "Grand Total":"តម្លៃសរុប",
+      "Filter":"ច្រោះទិន្នន័យ",
+      "Table Group":"ក្រុមតុ",
+      "Search":"ស្វែងរក",
+      "Sort Order by":"តម្រៀបដោយ",
+      "Sort Order Type":"ប្រភេទតម្រៀប",
+      "Search Receipt Number":"ស្វែងរកលេខវិក្កយបត្រ",
+      "Sale Summary":"សង្ខេបការលក់",
+      "Sale Transaction":"ប្រតិបត្តិការលក់",
+      "Keyword":"ពាក្យគន្លឹះ",
+      "Add New":"បង្កើតថ្មី",
       "msg":{
             "Please close shift first":"សូមបិទវេណធ្វើការជាមុនសិន",
             "Please start working day first":"សូមបើកថ្ងៃធ្វើការជាមុនសិន",
@@ -62,7 +81,8 @@
             "Open Shift successfully":"បើកវេណបានជោគជ័យ",
             "Close Working Day successfully":"បិទថ្ងៃធ្វើការបានជោគជ័យ",
             "There are pending orders":"វិក្កយបត្រចំនួន {0} ដែលកំពុងរងចាំការគិតប្រាក់",
-            "Shift is already opened":"វេណធ្វើការត្រូវបានបើករួចរាល់ហើយ"
+            "Shift is already opened":"វេណធ្វើការត្រូវបានបើករួចរាល់ហើយ",
+            "Sale cannot get":"វិក្កយបត្រមិនអាចទាញទិន្នន័យបាន"
 
       }
 }

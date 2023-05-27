@@ -14,6 +14,7 @@
     "@microsoft/signalr": "^7.0.4",
     "@quangdao/vue-signalr": "^1.0.1",
     "@vuepic/vue-datepicker": "^3.6.5",
+    "@vueuse/components": "^10.1.2",
     "@vueuse/core": "^10.1.2",
     "bottom-sheet-vue3": "^2.0.3",
     "frappe-js-sdk": "^1.2.4",

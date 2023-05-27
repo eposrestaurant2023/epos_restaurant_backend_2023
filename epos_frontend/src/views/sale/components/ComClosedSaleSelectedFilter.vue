@@ -5,7 +5,7 @@
         <v-tooltip
         activator="parent"
         location="top"
-      >Keyword</v-tooltip>
+      >{{ $t('Keyword') }}</v-tooltip>
     </v-chip>
     
     <v-chip size="small" class="mr-2 mb-2" v-if="currentFilter.working_day && !currentFilter.cashier_shift">
@@ -13,7 +13,7 @@
         <v-tooltip
         activator="parent"
         location="top"
-      >Working Day</v-tooltip>
+      >{{ $t('Working Day') }}</v-tooltip>
     </v-chip>
     
     <v-chip size="small" class="mr-2 mb-2" v-if="currentFilter.cashier_shift && reportOption.show_cashier_shift"  closable @click:close="onRemove('cashier_shift', '')">
@@ -21,7 +21,7 @@
         <v-tooltip
         activator="parent"
         location="top"
-      >Cashier Shift</v-tooltip>
+      >{{ $t('Cashier Shift') }}</v-tooltip>
     </v-chip>
     
     <v-chip size="small" class="mr-2 mb-2" v-if="currentFilter.outlet && reportOption.show_outlet" closable @click:close="onRemove('outlet', '')">
@@ -29,7 +29,7 @@
         <v-tooltip
         activator="parent"
         location="top"
-      >Outlet</v-tooltip>
+      >{{ $t('Outlet') }}</v-tooltip>
     </v-chip>
     
     <v-chip size="small" class="mr-2 mb-2" v-if="currentFilter.table_group && reportOption.show_table_group"  closable @click:close="onRemove('table_group', '')">
@@ -37,7 +37,7 @@
         <v-tooltip
         activator="parent"
         location="top"
-      >Table Group</v-tooltip>
+      >{{ $t('Table Group') }}</v-tooltip>
     </v-chip>
     
     <v-chip size="small" class="mr-2 mb-2" v-if="currentFilter.sale_type && reportOption.show_sale_type"  closable @click:close="onRemove('sale_type', '')">
@@ -45,7 +45,7 @@
         <v-tooltip
         activator="parent"
         location="top"
-      >Sale Type</v-tooltip>
+      >{{ $t('Sale Type') }}</v-tooltip>
     </v-chip>
     
     <v-chip size="small" class="mr-2 mb-2" v-if="currentFilter.payment_type!='All Payment Type' && reportOption.show_payment_type"  closable @click:close="onRemove('payment_type', 'All Payment Type')">
@@ -53,7 +53,7 @@
         <v-tooltip
         activator="parent"
         location="top"
-      >Payment Type</v-tooltip>
+      >{{ $t('Payment Type') }}</v-tooltip>
     </v-chip>
 
 

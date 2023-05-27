@@ -1,8 +1,8 @@
 <template>
-    <PageLayout title="Customer" icon="mdi-account-multiple" full>
+    <PageLayout :title="$t('Customer')" icon="mdi-account-multiple" full>
         <template #action>
             <v-btn  prepend-icon="mdi-account-plus" type="button" @click="onAddCustomer">
-               Add Customer
+              {{ $t("Add New") }}
             </v-btn>
         </template>
         <ComCustomerCard :headers="headers" doctype="Customer" extra-fields="name,photo,customer_name_en" @callback="onCallback" v-if="mobile"/>
@@ -10,11 +10,14 @@
   </PageLayout>
 </template>
 <script setup>
-import { ref, customerDetailDialog, addCustomerDialog } from '@/plugin'
+import { ref, customerDetailDialog, addCustomerDialog,i18n } from '@/plugin'
 import PageLayout from '@/components/layout/PageLayout.vue';
 import ComTable from '@/components/table/ComTable.vue';
 import ComCustomerCard from './ComCustomerCard.vue'
-import {useDisplay} from 'vuetify'
+import {useDisplay} from 'vuetify';
+
+const { t: $t } = i18n.global;  
+
 const {mobile} = useDisplay()
 async function onCallback(data) { 
     if (data.fieldname == "customer_code_name") {
@@ -28,14 +31,14 @@ async function onAddCustomer() {
 }
 const headers = ref([
     // { title: 'Photo', align: 'center', key: 'photo', fieldtype: 'Image', placeholder: 'customer_name_en'},
-    { title: 'Customer', align: 'start', key: 'customer_code_name', callback: true },
+    { title: $t('Customer'), align: 'start', key: 'customer_code_name', callback: true },
    
-    { title: 'Name Kh', align: 'start', key: 'customer_name_kh' },
-    { title: 'Gender', align: 'center', key: 'gender'},
-    { title: 'Group', align: 'start', key: 'customer_group' },
-    { title: 'Date of Birth', align: 'start', key: 'date_of_birth', fieldtype: "Date"},
-    { title: 'Phone Number', align: 'start', key: 'phone_number'},
-    { title: 'Company Name', align: 'start', key: 'company_name'},
+    { title: $t('Name Kh'), align: 'start', key: 'customer_name_kh' },
+    { title: $t('Gender'), align: 'center', key: 'gender'},
+    { title: $t('Group'), align: 'start', key: 'customer_group' },
+    { title: $t('Date of Birth'), align: 'start', key: 'date_of_birth', fieldtype: "Date"},
+    { title: $t('Phone Number'), align: 'start', key: 'phone_number'},
+    { title: $t('Company Name'), align: 'start', key: 'company_name'},
     { title: 'Location', align: 'start', key: 'province'},
     
     

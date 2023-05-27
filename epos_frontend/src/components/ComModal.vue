@@ -21,7 +21,7 @@
                 <slot name="action"></slot>
                 <template v-if="!customActions">
                     <v-btn variant="flat" @click="onClose()" color="error" :disabled="loading" v-if="!hideCloseButton">
-                        Close
+                        {{ $t('Close') }}
                     </v-btn>
                     <v-btn variant="flat" type="button" color="primary" :disabled="loading" v-if="!hideOkButton" @click="onOK()">
                         {{ titleOKButton }}

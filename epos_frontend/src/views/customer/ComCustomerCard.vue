@@ -13,7 +13,7 @@
                     <div class="h-full w-full flex justify-center items-center">
                         <div class="text-center">
                             <v-progress-circular indeterminate></v-progress-circular>
-                            <div class="mt-1">Loading...</div>
+                            <div class="mt-1">{{ $t('Loading') }}...</div>
                         </div>
                     </div>
                 </div>

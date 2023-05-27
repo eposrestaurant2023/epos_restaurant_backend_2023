@@ -37,7 +37,7 @@ export default class Sale {
             sale_products: []
         };
         this.vueInstance=null;
-        this.vueGlobalProperties=null;
+        this.vue=null;
         this.newSaleResource = null;
         this.saleResource = null;
         this.paymentInputNumber = "";
@@ -68,8 +68,9 @@ export default class Sale {
         this.createNewSaleResource();
 
     }
+   
     createNewSaleResource() {
-        // console.log(this.vueGlobalProperties)
+        
         const parent = this;
         this.newSaleResource = createResource({
             url: "frappe.client.insert",
@@ -123,6 +124,7 @@ export default class Sale {
             commission_note: '',
             commission_amount: 0            
         } 
+        console.log(this.vueGlobalProperties)
         this.onSaleApplyTax(tax_rule,this.sale);      
     }
 
@@ -427,7 +429,7 @@ export default class Sale {
         sp.total_tax = sp.tax_1_amount + sp.tax_2_amount + sp.tax_3_amount;
 
     }
-
+    
     //on sale apply  tax setting
     onSaleApplyTax(tax_rule,s){
         s.tax_rule = tax_rule.name||"";
@@ -500,7 +502,7 @@ export default class Sale {
             this.updateSaleSummary();
         }
     }
-
+    
     async onChangeQuantity(sp, gv) {
         if (!this.isBillRequested()) {
             const result = await keyboardDialog({ title: "Change Quantity", type: 'number', value: sp.quantity });
@@ -1138,4 +1140,8 @@ export default class Sale {
         }
         return false
     }
+
+    
+
+
 }

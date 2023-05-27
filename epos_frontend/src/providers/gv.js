@@ -104,8 +104,7 @@ export default class Gv {
 
 	}
 
-	async confirm_close_working_day(working_day){
-		 
+	async confirm_close_working_day(working_day){		 
 	 
 		let check_date = "";
 		if(this.setting.close_business_day_on=="Current Day"){

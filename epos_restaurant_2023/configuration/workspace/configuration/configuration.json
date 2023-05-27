@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Configuration</span>\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Business Information\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"POS Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Table &amp; Group\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Payment Type &amp; Currency\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Sale Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Inventory Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Other Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"eDoor Setting\",\"col\":4}}]",
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Configuration</span>\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Business Information\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"POS Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Table &amp; Group\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Payment Type &amp; Currency\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Sale Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Inventory Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Other Setting\",\"col\":4}}]",
  "creation": "2022-12-05 00:50:50.260305",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -415,57 +415,9 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "eDoor Setting",
-   "link_count": 4,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Reservation Status",
-   "link_count": 0,
-   "link_to": "Reservation Status",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Housekeeping Status",
-   "link_count": 0,
-   "link_to": "Housekeeping Status",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Business Source",
-   "link_count": 0,
-   "link_to": "Business Source",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Business Source Type",
-   "link_count": 0,
-   "link_to": "Business Source Type",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
   }
  ],
- "modified": "2023-05-19 11:57:01.678618",
+ "modified": "2023-05-27 15:21:39.513717",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Configuration",

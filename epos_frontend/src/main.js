@@ -26,7 +26,7 @@ import socket from './utils/socketio';
 import Vue3DraggableResizable from 'vue3-draggable-resizable'
 //default styles
 import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
-import { createI18n } from 'vue-i18n'
+
 
 
 import router from './router';
@@ -55,8 +55,6 @@ import 'bottom-sheet-vue3/style.css'
 // i18n
 import { i18n } from "./i18n";
 
-// import { useI18n } from "vue-i18n";
-// const { t: $t } = useI18n({useScope: "global"});   
 
 
 const app = createApp(App);

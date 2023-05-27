@@ -1,13 +1,12 @@
 <template>
-    <PageLayout title="Close Receipt List" icon="mdi-note-outline" full>
+    <PageLayout :title="$t('Closed Receipt')" icon="mdi-note-outline" full>
         <template #action>
             <v-btn v-if="mobile" icon="mdi-filter-outline" @click="onOpenDrawer"></v-btn>
         </template>
-        <template #default> 
-         
+        <template #default>          
             <ComLoadingDialog v-if="filterResource.loading && filterResource.data" />
             <template v-else>
-                <div v-if="filterResource.data?.cashier_shifts?.length == 0">There is no cashier shift open</div>
+                <div v-if="filterResource.data?.cashier_shifts?.length == 0">{{ $t('There is no cashier shift opened') }}</div>
                 <div v-else>
                     <v-row>
                         <v-col cols="12" sm="5" md="3" lg="3">
@@ -23,20 +22,14 @@
                                         <v-tab
                                         v-for="(r, index) in gv.setting.reports.filter(r => r.show_in_pos_closed_sale == 1 && r.doc_type == 'POS Profile')"
                                         :key="index" @click="onReportClick(r)">
-                                        {{ r.title }}</v-tab>
+                                        {{ $t(r.title) }}</v-tab>
                                     </v-tabs>
-                                    <!-- <v-btn class="mr-2"
-                                        v-for="(r, index) in gv.setting.reports.filter(r => r.show_in_pos_closed_sale == 1 && r.doc_type == 'POS Profile')"
-                                        :key="index" @click="onReportClick(r)"
-                                        :color="activeReport.name == r.name ? 'info' : 'default'">
-                                        {{ r.title }}</v-btn> -->
                                 </div>
                                 <div>
                                     <v-icon icon="mdi-reload" size="small" @click="onRefresh"></v-icon>
                                 </div>
                             </div>
-                            <ComClosedSaleSelectedFilter  :currentFilter="resultFilter"  :reportOption="reportOption"
-                                    @onSearch="onSearch"/>
+                            <ComClosedSaleSelectedFilter  :currentFilter="resultFilter"  :reportOption="reportOption"  @onSearch="onSearch"/>
                             <div style="height: calc(100vh - 202px);">
                                 <iframe @load="onIframeLoaded()" id="report-view" height="100%" width="100%" :src="reportUrl"></iframe>
                             </div>
@@ -62,11 +55,13 @@ import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
 import { useDisplay } from 'vuetify'
 
 
-import { inject, ref, createResource, saleDetailDialog, onUnmounted, onMounted, computed,printPreviewDialog,customerDetailDialog } from '@/plugin'
+import { inject, ref, createResource, saleDetailDialog, onUnmounted, onMounted, computed,printPreviewDialog,customerDetailDialog,i18n } from '@/plugin'
 import { createToaster } from '@meforma/vue-toaster';
 import ComClosedSaleFilter from './components/ComClosedSaleFilter.vue';
 import ComClosedSaleSelectedFilter from './components/ComClosedSaleSelectedFilter.vue';
-import { Sheet } from 'bottom-sheet-vue3'
+import { Sheet } from 'bottom-sheet-vue3';
+
+const { t: $t } = i18n.global;  
 
 const { mobile } = useDisplay()
 const gv = inject("$gv")
@@ -205,7 +200,7 @@ const reportClickHandler = async function (e) {
                 });
 
             }else if(data[0] == "view_cashier_shift"){
-                printPreviewDialog({ title: "Cashier Shift #" + data[1], doctype: "Cashier Shift", name: data[1] });
+                printPreviewDialog({ title: $t("Cashier Shift")+" #" + data[1], doctype: "Cashier Shift", name: data[1] });
             }
             else if(data[0] == "view_customer"){
             

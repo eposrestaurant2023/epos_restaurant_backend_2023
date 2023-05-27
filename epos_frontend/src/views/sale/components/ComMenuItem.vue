@@ -156,15 +156,14 @@ async function onClickProduct() {
         }
         else {
             console.log(p.prices)
-            const portions = JSON.parse(p.prices).filter(r => (r.branch == sale.sale.business_branch || r.branch == '') && r.price_rule == sale.sale.price_rule);
+            const portions = JSON.parse(p.prices)?.filter(r => (r.branch == sale.sale.business_branch || r.branch == '') && r.price_rule == sale.sale.price_rule);
             const check_modifiers = product.onCheckModifier(JSON.parse(p.modifiers));
-            console.log(portions)
-            if (portions.length == 1) {
+            if (portions?.length == 1) {
                 p.price = portions[0].price
                 p.unit = portions[0].unit
             }
 
-            if (check_modifiers || portions.length > 1) {
+            if (check_modifiers || portions?.length > 1) {
                 product.setSelectedProduct(props.data);
 
                 let productPrices = await addModifierDialog();

@@ -71,26 +71,7 @@ let filter = reactive({})
 let order_by = ref('modified desc')
 const advancefilters = ref([])
 
-const resource = props.meta
-
-// const resource = createResource({
-//     url: "epos_restaurant_2023.api.api.get_meta",
-//     params:{
-//         doctype: props.doctype,
-//     },
-    
-//     auto: true,
-//     onSuccess(data) {
-//         gv.customerMeta = data;
-//         if(data.sort_field && data.sort_order){
-//             order_by.value = data.sort_field +  ' ' + data.sort_order
-//         }
-        
-//         data.fields.forEach(function (r) {
-//             r.value = null
-//         })
-//     }
-// })
+const resource = props.meta 
 
 function generateFilter() {
     //check name filter

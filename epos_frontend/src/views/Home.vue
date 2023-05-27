@@ -67,6 +67,8 @@ const sale = inject('$sale');
 const moment = inject('$moment')
 const router = useRouter()
 const device_setting = JSON.parse(localStorage.getItem("device_setting"))
+
+let already_load_confirm_close_working_day = false;
 function isWindow(){
     return localStorage.getItem('is_window') == 1;
 }
@@ -87,10 +89,12 @@ const workingDayResource = createResource({
       business_branch: gv.setting?.business_branch
     },
     onSuccess(doc){
-        if(doc){
-            gv.confirm_close_working_day(doc.posting_date);
-        }
-        
+        if(!already_load_confirm_close_working_day){
+                if(doc){
+                already_load_confirm_close_working_day = true;
+                gv.confirm_close_working_day(doc.posting_date);
+            }
+        } 
     }
 });
 

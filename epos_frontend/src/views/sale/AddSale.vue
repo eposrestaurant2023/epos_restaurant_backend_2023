@@ -65,7 +65,8 @@ const router = useRouter()
 const toaster = createToaster({ position: "top" })
 
 sale.vueInstance = getCurrentInstance();
-// sale.vueGlobalProperties = currentInstance.appContext.config.globalProperties
+console.log(sale.vueInstance)
+sale.vue = sale.vueInstance.appContext.config.globalProperties
 sale.orderTime = null;
 sale.deletedSaleProducts = []
 if (sale.orderBy == null) {
@@ -196,5 +197,8 @@ onUnmounted(() => {
     socket.emit("ShowOrderInCustomerDisplay", {}, true);
 
 })
+
+
+
 
 </script>
