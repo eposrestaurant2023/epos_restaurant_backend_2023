@@ -8,7 +8,7 @@
             </template>
             <v-card style="width: 100%; max-width:600px; min-width:300px">
                 <v-card-text>
-                    <ComPlaceholder text="Please add filter button to set filter" :is-not-empty="advancefilters.length > 0" icon-size="40px" class-color="text-gray-300" icon="mdi-filter-outline">
+                    <ComPlaceholder :text="$t('msg.Please add filter button to set filter')" :is-not-empty="advancefilters.length > 0" icon-size="40px" class-color="text-gray-300" icon="mdi-filter-outline">
                         <div v-if="!loadingFilter">
                             <div v-for="(f, index) in advancefilters" :key="index"> 
                                 <ComAdvanceFilterKey
@@ -21,11 +21,11 @@
                     </ComPlaceholder>
                 </v-card-text>
                 <v-card-actions> 
-                    <v-btn @click="addFilter" color="primary" variant="text">Add Filter</v-btn> 
+                    <v-btn @click="addFilter" color="primary" variant="text">{{$t('Add Filter')  }}</v-btn> 
                     <v-spacer></v-spacer>
-                    <v-btn @click="clearFilter" color="error">Clear All</v-btn>
+                    <v-btn @click="clearFilter" color="error">{{ $t('Clear All') }}</v-btn>
                     <v-btn color="primary" variant="tonal" @click="onFilter(true)" prepend-icon="mdi-filter-outline">
-                        Apply Filters
+                        {{ $t('Apply Filters') }}
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -35,7 +35,7 @@
 <script setup>
 import ComAdvanceFilterKey from '../form/ComAdvanceFilterKey.vue';
 import {  ref,defineProps, defineEmits, inject  } from '@/plugin'
-import {useDisplay} from 'vuetify'
+import {useDisplay} from 'vuetify';
 const {mdAndDown} = useDisplay()
 const props = defineProps({
     resource: {

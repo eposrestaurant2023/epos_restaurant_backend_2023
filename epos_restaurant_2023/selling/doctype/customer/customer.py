@@ -26,12 +26,14 @@ def get_customer_order_summary(customer):
 	total_annual_order = 0
 	sql = "select count(name) as total_visit, sum(grand_total) as total_amount from `tabSale` where customer='{}' and docstatus=1".format(customer)
 	data = frappe.db.sql(sql, as_dict=1)
-	today = datetime.date.today()
-	year = today.year
+	today = datetime.today()  
+	year = today.strftime("%Y")
+	
 	
 	if data:
 		total_visit = data[0]["total_visit"]
 		total_order = data[0]["total_amount"]
+
 		
 	sql = "select  sum(grand_total) as total_amount from `tabSale` where posting_date >= '{}-01-01' and customer='{}' and docstatus=1".format(year,customer)
 	data = frappe.db.sql(sql, as_dict=1)
@@ -39,7 +41,7 @@ def get_customer_order_summary(customer):
 		total_annual_order = data[0].total_amount
   
 	return {
-		"total_visit":total_visit,
-		"total_order":total_order,
-		"total_annual_order":total_annual_order
+		"total_visit":int(total_visit or 0),
+		"total_order":float( total_order or 0),
+		"total_annual_order": float(total_annual_order  or 0)
 	}

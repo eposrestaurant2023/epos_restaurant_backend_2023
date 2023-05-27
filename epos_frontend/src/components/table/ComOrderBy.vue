@@ -3,17 +3,17 @@
     <v-menu>
       <template v-slot:activator="{ props }">
         <v-btn v-bind="props" variant="tonal" class="mr-1 mb-1 mt-1" :size="mdAndDown ? 'small' : 'default'">
-          {{ selected.label }}
+          {{ $t(selected.label) }}
         </v-btn>
       </template>
       <v-list>
         <v-list-item v-for="(item, index) in defaultOption" :key="index" :value="index" @click="onClick(item)">
-          <v-list-item-title>{{ item.label }}</v-list-item-title>
+          <v-list-item-title>{{ $t(item.label) }}</v-list-item-title>
         </v-list-item>
         <v-list-item
           v-for="(item, index) in fields.filter(r => r.bold == 1 || r.in_list_view == 1 || r.in_standard_filter == 1)"
           :key="index" :value="index" @click="onClick(item)">
-          <v-list-item-title>{{ item.label }}</v-list-item-title>
+          <v-list-item-title>{{  $t(item.label) }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>

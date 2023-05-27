@@ -27,7 +27,7 @@ async function onCallback(data) {
     }
 }
 async function onAddCustomer() {
-    await addCustomerDialog ({title: "New Customer", value:  ''});
+    await addCustomerDialog ({title: $t("Add New"), value:  ''});
 }
 const headers = ref([
     // { title: 'Photo', align: 'center', key: 'photo', fieldtype: 'Image', placeholder: 'customer_name_en'},
@@ -39,7 +39,7 @@ const headers = ref([
     { title: $t('Date of Birth'), align: 'start', key: 'date_of_birth', fieldtype: "Date"},
     { title: $t('Phone Number'), align: 'start', key: 'phone_number'},
     { title: $t('Company Name'), align: 'start', key: 'company_name'},
-    { title: 'Location', align: 'start', key: 'province'},
+    { title: $t('Location'), align: 'start', key: 'province'},
     
     
 ])

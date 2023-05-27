@@ -48,8 +48,8 @@
                                 <template v-else-if="h.fieldtype=='Status'"> 
                                     <v-chip v-if="doctype=='Sale'" :color="item.raw[h.color_field]" size="small"> {{ item.raw[h.key] }}</v-chip>
                                     <template v-else>
-                                        <v-chip v-if="item.raw[h.key]" color="success" size="small">Enabled</v-chip>
-                                        <v-chip v-else color="error" size="small">Disabled</v-chip>
+                                        <v-chip v-if="item.raw[h.key]" color="success" size="small">{{ $t('Enabled') }}</v-chip>
+                                        <v-chip v-else color="error" size="small">{{ $t('Disabled') }}</v-chip>
                                     </template>
                                 </template>
                                 <template v-else-if="!h.fieldtype">
@@ -65,7 +65,7 @@
                         </v-data-table>
                         <div class="p-6 text-center elevation-1 text-gray-400" v-else>
                             <div><v-icon icon="mdi-package-variant" style="font-size:60px"></v-icon></div>
-                            <div class="text-sm italic">There are no data.</div>
+                            <div class="text-sm italic">{{ $t('Empty Data') }}</div>
                         </div>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                             <div class="w-24">
                                 <v-select
                                 size="small"
-                                label="Select"
+                                label=""
                                 :items="[5,10,20,30,40,50,100]"
                                 v-model="pagerOption.itemPerPage"
                                 hide-no-data
@@ -105,7 +105,7 @@
   
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import { createResource, reactive, defineEmits, watch,inject,ref,onMounted, onUnmounted } from '@/plugin'
+import { createResource, reactive, defineEmits, watch,inject,ref, onUnmounted } from '@/plugin'
 import ComFilter from '../ComFilter.vue';
 
 let filter = reactive({});

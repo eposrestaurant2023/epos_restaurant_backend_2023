@@ -9,7 +9,7 @@
       hide-no-data
       hide-details
       :variant="variant"
-      :placeholder="doctype"
+      :placeholder="(placeholder||'')==''?doctype:placeholder"
       :custom-filter="OnFilter"
       :item-title="getTitleField()"
       item-value="name"
@@ -35,6 +35,7 @@
 import { watch,reactive, ref, defineProps, onMounted, createResource } from '@/plugin'
 let props = defineProps({ 
   doctype: String,
+  placeholder:String,
   clearable: {
     type: Boolean,
     default: true

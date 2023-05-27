@@ -24,7 +24,7 @@
                         {{ $t('Close') }}
                     </v-btn>
                     <v-btn variant="flat" type="button" color="primary" :disabled="loading" v-if="!hideOkButton" @click="onOK()">
-                        {{ titleOKButton }}
+                        {{ titleOKButton==""?$t("Save"):$t(titleOKButton) }}
                     </v-btn>
                 </template>
             </v-card-actions>
@@ -34,9 +34,13 @@
  
 </template>
 <script setup>
-import { defineEmits, ref, defineProps} from '@/plugin'
+import { defineEmits, ref, defineProps,i18n} from '@/plugin'
 import ComToolbar from './ComToolbar.vue'
-import { useDisplay } from 'vuetify'
+import { useDisplay } from 'vuetify';
+
+ 
+
+const { t: $t } = i18n.global;  
 const { mobile } = useDisplay()
 const open = ref(true)
 const emit = defineEmits(["onClose","onOK"])
@@ -57,10 +61,10 @@ const props =defineProps({
         type: String,
         default: "800px"
     },
-    titleOKButton: {
+    titleOKButton:  {
         type: String,
-        default: "Save"
-    },
+        default: ""
+    }, 
     fullscreen: {
         type: Boolean,
         default: false

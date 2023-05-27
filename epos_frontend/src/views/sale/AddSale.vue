@@ -85,11 +85,6 @@ if (product.posMenuResource.data?.length == 0) {
     
 }
 
-document.onkeydown = function (e) {
-    if (e.keyCode === 116) {
-        return false;
-    }
-};
 // small device
 function onSearchProduct(open) {
     openSearch.value = open

@@ -2,10 +2,10 @@
   <ComModal isMoreMenu="true" @onPrint="onPrint" width="900px" @onClose="onClose"
     :hideOkButton="true" :fullscreen="mobile">
     <template #title>
-      Customer Detail - {{ params.name }}
+      {{ $t('Customer Detail') }} - {{ params.name }}
     </template>
     <template #bar_custom>
-      <v-btn append-icon="mdi-account-edit" @click="onAddCustomer()">Edit</v-btn>
+      <v-btn append-icon="mdi-account-edit" @click="onAddCustomer()">{{ $t('Edit') }}</v-btn>
     </template>
     <template #content>
       <div class="-m-2">
@@ -22,8 +22,8 @@
         <v-row no-gutters>
           <v-col cols="6" sm="4">
             <v-card class="pa-2 ma-2" elevation="2" color="primary">
-              <div class="text-h6 text-center">{{ orderSummary.data?.total_visit }}</div>
-              <div class="text-body-1 text-center mt-2  text-sm">Total Visit</div>
+              <div class="text-h6 text-center">{{ orderSummary.data?.total_visit||0 }}</div>
+              <div class="text-body-1 text-center mt-2  text-sm">{{ $t('Total Visit') }}</div>
             </v-card>
           </v-col>
           <v-col cols="6" sm="4">
@@ -31,7 +31,7 @@
               <div class="text-h6 text-center">
                 <CurrencyFormat :value="orderSummary.data?.total_annual_order" />
               </div>
-              <div class="text-body-1 text-center mt-2 text-sm">Total Annual Order</div>
+              <div class="text-body-1 text-center mt-2 text-sm">{{ $t('Total Annual Order') }}</div>
             </v-card>
           </v-col>
           <v-col cols="12" sm="4">
@@ -39,13 +39,13 @@
               <div class="text-h6 text-center">
                 <CurrencyFormat :value="orderSummary.data?.total_order" />
               </div>
-              <div class="text-body-1 text-center mt-2 text-sm">Total Order</div>
+              <div class="text-body-1 text-center mt-2 text-sm">{{ $t('Total Order') }}</div>
             </v-card>
           </v-col>
         </v-row>
         <v-tabs v-model="tab" color="deep-purple-accent-4" align-tabs="start" class="ma-2">
-          <v-tab value="about">About</v-tab>
-          <v-tab value="recentOrder">Recent Order</v-tab>
+          <v-tab value="about">{{ $t('About') }}</v-tab>
+          <v-tab value="recentOrder">{{ $t('Recent Order') }}</v-tab>
 
         </v-tabs>
         <v-window v-model="tab">
@@ -54,48 +54,46 @@
               <v-col cols="6">
                 <v-list>
                   <v-list-item
-                    subtitle="Customer Group"
+                    :subtitle="$t('Customer Group')"
                     :title="customer.doc?.customer_group"
                   ></v-list-item>
                   <v-list-item
                   v-if="customer.doc?.gender"
-                    subtitle="Gender"
+                    :subtitle="$t('Gender')"
                     :title="customer.doc?.gender"
                   ></v-list-item>
                   <v-list-item
                   v-if="customer.doc?.date_of_birth"
-                    subtitle="Date Of Birth"
+                    :subtitle="$t('Date Of Birth')"
                     :title="customer.doc?.date_of_birth"
                   ></v-list-item>
                   <v-list-item
                   v-if="customer.doc?.company_name"
-                    subtitle="Company"
+                    :subtitle="$t('Company')"
                     :title="customer.doc?.company_name"
                   ></v-list-item>
-                  
-                  
                 </v-list>
               </v-col>
               <v-col cols="6">
                 <v-list>
                   <v-list-item
                     v-if="customerPhoneNumber"
-                    subtitle="Phone Number"
+                    :subtitle="$t('Phone Number')"
                     :title="customerPhoneNumber"
                   ></v-list-item>
                   <v-list-item
                   v-if="customer.doc?.email_address"
-                    subtitle="Emaill Address"
+                    :subtitle="$t('Email Address')"
                     :title="customer.doc?.email_address"
                   ></v-list-item>
                   <v-list-item
                   v-if="customer.doc?.province"
-                    subtitle="Province"
+                    :subtitle="$t('Province')"
                     :title="customer.doc?.province"
                   ></v-list-item>
                   <v-list-item
                   v-if="customer.doc?.country"
-                    subtitle="Country"
+                    :subtitle="$t('Country')"
                     :title="customer.doc?.country"
                   ></v-list-item>
                   
@@ -109,16 +107,16 @@
               <thead>
                 <tr>
                   <th class="text-left">
-                    No
+                    {{ $t('No') }}
                   </th>
                   <th class="text-left">
-                    Qty
+                    {{ $t('Qty') }}
                   </th>
                   <th class="text-left">
-                    Grand Total
+                    {{ $t('Grand Total') }}
                   </th>
                   <th class="text-left">
-                    Date
+                    {{ $t('Date') }}
                   </th>
                 </tr>
               </thead>
@@ -142,7 +140,7 @@
   </ComModal>
 </template>
 <script setup>
-import { ref, defineProps, defineEmits, createDocumentResource, createResource, addCustomerDialog, useRouter, saleDetailDialog, computed } from '@/plugin'
+import { ref, defineProps, defineEmits, createDocumentResource, createResource, addCustomerDialog, useRouter, saleDetailDialog, computed,onMounted } from '@/plugin'
 import { Timeago } from 'vue2-timeago';
 import { useDisplay } from 'vuetify'
 import ComModal from '../../components/ComModal.vue';
@@ -190,15 +188,25 @@ let recentOrder = createResource(
     auto: true
   }
 )
-let orderSummary = createResource(
-  {
-    url: 'epos_restaurant_2023.selling.doctype.customer.customer.get_customer_order_summary',
-    params: {
-      customer: props.params.name,
-    },
-    auto: true
+let orderSummary =  {
+  data:{
+
   }
-)
+};
+
+onMounted(()=>{
+console.log( props.params.name)
+      orderSummary = createResource( {
+        url: 'epos_restaurant_2023.selling.doctype.customer.customer.get_customer_order_summary',
+        params: {
+          customer: props.params.name,
+        },
+        auto: true
+      }
+    )
+})
+
+
 async function onAddCustomer() {
   await addCustomerDialog({ title: customer.doc?.name + ' - ' + customer.doc?.customer_name_en, name: customer.doc?.name });
 }

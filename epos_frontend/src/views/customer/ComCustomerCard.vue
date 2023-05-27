@@ -41,17 +41,17 @@
                             <template v-slot:default>
                                 <table class="text-sm text-gray-500"> 
                                     <tr v-if="c.company_name">
-                                        <td>Company Name</td>
+                                        <td>{{ $t('Company Name') }}</td>
                                         <td class=" px-2">:</td>
                                         <td>{{ c.company_name }}</td>
                                     </tr>
                                     <tr v-if="c.phone_number">
-                                        <td>Phone Number</td>
+                                        <td>{{ $t('Phone Number') }}</td>
                                         <td class=" px-2">:</td>
                                         <td>{{ c.phone_number }}</td>
                                     </tr>
                                     <tr v-if="c.date_of_birth">
-                                        <td>Date of Birth</td>
+                                        <td>{{ $t('Date of Birth') }}</td>
                                         <td class=" px-2">:</td>
                                         <td>{{ c.date_of_birth }}</td>
                                     </tr>
@@ -63,7 +63,7 @@
             </div>
             <div class="p-6 text-center elevation-1 text-gray-400" v-if="dataResource.data.length == 0">
                 <div><v-icon icon="mdi-package-variant" style="font-size:60px"></v-icon></div>
-                <div class="text-sm italic">There are no data.</div>
+                <div class="text-sm italic">{{ $t('Empty Data') }}</div>
             </div>
             
         </div>

@@ -58,9 +58,8 @@ export default class Sale {
         this.auditTrailLogs = [];
         this.auditTrailResource = createResource({
             url: "frappe.client.insert"
-        }
-        );
-
+        });
+        this.dialogActiveState=false;
         //use this resource to load sale list in current table number
         this.tableSaleListResource = null;
         this.orderChanged = false;
@@ -497,16 +496,20 @@ export default class Sale {
     async onChangePrice(sp) {
         const result = await keyboardDialog({ title: "Change price", type: 'number', value: sp.price });
         if (result != false) {
+            
             sp.price = parseFloat(this.getNumber(result));
             this.updateSaleProduct(sp);
             this.updateSaleSummary();
         }
+        this.dialogActiveState=false;
     }
     
     async onChangeQuantity(sp, gv) {
         if (!this.isBillRequested()) {
             const result = await keyboardDialog({ title: "Change Quantity", type: 'number', value: sp.quantity });
+            console.log(result)
             if (result) {
+                
                 let quantity = this.getNumber(result);
                 if (this.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == "New") {
                     if (quantity == 0) {
@@ -532,6 +535,7 @@ export default class Sale {
                     } 
                 }
             }
+            this.dialogActiveState=false;
         }
     }
 
@@ -593,6 +597,7 @@ export default class Sale {
 
             this.updateSaleSummary();
         }
+        this.dialogActiveState=false;
 
     }
     // change tax setting
@@ -633,7 +638,6 @@ export default class Sale {
     }
     
     async onDiscount(title, amount, discount_value, discount_type, discount_codes,discount_note, sp, category_note_name) {
-
         const result = await saleProductDiscountDialog({
             title: title,
             value: amount,
@@ -659,6 +663,7 @@ export default class Sale {
             }
             this.updateSaleSummary()
         }
+        this.dialogActiveState=false;
     }
     async onSaleProductSetSeatNumber(sp) {
         if (!this.isBillRequested()) {
@@ -1139,6 +1144,10 @@ export default class Sale {
             } 
         }
         return false
+    }
+
+    addKeyStroke(Keyname,method){
+        this.vue.$onKeyStroke(Keyname,method)
     }
 
     

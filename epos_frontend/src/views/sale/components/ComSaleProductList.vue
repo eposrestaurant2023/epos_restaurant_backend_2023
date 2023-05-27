@@ -168,10 +168,6 @@ function onReorder(sp) {
                     sale.cloneSaleProduct(sp, sp.quantity + 1);
                 }, 100);
             }
-
-
-
-
         }
 
     }
