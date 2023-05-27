@@ -39,7 +39,7 @@ import Gv from "./providers/gv";
 import Product from "./providers/product";
 import Screen from "./providers/screen";
 import moment from "./utils/moment";
-import onKeyStroke from "./utils/keyStroke";
+import KeyStroke from './plugin/key_stroke';
 import store from "./store";
 import Toaster from "@meforma/vue-toaster";
 import {resourcesPlugin} from "./resources"
@@ -52,10 +52,8 @@ import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import { createBottomSheet } from 'bottom-sheet-vue3'
 import 'bottom-sheet-vue3/style.css'
-
-//language
-import kh from "./locales/kh.json";
-import en from "./locales/en.json";
+// i18n
+import { i18n } from "./i18n";
 
 // import { useI18n } from "vue-i18n";
 // const { t: $t } = useI18n({useScope: "global"});   
@@ -87,16 +85,8 @@ const vuetify = createVuetify({
 var lang = localStorage.getItem('lang'); 
 if((lang||"")==""){
 	localStorage.setItem('lang','en');
-	lang = 'en';
 } 
 
-// configure i18n
-const i18n = createI18n({
-	legacy: false,
-  locale: lang,
-  fallbackLocale: lang,
-  messages: {  en,kh,  },
-});
 app.use(i18n);
 
 
@@ -183,7 +173,7 @@ app.component('ComTableView',ComTableView)
 app.component('ComTdImage',ComTdImage)
 app.component('ComModal', ComModal)
 
-app.config.globalProperties.$onKeyStroke = onKeyStroke
+KeyStroke(app)
 app.mount("#app");
 
  

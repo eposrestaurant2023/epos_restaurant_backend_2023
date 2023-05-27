@@ -1,6 +1,7 @@
-import { authorizeDialog,noteDialog,createResource,confirm } from "@/plugin"
+import { authorizeDialog,noteDialog,createResource,confirm,i18n } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
 import moment from '@/utils/moment.js';
+const { t: $t } = i18n.global; 
  
 const toaster = createToaster({ position: "top" });
  
@@ -30,10 +31,7 @@ export default class Gv {
 	}
 
 	async authorize(settingKey, permissionCode,requiredNoteKey="",categoryNoteName="", product_code = "", inlineNote = false) {
-
-
 		return new Promise(async (resolve,reject) => {
-
 			if (this.setting.pos_setting[settingKey] == 1) {
 				const result = await authorizeDialog({ permissionCode: permissionCode });
 				
@@ -58,7 +56,8 @@ export default class Gv {
 						
 							resolve({user:result.name, discount_codes:result.discount_codes,note:"",username:result.username});	
 						}
-					}else{
+					}
+					else{
 					
 						resolve({user:result.name, discount_codes:result.discount_codes,note:"",username:result.username});
 					}
@@ -97,7 +96,7 @@ export default class Gv {
 					
 				} else {
 					 
-					toaster.warning("You don't have permission to perform this action.")
+					toaster.warning($t("You do not have permission to perform this action"))
 					resolve(false);
 				}
 			}
@@ -106,6 +105,7 @@ export default class Gv {
 	}
 
 	async confirm_close_working_day(working_day){
+		 
 	 
 		let check_date = "";
 		if(this.setting.close_business_day_on=="Current Day"){
@@ -115,7 +115,7 @@ export default class Gv {
 		}
  
 		if(new Date() > new Date(check_date)){
-			await confirm({title:'Close Working Day', text:'Your working day is to long. Please close your working day',hide_cancel:true});		
+			await confirm({title:$t('Close Working Day'), text:$t('msg.Your working day is to long please close your working day'),hide_cancel:true});		
 			 
 		}
 	}

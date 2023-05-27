@@ -38,7 +38,7 @@
 </template>
 <script setup>
 import { inject, useRoute, useRouter, ref, onMounted, onUnmounted, onBeforeRouteLeave, createResource } from '@/plugin';
-import Enumerable from 'linq';
+import { getCurrentInstance } from 'vue';
 import ComMenu from './components/ComMenu.vue';
 import ComSelectCustomer from './components/ComSelectCustomer.vue';
 import ComSaleInformation from '@/views/sale/components/ComSaleInformation.vue';
@@ -64,14 +64,14 @@ const router = useRouter()
 
 const toaster = createToaster({ position: "top" })
 
+sale.vueInstance = getCurrentInstance();
+// sale.vueGlobalProperties = currentInstance.appContext.config.globalProperties
 sale.orderTime = null;
 sale.deletedSaleProducts = []
 if (sale.orderBy == null) {
     sale.orderBy = JSON.parse(localStorage.getItem("current_user")).full_name;
 }
-// this.$onKeyStroke('F1',()=>{
-//     console.log('AddSale')
-// })
+
 sale.orderTime = "";
 if (product.posMenuResource.data?.length == 0) {
     if(product.setting.pos_menus.length>0){

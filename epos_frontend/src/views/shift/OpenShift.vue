@@ -1,18 +1,18 @@
 <template>
-    <PageLayout title="Open Shift" icon="mdi-clock" class="p-3">
+    <PageLayout :title="$t('Open Shift')" icon="mdi-clock" class="p-3">
         <v-row v-if="!working_day.loading && working_day.data">
             <v-col cols="12" md="6">
-                <ComInput label="Open Shift Date" type="text" v-model="working_day.data.name" readonly/>
+                <ComInput :label="$t('Working Day No')" type="text" v-model="working_day.data.name" readonly/>
             </v-col>
             <v-col cols="12" md="6">
-                <ComInput label="Working Day" v-model="working_date" variant="solo" readonly/>
+                <ComInput :label="$t('Working Day')" v-model="working_date" variant="solo" readonly/>
             </v-col>
             <v-col cols="12" md="6">
-                <ComInput label="POS Profile" v-model="pos_profile" readonly/>
+                <ComInput :label="$t('POS Profile')" v-model="pos_profile" readonly/>
             </v-col>
 
         </v-row>
-        <h1 class="my-4">Cash Float</h1>
+        <h1 class="my-4">{{ $t('Cash Float') }}</h1>
         <v-row v-if="payment_types && payment_types.filter(p => p.allow_cash_float == 1).length > 0">
             <v-col cols="12" md="6" v-for="p in payment_types.filter(p => p.allow_cash_float == 1)">
                     <ComInput type="number" :label="p.payment_method" v-model="p.input_amount" keyboard/>
@@ -20,25 +20,28 @@
         </v-row>
         <v-row v-if="payment_types && payment_types.filter(p => p.allow_cash_float == 1).length > 1">
             <v-col cols="12" md="6">
-                <ComInput readonly label="Total Cash Float" v-model="totalCashFloat" keyboard/>
+                <ComInput readonly :label="$t('Total Cash Float')" v-model="totalCashFloat" keyboard/>
             </v-col>
         </v-row>
         <v-row>
             <v-col cols="12">
-                <ComInput title="Enter Note" label="Open Note" v-model="opened_note" type="textarea" keyboard></ComInput>
+                <ComInput :title="$t('Enter Note')" :label="$t('Open Note')" v-model="opened_note" type="textarea" keyboard></ComInput>
             </v-col>
         </v-row>
         <div class="flex items-center justify-between mt-8 mb-3">
-            <v-btn @click="onOpenShift" :loading="addCashierShiftResource.loading" color="primary">Open Shift</v-btn>
-            <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">Cancel</v-btn>
+            <v-btn @click="onOpenShift" :loading="addCashierShiftResource.loading" color="primary">{{ $t('Open Shift') }}</v-btn>
+            <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">{{ $t('Cancel') }}</v-btn>
         </div>
     </PageLayout>
 </template>
+
 <script setup>
 import PageLayout from '../../components/layout/PageLayout.vue';
-import { createResource, ref, createToaster, useRouter, reactive, computed, inject, confirm } from '@/plugin'
+import { createResource, ref, createToaster, useRouter, reactive, computed, inject, confirm,i18n } from '@/plugin'
 import moment from '@/utils/moment.js'
 import ComInput from '../../components/form/ComInput.vue';
+
+const { t: $t } = i18n.global; 
 const gv = inject("$gv")
 const opened_note = ref("")
 const working_date = ref("")
@@ -63,13 +66,12 @@ const working_day = createResource({
     auto: true,
     onSuccess(data) {
         if (data == undefined) {
-            toaster.warning("Please start working day first", { position: "top" });
+            toaster.warning($t("msg.Please start working day first"), { position: "top" });
             router.push({ name: "Home" });
-        } else {
+        } 
+        else {
             working_date.value = moment(data.posting_date).format('DD-MM-YYYY');
-
         }
-
     }
 })
 
@@ -81,11 +83,10 @@ createResource({
     auto: true,
     onSuccess(data) {
         if (data) {
-            toaster.warning("Shift is already opened", { position: "top" });
+            toaster.warning($t("msg.Shift is already opened"), { position: "top" });
             router.push({ name: "Home" });
         }
     }
-
 })
 
 
@@ -95,13 +96,13 @@ const addCashierShiftResource = createResource({
 
     },
     onSuccess(data) {
-        toaster.success("Open Shift Successfully", { position: "top" });
+        toaster.success($t("Open Shift successfully"), { position: "top" });
         router.push({ name: "Home" });
     }
 })
 
 async function onOpenShift() {
-    if (await confirm({ title: "Start Cashier Shift", text: "Are sure you want to start cashier shift?" })) {
+    if (await confirm({ title: $t("Start Shift"), text: "msg.are you sure to start shift" })) {
         addCashierShiftResource.params = {
             doc: {
                 doctype: "Cashier Shift",

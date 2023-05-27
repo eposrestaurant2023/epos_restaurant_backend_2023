@@ -36,7 +36,8 @@ export default class Sale {
         this.sale = {
             sale_products: []
         };
-
+        this.vueInstance=null;
+        this.vueGlobalProperties=null;
         this.newSaleResource = null;
         this.saleResource = null;
         this.paymentInputNumber = "";
@@ -68,6 +69,7 @@ export default class Sale {
 
     }
     createNewSaleResource() {
+        // console.log(this.vueGlobalProperties)
         const parent = this;
         this.newSaleResource = createResource({
             url: "frappe.client.insert",

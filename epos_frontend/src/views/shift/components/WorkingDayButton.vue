@@ -14,17 +14,13 @@
 </template>
 <script setup>
 import ComButton from '../../../components/ComButton.vue';
-import { createResource, useRouter, inject } from "@/plugin"
-import { createToaster } from '@meforma/vue-toaster';
-
-import { useI18n } from "vue-i18n";
-const { t: $t } = useI18n({useScope: "global"});   
+import { createResource, useRouter, inject ,i18n} from "@/plugin"
+import { createToaster } from '@meforma/vue-toaster'; 
+const { t: $t } = i18n.global;   
  
 
 const gv = inject("$gv")
 const toaster = createToaster({ position: "top" });
-
-
 const router = useRouter();
 
 const current_working_day = createResource({

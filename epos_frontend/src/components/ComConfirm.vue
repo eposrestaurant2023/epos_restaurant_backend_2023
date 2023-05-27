@@ -8,10 +8,10 @@
         <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn variant="flat" @click="onClose" color="error" v-if="!params.hide_cancel">
-              Cancel
+              {{ $t('Cancel') }}
             </v-btn>
             <v-btn variant="flat" @click="onOk" color="primary">
-                OK
+                {{ $t('Ok') }}
             </v-btn>
         </v-card-actions>
       </v-card>

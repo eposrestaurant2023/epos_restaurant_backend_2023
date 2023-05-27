@@ -5,12 +5,12 @@
             :type="type"
             variant="tonal">
             <template #title>
-                <span>Pending Orders</span>
+                <span>{{ $t('Pending Order') }}</span>
             </template>
             <template #text>
                 <div :class="mobile ? '' : 'flex justify-between items-center'">
-                    <div>There are <span class="font-bold underline cursor-pointer" @click="onViewPendingOrder">{{ countPendingSaleListResource.data }}</span> pending orders.</div>
-                    <div class="p-2"><v-btn color="primary" @click="onViewPendingOrder">View Pending Order</v-btn></div>
+                    <div> <span class="font-bold underline cursor-pointer" @click="onViewPendingOrder">{{$t(`msg.There are pending orders`,[ countPendingSaleListResource.data ])}}</span></div>
+                    <div class="p-2"><v-btn color="primary" @click="onViewPendingOrder">{{ $t('View Pending Order') }}</v-btn></div>
                 </div>
             </template>
         </v-alert>

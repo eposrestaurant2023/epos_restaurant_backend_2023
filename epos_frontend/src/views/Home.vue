@@ -50,14 +50,13 @@
     
 </template>
 <script setup>
-import { useRouter, createResource, computed, createToaster,pendingSaleListDialog,inject,onMounted,printWifiPasswordModal } from '@/plugin'
+import { useRouter, createResource, computed, createToaster,pendingSaleListDialog,inject,onMounted,printWifiPasswordModal,i18n } from '@/plugin'
 import ComButton from '../components/ComButton.vue';
 import WorkingDayButton from './shift/components/WorkingDayButton.vue';
 import OpenShiftButton from './shift/components/OpenShiftButton.vue';
 import ComMessagePromotion from '../components/ComMessagePromotion.vue';
 
-import { useI18n } from "vue-i18n";
-const { t: $t } = useI18n({useScope: "global"});   
+const { t: $t } = i18n.global;  
  
 
 
@@ -113,7 +112,7 @@ async function onPOS() {
     await cashierShiftResource.fetch().then(async (v) => {
         if (v) {
             if (v.working_day == null) {
-                toaster.warning($t("msg.Please start working first"))
+                toaster.warning($t("msg.Please start working day first"))
             } else if (v.cashier_shift == null) {
                 toaster.warning($t("msg.Please start shift first"))
             } else {
@@ -151,7 +150,7 @@ async function onViewPendingOrder() {
                 const result = await pendingSaleListDialog({data:{working_day:working_day, cashier_shift: cashier_shift}})
             })
         }else{
-            toaster.warning($t("msg.Please start working first"))
+            toaster.warning($t("msg.Please start working day first"))
         }
         
     })

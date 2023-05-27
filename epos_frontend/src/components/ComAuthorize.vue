@@ -60,10 +60,10 @@
   </v-dialog>
 </template>
 <script setup>
-import { ref, createResource, inject,useI18n  } from "@/plugin"
+import { ref, createResource, inject,i18n  } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
-
-const { t: $t } = useI18n({useScope: "global"});   
+const { t: $t } = i18n.global; 
+ 
 
 const gv = inject("$gv")
 const toaster = createToaster({ position: "top" })

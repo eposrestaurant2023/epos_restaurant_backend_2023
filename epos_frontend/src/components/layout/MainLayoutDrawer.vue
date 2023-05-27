@@ -83,12 +83,11 @@
     </div>
 </template>
 <script setup>
-import { useRouter, inject, createResource,useI18n} from '@/plugin'
+import { useRouter, inject, createResource,i18n} from '@/plugin'
 import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue'
 import { createToaster } from '@meforma/vue-toaster';
-
-
-const { t: $t } = useI18n({useScope: "global"});   
+ 
+const { t: $t } = i18n.global; 
 
 const router = useRouter()
 const auth = inject('$auth')

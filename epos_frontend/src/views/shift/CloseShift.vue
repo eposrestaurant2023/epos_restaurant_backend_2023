@@ -1,24 +1,26 @@
 <template>
-    <PageLayout class="pb-4" title="Close Cashier Shift" icon="mdi-calendar-clock">
-
+    <PageLayout class="pb-4" :title="$t('Close Shift')" icon="mdi-calendar-clock">
+        <template #title>
+            #{{ cashierShiftResource?.doc?.name }}
+        </template>
         <template #action>
-            <v-btn prepend-icon="mdi-printer" @click="onOpenReport">Report</v-btn>
+            <v-btn prepend-icon="mdi-printer" @click="onOpenReport">{{ $t('Report') }}</v-btn>
         </template>
         <template #default>
             <ComAlertPendingOrder v-if="cashierShiftResource.doc" type="info" :working_day="cashierShiftResource.doc.working_day" :cashier_shift="cashierShiftResource.doc.name"/>
             
             <v-row v-if="cashierShiftResource.doc" class="mt-2 mx-2">
                 <v-col cols="12" md="6">
-                    <ComInput label="Working Day" v-model="cashierShiftResource.doc.working_day" readonly></ComInput>
+                    <ComInput :label="$t('Working Day')" v-model="cashierShiftResource.doc.working_day" readonly></ComInput>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <ComInput label="Cashier Shift" v-model="cashierShiftResource.doc.name" readonly></ComInput>
+                    <ComInput :label="$t('Cashier Shift')" v-model="cashierShiftResource.doc.name" readonly></ComInput>
                 </v-col>
                 <v-col  cols="12" md="6">
-                    <ComInput label="Close Date" v-model="current_date" readonly></ComInput>
+                    <ComInput :label="$t('Close Date')" v-model="current_date" readonly></ComInput>
                 </v-col>
                 <v-col cols="12" md="6"> 
-                    <ComInput label="POS Profile" v-model="cashierShiftResource.doc.pos_profile" readonly/>
+                    <ComInput :label="$t('POS Profile')" v-model="cashierShiftResource.doc.pos_profile" readonly/>
                 </v-col>
             </v-row>
             <v-row class="mx-4"> 
@@ -26,22 +28,22 @@
                     <thead>
                         <tr>
                             <th class="text-left">
-                                Payment Type
+                                {{ $t('Payment Type') }}
                             </th>
                             <th class="text-center">
-                                Opening Amount
-                            </th>
-
-                            <th class="text-center">
-                                System Close Amount
+                                {{ $t('Opening Amount') }}
                             </th>
 
                             <th class="text-center">
-                                Close Amount
+                                {{ $t('System Close Amount') }}
                             </th>
 
                             <th class="text-center">
-                                Difference Amount
+                                {{ $t('Close Amount') }}
+                            </th>
+
+                            <th class="text-center">
+                                {{ $t('Difference Amount') }}
                             </th>
                         </tr>
                     </thead>
@@ -65,7 +67,7 @@
                     <tfoot>
                         <tr>
                             <td>
-                                Total
+                                {{ $t('Total') }}
                             </td>
                             <td>
                                 <CurrencyFormat :value="cashierShiftSummary.data.reduce((n, r) => n + r.opening_amount, 0)" />
@@ -79,21 +81,19 @@
                             </td>
                             <td>
                                 <CurrencyFormat :value="totalDifferentAmount" />
-
                             </td>
                         </tr>
                     </tfoot>
                 </v-table>
             </v-row>
 
-            <ComInput class="my-8 mx-4" title="Enter Note" label="Closed Note" v-model="doc.closed_note"
-                type="textarea">
+            <ComInput class="my-8 mx-4" :title="$t('Enter Note')" :label="$t('Closed Note')" v-model="doc.closed_note"
+                type="textarea" keyboard>
             </ComInput>
             <div class="flex justify-between items-center mx-4">
                 <v-btn @click="onCloseShift" color="primary"
-                    :loading="(cashierShiftResource.setValue && cashierShiftResource.setValue.loading) ? cashierShiftResource.setValue.loading : false">Close
-                    Cashier Shift</v-btn>
-                <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">Cancel</v-btn>
+                    :loading="(cashierShiftResource.setValue && cashierShiftResource.setValue.loading) ? cashierShiftResource.setValue.loading : false">{{ $t('Close Shift') }}</v-btn>
+                <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">{{ $t("Cancel") }}</v-btn>
             </div>
         </template>
     </PageLayout>
@@ -101,13 +101,16 @@
 
 <script setup>
 import moment from '@/utils/moment.js';
-import { watch, onMounted, createDocumentResource, ref, createResource, useRouter, createToaster, computed, inject,pendingSaleListDialog } from "@/plugin";
+import { watch, onMounted, createDocumentResource, ref, createResource, useRouter, createToaster, computed, inject,pendingSaleListDialog ,i18n} from "@/plugin";
 import PageLayout from '../../components/layout/PageLayout.vue';
 
 import ComInput from '../../components/form/ComInput.vue';
 import { printPreviewDialog, confirm } from '@/utils/dialog';
 import ComAlertPendingOrder from '../../components/layout/components/ComAlertPendingOrder.vue';
-import { useDisplay } from 'vuetify'
+import { useDisplay } from 'vuetify';
+
+const { t: $t } = i18n.global;  
+
 const { mobile } = useDisplay()
 
 const router = useRouter();
@@ -145,7 +148,7 @@ let cashierShiftInfo = createResource({
 onMounted(async () => {
     await cashierShiftInfo.fetch();
     if (!cashierShiftInfo.data) {
-        toaster.warning("There's no cashier shift opened", {
+        toaster.warning( $t('msg.There is no cashier shift opened'), {
             position: "top",
         });
         router.push({ name: "Home" });
@@ -158,7 +161,7 @@ onMounted(async () => {
         setValue: {
             async onSuccess(doc) {
 
-                toaster.success("Close cashier shift successfully", {
+                toaster.success($t("msg.Close Shift successfully"), {
                     position: "top",
                 });
                 //check from setting if system will need to print after close shift
@@ -172,18 +175,13 @@ onMounted(async () => {
                     }
                 }
                 await printPreviewDialog(
-                    { title: "Cashier Shift Report #" + doc.name, doctype: "Cashier Shift", name: doc.name }
+                    { title: $t('Cashier Shift Report')+" #" + doc.name, doctype: "Cashier Shift", name: doc.name }
                 )
 
                 router.push({ name: "Home" });
                 //for disable close shift in drawer menu
                 gv.cashierShift = '';
-
-
-
-
             },
-
         },
 
     });
@@ -208,13 +206,13 @@ onMounted(async () => {
 })
 
 async function onCloseShift() {
-    if (await confirm({ title: "Close Cashier Shift", text: "Are sure you want to close cashier shift?" })) {
+    if (await confirm({ title: $t("Close Shift"), text: $t("msg.are you sure to close cashier shift") })) {
         doc.value.cash_float = cashierShiftSummary.value.data;
         cashierShiftResource.value.setValue.submit(doc.value)
     }
 }
 function onOpenReport() {
-    printPreviewDialog({ title: "Cashier Shift #" + cashierShiftResource.value.doc.name, doctype: "Cashier Shift", name: cashierShiftResource.value.doc.name });
+    printPreviewDialog({ title:$t('Cashier Shift Report')+" #" + cashierShiftResource.value.doc.name, doctype: "Cashier Shift", name: cashierShiftResource.value.doc.name });
 }
 
 </script>
