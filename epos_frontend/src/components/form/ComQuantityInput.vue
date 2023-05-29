@@ -25,14 +25,15 @@ const sale = inject("$sale");
 const gv = inject("$gv");
 
 //Add Key stroke
-sale.vue.$onKeyStroke('+', (e) => {
+sale.vue.$onKeyStroke('Page Up', (e) => {
     e.preventDefault()
     if (props.saleProduct.selected) {
         sale.updateQuantity(props.saleProduct, props.saleProduct.quantity + 1)
     }
 
 })
-sale.vue.$onKeyStroke('-', (e) => {
+
+sale.vue.$onKeyStroke('Page Down', (e) => {
     e.preventDefault()
     if (props.saleProduct.selected && props.saleProduct.quantity > 1) {
         sale.updateQuantity(props.saleProduct, props.saleProduct.quantity - 1)
@@ -42,6 +43,7 @@ sale.vue.$onKeyStroke('-', (e) => {
 if (props.saleProduct.selected) {
     sale.vue.$onKeyStroke('F3', (e) => {
         e.preventDefault()
+        console.log('5522')
         if (props.saleProduct.selected && sale.dialogActiveState == false) {
 
             sale.dialogActiveState = true;
@@ -53,14 +55,13 @@ sale.vue.$onKeyStroke('F4', (e) => {
     e.preventDefault()
     if (props.saleProduct.selected && sale.dialogActiveState == false) {
         if (!sale.isBillRequested()) {
-            gv.authorize("change_item_price_required_password", "change_item_price", "change_item_price_required_note", "Change Item Price Note", sp.product_code).then((v) => {
+            gv.authorize("change_item_price_required_password", "change_item_price", "change_item_price_required_note", "Change Item Price Note", props.saleProduct.product_code).then((v) => {
                 if (v) {
-                    sp.change_price_note = v.note
+                    props.saleProduct.change_price_note = v.note
                     sale.dialogActiveState = true;
                     sale.onChangePrice(props.saleProduct)
                 }
             });
-
         }
 
     }

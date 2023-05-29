@@ -59,9 +59,17 @@ let customerPromotion = computed({
         return newValue
     }
 })
+sale.vue.$onKeyStroke('F9', (e) => {
+    e.preventDefault()
+    if(sale.dialogActiveState==false){
+        onSearchCustomer();
+    } 
+})
 async function onSearchCustomer() {
     if (!sale.isBillRequested()) {
+        sale.dialogActiveState=true
         const result = await searchCustomerDialog({});
+        sale.dialogActiveState=false
         if (result) {
             assignCustomerToOrder(result);
         }

@@ -31,32 +31,32 @@
                           <template v-slot:default>
                                 <table class="text-sm text-gray-500"> 
                                     <tr>
-                                        <td>Date</td>
+                                        <td>{{ $t('Date') }}</td>
                                         <td class=" px-2">:</td>
                                         <td>{{ s.posting_date }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Qty</td>
+                                        <td>{{ $t('Qty') }}</td>
                                         <td class=" px-2">:</td>
                                         <td>{{ s.total_quantity }}</td>
                                     </tr>
                                     <tr v-if="s.grand_total">
-                                        <td>Grand Total</td>
+                                        <td>{{ $t('Grand Total') }}</td>
                                         <td class=" px-2">:</td>
                                         <td><CurrencyFormat :value="s.grand_total"></CurrencyFormat></td>
                                     </tr>
                                     <tr v-if="s.total_discount" class="text-blue">
-                                        <td>Total Discount</td>
+                                        <td>{{ $t('Total Discount') }}</td>
                                         <td class=" px-2">:</td>
                                         <td><CurrencyFormat :value="s.total_discount"></CurrencyFormat></td>
                                     </tr>
                                     <tr class="text-green-600" v-if="s.total_paid">
-                                        <td>Total Paid</td>
+                                        <td>{{ $t('Total Paid') }}</td>
                                         <td class=" px-2">:</td>
                                         <td><CurrencyFormat :value="s.total_paid"></CurrencyFormat></td>
                                     </tr>
                                     <tr class="text-red-500" v-if="s.balance">
-                                        <td>Balance</td>
+                                        <td>{{ $t('Balance') }}</td>
                                         <td class=" px-2">:</td>
                                         <td><CurrencyFormat :value="s.balance"></CurrencyFormat></td>
                                     </tr>
@@ -68,7 +68,7 @@
             </div>
             <div class="p-6 text-center elevation-1 text-gray-400" v-if="dataResource.data.length == 0">
                 <div><v-icon icon="mdi-package-variant" style="font-size:60px"></v-icon></div>
-                <div class="text-sm italic">There are no data.</div>
+                <div class="text-sm italic">{{ $t('Empty Data') }}</div>
             </div>
             
         </div>

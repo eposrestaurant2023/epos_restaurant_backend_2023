@@ -1,5 +1,6 @@
 {
     "Address and Note":"Address & Note",
+    "Working Day and Cashier Shift Report":"Working Day & Cashier Shift Report",
     "msg":{
         "You do not have permission to perform this action":"You don't have permission to perform this action",
         "Your working day is to long please close your working day":"Your working day is to long. Please close your working day",
@@ -7,6 +8,7 @@
         "are you sure to close cashier shift":"Are you sure to close cashier shift?",
         "are you sure to close working day":"Are you sure to close working day?",
         "There are pending orders":"There are {0} pending orders",
-        "are you sure to start shift":"Are you sure to start shift?"
+        "are you sure to start shift":"Are you sure to start shift?",
+        "Add is Successfully":"Add {0} is Successfully"
     }
 }

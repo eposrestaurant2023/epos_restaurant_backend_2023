@@ -1,7 +1,7 @@
 <template>
     <ComModal @onClose="onClose(false)" @onOk="onOk()" :loading="cashEditResource.loading">
         <template #title>
-            <div>{{params.name ? `Edit ${params.name}` : `New ${params.data.cash_type}`}}</div>
+            <div>{{params.name ?  `Edit ${params.name}` : $t(`New ${params.data.cash_type}`)}}</div>
         </template>
         <template #content>
      
@@ -9,7 +9,7 @@
 
                     <v-row>
                         <v-col cols="12" md="6">
-                            <v-select height="100%" density="comfortable" label="Currency Type"
+                            <v-select height="100%" density="comfortable" :label="$t('Currency Type')"
                                 v-model="cash.payment_type" 
                                 :items="paymentTypeCash"
                                 item-value="payment_method"
@@ -20,7 +20,7 @@
                         <v-col cols="12" md="6">
                             <v-text-field  
                             density="compact"
-                            label="Input Amount" 
+                            :label="$t('Input Amount')" 
                             v-model="cash.input_amount"
                             variant="solo"
                             append-inner-icon="mdi-keyboard"
@@ -32,10 +32,10 @@
 
                         </v-col>
                         <v-col cols="12" md="12">
-                            <ComInput readonly v-model="cash.amount" type="number" label="Amount" />
+                            <ComInput readonly v-model="cash.amount" type="number" :label="$t('Amount')" />
                         </v-col>
                         <v-col cols="12">
-                            <ComInput keyboard type="textarea" label="Note" v-model="cash.note" />
+                            <ComInput keyboard type="textarea" :label="$t('Note')" v-model="cash.note" />
                         </v-col>
                     </v-row>
                 </div>
@@ -43,10 +43,11 @@
     </ComModal>
 </template>
 <script setup>
-import { defineEmits, ref, createResource, createDocumentResource, createToaster,computed,inputNumberDialog } from '@/plugin'
+import { defineEmits, ref, createResource, createDocumentResource, createToaster,computed,inputNumberDialog,i18n } from '@/plugin'
 import moment from '@/utils/moment.js';
 import ComModal from '../../../components/ComModal.vue';
 
+const { t: $t } = i18n.global;  
 
 const emit = defineEmits(["resolve"])
 const props = defineProps({
@@ -106,13 +107,12 @@ function updateAmount(){
 
 
 async function OpenKeyboard(){
-    const result =await inputNumberDialog({"title":"Enter Amount" });
+    const result =await inputNumberDialog({"title":$t('Enter Amount')});
     if(result){
      
     cash.value.input_amount = getNumber(result);
     updateAmount();
     }
-
 }
 
 function getNumber(val) {
@@ -130,13 +130,13 @@ function onClose(value) {
 }
 function onOk() {
     if (cash.value.amount <= 0) {
-        toaster.warning("Amount cannot smaller than or equal zero", {
+        toaster.warning($t('msg.Amount cannot smaller than or equal zero'), {
             position: "top",
         });
         return
     }
     else if (!cash.value.note) {
-        toaster.warning("Please note your reason.", {
+        toaster.warning($t('msg.Please note your reason'), {
             position: "top",
         });
         return
@@ -151,10 +151,10 @@ function onOk() {
             auto: true,
             onSuccess(data) { 
                 if (data.cashier_shift == null) {
-                    toaster.warning("Please start cashier shift first");
+                    toaster.warning($t('msg.Please start shift first'));
                     router.push({name:"OpenShift"});
                 } else if(data.working_day==null){
-                    toaster.warning("Please start working day first");
+                    toaster.warning($t('msg.Please start working day first'));
                     router.push({name:"StartWorkingDay"});
                 }else{
                     onAddNew()
@@ -169,7 +169,7 @@ function onAddNew() {
     cash.value.input_amount = parseFloat(cash.value.input_amount)
     cash.value.amount = parseFloat(cash.value.amount)
     cashResource.value.submit({ doc: cash.value }).then((res) => {
-        toaster.success(`Add ${props.params.data.cash_type} is Successful`);
+        toaster.success($t(`msg.Add is Successfully`, [$t(props.params.data.cash_type)]));
         onClose(true)
     })
 }

@@ -46,6 +46,13 @@ const tableLayout = inject("$tableLayout");
 const router = useRouter();
 const toaster = createToaster({ position: 'top' });
 const device_setting = JSON.parse(localStorage.getItem("device_setting"))
+
+sale.vue.$onKeyStroke('F12', (e) => {
+    e.preventDefault()
+    if(sale.dialogActiveState==false){
+      onPayment();
+    } 
+})
 async function onSubmit() {
 
   if (!sale.isBillRequested()) {
@@ -72,7 +79,10 @@ async function onSubmit() {
   }
 }
 
+
+
 async function onPayment() {
+  sale.dialogActiveState=true
   if (device_setting.show_option_payment==0){
     return
   }
@@ -84,7 +94,9 @@ async function onPayment() {
   else if (sale.onCheckPriceSmallerThanZero()) {
     return;
   }
+  
   const result = await paymentDialog({})
+  sale.dialogActiveState=false
   if (result) {
     product.onClearKeyword()
     sale.newSale();

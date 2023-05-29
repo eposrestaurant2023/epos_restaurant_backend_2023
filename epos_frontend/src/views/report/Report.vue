@@ -1,11 +1,11 @@
  <template>
-    <PageLayout class="pb-4" :title="`${activeReport.doc_type}: ${activeReport.report_id}`" icon="mdi-chart-bar" full>
+    <PageLayout class="pb-4" :title="`${$t(activeReport.doc_type)} #${activeReport.report_id}`" icon="mdi-chart-bar" full>
         <template #action>
             <v-btn icon="mdi-printer" @click="onPrint()"></v-btn>
         </template>
     <v-row>
         <v-col md="3">
-            <v-card subtitle="Working Day & Cashier Shift Report">
+            <v-card :subtitle="$t('Working Day and Cashier Shift Report')">
                 <v-card-text>
                     <ComPlaceholder :loading="workingDayReportsTmp.loading === true || workingDayReports === null " :is-not-empty="workingDayReports?.length > 0">
                         <template v-for="(c, index) in workingDayReports" :key="index">
@@ -15,8 +15,8 @@
                                         <div>{{ c.name }}</div>
                                         <div>
                                             <v-chip v-if="c.is_closed" color="error" size="small"
-                                                variant="elevated">Closed</v-chip>
-                                            <v-chip v-else color="success" size="small" variant="elevated">Opening</v-chip>
+                                                variant="elevated">{{ $t('Closed') }}</v-chip>
+                                            <v-chip v-else color="success" size="small" variant="elevated">{{ $t('Opening') }}</v-chip>
                                         </div>
                                     </div>
                                 </template>
@@ -24,13 +24,13 @@
                                     <div>
                                         <div><v-icon icon="mdi-calendar" size="x-small" /> <span class="font-bold">{{
                                             c.posting_date
-                                        }}</span> It was opening by <span class="font-bold">{{ c.owner }}</span></div>
+                                        }}</span> {{ $t('was opening by') }} <span class="font-bold">{{ c.owner }}</span></div>
                                         <div v-if="c.is_closed">
                                             <v-icon icon="mdi-calendar-multiple" size="x-small" /> <span
-                                                class="font-bold">{{ c.closed_date }}</span> was closed by <span
+                                                class="font-bold">{{ c.closed_date }}</span> {{ $t('was closed by') }} <span
                                                 class="font-bold">{{ c.modified_by }}</span>
                                         </div>
-                                        <div><v-icon icon="mdi-note-text" size="x-small"></v-icon> Total Shift: <span
+                                        <div><v-icon icon="mdi-note-text" size="x-small"></v-icon> {{ $t('Total Shift') }}: <span
                                                 class="font-bold">{{ c.cashier_shifts.length }}</span></div>
                                     </div>
                                 </template>
@@ -58,11 +58,10 @@
                         <div class="flex justify-between">
                             <div> 
                                 <div v-if="!cashierShiftReports.loading && cashierShiftReports.data?.length > 0 && activeReport.name == 'Cashier Shift'"> 
-                                    <v-btn v-for="(r, index) in cashierShiftReports.data" :key="index" :color="activeReport.preview_report == r.name ? 'info' : 'default'" class="m-1" @click="onPrintFormat(r)">{{ r.title }}</v-btn>
+                                    <v-btn v-for="(r, index) in cashierShiftReports.data" :key="index" :color="activeReport.preview_report == r.name ? 'info' : 'default'" class="m-1" @click="onPrintFormat(r)">{{$t(r.title)  }}</v-btn>
                                 </div>
-                                <div v-else-if="workingDay?.length > 0 && activeReport.name == 'Working Day'">
-                                    
-                                    <v-btn v-for="(r, index) in workingDay" :key="index" class="m-1" :color="activeReport.preview_report == r.name ? 'info' : 'default'" @click="onPrintFormat(r)">{{ r.title }}</v-btn>
+                                <div v-else-if="workingDay?.length > 0 && activeReport.name == 'Working Day'">                                    
+                                    <v-btn v-for="(r, index) in workingDay" :key="index" class="m-1" :color="activeReport.preview_report == r.name ? 'info' : 'default'" @click="onPrintFormat(r)">{{ $t(r.title)  }}</v-btn>
                                 </div>
                             </div>
                             <div class="flex items-center"> 

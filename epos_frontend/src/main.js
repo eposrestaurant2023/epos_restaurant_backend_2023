@@ -3,6 +3,7 @@ import './index.css';
 import { createApp, reactive } from "vue";
 
 import App from "./App.vue";
+
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
@@ -58,6 +59,7 @@ import { i18n } from "./i18n";
 
 
 const app = createApp(App);
+
 const frappe = new FrappeApp()
 const auth = reactive(new Auth());
 const gv = reactive(new Gv());
@@ -172,6 +174,8 @@ app.component('ComTdImage',ComTdImage)
 app.component('ComModal', ComModal)
 
 KeyStroke(app)
+
+
 app.mount("#app");
 
  

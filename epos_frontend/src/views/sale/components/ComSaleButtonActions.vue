@@ -89,6 +89,15 @@ async function onQuickPay() {
     }
   });
 }
+
+
+sale.vue.$onKeyStroke('F10', (e) => {
+    e.preventDefault()
+    if(sale.sale.dialogActiveState==false){
+      sale.onSaleNote(sale.sale)
+    }
+    
+})
  
 function onRedirectSaleType(){
     const redirect_sale_type = localStorage.getItem("redirect_sale_type") || null

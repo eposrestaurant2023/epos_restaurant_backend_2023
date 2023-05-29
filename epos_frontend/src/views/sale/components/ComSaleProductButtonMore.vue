@@ -63,6 +63,8 @@ const props = defineProps({
 
 const toaster = createToaster({ position: "top" })
 
+
+
 function onRemoveNote() {
     props.saleProduct.note = "";
 }
@@ -78,6 +80,13 @@ function onSaleProductFree() {
 
     }
 }
+sale.vue.$onKeyStroke('F8', (e) => {
+    e.preventDefault()
+    console.log("F8")
+    if(sale.dialogActiveState==false && props.saleProduct.selected == true){
+        sale.onSaleProductNote(props.saleProduct)
+    } 
+})
 
 function onRemoveSaleProduct() {
  

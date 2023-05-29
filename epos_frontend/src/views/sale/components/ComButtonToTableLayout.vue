@@ -1,33 +1,61 @@
 <template>
-  <template v-if="gv.setting.table_groups && gv.setting.table_groups.length>0">
+  <template v-if="gv.setting.table_groups && gv.setting.table_groups.length > 0">
     <v-list-item @click="onToTableLayout()" v-if="isMobile">
-        <template v-slot:prepend class="w-12">
-            <v-icon icon="mdi-keyboard-return"></v-icon>
-        </template>
-        <v-list-item-title>Back</v-list-item-title>
+      <template v-slot:prepend class="w-12">
+        <v-icon icon="mdi-keyboard-return"></v-icon>
+      </template>
+      <v-list-item-title>Back</v-list-item-title>
     </v-list-item>
     <template v-else>
-    <v-btn v-if="!mobile" stacked variant="elevated" size="small" class="m-0-1 grow" :prepend-icon="'mdi-keyboard-return'" @click="onToTableLayout()">
-      Back
-    </v-btn>
-    <v-btn v-else variant="tonal" size="small"  :height="mobile ? '35px' : undefined" class="m-0-1 grow" @click="onToTableLayout()">
-      <v-icon icon="mdi-keyboard-return"></v-icon>
-    </v-btn>
+      <v-btn v-if="!mobile" stacked variant="elevated" size="small" class="m-0-1 grow"
+        :prepend-icon="'mdi-keyboard-return'" @click="onToTableLayout()">
+        Back
+      </v-btn>
+      <v-btn v-else variant="tonal" size="small" :height="mobile ? '35px' : undefined" class="m-0-1 grow"
+        @click="onToTableLayout()">
+        <v-icon icon="mdi-keyboard-return"></v-icon>
+      </v-btn>
+    </template>
   </template>
+  <template v-else>
+    <v-list-item @click="onToHomePage()" v-if="isMobile">
+      <template v-slot:prepend class="w-12">
+        <v-icon icon="mdi-keyboard-return"></v-icon>
+      </template>
+      <v-list-item-title>Back</v-list-item-title>
+    </v-list-item>
+    <template v-else>
+      <v-btn v-if="!mobile" stacked variant="elevated" size="small" class="m-0-1 grow"
+        :prepend-icon="'mdi-keyboard-return'" @click="onToHomePage()">
+        Back
+      </v-btn>
+      <v-btn v-else variant="tonal" size="small" :height="mobile ? '35px' : undefined" class="m-0-1 grow"
+        @click="onToHomePage()">
+        <v-icon icon="mdi-keyboard-return"></v-icon>
+      </v-btn>
+    </template>
   </template>
 </template>
 <script setup>
-import { inject, defineProps,confirmBackToTableLayout, useRouter, defineEmits } from '@/plugin'
-import {useDisplay} from 'vuetify'
+import { inject, defineProps, confirmBackToTableLayout, useRouter, defineEmits } from '@/plugin'
+import { useDisplay } from 'vuetify'
 import Enumerable from 'linq';
 const sale = inject('$sale')
 const gv = inject('$gv')
-const {mobile} = useDisplay()
+const { mobile } = useDisplay()
 const router = useRouter()
 const emit = defineEmits('closeModel')
 const props = defineProps({
-    isMobile: Boolean
+  isMobile: Boolean
 })
+
+function onToHomePage(){
+  const sp = Enumerable.from(sale.sale.sale_products);
+  if(sp){
+    return;
+  }
+}
+
 async function onToTableLayout() {
   const sp = Enumerable.from(sale.sale.sale_products);
 
@@ -44,10 +72,10 @@ async function onToTableLayout() {
         }
         await sale.onSubmit().then(async (value) => {
           if (value) {
-            if(mobile.value){
+            if (mobile.value) {
               emit('closeModel')
-            }else{
-              router.push({ name: "TableLayout" }).then(()=>{
+            } else {
+              router.push({ name: "TableLayout" }).then(() => {
                 emit('closeModel')
               })
             }
@@ -56,10 +84,10 @@ async function onToTableLayout() {
       } else {
         //continue
         sale.sale = {};
-        if(mobile.value){
+        if (mobile.value) {
           emit('closeModel')
-        }else{
-          router.push({ name: "TableLayout" }).then(()=>{
+        } else {
+          router.push({ name: "TableLayout" }).then(() => {
             emit('closeModel')
           })
         }
@@ -67,10 +95,10 @@ async function onToTableLayout() {
     }
   } else {
     sale.sale = {};
-    if(mobile.value){
+    if (mobile.value) {
       emit('closeModel')
-    }else{
-      router.push({ name: "TableLayout" }).then(()=>{
+    } else {
+      router.push({ name: "TableLayout" }).then(() => {
         emit('closeModel')
       })
     }

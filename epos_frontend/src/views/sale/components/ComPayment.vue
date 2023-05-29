@@ -103,17 +103,17 @@ sale.paymentInputNumber = sale.sale?.grand_total.toFixed(sale.setting.pos_settin
 
 function onSelectedReceipt(r) {
     selectedReceipt.value = r;
-
 }
 
 onMounted(() => {
-    backup.value = JSON.parse(JSON.stringify(sale))  
+    backup.value = JSON.parse(JSON.stringify(sale.sale))    
 })
 
 function onClose() {
-    sale.sale.total_paid = backup.value.sale.total_paid
-    sale.sale.balance = backup.value.sale.balance
-    sale.sale.changed_amount = backup.value.sale.changed_amount
+    
+    sale.sale.total_paid = backup.value.total_paid
+    sale.sale.balance = backup.value.balance
+    sale.sale.changed_amount = backup.value.changed_amount
     emit("resolve", false);
 }
 

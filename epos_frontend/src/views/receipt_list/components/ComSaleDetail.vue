@@ -2,7 +2,7 @@
     <ComModal @onClose="onClose(false)" :fullscreen="true" :isPrint="true" @onPrint="onPrint()" :hide-ok-button="true"
         :hide-close-button="true" :isShowBarMoreButton="canOpenOrder || canEdit || canDelete">
         <template #title>
-            Sale Detail: {{ params.name }}
+            {{ $t('Sale Detail') }} #{{ params.name }}
         </template>
         <template #bar_more_button>
             <v-list density="compact">
@@ -10,19 +10,19 @@
                     <template v-slot:prepend>
                         <v-icon>mdi-note-outline</v-icon>
                     </template>
-                    <v-list-item-title>Open Order</v-list-item-title>
+                    <v-list-item-title>{{ $t('Open Order') }}</v-list-item-title>
                 </v-list-item>
                 <v-list-item @click="onEditOrder()" v-if="canEdit">
                     <template v-slot:prepend>
                         <v-icon>mdi-checkbox-marked-outline</v-icon>
                     </template>
-                    <v-list-item-title>Edit Order</v-list-item-title>
+                    <v-list-item-title>{{ $t('Edit Order') }}</v-list-item-title>
                 </v-list-item>
                 <v-list-item @click="OnDeleteOrder()" v-if="canDelete">
                     <template v-slot:prepend>
                         <v-icon color="error">mdi-delete</v-icon>
                     </template>
-                    <v-list-item-title>Delete</v-list-item-title>
+                    <v-list-item-title>{{ $t('Delete') }}</v-list-item-title>
                 </v-list-item>
             </v-list>
         </template>
@@ -38,7 +38,7 @@
                                     <v-tab
                                         v-for="(r, index) in gv.setting.reports.filter(r => r.doc_type == 'Sale' && r.show_in_pos == 1)"
                                         :key="index" @click="onPrintFormat(r)">
-                                        {{ r.title }}
+                                        {{ $t(r.title) }}
                                     </v-tab>
                                 </v-tabs>
                             </v-col>

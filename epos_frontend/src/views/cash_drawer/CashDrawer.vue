@@ -1,23 +1,23 @@
 <template lang="">
-    <PageLayout class="pb-4" title="Cash Drawer" icon="mdi-currency-usd">
+    <PageLayout class="pb-4" :title="$t('Cash Drawer')" icon="mdi-currency-usd">
         <v-container class="!py-0">
         <div>
             <div class="mb-4 grid grid-cols-2 gap-2">
-                <ComCashDrawerKPI backgroundColor="primary" title="Opening Amount" :value="cashDrawerShiftBalance.total_opening_amount"/>
-                <ComCashDrawerKPI backgroundColor="secondary" title="Cash Sale Amount" :value="cashDrawerShiftBalance.total_amount_cash"/>
-                <ComCashDrawerKPI backgroundColor="success" title="Cash In Amount" :value="cashDrawerShiftBalance.total_amount_cash_in"/>
-                <ComCashDrawerKPI backgroundColor="error" title="Cash Out Amount" :value="cashDrawerShiftBalance.total_amount_cash_out"/>
-                <ComCashDrawerKPI class="col-span-2" backgroundColor="info" title="Cash Drawer Balance" :value="cashDrawerShiftBalance.total_balance"/>
+                <ComCashDrawerKPI backgroundColor="primary" :title="$t('Opening Amount')" :value="cashDrawerShiftBalance.total_opening_amount"/>
+                <ComCashDrawerKPI backgroundColor="secondary" :title="$t('Cash Sale Amount')" :value="cashDrawerShiftBalance.total_amount_cash"/>
+                <ComCashDrawerKPI backgroundColor="success" :title="$t('Cash In Amount')" :value="cashDrawerShiftBalance.total_amount_cash_in"/>
+                <ComCashDrawerKPI backgroundColor="error" :title="$t('Cash Out Amount')" :value="cashDrawerShiftBalance.total_amount_cash_out"/>
+                <ComCashDrawerKPI class="col-span-2" backgroundColor="info" :title="$t('Cash Drawer Balance')" :value="cashDrawerShiftBalance.total_balance"/>
             </div>
         </div>
         <div>
             <div class="font-bold py-2">
                 <div :class="mobile ? '' : 'flex justify-between'">
-                    <div>Today's Cash Transaction</div>
+                    <div>{{$t('Today Cash Transaction')}}</div>
                     <div class="text-right -m-1">
-                        <v-btn class="m-1" color="success" @click="onCash('Cash In')" :size="mobile ? 'small' : 'default'">Cash In</v-btn>
-                        <v-btn class="m-1" color="error" @click="onCash('Cash Out')" :size="mobile ? 'small' : 'default'">Cash Out</v-btn>
-                        <v-btn class="m-1" color="primary" @click="onOpenCashDrawer" :size="mobile ? 'small' : 'default'" v-if="isWindow">Open Cash Drawer</v-btn>
+                        <v-btn class="m-1" color="success" @click="onCash('Cash In')" :size="mobile ? 'small' : 'default'">{{$t('Cash In')}}</v-btn>
+                        <v-btn class="m-1" color="error" @click="onCash('Cash Out')" :size="mobile ? 'small' : 'default'">{{$t('Cash Out')}}</v-btn>
+                        <v-btn class="m-1" color="primary" @click="onOpenCashDrawer" :size="mobile ? 'small' : 'default'" v-if="isWindow">{{$t('Open Cash Drawer')}}</v-btn>
                     </div>
                 </div>
             </div>
@@ -49,9 +49,8 @@
                                 <div class="text-right text-sm">
                                     <div><v-icon icon="mdi-account" size="x-small"/> {{t.owner}}</div>
                                     <div>
-                                        <v-chip size="x-small" v-if="t.transaction_status == 'Cash Out'" color="error">Cash Out</v-chip>
-                                        <v-chip size="x-small" v-else-if="t.transaction_status == 'Cash In'" color="success">Cash In</v-chip>
-
+                                        <v-chip size="x-small" v-if="t.transaction_status == 'Cash Out'" color="error">{{$t('Cash Out')}}</v-chip>
+                                        <v-chip size="x-small" v-else-if="t.transaction_status == 'Cash In'" color="success">{{$t('Cash In')}}</v-chip>
                                     </div>
                                 </div>
                             </div>
@@ -59,17 +58,8 @@
                                 <div class="pt-1 whitespace-pre-wrap">
                                     {{t.note}}
                                 </div>
-                            </div>
-                        
-                        </v-card-text>
-                        <!-- <v-card-actions class="justify-end">
-                            <v-btn variant="flat" color="primary" size="small" @click="onCash(t.transaction_status, t.name)">
-                                Edit
-                            </v-btn>
-                            <v-btn variant="flat" color="error" size="small" @click="onDelete(t.name)">
-                                Delete
-                            </v-btn>
-                        </v-card-actions> -->
+                            </div> 
+                        </v-card-text> 
                     </v-card>
                     </v-timeline-item>
                 </v-timeline>
@@ -109,10 +99,10 @@ let data = createResource({
         },
         onSuccess(data) { 
             if (data.cashier_shift == null) {
-                toaster.warning("Please start cashier shift first");
+                toaster.warning($t('msg.Please start shift first'));
                 router.push({name:"OpenShift"});
             } else if(data.working_day==null){
-                toaster.warning("Please start working day first");
+                toaster.warning($t('msg.Please start working day first'));
                 router.push({name:"StartWorkingDay"});
             }
         }
@@ -169,30 +159,5 @@ function onLoadTrancation(cashier_shift) {
 //open cashdrawer
 function onOpenCashDrawer(){
     window.chrome.webview.postMessage(JSON.stringify({action:"open_cashdrawer"}));
-}
-
-// async function onDelete(name) {
-//     const confirmDelete = await confirmDialog({title: 'Are you sure to deleted record?'})
-//     if (confirmDelete == true) {
-//         const deleted = createDocumentResource({
-//             url: "frappe.client.get",
-//             doctype: "Cash Transaction",
-//             name: name,
-//             delete: {
-//                 onSuccess() {
-//                     toaster.success(`Deleted Successful`);
-//                     dataResource.fetch()
-//                     cashBalanceResource.fetch()
-//                 },
-//                 onError(r) {
-//                     toaster.error(JSON.stringify(r))
-//                 },
-//             },
-//         })
-
-//         deleted.delete.submit()
-//     }
-
-// }
-
+} 
 </script> 

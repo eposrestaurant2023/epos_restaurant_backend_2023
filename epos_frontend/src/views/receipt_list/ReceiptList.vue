@@ -1,15 +1,18 @@
 <template>
-    <PageLayout title="Receipt List" icon="mdi-note-outline" full>
+    <PageLayout :title="$t('Receipt List')" icon="mdi-note-outline" full>
       <ComReceiptListCard :headers="headers" doctype="Sale" extra-fields="customer_name,sale_status_color" @callback="onCallback" v-if="mobile"/>
       <ComTable :headers="headers" doctype="Sale" extra-fields="customer_name,sale_status_color" business-branch-field="business_branch" pos-profile-field="pos_profile" @callback="onCallback" v-else/>
     </PageLayout>
 </template>
 <script setup>
-import { ref, useRouter, saleDetailDialog, customerDetailDialog} from '@/plugin'
+import { ref, useRouter, saleDetailDialog, customerDetailDialog,i18n} from '@/plugin'
 import PageLayout from '@/components/layout/PageLayout.vue';
 import ComTable from '@/components/table/ComTable.vue';
 import {useDisplay} from 'vuetify' 
 import ComReceiptListCard from './components/ComReceiptListCard.vue';
+
+const { t: $t } = i18n.global; 
+
 const {mobile} = useDisplay()
 const router = useRouter()
 async function onCallback(data) {
@@ -32,19 +35,19 @@ async function onCallback(data) {
 }
 const headers = ref([
   {
-    title: 'No',
+    title: $t('No'),
     align: 'start',
     key: 'name',
     callback: true
   },
-  { title: 'Customer Name', align: 'start', key: 'customer', template: '{customer}-{customer_name}', callback: true },
-  { title: 'Date', align: 'center', key: 'posting_date', fieldtype: "Date" },
-  { title: 'QTY', align: 'center', key: 'total_quantity', },
-  { title: 'Grand Total', align: 'end', key: 'grand_total', fieldtype: "Currency" },
-  { title: 'Total Discount', align: 'end', key: 'total_discount', fieldtype: "Currency" },
-  { title: 'Total Paid', align: 'end', key: 'total_paid', fieldtype: "Currency" },
-  { title: 'Balance', align: 'end', key: 'balance', fieldtype: "Currency" },
-  { title: 'Status', align: 'center', key: 'sale_status', fieldtype: "Status", color_field:"sale_status_color" },
+  { title: $t('Customer Name'), align: 'start', key: 'customer', template: '{customer}-{customer_name}', callback: true },
+  { title: $t('Date'), align: 'center', key: 'posting_date', fieldtype: "Date" },
+  { title: $t('Qty'), align: 'center', key: 'total_quantity', },
+  { title: $t('Grand Total'), align: 'end', key: 'grand_total', fieldtype: "Currency" },
+  { title: $t('Total Discount'), align: 'end', key: 'total_discount', fieldtype: "Currency" },
+  { title: $t('Total Paid'), align: 'end', key: 'total_paid', fieldtype: "Currency" },
+  { title: $t('Balance'), align: 'end', key: 'balance', fieldtype: "Currency" },
+  { title: $t('Status'), align: 'center', key: 'sale_status', fieldtype: "Status", color_field:"sale_status_color" },
 ])
 
  
