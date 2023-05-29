@@ -161,6 +161,7 @@ router.beforeEach(async (to, from, next) => {
 	}
 });
 
+
 app.component('Datepicker', Datepicker);
 app.component('CurrencyFormat', CurrencyFormat);
 app.component('ComPlaceholder', ComPlaceholder);

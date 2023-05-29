@@ -206,6 +206,6 @@ function getSaleProducts(groupByKey) {
     width: 2px;
     background: #75c34a;
     border-radius: 12px;
-}
-
+} 
 </style>
+ 

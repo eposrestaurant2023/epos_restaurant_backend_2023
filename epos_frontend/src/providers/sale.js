@@ -123,7 +123,7 @@ export default class Sale {
             commission_note: '',
             commission_amount: 0            
         } 
-        console.log(this.vueGlobalProperties)
+        // console.log(this.vueGlobalProperties)
         this.onSaleApplyTax(tax_rule,this.sale);      
     }
 

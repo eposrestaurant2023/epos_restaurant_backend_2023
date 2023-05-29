@@ -91,11 +91,15 @@ async function onQuickPay() {
 }
 
 
-sale.vue.$onKeyStroke('F10', (e) => {
+sale.vue.$onKeyStroke('n', (e) => {
+  console.log(e)
+  if(e.ctrlKey){
     e.preventDefault()
-    if(sale.sale.dialogActiveState==false){
+    if(sale.dialogActiveState==false){
       sale.onSaleNote(sale.sale)
     }
+  }
+    
     
 })
  

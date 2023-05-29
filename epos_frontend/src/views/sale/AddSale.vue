@@ -22,7 +22,7 @@
                         </div>
                         <ComSelectCustomer />
                     </div>
-                    <div class="overflow-auto h-full">
+                    <div class="overflow-auto h-full " :class="getCustomerScrollWidth()">
                         <ComGroupSaleProductList />
                     </div>
                     <div class="mt-auto">
@@ -65,7 +65,7 @@ const router = useRouter()
 const toaster = createToaster({ position: "top" })
 
 sale.vueInstance = getCurrentInstance();
-console.log(sale.vueInstance)
+// console.log(sale.vueInstance)
 sale.vue = sale.vueInstance.appContext.config.globalProperties
 sale.orderTime = null;
 sale.deletedSaleProducts = []
@@ -194,6 +194,21 @@ onUnmounted(() => {
 })
 
 
-
+function getCustomerScrollWidth(){
+    const is_window = localStorage.getItem('is_window');
+    if(is_window==1){
+        return 'scrollbar';
+    }
+    return '';
+}
 
 </script>
+
+ 
+<style>
+
+    .scrollbar::-webkit-scrollbar {
+        width: 17px;
+    }
+
+</style>

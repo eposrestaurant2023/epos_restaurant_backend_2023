@@ -11,8 +11,7 @@
                             <span class="font-bold">{{ $t('POS Profile') }}</span> : {{ gv.setting.pos_profile }} /
                             <span class="font-bold">{{ $t('Outlet') }}</span> : {{ gv.setting.outlet }} /
                             <span class="font-bold">{{ $t('Device Name') }}</span> :{{ device_name }}
-                        </p>
-                        
+                        </p>                        
                     </div>
                 </div>
             </div>

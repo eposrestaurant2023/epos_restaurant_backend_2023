@@ -3,7 +3,7 @@
         <div class="flex h-full flex-col">
             <ComShortcut  v-if="product.setting.pos_menus.length>0"/>
             <ComShortcurMenuFromProductGroup v-else/>
-            <div class="pa-2 h-full overflow-y-auto" id="wrap_menu">
+            <div class="pa-2 h-full overflow-y-auto" :class="getCustomerScrollWidth()"  id="wrap_menu">
                 <ComPlaceholder :loading="product.posMenuResource.loading" :is-not-empty="product.posMenuResource.data?.length > 0" class-color="text-white" :is-placeholder="true">
                     <template #default> 
                         <div class="grid gap-2" :class="mobile ? 'grid-cols-2' : 'sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'" v-if="product.posMenuResource.data?.length > 0">
@@ -53,6 +53,16 @@ const props = defineProps({
     backgroundImage: String
 });
 
+
+function getCustomerScrollWidth(){
+    const is_window = localStorage.getItem('is_window');
+    if(is_window==1){
+        return 'scrollbar';
+    }
+    return '';
+}
+
+
 function onMenuRefresh(){
     if(true){
         product.loadPOSMenu()
@@ -65,3 +75,11 @@ function onMenuRefresh(){
 }
  
 </script>
+ 
+<style>
+
+    .scrollbar::-webkit-scrollbar {
+        width: 17px;
+    }
+
+</style>

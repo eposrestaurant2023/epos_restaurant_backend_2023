@@ -19,3 +19,6 @@ import ComSaleProductList from './ComSaleProductList.vue';
 const sale = inject('$sale')
 
 </script>
+
+
+

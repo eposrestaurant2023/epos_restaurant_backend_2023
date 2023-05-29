@@ -17,7 +17,26 @@ import { inject, createToaster } from "@/plugin"
 const sale = inject('$sale')
 const gv = inject("$gv")
 const toaster = createToaster({ position: "top" });
+
+sale.vue.$onKeyStroke('F11', (e) => {
+    e.preventDefault()
+    console.log(sale.dialogActiveState)
+    if(sale.dialogActiveState==false){
+        onSaleDiscount('Percent')
+    }
+    
+})
+sale.vue.$onKeyStroke('F10', (e) => {
+    e.preventDefault()
+    console.log(sale.dialogActiveState)
+    if(sale.dialogActiveState==false){
+        onSaleDiscount('Amount')
+    }
+    
+})
+
 function onSaleDiscount(discount_type) {
+    sale.dialogActiveState=true;
     if (sale.sale.sale_products.length == 0) {
         toaster.warning("Please select a menu item to discount");
         resolve(false);
