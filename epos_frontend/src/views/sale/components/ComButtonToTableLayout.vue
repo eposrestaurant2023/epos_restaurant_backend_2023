@@ -38,6 +38,7 @@
 </template>
 <script setup>
 import { inject, defineProps, confirmBackToTableLayout, useRouter, defineEmits } from '@/plugin'
+import { createToaster } from "@meforma/vue-toaster";
 import { useDisplay } from 'vuetify'
 import Enumerable from 'linq';
 const sale = inject('$sale')
@@ -48,11 +49,16 @@ const emit = defineEmits('closeModel')
 const props = defineProps({
   isMobile: Boolean
 })
+const toaster = createToaster({ position: "top" })
 
 function onToHomePage(){
   const sp = Enumerable.from(sale.sale.sale_products);
-  if(sp){
+  if(sp.length > 0){
+    toaster.warning("Please make payment or save this bill.");
     return;
+  }
+  else{
+    router.push({ name: 'Home' });
   }
 }
 

@@ -144,6 +144,7 @@
       "Edit Order":"កែប្រែការកុម្មង",
       "Delete":"លុប",
       "Sale Receipt":"វិក្កយបត្រលក់",
+      "Customer Display":"ការបង្ហាញអតិថិជន",
       "msg":{
             "Please close shift first":"សូមបិទវេណធ្វើការជាមុនសិន",
             "Please start working day first":"សូមបើកថ្ងៃធ្វើការជាមុនសិន",

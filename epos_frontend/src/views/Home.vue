@@ -37,6 +37,8 @@
                             icon="mdi-currency-usd" />
                         <ComButton @click="onRoute('Report')" :title="$t('Report')" icon="mdi-chart-bar" icon-color="#e99417" />
 
+                        <ComButton v-if="isWindow()"  @click="onOpenCustomerDisplay" :title="$t('Customer Display')" icon="mdi-monitor" icon-color="#e99417" />
+
                         <ComButton v-if="isWindow()"  @click="onPrintWifiPassword" :title="$t('Wifi Password')" icon="mdi-wifi" icon-color="#e99417" /> 
 
                         
@@ -142,6 +144,13 @@ async function onPOS() {
 
     })
 }
+
+function onOpenCustomerDisplay(){
+    window.chrome.webview.postMessage(JSON.stringify({ action: "open_customer_display" }));
+}
+
+
+
 async function onViewPendingOrder() {
     let working_day = '';
     let cashier_shift = '';
