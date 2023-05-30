@@ -204,13 +204,18 @@ export default class Product {
 
     }
     setSelectedProductByMenuID(id) {
-        const p = Enumerable.from(this.posMenuResource.data ?? []).where(`$.menu_product_name=='${id}'`).firstOrDefault();
+        let p = Enumerable.from(this.posMenuResource.data ?? []).where(`$.menu_product_name=='${id}'`).firstOrDefault();      
+   
         if (p) {
             this.setSelectedProduct(p);
             return true;
         }
         else {
-            toaster.warning("Please add/delete to edit.")
+            p = Enumerable.from(this.posMenuResource.data ?? []).where(`$.name=='${id}'`).firstOrDefault();
+            if(p){
+                this.setSelectedProduct(p);
+                return true;
+            }
             return false;
         }
 

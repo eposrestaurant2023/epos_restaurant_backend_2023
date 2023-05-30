@@ -358,6 +358,7 @@ def add_product_to_temp_menu(self):
 							"pos_menu_id":m.name,
 							'doctype': 'Temp Product Menu',
 							'product_code': self.name,
+							'sort_order':self.sort_order,
 							'pos_menu':m.pos_menu,
 							'printers':json.dumps(printers),
 							'prices':json.dumps(prices),

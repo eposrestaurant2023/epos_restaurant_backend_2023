@@ -21,6 +21,7 @@
   "is_inventory_product",
   "is_open_product",
   "append_quantity",
+  "sort_order",
   "printers",
   "prices",
   "modifiers",
@@ -192,11 +193,16 @@
    "fieldtype": "Data",
    "label": "pos_menu_id",
    "unique": 1
+  },
+  {
+   "fieldname": "sort_order",
+   "fieldtype": "Int",
+   "label": "Sort Order"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-13 09:37:51.152261",
+ "modified": "2023-05-30 15:15:58.088699",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Temp Product Menu",

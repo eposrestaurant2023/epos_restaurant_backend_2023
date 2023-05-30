@@ -361,7 +361,9 @@ def get_close_shift_summary(cashier_shift):
     
     #get close amount by payment type
     sql = "select payment_type, currency,sum(input_amount) as input_amount, sum(payment_amount) as payment_amount from `tabSale Payment` where cashier_shift='{}' and docstatus=1 group by payment_type, currency".format(cashier_shift)
+    
     payments = frappe.db.sql(sql, as_dict=1)
+
     
     #get cash in out 
     sql = "select  payment_type,sum(if(transaction_status='Cash Out',input_amount*-1,input_amount)) as total_input_amount, sum(if(transaction_status='Cash Out',amount*-1,amount)) as total_amount from `tabCash Transaction`   where cashier_shift='{}'    group by  payment_type".format(cashier_shift)
@@ -387,9 +389,11 @@ def get_close_shift_summary(cashier_shift):
     
     for p in payments:
         if not p.payment_type  in [d.payment_method for d in doc.cash_float]:
+            exchange_rate =  frappe.db.get_value("Payment Type", p.payment_type, "exchange_rate")
+           
             data.append({
                 "payment_method":p.payment_type,
-                "exchange_rate":frappe.db.get_value("Payment Type", p.payment_type, "exchange_rate"),
+                "exchange_rate":exchange_rate,
                 "input_amount":0,
                 "opening_amount":0,
                 "input_close_amount":0,

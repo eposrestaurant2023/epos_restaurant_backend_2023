@@ -13,7 +13,7 @@
           </v-btn>
         </template>
       </template>
-      <ComDiscountButton />
+      <ComDiscountButton/>
       
       <v-btn v-if="setting.table_groups && setting.table_groups.length > 0 && !mobile" :variant="mobile ? 'tonal' : 'elevated'"
         :color="mobile ? 'primary' : ''" :stacked="!mobile" size="small" class="m-0-1 grow"
@@ -47,7 +47,7 @@
   </div>
 </template>
 <script setup>
-import { inject, useRouter } from '@/plugin';
+import { inject, useRouter,ref,changePriceRuleDialog,ComSaleReferenceNumberDialog,addCommissionDialog,watch } from '@/plugin';
 import ComDiscountButton from './ComDiscountButton.vue';
 import ComPrintBillButton from './ComPrintBillButton.vue';
 import { createToaster } from '@meforma/vue-toaster';
@@ -55,6 +55,7 @@ import ComButtonToTableLayout from './ComButtonToTableLayout.vue';
 import ComSaleButtonMore from './ComSaleButtonMore.vue';
 import Enumerable from 'linq';
 import { useDisplay } from 'vuetify'
+import { whenever  } from '@vueuse/core'
 const { mobile } = useDisplay()
 const router = useRouter()
 const sale = inject("$sale")
@@ -64,8 +65,101 @@ const gv = inject("$gv")
 const setting = gv.setting;
 const toaster = createToaster({ position: "top" })
 const emit = defineEmits(["onSubmitAndNew", 'onClose'])
-
 const device_setting = JSON.parse(localStorage.getItem("device_setting"))
+
+
+sale.vue.$onKeyStroke('F10',(e)=>{
+  e.preventDefault()
+  if(sale.dialogActiveState==false){
+    onSaleDiscount('Percent')
+  }
+  
+})
+
+sale.vue.$onKeyStroke('F11',(e)=>{
+  e.preventDefault()
+  if(sale.dialogActiveState==false){
+    onSaleDiscount('Amount')
+  }
+  
+})
+
+whenever(sale.magicKey.ctrlP, () => onChangePriceRule())
+whenever(sale.magicKey.ctrlR, () => onChangeTaxSetting())
+whenever(sale.magicKey.ctrlU, () => onAddCommission())
+
+async function onAddCommission(){
+    if(!sale.isBillRequested()) {
+      sale.dialogActiveState=true
+        const result = await addCommissionDialog({ title: 'title', name: 'Sale Commission', data: sale.sale });
+        if (result != false) { 
+            sale.sale = result.data
+        }
+        sale.dialogActiveState=false
+    }
+}
+
+async function onChangeTaxSetting(){
+    await sale.onChangeTaxSetting("Change Tax Setting",sale.sale.tax_rule,sale.sale.change_tax_setting_note,gv );     
+}
+
+async function onReferenceNumber(){
+  sale.dialogActiveState=true;
+    const reference_number = await ComSaleReferenceNumberDialog({
+        data: sale.sale
+    })
+    sale.dialogActiveState=false;
+    if(typeof(reference_number) != 'boolean')
+        sale.sale.reference_number = reference_number
+}
+
+async function onChangePriceRule() {
+    
+    if (sale.sale.sale_status != 'New') {
+        toaster.warning("This sale order is not new order.");
+        return;
+    }
+    if (!sale.isBillRequested()) {
+        sale.dialogActiveState=true;
+        const result = await changePriceRuleDialog({})
+        sale.dialogActiveState=false;
+        if (result == true) {
+            if(product.setting.pos_menus.length>0){
+                product.loadPOSMenu()
+            }else{
+                product.getProductMenuByProductCategory(db,"All Product Categories")
+            }
+            
+            window.postMessage("close_modal","*");
+            toaster.success("Price Rule Was Change Successfull");
+        }
+    }
+}
+
+function onSaleDiscount(discount_type) {
+    sale.dialogActiveState=true;
+    if (sale.sale.sale_products.length == 0) {
+        toaster.warning("Please select a menu item to discount");
+        resolve(false);
+    }
+    else if (!sale.isBillRequested()) { 
+        gv.authorize("discount_sale_required_password", "discount_sale", "discount_sale_required_note", "Discount Sale Note", "", true).then((v) => {
+            if (v) {
+                sale.onDiscount(
+                    `Discount`,
+                    sale.sale.sale_discountable_amount,
+                    sale.sale.discount,
+                    discount_type,
+                    v.discount_codes,
+                    sale.sale.discount_note,
+                    null,
+                    v.category_note_name
+                );
+            }
+        });
+
+    }
+}
 
 async function onQuickPay() {
 
@@ -90,19 +184,15 @@ async function onQuickPay() {
   });
 }
 
-
-sale.vue.$onKeyStroke('n', (e) => {
-  console.log(e)
-  if(e.ctrlKey){
-    e.preventDefault()
-    if(sale.dialogActiveState==false){
-      sale.onSaleNote(sale.sale)
-    }
+sale.vue.$onKeyStroke('Insert', (e)=>{
+  e.preventDefault();
+  if (sale.dialogActiveState === false) {
+    sale.onSaleNote(sale.sale);
   }
-    
-    
+        
 })
- 
+
+
 function onRedirectSaleType(){
     const redirect_sale_type = localStorage.getItem("redirect_sale_type") || null
     if(redirect_sale_type){
@@ -117,6 +207,7 @@ function closeModel() {
 async function onCancelPrintBill() {
   gv.authorize("cancel_print_bill_required_password", "cancel_print_bill", "cancel_print_bill_required_note", "Cancel Print Bill Note").then((v) => {
     if (v) {
+      console.log(v)
       sale.sale.sale_status = "Submitted";
       sale.sale.sale_status_color = setting.sale_status.find(r => r.name == 'Submitted').background_color;
       sale.auditTrailLogs.push({
@@ -132,6 +223,9 @@ async function onCancelPrintBill() {
   })
 
 }
+
+
+
 
 async function onSubmitAndNew() {
   //check if newsale recource3 is null then 

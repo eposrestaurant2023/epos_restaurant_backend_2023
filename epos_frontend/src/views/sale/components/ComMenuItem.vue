@@ -155,7 +155,6 @@ async function onClickProduct() {
             p.modifiers_data = "[]";
         }
         else {
-            console.log(p.prices)
             const portions = JSON.parse(p.prices)?.filter(r => (r.branch == sale.sale.business_branch || r.branch == '') && r.price_rule == sale.sale.price_rule);
             const check_modifiers = product.onCheckModifier(JSON.parse(p.modifiers));
             if (portions?.length == 1) {

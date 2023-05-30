@@ -15,8 +15,10 @@
     </div>
 </template>
 <script setup>
-import { inject } from '@/plugin'
+import { inject,i18n } from '@/plugin'
 import {createToaster} from '@meforma/vue-toaster';
+
+const { t: $t } = i18n.global;  
 const toaster = createToaster({ position: "top" })
 const props = defineProps({
     saleProduct: Object
@@ -25,7 +27,7 @@ const sale = inject("$sale");
 const gv = inject("$gv");
 
 //Add Key stroke
-sale.vue.$onKeyStroke('Page Up', (e) => {
+sale.vue.$onKeyStroke('PageUp', (e) => {
     e.preventDefault()
     if (props.saleProduct.selected) {
         sale.updateQuantity(props.saleProduct, props.saleProduct.quantity + 1)
@@ -33,7 +35,7 @@ sale.vue.$onKeyStroke('Page Up', (e) => {
 
 })
 
-sale.vue.$onKeyStroke('Page Down', (e) => {
+sale.vue.$onKeyStroke('PageDown', (e) => {
     e.preventDefault()
     if (props.saleProduct.selected && props.saleProduct.quantity > 1) {
         sale.updateQuantity(props.saleProduct, props.saleProduct.quantity - 1)
@@ -43,7 +45,6 @@ sale.vue.$onKeyStroke('Page Down', (e) => {
 if (props.saleProduct.selected) {
     sale.vue.$onKeyStroke('F3', (e) => {
         e.preventDefault()
-        console.log('5522')
         if (props.saleProduct.selected && sale.dialogActiveState == false) {
 
             sale.dialogActiveState = true;
@@ -87,7 +88,7 @@ sale.vue.$onKeyStroke('F7', (e) => {
             
         }else{
             sale.onSaleProductCancelFree(props.saleProduct)
-            toaster.warning(props.saleProduct?.product_name + " is not allow to discount");
+            toaster.warning($t('msg.This item is not allow to discount'));
         }
     }
     
@@ -116,7 +117,7 @@ function onDiscountClick(discount_type){
             }
         }
         else {
-            toaster.warning("This product is not allow to discount");
+            toaster.warning($t('msg.This item is not allow to discount'));
         }
     }
 }

@@ -9,6 +9,11 @@
         "are you sure to close working day":"Are you sure to close working day?",
         "There are pending orders":"There are {0} pending orders",
         "are you sure to start shift":"Are you sure to start shift?",
-        "Add is Successfully":"Add {0} is Successfully"
+        "Add is Successfully":"Add {0} is Successfully",
+        "please save or submit your current order first":"Please {0} your current order first",
+        "You cannot add other payment type with":"You cannot add other payment type with {0}",
+        "this sale order is already print bill please cancel print bill first":"This sale order is already print bill. Please cancel print bill first.",
+        "are you sure to process payment and close order":"Are you sure to process payment and close order?",
+        "are you sure to process quick pay and close order":"Are you sure to process quick pay and close order?"
     }
 }

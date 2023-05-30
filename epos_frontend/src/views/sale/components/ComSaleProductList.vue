@@ -15,7 +15,7 @@
                     <div class="flex">
                         <div class="grow">
                             <div> {{ sp.product_name }}<v-chip class="ml-1" size="x-small" color="error" variant="outlined" v-if="sp.portion">{{ sp.portion }}</v-chip>
-                                <v-chip v-if="sp.is_free" size="x-small" color="success" variant="outlined">Free</v-chip> 
+                                <v-chip v-if="sp.is_free" size="x-small" color="success" variant="outlined">{{ $t('Free') }}</v-chip> 
                                 <ComChip :tooltip="sp.happy_hours_promotion_title" v-if="sp.happy_hour_promotion && sp.discount > 0" size="x-small" variant="outlined" color="orange" text-color="white" prepend-icon="mdi-tag-multiple">
                                     <span>{{ sp.discount }}%</span>        
                                 </ComChip>                   
@@ -39,17 +39,15 @@
                                     </div>  
                                     <div v-if="sp.discount > 0 && !sp.is_free">
                                         <span  class="text-red-500">
-                                            Discount :
+                                            {{ $t('Discount') }} :
                                             <span v-if="sp.discount_type == 'Percent'">{{ sp.discount }}%</span>
                                             <CurrencyFormat v-else :value="parseFloat(sp.discount)" />
                                         </span>
                                     </div>
-                                <v-chip color="blue" size="x-small" v-if="sp.seat_number">Seat# {{
-                                    sp.seat_number
-                                }}</v-chip>
+                                <v-chip color="blue" size="x-small" v-if="sp.seat_number"> {{$t('Seat')+"# "+ sp.seat_number  }}</v-chip>
                                 
                                 <div class="text-gray-500" v-if="sp.note">
-                                    Note: <span>{{ sp.note }}</span>
+                                {{ $t('Note') }}: <span>{{ sp.note }}</span>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +57,7 @@
                                 <CurrencyFormat :value="(sp.amount - sp.total_tax)" />
                             </div>
                             <span v-if="sp.product_tax_rule && sp.total_tax >0" class="text-xs">
-                                Tax: 
+                                {{ $t('Tax') }}: 
                                 <CurrencyFormat :value="sp.total_tax" />
                             </span>
                             <ComQuantityInput v-if="!readonly" :sale-product="sp" />
@@ -67,17 +65,17 @@
                     </div>
                     <div v-if="sp.selected && !readonly" class="-mx-1 flex pt-1">
                         <v-chip color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
-                            @click="onChangePrice(sp)">Price</v-chip>
+                            @click="onChangePrice(sp)">{{ $t('Price') }}</v-chip>
                         <v-chip
                             :disabled="sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == 'Submitted'"
                             color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
-                            @click="sale.onChangeQuantity(sp)">Qty</v-chip>
+                            @click="sale.onChangeQuantity(sp)">{{ $t('Qty') }}</v-chip>
                         <v-chip
                             :disabled="sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == 'Submitted'"
                             color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
-                            @click="onEditSaleProduct(sp)">Edit</v-chip>
+                            @click="onEditSaleProduct(sp)">{{ $t('Edit') }}</v-chip>
                         <v-chip color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
-                            @click="onReorder(sp)">Reorder</v-chip>
+                            @click="onReorder(sp)">{{ $t('Re-Order') }}</v-chip>
                         <ComSaleProductButtonMore :sale-product="sp" />
                     </div>
                 </div>
@@ -86,13 +84,16 @@
     </v-list>
 </template>
 <script setup>
-import { inject, defineProps, createToaster } from '@/plugin'
+import { inject, defineProps, createToaster,i18n } from '@/plugin'
 
 import ComSaleProductButtonMore from './ComSaleProductButtonMore.vue';
 import ComQuantityInput from '../../../components/form/ComQuantityInput.vue';
 import Enumerable from 'linq';
 import ComSaleProductComboMenuGroupItemDisplay from './combo_menu/ComSaleProductComboMenuGroupItemDisplay.vue'; 
 import ComHappyHour from './happy_hour_promotion/ComHappyHour.vue';
+
+const { t: $t } = i18n.global;  
+
 const sale = inject('$sale')
 const product = inject('$product')
 const gv = inject('$gv')
@@ -105,30 +106,26 @@ const props = defineProps({
     saleCustomerDisplay: Object
 })
 
-
-
-function onEditSaleProduct(sp) {
+function onEditSaleProduct(sp) { 
     if (!sale.isBillRequested()) {
         if (sp.sale_product_status == "New" || sale.setting.pos_setting.allow_change_quantity_after_submit == 1) {
-            
             const is_has_product = product.setSelectedProductByMenuID(sp.menu_product_name);
-            if(is_has_product){
-                 
-                product.setModifierSelection(sp)
-
+            if(is_has_product){                 
+                product.setModifierSelection(sp);
                 if(sp.is_combo_menu && sp.use_combo_group){
                     product.setComboGroupSelection(sp)
                 }
 
-                if ((sp.is_combo_menu && sp.use_combo_group) || product.modifiers.length > 0 || product.prices.filter(r => r.price_rule == sale.setting.price_rule && (r.branch == sale.setting.business_branch || r.branch == '')).length > 1)
+                if ((sp.is_combo_menu && sp.use_combo_group) || product.modifiers.length > 0 || product.prices.filter(r => r.price_rule == sale.setting.price_rule && (r.branch == sale.setting.business_branch || r.branch == '')).length > 1){
                     sale.OnEditSaleProduct(sp)
-                else
-                    toaster.warning("This product has no option to edit.")
+                }
+                else{
+                    toaster.warning("msg.This item has no option to edit")
+                }
             }
         } else {
-            toaster.warning("Submitted order is not allow to edit.");
+            toaster.warning("msg.Submitted order is not allow to edit");
         }
-
     }
 }
 
@@ -140,25 +137,20 @@ function onChangePrice(sp) {
                 sale.onChangePrice(sp);
             }
         });
-
     }
 }
 
 function onReorder(sp) {
-
     if (!sale.isBillRequested()) {
         if (sp.sale_product_status == "New" || sale.setting.pos_setting.allow_change_quantity_after_submit == 1) {
             sale.updateQuantity(sp, sp.quantity + 1)
         } else {
-
             let strFilter = `$.product_code=='${sp.product_code}' && $.append_quantity ==1 && $.price==${sp.price} && $.portion=='${sp.portion}'  && $.modifiers=='${sp.modifiers}'  && $.unit=='${sp.unit}'  && $.is_free==0`
 
             if (!gv.setting?.pos_setting?.allow_change_quantity_after_submit) {
                 strFilter = strFilter + ` && $.sale_product_status == 'New'`
             }
-
-            const sale_product = Enumerable.from(sale.sale.sale_products).where(strFilter).firstOrDefault()
-
+            const sale_product = Enumerable.from(sale.sale.sale_products).where(strFilter).firstOrDefault();
             if (sale_product != undefined) {
                 sale_product.quantity = parseFloat(sale_product.quantity) + 1;
                 sale.updateSaleProduct(sp);
@@ -169,7 +161,6 @@ function onReorder(sp) {
                 }, 100);
             }
         }
-
     }
 }
 
@@ -178,13 +169,10 @@ function getSaleProducts(groupByKey) {
         if (groupByKey) {
             return Enumerable.from(props.saleCustomerDisplay.sale_products).where(`$.order_by=='${groupByKey.order_by}' && $.order_time=='${groupByKey.order_time}'`).orderByDescending("$.modified").toArray()
         } else {
-            return Enumerable.from(props.saleCustomerDisplay.sale_products).orderByDescending("$.modified").toArray()
-
+            return Enumerable.from(props.saleCustomerDisplay.sale_products).orderByDescending("$.modified").toArray();
         }
     }
-    return []
-
-
+    return [];
 }
 
 
@@ -192,20 +180,20 @@ function getSaleProducts(groupByKey) {
 
 
 <style scoped>
-.selected,
-.item-list:hover {
-    background-color: #ffebcc !important;
-}
+    .selected,
+    .item-list:hover {
+        background-color: #ffebcc !important;
+    }
 
-.submitted::before {
-    content: '';
-    position: absolute;
-    top: 1px;
-    bottom: 1px;
-    left: 0px;
-    width: 2px;
-    background: #75c34a;
-    border-radius: 12px;
-} 
+    .submitted::before {
+        content: '';
+        position: absolute;
+        top: 1px;
+        bottom: 1px;
+        left: 0px;
+        width: 2px;
+        background: #75c34a;
+        border-radius: 12px;
+    } 
 </style>
  

@@ -51,15 +51,53 @@ const props = defineProps({
 })
 const toaster = createToaster({ position: "top" })
 
-function onToHomePage(){
+async function onToHomePage(){
   const sp = Enumerable.from(sale.sale.sale_products);
-  if(sp.length > 0){
-    toaster.warning("Please make payment or save this bill.");
-    return;
+
+if (sp.where("$.name==undefined").toArray().length > 0) {
+  let result = await confirmBackToTableLayout({});
+  if (result) {
+    if (result == "hold" || result == "submit") {
+      if (result == "hold") {
+        sale.sale.sale_status = "Hold Order";
+        sale.action = "hold_order";
+      } else {
+        sale.sale.sale_status = "Submitted";
+        sale.action = "submit_order";
+      }
+      await sale.onSubmit().then(async (value) => {
+        if (value) {
+          if (mobile.value) {
+            emit('closeModel')
+          } else {
+            router.push({ name: "Home" }).then(() => {
+              emit('closeModel')
+            })
+          }
+        }
+      });
+    } else {
+      //continue
+      sale.sale = {};
+      if (mobile.value) {
+        emit('closeModel')
+      } else {
+        router.push({ name: "Home" }).then(() => {
+          emit('closeModel')
+        })
+      }
+    }
   }
-  else{
-    router.push({ name: 'Home' });
+} else {
+  sale.sale = {};
+  if (mobile.value) {
+    emit('closeModel')
+  } else {
+    router.push({ name: "Home" }).then(() => {
+      emit('closeModel')
+    })
   }
+}
 }
 
 async function onToTableLayout() {

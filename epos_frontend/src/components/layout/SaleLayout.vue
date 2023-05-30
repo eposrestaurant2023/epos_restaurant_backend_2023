@@ -7,8 +7,7 @@
                     <div :class="mobile ? 'text-xs' : ''">
                         POS
                         <span v-if="$sale.sale.tbl_number">- {{ $sale.sale.tbl_number }}</span>
-
-                        <span v-if="$sale.sale.sale_status == 'New'"> - New</span>
+                        <span v-if="$sale.sale.sale_status == 'New'"> - {{ $t('New') }}</span>
                         <span v-else> - {{ $sale.sale.name }}</span>
 
                         <v-chip class="ml-2" variant="elevated" v-if="$sale.sale.name" :color="$sale.sale.sale_status_color"
@@ -43,14 +42,14 @@
                                 <template v-slot:prepend class="w-12">
                                     <v-icon icon="mdi-reload"></v-icon>
                                 </template>
-                                <v-list-item-title>Reload</v-list-item-title>
+                                <v-list-item-title>{{ $t('Reload') }}</v-list-item-title>
                             </v-list-item>
                             <v-divider></v-divider>
                             <v-list-item @click="onLogout">
                                 <template v-slot:prepend class="w-12">
                                     <v-icon icon="mdi-logout"></v-icon>
                                 </template>
-                                <v-list-item-title>Logout</v-list-item-title>
+                                <v-list-item-title>{{ $t('Logout') }}</v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </v-card>
@@ -62,7 +61,7 @@
             <MainLayoutDrawer />
             <template v-slot:append>
                 <v-btn variant="tonal" prepend-icon="mdi-arrow-left" class="w-full" @click="onDrawer">
-                    Close
+                    {{ $t('Close') }}
                 </v-btn>
             </template>
         </v-navigation-drawer>

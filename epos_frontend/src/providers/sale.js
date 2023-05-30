@@ -1,9 +1,12 @@
 import Enumerable from 'linq'
 import moment from '@/utils/moment.js';
-import { noteDialog, printPreviewDialog,changeTaxSettingModal,SaleProductComboMenuGroupModal, keyboardDialog, createResource, createDocumentResource, addModifierDialog, useRouter, confirmDialog, saleProductDiscountDialog } from "@/plugin"
+import { noteDialog, printPreviewDialog,changeTaxSettingModal,SaleProductComboMenuGroupModal, keyboardDialog, createResource, 
+    createDocumentResource, addModifierDialog, useRouter, confirmDialog, saleProductDiscountDialog,i18n } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
 import { webserver_port } from "../../../../../sites/common_site_config.json"
 import socket from '@/utils/socketio';
+
+const { t: $t } = i18n.global;
 
 
 const toaster = createToaster({ position: "top" });
@@ -38,6 +41,7 @@ export default class Sale {
         };
         this.vueInstance=null;
         this.vue=null;
+        this.magickey=null;
         this.newSaleResource = null;
         this.saleResource = null;
         this.paymentInputNumber = "";
@@ -52,7 +56,6 @@ export default class Sale {
 
         //temporary all deleted sale product, we use this for send data to kitchen printers
         this.deletedSaleProducts = []
-
         //tempporary store autditrail list and will submit to database after submit
         //auditrail login is store in tabComment
         this.auditTrailLogs = [];
@@ -74,16 +77,14 @@ export default class Sale {
         this.newSaleResource = createResource({
             url: "frappe.client.insert",
             onSuccess(doc) {
-
                 parent.onProcessTaskAfterSubmit(doc);
-
                 parent.action = "";
                 if (parent.message != undefined) {
                     toaster.success(parent.message);
                     parent.message = undefined;
                 }
                 else {
-                    toaster.success("Updated");
+                    toaster.success($t('msg.Update successfully'));
                 }
             }
         })
@@ -144,7 +145,7 @@ export default class Sale {
                             parent.message = undefined;
                         }
                         else {
-                            toaster.success("Updated");
+                            toaster.success($t('msg.Update successfully'));
                         }
                     },
                 },
@@ -494,7 +495,7 @@ export default class Sale {
     }
 
     async onChangePrice(sp) {
-        const result = await keyboardDialog({ title: "Change price", type: 'number', value: sp.price });
+        const result = await keyboardDialog({ title:$t("Change Price"), type: 'number', value: sp.price });
         if (result != false) {
             
             sp.price = parseFloat(this.getNumber(result));
@@ -506,7 +507,7 @@ export default class Sale {
     
     async onChangeQuantity(sp, gv) {
         if (!this.isBillRequested()) {
-            const result = await keyboardDialog({ title: "Change Quantity", type: 'number', value: sp.quantity });
+            const result = await keyboardDialog({ title:$t("Change Quantity"), type: 'number', value: sp.quantity });
             console.log(result)
             if (result) {
                 
@@ -541,7 +542,7 @@ export default class Sale {
 
     async onSaleProductNote(sp) {
         if (!this.isBillRequested()) {
-            const result = await noteDialog({ title: "Note", name: 'Items Note', data: sp });
+            const result = await noteDialog({ title: $t("Note"), name: 'Items Note', data: sp });
             if (result != false) {
                 sp.note = result
                 socket.emit("ShowOrderInCustomerDisplay", this.sale);
@@ -551,7 +552,7 @@ export default class Sale {
 
     async onSaleNote(p) {
         if (!this.isBillRequested()) {
-            const result = await noteDialog({ title: "Note", name: 'Sale Note', data: p });
+            const result = await noteDialog({ title: $t("Note"), name: 'Sale Note', data: p });
             if (result != false) {
                 p.note = result
             }
@@ -560,7 +561,7 @@ export default class Sale {
 
     async onSaleProductFree(sp) {
         let freeQty = 0;
-        const result = sp.quantity == 1 ? 1 : await keyboardDialog({ title: "Change Free Quantity", type: 'number', value: sp.quantity });
+        const result = sp.quantity == 1 ? 1 : await keyboardDialog({ title: $t("Change Free Quantity"), type: 'number', value: sp.quantity });
         if (result != false) {
             freeQty = parseFloat(this.getNumber(result));
             if (freeQty > sp.quantity) {
@@ -603,7 +604,7 @@ export default class Sale {
     // change tax setting
     async onChangeTaxSetting(title, _tax_rule_name,_change_tax_setting_note,gv, sale_product){
         if(!this.isBillRequested()){
-            
+            this.dialogActiveState=true
             // const tax_rule_name = tax_rule
             await  gv.authorize("change_tax_setting_required_password", "change_tax_setting", "change_tax_setting_required_note", "Change Tax Setting", "", true).then(async (v) => {
                 if(v){ 
@@ -615,6 +616,7 @@ export default class Sale {
                             category_note_name: v.category_note_name
                         }
                     })
+                    sale.dialogActiveState=false
                     if(resp != false){ 
                         const _tax_rule = JSON.parse(resp.tax_rule.tax_rule_data);   
                         if(sale_product){ 
@@ -634,7 +636,7 @@ export default class Sale {
     }
 
     async  onSaleProductChangeTaxSetting(sp,gv){
-        const resp = await this.onChangeTaxSetting("Change Tax Setting",sp.product_tax_rule,sp.change_tax_setting_note, gv,sp);     
+        const resp = await this.onChangeTaxSetting($t('Change Tax Setting'),sp.product_tax_rule,sp.change_tax_setting_note, gv,sp);     
     }
     
     async onDiscount(title, amount, discount_value, discount_type, discount_codes,discount_note, sp, category_note_name) {
@@ -650,6 +652,7 @@ export default class Sale {
                 category_note_name: category_note_name
             }
         })
+        this.dialogActiveState=false
         if (result != false) {
             if (sp) {
                 sp.discount = result.discount
@@ -667,7 +670,7 @@ export default class Sale {
     }
     async onSaleProductSetSeatNumber(sp) {
         if (!this.isBillRequested()) {
-            const result = await keyboardDialog({ title: "Set Seat Number", type: 'number', value: sp.seat_number })
+            const result = await keyboardDialog({ title: $t("Set Seat Number"), type: 'number', value: sp.seat_number })
             if (result != false) {
                 sp.seat_number = result
                 socket.emit("ShowOrderInCustomerDisplay", this.sale);
@@ -700,16 +703,7 @@ export default class Sale {
     onRemoveSaleProduct(sp, quantity) {
         if (sp.quantity == quantity) {
             if (sp.sale_product_status == 'Submitted') {
-                this.deletedSaleProducts.push(sp)
-                // this.auditTrailLogs.push({
-                //     doctype:"Comment",
-                //     subject:"Delete Sale Product",
-                //     comment_type:"Comment",
-                //     reference_doctype:"Sale",
-                //     reference_name:"New",
-                //     comment_by:"cashier@mail.com",
-                //     content:`User sengho delete sale prodcut. Product Name: ABC 001, Qty:1, Amount:15.50, Reason:Wrong Order`
-                // })
+                this.deletedSaleProducts.push(sp) 
             }
 
             this.sale.sale_products.splice(this.sale.sale_products.indexOf(sp), 1);
@@ -746,7 +740,7 @@ export default class Sale {
                 }
                 this.updateSaleProduct(sp);
                 this.updateSaleSummary();
-                toaster.success("Update sale product successfully")
+                toaster.success($t("msg.Update successfully"))
             }
         }
         else{
@@ -769,18 +763,18 @@ export default class Sale {
                 }
                 this.updateSaleProduct(sp);
                 this.updateSaleSummary();
-                toaster.success("Update sale product successfully")
+                toaster.success($t("msg.Update successfully"))
             }
         }
     }
 
     onCheckPriceSmallerThanZero() {
         if (this.sale.sale_products.filter(r => r.amount < 0).length > 0) {
-            toaster.warning("Product price cannot smaller than zero");
+            toaster.warning($t('msg.Product price cannot smaller than zero'));
             return true
         }
         else if (this.sale.grand_total < 0) {
-            toaster.warning("Sale price cannot smaller than zero");
+            toaster.warning($t('msg.Sale price cannot smaller than zero'));
             return true
         }
         else {
@@ -791,7 +785,7 @@ export default class Sale {
     onSubmit() {
         return new Promise(async (resolve) => {
             if (this.sale.sale_products.length == 0) {
-                toaster.warning("Please select a menu item to submit order");
+                toaster.warning($t('msg.Please select a menu item to submit order'));
                 resolve(false);
             }
             else if (this.onCheckPriceSmallerThanZero()) {
@@ -825,11 +819,11 @@ export default class Sale {
     async onSubmitQuickPay() {
         return new Promise(async (resolve) => {
             if (this.sale.sale_products.length == 0) {
-                toaster.warning("Please select a menu item to process payment");
+                toaster.warning($t('msg.Please select a menu item to process payment'));
                 resolve(false);
             } else {
 
-                if (await confirmDialog({ title: "Quick Pay", text: "Are you sure you process quick pay and close order?" })) {
+                if (await confirmDialog({ title: $t("Quick Pay"), text:$t('msg.are you sure to process quick pay and close order')  })) {
                     this.sale.payment = [];
                     this.sale.payment.push({
                         payment_type: this.setting?.default_payment_type,
@@ -861,17 +855,13 @@ export default class Sale {
             let balance = Number(this.sale.balance.toFixed(this.setting.pos_setting.main_currency_precision));
 
             if (balance > 0) {
-                toaster.warning("Please enter all payment amount.");
+                toaster.warning($t('msg.Please enter all payment amount'));
                 resolve(false);
             } else {
-                if (await confirmDialog({ title: "Payment", text: "Are you sure you process payment and close order?" })) {
+                if (await confirmDialog({ title: $t("Payment"), text: $t("msg.are you sure to process payment and close order") })) {
 
                     socket.emit("ShowOrderInCustomerDisplay", this.sale, "paid");
-
-
                     this.generateProductPrinters();
-
-
                     this.sale.sale_status = "Closed";
                     this.sale.docstatus = 1;
                     this.action = "payment";
@@ -879,22 +869,14 @@ export default class Sale {
                         if (this.newSaleResource == null) {
                             this.createNewSaleResource();
                         }
-
                         this.printWaitingOrderAfterPayment = true;
                         await this.newSaleResource.submit({ doc: this.sale })
                     } else {
                         await this.saleResource.setValue.submit(this.sale);
                     }
-
                     resolve(true);
                 }
-
             }
-
-
-
-
-
         })
     }
 
@@ -902,10 +884,8 @@ export default class Sale {
         if (this.action == "submit_order") {
             this.onPrintToKitchen(doc);
             //print waiting doc
-
             if (this.setting.pos_setting.print_waiting_order_after_submit_order) {
                 this.onPrintWaitingOrder(doc);
-
             }
 
         } else if (this.action == "print_bill") {
@@ -1079,8 +1059,8 @@ export default class Sale {
     }
 
     isBillRequested() {
-        if (this.sale.sale_status == 'Bill Requested') {
-            toaster.warning("This sale order is already print bill. Please cancel print bill first.");
+        if (this.sale.sale_status == 'Bill Requested') {            
+            toaster.warning($t('msg.this sale order is already print bill please cancel print bill first'));
             return true;
         } else {
             return false;
@@ -1089,7 +1069,7 @@ export default class Sale {
     onAddPayment(paymentType, amount) {
         const single_payment_type = this.sale.payment.find(r => r.is_single_payment_type == 1);
         if (single_payment_type) {
-            toaster.warning("You cannot add other payment type with " + single_payment_type.payment_type);
+            toaster.warning($t('msg.You cannot add other payment type with',[ single_payment_type.payment_type]));
         } else {
             if (paymentType.is_single_payment_type == 1) {
                 this.sale.payment = [];
@@ -1112,7 +1092,7 @@ export default class Sale {
                 this.paymentInputNumber = this.sale.balance.toFixed(this.setting.pos_setting.main_currency_precision);
 
             } else {
-                toaster.warning("Please enter payment amount");
+                toaster.warning($t("msg.Please enter payment amount"));
             }
         }
 
@@ -1134,8 +1114,8 @@ export default class Sale {
         }
 
         this.action
-    }
-    isOrdered(message = "Please save or submit your current order."){
+    } 
+    isOrdered(message = $t('msg.please save or submit your current order first',[ $t( 'Submit') +" "+$t('or') +" "+ $t('Save')])){
         if((this.sale.sale_products || []).length > 0 ){
             const sp = Enumerable.from(this.sale.sale_products);
             if (sp.where("$.name==undefined").toArray().length > 0) {

@@ -79,7 +79,6 @@ async function onChangeTable() {
         const result = await changeTableDialog({});
         if (result) {
             if (result.action == "reload_sale") {
-
                 await sale.LoadSaleData(result.name);
             }
         }

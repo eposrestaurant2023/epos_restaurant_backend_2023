@@ -163,9 +163,10 @@ frappe.query_reports["Sale Summary Report"] = {
 					{"value":"Tax","description":"Tax"},
 					{"value":"Cost","description":"Cost"},
 					{"value":"Profit","description":"Pofit"},
+					{"value":"Commission","description":"Commission"},
 				]
 			},
-			"default":"All"
+			"default":"Commission"
 		},
 		{
 			"fieldname": "chart_type",
@@ -173,7 +174,7 @@ frappe.query_reports["Sale Summary Report"] = {
 			"fieldtype": "Select",
 			"options": "None\nbar\nline\npie",
 			"default":"bar"
-		},
+		}
 
 	],
 	"formatter": function(value, row, column, data, default_formatter) {

@@ -2,58 +2,63 @@
     <v-menu>
         <template v-slot:activator="{ props }">
             <v-chip v-bind="props" variant="elevated" color="primary" class="mx-1 grow text-center justify-center"
-                size="small">More</v-chip>
+                size="small">{{ $t('More') }}</v-chip>
         </template>
         <v-list>
-            <v-list-item prepend-icon="mdi-currency-usd-off" title="Free" v-if="!saleProduct.is_free"
+            <v-list-item prepend-icon="mdi-currency-usd-off" :title="$t('Free')" v-if="!saleProduct.is_free"
                 @click="onSaleProductFree()"></v-list-item>
             <v-list-item v-else @click="sale.onSaleProductCancelFree(saleProduct)">
                 <template v-slot:prepend>
                     <v-icon icon="mdi-currency-usd-off" color="error"></v-icon>
                 </template>
-                <v-list-item-title class="text-red-700">Cancel Free</v-list-item-title>
+                <v-list-item-title class="text-red-700">{{ $t('Cancel Free') }}</v-list-item-title>
             </v-list-item>
             <template v-if="!saleProduct.is_free">
                 <template v-if="!saleProduct.happy_hour_promotion">
-                    <v-list-item prepend-icon="mdi-percent" title="Discount Percent"
+                    <v-list-item prepend-icon="mdi-percent" :title="$t('Discount Percent')"
                         @click="onSaleProductDiscount('Percent')"></v-list-item>
-                    <v-list-item prepend-icon="mdi-currency-usd" title="Discount Amount"
+                    <v-list-item prepend-icon="mdi-currency-usd" :title="$t('Discount Amount')"
                         @click="onSaleProductDiscount('Amount')"></v-list-item>
                 </template>
                 <v-list-item v-if="saleProduct.discount > 0" @click="onSaleProductCancelDiscount()">
                     <template v-slot:prepend>
                         <v-icon icon="mdi-tag-multiple" color="error"></v-icon>
                     </template>
-                    <v-list-item-title class="text-red-700">Cancel Discount</v-list-item-title>
+                    <v-list-item-title class="text-red-700">{{ $t('Cancel Discount') }}</v-list-item-title>
                 </v-list-item>
             </template>
-            <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-chair-school" title="Seat #"
+            <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-chair-school" :title="($('Seat')+'#')"
                 @click="sale.onSaleProductSetSeatNumber(saleProduct)"></v-list-item>
-            <v-list-item prepend-icon="mdi-note-outline" title="Note" v-if="!saleProduct.note"
+            <v-list-item prepend-icon="mdi-note-outline" :title="$t('Note')" v-if="!saleProduct.note"
                 @click="sale.onSaleProductNote(saleProduct)"></v-list-item>
             <v-list-item v-else @click="onRemoveNote">
                 <template v-slot:prepend>
                     <v-icon icon="mdi-note-outline" color="error"></v-icon>
                 </template>
-                <v-list-item-title class="text-red-700">Remove Note</v-list-item-title>
+                <v-list-item-title class="text-red-700">{{ $t('Remove Note') }}</v-list-item-title>
             </v-list-item>
    
 
-            <v-list-item prepend-icon="mdi-cash-100" title="Tax Setting" v-if="saleProduct.product_tax_rule"  @click="sale.onSaleProductChangeTaxSetting(saleProduct,gv)">
+            <v-list-item prepend-icon="mdi-cash-100" :title="$t('Tax Setting')" v-if="saleProduct.product_tax_rule"  @click="sale.onSaleProductChangeTaxSetting(saleProduct,gv)">
             </v-list-item>
 
             <v-list-item @click="onRemoveSaleProduct()">
                 <template v-slot:prepend>
                     <v-icon icon="mdi-delete" color="error"></v-icon>
                 </template>
-                <v-list-item-title class="text-red-700">Delete</v-list-item-title>
+                <v-list-item-title class="text-red-700">{{ $t('Delete') }}</v-list-item-title>
             </v-list-item>
         </v-list>
     </v-menu>
 </template>
+
 <script setup>
-import { defineProps, inject,keypadWithNoteDialog } from '@/plugin'
+import { defineProps, inject,keypadWithNoteDialog,i18n } from '@/plugin'
 import {createToaster} from '@meforma/vue-toaster';
+
+const { t: $t } = i18n.global;  
+
+
 const sale = inject('$sale')
 const gv = inject("$gv")
 const tableLayout = inject("$tableLayout")
@@ -97,8 +102,8 @@ function onRemoveSaleProduct() {
                     //props.saleProduct.delete_item_note = v.note 
                     const result = await keypadWithNoteDialog({ 
                         data: { 
-                            title: `Delete Product ${props.saleProduct.product_name}`,
-                            label_input: 'Enter Quantity',
+                            title: `${$t('Delete Item')} ${props.saleProduct.product_name}`,
+                            label_input: $t('Enter Quantity'),
                             note: "Delete Item Note",
                             category_note_name: v.category_note_name,
                             number: props.saleProduct.quantity,
@@ -143,7 +148,7 @@ function onSaleProductDiscount(discount_type) {
         }
     }
     else{
-        toaster.warning("This product is not allow to discount");
+        toaster.warning($t('msg.This item is not allow to discount'));
     }
 }
 function onSaleProductCancelDiscount() {

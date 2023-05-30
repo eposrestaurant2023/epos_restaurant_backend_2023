@@ -7,16 +7,19 @@
 </template>
 <script setup>
 import { useDisplay } from 'vuetify'
-import {searchSaleDialog, inject,useRouter} from '@/plugin'
+import {searchSaleDialog, inject,useRouter,i18n} from '@/plugin';
+const { t: $t } = i18n.global;
 // import { createToaster } from '@meforma/vue-toaster'; 
 const { mobile } = useDisplay()
 const sale = inject('$sale')
 const router = useRouter();
 // const socket = inject('$socket');
 // const toaster = createToaster({position:"top"});
+
 const setting = JSON.parse(localStorage.getItem("setting"))
 async function onSearchSale(){
-    const isOrdered = sale.isOrdered(`Please ${setting.table_groups && setting.table_groups.length > 0 ? 'submit' : 'save'} your current order first`)
+    let msg = $t('msg.please save or submit your current order first',[(setting.table_groups && setting.table_groups.length > 0 ? $t( 'Submit') : $t('Save'))]);
+    const isOrdered = sale.isOrdered(msg)    
     if(isOrdered == false) {
         const result = await searchSaleDialog({ })
         if(result != false){ 

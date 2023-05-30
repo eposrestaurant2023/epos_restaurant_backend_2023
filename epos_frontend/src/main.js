@@ -60,7 +60,7 @@ import { i18n } from "./i18n";
 
 const app = createApp(App);
 
-const frappe = new FrappeApp()
+const frappe = new FrappeApp();
 const auth = reactive(new Auth());
 const gv = reactive(new Gv());
 const sale = reactive(new Sale());
@@ -81,10 +81,12 @@ const vuetify = createVuetify({
   });
 
 
+
   //load langauge
 var lang = localStorage.getItem('lang'); 
 if((lang||"")==""){
 	localStorage.setItem('lang','en');
+	lang = "en";
 } 
 
 app.use(i18n);
