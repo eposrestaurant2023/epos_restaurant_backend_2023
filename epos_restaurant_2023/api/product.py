@@ -105,7 +105,7 @@ def get_products(parent_menu):
             from  `tabTemp Product Menu` 
             where 
                 pos_menu='{0}' 
-            order by  product_name_en
+            order by sort_order
             """.format(parent_menu)
     data = frappe.db.sql(sql,as_dict=1)
    

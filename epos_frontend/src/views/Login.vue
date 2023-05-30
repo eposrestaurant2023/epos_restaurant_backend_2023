@@ -89,13 +89,13 @@
               <div class="mt-6">
                 <v-btn type="submit" :loading="isLoading" size="x-large" class="w-full" color="primary">{{ $t("Login") }}</v-btn>
               </div> 
-              <div class="mt-2">
+              <!-- <div class="mt-2">
                 <v-btn size="x-large" class="w-full" color="light"  @click="(()=>{ 
                     $i18n.locale=($i18n.locale=='kh'?'en':'kh');
                     onChangeLang( $i18n.locale) 
 
                 })">{{ $i18n.locale=="en"?"ខ្មែរ":"English" }}</v-btn>
-              </div> 
+              </div>  -->
               <div class="mt-4 text-center">
                 <p class="text-sm text-green-700">{{ setting?.pos_profile }}</p>
               </div> 
@@ -169,10 +169,12 @@ function onDeleteBack() {
 }
 const login = async () => {
   if (!state.password) {
-    toast.warning('Invalid Password', { position: 'top' })
+    toast.warning($t('msg.Invalid PIN Code'), { position: 'top' })
     return
   }
   store.dispatch('startLoading');
+
+  let is_error = false;
   createResource({
     url: 'epos_restaurant_2023.api.api.check_username',
     auto: true,
@@ -189,14 +191,18 @@ const login = async () => {
           getCurrentUserInfo(doc)
           checkPromotionDay()
         } else {
-          toast.warning(`Login fail. Invalid username or password.`);
+          toast.warning(`msg.Login fail Invalid username or password`);
           store.dispatch('endLoading');
         }
 
       }
     },
-    onError(x) {
-      store.dispatch('endLoading');
+    onError(x) {  
+      if(!is_error){
+        is_error = true;
+        store.dispatch('endLoading');
+        toast.warning($t('msg.Invalid PIN Code'), { position: 'top' })
+      } 
     }
   })
 

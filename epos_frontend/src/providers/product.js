@@ -104,6 +104,10 @@ export default class Product {
                     'prices',
                     'sort_order'
                 ],
+                orderBy: {
+                    field: 'sort_order',
+                    order: 'asc',
+                  },
                 filters: [["product_category", "=", product_category]],
                 limit: 50,
             }).then((res) => {

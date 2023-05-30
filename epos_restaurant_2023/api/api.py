@@ -15,7 +15,7 @@ def check_username(pin_code):
             permission= frappe.get_doc("POS User Permission",data[0]["pos_user_permission"])      
             return {"username":data[0]["name"],"full_name":data[0]["full_name"],"permission":permission} 
         
-    frappe.throw(_("Invalid pin code"))
+    frappe.throw(_("Invalid PIN Code"))
 
 @frappe.whitelist(allow_guest=True)
 def get_user_info(name=""):

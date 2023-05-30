@@ -39,6 +39,7 @@
 <script setup>
 import { inject, useRouter, paymentDialog,searchSaleDialog, createToaster,i18n } from '@/plugin';
 import ComExchangeRate from './ComExchangeRate.vue';
+import { whenever,useMagicKeys  } from '@vueuse/core';
 const { t: $t } = i18n.global;  
 
 const sale = inject("$sale")
@@ -56,18 +57,30 @@ sale.vue.$onKeyStroke('F12', (e) => {
     } 
 })
 
-sale.vue.$onKeyStroke('s', (e) => {
-    if(sale.dialogActiveState==false && e.ctrlKey==true){
-      e.preventDefault()
-      onSubmit();
-    }
+const { ctrl_o } = useMagicKeys({
+    passive: false,
+    onEventFired(e) {
+      if (e.ctrlKey && e.key === 'o' && e.type === 'keydown')
+        e.preventDefault()
+    },
 })
-sale.vue.$onKeyStroke('o', (e) => {
-    if(sale.dialogActiveState==false && e.ctrlKey==true){
-      e.preventDefault()
-      onSearchSale();
-    }
+const { ctrl_s } = useMagicKeys({
+    passive: false,
+    onEventFired(e) {
+      if (e.ctrlKey && e.key === 's' && e.type === 'keydown')
+        e.preventDefault()
+    },
 })
+
+whenever(ctrl_o, () => onSearchSale())
+whenever(ctrl_s, () => onSubmit())
+
+// sale.vue.$onKeyStroke('o', (e) => {
+//     if(sale.dialogActiveState==false && e.ctrlKey==true){
+//       e.preventDefault()
+//       onSearchSale();
+//     }
+// })
 
 
 
@@ -93,7 +106,6 @@ async function onSearchSale(){
 }
 
 async function onSubmit() {
-  console.log('e.ctrlKeyss')
   if (!sale.isBillRequested()) {
     const action = sale.action;
     const message = sale.message;

@@ -1,45 +1,48 @@
 <template>
      <ComLoadingDialog v-if="isLoading" />
-    <v-list-item prepend-icon="mdi-format-list-bulleted" title="Reference #" @click="onReferenceNumber()" />
-    <v-list-item prepend-icon="mdi-eye-outline" title="View Bill" @click="onViewBill()" v-if="sale.sale.sale_products.length > 0"/>
+    <v-list-item prepend-icon="mdi-format-list-bulleted" :title="($t('Reference')+' #')" @click="onReferenceNumber()" />
+    <v-list-item prepend-icon="mdi-eye-outline" :title="$t('View Bill')" @click="onViewBill()" v-if="sale.sale.sale_products.length > 0"/>
     <template v-if="mobile">
         <v-list-item @click="onRemoveSaleNote()" v-if="sale.sale.note">
             <template v-slot:prepend>
                 <v-icon icon="mdi-note-outline" color="error"></v-icon>
             </template>
-            <v-list-item-title class="text-red-700">Remove Note</v-list-item-title>
+            <v-list-item-title class="text-red-700">{{ $t('Remove Note') }}</v-list-item-title>
         </v-list-item>
-        <v-list-item prepend-icon="mdi-note-outline" title="Note" @click="sale.onSaleNote(sale.sale)" v-else />
+        <v-list-item prepend-icon="mdi-note-outline" :title="$t('Note')" @click="sale.onSaleNote(sale.sale)" v-else />
     </template>
-    <v-list-item prepend-icon="mdi-currency-usd" title="Commission" @click="onAddCommission()" />
-    <v-list-item prepend-icon="mdi-bulletin-board" title="Change Price Rule" @click="onChangePriceRule()" />
-    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-silverware" title="Change POS Menu" @click="onChangePOSMenu()" />
-    <v-list-item v-if="isWindow" prepend-icon="mdi-cash-100" title="Open Cash Drawer" @click="onOpenCashDrawer()" />
-    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-grid-large" title="Change/Merge Table" @click="onChangeTable()" />
-    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-cash-100" title="Split Bill" @click="onSplitBill()" />
-    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0 && setting.use_guest_cover == 1" prepend-icon="mdi-account-multiple-outline" :title="`Change Guest Cover (${sale.sale.guest_cover})`" @click="onUpdateGuestCover()" />
-    <v-list-item prepend-icon="mdi-cart" title="Change Sale Type" @click="onChangeSaleType()" />
-    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-chair-school" title="Seat#" @click="onSeatNumber()" />
-    <v-list-item prepend-icon="mdi-cash-100" title="Tax Setting" @click="onChangeTaxSetting()" v-if="sale.setting.tax_rules.length > 0"/>
+    <v-list-item prepend-icon="mdi-currency-usd" :title="$t('Commission')" @click="onAddCommission()" />
+    <v-list-item prepend-icon="mdi-bulletin-board" :title="$t('Change Price Rule')" @click="onChangePriceRule()" />
+    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-silverware" :title="$t('Change POS Menu')" @click="onChangePOSMenu()" />
+    <v-list-item v-if="isWindow" prepend-icon="mdi-cash-100" :title="$t('Open Cash Drawer')" @click="onOpenCashDrawer()" />
+    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-grid-large" :title="$t('Change or Merge Table')" @click="onChangeTable()" />
+    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-cash-100" :title="$t('Split Bill')" @click="onSplitBill()" />
+    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0 && setting.use_guest_cover == 1" prepend-icon="mdi-account-multiple-outline" :title="`${$t('Change Guest Cover')} (${sale.sale.guest_cover})`" @click="onUpdateGuestCover()" />
+    <v-list-item prepend-icon="mdi-cart" :title="$t('Change Sale Type')" @click="onChangeSaleType()" />
+    <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-chair-school" :title="$t('Seat') + '#'" @click="onSeatNumber()" />
+    <v-list-item prepend-icon="mdi-cash-100" :title="$t('Tax Setting')" @click="onChangeTaxSetting()" v-if="sale.setting.tax_rules.length > 0"/>
     <v-list-item v-if="sale.sale.sale_products?.filter(r=>r.name == undefined).length>0" @click="onClearOrder()">
         <template #prepend>
             <v-icon color="error" icon="mdi-autorenew"></v-icon>
         </template>
-        <v-list-item-title class="text-orange-700">Cancel Order</v-list-item-title>
+        <v-list-item-title class="text-orange-700">{{ $t('Cancel Order') }}</v-list-item-title>
     </v-list-item>
     <v-divider inset></v-divider>
     <v-list-item v-if="sale.sale.name" @click="onDeleteBill()">
         <template #prepend>
             <v-icon color="error" icon="mdi-delete"></v-icon>
         </template>
-        <v-list-item-title class="text-red-700">Delete Bill {{ showSplitBill }}</v-list-item-title>
+        <v-list-item-title class="text-red-700">{{ $t('Delete Bill') }} {{ showSplitBill }}</v-list-item-title>
     </v-list-item>
 </template>
 <script setup>
-import { useRouter, splitBillDialog,addCommissionDialog,ComSaleReferenceNumberDialog,viewBillModelModel,ref, inject,confirm, keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog ,createResource } from "@/plugin"
+import { useRouter, splitBillDialog,addCommissionDialog,ComSaleReferenceNumberDialog,viewBillModelModel,ref, inject,confirm, createResource ,
+    keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog ,i18n} from "@/plugin"
 import { useDisplay } from 'vuetify'
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
 import socket from '@/utils/socketio';
+
+const { t: $t } = i18n.global;  
 
 const { mobile } = useDisplay()
 const toaster = createToaster({ position: 'top' })
@@ -60,7 +63,7 @@ async function onViewBill() {
 }
 async function onUpdateGuestCover() {
     if (setting.use_guest_cover == 1) {
-        const result = await keyboardDialog({ title: "Guest Cover", type: 'number', value: sale.sale.guest_cover });
+        const result = await keyboardDialog({ title: $t('Guest Cover'), type: 'number', value: sale.sale.guest_cover });
 
         if (typeof result != 'boolean' && result != false || result == 0) {
 
@@ -86,7 +89,7 @@ async function onChangeTable() {
 }
 async function onChangePriceRule() {
     if (sale.sale.sale_status != 'New') {
-        toaster.warning("This sale order is not new order.");
+        toaster.warning($t('msg.This bill is not new order'));
         return;
     }
     if (!sale.isBillRequested()) {
@@ -99,7 +102,7 @@ async function onChangePriceRule() {
             }
             
             window.postMessage("close_modal","*");
-            toaster.success("Price Rule Was Change Successfull");
+            toaster.success("msg.Change price rule successfully");
         }
     }
 }
@@ -113,7 +116,7 @@ async function onChangePOSMenu() {
                 product.getProductMenuByProductCategory(db,"All Product Categories")
             }
         window.postMessage("close_modal","*");
-        toaster.success("POS Menu Was Change Successfull ");
+        toaster.success("msg.Change POS Menu successfully");
         
     }
 
@@ -134,7 +137,7 @@ function onOpenCashDrawer() {
     });
 }
 async function onSeatNumber(){ 
-    const result = await keyboardDialog({ title: "Change Seat Number", type: 'number', value: sale.sale.seat_number });
+    const result = await keyboardDialog({ title: $t('Change Seat Number'), type: 'number', value: sale.sale.seat_number });
 
         if (typeof result == 'number') {
 
@@ -159,7 +162,7 @@ async function onDeleteBill() {
     gv.authorize("delete_bill_required_password", "delete_bill", "delete_bill_required_note", "Delete Bill Note").then(async (v) => {
         if (v) {
             if(v.show_confirm==1){
-                if(await confirm({title:'Delete Sale Order', text:'Are you sure you want delete this sale order?'}) == false){
+                if(await confirm({title:$t('Delete Sale Order'), text:'msg.are you sure to delete this sale order'}) == false){
                     window.postMessage("close_modal","*");
                     return;
                 }
@@ -186,7 +189,7 @@ async function onDeleteBill() {
 
             await deleteSaleResource.fetch().then((v)=>{
                 isLoading.value = false;
-                toaster.success("Delete sale order successfully");
+                toaster.success("msg.Delete sale order successfully");
                 //print to kitchen
                 onProcessPrintToKitchen(_sale);
 
@@ -254,7 +257,7 @@ function onProcessPrintToKitchen(doc){
 }
 
 async function onClearOrder(){
-    if(await confirm({title:'Cancel sale order', text:'Are your sure you want to cancel this sale order?'})){
+    if(await confirm({title:$t('Cancel sale order'), text:'msg.are your sure to cancel this sale order'})){
         const sale_products = JSON.parse(JSON.stringify(sale.sale.sale_products.filter(r=>r.name != undefined))); 
     sale.sale.sale_products = sale_products || [];
     sale.updateSaleSummary();
@@ -280,13 +283,13 @@ async function onAddCommission(){
 async function onSplitBill(){
     if(!sale.isBillRequested()) {
         if(sale.sale.sale_products.length == 0){
-            toaster.warning("Please select a menu item to submit order");
+            toaster.warning("msg.Please select a menu item to submit order");
             return;
         }
         else if(sale.sale.sale_status != 'Submitted' || sale.sale.sale_products.find(r=>r.sale_product_status != 'Submitted')){
-            toaster.warning("Please submit your current order.")
+            toaster.warning($t('msg.please save or submit your current order first',[$t('Submit')]))
         }else{
-            const res = await splitBillDialog({ title: 'Split Bill by Items', name: 'Split Bill', data: sale.sale });     
+            const res = await splitBillDialog({ title: $t('Split Bill'), name: 'Split Bill', data: sale.sale });     
             if (res != false) {  
                 sale.getTableSaleList()
             }
@@ -297,6 +300,8 @@ async function onSplitBill(){
 }
 
 async function onChangeTaxSetting(){
-    const resp = await sale.onChangeTaxSetting("Change Tax Setting",sale.sale.tax_rule,sale.sale.change_tax_setting_note,gv );     
+    const resp = await sale.onChangeTaxSetting($t('Change Tax Setting'),sale.sale.tax_rule,sale.sale.change_tax_setting_note,gv );     
 }
+
+
 </script>

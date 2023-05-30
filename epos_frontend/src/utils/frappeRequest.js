@@ -1,6 +1,8 @@
 import { request } from './request'
 import { createToaster } from "@meforma/vue-toaster";
-import {createRouter, useRouter} from 'vue-router'
+import {createRouter, useRouter} from 'vue-router';
+import { i18n } from "@/plugin";
+
 export function frappeRequest(options) {
   return request({
     ...options,
@@ -133,7 +135,14 @@ export function frappeRequest(options) {
               if(msg.length == 3 && msg[0] == 'Error' && msg[1].search('Value missing for')){
                 toaster.warning(`Invalid ${msg[2]}`);
               }else{
-                toaster.error(r);
+                switch(r){
+                  case 'Invalid PIN Code':
+                    break;
+                  default: 
+                    toaster.error(r);
+                  break;
+                }             
+                
               }
             });
           }

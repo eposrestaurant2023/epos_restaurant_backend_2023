@@ -55,7 +55,7 @@ import ComButtonToTableLayout from './ComButtonToTableLayout.vue';
 import ComSaleButtonMore from './ComSaleButtonMore.vue';
 import Enumerable from 'linq';
 import { useDisplay } from 'vuetify'
-import { whenever  } from '@vueuse/core';
+import { whenever,useMagicKeys  } from '@vueuse/core';
 
 const { mobile } = useDisplay()
 const router = useRouter()
@@ -67,6 +67,36 @@ const setting = gv.setting;
 const toaster = createToaster({ position: "top" })
 const emit = defineEmits(["onSubmitAndNew", 'onClose'])
 const device_setting = JSON.parse(localStorage.getItem("device_setting"))
+
+const { ctrl_p } = useMagicKeys({
+    passive: false,
+    onEventFired(e) {
+      if (e.ctrlKey && e.key === 'p' && e.type === 'keydown')
+        e.preventDefault()
+    },
+})
+
+const { ctrl_r } = useMagicKeys({
+    passive: false,
+    onEventFired(e) {
+      if (e.ctrlKey && e.key === 'r' && e.type === 'keydown')
+        e.preventDefault()
+    },
+})
+const { ctrl_u } = useMagicKeys({
+    passive: false,
+    onEventFired(e) {
+      console.log(e)
+      if (e.ctrlKey && e.key === 'u' && e.type === 'keydown')
+        e.preventDefault()
+    },
+})
+
+whenever(ctrl_p, () => onChangePriceRule())
+whenever(ctrl_r, () => onChangeTaxSetting())
+whenever(ctrl_u, () => onAddCommission())
+
+
 
 
 sale.vue.$onKeyStroke('F10',(e)=>{
@@ -82,12 +112,7 @@ sale.vue.$onKeyStroke('F11',(e)=>{
   if(sale.dialogActiveState==false){
     onSaleDiscount('Amount')
   }
-  
 })
-
-whenever(sale.magicKey.ctrlP, () => onChangePriceRule())
-whenever(sale.magicKey.ctrlR, () => onChangeTaxSetting())
-whenever(sale.magicKey.ctrlU, () => onAddCommission())
 
 async function onAddCommission(){
     if(!sale.isBillRequested()) {
@@ -115,7 +140,7 @@ async function onReferenceNumber(){
 }
 
 async function onChangePriceRule() {
-    
+    console.log(55)
     if (sale.sale.sale_status != 'New') {
         toaster.warning("This sale order is not new order.");
         return;

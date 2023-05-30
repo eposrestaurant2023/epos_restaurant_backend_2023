@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { inject, createToaster } from "@/plugin";
+import { inject, createToaster,i18n } from "@/plugin";
 
 const { t: $t } = i18n.global;  
 
