@@ -100,6 +100,7 @@ def get_products(parent_menu):
                 combo_menu_data,
                 combo_group_data,
                 tax_rule,
+                sort_order,
                 tax_rule_data
             from  `tabTemp Product Menu` 
             where 

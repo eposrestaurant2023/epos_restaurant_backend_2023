@@ -1,10 +1,6 @@
 // i18n
 import { createI18n } from 'vue-i18n';
 import { FrappeApp } from 'frappe-js-sdk';
-
-// import en from './locales/en.json';
-// import kh from './locales/kh.json';
- 
  
 async function loadLocaleMessages() {
 	let messages ={};

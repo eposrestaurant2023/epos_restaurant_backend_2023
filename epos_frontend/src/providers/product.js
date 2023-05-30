@@ -101,7 +101,8 @@ export default class Product {
                     "combo_menu_data",
                     "combo_group_data",
                     'tax_rule',
-                    'prices'
+                    'prices',
+                    'sort_order'
                 ],
                 filters: [["product_category", "=", product_category]],
                 limit: 50,
@@ -142,7 +143,8 @@ export default class Product {
                 "use_combo_group",
                 "combo_menu_data",
                 "combo_group_data",
-                "prices"
+                "prices",
+                'sort_order'
             ],
             orFilters: [
                 ["name", "like", '%' + keyword + '%'],

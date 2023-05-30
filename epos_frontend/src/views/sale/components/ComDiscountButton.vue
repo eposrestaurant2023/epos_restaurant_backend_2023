@@ -5,7 +5,7 @@
                 Discount
             </div> -->
             <v-btn :stacked="!mobile"  :height="mobile ? '35px' : undefined" :variant="mobile ? 'tonal':'elevated'" size="small" class="m-0-1 grow" :prepend-icon="mobile ? '' : 'mdi-tag-outline'"  v-bind="props">
-                Discount
+                {{ $t('Discount') }}
             </v-btn>
         </template>
         <v-list>

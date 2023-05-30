@@ -5,11 +5,11 @@
       <ComButtonToTableLayout :is-mobile="false" @closeModel="closeModel()" />
       <template v-if="setting.table_groups && setting.table_groups.length > 0">
         <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested' && !mobile"
-          :variant="mobile ? 'tonal' : 'elevated'" :stacked="!mobile" doctype="Sale" title="Print Bill" />
+          :variant="mobile ? 'tonal' : 'elevated'" :stacked="!mobile" doctype="Sale" :title="$t('Print Bill')" />
         <template v-else>
           <v-btn v-if="!mobile" color="error" size="small" class="m-0-1 grow" :variant="mobile ? 'tonal' : 'elevated'"
             :stacked="!mobile" :prepend-icon="mobile ? '' : 'mdi-printer'" @click="onCancelPrintBill">
-            Cancel Print Bill
+            {{ $t('Cancel Print Bill') }}
           </v-btn>
         </template>
       </template>
@@ -18,28 +18,28 @@
       <v-btn v-if="setting.table_groups && setting.table_groups.length > 0 && !mobile" :variant="mobile ? 'tonal' : 'elevated'"
         :color="mobile ? 'primary' : ''" :stacked="!mobile" size="small" class="m-0-1 grow"
         :prepend-icon="mobile ? '' : 'mdi-plus'" @click="onSubmitAndNew">
-        Submit & New
+        {{ $t('Submit and New') }}
       </v-btn>
       
       <v-btn v-if="setting.table_groups && setting.table_groups.length > 0 && mobile"  :height="mobile ? '35px' : undefined" :variant="mobile ? 'tonal' : 'elevated'"
         :color="mobile ? 'primary' : ''" :stacked="!mobile" size="small" class="m-0-1 grow" 
         :prepend-icon="mobile ? '' : 'mdi-plus'" @click="onSubmitAndNew">
-        New Order
+        {{$t('New Order')}}
       </v-btn>
 
 
       <v-btn v-if="device_setting.show_option_payment ==1" :stacked="!mobile" size="small" color="error" class="m-0-1 grow" :height="mobile ? '35px' : undefined" :variant="mobile ? 'tonal' : 'elevated'"
         :prepend-icon="mobile ? '' : 'mdi-currency-usd'" @click="onQuickPay">
-        Quick Pay
+        {{ $t('Quick Pay') }}
       </v-btn>
       <template v-if="!mobile">
         <v-btn stacked size="small" color="error" class="m-0-1 grow" prepend-icon="mdi-note-outline" v-if="sale.sale.note"
           @click="sale.sale.note = ''">
-          Remove Note
+          {{ $t('Remove Note') }}
         </v-btn>
         <v-btn stacked size="small" class="m-0-1 grow" prepend-icon="mdi-note-outline" @click="sale.onSaleNote(sale.sale)"
           v-else>
-          Note
+          {{ $t('Note') }}
         </v-btn>
       </template>
       <ComSaleButtonMore />
@@ -55,7 +55,8 @@ import ComButtonToTableLayout from './ComButtonToTableLayout.vue';
 import ComSaleButtonMore from './ComSaleButtonMore.vue';
 import Enumerable from 'linq';
 import { useDisplay } from 'vuetify'
-import { whenever  } from '@vueuse/core'
+import { whenever  } from '@vueuse/core';
+
 const { mobile } = useDisplay()
 const router = useRouter()
 const sale = inject("$sale")

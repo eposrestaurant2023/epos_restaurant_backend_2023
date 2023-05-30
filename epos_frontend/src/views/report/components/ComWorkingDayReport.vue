@@ -119,14 +119,17 @@ function onCashierShift(name){
     activeReport.value.cashier_shift = name
     activeReport.value.loading = false
 }
+
 function onPrintFormat(name){
     activeReport.value.loading = true 
     activeReport.value.report_name = name
     activeReport.value.loading = false
 }
+
 function onRefresh(){
     alert('refresh')
 }
+
 </script>
 <style>
 .subtitle-opacity-1 .v-card-subtitle {

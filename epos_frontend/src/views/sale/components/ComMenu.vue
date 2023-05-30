@@ -21,10 +21,10 @@
                     <template #empty>
                         <div class="h-full flex items-center justify-center">
                             <div class="p-6 text-center bg-white rounded-sm">
-                                <div class="text-sm italic mb-2">Please click refresh button to get menu</div>
+                                <div class="text-sm italic mb-2">{{ $t('msg.Please click Refresh to get menu') }}</div>
                                 <div>
                                     <v-btn color="primary" prepend-icon="mdi-refresh" @click="onMenuRefresh()">
-                                        Refresh
+                                        {{ $t('Refresh') }}
                                     </v-btn>
                                 </div>
                             </div>

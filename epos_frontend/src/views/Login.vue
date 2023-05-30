@@ -113,8 +113,10 @@
 
 </template>
 <script setup>
-import { reactive, inject, computed, useStore, useRouter, createResource, createToaster } from '@/plugin'
+import { reactive, inject, computed, useStore, useRouter, createResource, createToaster,i18n } from '@/plugin'
 import { useDisplay } from 'vuetify'; 
+
+const { t: $t } = i18n.global;  
 
 const moment = inject('$moment')
 const gv = inject('$gv')
