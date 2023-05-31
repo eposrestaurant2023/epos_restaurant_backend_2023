@@ -63,6 +63,9 @@ def validate(filters):
 def get_columns(filters):
 	
 	columns = []
+	row_group = [d for d in get_row_groups() if d["label"]==filters.row_group][0]
+ 
+ 
 	if filters.row_group == 'Sale Invoice':
 		columns.append({'fieldname':'row_group','label':filters.row_group,'fieldtype':'Link',"options":"Sale",'align':'left','width':250})
 	else:
@@ -81,15 +84,28 @@ def get_columns(filters):
 
 	fields = get_report_field(filters)
 	for f in fields:
-		if not hide_columns or  f["label"] not in hide_columns:
-			columns.append({
-					'fieldname':"total_" +  f['fieldname'],
-					'label':"Total " + f["label"],
-					'fieldtype':f['fieldtype'],
-					'precision': f["precision"],
-					'align':f['align']
-					}
-				)
+		if (not hide_columns or  f["label"] not in hide_columns)  :
+			 
+			if f['fieldname'] =='commission' :
+				if  row_group["show_commission"]:
+					columns.append({
+						'fieldname':"total_" +  f['fieldname'],
+						'label':"Total " + f["label"],
+						'fieldtype':f['fieldtype'],
+						'precision': f["precision"],
+						'align':f['align']
+						}
+					)
+			else:
+				columns.append({
+						'fieldname':"total_" +  f['fieldname'],
+						'label':"Total " + f["label"],
+						'fieldtype':f['fieldtype'],
+						'precision': f["precision"],
+						'align':f['align']
+						}
+					)
+    
 	if (filters.row_group == "Sale Invoice" or filters.parent_row_group == "Sale Invoice") and filters.get("include_cancelled") == True:
 		columns.append({"label":"Status","fieldname":"docstatus","fieldtype":"Data","align":"center",'width':100})
 	return columns
@@ -391,96 +407,115 @@ def get_row_groups():
 		{
 			"fieldname":"a.parent",
 			"label":"Sale Invoice",
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":True
 		},
 		{
 			"fieldname":"a.product_category",
 			"label":"Category",
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":False
 		},
 		{
 			"fieldname":"if(ifnull(a.product_group,'')='','Not Set',a.product_group)",
 			"label":"Product Group",
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":False
 		},
- 		 {
+		{
 			"fieldname":"a.revenue_group",
 			"label":"Revenue Group",
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":False
 		},
-   		 {
+		{
 			"fieldname":"b.outlet",
 			"label":"Outlet",
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":False
 		},
-      	 {
+		{
 			"fieldname":"if(ifnull(b.tbl_group,'')='','Not Set',b.tbl_group)",
 			"label":_("Table Group"),
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":True
 		},
-         {
+		{
 			"fieldname":"if(ifnull(b.tbl_number,'')='','Not Set',b.tbl_number)",
 			"label":_("Table"),
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":False
 		},
 		{
 			"fieldname":"b.business_branch",
 			"label":"Business Branch",
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":True
 		},
 		{
 			"fieldname":"if(ifnull(b.pos_profile,'')='','Not Set',b.pos_profile)",
 			"label":"POS Profile",
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":True
 		},
 		{
 			"fieldname":"if(ifnull(b.customer,'')='','Not Set',concat(b.customer,'-',b.customer_name))",
 			"label":"Customer",
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":False
 		},
 		{
 			"fieldname":"if(ifnull(b.customer_group,'')='','Not Set',b.customer_group)",
 			"label":"Customer Group",
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":False
 		},		
 		{
 			"fieldname":"ifnull(b.stock_location,'Not Set')",
 			"label":"Stock Location",
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":False
 		},
 		{
 			"fieldname":"date_format(b.posting_date,'%%d/%%m/%%Y')",
 			"label":"Date",
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":True
 		},
 		{
 			"fieldname":"date_format(b.posting_date,'%%m/%%Y')",
 			"label":"Month",
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":True
 		},
 		{
 			"fieldname":"date_format(b.posting_date,'%%Y')",
 			"label":"Year",
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":True
 		},
-  
+
 		{
 			"fieldname":"concat(a.product_code,'-',a.product_name)",
-			"label":"Product"
+			"label":"Product",
+			"show_commission":False
 		},
   		{
 			"fieldname":"if(ifnull(b.working_day,'')='','Not Set',b.working_day)",
 			"label":_("Working Day"),
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":True
 		},
-    {
+		{
 			"fieldname":"if(ifnull(b.cashier_shift,'')='','Not Set',b.cashier_shift)",
 			"label":_("Cashier Shift"),
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":True
 		},
-     {
+		{
 			"fieldname":"if(ifnull(b.sale_type,'')='','Not Set',b.sale_type)",
 			"label":_("Sale Type"),
-			"parent_row_group_filter_field":"row_group"
+			"parent_row_group_filter_field":"row_group",
+			"show_commission":False
 		},
 	]

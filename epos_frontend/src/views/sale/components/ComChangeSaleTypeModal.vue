@@ -31,7 +31,7 @@ const emit = defineEmits(["resolve"])
 function onClose() {
   emit('resolve', false);
 }
- 
+
 const sale = inject("$sale")
 let saleTypeResource = createResource({
   url: "frappe.client.get_list",

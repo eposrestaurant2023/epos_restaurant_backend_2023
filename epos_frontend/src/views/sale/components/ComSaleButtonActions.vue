@@ -47,7 +47,7 @@
   </div>
 </template>
 <script setup>
-import { inject, useRouter,ref,changePriceRuleDialog,ComSaleReferenceNumberDialog,addCommissionDialog,watch } from '@/plugin';
+import { inject, useRouter,ref,changePriceRuleDialog,changeSaleTypeModalDialog,ComSaleReferenceNumberDialog,addCommissionDialog,watch } from '@/plugin';
 import ComDiscountButton from './ComDiscountButton.vue';
 import ComPrintBillButton from './ComPrintBillButton.vue';
 import { createToaster } from '@meforma/vue-toaster';
@@ -92,6 +92,15 @@ const { ctrl_u } = useMagicKeys({
     },
 })
 
+const { ctrl_t } = useMagicKeys({
+    passive: false,
+    onEventFired(e) {
+      console.log(e)
+      if (e.ctrlKey && e.key === 't' && e.type === 'keydown')
+        e.preventDefault()
+    },
+})
+
 whenever(ctrl_p, () => onChangePriceRule())
 whenever(ctrl_r, () => onChangeTaxSetting())
 whenever(ctrl_u, () => onAddCommission())
@@ -113,6 +122,11 @@ sale.vue.$onKeyStroke('F11',(e)=>{
     onSaleDiscount('Amount')
   }
 })
+
+async function onChangeSaleType() {
+
+const result = await changeSaleTypeModalDialog({})
+}
 
 async function onAddCommission(){
     if(!sale.isBillRequested()) {

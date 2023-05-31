@@ -75,13 +75,6 @@ const { ctrl_s } = useMagicKeys({
 whenever(ctrl_o, () => onSearchSale())
 whenever(ctrl_s, () => onSubmit())
 
-// sale.vue.$onKeyStroke('o', (e) => {
-//     if(sale.dialogActiveState==false && e.ctrlKey==true){
-//       e.preventDefault()
-//       onSearchSale();
-//     }
-// })
-
 
 
 

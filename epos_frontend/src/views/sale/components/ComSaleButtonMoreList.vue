@@ -206,17 +206,17 @@ async function onDeleteBill() {
 
 
 function generateSaleProductPrintToKitchen(doc,note){
-    this.deletedSaleProducts = [];
+    deletedSaleProducts = [];
     (doc.sale_products||[]).forEach((sp)=>{
         if(sp.sale_product_status=="Submitted"){
             sp.note = note;
             sp.deleted_item_note = "Bill Deleted";
-            this.deletedSaleProducts.push(sp);
+            deletedSaleProducts.push(sp);
         }
     });
 
     //generate deleted product to product printer list
-    this.deletedSaleProducts.filter(r => JSON.parse(r.printers).length > 0).forEach((r) => {
+    deletedSaleProducts.filter(r => JSON.parse(r.printers).length > 0).forEach((r) => {
             const pritners = JSON.parse(r.printers);
             pritners.forEach((p) => {
                 this.productPrinters.push({
@@ -242,9 +242,9 @@ function generateSaleProductPrintToKitchen(doc,note){
 function onProcessPrintToKitchen(doc){
     const data = {
             action: "print_to_kitchen",
-            setting: this.setting?.pos_setting,
+            setting: setting?.pos_setting,
             sale: doc,
-            product_printers: this.productPrinters
+            product_printers: productPrinters
         }
 
         if (localStorage.getItem("is_window") == 1) {
@@ -252,8 +252,8 @@ function onProcessPrintToKitchen(doc){
         } else {
             socket.emit("PrintReceipt", JSON.stringify(data))
         }
-        this.deletedSaleProducts = [];
-        this.productPrinters = [];
+        deletedSaleProducts = [];
+        productPrinters = [];
 }
 
 async function onClearOrder(){
