@@ -195,6 +195,7 @@
    "unique": 1
   },
   {
+   "fetch_from": "product_code.sort_order",
    "fieldname": "sort_order",
    "fieldtype": "Int",
    "label": "Sort Order"
@@ -202,7 +203,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-30 15:15:58.088699",
+ "modified": "2023-05-31 10:44:22.692441",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Temp Product Menu",

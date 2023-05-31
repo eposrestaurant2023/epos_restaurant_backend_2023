@@ -45,6 +45,7 @@
 <script setup>
 import { computed, inject, searchCustomerDialog,createResource, customerDetailDialog, scanCustomerCodeDialog, confirmDialog, onMounted,createToaster,addCustomerDialog } from "@/plugin"
 import ComCustomerPromotionChip from "./ComCustomerPromotionChip.vue";
+import { whenever,useMagicKeys  } from '@vueuse/core';
 const sale = inject("$sale")
 const gv = inject("$gv")
 const socket = inject("$socket")
@@ -59,6 +60,17 @@ let customerPromotion = computed({
         return newValue
     }
 })
+
+const { ctrl_m } = useMagicKeys({
+    passive: false,
+    onEventFired(e) {
+      if (e.ctrlKey && e.key === 'm' && e.type === 'keydown')
+        e.preventDefault()
+    },
+})
+
+whenever(ctrl_m, () => onScanCustomerCode())
+
 sale.vue.$onKeyStroke('F9', (e) => {
     e.preventDefault()
     if(sale.dialogActiveState==false){

@@ -20,7 +20,8 @@ def get_product_by_menu(root_menu=""):
                     shortcut_menu,
                     price_rule,
                     photo,
-                    'menu' as type
+                    'menu' as type,
+                    sort_order
                 from `tabPOS Menu` 
                 where 
                     parent_pos_menu='{}' and
@@ -52,7 +53,8 @@ def get_child_menus(parent_menu):
                 background_color,
                 shortcut_menu,
                 price_rule,
-                'menu' as type
+                'menu' as type,
+                sort_order
             from `tabPOS Menu` 
             where 
                 parent_pos_menu='{}' and
@@ -101,7 +103,8 @@ def get_products(parent_menu):
                 combo_group_data,
                 tax_rule,
                 sort_order,
-                tax_rule_data
+                tax_rule_data,
+                sort_order
             from  `tabTemp Product Menu` 
             where 
                 pos_menu='{0}' 
@@ -144,6 +147,7 @@ def get_product_by_barcode(barcode):
                     "type": "product",
                     "append_quantity": 1,
                     "modifiers_data": json.dumps(([pr.business_branch,pr.modifier_category,pr.prefix,pr.modifier_code,pr.price] for pr in p.product_modifiers),default=json_handler),
+                    "sort_order":p.sort_order
                 }
             else:
                 frappe.throw("Item No Name ?")

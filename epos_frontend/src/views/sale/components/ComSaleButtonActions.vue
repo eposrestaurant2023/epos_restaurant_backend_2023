@@ -86,8 +86,14 @@ const { ctrl_r } = useMagicKeys({
 const { ctrl_u } = useMagicKeys({
     passive: false,
     onEventFired(e) {
-      console.log(e)
       if (e.ctrlKey && e.key === 'u' && e.type === 'keydown')
+        e.preventDefault()
+    },
+})
+const { ctrl_q } = useMagicKeys({
+    passive: false,
+    onEventFired(e) {
+      if (e.ctrlKey && e.key === 'q' && e.type === 'keydown')
         e.preventDefault()
     },
 })
@@ -95,7 +101,6 @@ const { ctrl_u } = useMagicKeys({
 const { ctrl_t } = useMagicKeys({
     passive: false,
     onEventFired(e) {
-      console.log(e)
       if (e.ctrlKey && e.key === 't' && e.type === 'keydown')
         e.preventDefault()
     },
@@ -104,7 +109,7 @@ const { ctrl_t } = useMagicKeys({
 whenever(ctrl_p, () => onChangePriceRule())
 whenever(ctrl_r, () => onChangeTaxSetting())
 whenever(ctrl_u, () => onAddCommission())
-
+whenever(ctrl_q, () => onQuickPay())
 
 
 
@@ -200,6 +205,7 @@ function onSaleDiscount(discount_type) {
 
     }
 }
+
 
 async function onQuickPay() {
 

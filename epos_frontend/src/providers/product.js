@@ -46,7 +46,7 @@ export default class Product {
     }
 
     getPOSMenu() {
-
+ 
         if (this.getString(this.searchProductKeyword) == "") {
             if (this.parentMenu) {
                 return this.posMenuResource.data?.filter(r => r.parent == this.parentMenu)
@@ -56,7 +56,10 @@ export default class Product {
                 if (localStorage.getItem('default_menu')) {
                     defaultMenu = localStorage.getItem('default_menu')
                 }
-                return this.posMenuResource.data?.filter(r => r.parent == defaultMenu);
+                //group.orderByDescending("$.order_time").toArray();
+                
+                return   Enumerable.from(this.posMenuResource.data?.filter(r => r.parent == defaultMenu)).orderBy("$.sort_order").thenBy("$.name_en");
+
             }
         } else {
             return this.posMenuResource.data?.filter((r) => {
