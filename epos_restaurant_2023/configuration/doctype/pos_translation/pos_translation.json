@@ -9,7 +9,8 @@
  "engine": "InnoDB",
  "field_order": [
   "translate_key",
-  "translate_text"
+  "translate_text",
+  "is_standard"
  ],
  "fields": [
   {
@@ -22,11 +23,17 @@
    "fieldname": "translate_text",
    "fieldtype": "JSON",
    "label": "Translate Text"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_standard",
+   "fieldtype": "Check",
+   "label": "Is Standard"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-30 14:05:45.033750",
+ "modified": "2023-05-31 15:08:30.379701",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Translation",

@@ -211,6 +211,7 @@ fixtures = [
     {"dt": "Dates"},
     {"dt": "Numbers"},
     {"dt": "Predefine Data"},
+    {"dt": "POS Translation","filters": [["is_standard", "=", "1"]]},
 ]
 
 website_route_rules = [

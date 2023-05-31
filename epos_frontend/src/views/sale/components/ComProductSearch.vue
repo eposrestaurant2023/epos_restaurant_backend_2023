@@ -9,7 +9,6 @@
                 prepend-inner-icon="mdi-magnify"
                 v-model="product.searchProductKeywordStore"
                 v-debounce="onSearch"
-                @onInput="onSearch"
                 @keydown="onKeyDown"
                 :ref="control"
                 />
@@ -26,9 +25,7 @@ const sale=inject("$sale")
 const frappe = inject("$frappe")
 const db = frappe.db();
 let control=ref(null)
-
-
-const toaster = createToaster({position:'bottom'});
+const toaster = createToaster({position:'top-right',maxToasts:2});
 const props = defineProps({
     small: {
         type: Boolean,
@@ -36,25 +33,29 @@ const props = defineProps({
     }
 });
 
-
+const doSearch = ref(true)
 
 function onSearch(key) {
+    if (key){
+        doSearch.value = true
+    }
     if(product.setting.pos_menus.length>0){
         product.searchProductKeyword = key;
         
     }else{
         //search product from db
-        product.searchProductKeywordStore = ""
-        product.getProductFromDbByKeyword(db,key)
-     
-       
-        
+ 
+        if(doSearch.value){ 
+            product.getProductFromDbByKeyword(db,key)
+        }
     }
     
 }
+
 function onKeyDown(event) {
       if(event.key =="Enter"){
-        toaster.info(product.searchProductKeywordStore)
+
+        
        
         const searchProductResource = createResource({
                 url: "epos_restaurant_2023.api.product.get_product_by_barcode",
@@ -66,8 +67,10 @@ function onKeyDown(event) {
         searchProductResource.fetch().then((doc)=>{
 
             sale.addSaleProduct(doc);
-            
+            toaster.success("Added product " + product.searchProductKeywordStore + " successfully")
             product.searchProductKeywordStore = "";
+            doSearch.value = false
+
         });
 
         
