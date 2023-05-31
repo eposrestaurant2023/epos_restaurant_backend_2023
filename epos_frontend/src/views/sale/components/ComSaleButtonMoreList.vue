@@ -50,6 +50,8 @@ const router = useRouter();
 const sale = inject('$sale')
 const gv = inject('$gv')
 const product = inject('$product')
+const frappe = inject("$frappe")
+const db = frappe.db();
 const setting = JSON.parse(localStorage.getItem("setting"))
 const isWindow = localStorage.getItem('is_window') == 1
 const isLoading = ref(false);
@@ -57,7 +59,10 @@ const isLoading = ref(false);
 let deletedSaleProducts = [];
 let productPrinters =[];
 
-
+let count_sale_type=0
+db.getCount('Sale Type').then((count)=>{
+    console.log('count',count)
+})
 async function onViewBill() {
     const result = await viewBillModelModel({})
 }
@@ -219,7 +224,7 @@ function generateSaleProductPrintToKitchen(doc,note){
     deletedSaleProducts.filter(r => JSON.parse(r.printers).length > 0).forEach((r) => {
             const pritners = JSON.parse(r.printers);
             pritners.forEach((p) => {
-                this.productPrinters.push({
+                productPrinters.push({
                     printer: p.printer,
                     group_item_type: p.group_item_type,
                     product_code: r.product_code,
