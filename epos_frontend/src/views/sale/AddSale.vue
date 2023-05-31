@@ -73,11 +73,10 @@ sale.deletedSaleProducts = []
 if (sale.orderBy == null) {
     sale.orderBy = JSON.parse(localStorage.getItem("current_user")).full_name;
 }
- 
+
 sale.orderTime = "";
 if (product.posMenuResource.data?.length == 0) {
     if(product.setting.pos_menus.length>0){
-
         product.loadPOSMenu();
     }else{
         
