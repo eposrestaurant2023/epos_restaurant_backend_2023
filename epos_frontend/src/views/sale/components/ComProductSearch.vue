@@ -11,7 +11,7 @@
                 v-debounce="onSearch"
                 @onInput="onSearch"
                 @keydown="onKeyDown"
-                
+                :ref="control"
                 />
                 
         </div>
@@ -25,6 +25,7 @@ const product =inject("$product")
 const sale=inject("$sale") 
 const frappe = inject("$frappe")
 const db = frappe.db();
+let control=ref(null)
 
 
 const toaster = createToaster({position:'bottom'});
@@ -43,7 +44,10 @@ function onSearch(key) {
         
     }else{
         //search product from db
+        product.searchProductKeywordStore = ""
         product.getProductFromDbByKeyword(db,key)
+     
+       
         
     }
     
