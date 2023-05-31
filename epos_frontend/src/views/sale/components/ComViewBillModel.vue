@@ -1,7 +1,7 @@
 <template>
     <ComModal :fullscreen="true" @onClose="onClose" title-ok-button="OK" :hideOkButton="true">
         <template #title>
-            <span>Sale # : <span v-if="sale.sale.sale_status=='New'">New</span><span v-else>{{ sale.sale.name }}</span></span>
+            <span>{{ $t('Bill') }} # : <span v-if="sale.sale.sale_status=='New'">{{ $t('New') }}</span><span v-else>{{ sale.sale.name }}</span></span>
         </template>
         <template #content>
             <v-container>
@@ -30,17 +30,17 @@
                                 <div>
                                     <ul class="sm:ml-auto flex flex-col p-0 m-0">
                                         <li class="pb-1 flex justify-between items-center">
-                                            <div class="mr-16">Sale#</div>
+                                            <div class="mr-16">{{ $t("Bill") }}#</div>
                                             <span class="ml-auto text-red-500 font-bold">
-                                                <span v-if="sale.sale.sale_status=='New'">New</span><span v-else>{{ sale.sale.name }}</span>
+                                                <span v-if="sale.sale.sale_status=='New'">{{ $t('New') }}</span><span v-else>{{ sale.sale.name }}</span>
                                             </span>
                                         </li>
                                         <li class="pb-1 flex justify-between items-center" v-if="setting.table_groups && setting.table_groups.length > 0">
-                                            <div class="mr-16">Table#</div>
+                                            <div class="mr-16">{{ $t('Table') }} #</div>
                                             <span class="ml-auto">{{ sale.sale.tbl_number }}</span>
                                         </li>
                                         <li class="pb-1 flex justify-between items-center">
-                                            <div class="mr-16">Date</div>
+                                            <div class="mr-16">{{ $t('Date') }}</div>
                                             <span class="ml-auto">{{ sale.sale.posting_date }}</span>
                                         </li>
                                         <li class="flex justify-end">
@@ -57,9 +57,9 @@
                                 <ComTableView>
                                     <template #header>
                                         <tr>
-                                            <th class="!bg-gray-100">No</th>
-                                            <th class="text-center !bg-gray-100">Image</th>
-                                            <th style="width: unset;" class="text-left !bg-gray-100">Description</th>
+                                            <th class="!bg-gray-100">{{ $t('No') }}</th>
+                                            <th class="text-center !bg-gray-100">{{ $t('Image') }}</th>
+                                            <th style="width: unset;" class="text-left !bg-gray-100">{{ $t('Description') }}</th>
                                             <th class="text-center !bg-gray-100">Unit</th>
                                             <th class="text-center !bg-gray-100">QTY</th>
                                             <th class="text-right !bg-gray-100">Price</th>

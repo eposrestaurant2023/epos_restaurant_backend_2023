@@ -1,5 +1,5 @@
 <template>
-    <PageLayout :title="`Sale Order: ${route.params.sale_type}`" icon="mdi-cart" full>
+    <PageLayout :title="`${$t('Sale Order')}: ${route.params.sale_type}`" icon="mdi-cart" full>
         <template #centerCotent>
             <v-tabs align-tabs="center"  v-model="selected" v-if="gv.setting?.pos_setting?.sale_types && gv.setting?.pos_setting?.sale_types.filter(r=>r.is_order_use_table == false).length > 0 && !mobile" @update:modelValue="onSelected">
                 <v-tab v-for="st in gv.setting?.pos_setting?.sale_types.filter(r=>r.is_order_use_table == false)" :key="st.name" :value="st.name">
@@ -17,7 +17,7 @@
         <template #action>
             <v-btn color="info" variant="tonal" icon="mdi-view-dashboard" type="button" @click="onTableLayout"></v-btn>
             <v-btn color="error" variant="tonal" prepend-icon="mdi-cart" type="button" @click="newSale">
-                <span>New</span><span v-if="!mobile"> Order</span>
+                <span>{{!mobile? $t('New Order') : $t('New') }}</span>
             </v-btn>
         </template>
         <template #default> 
@@ -81,37 +81,6 @@ const cashierShiftResource = createResource({
 });
 
 function onOpenOrder(sale_id) {
-    // createResource({
-    //     url: "epos_restaurant_2023.api.api.get_current_shift_information",
-    //     params: {
-    //         business_branch: gv.setting?.business_branch,
-    //         pos_profile: localStorage.getItem("pos_profile")
-    //     },
-    //     auto: true,
-    //     onSuccess(data) {
-    //         if (data.cashier_shift == null) {
-    //             toaster.warning("Please start cashier shift first");
-    //             router.push({ name: "OpenShift" })
-    //         } else if (data.working_day == null) {
-    //             toaster.warning("Please start working day first");
-    //             router.push({ name: "StartWorkingDay" })
-    //         } else {
-    //             if (sale_id) {
-    //                 router.push({ name: "AddSale", params: { name: sale_id } }).then(()=>{
-    //                     localStorage.setItem('redirect_sale_type', selected.value)
-    //                 })
-    //             }
-    //             else {
-    //                 toaster.error("Cannot get sale name")
-    //             }
-
-    //         }
-    //     },
-    //     onError(er) {
-    //         toaster.error(JSON.stringify(er))
-    //     }
-    // })
-
 
     gv.authorize("open_order_required_password", "make_order").then(async (v) => {
         if (v) {
@@ -131,7 +100,7 @@ function onOpenOrder(sale_id) {
                     })
                 }
                 else {
-                    toaster.error("Cannot get sale name")
+                    toaster.error("msg.System can not get sale name")
                 }
         
             } 
@@ -185,8 +154,7 @@ onMounted(() => {
 async function newSale() {
     let guest_cover = 0;
     if (gv.setting.use_guest_cover == 1) {
-        const result = await keyboardDialog({ title: "Guest Cover", type: 'number', value: guest_cover });
-
+        const result = await keyboardDialog({ title: $t('Guest Cover'), type: 'number', value: guest_cover });
         if (typeof result == 'number') {
 
             guest_cover = parseInt(result);
@@ -204,7 +172,7 @@ async function newSale() {
     sale.sale.tbl_number = '';
     sale.sale.sale_type = route.params.sale_type
     if (gv.setting.price_rule != sale.sale.price_rule) {
-        toaster.info("Your current price rule is " + sale.sale.price_rule);
+        toaster.info($t('msg.Your current price rule is',[sale.sale.price_rule]));
     }
     router.push({ name: "AddSale" }).then(()=>{
         localStorage.setItem('redirect_sale_type', selected.value)

@@ -1,5 +1,5 @@
 <template>
-    <PageLayout title="Table Layout" full icon="mdi-cart">
+    <PageLayout :title="$t('Table Layout')" full icon="mdi-cart">
         <template #centerCotent>
             <ComTableGroupTabHeader />
         </template>

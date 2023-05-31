@@ -4,12 +4,12 @@
       <template v-slot:prepend class="w-12">
         <v-icon icon="mdi-keyboard-return"></v-icon>
       </template>
-      <v-list-item-title>Back</v-list-item-title>
+      <v-list-item-title>{{ $t('Back') }}</v-list-item-title>
     </v-list-item>
     <template v-else>
       <v-btn v-if="!mobile" stacked variant="elevated" size="small" class="m-0-1 grow"
         :prepend-icon="'mdi-keyboard-return'" @click="onToTableLayout()">
-        Back
+        {{ $t('Back') }}
       </v-btn>
       <v-btn v-else variant="tonal" size="small" :height="mobile ? '35px' : undefined" class="m-0-1 grow"
         @click="onToTableLayout()">
@@ -22,12 +22,12 @@
       <template v-slot:prepend class="w-12">
         <v-icon icon="mdi-keyboard-return"></v-icon>
       </template>
-      <v-list-item-title>Back</v-list-item-title>
+      <v-list-item-title>{{ $t('Back') }}</v-list-item-title>
     </v-list-item>
     <template v-else>
       <v-btn v-if="!mobile" stacked variant="elevated" size="small" class="m-0-1 grow"
         :prepend-icon="'mdi-keyboard-return'" @click="onToHomePage()">
-        Back
+        {{ $t('Back') }}
       </v-btn>
       <v-btn v-else variant="tonal" size="small" :height="mobile ? '35px' : undefined" class="m-0-1 grow"
         @click="onToHomePage()">

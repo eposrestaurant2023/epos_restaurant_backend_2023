@@ -27,7 +27,7 @@
                     <v-list-item-title class="text-red-700">{{ $t('Cancel Discount') }}</v-list-item-title>
                 </v-list-item>
             </template>
-            <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-chair-school" :title="($('Seat')+'#')"
+            <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-chair-school" :title="($t('Seat')+'#')"
                 @click="sale.onSaleProductSetSeatNumber(saleProduct)"></v-list-item>
             <v-list-item prepend-icon="mdi-note-outline" :title="$t('Note')" v-if="!saleProduct.note"
                 @click="sale.onSaleProductNote(saleProduct)"></v-list-item>

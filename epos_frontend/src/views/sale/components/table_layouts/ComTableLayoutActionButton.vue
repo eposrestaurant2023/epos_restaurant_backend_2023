@@ -4,16 +4,16 @@
     </v-btn>
     <template v-if="!mobile">
         <v-btn @click="onViewPendingOrder">
-            Pending order
+            {{ $t('Pending Order') }}
         </v-btn> 
           <v-btn  @click="onShowHideSaleStatus()">
-           {{ !status ? "Show Status":"Hide Status" }}
+           {{ !status ? $t('Show Status'):$t("Hide Status") }}
         </v-btn> 
     </template>
     {{ isShowTableStatus() }}
     <v-btn :loading="tableLayout.saveTablePositionResource.loading" v-if="tableLayout.canArrangeTable"
         @click="onSaveTablePosition">
-        Save Table Position
+        {{ $t('Save Table Position') }}
     </v-btn>
     <v-menu>
         <template v-slot:activator="{ props }">
@@ -23,7 +23,7 @@
         </template>
         <v-card>
             <v-list v-if="gv.setting?.pos_setting?.sale_types && gv.setting?.pos_setting?.sale_types.filter(r=>r.is_order_use_table == false).length > 0">
-                <v-list-subheader>Change Sale Type</v-list-subheader>
+                <v-list-subheader>{{ $t('Change Sale Type') }}</v-list-subheader>
                 <template  v-for="(st, index) in gv.setting?.pos_setting.sale_types.filter(r=>r.is_order_use_table == false)" :key="index">
                     <v-list-item @click="onSaleType(st.name)">
                         <v-list-item-title>{{ st.sale_type_name }}</v-list-item-title>
@@ -32,17 +32,17 @@
             </v-list>
             <v-list>
                 <template  v-if="!mobile"> 
-                    <v-list-subheader>Table Position</v-list-subheader>
+                    <v-list-subheader>{{ $t('Table Position') }}</v-list-subheader>
                     <v-list-item @click="onEnableArrageTable">
-                        <v-list-item-title>Arrange Table Layout</v-list-item-title>
+                        <v-list-item-title>{{ $t('Arrange Table') }}</v-list-item-title>
                     </v-list-item>
                 </template>
                 <template v-if="mobile">
                     <v-list-item @click="onViewPendingOrder">
-                        <v-list-item-title>Pending Order</v-list-item-title>
+                        <v-list-item-title>{{$t('Pending Order')}}</v-list-item-title>
                     </v-list-item>
                     <v-list-item @click="onShowHideSaleStatus">
-                        <v-list-item-title>  {{ !status ? "Show Status":"Hide Status" }}</v-list-item-title>
+                        <v-list-item-title>   {{ !status ? $t('Show Status'):$t("Hide Status") }}</v-list-item-title>
                     </v-list-item>
                     
                 </template>
@@ -78,7 +78,7 @@ async function onViewPendingOrder() {
         const result = await pendingSaleListDialog({data:{working_day:workingDayResource.data.name, cashier_shift: cashierShiftResource.data.name}})
     }
     else{
-        toaster.error("Cannot get current working day or cashier shift")
+        toaster.error("msg.System can not get current working day or cashier shift")
     }
 } 
 

@@ -3,7 +3,7 @@
         <div v-ripple class="relative p-2 w-full h-full flex justify-center items-center" @click="onBack(data.parent)">
             <div>
                 <v-icon color="white" size="large">mdi-reply</v-icon>
-                <div class="text-white">Back</div>
+                <div class="text-white">{{ $t('Back') }}</div>
             </div>
         </div>
     </div>
@@ -129,7 +129,7 @@ async function onClickProduct() {
         if (p.is_open_product == 1) {
             let productPrices = await keypadWithNoteDialog({
                 data: {
-                    title: `Delete ${p.name}`,
+                    title: `${$t('Delete')} ${p.name}`,
                     label_input: 'Enter Price',
                     note: "Open Menu Note",
                     category_note_name: "Open Menu Note",
