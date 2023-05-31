@@ -18,11 +18,7 @@ export default defineConfig({
 	build: {
 		outDir: '../epos_restaurant_2023/public/epos_frontend',
 		emptyOutDir: true,
-		target: 'es2015',
-	},
-	esbuild: {
-		supported: {
-		  'top-level-await': true //browsers can handle top-level-await features
-		},
-	  }
+		target: 'esnext'
+		// target: 'es2015',
+	}
 });
