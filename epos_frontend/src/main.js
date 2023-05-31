@@ -88,8 +88,6 @@ if((lang||"")==""){
 	localStorage.setItem('lang','en');
 	lang = "en";
 } 
-
-console.log(i18n)
 app.use(i18n);
 
 
