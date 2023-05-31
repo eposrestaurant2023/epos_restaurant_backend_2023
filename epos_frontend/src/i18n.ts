@@ -8,9 +8,9 @@ async function loadLocaleMessages() {
 	const db = frappe.db();
 	await	db.getDoc('POS Translation', (localStorage.getItem('lang')||"en") )
 	.then((docs) => {
-		console.log(messages)
+		 
 		messages = JSON.parse(`{"${docs.name}":${docs.translate_text}}`);
-		console.log(JSON.stringify( messages))
+		 
 	})  
 	return messages;
   }

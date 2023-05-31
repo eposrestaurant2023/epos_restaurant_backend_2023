@@ -89,6 +89,7 @@ if((lang||"")==""){
 	lang = "en";
 } 
 
+console.log(i18n)
 app.use(i18n);
 
 
