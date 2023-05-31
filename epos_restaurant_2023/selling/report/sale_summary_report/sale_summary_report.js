@@ -152,11 +152,6 @@ frappe.query_reports["Sale Summary Report"] = {
 			"default":"None"
 		},
 		{
-			"fieldname": "show_commission",
-			"label": __("Show Commission"),
-			"fieldtype": "Check"
-		},
-		{
 			"fieldname": "hide_columns",
 			"label": __("Hide Columns"),
 			"fieldtype": "MultiSelectList",

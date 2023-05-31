@@ -86,7 +86,7 @@ def get_columns(filters):
 	for f in fields:
 		if (not hide_columns or  f["label"] not in hide_columns)  :
 			 
-			if f['fieldname'] =='commission' :
+			if f['fieldname'] =='commission' or f['fieldname'] =='net_sale' :
 				if  row_group["show_commission"]:
 					columns.append({
 						'fieldname':"total_" +  f['fieldname'],
@@ -294,7 +294,7 @@ def get_report_data(filters,parent_row_group=None,indent=0,group_filter=None):
 		GROUP BY 
 		{1} {2} {3}
 	""".format(get_conditions(filters,group_filter), row_group,item_code,groupdocstatus,normal_filter)	
-	
+	frappe.throw(sql)
 	data = frappe.db.sql(sql,filters, as_dict=1)
 	
 	return data
@@ -397,6 +397,7 @@ def get_report_field(filters):
 		{"label":"Tax", "short_label":"Tax", "fieldname":"total_tax","fieldtype":"Currency","indicator":"Grey","precision":None, "align":"right","chart_color":"#dd5574","sql_expression":"a.total_tax"},
 		{"label":"Amount", "short_label":"Amt", "fieldname":"amount","fieldtype":"Currency","indicator":"Red","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"a.total_revenue"},
 		{"label":"Commission", "short_label":"commission", "fieldname":"commission","fieldtype":"Currency","indicator":"Red","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"b.commission_amount"},
+		{"label":"Net Sale", "short_label":"net_sale", "fieldname":"net_sale","fieldtype":"Currency","indicator":"Red","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"b.grand_total - b.commission_amount"},
   		{"label":"Cost", "short_label":"Cost", "fieldname":"cost","fieldtype":"Currency","indicator":"Red","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"a.cost"},
     	{"label":"Profit", "short_label":"Profit", "fieldname":"profit","fieldtype":"Currency","indicator":"Green","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"a.total_revenue - a.cost"},
 	]
