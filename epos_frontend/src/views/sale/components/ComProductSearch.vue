@@ -5,7 +5,7 @@
                 autofocus
                 keyboard
                 variant="outlined"
-                placeholder="Search..."
+                :placeholder="$t('Search...')"
                 prepend-inner-icon="mdi-magnify"
                 v-model="product.searchProductKeywordStore"
                 v-debounce="onSearch"
@@ -40,6 +40,7 @@ const props = defineProps({
 function onSearch(key) {
     if(product.setting.pos_menus.length>0){
         product.searchProductKeyword = key;
+        
     }else{
         //search product from db
         product.getProductFromDbByKeyword(db,key)

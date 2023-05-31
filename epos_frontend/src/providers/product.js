@@ -167,6 +167,7 @@ export default class Product {
                 d.printers = "[]"
             });
             this.menuProducts = res
+            console.log(this.searchProductKeyword)
         }).catch((err) => {
             console.log(err)
         })
