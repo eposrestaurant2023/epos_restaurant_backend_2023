@@ -93,6 +93,10 @@ function numpad_click(n) {
 }
 
 function onOk() {
+  if((number.value||'').trim()==""){
+    toaster.warning($t("msg.Please enter your pin code"));
+    return;
+  }
  
   createResource({
     url: 'epos_restaurant_2023.api.api.check_username',

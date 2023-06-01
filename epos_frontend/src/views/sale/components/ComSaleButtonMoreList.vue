@@ -124,7 +124,7 @@ async function onChangePriceRule() {
             }
 
             window.postMessage("close_modal", "*");
-            toaster.success("msg.Change price rule successfully");
+            toaster.success($t("msg.Change price rule successfully"));
         }
     }
 }
@@ -138,8 +138,7 @@ async function onChangePOSMenu() {
             product.getProductMenuByProductCategory(db, "All Product Categories")
         }
         window.postMessage("close_modal", "*");
-        toaster.success("msg.Change POS Menu successfully");
-
+        toaster.success($t("msg.Change POS Menu successfully"));
     }
 
 }
@@ -185,7 +184,7 @@ async function onDeleteBill() {
         if (v) {
             if (v.show_confirm == 1) {
                 if (await confirm({ title: $t('Delete Sale Order'), text: $t('msg.are you sure to delete this sale order') }) == false) {
-                    window.postMessage("close_modal", "*");
+                    // window.postMessage("close_modal", "*");
                     return;
                 } 
             }

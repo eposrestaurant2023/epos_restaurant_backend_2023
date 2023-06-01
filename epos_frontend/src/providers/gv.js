@@ -97,7 +97,7 @@ export default class Gv {
 					
 				} else {
 					 
-					toaster.warning($t("You do not have permission to perform this action"))
+					toaster.warning($t("msg.You do not have permission to perform this action"))
 					resolve(false);
 				}
 			}
