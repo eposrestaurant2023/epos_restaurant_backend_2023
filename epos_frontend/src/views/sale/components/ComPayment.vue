@@ -71,7 +71,7 @@
 </template>
 <script setup>
 
-import { inject, ref, onUnmounted,onMounted } from '@/plugin';
+import { inject, ref, onUnmounted,onMounted,i18n } from '@/plugin';
 import ComPaymentInputNumber from "./ComPaymentInputNumber.vue"
 import ComSmallSalePayment from "./mobile_screen/ComSmallSalePayment.vue"
 import { useDisplay } from 'vuetify'
@@ -84,6 +84,8 @@ import ComPaymentSummaryInformation from './ComPaymentSummaryInformation.vue';
 
 import { createToaster } from '@meforma/vue-toaster';
 import router from '../../../router';
+
+const { t: $t } = i18n.global;  
 
 const { mobile } = useDisplay()
 
@@ -122,12 +124,12 @@ async function onPayment() {
 
         if (sale.sale.customer == sale.setting.customer) {
 
-            toaster.warning("Please select customer for payment type " + sale.sale.payment.filter(r => r.required_customer == 1)[0].payment_type);
+            toaster.warning($t("msg.Please select customer for payment type")+" " + sale.sale.payment.filter(r => r.required_customer == 1)[0].payment_type);
             return;
         }
     }
     sale.pos_receipt = selectedReceipt.value;
-    sale.message = "Payment successfully";
+    sale.message = $t("msg.Payment successfully");
     sale.onSubmitPayment(true).then((v) => {
         if (v) {
             
@@ -140,12 +142,12 @@ async function onPaymentWithoutPrint() {
 
         if (sale.sale.customer == sale.setting.customer) {
 
-            toaster.warning("Please select customer for payment type " + sale.sale.payment.filter(r => r.required_customer == 1)[0].payment_type);
+            toaster.warning($t('msg.Please select customer for payment type')+" " + sale.sale.payment.filter(r => r.required_customer == 1)[0].payment_type);
             return;
         }
     }
     sale.pos_receipt = undefined;
-    sale.message = "Payment successfully";
+    sale.message = $t("msg.Payment successfully");
 
 
     sale.onSubmitPayment(false).then((v) => {
