@@ -67,7 +67,6 @@ const toaster = createToaster({ position: "top" })
 sale.vueInstance = getCurrentInstance();
 // console.log(sale.vueInstance)
 sale.vue = sale.vueInstance.appContext.config.globalProperties
-sale.magicKey = sale.vueInstance.appContext.config.globalProperties.$magicKey
 sale.orderTime = null;
 sale.deletedSaleProducts = []
 if (sale.orderBy == null) {

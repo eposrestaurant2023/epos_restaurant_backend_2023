@@ -1,7 +1,7 @@
 <template>
     <ComModal :fullscreen="true" @onClose="onClose()" :hideCloseButton="true">
         <template #title>
-            Currency Prefine
+            {{ $t('Currency Predefine') }}
         </template>
         <template #content>
             <ComPaymentCurrencyPrefine @onSelected="onClose()" :is-mobile="true"/>

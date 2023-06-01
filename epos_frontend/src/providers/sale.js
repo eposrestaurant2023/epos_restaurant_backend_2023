@@ -1126,11 +1126,5 @@ export default class Sale {
         return false
     }
 
-    addKeyStroke(Keyname,method){
-        this.vue.$onKeyStroke(Keyname,method)
-    }
-
-    
-
 
 }

@@ -59,11 +59,11 @@
         sale.onAddPayment(paymentType,n);
         emit('onSelected')
       } else {
-        toaster.warning("There is no default payment for second currency");
+        toaster.warning($t('msg.There is no default payment for second currency'));
       }
   
     } else {
-      toaster.warning("There is no default payment for second currency");
+      toaster.warning($t('msg.There is no default payment for second currency'));
     }
   }
   

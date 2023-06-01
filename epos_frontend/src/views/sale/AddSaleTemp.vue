@@ -59,7 +59,9 @@ const product = inject("$product")
 let openSearch = ref(false)
 const route = useRoute()
 const router = useRouter()
-
+sale.vueInstance = getCurrentInstance();
+// console.log(sale.vueInstance)
+sale.vue = sale.vueInstance.appContext.config.globalProperties
 const toaster = createToaster({ position: "top" })
 
 sale.orderTime = null;

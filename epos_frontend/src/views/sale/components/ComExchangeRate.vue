@@ -1,5 +1,5 @@
 <template>
-    <v-tooltip text="Exchange Rate" location="top">
+    <v-tooltip :text="$t('Exchange Rate')" location="top">
         <template v-slot:activator="{ props }"> 
             <v-chip v-bind="props" color="white" class="m-1" rounded="pill" variant="elevated" size="x-small" >
                 <CurrencyFormat :value="1" :currency="gv.setting.pos_setting.exchange_rate_main_currency"  />  = 

@@ -127,13 +127,19 @@ def get_product_by_barcode(barcode):
     if data:
             if data[0].name:
                 p = frappe.get_doc('Product', data[0].name)
+                price = p.price or 0
+                if p.product_price:
+                    product_price = [d for d in p.product_price if d.unit == p.unit]
+                    if product_price:
+                        price = product_price[0].price
+                        
                 return {
                     "menu_product_name": barcode,
                     "name": p.name,
                     "name_en": p.product_name_en,
                     "name_kh": p.product_name_kh,
                     "parent": p.product_category,
-                    "price": p.price,
+                    "price": price,
                     "unit": p.unit,
                     "allow_discount": p.allow_discount,
                     "allow_change_price": p.allow_change_price,

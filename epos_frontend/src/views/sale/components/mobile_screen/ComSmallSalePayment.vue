@@ -13,7 +13,7 @@
         </div>
         <ComSalePaymentMethodList/>
         <div>
-            <div class="font-bold text-center py-2">Payments</div>
+            <div class="font-bold text-center py-2">{{ $t('Payment') }}</div>
             <ComSalePaymentList/>
         </div>
     </div>

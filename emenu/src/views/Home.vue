@@ -22,6 +22,7 @@ import ComCategoryCard from '../components/layout/components/ComCategoryCard.vue
 const frappe = inject('$frappe')
 const call = frappe.call()
 let categories = ref([])
+
 async function onSelected(shortcut){
   await call.get('epos_restaurant_2023.api.api.get_emenu_category',{
     shortcut: shortcut.name,

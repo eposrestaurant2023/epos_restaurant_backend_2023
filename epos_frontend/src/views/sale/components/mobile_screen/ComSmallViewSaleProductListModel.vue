@@ -1,7 +1,7 @@
 <template>
     <ComModal :fullscreen="true" :hideCloseButton="true" :hideOkButton="true" :fill="true" :isShowBarMoreButton="false" @onClose="onClose()">
         <template #title>
-            Sale# {{ params.title }}
+            {{ $t('Bill') }}# {{ params.title }}
         </template>
         <template #bar_custom>
             <v-btn v-if="params.data?.from_table" icon @click="onAddNewOrder()" v-bind="props">
