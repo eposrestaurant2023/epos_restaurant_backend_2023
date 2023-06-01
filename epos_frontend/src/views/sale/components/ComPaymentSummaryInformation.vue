@@ -17,8 +17,7 @@
         <div class="mb-1 flex justify-between" v-if="balance > 0">
             <div>Balance ({{sale.setting.pos_setting.second_currency_name}}):</div>
             <div>
-                <CurrencyFormat :value="balance * sale.sale.exchange_rate" :currency="sale.setting.pos_setting.second_currency_name"/>
-                
+                <CurrencyFormat :value="balance * sale.sale.exchange_rate" :currency="sale.setting.pos_setting.second_currency_name"/>                
             </div>
         </div>
         <div class="mb-1 flex justify-between" v-if="sale.sale.changed_amount > 0">

@@ -31,6 +31,7 @@ export default class Gv {
 	}
 
 	async authorize(settingKey, permissionCode,requiredNoteKey="",categoryNoteName="", product_code = "", inlineNote = false) {
+
 		return new Promise(async (resolve,reject) => {
 			if (this.setting.pos_setting[settingKey] == 1) {
 				const result = await authorizeDialog({ permissionCode: permissionCode });

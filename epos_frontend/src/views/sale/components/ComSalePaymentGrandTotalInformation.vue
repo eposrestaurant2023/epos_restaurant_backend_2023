@@ -1,6 +1,6 @@
 <template>
-    <div class="bg-red-200 mb-2 rounded-sm" :class="mobile ? 'p-2 font-bold' : 'p-4 text-lg'" @click="emit('onClick')">
-        <div class="text-center">Total Amount</div>
+    <div class="bg-red-200 mb-2 rounded-sm" :class="mobile ? 'p-2' : 'p-4 text-lg'" @click="emit('onClick')">
+        <div class="text-center">{{ $t('Total Amount') }}</div>
         <div class="flex justify-around">
             <div>
                 <CurrencyFormat :value="sale.sale.grand_total" />

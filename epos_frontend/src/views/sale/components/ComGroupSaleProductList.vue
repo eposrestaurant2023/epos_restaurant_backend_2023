@@ -1,5 +1,5 @@
 <template>
-    <ComPlaceholder :is-not-empty="sale.getSaleProducts().length > 0" icon="mdi-cart-outline" text="Empty Product">
+    <ComPlaceholder :is-not-empty="sale.getSaleProducts().length > 0" icon="mdi-cart-outline" :text="$t('Empty Data')">
         <div v-for="(g, index) in sale.getSaleProductGroupByKey()" :key="index">
        
                 <div class="bg-red-700 text-white flex items-center justify-between" style="font-size: 10px; padding: 2px;">

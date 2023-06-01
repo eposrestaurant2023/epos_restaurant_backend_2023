@@ -41,7 +41,6 @@ export default class Sale {
         };
         this.vueInstance=null;
         this.vue=null;
-        this.magickey=null;
         this.newSaleResource = null;
         this.saleResource = null;
         this.paymentInputNumber = "";

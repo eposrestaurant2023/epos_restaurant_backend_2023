@@ -43,7 +43,7 @@
     </div>
 </template>
 <script setup>
-import { computed, inject, searchCustomerDialog,createResource, customerDetailDialog, scanCustomerCodeDialog, confirmDialog, onMounted,createToaster,addCustomerDialog } from "@/plugin"
+import { computed, inject, getCurrentInstance,searchCustomerDialog,createResource, customerDetailDialog, scanCustomerCodeDialog, confirmDialog, onMounted,createToaster,addCustomerDialog } from "@/plugin"
 import ComCustomerPromotionChip from "./ComCustomerPromotionChip.vue";
 import { whenever,useMagicKeys  } from '@vueuse/core';
 import { useDisplay } from 'vuetify'
@@ -53,7 +53,9 @@ const socket = inject("$socket")
 const moment = inject("$moment")
 const toaster = createToaster({ position: "top" });
 // const { mobile } = useDisplay()
-
+sale.vueInstance = getCurrentInstance();
+// // console.log(sale.vueInstance)
+sale.vue = sale.vueInstance.appContext.config.globalProperties
 let customerPromotion = computed({
     get(){
         return gv.getPromotionByCustomerGroup(sale.sale.customer_group)
@@ -71,7 +73,6 @@ let customerPromotion = computed({
         e.preventDefault()
     },
 })
-
 whenever(ctrl_m, () => onScanCustomerCode())
 
 sale.vue.$onKeyStroke('F9', (e) => {

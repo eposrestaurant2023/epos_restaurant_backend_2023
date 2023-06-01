@@ -3,7 +3,7 @@
         <ComSalePaymentGrandTotalInformation @onClick="onShowCurrencyPrefine()"/>
         <div>
             <v-text-field 
-            label="Enter number"
+            :label="$t('Enter Number')"
             type="number"
             variant="solo"
             v-model="sale.paymentInputNumber"

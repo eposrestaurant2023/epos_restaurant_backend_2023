@@ -78,7 +78,7 @@
   </ComModal>
 </template>
 <script setup>
-import { useRouter, defineProps, createResource, defineEmits, ref, inject, createToaster,i18n } from "@/plugin"
+import { useRouter, defineProps, createResource, defineEmits, ref, inject, createToaster,i18n,onMounted } from "@/plugin"
 import { Timeago } from 'vue2-timeago'
 import { saleDetailDialog } from "@/utils/dialog";
 import ComModal from "../../components/ComModal.vue";
@@ -121,6 +121,7 @@ function onOpenOrder(sale_id) {
           }) 
       } else {
         if(sale_id){
+          console.log('AddSale')
           router.push({ name: "AddSale", params: { name: sale_id } }).then(()=>{
             onClose()
           })
@@ -149,6 +150,8 @@ async function onViewSaleOrder(sale_id) {
     }
   }
 }
+
+
 let params = ref({
   doctype: "Sale",
   fields: ["name", "modified", "sale_status", "sale_status_color","sale_type","sale_type_color", "tbl_number", "guest_cover", "customer", "customer_name", "total_quantity", "grand_total"],
@@ -172,6 +175,7 @@ if (!props.params.data.working_day)
 
 saleResource.params = params.value
 saleResource.fetch()
+
 
 function onClose() {
   emit('resolve', false);

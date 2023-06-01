@@ -263,6 +263,7 @@ async function openOrder(s) {
             
         })
     }else{
+        
         router.push({ name: "AddSale", params: { name: s.name } });
     }
     emit('resolve', false);

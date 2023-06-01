@@ -22,6 +22,7 @@
                 </div>
             </template>
         </v-window-item>
+        
         <v-window-item v-else :value="g.key" v-bind:style="{ 'min-height': 'auto' }" class="mt-2 mb-4">
             <v-row>
                 <v-col cols="6" v-for="(t, index) in g.tables" :key="index">
@@ -58,6 +59,7 @@ const gv = inject("$gv");
 const sale = inject("$sale");
 const router = useRouter()
 function onTableClick(table, guest_cover) {
+    
     gv.authorize("open_order_required_password", "make_order").then(async (v) => {
         if (v) {
             sale.orderBy = v.user;

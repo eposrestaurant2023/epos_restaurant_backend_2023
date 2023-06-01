@@ -18,8 +18,6 @@
 </template>
 <script setup>
 import PageLayout from '../../components/layout/PageLayout.vue';
-
-
 import { inject, createResource, useRouter,createToaster,onMounted , onUnmounted,ref} from "@/plugin"
 import ComTableGroupTabHeader from './components/table_layouts/ComTableGroupTabHeader.vue';
 import ComSaleStatusInformation from './components/ComSaleStatusInformation.vue';

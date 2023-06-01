@@ -184,10 +184,10 @@ async function onDeleteBill() {
     gv.authorize("delete_bill_required_password", "delete_bill", "delete_bill_required_note", "Delete Bill Note").then(async (v) => {
         if (v) {
             if (v.show_confirm == 1) {
-                if (await confirm({ title: $t('Delete Sale Order'), text: 'msg.are you sure to delete this sale order' }) == false) {
+                if (await confirm({ title: $t('Delete Sale Order'), text: $t('msg.are you sure to delete this sale order') }) == false) {
                     window.postMessage("close_modal", "*");
                     return;
-                }
+                } 
             }
 
             //cancel payment first
@@ -196,7 +196,6 @@ async function onDeleteBill() {
             //send deleted sale product to temp deleted
             const _sale = JSON.parse(JSON.stringify(sale.sale));
             generateSaleProductPrintToKitchen(_sale, v.note);
-
 
             const deleteSaleResource = createResource({
                 url: "epos_restaurant_2023.api.api.delete_sale",
@@ -211,10 +210,9 @@ async function onDeleteBill() {
 
             await deleteSaleResource.fetch().then((v) => {
                 isLoading.value = false;
-                toaster.success("msg.Delete sale order successfully");
+                toaster.success($t("msg.Delete sale order successfully"));
                 //print to kitchen
                 onProcessPrintToKitchen(_sale);
-
                 sale.newSale();
                 if (sale.setting.table_groups.length > 0) {
                     router.push({ name: 'TableLayout' });
@@ -279,7 +277,7 @@ function onProcessPrintToKitchen(doc) {
 }
 
 async function onClearOrder() {
-    if (await confirm({ title: $t('Cancel sale order'), text: 'msg.are your sure to cancel this sale order' })) {
+    if (await confirm({ title: $t('Cancel sale order'), text: $t('msg.are your sure to cancel this sale order') })) {
         const sale_products = JSON.parse(JSON.stringify(sale.sale.sale_products.filter(r => r.name != undefined)));
         sale.sale.sale_products = sale_products || [];
         sale.updateSaleSummary();
@@ -305,7 +303,7 @@ async function onAddCommission() {
 async function onSplitBill() {
     if (!sale.isBillRequested()) {
         if (sale.sale.sale_products.length == 0) {
-            toaster.warning("msg.Please select a menu item to submit order");
+            toaster.warning($t("msg.Please select a menu item to submit order"));
             return;
         }
         else if (sale.sale.sale_status != 'Submitted' || sale.sale.sale_products.find(r => r.sale_product_status != 'Submitted')) {
