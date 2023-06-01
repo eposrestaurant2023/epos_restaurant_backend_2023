@@ -474,8 +474,7 @@ export default class Sale {
         //grand_total
         this.sale.grand_total = (this.sale.sub_total - this.sale.total_discount) + this.sale.total_tax
         this.sale.balance = this.sale.grand_total;
-        console.log(this.sale.balance)
-
+       
         // commission
         if (this.sale.commission_type == "Percent") {
             this.sale.commission_amount = (this.sale.grand_total * this.sale.commission / 100);
