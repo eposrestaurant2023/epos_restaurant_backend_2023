@@ -6,11 +6,11 @@
         titleButtonOk="OK"
         >
         <template #title>
-            Choose Product Portion & Modifier
+            {{ $t('Portion and Modifier') }}
         </template>
         <template #content>
             <div class="mb-4">
-                        <ComInput prepend-inner-icon="mdi-magnify" keyboard :value="keyword" v-debounce="onSearch" @onInput="onSearch" placeholder="Search Portion & Modifier"/>
+                        <ComInput prepend-inner-icon="mdi-magnify" keyboard :value="keyword" v-debounce="onSearch" @onInput="onSearch" :placeholder="$t('Search')"/>
                     </div>
                     <div>
                         <div>
@@ -23,7 +23,7 @@
                             </v-chip>
                         </div> 
                         <v-expansion-panels v-model="panelPortion" multiple variant="accordion">
-                            <v-expansion-panel title="Portion" v-if="product?.prices?.filter(r=>r.price_rule == sale.sale.price_rule).length>1" :class="mobile ? 'panel-small' : ''">
+                            <v-expansion-panel :title="$t('Portion')" v-if="product?.prices?.filter(r=>r.price_rule == sale.sale.price_rule).length>1" :class="mobile ? 'panel-small' : ''">
                                 <v-expansion-panel-text>
                                     <div class="flex flex-wrap">
                                         <div class="m-1" v-for="(item, i) in product.prices.filter(r=>r.price_rule == sale.sale.price_rule)" :key="i">
@@ -36,7 +36,7 @@
                                 <v-expansion-panel v-if="product.getModifierItem(item).length>0" class="mt-2" variant="accordion" :class="mobile ? 'panel-small' : ''">
                                    <template #title>
                                     <span>{{  item.category  }}</span> 
-                                    <span v-if="item.is_required" class="text-red-500 mx-2 text-xs">* Required</span>
+                                    <span v-if="item.is_required" class="text-red-500 mx-2 text-xs">* {{ $t('Required') }}</span>
                                    </template>
                                     <v-expansion-panel-text>
                                         <div class="flex flex-wrap">

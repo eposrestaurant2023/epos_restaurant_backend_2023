@@ -1,7 +1,7 @@
 <template>
   <ComModal @onClose="onClose()" :hide-ok-button="true" width="400px">
     <template #title>
-      <div>Change Sale Type</div>
+      <div>{{ $t('Change Sale Type') }}</div>
     </template>
     <template #content>
       <v-list>

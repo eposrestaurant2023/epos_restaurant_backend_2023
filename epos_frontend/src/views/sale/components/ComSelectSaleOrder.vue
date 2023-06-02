@@ -2,7 +2,7 @@
 <template>
     <ComModal  :fullscreen="mobile" @onClose="onClose" width="1200px" :hideOkButton="true" :hideCloseButton="true">
         <template #title>
-            Table No: {{ params.table.tbl_no }}
+            {{ $t('Table') }}#: {{ params.table.tbl_no }}
         </template>
         <template #content>
             <ComLoadingDialog v-if="isLoading" />
@@ -29,12 +29,14 @@
     
 </template>
 <script setup>
-import { inject, ref, useRouter, confirmDialog,  createDocumentResource ,createResource,smallViewSaleProductListModel } from '@/plugin'
+import { inject, ref, useRouter, confirmDialog,  createDocumentResource ,createResource,smallViewSaleProductListModel,i18n } from '@/plugin'
 import { useDisplay } from 'vuetify'
 import ComSaleListItem from './ComSaleListItem.vue';
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
 import { createToaster } from "@meforma/vue-toaster";
 import ComSelectSaleOrderAction from './ComSelectSaleOrderAction.vue';
+
+const { t: $t } = i18n.global; 
 
 const isLoading = ref(false);
 const { mobile } = useDisplay()
@@ -54,37 +56,27 @@ const props = defineProps({
 
 
 async function onPrintAllBill(r) {
-
-
     if (r.pos_receipt_file_name == null) {
-        toaster.warning("This receipt doest not have POS receipt file");
+        toaster.warning($t('msg.This receipt have not POS receipt file'));
         return;
     }
     if (props.params.data.filter(r => r.sale_status == "Submitted").length == 0) {
-        toaster.warning("All receipt are printed");
+        toaster.warning($t('msg.All receipts were printed'));
         return;
     }
 
-    if (await confirmDialog({ title: "Print All Receipt", text: "Are you sure you want to print all receipt?" })) {
-
-
-
+    if (await confirmDialog({ title:$t('Print all Receipts'), text:$t('msg.are you sure to print all receipts') })) {
         let promises = [];
         isLoading.value = true;
         props.params.data.filter(r => r.sale_status == "Submitted").forEach(async (d) => {
             promises.push(PrintReceipt(d, r));
         });
-
-
-
+        
         Promise.all(promises).then(() => {
-
-            toaster.success("All receipts has been sent to printer successfully");
+            toaster.success($t('msg.All receipts has been sent to printer successfully'));
             tableLayout.getSaleList();
             isLoading.value = false;
-
             emit('resolve', true);
-
         })
     }
 
@@ -92,11 +84,11 @@ async function onPrintAllBill(r) {
 
 async function onQuickPay(isPrint=true) {
      if (props.params.data.filter(r => r.sale_status == "Submitted" || r.sale_status == "Bill Requested" ).length == 0) {
-        toaster.warning("There is no bill to close.");
+        toaster.warning($t("msg.There are no bills to settle"));
         return;
     }
 
-    if (await confirmDialog({ title: "Quick Receipt", text: "Are you sure you want to process payment all receipt?" })) {
+    if (await confirmDialog({ title: $t("Quick Pay"), text: $t('msg.are you sure to process quick pay and close order') })) {
         isLoading.value = true;
         const promises = [];
         props.params.data.filter(r => r.sale_status == "Submitted" || r.sale_status == "Bill Requested").forEach(async (d) => {
@@ -105,16 +97,11 @@ async function onQuickPay(isPrint=true) {
         });
 
         Promise.all(promises).then(() => {
-
-            toaster.success("All receipts has been close successfully");
+            toaster.success($t('msg.Payment successfully'));
             tableLayout.getSaleList();
             isLoading.value = false;
-
             emit('resolve', true);
-
-        })
-
-        
+        })        
     }
 }
 
@@ -180,15 +167,8 @@ async function PrintReceipt(d, r) {
                 if (localStorage.getItem("is_window") == "1") {
                     window.chrome.webview.postMessage(JSON.stringify(data));
                 }
-
-
-
             }
             d.sale_status = "Bill Requested";
-
-
-
-
         },
     });
 
@@ -212,7 +192,7 @@ async function PrintReceipt(d, r) {
 
 async function onCancelPrintBill() {
     if (props.params.data.filter(r => r.sale_status == "Bill Requested").length == 0) {
-        toaster.warning("There is no bill printed to cancel.");
+        toaster.warning($t('msg.There are no bills to cancel print'));
         return;
     }
 
@@ -226,14 +206,10 @@ async function onCancelPrintBill() {
             });
 
             Promise.all(promises).then(() => {
-                toaster.success("Cancel print bill successfully");
+                toaster.success($t('msg.Cancel print successfully'));
                 tableLayout.getSaleList();
-                isLoading.value = false;
-
-               
+                isLoading.value = false;               
             });
-
-
         }
     })
 
@@ -251,7 +227,6 @@ async function submitCancelPrintBill(d){
         }).then((data)=>{
             d.sale_status = "Submitted";
             d.sale_status_color = sale.setting.sale_status.find(r => r.name == 'Submitted').background_color;
-
         });
 	})
 }
@@ -259,11 +234,9 @@ async function submitCancelPrintBill(d){
 async function openOrder(s) {
     if(mobile.value){
         await sale.LoadSaleData(s.name).then(async (v)=>{
-            const result =  await smallViewSaleProductListModel ({title: s.name ? s.name : 'New Sale', data: {from_table: true}});
-            
+            const result =  await smallViewSaleProductListModel ({title: s.name ? s.name : 'New Sale', data: {from_table: true}});            
         })
-    }else{
-        
+    }else{        
         router.push({ name: "AddSale", params: { name: s.name } });
     }
     emit('resolve', false);

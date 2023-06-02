@@ -60,10 +60,10 @@
                                             <th class="!bg-gray-100">{{ $t('No') }}</th>
                                             <th class="text-center !bg-gray-100">{{ $t('Image') }}</th>
                                             <th style="width: unset;" class="text-left !bg-gray-100">{{ $t('Description') }}</th>
-                                            <th class="text-center !bg-gray-100">Unit</th>
-                                            <th class="text-center !bg-gray-100">QTY</th>
-                                            <th class="text-right !bg-gray-100">Price</th>
-                                            <th class="text-right !bg-gray-100">Amount</th>
+                                            <th class="text-center !bg-gray-100">{{ $t('Unit') }}</th>
+                                            <th class="text-center !bg-gray-100">{{ $t('Qty') }} </th>
+                                            <th class="text-right !bg-gray-100">{{ $t('Price') }}</th>
+                                            <th class="text-right !bg-gray-100">{{ $t('Amount') }}</th>
                                         </tr>
                                     </template>
                                     <template #body>
@@ -74,14 +74,14 @@
                                                 <div>
                                                     <span class="mr-1">{{ p.product_code }} - {{ p.product_name }}</span>
                                                     <v-chip class="mr-1" size="x-small" color="error" variant="outlined" v-if="p.portion">{{ p.portion }}</v-chip>
-                                                    <v-chip class="mr-1" v-if="p.is_free" size="x-small" color="success" variant="outlined">Free</v-chip>
+                                                    <v-chip class="mr-1" v-if="p.is_free" size="x-small" color="success" variant="outlined">{{ $t('Free') }}</v-chip>
                                                 </div>
                                                 <div class="text-xs pt-1">
                                                     <div v-if="p.modifiers">
                                                         <span>{{ p.modifiers }} (<CurrencyFormat :value="p.modifiers_price*p.quantity" />)</span>
                                                     </div>
                                                     <div class="text-red-500" v-if="p.discount > 0">
-                                                        Discount : 
+                                                        {{ $t('Discount') }} : 
                                                         <span v-if="p.discount_type == 'Percent'">{{ p.discount }}%</span>
                                                         <CurrencyFormat v-else :value="parseFloat(p.discount)" />
                                                     </div>
@@ -102,30 +102,31 @@
                             <div class="flex justify-end">
                                 <ul class="sm:ml-auto flex flex-col m-0 p-3">
                                     <li class="py-1 flex justify-between items-center" v-if="sale.sale.total_quantity > 0">
-                                        <div class="mr-16">Total Quantity</div>
+                                        <div class="mr-16">{{ $t('Total Quantity') }}</div>
                                         <span class="ml-auto">{{ sale.sale.total_quantity }}</span>
                                     </li>
                                     <li class="py-1 flex justify-between items-center" v-if="(sale.sale.total_discount + sale.sale.total_tax) > 0">
-                                        <div class="mr-16">Sub Total</div>
+                                        <div class="mr-16">{{ $t('Sub Total') }}</div>
                                         <span class="ml-auto"><CurrencyFormat :value="sale.sale.sub_total"/></span>
                                     </li>
                                     <li class="py-1 flex justify-between items-center" v-if="sale.sale.product_discount > 0">
                                         <div class="mr-16">
-                                            <span v-if="sale.sale.sale_discount > 0 ">Product</span>
-                                            <span> Discount</span>
+                                            <span v-if="sale.sale.sale_discount > 0 ">{{ $t('Items Discount') }}</span>
+                                            <span v-else>{{ $t('Discount') }}</span>
                                         </div>
                                         <span class="ml-auto"><CurrencyFormat :value="sale.sale.product_discount"/></span>
                                     </li>
                                     <li class="py-1 flex justify-between items-center" v-if="sale.sale.sale_discount > 0">
                                         <div class="mr-16">
-                                            <span v-if="sale.sale.product_discount > 0 ">Sale</span>
-                                                <span>Discount</span><span>({{sale.sale.discount}}%)</span>
+                                            <span v-if="sale.sale.product_discount > 0 ">{{ $t('Sale Discount') }}</span>
+                                            <span v-else>{{ $t('Discount') }}</span>
+                                            <span>({{sale.sale.discount}}%)</span>
                                         </div>
                                         <span class="ml-auto"><CurrencyFormat :value="sale.sale.sale_discount"/></span>
                                     </li>
                                     <li class="py-1 flex justify-between items-center" v-if="sale.sale.total_discount != sale.sale.product_discount && sale.sale.total_discount != sale.sale.sale_discount">
                                         <div class="mr-16">
-                                            <span>Total Discount</span>
+                                            <span>{{ $t('Total Discount') }}</span>
                                         </div>
                                         <span class="ml-auto"><CurrencyFormat :value="sale.sale.total_discount"/></span>
                                     </li>
@@ -149,37 +150,37 @@
                                     </li>
                                     <li class="py-1 flex justify-between items-center" v-if="sale.sale.total_tax !=0 && sale.sale.total_tax > 0">
                                         <div class="mr-16">
-                                            <span>Total Tax</span>
+                                            <span>{{ $t('Total Tax') }}</span>
                                         </div>
                                         <span class="ml-auto"><CurrencyFormat :value="sale.sale.total_tax"/></span>
                                     </li>
                                     <li class="py-1 flex justify-between items-center font-bold">
                                         <div class="mr-16">
-                                            <span>Grand Total</span>
+                                            <span>{{ $t('Grand Total') }}</span>
                                         </div>
                                         <span class="ml-auto"><CurrencyFormat :value="sale.sale.grand_total"/></span>
                                     </li>
                                     <li class="py-1 flex justify-between items-center font-bold text-green-600" v-for="d in sale.sale.payment" :key="d.name">
                                         <div class="mr-16">
-                                            <span>Paid by {{ d.payment_type }}</span>
+                                            <span>{{ $t('Paid with') +' '+ d.payment_type}}</span>
                                         </div>
                                         <span class="ml-auto"><CurrencyFormat :currency="d.currency" :value="d.input_amount"/></span>
                                     </li>
                                     <li class="py-1 flex justify-between items-center" v-if="sale.sale.payment.length > 1">
                                         <div class="mr-16">
-                                            <span>Total Paid</span>
+                                            <span>{{ $t('Total Paid') }}</span>
                                         </div>
                                         <span class="ml-auto"><CurrencyFormat :value="d.total_paid"/></span>
                                     </li>
                                     <li class="py-1 flex justify-between items-center text-red-500" v-if="sale.sale.balance > 0">
                                         <div class="mr-16">
-                                            <span>Balance</span>
+                                            <span>{{ $t('Balance') }}</span>
                                         </div>
                                         <span class="ml-auto  font-bold"><CurrencyFormat :value="sale.sale.balance"/></span>
                                     </li>
                                     <li class="py-1 flex justify-between items-center" v-if="sale.sale.changed_amount > 0">
                                         <div class="mr-16">
-                                            <span>Changed Amount</span>
+                                            <span>{{ $t('Change Amount') }}</span>
                                         </div>
                                         <span class="ml-auto"><CurrencyFormat :value="sale.sale.changed_amount"/></span>
                                     </li>

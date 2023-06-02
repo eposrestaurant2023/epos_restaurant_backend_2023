@@ -22,7 +22,7 @@
                                 {{ sale.phone_number }}
                             </div>
                             <div class="text-sm">
-                                <div>Sale#: {{ sale.name }}</div>
+                                <div>{{ $t('Bill') }}#: {{ sale.name }}</div>
                                
                                 <div>
                                     <Timeago :long="long" :datetime="sale.creation" />
@@ -34,7 +34,7 @@
                                 <CurrencyFormat :value="sale.grand_total" />
                             </div>
                             <div class="text-sm">
-                                Qty: {{ sale.total_quantity }}
+                                {{ $t('Qty') }}: {{ sale.total_quantity }}
                             </div>
                         </div>
                     </div>
@@ -46,7 +46,6 @@
     </v-card>
 </template>
 <script setup>
-import moment from '@/utils/moment.js';
 import { Timeago } from 'vue2-timeago'
 import { defineProps } from 'vue'
 import { useDisplay } from 'vuetify'

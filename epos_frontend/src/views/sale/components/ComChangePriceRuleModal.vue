@@ -1,7 +1,7 @@
 <template>
     <ComModal @onClose="onClose()" :hide-ok-button="true" width="350px">
         <template #title>
-            <div>Change Price Rule</div>
+            <div>{{ $t('Change Price Rule') }}</div>
         </template>
         <template #content>
             <ComPlaceholder :is-not-empty="price_rules.length > 0">
@@ -18,8 +18,11 @@
     </ComModal>
 </template>
 <script setup>
-import { defineEmits, inject, confirm } from '@/plugin'
+import { defineEmits, inject, confirm,i18n } from '@/plugin'
 import ComPlaceholder from '../../../components/layout/components/ComPlaceholder.vue';
+
+const { t: $t } = i18n.global;  
+
 const emit = defineEmits(['resolve'])
 const props = defineProps({
     params: Object
@@ -34,7 +37,7 @@ function onClose() {
 }
 async function onSelect(result) {
     if (sale.sale.sale_products.length > 0) {
-        const yesNo = await confirm({ title: 'Are you sure to change price rule?', text: 'Notice : The products will delete all.' })
+        const yesNo = await confirm({ title: $t('msg.are you sure to change price rule'), text: $t('msg.All items will be remove from bill') })
         if (yesNo == true) {
             sale.sale.sale_products = []
             await onConfrim(result)

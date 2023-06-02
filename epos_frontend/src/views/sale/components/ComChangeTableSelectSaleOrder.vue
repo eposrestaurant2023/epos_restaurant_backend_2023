@@ -1,12 +1,12 @@
 <template>
     <ComModal :mobileFullscreen="true" @onClose="onClose" :hideOkButton="true" :hideCloseButton="true">
         <template #title>
-            Change Table - Select Order - {{ params?.data?.tbl_no }} - {{ sale.sale.name }}
+            {{ $t('msg.Change to table') }} - {{ params?.data?.tbl_no }} - {{ $t('Bill') }} #{{ sale.sale.name }}
         </template>
         <template #content>
             <ComLoadingDialog v-if="isLoading" />
             <v-alert type="info"
-                text="Click on existing order if you want to merge order or click on button Create New Bill to create order in the same table"
+                :text="$t('msg.Press on existing order if you want to merge order or press on button Create New Bill to create order in the same table')"
                 variant="tonal"></v-alert>
             <v-btn @click="onSaleOrderClick(s)" v-for="(s, index) in params.data.sales" :key="index" height="100"
                 :color="s.sale_status_color" class="ma-2">
@@ -16,15 +16,18 @@
             </v-btn>
         </template>
         <template #action>
-            <v-btn variant="flat" color="primary" @click="onCreateNewBill()">Create New Bill</v-btn>
+            <v-btn variant="flat" color="primary" @click="onCreateNewBill()">{{ $t('Create New Bill') }}</v-btn>
         </template>
     </ComModal>
 </template>
   
 <script setup>
-import { ref, defineEmits, inject, useRouter, createDocumentResource,confirm } from '@/plugin'
+import { ref, defineEmits, inject, useRouter, createDocumentResource,confirm,i18n } from '@/plugin'
 import { createToaster } from '@meforma/vue-toaster';
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
+
+const { t: $t } = i18n.global;  
+
 const sale = inject("$sale")
 const router = useRouter();
 const isLoading = ref(false)
@@ -46,15 +49,15 @@ function onCreateNewBill() {
 
 async function onSaleOrderClick(s) {
     if (s.sale_status == "Bill Requested") {
-        toaster.warning("You cannot merge order to the bill requested.");
+        toaster.warning($t("msg.You cannot merge order to the bill requested"));
         return;
     }
     if (s.name == sale.sale.name) {
-        toaster.warning("You cannot merge order to the current order.");
+        toaster.warning($t('msg.You cannot merge order to the current order'));
         return;
     }
 
-    if (await confirm({ title: "Merge Order", text: "Are sure you want to merge this order?" })) {
+    if (await confirm({ title: $t('Merge Order'), text: $t("msg.are sure you to merge this order")})) {
     isLoading.value = true;
     const resource = createDocumentResource({
         doctype: "Sale",
@@ -73,12 +76,9 @@ async function onSaleOrderClick(s) {
 
 
         await resource.setValue.submit({ sale_products: sale_products }).then(async (data) => {
-            if (sale.sale.name) {
-              
+            if (sale.sale.name) {              
                 await sale.saleResource.delete.submit().then(() => {
-                   
-                    
-                    toaster.warning("Sale document " + sale.sale.name + " has been delete.")
+                    toaster.success($t('Sale document has been deleted',[sale.sale.name]))
                     router.push({
                         name: "AddSale", params: {
                             name: data.name

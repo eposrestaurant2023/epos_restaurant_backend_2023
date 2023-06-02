@@ -1,7 +1,7 @@
 <template>
     <ComModal @onClose="onClose()" :hide-ok-button="true" width="350px">
         <template #title>
-            <div>Change POS Menu</div>
+            <div>{{ $t('Change POS Menu') }}</div>
         </template>
         <template #content>
             <ComPlaceholder :is-not-empty="pos_menus.length > 0">

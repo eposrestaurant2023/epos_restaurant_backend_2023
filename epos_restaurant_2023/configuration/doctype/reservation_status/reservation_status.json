@@ -12,7 +12,8 @@
   "color",
   "is_active_reservation",
   "show_in_reservation_list",
-  "show_in_room_chart"
+  "show_in_room_chart",
+  "sort_order"
  ],
  "fields": [
   {
@@ -43,11 +44,16 @@
    "fieldname": "show_in_room_chart",
    "fieldtype": "Check",
    "label": "Show in Room Chart"
+  },
+  {
+   "fieldname": "sort_order",
+   "fieldtype": "Int",
+   "label": "Sort Order"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-16 15:26:01.447930",
+ "modified": "2023-06-02 14:32:24.030905",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Reservation Status",

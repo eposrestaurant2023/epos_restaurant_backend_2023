@@ -104,7 +104,7 @@ async function onSubmit() {
     const message = sale.message;
     const sale_status = sale.sale.sale_status; 
     sale.action = "submit_order";
-    sale.message = $t("Submit order successfully");
+    sale.message = $t("msg.Submit order successfully");
     sale.sale.sale_status = "Submitted"; 
     await sale.onSubmit().then((doc) => {
       product.onClearKeyword(); 

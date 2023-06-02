@@ -102,6 +102,16 @@ async function onUpdateGuestCover() {
 
 async function onChangeTable() {
     if (!sale.isBillRequested()) {
+        if (sale.sale.sale_products.length == 0) {
+            toaster.warning($t("msg.Please select a menu item to continue"));
+            return;
+        }
+
+        if (sale.sale.sale_status != 'Submitted' || sale.sale.sale_products.find(r => r.sale_product_status != 'Submitted')) {
+            toaster.warning($t('msg.please save or submit your current order first', [$t('Submit')]))
+            return;
+        }
+
         const result = await changeTableDialog({});
         if (result) {
             if (result.action == "reload_sale") {
@@ -303,7 +313,7 @@ async function onAddCommission() {
 async function onSplitBill() {
     if (!sale.isBillRequested()) {
         if (sale.sale.sale_products.length == 0) {
-            toaster.warning($t("msg.Please select a menu item to submit order"));
+            toaster.warning($t("msg.Please select a menu item to continue"));
             return;
         }
         else if (sale.sale.sale_status != 'Submitted' || sale.sale.sale_products.find(r => r.sale_product_status != 'Submitted')) {
