@@ -78,7 +78,7 @@ async function onSaleOrderClick(s) {
         await resource.setValue.submit({ sale_products: sale_products }).then(async (data) => {
             if (sale.sale.name) {              
                 await sale.saleResource.delete.submit().then(() => {
-                    toaster.success($t('Sale document has been deleted',[sale.sale.name]))
+                    toaster.success($t('msg.Sale document has been deleted',[sale.sale.name]))
                     router.push({
                         name: "AddSale", params: {
                             name: data.name
