@@ -1,12 +1,12 @@
 <template>
     <ComModal :persistent="true" :fullscreen="mobile" @onClose="onClose()" :hide-ok-button="true" :hide-close-button="true">
         <template #title>
-            <div>Notice</div>
+            <div>{{ $t('Note') }}</div>
         </template>
         <template #content>
             <div>
                 <div class="mb-2">
-                    <ComInput autofocus placeholder="Search or Add Note" keyboard v-model="search"
+                    <ComInput autofocus :placeholder="$t('Search or Add Note')" keyboard v-model="search"
                         v-debounce="onSearch" />
                     <v-alert class="mt-4 !p-2" v-if="getSelectedNote() != ''" :text="getSelectedNote()"></v-alert>
                 </div>
@@ -27,89 +27,35 @@
         <template #action>
 
             <v-btn v-if="search && !isDeleteNote" variant="flat" @click="onSaveNote" color="success">
-                Save
+                {{ $t('Save') }}
             </v-btn>
  
             <template v-if="isDeleteNote">
                 <v-btn variant="flat" @click="onCancelDeleteNote" color="warning">
-                    Cancel
+                    {{ $t('Cancel') }}
                 </v-btn>
                 <v-btn v-if="noteResource.doc.notes.filter(r => r.chip == false).length > 0"
                     variant="flat" @click="onDeleteNote" color="primary">
-                    Confirm
+                    {{ $t('Confirm') }}
                 </v-btn>
             </template>
             <template v-else>
                 <v-btn variant="flat" @click="onEnableDeleteNote" color="error">
-                    Delete
+                    {{ $t('Delete') }}
                 </v-btn>
                 <v-btn variant="flat" @click="onOK()" color="primary">
-                    OK
+                    {{ $t('Ok') }}
                 </v-btn>
             </template>
         </template>
     </ComModal>
-    <!-- <v-dialog v-model="open" persistent :scrollable="false" :fullscreen="mobile" :style="mobile ? '' : 'width: 100%;max-width:800px'">
-    <v-card class="mx-auto my-0 w-full">
-        <v-toolbar color="default" title="Notice">
-            <v-toolbar-items>
-                <v-btn icon @click="onClose()">
-                    <v-icon>mdi-close</v-icon>
-                </v-btn>
-            </v-toolbar-items>
-        </v-toolbar>
-        <v-card-text class="!p-2 overflow-auto">
-            <div class="mb-2">
-                <div class="mb-2">
-                    <ComInput autofocus placeholder="Search or Add Note" keyboard v-model="search"
-                        v-debounce="onSearch" />
-                    <v-alert class="mt-4 !p-2" v-if="getSelectedNote() != ''" :text="getSelectedNote()"></v-alert>
-                </div>
-                <div class="-m-1">
-                    <template v-for="(item, index) in getNote()" :key="index">
-                        <v-chip :closable="isDeleteNote" v-if="item.chip" @click:close="item.chip = false" class="m-1"
-                            @click="onSelected(item)">
-                            <v-icon start icon="mdi-checkbox-marked-circle-outline" v-if="item.selected"
-                                color="orange"></v-icon>
-                            <span>
-                                {{ item.note }}
-                            </span>
-                        </v-chip>
-                    </template>
-                </div>
-            </div>
-        </v-card-text>
-        <v-card-actions class="justify-end">
-            <v-btn v-if="search && !isDeleteNote" variant="flat" @click="onSaveNote" color="success">
-                Save
-            </v-btn>
- 
-            <template v-if="isDeleteNote">
-                <v-btn variant="flat" @click="onCancelDeleteNote" color="warning">
-                    Cancel
-                </v-btn>
-                <v-btn v-if="noteResource.doc.notes.filter(r => r.chip == false).length > 0"
-                    variant="flat" @click="onDeleteNote" color="primary">
-                    Confirm
-                </v-btn>
-            </template>
-            <template v-else>
-                <v-btn variant="flat" @click="onEnableDeleteNote" color="error">
-                    Delete
-                </v-btn>
-                <v-btn variant="flat" @click="onOK()" color="primary">
-                    OK
-                </v-btn>
-            </template>
-        </v-card-actions>
-    </v-card>
-    </v-dialog> -->
 </template>
 <script setup>
-import { defineEmits, ref, createDocumentResource, confirmDialog, } from '@/plugin'
+import { defineEmits, ref, createDocumentResource, confirmDialog, i18n} from '@/plugin'
 import { createToaster } from '@meforma/vue-toaster';
 import Enumerable from 'linq'
-import { useDisplay } from 'vuetify'
+import { useDisplay } from 'vuetify';
+const { t: $t } = i18n.global; 
 const emit = defineEmits(['resolve'])
 const { mobile } = useDisplay()  
 const props = defineProps({
@@ -191,10 +137,9 @@ function onOK() {
         selectedNote = search.value;
     }
     if (selectedNote=="" || selectedNote==undefined ){
-        toast.warning("Please select or enter note");
+        toast.warning($t('msg.Please select or enter note'));
         return;
     }
-
 
     emit('resolve', selectedNote)
 
@@ -224,7 +169,7 @@ function onCancelDeleteNote() {
     })
 }
 async function onDeleteNote() {
-    if (await confirmDialog({ title: "Delete Note", text: "Are you sure you want to delete note?" })) {
+    if (await confirmDialog({ title: $t('Delete Note'), text: $t("msg.are you sure to delete note") })) {
         const notes = noteResource.doc.notes.filter(r => r.chip == true);
         noteResource.doc.notes = notes
 

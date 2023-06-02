@@ -1,6 +1,5 @@
 {
  "actions": [],
- "allow_rename": 1,
  "autoname": "field:shortcut_name",
  "creation": "2023-06-01 11:12:00.485036",
  "default_view": "List",
@@ -39,7 +38,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-01 11:35:10.082747",
+ "modified": "2023-06-02 09:24:13.285885",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Shortcut Key",
@@ -47,15 +46,18 @@
  "owner": "Administrator",
  "permissions": [
   {
-   "create": 1,
-   "delete": 1,
    "email": 1,
    "export": 1,
    "print": 1,
    "read": 1,
    "report": 1,
+   "role": "Guest",
+   "share": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
    "role": "System Manager",
-   "share": 1,
    "write": 1
   }
  ],

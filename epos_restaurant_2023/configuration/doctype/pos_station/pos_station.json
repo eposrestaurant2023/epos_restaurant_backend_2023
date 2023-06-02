@@ -13,7 +13,9 @@
   "show_start_close_working_day",
   "show_start_close_cashier_shift",
   "show_option_payment",
-  "is_used"
+  "is_used",
+  "show_sale_more_action_menu",
+  "show_reference_button_in_more_menu"
  ],
  "fields": [
   {
@@ -53,11 +55,23 @@
    "fieldname": "is_used",
    "fieldtype": "Check",
    "label": "Is Used"
+  },
+  {
+   "default": "1",
+   "fieldname": "show_sale_more_action_menu",
+   "fieldtype": "Check",
+   "label": "Show Sale More Action Menu"
+  },
+  {
+   "default": "1",
+   "fieldname": "show_reference_button_in_more_menu",
+   "fieldtype": "Check",
+   "label": "Show Reference Button in More Menu"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-22 11:14:27.025758",
+ "modified": "2023-06-02 10:45:23.114051",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Station",

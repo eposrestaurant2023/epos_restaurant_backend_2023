@@ -1,6 +1,6 @@
 <template>
     <ComLoadingDialog v-if="isLoading" />
-    <v-list-item prepend-icon="mdi-format-list-bulleted" :title="($t('Reference') + ' #')" @click="onReferenceNumber()" />
+    <v-list-item v-if="device_setting.show_reference_button_in_more_menu ==1" prepend-icon="mdi-format-list-bulleted" :title="($t('Reference') + ' #')" @click="onReferenceNumber()" />
     <v-list-item prepend-icon="mdi-eye-outline" :title="$t('View Bill')" @click="onViewBill()"
         v-if="sale.sale.sale_products.length > 0" />
     <template v-if="mobile">
@@ -66,6 +66,7 @@ const db = frappe.db();
 const setting = JSON.parse(localStorage.getItem("setting"))
 const isWindow = localStorage.getItem('is_window') == 1
 const isLoading = ref(false);
+const device_setting = JSON.parse(localStorage.getItem("device_setting"))
 
 let deletedSaleProducts = [];
 let productPrinters = [];

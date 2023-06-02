@@ -49,9 +49,12 @@
     </template>
 </template>
 <script setup>
-import { inject, useRouter, createToaster, selectSaleOrderDialog, keyboardDialog,smallViewSaleProductListModel } from '@/plugin';
+import { inject, useRouter, createToaster, selectSaleOrderDialog, keyboardDialog,smallViewSaleProductListModel,i18n } from '@/plugin';
 import { Timeago } from 'vue2-timeago'
-import { useDisplay } from 'vuetify' 
+import { useDisplay } from 'vuetify';
+
+const { t: $t } = i18n.global; 
+
 const { mobile,platform } = useDisplay()
 const toaster = createToaster({ position: "top" });
 const tableLayout = inject("$tableLayout");
@@ -70,7 +73,7 @@ function onTableClick(table, guest_cover) {
              
                 if(mobile.value){
                     await sale.LoadSaleData( table.sales[0].name).then(async (v)=>{
-                        const result =  await smallViewSaleProductListModel ({title: sale.sale.name ? sale.sale.name : 'New Sale', data: {from_table: true}});
+                        const result =  await smallViewSaleProductListModel ({title: sale.sale.name ? sale.sale.name : $t('New Sale'), data: {from_table: true}});
                         if(result){
                             tableLayout.saleListResource.fetch();
                         }
@@ -108,7 +111,7 @@ function onTableClick(table, guest_cover) {
 async function newSale(table) {
     let guest_cover = 0;
     if (gv.setting.use_guest_cover == 1) {
-        const result = await keyboardDialog({ title: "Guest Cover", type: 'number', value: guest_cover });
+        const result = await keyboardDialog({ title: $t('Guest Cover'), type: 'number', value: guest_cover });
 
         if (typeof result == 'number') {
 
@@ -129,9 +132,9 @@ async function newSale(table) {
         sale.sale.discount_type = table.discount_type;
         sale.sale.discount = parseFloat(table.default_discount);
         if (table.discount_type == "Percent") {
-            toaster.info("This table is discount " + table.default_discount + '%')
+            toaster.info($t("msg.This table have discount",[table.default_discount + '%']))
         } else {
-            toaster.info("This table is discount " + table.default_discount + ' ' + gv.setting.pos_setting.main_currency_name)
+            toaster.info($t("msg.This table have discount",[(table.default_discount + ' ' + gv.setting.pos_setting.main_currency_name)]))
         }
     }
 
@@ -143,7 +146,7 @@ async function newSale(table) {
         sale.sale.price_rule = table.price_rule;
     }
     if (gv.setting.price_rule != sale.sale.price_rule) {
-        toaster.info("Your current price rule is " + sale.sale.price_rule);
+        toaster.info($t('Your current price rule is',[sale.sale.price_rule]));
     }
     router.push({ name: "AddSale" });
 }

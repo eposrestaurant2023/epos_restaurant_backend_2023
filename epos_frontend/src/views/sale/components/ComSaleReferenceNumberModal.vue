@@ -6,11 +6,11 @@
         titleOKButton="OK"
         >
         <template #title>
-            <span>Set Reference Number</span>
+            <span>{{ $t('Reference') }}#</span>
         </template>
         <template #content>
             <div class="py-2">
-                <ComInput v-model="data.reference_number" :required="true" keyboard label="Reference #"/>
+                <ComInput v-model="data.reference_number" :required="true" keyboard :label="($t('Reference')+'#')"/>
             </div>
         </template>
     </ComModal>

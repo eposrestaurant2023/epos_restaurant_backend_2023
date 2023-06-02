@@ -1,10 +1,10 @@
 <template>
     <ComModal @onClose="onClose" width="350px" :hide-ok-button="true">
       <template #title>
-        Back to table layout
+       
       </template>
       <template #content>
-        <p class="text-gray-400 text-sm px-2">Your have unsubmited sale order.</p>
+        <p class="text-gray-400 text-sm px-2">{{ $t('msg.You have some items that unsubmited order') }}</p>
         <div class="-mx-2">
             <v-list>
               <!-- <v-list-item prepend-icon="mdi-cash-100" title="Hold Order" @click="onOk('hold')"/>
@@ -12,17 +12,17 @@
               <v-list-item prepend-icon="mdi-cash-100" title="Continue" @click="onOk('continue')"/> -->
               <v-list-item>
                 <v-btn class="w-full" variant="flat" @click="onOk('hold')" color="primary">
-                    Hold Order
+                   {{ $t('Hold Order') }}
                 </v-btn>
               </v-list-item>
               <v-list-item>
                 <v-btn class="w-full" variant="flat" @click="onOk('submit')" color="success">
-                  Submit Order
+                 {{ $t('Submit Order') }}
                 </v-btn>
               </v-list-item>
               <v-list-item>
                 <v-btn class="w-full" variant="flat" @click="onOk('continue')" color="warning">
-                  Continue
+                  {{ $t('Continue') }}
               </v-btn>
               </v-list-item>
             </v-list>

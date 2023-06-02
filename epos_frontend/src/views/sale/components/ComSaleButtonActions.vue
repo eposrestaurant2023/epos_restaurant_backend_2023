@@ -47,7 +47,7 @@
   </div>
 </template>
 <script setup>
-import { inject, useRouter,ref,changePriceRuleDialog,changeSaleTypeModalDialog,ComSaleReferenceNumberDialog,addCommissionDialog,watch } from '@/plugin';
+import { inject, useRouter,ref,changePriceRuleDialog,changeSaleTypeModalDialog,ComSaleReferenceNumberDialog,addCommissionDialog,i18n } from '@/plugin';
 import ComDiscountButton from './ComDiscountButton.vue';
 import ComPrintBillButton from './ComPrintBillButton.vue';
 import { createToaster } from '@meforma/vue-toaster';
@@ -56,6 +56,8 @@ import ComSaleButtonMore from './ComSaleButtonMore.vue';
 import Enumerable from 'linq';
 import { useDisplay } from 'vuetify'
 import { whenever,useMagicKeys  } from '@vueuse/core';
+
+const { t: $t } = i18n.global;  
 
 const { mobile } = useDisplay()
 const router = useRouter()
@@ -145,7 +147,7 @@ async function onAddCommission(){
 }
 
 async function onChangeTaxSetting(){
-    await sale.onChangeTaxSetting("Change Tax Setting",sale.sale.tax_rule,sale.sale.change_tax_setting_note,gv );     
+    await sale.onChangeTaxSetting($t('Change Tax Setting'),sale.sale.tax_rule,sale.sale.change_tax_setting_note,gv );     
 }
 
 async function onReferenceNumber(){
@@ -159,9 +161,8 @@ async function onReferenceNumber(){
 }
 
 async function onChangePriceRule() {
-    console.log(55)
     if (sale.sale.sale_status != 'New') {
-        toaster.warning("This sale order is not new order.");
+        toaster.warning($t('msg.This bill is not new order'));
         return;
     }
     if (!sale.isBillRequested()) {
@@ -176,7 +177,7 @@ async function onChangePriceRule() {
             }
             
             window.postMessage("close_modal","*");
-            toaster.success("Price Rule Was Change Successfull");
+            toaster.success($t('msg.Change price rule successfully'));
         }
     }
 }
@@ -184,7 +185,7 @@ async function onChangePriceRule() {
 function onSaleDiscount(discount_type) {
     sale.dialogActiveState=true;
     if (sale.sale.sale_products.length == 0) {
-        toaster.warning("Please select a menu item to discount");
+        toaster.warning($t('msg.Please order a item to disocunt'));
         resolve(false);
     }
     else if (!sale.isBillRequested()) { 
@@ -253,7 +254,6 @@ function closeModel() {
 async function onCancelPrintBill() {
   gv.authorize("cancel_print_bill_required_password", "cancel_print_bill", "cancel_print_bill_required_note", "Cancel Print Bill Note").then((v) => {
     if (v) {
-      console.log(v)
       sale.sale.sale_status = "Submitted";
       sale.sale.sale_status_color = setting.sale_status.find(r => r.name == 'Submitted').background_color;
       sale.auditTrailLogs.push({
@@ -263,7 +263,7 @@ async function onCancelPrintBill() {
         reference_doctype: "Sale",
         reference_name: "New",
         comment_by: "cashier@mail.com",
-        content: `User sengho cancel print bill. Amount:100$, Total Qty:5, Reason:Test Note`
+        content: ``
       });
     }
   })
@@ -290,18 +290,30 @@ async function onSubmitAndNew() {
   }
 
   if (sale.sale.sale_products.length == 0) {
-    toaster.warning("There's no item to submit");
+    toaster.warning($t('msg.There is no item to submit order'));
     return;
   }
 
   if (sale.sale.sale_status != 'Bill Requested') {
+
+    const action = sale.action;
+    const message = sale.message;
+    const sale_status = sale.sale.sale_status;
+
     sale.action = "submit_order";
-    sale.message = "Submit Order Successfully";
+    sale.message =$t('msg.Submit order successfully');
     sale.sale.sale_status = "Submitted";
+
+
     await sale.onSubmit().then((value) => {
       if (value) {
         router.push({ name: "AddSale" });
         newSale();
+      }
+      else{
+        sale.action = action;
+        sale.message =message;
+        sale.sale.sale_status = sale_status;
       }
     });
   } else {
@@ -338,9 +350,9 @@ function newSale() {
       sale.sale.discount_type = table.discount_type;
       sale.sale.discount = parseFloat(table.default_discount);
       if (table.discount_type == "Percent") {
-        toaster.info("This table is discount " + table.default_discount + '%')
+        toaster.info($t("msg.This table have discount",[table.default_discount + '%']) )
       } else {
-        toaster.info("This table is discount " + table.default_discount + ' ' + sale.setting.pos_setting.main_currency_name)
+        toaster.info($t("msg.This table have discount",[( table.default_discount + ' ' + sale.setting.pos_setting.main_currency_name)]))
       }
     }
   }

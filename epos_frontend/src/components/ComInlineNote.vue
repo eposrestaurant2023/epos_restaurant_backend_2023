@@ -1,11 +1,11 @@
 <template>
  
     <v-card>
-        <v-card-title>Note</v-card-title>
+        <v-card-title>{{ $t('Note') }}</v-card-title>
         <v-card-text class="!pb-0">
             <div>
                 <div class="mb-2">
-                    <ComInput autofocus placeholder="Search or Add Note" keyboard v-model="search"
+                    <ComInput autofocus :placeholder="$t('Search or Add Note')" keyboard v-model="search"
                         v-debounce="onSearch" />
                     <v-alert class="mt-4" v-if="getSelectedNote() != ''" :text="getSelectedNote()"></v-alert>
                 </div>
@@ -26,21 +26,21 @@
         <v-card-actions class="justify-end">
                 <div>
                     <v-btn size="small" class="mr-2"  v-if="search" variant="flat" @click="onSaveNote" color="success">
-                            Save Note
+                            {{ $t('Save Note') }}
                     </v-btn>
                     <template v-if="isDeleteNote">
                         <v-btn size="small" class="mr-2" variant="flat" @click="onCancelDeleteNote" color="warning">
-                            Cancel
+                            {{ $t('Cancel') }}
                         </v-btn>
                         <v-btn size="small" class="mr-2" v-if="noteResource.doc.notes.filter(r => r.chip == false).length > 0"
                             variant="flat" @click="onDeleteNote" color="error">
-                            Delete
+                            {{ $t('Delete') }}
                         </v-btn>
 
                     </template>
                     <template v-else>
                         <v-btn size="small" class="mr-2" variant="flat" @click="onEnableDeleteNote" color="error">
-                            Delete Note
+                            {{ $t('Delete Note') }}
                         </v-btn>
                     </template>
 
@@ -49,9 +49,13 @@
     </v-card>
  
 </template>
+
 <script setup>
-import { defineEmits, ref, createDocumentResource, confirmDialog, } from '@/plugin'
-import Enumerable from 'linq'
+import { defineEmits, ref, createDocumentResource, confirmDialog, i18n} from '@/plugin'
+import Enumerable from 'linq';
+
+const { t: $t } = i18n.global; 
+
 const emit = defineEmits(['resolve','update:modelValue'])
 const props = defineProps({
     category_note: String,
@@ -153,7 +157,7 @@ function onCancelDeleteNote() {
     })
 }
 async function onDeleteNote() {
-    if (await confirmDialog({ title: "Delete Note", text: "Are you sure you want to delete note?" })) {
+    if (await confirmDialog({ title: $t('Delete Note'), text: $t('msg.are you sure to delete note') })) {
         const notes = noteResource.doc.notes.filter(r => r.chip == true);
         noteResource.doc.notes = notes
         noteResource.setValue.submit({ notes: notes });

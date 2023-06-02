@@ -1124,6 +1124,12 @@ export default class Sale {
         }
         return false
     }
-
+    getShortCutKey(name){
+        console.log(name)
+        let key =  this.setting.shortcut_key.filter(item => item.name == name).map(item => item.key)
+        console.log('this.setting.shortcut_key',this.setting.shortcut_key)
+        console.log('key',key)
+        return key[0];
+    }
 
 }

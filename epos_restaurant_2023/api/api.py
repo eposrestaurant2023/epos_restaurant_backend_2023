@@ -28,9 +28,8 @@ def get_user_info(name=""):
     if data:
         permission= frappe.get_doc("POS User Permission",data[0]["pos_user_permission"])      
         return {"username":data[0]["name"],"full_name":data[0]["full_name"],"photo":data[0]["user_image"],"role":data[0]["pos_user_permission"],"permission":permission} 
-    
 
-        
+
 
 @frappe.whitelist(allow_guest=True)
 def get_system_settings(pos_profile="", device_name=''):
@@ -162,7 +161,11 @@ def get_system_settings(pos_profile="", device_name=''):
     tax_rule ={}
     if profile.tax_rule:      
         tax_rule = frappe.get_doc("Tax Rule", profile.tax_rule)
- 
+
+    #get shortcut key
+    shortcut_keys = frappe.db.get_list('Shortcut Key',fields=['name','key','description'])
+    
+    
 
     data={
         "app_name":doc.epos_app_name,
@@ -212,8 +215,8 @@ def get_system_settings(pos_profile="", device_name=''):
         "lang": lang,
         "reports":reports,
         "letter_heads":letter_heads,
-        "device_setting":frappe.get_doc("POS Station",device_name)
-        
+        "device_setting":frappe.get_doc("POS Station",device_name),
+        "shortcut_key":shortcut_keys
     }
 
     return  data

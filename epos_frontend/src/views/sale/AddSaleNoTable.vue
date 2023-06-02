@@ -33,11 +33,13 @@
 </template>
 <script setup>
 import PageLayout from '../../components/layout/PageLayout.vue';
-import { useRouter, useRoute, createResource, ref, inject, createToaster,onMounted,smallViewSaleProductListModel } from "@/plugin"
+import { useRouter, useRoute, createResource, ref, inject, createToaster,onMounted,smallViewSaleProductListModel,i18n } from "@/plugin"
 import { saleDetailDialog } from "@/utils/dialog";
 import ComPlaceholder from "@/components/layout/components/ComPlaceholder.vue";
 import ComSaleCardItem from './components/ComSaleCardItem.vue';
-import { useDisplay } from 'vuetify'
+import { useDisplay } from 'vuetify';
+const { t: $t } = i18n.global; 
+
 const {mobile} = useDisplay()
 const router = useRouter();
 const route = useRoute();
@@ -100,7 +102,7 @@ function onOpenOrder(sale_id) {
                     })
                 }
                 else {
-                    toaster.error("msg.System can not get sale name")
+                    toaster.error($t("msg.System can not get sale name"))
                 }
         
             } 

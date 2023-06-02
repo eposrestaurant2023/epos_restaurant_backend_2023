@@ -150,12 +150,13 @@
    "fieldname": "shift_name",
    "fieldtype": "Link",
    "label": "Shift Name",
-   "options": "Shift Type"
+   "options": "Shift Type",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-01 15:15:57.875336",
+ "modified": "2023-06-01 18:48:47.714732",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Cashier Shift",

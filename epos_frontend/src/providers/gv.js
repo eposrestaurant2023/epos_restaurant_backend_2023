@@ -17,6 +17,7 @@ export default class Gv {
 		this.workingDay = "";
 		this.cashierShift= "";
 		this.isFullscreen = true;
+		this.shortcut_keys = [];
 	}
 
 	

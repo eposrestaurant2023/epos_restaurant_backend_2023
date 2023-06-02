@@ -32,9 +32,7 @@ sale.vue.$onKeyStroke('PageUp', (e) => {
     if (props.saleProduct.selected) {
         sale.updateQuantity(props.saleProduct, props.saleProduct.quantity + 1)
     }
-
 })
-
 sale.vue.$onKeyStroke('PageDown', (e) => {
     e.preventDefault()
     if (props.saleProduct.selected && props.saleProduct.quantity > 1) {
@@ -46,9 +44,8 @@ if (props.saleProduct.selected) {
     sale.vue.$onKeyStroke('F3', (e) => {
         e.preventDefault()
         if (props.saleProduct.selected && sale.dialogActiveState == false) {
-
             sale.dialogActiveState = true;
-            sale.onChangeQuantity(props.saleProduct, props.saleProduct.quantity - 1)
+            sale.onChangeQuantity(props.saleProduct, gv)
         }
     })
 }

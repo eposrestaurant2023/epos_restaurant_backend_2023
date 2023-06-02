@@ -27,14 +27,14 @@ const toaster = createToaster({ position: "top" });
 function onSaleDiscount(discount_type) {
     sale.dialogActiveState=true;
     if (sale.sale.sale_products.length == 0) {
-        toaster.warning("Please select a menu item to discount");
+        toaster.warning($t("msg.Please order a item to disocunt"));
         resolve(false);
     }
     else if (!sale.isBillRequested()) { 
         gv.authorize("discount_sale_required_password", "discount_sale", "discount_sale_required_note", "Discount Sale Note", "", true).then((v) => {
             if (v) {
                 sale.onDiscount(
-                    `Discount`,
+                   $t('Discount'),
                     sale.sale.sale_discountable_amount,
                     sale.sale.discount,
                     discount_type,
