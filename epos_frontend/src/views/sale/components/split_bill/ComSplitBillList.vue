@@ -1,7 +1,5 @@
 <template lang=""> 
     <div>
-      
-
         <div class="flex -m-1 overflow-auto py-1">
             <v-btn variant="tonal" class="m-1" :color="!g.visibled ? 'error' : 'gray'" :prepend-icon="!(g.visibled) ? 'mdi-eye-off':'mdi-eye'" 
                     v-for="(g, index) in data.filter((x)=>x.deleted == false)" :key="index" @click="(()=>g.visibled = !g.visibled)" >
@@ -15,7 +13,7 @@
                 <v-card-title class="!p-0">
                     <v-toolbar height="55">
                         <v-toolbar-title class="text">
-                            <div class="text-lg">No: {{ g.no }}</div>
+                            <div class="text-lg">{{$t('No')}}: {{ g.no }}</div>
                             <div class="text-sm">#{{g.sale.name || "New"}}</div>                            
                         </v-toolbar-title>
                         <template v-slot:append>
@@ -46,7 +44,7 @@
                                                 </span>
                                             </div>
                                             <div class="text-red-500" v-if="sp.discount > 0">
-                                                Discount :
+                                                {{$t('Discount')}} :
                                                 <span v-if="sp.discount_type == 'Percent'">{{
                                                     sp.discount
                                                 }}%</span>
@@ -56,7 +54,7 @@
                                                 sp.seat_number
                                             }}</v-chip>
                                             <div class="text-gray-500" v-if="sp.note">
-                                                Note: <span>{{ sp.note }}</span>
+                                                {{$t('Note')}}: <span>{{ sp.note }}</span>
                                             </div> 
                                         </div>
                                     </div>

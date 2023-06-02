@@ -1,8 +1,6 @@
 <template>
 
   <ComModal :fullscreen="true" :persistent="true" @onClose="onClose" @onOk="onConfirm" :loading="resource.loading" :customActions="true">
-    
-   
     <template #title>
       <span>{{ props.params.title }}</span>
     </template>
@@ -12,13 +10,13 @@
     </template>
     <template #action>
       <v-btn variant="flat" color="error" @click="onClose()">
-          Close
+          {{ $t('Close') }}
       </v-btn>
       <v-btn variant="flat" color="accent" large  elevation="2" outlined  plain @click="onCreateNew()">        
-          New Bill        
+          {{ $t('Create New Bill') }}        
       </v-btn>
       <v-btn variant="flat" color="success" @click="onSave()">
-          Save
+          {{ $t('Save') }}
       </v-btn>
  
     </template>
@@ -29,9 +27,11 @@
 
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
 
-import { ref,onMounted, defineEmits, createToaster, createResource,createDocumentResource, inject } from '@/plugin'
+import { ref,onMounted, defineEmits, createToaster, createResource, inject,i18n } from '@/plugin'
 import ComSplitBillList from './split_bill/ComSplitBillList.vue';
-import { onUnmounted } from 'vue';
+
+const { t: $t } = i18n.global; 
+
 const emit = defineEmits(["resolve", "reject"])
 const toaster = createToaster({ position: 'top' })
 const sale = inject('$sale')
@@ -100,7 +100,7 @@ onMounted(()=>{
         is_loading.value = false   ;   
       },
       onError(err){ 
-        toaster.warning("Sales cannot load, please reload for try again.");
+        toaster.warning($t('msg.Sales data cannot load please reload to retry'));
         is_loading.value = false   ;   
       }      
   });  
@@ -192,18 +192,16 @@ function onSave() {
   const _current_sale = groupSales.value.filter((r)=>r.deleted == false && r.is_current == true);
   
   if(_current_sale.length<=0){
-    toaster.warning("Invoice No: "+_current_sale[0].no+" (#"+_current_sale[0].sale.name + ") not allow to save without items.");
+    toaster.warning($t('msg.Bill not allow to save without items',[(_current_sale[0].no+'(#'+_current_sale[0].sale.name + ')')]));
     return;
   }else{
     if((_current_sale[0].sale.sale_products||[])<=0){
-
-      toaster.warning("Invoice No: "+_current_sale[0].no+" (#"+_current_sale[0].sale.name + ") not allow to save without items.");
+      toaster.warning($t('msg.Bill not allow to save without items',[(_current_sale[0].no+'(#'+_current_sale[0].sale.name + ')')]));
       return;
     }
   }
 
   is_loading.value = true;
-
 
   let _active_sales = groupSales.value.filter((r)=>r.deleted == false); 
   _active_sales.forEach((a)=>{
@@ -245,12 +243,12 @@ function onSave() {
       onSuccess(doc){ 
         is_loading.value = false;
         sale.sale = doc ;
-        toaster.success("Split was successed.");
+        toaster.success($t('msg.Split bill successfully'));
         emit("resolve", true);
       },
       onError(err){ 
         is_loading.value = false;
-        toaster.warning("There're some trouble during save, please reload data and try again.");
+        toaster.warning($t('msg.there are some trouble during save so please reload data to retry'));
         // emit("resolve", false);
       }      
   });  
