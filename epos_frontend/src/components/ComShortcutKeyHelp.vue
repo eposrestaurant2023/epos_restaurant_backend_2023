@@ -27,6 +27,7 @@ import { inject } from 'vue'
 const gv = inject("$gv");
 const emit = defineEmits(['resolve'])
 function onOK() {
+    localStorage.removeItem('dialogstate')
     emit('resolve', false)
 }
 

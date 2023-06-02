@@ -74,10 +74,21 @@ if (sale.orderBy == null) {
     sale.orderBy = JSON.parse(localStorage.getItem("current_user")).full_name;
 }
 
+
 sale.vue.$onKeyStroke('F1', (e) => {
     e.preventDefault();
-    ShortCutKeyHelpDialog()
+    
+    if(localStorage.getItem('dialogstate') === null){
+        localStorage.setItem('dialogstate',1)
+        ShortCutKeyHelpDialog()
+    }
+    
+    
 })
+// async function ShortCutKeyHelpDialog(){
+//     await ShortCutKeyHelpDialog()
+//     dialogActiveState=false
+// }
 
 sale.orderTime = "";
 if (product.posMenuResource.data?.length == 0) {
