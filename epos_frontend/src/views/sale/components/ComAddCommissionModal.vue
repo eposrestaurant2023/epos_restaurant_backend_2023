@@ -7,19 +7,20 @@
         :hideOkButton="isReadonly"
         >
         <template #title>
-            <span><span v-if="isReadonly">View</span><span v-else>Add / Edit</span> Commission</span>
+            <span v-if="isReadonly">{{ $t('View Commission') }}</span>
+            <span v-else>{{ $t('Add or Edit Commission') }}</span>
         </template>
         <template #content>
             <v-row class="!m-0">
                 <v-col cols="12" md="6">
-                    <ComInput v-model="data.agent_name" :required="true" keyboard label="Agent Name" :readonly="isReadonly"/>   
+                    <ComInput v-model="data.agent_name" :required="true" keyboard :label="$t('Agent Name')" :readonly="isReadonly"/>   
                 </v-col>
                 <v-col cols="12" md="6">
-                    <ComInput v-model="data.agent_phone_number" keyboard label="Phone Number" :readonly="isReadonly"/>   
+                    <ComInput v-model="data.agent_phone_number" keyboard :label="$t('Phone Number')" :readonly="isReadonly"/>   
                 </v-col>
                 <v-col cols="12" md="6">
                     <v-select
-                        label="Commission Type"
+                        :label="$t('Commission Type')"
                         v-model="data.commission_type" 
                         :items="['Percent','Amount']"
                         density="compact"
@@ -31,27 +32,29 @@
                     ></v-select>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <ComInput type="number" v-model="data.commission" v-debounce="onUpdatedData" keyboard label="Input Commission" :readonly="isReadonly"/>   
+                    <ComInput type="number" v-model="data.commission" v-debounce="onUpdatedData" keyboard :label="$t('Input Commission')" :readonly="isReadonly"/>   
                 </v-col>
                 <v-col cols="12">
-                    <ComInput readonly type="number" v-model="data.commission_amount" label="Amount"/>   
+                    <ComInput readonly type="number" v-model="data.commission_amount" :label="$t('Amount')"/>   
                 </v-col>
                 <v-col cols="12">
-                    <ComInput v-model="data.commission_note" keyboard label="Commission Note" type="textarea" :readonly="isReadonly"/>
+                    <ComInput v-model="data.commission_note" keyboard :label="$t('Note')" type="textarea" :readonly="isReadonly"/>
                 </v-col>
             </v-row>
         </template>
         <template #action>
             <v-btn variant="flat" @click="onRemove()" color="error" prepend-icon="mdi-delete" v-if="!isReadonly">
-                Remove
+                {{ $t('Remove') }}
             </v-btn>
         </template>
     </ComModal>
 </template>
   
 <script setup>
-import { ref,defineEmits,createToaster,confirmDialog,onMounted, computed, inject } from '@/plugin'
+import { ref,defineEmits,createToaster,confirmDialog,onMounted, computed, inject,i18n } from '@/plugin'
 import ComInput from '@/components/form/ComInput.vue';
+
+const { t: $t } = i18n.global;  
 const toaster = createToaster({ position: 'top' })
 const sale = inject('$sale')
 const props = defineProps({
@@ -76,7 +79,7 @@ function onUpdatedData(){
     }
 }
 async function onRemove(){
-    if(await confirmDialog({ title: 'Delete Commission', text: 'Are you sure you want delete this commission?' })){
+    if(await confirmDialog({ title: $t('Delete Commission'), text:$t('msg.are you sure to delete this commission')})){
         data.value.agent_name = ""
         data.value.agent_phone_number = ""
         data.value.commission = 0

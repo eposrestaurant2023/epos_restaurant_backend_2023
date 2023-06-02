@@ -37,7 +37,7 @@
     </div>
 </template>
 <script setup>
-import { inject, useRoute, useRouter, ref, onMounted, onUnmounted, onBeforeRouteLeave, createResource } from '@/plugin';
+import { inject, useRoute, useRouter, ref, onMounted, onUnmounted, onBeforeRouteLeave, createResource,ShortCutKeyHelpDialog } from '@/plugin';
 import { getCurrentInstance } from 'vue';
 import ComMenu from './components/ComMenu.vue';
 import ComSelectCustomer from './components/ComSelectCustomer.vue';
@@ -73,6 +73,11 @@ sale.deletedSaleProducts = []
 if (sale.orderBy == null) {
     sale.orderBy = JSON.parse(localStorage.getItem("current_user")).full_name;
 }
+
+sale.vue.$onKeyStroke('F1', (e) => {
+    e.preventDefault();
+    ShortCutKeyHelpDialog()
+})
 
 sale.orderTime = "";
 if (product.posMenuResource.data?.length == 0) {

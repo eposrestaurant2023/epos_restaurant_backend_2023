@@ -19,7 +19,7 @@ import ComScanCustomerCode from '@/views/sale/components/ComScanCustomerCode.vue
 import ComSaleProductDiscountModal from '@/views/sale/components/ComSaleProductDiscountModal.vue';
 import ComPayment from '@/views/sale/components/ComPayment.vue';
 import ComKeypadWithNote from '@/components/form/ComKeypadWithNote.vue';
-import ComViewBillModel from '@/views/sale/components/ComViewBillModel.vue';
+import ComViewBillModal from '@/views/sale/components/ComViewBillModal.vue';
 import ComSmallViewSaleProductListModel from '@/views/sale/components/mobile_screen/ComSmallViewSaleProductListModel.vue';
 import ComSmallCurrencyPrefineModel from '@/views/sale/components/mobile_screen/ComSmallCurrencyPrefineModel.vue';
 import ComChangeTable from '@/views/sale/components/ComChangeTable.vue';
@@ -31,6 +31,7 @@ import ComAddCashDrawerModal from '@/views/cash_drawer/components/ComAddCashDraw
 import ComChangeTableSelectSaleOrder from '@/views/sale/components/ComChangeTableSelectSaleOrder.vue'
 import ComPendingSaleList from '@/views/sale/ComPendingSaleList.vue'
 import ComInputNumber from '@/components/ComInputNumber.vue'
+import ComShortcutKeyHelp from '@/components/ComShortcutKeyHelp.vue'
 import ComAddCommission from '@/views/sale/components/ComAddCommissionModal.vue'
 import ComSaleReferenceNumberModal from '@/views/sale/components/ComSaleReferenceNumberModal.vue'
 import ComPrintWifiPassword from '@/components/ComPrintWifiPasswordModal.vue'
@@ -77,7 +78,7 @@ export  const noteDialog= createPromiseDialog<params, object>(ComNote);
 export  const saleProductDiscountDialog = createPromiseDialog<params, object>(ComSaleProductDiscountModal);
 export  const paymentDialog = createPromiseDialog<params, object>(ComPayment);
 export  const keypadWithNoteDialog = createPromiseDialog<params, object>(ComKeypadWithNote);
-export  const viewBillModelModel = createPromiseDialog<params, object>(ComViewBillModel);
+export  const viewBillModelModel = createPromiseDialog<params, object>(ComViewBillModal);
 export  const smallViewSaleProductListModel = createPromiseDialog<params, object>(ComSmallViewSaleProductListModel);
 export  const smallCurrencyPrefineModel = createPromiseDialog<params, object>(ComSmallCurrencyPrefineModel);
 export  const changeTableDialog = createPromiseDialog<params, object>(ComChangeTable);
@@ -96,4 +97,5 @@ export  const SaleProductComboMenuGroupModal = createPromiseDialog<params, objec
 export  const changeTaxSettingModal = createPromiseDialog<params, object>(ComChangeTaxSettingModal);
 export  const ComSaleReferenceNumberDialog = createPromiseDialog<params, object>(ComSaleReferenceNumberModal);
 export  const viewHappyHourPromotionModal = createPromiseDialog<params, object>(ComViewHappyHourPromotionModal);
+export  const ShortCutKeyHelpDialog = createPromiseDialog<params, object>(ComShortcutKeyHelp);
 
