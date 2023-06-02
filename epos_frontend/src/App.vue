@@ -142,24 +142,24 @@ async function onViewCloseOrder(){
 }
 //get user info 
 let current_user = localStorage.getItem('current_user')
-current_user = current_user ? JSON.parse(current_user) : null
-if (!current_user) {
-	 
-	createResource({
-		url: 'epos_restaurant_2023.api.api.get_user_info',
-		params: {
-			name: current_user?.name
-		},
-		cache: "get_current_login_user",
-		auto: true,
-		onSuccess(doc) {  
-			current_user = doc
-			localStorage.setItem("current_user", JSON.stringify(current_user));
-		}
-	})
- 
-	
+if(current_user!=null){
+	current_user = current_user ? JSON.parse(current_user) : null
+	if (!current_user) {	 
+		createResource({
+			url: 'epos_restaurant_2023.api.api.get_user_info',
+			params: {
+				name: current_user?.name
+			},
+			cache: "get_current_login_user",
+			auto: true,
+			onSuccess(doc) {  
+				current_user = doc
+				localStorage.setItem("current_user", JSON.stringify(current_user));
+			}
+		})
+	}
 }
+
 function checkPromotionDay(business_branch){
 	if(auth.isLoggedIn){ 
 	// check promotion

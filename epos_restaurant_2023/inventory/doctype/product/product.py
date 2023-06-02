@@ -141,8 +141,9 @@ class Product(Document):
 
 
 	def before_save(self):
+		prices = []
 		if self.product_price:
-			prices = []
+			
 			for p in self.product_price:
 				prices.append({
 					"price":p.price,
@@ -152,7 +153,7 @@ class Product(Document):
 					'unit':p.unit, 
 					'price_rule' : p.price_rule
 				})
-			self.prices = json.dumps(prices)	
+		self.prices = json.dumps(prices)	
 	
 	def on_update(self):
 		#add_product_to_temp_menu(self)
