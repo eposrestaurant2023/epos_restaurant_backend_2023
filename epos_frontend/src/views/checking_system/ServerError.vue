@@ -11,9 +11,11 @@
     </div>
 </template>
 <script setup>
-    import {onMounted, useRouter, ref, createToaster, createResource, inject,computed } from '@/plugin'
+    import {onMounted, useRouter, ref, createToaster, createResource, inject,computed ,i18n} from '@/plugin'
     import SplashScreen from '@/components/SplashScreen.vue';
-    import { useStore } from 'vuex'
+    import { useStore } from 'vuex';
+    const { t: $t } = i18n.global; 
+
     const store = useStore()
     const auth = inject('$auth')
     const router = useRouter()
@@ -44,7 +46,7 @@
                 store.state.isLoading  = false
             },
             onError(x) {
-                toaster.error('Please contact to our system administartor.')
+                toaster.error($t('msg.Please contact to our system administartor'))
                 store.state.isLoading  = false
             }
         })
