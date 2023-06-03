@@ -21,6 +21,7 @@ import { createResource } from '@/resource.js'
 import { reactive, computed, onMounted, inject } from 'vue'
 import { useStore } from 'vuex'
 import { createToaster } from '@meforma/vue-toaster';
+import { FrappeApp } from 'frappe-js-sdk';
 
 
 const toaster = createToaster({position:'top'});
@@ -131,33 +132,43 @@ if (!localStorage.getItem("pos_profile")) {
 
 }
 
-async function onViewCloseOrder(){
-    await cashierShiftResource.fetch().then((doc)=>{
-        if(doc.working_day == null){
-            toaster.warning("Please start your working day and cashier shift")
-        }else {
-            router.push({name:"ClosedSaleList"})
-        }
-    });
-}
+// async function onViewCloseOrder(){
+//     await cashierShiftResource.fetch().then((doc)=>{
+//         if(doc.working_day == null){
+//             toaster.warning("Please start your working day and cashier shift")
+//         }else {
+//             router.push({name:"ClosedSaleList"})
+//         }
+//     });
+// }
+
 //get user info 
+
+
 let current_user = localStorage.getItem('current_user')
 if(current_user!=null){
-	current_user = current_user ? JSON.parse(current_user) : null
-	if (!current_user) {	 
-		createResource({
-			url: 'epos_restaurant_2023.api.api.get_user_info',
-			params: {
-				name: current_user?.name
-			},
-			cache: "get_current_login_user",
-			auto: true,
-			onSuccess(doc) {  
-				current_user = doc
-				localStorage.setItem("current_user", JSON.stringify(current_user));
-			}
-		})
-	}
+	const frappe = new FrappeApp();
+	const auth = frappe.auth();
+	auth.getLoggedInUser().then((user) => {
+		current_user = current_user ? JSON.parse(current_user) : null
+		if (!current_user) {	 
+			createResource({
+				url: 'epos_restaurant_2023.api.api.get_user_info',
+				params: {
+					name: current_user?.name
+				},
+				cache: "get_current_login_user",
+				auto: true,
+				onSuccess(doc) {  
+					current_user = doc
+					localStorage.setItem("current_user", JSON.stringify(current_user));
+				}
+			})
+		}
+
+	}).catch((error) => console.error(error));
+
+	
 }
 
 function checkPromotionDay(business_branch){
