@@ -20,7 +20,7 @@ const toast = createToaster({position:"top"});
 const wifi_password = ref("")
   const emit = defineEmits(["resolve"])
  
-  function onClose() {
+  function onClose() { 
     emit('resolve', false);
   }
   function onPrint(){
