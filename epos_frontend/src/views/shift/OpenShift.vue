@@ -102,7 +102,7 @@ const addCashierShiftResource = createResource({
 })
 
 async function onOpenShift() {
-    if (await confirm({ title: $t("Start Shift"), text: "msg.are you sure to start shift" })) {
+    if (await confirm({ title: $t("Start Shift"), text: $t("msg.are you sure to start shift") })) {
         addCashierShiftResource.params = {
             doc: {
                 doctype: "Cashier Shift",

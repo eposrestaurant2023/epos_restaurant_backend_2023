@@ -13,7 +13,7 @@ class CashierShift(Document):
 		# 		frappe.throw("Please close all pending order before close cashier shift.")
 
 		if self.is_new():
-			data = frappe.get_list("Cashier Shift",filters={"pos_profile":self.pos_profile, "is_closed":0})
+			data = frappe.get_list("Cashier Shift",filters={"pos_profile":self.pos_profile,"business_branch":self.business_branch, "is_closed":0})
 			if data:
 				frappe.throw("Cashier shift is already opened")
 				
