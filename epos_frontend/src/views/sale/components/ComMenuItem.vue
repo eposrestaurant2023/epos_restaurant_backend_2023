@@ -129,7 +129,7 @@ async function onClickProduct() {
         if (p.is_open_product == 1) {
             let productPrices = await keypadWithNoteDialog({
                 data: {
-                    title: `${$t('Delete')} ${p.name}`,
+                    title: `${p.name_en}`,
                     label_input: 'Enter Price',
                     note: "Open Menu Note",
                     category_note_name: "Open Menu Note",
