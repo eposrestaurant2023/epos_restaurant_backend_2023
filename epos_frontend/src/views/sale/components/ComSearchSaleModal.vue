@@ -1,12 +1,12 @@
 <template>
   <ComModal :mobileFullscreen="true" @onClose="onClose()" width="1200px" :hideOkButton="true">
     <template #title>
-      Select Sale
+      {{ $t('Select Sale') }}
     </template>
     <template #content>
       <div>
         <div>
-          <ComInput autofocus ref="searchTextField" keyboard class="m-2" v-model="search" placeholder="Search Sale" />
+          <ComInput autofocus ref="searchTextField" keyboard class="m-2" v-model="search" :placeholder="$t('Search Sale')" />
         </div>
         <div class="overflow-auto px-2 pb-2">
           <ComPlaceholder :is-not-empty="getSaleList().length > 0">

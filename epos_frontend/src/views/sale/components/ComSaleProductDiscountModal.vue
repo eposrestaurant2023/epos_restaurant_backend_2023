@@ -5,6 +5,8 @@
         </template>
         <template #content>
             <div>
+            
+              
                 <v-row :class="categoryNoteName ? '' : '!m-0'">
                     <v-col cols="12" :md="categoryNoteName ? 6 : 12">
                         <div class="mb-2">
@@ -47,10 +49,11 @@
     </ComModal>
 </template>
 <script setup>
-import { ref, defineEmits, createToaster, computed,i18n } from '@/plugin'
+import { ref, defineEmits, createToaster, computed,i18n,inject } from '@/plugin'
 import Enumerable from 'linq'
 import ComInlineNote from '../../../components/ComInlineNote.vue';
 import { useDisplay } from 'vuetify';
+const sale = inject("$sale")
 
 const { t: $t } = i18n.global; 
 

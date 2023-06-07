@@ -2,7 +2,7 @@
     <v-menu>
         <template v-slot:activator="{ props }">
             <v-btn color="primary" v-bind="props">
-                View Shift Report
+                {{ $t('View Shift Report') }}
             </v-btn>
         </template>
 
@@ -17,10 +17,11 @@
  
 </template>
 <script setup>
-import { createResource,defineProps } from '@/plugin';
+import { createResource,defineProps,i18n } from '@/plugin';
 import { printPreviewDialog } from '@/utils/dialog';
 import ComPrintButton from '@/components/ComPrintButton.vue';
 
+const { t: $t } = i18n.global;
 const props = defineProps({ name:String})
 
 
@@ -34,7 +35,7 @@ const reportList = createResource({
 })
 
 function onViewReport(r){
-    printPreviewDialog( { title: "Cashier Shift Report #" + props.name, doctype: "Cashier Shift", name: props.name,"report": r});
+    printPreviewDialog( { title:$t('Cashier Shift Report') + " #" + props.name, doctype: "Cashier Shift", name: props.name,"report": r});
 
 }
 function onPrintReport(r){

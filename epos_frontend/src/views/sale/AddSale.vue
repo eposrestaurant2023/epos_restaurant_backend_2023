@@ -5,6 +5,8 @@
     <div v-else style="height: calc(100vh - 64px)" id="tst">
         <v-row class="h-full ma-0">
             <v-col cols="12" sm="7" md="7" lg="8" class="pa-0 h-full d-none d-sm-block">
+               
+                <!-- {{  Enumerable.from(sale.sale.sale_products).groupBy(function(x) { return x.revenue_group; }).select(function(x) { return x.first(); }).toArray() }} -->
                 <ComMenu :background-image="gv.setting.pos_sale_order_background_image" />
             </v-col>
             <v-col cols="12" sm="5" md="5" lg="4" class="h-full pa-0">
@@ -37,7 +39,7 @@
     </div>
 </template>
 <script setup>
-import { inject, useRoute, useRouter, ref, onMounted, onUnmounted, onBeforeRouteLeave, createResource,ShortCutKeyHelpDialog } from '@/plugin';
+import { inject, useRoute, useRouter, ref, onMounted, onUnmounted, onBeforeRouteLeave, createResource,ShortCutKeyHelpDialog,i18n } from '@/plugin';
 import { getCurrentInstance } from 'vue';
 import ComMenu from './components/ComMenu.vue';
 import ComSelectCustomer from './components/ComSelectCustomer.vue';
@@ -49,6 +51,10 @@ import ComSaleSummaryList from './components/ComSaleSummaryList.vue';
 import ComSaleButtonPaymentSubmit from './components/ComSaleButtonPaymentSubmit.vue';
 import { createToaster } from '@meforma/vue-toaster';
 import { useDisplay } from 'vuetify'
+import Enumerable from 'linq';
+
+const { t: $t } = i18n.global;
+
 const { mobile } = useDisplay()
 
 const sale = inject("$sale")
@@ -156,10 +162,10 @@ onMounted(() => {
                 if (v.docstatus == 1 || v.docstatus == 2) {
 
                     if (v.docstatus == 1) {
-                        toaster.warning("This sale order is already closed");
+                        toaster.warning($t('msg.This bill is already closed'));
 
                     } else {
-                        toaster.warning("This sale order is already cancel");
+                        toaster.warning($t('msg.This bill is already cancelled'));
                     }
                     if (gv.setting.table_groups.length > 0) {
                         router.push({ name: 'TableLayout' });

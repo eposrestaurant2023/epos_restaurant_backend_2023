@@ -1,7 +1,9 @@
 import Enumerable from 'linq'
 
-import {  createResource } from "@/plugin"
+import {  createResource,i18n } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
+
+const { t: $t } = i18n.global;
 
  
 const toaster = createToaster({ position: "top" });
@@ -26,7 +28,7 @@ export default class TableLayout {
         this.saveTablePositionResource = createResource({
             url: "epos_restaurant_2023.api.api.save_table_position",
             onSuccess(d) {
-                toaster.success("Save table position successfully");
+                toaster.success($t("msg.Save successfully"));
                
                 localStorage.setItem("table_groups", JSON.stringify(parent.table_groups));
                 parent.onEnableArrangeTable(false);

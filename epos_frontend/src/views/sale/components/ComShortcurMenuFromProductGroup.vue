@@ -8,7 +8,7 @@
                 size="small"
                 v-bind:style="{'background-color':'red'}"
                 @click="onShortCutMenuClick('All Product Categories')">
-                <span v-bind:style="{'color':'#fff'}">All Categoryies</span>
+                <span v-bind:style="{'color':'#fff'}">{{ $t('All Product Categories') }}</span>
             </v-btn> 
             <v-btn 
                 class="flex-shrink-0 m-1"

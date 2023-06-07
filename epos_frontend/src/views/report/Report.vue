@@ -51,6 +51,7 @@
                 </v-card-text>
             </v-card>
         </v-col>
+        
         <v-col md="9">
             <v-card>
                 <template #title>
@@ -101,13 +102,13 @@
                                 </div>
                             </div>
                             <div class="flex-none">
-                                <v-btn prepend-icon="mdi-filter" color="primary" @click="onFilter">Filter</v-btn>
+                                <v-btn prepend-icon="mdi-filter" color="primary" @click="onFilter">{{ $t('Filter') }}</v-btn>
                             </div>
                         </div>
                     </div>
                 </template>
                 <v-card-text style="height: calc(100vh - 230px);">
-                    <iframe id="report-view" height="100%" width="100%" :src="printPreviewUrl"></iframe>
+                    <iframe v-if="(activeReport.doc_type !='')" id="report-view" height="100%" width="100%" :src="printPreviewUrl"></iframe>
                 </v-card-text>
             </v-card>
         </v-col>
@@ -120,6 +121,7 @@ import Enumerable from 'linq'
 
 import PageLayout from '@/components/layout/PageLayout.vue';
 import { createToaster } from '@meforma/vue-toaster';
+import { onMounted } from 'vue';
 const gv = inject('$gv')
 const moment = inject('$moment')
 
@@ -144,9 +146,12 @@ const activeReport = ref({
 })
 const workingDay = ref(null)
 
+
 const printPreviewUrl = computed(()=>{
     return `${serverUrl}/printview?doctype=${activeReport.value.doc_type}&name=${activeReport.value.report_id}&product_category=${activeReport.value.filter.product_category}&format=${activeReport.value.preview_report}&no_letterhead=0&show_toolbar=0&letterhead=${activeReport.value.letterhead}&settings=%7B%7D&_lang=${activeReport.value.lang}`
 })
+
+
 const printUrl = computed(()=>{
     return `${serverUrl}/printview?doctype=${activeReport.value.doc_type}&name=${activeReport.value.report_id}&product_category=${activeReport.value.filter.product_category}&format=${activeReport.value.print_report_name}&no_letterhead=0&show_toolbar=0&letterhead=${activeReport.value.letterhead}&settings=%7B%7D&_lang=${activeReport.value.lang}`
 })
@@ -200,6 +205,9 @@ const cashierShiftReports = createResource({
     
 })
  
+ 
+ 
+
 function onCashierShift(data){
     activeReport.value.name = 'Cashier Shift'
     activeReport.value.report_id = data.name
@@ -219,8 +227,6 @@ function onWorkingDay(working_day){
     activeReport.value.report_id = working_day.name
     activeReport.value.preview_report = workingDay.value[0]?.name
     activeReport.value.doc_type = workingDay.value[0]?.doc_type 
-
-    console.log(working_day)
     const print_report_name = workingDay.value.filter(r=>r.name == working_day.name)
     
     activeReport.value.print_report_name = workingDay[0]?.print_report_name || workingDay[0]?.name

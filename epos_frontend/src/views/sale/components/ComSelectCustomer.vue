@@ -16,7 +16,7 @@
                     </div>
                     <div> 
                         <template v-if="customerPromotion?.length > 0">
-                            <ComChip v-for="(item, index) in customerPromotion" :key="index" color="orange" tooltip="Happy Hour Promotion" prepend-icon="mdi-tag-multiple">{{ item.promotion_name }}</ComChip>
+                            <ComChip v-for="(item, index) in customerPromotion" :key="index" color="orange" :tooltip="$t('Happy Hour Promotion')" prepend-icon="mdi-tag-multiple">{{ item.promotion_name }}</ComChip>
                         </template>
                         <v-chip v-else-if="sale.sale.customer_default_discount > 0" color="error">{{ sale.sale.customer_default_discount }} % OFF</v-chip>
                     </div>

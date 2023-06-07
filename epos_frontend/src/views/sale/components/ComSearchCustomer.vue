@@ -1,7 +1,7 @@
 <template>
   <ComModal :fullscreen="mobile" @onClose="onClose">
     <template #title>
-          Select Customer
+          {{ $t('Select Customer') }}
     </template>
     <template #content>
       <div>
@@ -12,13 +12,13 @@
           keyboard
           class="m-4"
           v-model="search"
-          placeholder="Search Customer"
+          :placeholder="$t('Search Customer')"
           v-debounce="onSearch"
           @onInput="onSearch"/>
       </div>
       <div class="px-4 pb-4">
         <ComPlaceholder :loading="customerResource.loading" :is-not-empty="customerResource.data"
-          text="There is not customer" icon="mdi-account-outline">
+          :text="$t('There is not customer')" icon="mdi-account-outline">
           <v-card v-for="(c, index) in customerResource.data.filter(r=>r.disabled == 0)" :key="index" :title="c.customer_name_en"
             @click="onSelectCustomer(c)" class="mb-4">
             <template v-slot:subtitle>
