@@ -12,13 +12,13 @@
           keyboard
           class="m-4"
           v-model="search"
-          :placeholder="$t('Search Customer')"
+          :placeholder="$t('Search')"
           v-debounce="onSearch"
           @onInput="onSearch"/>
       </div>
       <div class="px-4 pb-4">
         <ComPlaceholder :loading="customerResource.loading" :is-not-empty="customerResource.data"
-          :text="$t('There is not customer')" icon="mdi-account-outline">
+          :text="$t('msg.There is not customer')" icon="mdi-account-outline">
           <v-card v-for="(c, index) in customerResource.data.filter(r=>r.disabled == 0)" :key="index" :title="c.customer_name_en"
             @click="onSelectCustomer(c)" class="mb-4">
             <template v-slot:subtitle>
@@ -40,12 +40,12 @@
           <template #empty>
             <div>
                 <v-alert v-if="!customerResource.loading"
-                  title="Customer not found"
+                  :title="$t('Customer not found')"
                   variant="tonal"
                 >
                   <div class="d-flex flex-row align-center justify-space-between">
                     <div>
-                      There's no customer with keyword <strong>{{ search }}</strong>.
+                      {{ $t('msg.There is not customer with keyword') }} <strong>{{ search }}</strong>.
                     </div>
 
                     <v-btn
@@ -53,7 +53,7 @@
                       variant="outlined"
                       @click="addCustomer"
                     >
-                      Add New Customer
+                     {{ $t('Add New') }}
                     </v-btn>
                   </div>
                 </v-alert>
@@ -66,7 +66,7 @@
   </ComModal>
 </template>
 <script setup>
-  import { addCustomerDialog, ref, defineProps, defineEmits, createResource,inject } from '@/plugin'
+  import { addCustomerDialog, ref, defineProps, defineEmits, createResource,inject,i18n } from '@/plugin'
   import ComToolbar from '@/components/ComToolbar.vue';
   import ComInput from '@/components/form/ComInput.vue';
   import ComCustomerPromotionChip from './ComCustomerPromotionChip.vue';

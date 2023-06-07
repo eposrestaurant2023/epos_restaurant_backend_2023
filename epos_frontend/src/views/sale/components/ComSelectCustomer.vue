@@ -44,17 +44,17 @@
 </template>
 <script setup>
 import { computed, inject, getCurrentInstance,searchCustomerDialog,createResource, customerDetailDialog, scanCustomerCodeDialog, confirmDialog, onMounted,createToaster,addCustomerDialog } from "@/plugin"
-import ComCustomerPromotionChip from "./ComCustomerPromotionChip.vue";
 import { whenever,useMagicKeys  } from '@vueuse/core';
-import { useDisplay } from 'vuetify'
+import { i18n } from "@/plugin"; 
+
+const { t: $t } = i18n.global;
+
 const sale = inject("$sale")
 const gv = inject("$gv")
 const socket = inject("$socket")
 const moment = inject("$moment")
 const toaster = createToaster({ position: "top" });
-// const { mobile } = useDisplay()
 sale.vueInstance = getCurrentInstance();
-// // console.log(sale.vueInstance)
 sale.vue = sale.vueInstance.appContext.config.globalProperties
 let customerPromotion = computed({
     get(){
@@ -107,7 +107,7 @@ function assignCustomerToOrder(result) {
         //sale.promotion.customer_groups.filter(r=>r.customer_group_name_en == result.customer_group).length > 0
         if(customerPromotion.value && customerPromotion.value.length > 0){
             customerPromotion.value.forEach((r)=>{
-                toaster.info(`This customer has happy hours promotion ${r.promotion_name} : ${(( r.percentage_discount || 0))}%`);
+                toaster.info(`${$t('msg.This customer has happy hour promotion')} ${r.promotion_name} : ${(( r.percentage_discount || 0))}%`);
             })
             updateProductAfterSelectCustomer(customerPromotion.value)
         }
@@ -122,7 +122,7 @@ function assignCustomerToOrder(result) {
         sale.sale.discount_type="Percent";
         sale.sale.discount = parseFloat(result.default_discount);
         sale.updateSaleSummary();
-        toaster.info("This customer has default discount " + sale.sale.discount + '%');
+        toaster.info($t('msg.This customer has default discount')+" " + sale.sale.discount + '%');
     }
 
     socket.emit("ShowOrderInCustomerDisplay",sale.sale);
@@ -181,7 +181,7 @@ function updateProductAfterSelectCustomer(pro){
                     // remove expire promotion
                     if(doc.expire_promotion.length > 0){
                         doc.expire_promotion.forEach((p)=>{
-                            toaster.warning(`${p.promotion_name} was expired!!!`)
+                            toaster.warning(`${p.promotion_name} ${$t('msg.was expired')}`)
                             const index = gv.promotion.findIndex(r=>r.name == p.name)
                             if(index > -1){
                                 gv.promotion.splice(index, 1);
@@ -211,7 +211,7 @@ async function onScanCustomerCode() {
 async function onRemove() {
     if (!sale.isBillRequested()) {
         if (sale.sale.discount > 0) {
-            if (await confirmDialog({ title: "Remove Discount", text: "Remove discount from this sale order?" })) {
+            if (await confirmDialog({ title:$t('Remove Discount') , text: $t('msg.are you sure to remove discount from bill')})) {
                 
                 sale.sale.discount = 0;
                 sale.updateSaleSummary();
@@ -224,7 +224,7 @@ async function onRemove() {
 }
 async function onAddCustomer() {
     if (!sale.isBillRequested()) {
-        const result = await addCustomerDialog ({title: "New Customer", value:  ''});
+        const result = await addCustomerDialog ({title:$t('New Customer') , value:  ''});
         if(result != false){
             sale.sale.customer = result.name
             sale.sale.customer_name = result.customer_name_en
