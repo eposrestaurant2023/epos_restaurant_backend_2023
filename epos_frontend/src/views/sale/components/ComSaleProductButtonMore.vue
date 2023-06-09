@@ -56,10 +56,12 @@
 import { defineProps, inject,keypadWithNoteDialog,i18n } from '@/plugin'
 import {createToaster} from '@meforma/vue-toaster';
 
+
+
 const { t: $t } = i18n.global;  
 
-
 const sale = inject('$sale')
+const numberFormat = inject('$numberFormat')
 const gv = inject("$gv")
 const tableLayout = inject("$tableLayout")
 const props = defineProps({
@@ -111,11 +113,28 @@ function onRemoveSaleProduct() {
                         } 
                     });
                   
-                    if(result){ 
-                        if(props.saleProduct.quantity < result.number)
-                            result.number = props.saleProduct.quantity
+                    if(result){
+                        let msg = `User ${v.user} delete Item: ${props.saleProduct.product_code}-${props.saleProduct.product_name}.${props.saleProduct.portion} ${props.saleProduct.modifiers}`; 
+                           
+                        if(props.saleProduct.quantity < result.number){
+                            result.number = props.saleProduct.quantity;
+                        }                       
+                            
                         props.saleProduct.deleted_item_note = result.note;
-                        sale.onRemoveSaleProduct(props.saleProduct, result.number);
+                        sale.onRemoveSaleProduct(props.saleProduct, result.number);  
+                        
+                        msg += `, Qty: ${props.saleProduct.quantity}`;
+                        msg += `, Amount: ${ numberFormat(gv.getCurrnecyFormat,props.saleProduct.amount)}`;
+                        msg += `${result.note==""?'':', Reason: '+result.note }`;
+                        sale.auditTrailLogs.push({
+                            doctype:"Comment",
+                            subject:"Delete Sale Product",
+                            comment_type:"Comment",
+                            reference_doctype:"Sale",
+                            reference_name:"New",
+                            comment_by:v.username,
+                            content:msg
+                        })                       
 
                     } 
                 }

@@ -171,8 +171,7 @@
    "fieldname": "sale_products",
    "fieldtype": "Table",
    "label": "Sale Product",
-   "options": "Sale Product",
-   "reqd": 1
+   "options": "Sale Product"
   },
   {
    "fieldname": "photo",
@@ -782,7 +781,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-05-16 19:47:26.497686",
+ "modified": "2023-06-09 15:19:23.864243",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

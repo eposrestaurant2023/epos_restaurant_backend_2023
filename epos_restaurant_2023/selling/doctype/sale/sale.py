@@ -12,14 +12,13 @@ from frappe.model.document import Document
 
 class Sale(Document):
 	def validate(self):
-		
-		#frappe.throw(_("Please select your working day"))
+			#frappe.throw(_("Please select your working day"))
 		if self.pos_profile:
 			if not self.working_day:
-				frappe.throw(_("Please select your working day"))
+				frappe.throw(_("Please start working day first"))
 
 			if not self.cashier_shift: 
-				frappe.throw(_("Please select your cashier shift"))
+				frappe.throw(_("Please start shift first"))
 
 		# if self.posting_date:
 		# 	if self.posting_date>utils.today():
@@ -34,18 +33,22 @@ class Sale(Document):
 
 
 		if self.discount_type =="Percent" and self.discount> 100:
-			frappe.throw(_("Discount percent cannot greater than 100%"))
+			frappe.throw(_("discount percent cannot greater than 100 percent"))
    
 		if self.docstatus ==0:
 			if self.working_day:
 				is_closed = frappe.db.get_value('Working Day', self.working_day,"is_closed")
 				if is_closed==1:
-					frappe.throw(_("Working day {} is already closed".format(self.working_day)))
+					# frappe.throw(_("Working day {} is already closed".format(self.working_day)))
+					frappe.throw(_("Working day was closed"))
+
 
 			if self.cashier_shift:
 				is_closed = frappe.db.get_value('Cashier Shift', self.cashier_shift,"is_closed")
 				if is_closed==1:
-					frappe.throw(_("Cashier shift {} is already closed".format(self.cashier_shift)))
+					# frappe.throw(_("Cashier shift {} is already closed".format(self.cashier_shift)))
+					frappe.throw(_("Cashier shift was closed"))
+
 		#validate outlet
 		if self.outlet and self.business_branch:
 			if frappe.get_value("Outlet",self.outlet,"business_branch") != self.business_branch:
@@ -441,7 +444,7 @@ def validate_sale_product(self):
 	for d in self.sale_products:
 		# validate product free
 		if(d.is_free and d.price > 0):
-			frappe.throw(_("Cannot set price becouse this product is free."))
+			frappe.throw(_("Cannot set price becouse this product is free"))
 		
 		d.sub_total = (d.quantity or 0) * (d.price or 0) + (d.quantity or 0) * (d.modifiers_price or 0)
 		if (d.discount_type or "Percent")=="Percent":

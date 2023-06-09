@@ -721,8 +721,9 @@ export default class Sale {
             if (sp.sale_product_status == 'Submitted') {
                 this.deletedSaleProducts.push(sp) 
             }
-
             this.sale.sale_products.splice(this.sale.sale_products.indexOf(sp), 1);
+
+
         } else {
             sp.quantity = sp.quantity - quantity;
             if (sp.sale_product_status == 'Submitted') {
@@ -731,6 +732,7 @@ export default class Sale {
                 this.deletedSaleProducts.push(deletedRecord)
             }
         }
+       
         this.updateSaleSummary();
     }
 
@@ -800,7 +802,7 @@ export default class Sale {
 
     onSubmit() {
         return new Promise(async (resolve) => {
-            if (this.sale.sale_products.length == 0) {
+            if (this.sale.sale_products.length == 0 && this.sale.name == undefined) {
                 toaster.warning($t('msg.Please select a menu item to submit order'));
                 resolve(false);
             }
@@ -824,6 +826,8 @@ export default class Sale {
                 } else {
                     await this.saleResource.setValue.submit(doc);
                 }
+
+                this.submitToAuditTrail(doc);
                 //refresh tabl 
                 resolve(doc);
             }
@@ -948,12 +952,10 @@ export default class Sale {
 
     submitToAuditTrail(d) {
         this.auditTrailLogs.forEach((r) => {
-
             r.reference_name = d.name;
             this.auditTrailResource.submit({ doc: r })
         });
         this.auditTrailLogs = [];
-
     }
 
     onPrintToKitchen(doc) {

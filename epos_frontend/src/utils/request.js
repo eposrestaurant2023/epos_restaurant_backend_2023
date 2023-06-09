@@ -57,7 +57,7 @@ export function request(_options) {
       // let error = new Error(response)
       // error.response = response
       // throw error
-      console.log(response)
+      // console.log(response)
       return false
 
     }

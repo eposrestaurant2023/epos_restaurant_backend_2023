@@ -3,7 +3,9 @@ import { createToaster } from "@meforma/vue-toaster";
 import {createRouter, useRouter} from 'vue-router';
 import { i18n } from "@/plugin";
 
-export function frappeRequest(options) {
+
+export function frappeRequest(options) { 
+
   return request({
     ...options,
     transformRequest: (options = {}) => {
@@ -135,13 +137,48 @@ export function frappeRequest(options) {
               if(msg.length == 3 && msg[0] == 'Error' && msg[1].search('Value missing for')){
                 toaster.warning(`Invalid ${msg[2]}`);
               }else{
+                let _msg ="";
+                let _msg_type ="warning";
+
+                const { t: $t } = i18n.global;
                 switch(r){
                   case 'Invalid PIN Code':
                     break;
+                  case 'Please start working day first' :
+                    _msg = r; 
+                    break;
+                  case 'Please start shift first' :                  
+                    _msg = r;     
+                    break;
+                  case 'discount percent cannot greater than 100 percent' :                  
+                    _msg = r;     
+                    break; 
+                  case 'Working day was closed' :                  
+                    _msg = r;     
+                    break;
+                  case 'Cashier shift was closed' :                  
+                    _msg = r;     
+                    break;
+                  case 'Discount amount cannot greater than discountable amount' :                  
+                    _msg = r;     
+                    break;
+                  case 'Cannot set price becouse this product is free' :                  
+                    _msg = r;     
+                    break;
                   default: 
-                    toaster.error(r);
+                    _msg_type = "error";    
+                    _msg = r;                
                   break;
-                }             
+                } 
+                               
+                
+                if(_msg !=""){
+                  if(_msg_type=="error"){
+                    toaster.error($t(`msg.${_msg}`));
+                  }else if(_msg_type=='warning'){
+                    toaster.warning($t(`msg.${r}`));
+                  }
+                }
                 
               }
             });

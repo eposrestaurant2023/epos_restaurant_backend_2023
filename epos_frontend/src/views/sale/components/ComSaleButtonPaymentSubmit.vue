@@ -106,6 +106,7 @@ async function onSubmit() {
     sale.action = "submit_order";
     sale.message = $t("msg.Submit order successfully");
     sale.sale.sale_status = "Submitted"; 
+   
     await sale.onSubmit().then((doc) => {
       product.onClearKeyword(); 
       if (doc) {
@@ -138,7 +139,7 @@ async function onPayment() {
   }
 
   if (sale.sale.sale_products.length == 0) {
-    toaster.warning($t('msg.Please select a menu item to submit order'));
+    toaster.warning($t('msg.Please select a menu item to process payment'));
     return
   }
   else if (sale.onCheckPriceSmallerThanZero()) {

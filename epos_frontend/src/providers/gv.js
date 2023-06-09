@@ -1,6 +1,8 @@
-import { authorizeDialog,noteDialog,createResource,confirm,i18n } from "@/plugin"
+import { authorizeDialog,noteDialog,confirm,i18n,computed } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
 import moment from '@/utils/moment.js';
+
+
 const { t: $t } = i18n.global; 
  
 const toaster = createToaster({ position: "top" });
@@ -35,11 +37,9 @@ export default class Gv {
 
 		return new Promise(async (resolve,reject) => {
 			if (this.setting.pos_setting[settingKey] == 1) {
-				const result = await authorizeDialog({ permissionCode: permissionCode });
-				
+				const result = await authorizeDialog({ permissionCode: permissionCode });				
 				if (result) {
-					if(requiredNoteKey && categoryNoteName){
-						
+					if(requiredNoteKey && categoryNoteName){						
 						//check if require note 
 						if(this.setting.pos_setting[requiredNoteKey] == 1){
 							
@@ -168,6 +168,16 @@ export default class Gv {
 		}
 		return null;
 	}
+
+	 getCurrnecyFormat = computed(()=> {
+		let format = '#,###,##0.00##';
+		const curr = this.setting?.currencies.find(r => r.name == this.setting?.default_currency);
+		if(curr)
+		{
+			format = curr.pos_currency_format;
+		}
+		return format;
+	})
 }
 
  
