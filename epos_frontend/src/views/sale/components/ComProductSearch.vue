@@ -17,7 +17,7 @@
     </div>
 </template>
 <script setup>
-import { inject,ref, defineProps,createResource }   from '@/plugin';
+import { inject,ref, defineProps,createResource ,addModifierDialog }   from '@/plugin';
 import ComInput from '../../../components/form/ComInput.vue';
 import { createToaster } from '@meforma/vue-toaster';
 const product =inject("$product") 
@@ -54,7 +54,7 @@ function onSearch(key) {
 
 function onKeyDown(event) {
       if(event.key =="Enter"){
-
+        if (!sale.isBillRequested()) {
         
        
         const searchProductResource = createResource({
@@ -64,9 +64,45 @@ function onKeyDown(event) {
                     }
             });
 
-        searchProductResource.fetch().then((doc)=>{
+        searchProductResource.fetch().then(async (doc)=>{
 
-            sale.addSaleProduct(doc);
+            const p = JSON.parse(JSON.stringify(doc));
+            console.log("pxxx", p)
+         
+            const portions = JSON.parse(p.prices)?.filter(r => (r.branch == sale.sale.business_branch || r.branch == '') && r.price_rule == sale.sale.price_rule);
+            const check_modifiers = product.onCheckModifier(JSON.parse(p.modifiers));
+            if (portions?.length == 1) {
+                p.price = portions[0].price
+                p.unit = portions[0].unit
+            }
+            console.log(check_modifiers)
+            console.log(portions)
+            if (check_modifiers || portions?.length > 1) {
+                product.setSelectedProduct(doc);
+
+                let productPrices = await addModifierDialog();
+
+                if (productPrices) {
+                    if (productPrices.portion != undefined) {
+                        p.price = productPrices.portion.price;
+                        p.portion = productPrices.portion.portion;
+                        p.unit = productPrices.portion.unit
+                    }
+                    p.modifiers = productPrices.modifiers.modifiers;
+                    p.modifiers_data = productPrices.modifiers.modifiers_data;
+                    p.modifiers_price = productPrices.modifiers.price
+
+                } else {
+                    return;
+                }
+            } else {
+                p.modifiers = "";
+                p.modifiers_data = "[]";
+                p.portion = "";
+            }
+
+            sale.addSaleProduct(p);
+
             toaster.success("Added product " + product.searchProductKeywordStore + " successfully")
             product.searchProductKeywordStore = "";
             doSearch.value = false
@@ -75,6 +111,7 @@ function onKeyDown(event) {
 
         
       }
+    }
     }
 
 </script>

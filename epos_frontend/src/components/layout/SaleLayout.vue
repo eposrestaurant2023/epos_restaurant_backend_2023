@@ -3,16 +3,24 @@
         <v-app-bar :elevation="2" color="error">
             <template #prepend>
                 <v-app-bar-nav-icon size="small" variant="text" @click.stop="onDrawer()"></v-app-bar-nav-icon>
+                <template v-if="mobile"> 
+                    <v-btn icon  @click="onBack('TableLayout')" v-if="gv.setting.table_groups.length > 0" >
+                        <v-icon >mdi-arrow-left</v-icon> 
+                    </v-btn>
+                    <v-btn icon  @click="onBack('Home')" v-else >
+                        <v-icon >mdi-home</v-icon> 
+                    </v-btn>
+                </template>
                 <v-app-bar-title>
                     <div :class="mobile ? 'text-xs' : ''">
                         POS
-                        <span v-if="$sale.sale.tbl_number">- {{ $sale.sale.tbl_number }}</span>
-                        <span v-if="$sale.sale.sale_status == 'New'"> - {{ $t('New') }}</span>
-                        <span v-else> - {{ $sale.sale.name }}</span>
+                        <span v-if="sale.sale.tbl_number">- {{ sale.sale.tbl_number }}</span>
+                        <span v-if="sale.sale.sale_status == 'New'"> - {{ $t('New') }}</span>
+                        <span v-else> - {{ sale.sale.name }}</span>
 
-                        <v-chip class="ml-2" variant="elevated" v-if="$sale.sale.name" :color="$sale.sale.sale_status_color"
+                        <v-chip class="ml-2" variant="elevated" v-if="sale.sale.name" :color="sale.sale.sale_status_color"
                             :size="mobile ? 'x-small' : 'default'">
-                            {{ $sale.sale.sale_status }}
+                            {{ sale.sale.sale_status }}
                         </v-chip>
                     </div>
                 </v-app-bar-title>
@@ -23,8 +31,8 @@
             </template>
             <template #append>
                 <ComTimeUpdate />
-                <v-btn icon="mdi-fullscreen" @click="onFullScreen()" v-if="!$gv.isFullscreen && isWindow"></v-btn>
-                <v-btn icon="mdi-fullscreen-exit" @click="onFullScreen()" v-if="$gv.isFullscreen && isWindow"></v-btn>
+                <v-btn icon="mdi-fullscreen" @click="onFullScreen()" v-if="!gv.isFullscreen && isWindow"></v-btn>
+                <v-btn icon="mdi-fullscreen-exit" @click="onFullScreen()" v-if="gv.isFullscreen && isWindow"></v-btn>
 
                 <ComSaleNotivication />
 
@@ -70,70 +78,89 @@
         </v-main>
     </v-app>
 </template>
-<script>
-import ComProductSearch from '../../views/sale/components/ComProductSearch.vue'
-import MainLayoutDrawer from './MainLayoutDrawer.vue';
-import SaleLayoutDrawer from './SaleLayoutDrawer.vue';
-import ComTimeUpdate from './components/ComTimeUpdate.vue';
-import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue';
-import ComSaleNotivication from './ComSaleNotification.vue';
-import { useDisplay } from 'vuetify'
-import { useRouter,createToaster } from '@/plugin';
-import Enumerable from 'linq'; 
+<script setup>
+    import ComProductSearch from '../../views/sale/components/ComProductSearch.vue'
+    import MainLayoutDrawer from './MainLayoutDrawer.vue';
+    import ComTimeUpdate from './components/ComTimeUpdate.vue';
+    import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue';
+    import ComSaleNotivication from './ComSaleNotification.vue';
+    import { useDisplay } from 'vuetify';
+    import { useRouter ,ref,inject,confirmBackToTableLayout } from '@/plugin';
+    import { computed } from 'vue';
+    import Enumerable from 'linq';
+    const emit = defineEmits('closeModel')
 
-export default {
-    inject: ["$auth", "$sale","$gv"],
-    name: "MainLayout",
-    components: {
-        ComProductSearch,
-        SaleLayoutDrawer,
-        MainLayoutDrawer,
-        ComTimeUpdate,
-        ComCurrentUserAvatar,
-        ComSaleNotivication
-    },
-    setup() {
-        const { mobile } = useDisplay()
+    const sale = inject("$sale")
+    const auth = inject("$auth")
+    const gv = inject("$gv")
 
-        return {
-            mobile,
+    const { mobile } = useDisplay();
+    const router = useRouter();
+
+
+    const currentUser = computed(()=>{
+        return JSON.parse(localStorage.getItem('current_user'))
+    });
+
+    const isWindow = computed(()=>{
+        return localStorage.getItem('is_window')=='1';
+    })
+
+    let drawer = ref(false);
+
+
+    function onDrawer() {
+        drawer.value = !drawer.value;
+    }
+    function onReload() {
+        location.reload()
+    }
+
+    function onLogout(){
+        const isOrdered = sale.isOrdered()
+        if(isOrdered == false){
+            auth.logout().then((r)=>{
+                router.push({name: 'Login'})
+            })
+        }
+    }
+
+    function onFullScreen(){
+        window.chrome.webview.postMessage(JSON.stringify({action:"toggle_fullscreen", "is_full": gv.isFullscreen?"0":"1"}));
+        gv.isFullscreen = gv.isFullscreen?false:true;
+    }
+
+ 
     
+    async function onBack(_router) {   
+    
+        const sp = Enumerable.from(sale.sale.sale_products);
+        if (sp.where("$.name==undefined").toArray().length > 0) {
+            let result = await confirmBackToTableLayout({});
+            if (result) {
+            if (result == "hold" || result == "submit") {
+                if (result == "hold") {
+                sale.sale.sale_status = "Hold Order";
+                sale.action = "hold_order";
+                } else {
+                sale.sale.sale_status = "Submitted";
+                sale.action = "submit_order";
+                }
+                await sale.onSubmit().then(async (value) => {
+                    if (value) {                
+                        router.push({name:_router})                
+                    }
+                });
+            } else {
+                //continue
+                sale.sale = {};
+                router.push({name:_router})    
+            }}
+        } else {
+            sale.sale = {};
+            router.push({name:_router})    
         }
-    },
-    computed: {
-        currentUser() {
-            return JSON.parse(localStorage.getItem('current_user'))
-        },
-        isWindow(){
-            return localStorage.getItem('is_window')=='1';
-        }
-    },
-    data() {
-        return {
-            drawer: false
-        }
-    },
-    methods: {
-        onDrawer() {
-            this.drawer = !this.drawer;
-        },
-        onReload() {
-            location.reload()
-        },
-        onLogout(){
-            const isOrdered = this.$sale.isOrdered()
-            if(isOrdered == false){
-                this.$auth.logout().then((r)=>{
-                    this.$router.push({name: 'Login'})
-                })
-            }
-        },
-
-        onFullScreen(){
-            window.chrome.webview.postMessage(JSON.stringify({action:"toggle_fullscreen", "is_full": this.$gv.isFullscreen?"0":"1"}));
-            this.$gv.isFullscreen = this.$gv.isFullscreen?false:true;
-        }
-    },
-}
+    }
+    
 
 </script>

@@ -5,8 +5,6 @@
     <div v-else style="height: calc(100vh - 64px)" id="tst">
         <v-row class="h-full ma-0">
             <v-col cols="12" sm="7" md="7" lg="8" class="pa-0 h-full d-none d-sm-block">
-               
-                <!-- {{  Enumerable.from(sale.sale.sale_products).groupBy(function(x) { return x.revenue_group; }).select(function(x) { return x.first(); }).toArray() }} -->
                 <ComMenu :background-image="gv.setting.pos_sale_order_background_image" />
             </v-col>
             <v-col cols="12" sm="5" md="5" lg="4" class="h-full pa-0">
@@ -50,8 +48,7 @@ import ComGroupSaleProductList from './components/ComGroupSaleProductList.vue';
 import ComSaleSummaryList from './components/ComSaleSummaryList.vue';
 import ComSaleButtonPaymentSubmit from './components/ComSaleButtonPaymentSubmit.vue';
 import { createToaster } from '@meforma/vue-toaster';
-import { useDisplay } from 'vuetify'
-import Enumerable from 'linq';
+import { useDisplay } from 'vuetify';
 
 const { t: $t } = i18n.global;
 
@@ -71,7 +68,6 @@ const router = useRouter()
 const toaster = createToaster({ position: "top" })
 
 sale.vueInstance = getCurrentInstance();
-// console.log(sale.vueInstance)
 sale.vue = sale.vueInstance.appContext.config.globalProperties
 
 sale.orderTime = null;
@@ -91,10 +87,8 @@ sale.vue.$onKeyStroke('F1', (e) => {
     
     
 })
-// async function ShortCutKeyHelpDialog(){
-//     await ShortCutKeyHelpDialog()
-//     dialogActiveState=false
-// }
+
+
 
 sale.orderTime = "";
 if (product.posMenuResource.data?.length == 0) {
@@ -136,10 +130,10 @@ onMounted(() => {
         auto: true,
         onSuccess(data) {
             if (data.cashier_shift == null) {
-                toaster.warning("Please start cashier shift first");
+                toaster.warning($t("msg.Please start shift first"));
                 router.push({ name: "OpenShift" });
             } else if (data.working_day == null) {
-                toaster.warning("Please start working day first");
+                toaster.warning($t('msg.Please start working day first'));
                 router.push({ name: "StartWorkingDay" });
             } else {
                 sale.sale.working_day = data.working_day.name;

@@ -122,8 +122,7 @@ export default class Sale {
             commission: 0,
             commission_note: '',
             commission_amount: 0            
-        } 
-        // console.log(this.vueGlobalProperties)
+        }  
         this.onSaleApplyTax(tax_rule,this.sale);      
     }
 
@@ -198,7 +197,7 @@ export default class Sale {
         }
     }
 
-    addSaleProduct(p) {
+    addSaleProduct(p) { 
         //check for append quantity rule
         //product code, allow_append_qty,price, unit,modifier, portion, is_free,sale_product_status
         //and check system have feature to send to kitchen
@@ -233,6 +232,7 @@ export default class Sale {
                 product_code: p.name,
                 product_name: p.name_en,
                 product_name_kh: p.name_kh,
+                revenue_group:p.revenue_group,
                 unit: p.unit,
                 quantity: 1,
                 sub_total: 0,
@@ -507,7 +507,6 @@ export default class Sale {
     async onChangeQuantity(sp, gv) {
         if (!this.isBillRequested()) {
             const result = await keyboardDialog({ title:$t("Change Quantity"), type: 'number', value: sp.quantity });
-            console.log(result)
             if (result) {
                 
                 let quantity = this.getNumber(result);
@@ -653,15 +652,33 @@ export default class Sale {
         })
         this.dialogActiveState=false
         if (result != false) {
+            
+            
             if (sp) {
                 sp.discount = result.discount
                 sp.discount_type = result.discount_type
                 sp.discount_note = result.discount_note
                 this.updateSaleProduct(sp)
             } else {
-                this.sale.discount = result.discount
-                this.sale.discount_type = result.discount_type
-                this.sale.discount_note = result.discount_note
+                if(result.revenue_group.length>0){
+                    this.sale.discount = 0;
+                    this.sale.sale_products.forEach(sp => {
+                        if(sp.allow_discount){
+                            if(result.revenue_group.includes(sp.revenue_group)){                             
+                                sp.discount = result.discount
+                                sp.discount_type = result.discount_type
+                                sp.discount_note = result.discount_note
+                                this.updateSaleProduct(sp)
+                            }
+                        }
+                    });
+                }
+                else{ 
+
+                    this.sale.discount = result.discount
+                    this.sale.discount_type = result.discount_type
+                    this.sale.discount_note = result.discount_note
+                }
             }
             this.updateSaleSummary()
         }
@@ -1125,10 +1142,7 @@ export default class Sale {
         return false
     }
     getShortCutKey(name){
-        console.log(name)
         let key =  this.setting.shortcut_key.filter(item => item.name == name).map(item => item.key)
-        console.log('this.setting.shortcut_key',this.setting.shortcut_key)
-        console.log('key',key)
         return key[0];
     }
 

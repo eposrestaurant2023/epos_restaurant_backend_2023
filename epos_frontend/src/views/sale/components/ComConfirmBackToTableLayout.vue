@@ -7,9 +7,6 @@
         <p class="text-gray-400 text-sm px-2">{{ $t('msg.You have some items that unsubmited order') }}</p>
         <div class="-mx-2">
             <v-list>
-              <!-- <v-list-item prepend-icon="mdi-cash-100" title="Hold Order" @click="onOk('hold')"/>
-              <v-list-item prepend-icon="mdi-cash-100" title="Submit Order" @click="onOk('submit')"/>
-              <v-list-item prepend-icon="mdi-cash-100" title="Continue" @click="onOk('continue')"/> -->
               <v-list-item>
                 <v-btn class="w-full" variant="flat" @click="onOk('hold')" color="primary">
                    {{ $t('Hold Order') }}

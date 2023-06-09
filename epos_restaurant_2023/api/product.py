@@ -104,6 +104,7 @@ def get_products(parent_menu):
                 tax_rule,
                 sort_order,
                 tax_rule_data,
+                revenue_group,
                 sort_order
             from  `tabTemp Product Menu` 
             where 
@@ -122,6 +123,10 @@ def get_product_variants(parent):
 
 @frappe.whitelist()
 def get_product_by_barcode(barcode):
+    #step 1 check barcard in tabProduct if have product return 
+    #step 2 if product not exist check barcode from product price if exist retrun
+    # step 3 both not exist then throw product not exist
+    
     #check if barcode have in product
     data  = frappe.db.sql("select name from `tabProduct` where name='{}'".format(barcode),as_dict=1)
     if data:
@@ -146,16 +151,46 @@ def get_product_by_barcode(barcode):
                     "allow_free": p.allow_free,
                     "is_open_product": p.is_open_product,
                     "is_inventory_product": p.is_inventory_product,
-                    "prices": json.dumps(([pr.price,pr.business_branch,pr.price_rule,pr.portion] for pr in  p.product_price),default=json_handler),
+                    "prices":p.prices,
                     "printers":json.dumps(([pr.printer,pr.group_item_type] for pr in p.printers),default=json_handler),
-                    "modifiers": "",
+                    "modifiers": "[]",
                     "photo": p.photo,
                     "type": "product",
+                    "revenue_group":p.revenue_group,
                     "append_quantity": 1,
                     "modifiers_data": json.dumps(([pr.business_branch,pr.modifier_category,pr.prefix,pr.modifier_code,pr.price] for pr in p.product_modifiers),default=json_handler),
                     "sort_order":p.sort_order
                 }
             else:
                 frappe.throw("Item No Name ?")
+                
     else:
-        frappe.throw("Product Not Found")
+        
+        data  = frappe.db.sql("select name,price,unit,parent from `tabProduct Price` where barcode='{}'".format(barcode),as_dict=1)
+        product = frappe.get_doc('Product', data[0].parent)
+        return {
+                    "menu_product_name": product.name,
+                    "name": product.name,
+                    "name_en": product.product_name_en,
+                    "name_kh": product.product_name_kh,
+                    "parent": product.product_category,
+                    "price": data[0].price,
+                    "unit": data[0].unit,
+                    "allow_discount": product.allow_discount,
+                    "allow_change_price": product.allow_change_price,
+                    "allow_free": product.allow_free,
+                    "is_open_product": product.is_open_product,
+                    "is_inventory_product": product.is_inventory_product,
+                    "prices": product.prices,
+                    "printers":json.dumps(([pr.printer,pr.group_item_type] for pr in product.printers),default=json_handler),
+                    "modifiers": "[]",
+                    "photo": product.photo,
+                    "type": "product",
+                    "append_quantity": 1,
+                    "revenue_group":p.revenue_group,
+                    "modifiers_data": json.dumps(([pr.business_branch,pr.modifier_category,pr.prefix,pr.modifier_code,pr.price] for pr in product.product_modifiers),default=json_handler),
+                    "sort_order":product.sort_order
+                }
+        
+
+    frappe.throw("Product Not Found")

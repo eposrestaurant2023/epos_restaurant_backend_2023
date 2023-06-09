@@ -5,8 +5,23 @@
         </template>
         <template #content>
             <div>
-            
               
+      <v-chip-group
+        v-model="selectedGroup"
+        column
+        multiple
+      >  
+        <v-chip
+        v-if="(discount_type == 'Percent' && params.data.sale_product == null )"
+          filter
+          variant="outlined"
+          v-for="(d, index) in  revenueGroups" :key="index"
+        >
+          {{ d }}
+        </v-chip>
+        <hr/>
+        </v-chip-group>
+
                 <v-row :class="categoryNoteName ? '' : '!m-0'">
                     <v-col cols="12" :md="categoryNoteName ? 6 : 12">
                         <div class="mb-2">
@@ -53,17 +68,25 @@ import { ref, defineEmits, createToaster, computed,i18n,inject } from '@/plugin'
 import Enumerable from 'linq'
 import ComInlineNote from '../../../components/ComInlineNote.vue';
 import { useDisplay } from 'vuetify';
-const sale = inject("$sale")
-
 const { t: $t } = i18n.global; 
+
+const sale = inject("$sale")
+const selectedGroup = ref([])
+
+
+const props = defineProps({
+    params:Object
+})
+
+
+const revenueGroups = ref([...new Set(sale.sale.sale_products.map(item => item.revenue_group))])
+
 
 const emit = defineEmits(['resolve'])
  
  const { mobile } = useDisplay()
 
-const props = defineProps({
-    params:Object
-})
+
 const toaster = createToaster({ position: "top" })
 
 let discount_note = ref(props.params.data.discount_note)
@@ -94,6 +117,18 @@ function onClose() {
     emit('resolve',false)
 }
 function onOK(){
+    let revenues = []
+   
+    if (selectedGroup.value.length>0){
+        selectedGroup.value.forEach(i => {
+            revenues.push(revenueGroups.value[i])
+        });
+        //check if revenue group select all
+        if(selectedGroup.value.length == revenueGroups.value.length){
+            revenues = [];
+        }
+    }
+
     if(discount.value <= 0){
         toaster.warning($t('msg.Please select a discount'));
     }
@@ -104,10 +139,12 @@ function onOK(){
         toaster.warning($t('msg.Please select note'));
     }
     else{
+ 
         const result = {
             discount: discount.value,
             discount_type: discount_type.value,
-            discount_note: discount_note.value
+            discount_note: discount_note.value,
+            revenue_group: revenues
         }
         emit('resolve', result)
     }

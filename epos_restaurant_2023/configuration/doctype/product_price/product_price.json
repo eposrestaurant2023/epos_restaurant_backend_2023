@@ -7,11 +7,14 @@
  "engine": "InnoDB",
  "field_order": [
   "business_branch",
+  "barcode",
   "price_rule",
   "portion",
   "unit",
   "cost",
-  "price"
+  "price",
+  "column_break_8",
+  "barcode_preview"
  ],
  "fields": [
   {
@@ -59,12 +62,27 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Price"
+  },
+  {
+   "fieldname": "barcode",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Barcode"
+  },
+  {
+   "fieldname": "barcode_preview",
+   "fieldtype": "HTML",
+   "label": "Barcode Preview"
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-05-09 09:16:05.750034",
+ "modified": "2023-06-08 13:33:09.303357",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Product Price",

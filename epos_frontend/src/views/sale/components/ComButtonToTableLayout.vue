@@ -17,6 +17,8 @@
       </v-btn>
     </template>
   </template>
+
+  
   <template v-else>
     <v-list-item @click="onToHomePage()" v-if="isMobile">
       <template v-slot:prepend class="w-12">
@@ -54,50 +56,50 @@ const toaster = createToaster({ position: "top" })
 async function onToHomePage(){
   const sp = Enumerable.from(sale.sale.sale_products);
 
-if (sp.where("$.name==undefined").toArray().length > 0) {
-  let result = await confirmBackToTableLayout({});
-  if (result) {
-    if (result == "hold" || result == "submit") {
-      if (result == "hold") {
-        sale.sale.sale_status = "Hold Order";
-        sale.action = "hold_order";
-      } else {
-        sale.sale.sale_status = "Submitted";
-        sale.action = "submit_order";
-      }
-      await sale.onSubmit().then(async (value) => {
-        if (value) {
-          if (mobile.value) {
-            emit('closeModel')
-          } else {
-            router.push({ name: "Home" }).then(() => {
-              emit('closeModel')
-            })
-          }
+  if (sp.where("$.name==undefined").toArray().length > 0) {
+    let result = await confirmBackToTableLayout({});
+    if (result) {
+      if (result == "hold" || result == "submit") {
+        if (result == "hold") {
+          sale.sale.sale_status = "Hold Order";
+          sale.action = "hold_order";
+        } else {
+          sale.sale.sale_status = "Submitted";
+          sale.action = "submit_order";
         }
-      });
-    } else {
-      //continue
-      sale.sale = {};
-      if (mobile.value) {
-        emit('closeModel')
+        await sale.onSubmit().then(async (value) => {
+          if (value) {
+            if (mobile.value) {
+              emit('closeModel')
+            } else {
+              router.push({ name: "Home" }).then(() => {
+                emit('closeModel')
+              })
+            }
+          }
+        });
       } else {
-        router.push({ name: "Home" }).then(() => {
+        //continue
+        sale.sale = {};
+        if (mobile.value) {
           emit('closeModel')
-        })
+        } else {
+          router.push({ name: "Home" }).then(() => {
+            emit('closeModel')
+          })
+        }
       }
     }
-  }
-} else {
-  sale.sale = {};
-  if (mobile.value) {
-    emit('closeModel')
   } else {
-    router.push({ name: "Home" }).then(() => {
+    sale.sale = {};
+    if (mobile.value) {
       emit('closeModel')
-    })
+    } else {
+      router.push({ name: "Home" }).then(() => {
+        emit('closeModel')
+      })
+    }
   }
-}
 }
 
 async function onToTableLayout() {

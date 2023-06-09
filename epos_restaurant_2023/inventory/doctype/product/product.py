@@ -363,6 +363,7 @@ def add_product_to_temp_menu(self):
 							'pos_menu':m.pos_menu,
 							'printers':json.dumps(printers),
 							'prices':json.dumps(prices),
+							'revenue_group':self.revenue_group,
 							'modifiers':json.dumps(modifiers)
 						})
 			doc.insert() 

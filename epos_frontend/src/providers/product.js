@@ -104,6 +104,7 @@ export default class Product {
                     "combo_menu_data",
                     "combo_group_data",
                     'tax_rule',
+                    'revenue_group',
                     'prices',
                     'sort_order'
                 ],
@@ -150,6 +151,7 @@ export default class Product {
                 "use_combo_group",
                 "combo_menu_data",
                 "combo_group_data",
+                'revenue_group',
                 "prices",
                 'sort_order'
             ],
@@ -162,14 +164,14 @@ export default class Product {
             res.forEach(d => {
                 d.price_rule = ""
                 d.type = "product",
-                    d.tax_rule_data = null,
-                    d.modifiers = "[]"
+                d.tax_rule_data = null,
+                d.modifiers = "[]"
                 d.printers = "[]"
             });
             this.menuProducts = res
-            console.log(this.searchProductKeyword)
+            console.log(res)
         }).catch((err) => {
-            console.log(err)
+            console.log("ds",err)
         })
     }
 

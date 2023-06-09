@@ -45,7 +45,6 @@ function onSaleDiscount(discount_type) {
                 );
             }
         });
-
     }
 }
 function onSaleCancelDiscount() {

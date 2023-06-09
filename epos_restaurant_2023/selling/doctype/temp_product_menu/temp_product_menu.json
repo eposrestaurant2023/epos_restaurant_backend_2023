@@ -12,6 +12,7 @@
   "product_code",
   "product_name_en",
   "product_name_kh",
+  "revenue_group",
   "unit",
   "price",
   "kitchen_group",
@@ -199,11 +200,16 @@
    "fieldname": "sort_order",
    "fieldtype": "Int",
    "label": "Sort Order"
+  },
+  {
+   "fieldname": "revenue_group",
+   "fieldtype": "Data",
+   "label": "Revenue Group"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-31 10:44:22.692441",
+ "modified": "2023-06-09 08:49:44.115444",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Temp Product Menu",
