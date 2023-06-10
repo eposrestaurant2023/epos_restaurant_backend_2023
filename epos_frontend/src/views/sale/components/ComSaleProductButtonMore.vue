@@ -98,6 +98,8 @@ sale.vue.$onKeyStroke('F8', (e) => {
 function onRemoveSaleProduct() {
  
     if (!sale.isBillRequested()) {
+
+        
         if (props.saleProduct.sale_product_status == 'Submitted') {
             gv.authorize("delete_item_required_password", "delete_item","delete_item_required_note", "Delete Item Note", props.saleProduct.product_code, true).then(async (v) => {
                 if (v) {
@@ -114,7 +116,7 @@ function onRemoveSaleProduct() {
                     });
                   
                     if(result){
-                        let msg = `User ${v.user} delete Item: ${props.saleProduct.product_code}-${props.saleProduct.product_name}.${props.saleProduct.portion} ${props.saleProduct.modifiers}`; 
+                       
                            
                         if(props.saleProduct.quantity < result.number){
                             result.number = props.saleProduct.quantity;
@@ -122,7 +124,8 @@ function onRemoveSaleProduct() {
                             
                         props.saleProduct.deleted_item_note = result.note;
                         sale.onRemoveSaleProduct(props.saleProduct, result.number);  
-                        
+
+                        let msg = `User ${v.user} delete Item: ${props.saleProduct.product_code}-${props.saleProduct.product_name}.${props.saleProduct.portion} ${props.saleProduct.modifiers}`; 
                         msg += `, Qty: ${props.saleProduct.quantity}`;
                         msg += `, Amount: ${ numberFormat(gv.getCurrnecyFormat,props.saleProduct.amount)}`;
                         msg += `${result.note==""?'':', Reason: '+result.note }`;
@@ -141,6 +144,20 @@ function onRemoveSaleProduct() {
             });
         } else {
             sale.onRemoveSaleProduct(props.saleProduct, props.saleProduct.quantity);
+
+            let msg = `User ${v.user} delete Item: ${props.saleProduct.product_code}-${props.saleProduct.product_name}.${props.saleProduct.portion} ${props.saleProduct.modifiers}`; 
+            msg += `, Qty: ${props.saleProduct.quantity}`;
+            msg += `, Amount: ${ numberFormat(gv.getCurrnecyFormat,props.saleProduct.amount)}`;
+            sale.auditTrailLogs.push({
+                doctype:"Comment",
+                subject:"Delete Sale Product",
+                comment_type:"Comment",
+                reference_doctype:"Sale",
+                reference_name:"New",
+                comment_by:v.username,
+                content:msg
+            })                       
+
         }
 
     }

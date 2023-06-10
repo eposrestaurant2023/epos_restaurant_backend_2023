@@ -139,6 +139,7 @@ export function frappeRequest(options) {
               }else{
                 let _msg ="";
                 let _msg_type ="warning";
+                let _tran =true;
 
                 const { t: $t } = i18n.global;
                 switch(r){
@@ -167,14 +168,15 @@ export function frappeRequest(options) {
                     break;
                   default: 
                     _msg_type = "error";    
-                    _msg = r;                
+                    _msg = r;      
+                    _tran = false;          
                   break;
                 } 
                                
                 
                 if(_msg !=""){
                   if(_msg_type=="error"){
-                    toaster.error($t(`msg.${_msg}`));
+                    toaster.error($t(_tran?`msg.${_msg}`: `${_msg}`));
                   }else if(_msg_type=='warning'){
                     toaster.warning($t(`msg.${r}`));
                   }

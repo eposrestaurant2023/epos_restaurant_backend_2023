@@ -19,6 +19,7 @@ def on_save(data,current_sale_id ):
             doc = frappe.get_doc(d)
             doc.save() 
 
+    frappe.db.commit()
 
     _current_sale = frappe.get_doc("Sale",str(current_sale_id))
 
