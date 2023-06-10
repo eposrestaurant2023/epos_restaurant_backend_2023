@@ -310,26 +310,36 @@ def get_report_group_data(filters):
 		for c in children:
 			data.append(c)
 	return data
- 
+
 def get_report_summary(data,filters):
 	hide_columns = filters.get("hide_columns")
+	row_group = [d for d in get_row_groups() if d["label"]==filters.row_group][0]
 	report_summary=[]
 	if filters.parent_row_group==None:
 		if not filters.is_ticket:
 			report_summary =[{"label":"Total " + filters.row_group ,"value":len(data)}]
-	
 	fields = get_report_field(filters)
 
 	for f in fields:
 		if not hide_columns or  f["label"] not in hide_columns:
-			value=sum(d["total_" + f["fieldname"]] for d in data if d["indent"]==0)
-			if f["fieldtype"] == "Currency":
-				value = frappe.utils.fmt_money(value)
-			elif f["fieldtype"] =="Float":
-				value = "{:.2f}".format(value)
-			report_summary.append({"label":"Total {}".format(f["label"]),"value":value,"indicator":f["indicator"]})	
+			if f["fieldname"] == 'commission':
+				if row_group["show_commission"] == True:
+					value=sum(d["total_" + f["fieldname"]] for d in data if d["indent"]==0)
+					if f["fieldtype"] == "Currency":
+						value = frappe.utils.fmt_money(value)
+					elif f["fieldtype"] =="Float":
+						value = "{:.2f}".format(value)
+					report_summary.append({"label":"Total {}".format(f["label"]),"value":value,"indicator":f["indicator"]})
+			else:
+				value=sum(d["total_" + f["fieldname"]] for d in data if d["indent"]==0)
+				if f["fieldtype"] == "Currency":
+					value = frappe.utils.fmt_money(value)
+				elif f["fieldtype"] =="Float":
+					value = "{:.2f}".format(value)
 
-	return report_summary
+				report_summary.append({"label":"Total {}".format(f["label"]),"value":value,"indicator":f["indicator"]})
+
+	return  report_summary
 
 def get_report_chart(filters,data):
 	columns = []
@@ -438,7 +448,7 @@ def get_row_groups():
 			"fieldname":"if(ifnull(b.tbl_group,'')='','Not Set',b.tbl_group)",
 			"label":_("Table Group"),
 			"parent_row_group_filter_field":"row_group",
-			"show_commission":True
+			"show_commission":False
 		},
 		{
 			"fieldname":"if(ifnull(b.tbl_number,'')='','Not Set',b.tbl_number)",
@@ -450,13 +460,13 @@ def get_row_groups():
 			"fieldname":"b.business_branch",
 			"label":"Business Branch",
 			"parent_row_group_filter_field":"row_group",
-			"show_commission":True
+			"show_commission":False
 		},
 		{
 			"fieldname":"if(ifnull(b.pos_profile,'')='','Not Set',b.pos_profile)",
 			"label":"POS Profile",
 			"parent_row_group_filter_field":"row_group",
-			"show_commission":True
+			"show_commission":False
 		},
 		{
 			"fieldname":"if(ifnull(b.customer,'')='','Not Set',concat(b.customer,'-',b.customer_name))",
@@ -480,19 +490,19 @@ def get_row_groups():
 			"fieldname":"date_format(b.posting_date,'%%d/%%m/%%Y')",
 			"label":"Date",
 			"parent_row_group_filter_field":"row_group",
-			"show_commission":True
+			"show_commission":False
 		},
 		{
 			"fieldname":"date_format(b.posting_date,'%%m/%%Y')",
 			"label":"Month",
 			"parent_row_group_filter_field":"row_group",
-			"show_commission":True
+			"show_commission":False
 		},
 		{
 			"fieldname":"date_format(b.posting_date,'%%Y')",
 			"label":"Year",
 			"parent_row_group_filter_field":"row_group",
-			"show_commission":True
+			"show_commission":False
 		},
 
 		{
@@ -504,13 +514,13 @@ def get_row_groups():
 			"fieldname":"if(ifnull(b.working_day,'')='','Not Set',b.working_day)",
 			"label":_("Working Day"),
 			"parent_row_group_filter_field":"row_group",
-			"show_commission":True
+			"show_commission":False
 		},
 		{
 			"fieldname":"if(ifnull(b.cashier_shift,'')='','Not Set',b.cashier_shift)",
 			"label":_("Cashier Shift"),
 			"parent_row_group_filter_field":"row_group",
-			"show_commission":True
+			"show_commission":False
 		},
 		{
 			"fieldname":"if(ifnull(b.sale_type,'')='','Not Set',b.sale_type)",
