@@ -11,15 +11,14 @@
                 <ComInput :label="$t('POS Profile')" v-model="pos_profile" readonly/>
             </v-col>
             <v-col cols="12" md="6">
-                {{ shift_type }}
                 <v-select
-                label="Select"
+                :label="$t('Shift')"
                 item-title="name"
                 item-value="name"
                 variant="solo"
                 v-model="shift_type"
                 density="compact"
-                :items="gv.setting.shift_type"
+                :items="gv.setting.shift_types"
                 ></v-select>
             </v-col>
         </v-row>
@@ -48,7 +47,7 @@
 
 <script setup>
 import PageLayout from '../../components/layout/PageLayout.vue';
-import { createResource, ref, createToaster, useRouter, reactive, computed, inject, confirm,i18n } from '@/plugin'
+import { createResource, ref, createToaster, useRouter, reactive, computed, inject, confirm,i18n ,onMounted} from '@/plugin'
 import moment from '@/utils/moment.js'
 import ComInput from '../../components/form/ComInput.vue';
 
@@ -69,6 +68,7 @@ const totalCashFloat = computed(() => {
 
 const router = useRouter();
 const toaster = createToaster();
+
 
 const working_day = createResource({
     url: "epos_restaurant_2023.api.api.get_current_working_day",
@@ -113,6 +113,11 @@ const addCashierShiftResource = createResource({
     }
 })
 
+
+onMounted(()=>{
+    shift_type.value = gv.setting.shift_types.sort((a, b) => a.sort - b.sort )[0].name;
+})
+
 async function onOpenShift() {
     if (await confirm({ title: $t("Start Shift"), text: $t("msg.are you sure to start shift") })) {
         addCashierShiftResource.params = {
@@ -120,6 +125,7 @@ async function onOpenShift() {
                 doctype: "Cashier Shift",
                 working_day: working_day.data.name,
                 opened_note: opened_note.value,
+                shift_name: shift_type.value,
                 cash_float: payment_types.filter(r => parseFloat(r.input_amount) > 0)
             }
         };

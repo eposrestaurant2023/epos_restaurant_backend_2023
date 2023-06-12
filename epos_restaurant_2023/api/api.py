@@ -201,7 +201,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "print_working_day_summary_after_close_working_day":pos_config.print_working_day_summary_after_close_working_day,
         "print_working_day_sale_product_summary_after_close_working_day":pos_config.print_working_day_sale_product_summary_after_close_working_day,
         "pos_sale_order_background_image":pos_branding.pos_sale_order_background_image,
-        "shift_type":shift_types,
+        "shift_types":shift_types,
         "currencies":currencies,
         "default_currency":frappe.db.get_default("currency"),
         "pos_setting":pos_setting,
