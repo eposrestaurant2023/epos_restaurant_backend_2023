@@ -10,7 +10,18 @@
             <v-col cols="12" md="6">
                 <ComInput :label="$t('POS Profile')" v-model="pos_profile" readonly/>
             </v-col>
-
+            <v-col cols="12" md="6">
+                {{ shift_type }}
+                <v-select
+                label="Select"
+                item-title="name"
+                item-value="name"
+                variant="solo"
+                v-model="shift_type"
+                density="compact"
+                :items="gv.setting.shift_type"
+                ></v-select>
+            </v-col>
         </v-row>
         <h1 class="my-4">{{ $t('Cash Float') }}</h1>
         <v-row v-if="payment_types && payment_types.filter(p => p.allow_cash_float == 1).length > 0">
@@ -45,6 +56,7 @@ const { t: $t } = i18n.global;
 const gv = inject("$gv")
 const opened_note = ref("")
 const working_date = ref("")
+const shift_type = ref("")
 const pos_profile = localStorage.getItem("pos_profile");
 const setting = JSON.parse(localStorage.getItem("setting"));
 const payment_types = reactive(setting.payment_types)

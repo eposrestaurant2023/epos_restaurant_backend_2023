@@ -90,6 +90,10 @@ export default class Sale {
     }
 
     async newSale() {
+
+        const make_order_auth = JSON.parse(localStorage.getItem('make_order_auth'));
+
+
         const tax_rule = this.setting.tax_rule;
         this.orderChanged = false;
         this.sale = {
@@ -121,7 +125,8 @@ export default class Sale {
             commission_type: "Percent",
             commission: 0,
             commission_note: '',
-            commission_amount: 0            
+            commission_amount: 0,
+            created_by:make_order_auth.name            
         }  
         this.onSaleApplyTax(tax_rule,this.sale);    
        

@@ -59,6 +59,7 @@
   "pos_station_name",
   "column_break_45",
   "closed_by",
+  "closed_date",
   "payments_tab",
   "payment",
   "tax_tab",
@@ -769,6 +770,11 @@
    "fieldname": "reference_number",
    "fieldtype": "Data",
    "label": "Reference #"
+  },
+  {
+   "fieldname": "closed_date",
+   "fieldtype": "Datetime",
+   "label": "Closed Date"
   }
  ],
  "image_field": "photo",
@@ -781,7 +787,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-06-09 15:19:23.864243",
+ "modified": "2023-06-12 11:31:21.329855",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

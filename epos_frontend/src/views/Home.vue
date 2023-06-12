@@ -57,16 +57,13 @@ import WorkingDayButton from './shift/components/WorkingDayButton.vue';
 import OpenShiftButton from './shift/components/OpenShiftButton.vue';
 import ComMessagePromotion from '../components/ComMessagePromotion.vue';
 
-const { t: $t } = i18n.global;  
- 
+const { t: $t } = i18n.global; 
 
-
-const toaster = createToaster({ position: "top" })
+const toaster = createToaster({ position: "top" });
 const auth = inject('$auth')
 const gv = inject('$gv');
 const sale = inject('$sale');
-const moment = inject('$moment')
-const router = useRouter()
+const router = useRouter();
 const device_setting = JSON.parse(localStorage.getItem("device_setting"))
 
 let already_load_confirm_close_working_day = false;
@@ -101,8 +98,14 @@ const workingDayResource = createResource({
 });
 
 
-function onRoute(page) {
-   
+//on init
+onMounted(async () => {
+    localStorage.removeItem('make_order_auth');
+    await workingDayResource.fetch();
+})
+
+
+function onRoute(page) {   
     router.push({ name: page })
 }
 
@@ -133,15 +136,10 @@ async function onPOS() {
                             router.push({ name: 'AddSale' })
                             
                         }
-                    })
-                    
+                    })                    
                 }
             }
-
-
         }
-
-
     })
 }
 
@@ -177,9 +175,7 @@ function onLogout() {
 }
     
 
-onMounted(async () => {
-    await workingDayResource.fetch()
-})
+
 
 async function onPrintWifiPassword(){
     await printWifiPasswordModal({})

@@ -63,7 +63,6 @@ def get_system_settings(pos_profile="", device_name=''):
     currencies = frappe.db.sql("select name,symbol,currency_precision,symbol_on_right,pos_currency_format from `tabCurrency` where enabled=1", as_dict=1)
     
 
-
     #get price rule
     price_rules = []
     for pr in pos_config.price_rules:
@@ -164,7 +163,9 @@ def get_system_settings(pos_profile="", device_name=''):
 
     #get shortcut key
     shortcut_keys = frappe.db.get_list('Shortcut Key',fields=['name','key','description'])
-    
+
+    #get shift type
+    shift_types = frappe.db.sql("select name, sort from `tabShift Type`",as_dict=1)    
     
 
     data={
@@ -200,6 +201,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "print_working_day_summary_after_close_working_day":pos_config.print_working_day_summary_after_close_working_day,
         "print_working_day_sale_product_summary_after_close_working_day":pos_config.print_working_day_sale_product_summary_after_close_working_day,
         "pos_sale_order_background_image":pos_branding.pos_sale_order_background_image,
+        "shift_type":shift_types,
         "currencies":currencies,
         "default_currency":frappe.db.get_default("currency"),
         "pos_setting":pos_setting,

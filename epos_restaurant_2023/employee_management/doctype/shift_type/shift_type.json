@@ -11,7 +11,8 @@
   "shift_name",
   "start_time",
   "end_time",
-  "last_sync_of_checkin"
+  "last_sync_of_checkin",
+  "sort"
  ],
  "fields": [
   {
@@ -37,11 +38,18 @@
    "fieldname": "last_sync_of_checkin",
    "fieldtype": "Datetime",
    "label": "Last Sync of Checkin"
+  },
+  {
+   "default": "0",
+   "fieldname": "sort",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Sort"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-01 18:38:04.932585",
+ "modified": "2023-06-12 12:00:03.192360",
  "modified_by": "Administrator",
  "module": "Employee Management",
  "name": "Shift Type",

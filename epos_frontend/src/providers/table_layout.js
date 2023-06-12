@@ -92,17 +92,9 @@ export default class TableLayout {
         }
     }
 
-    onEnableArrangeTable(status) {
-      
+    onEnableArrangeTable(status) {      
                 this.canArrangeTable = status;
-
-        
-
     }
-    
-    
-
-
 }
 
 

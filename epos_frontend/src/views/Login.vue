@@ -7,7 +7,6 @@
           <div>
             <div
               class="app-info w-96 inline-block text-center rounded-lg pa-4 bg-gradient-to-t from-yellow-900 to-yellow-700 text-white shadow-sm">
-
               <div class="mb-3">
                 <img class="my-0 mx-auto" :src="setting?.logo" />
               </div>
@@ -28,7 +27,7 @@
     </v-col>
     <v-col sm="12" md="6" lg="4" class="pa-0 relative">
       <div class="h-full flex items-center justify-center bg-gray-100">
-        <form @submit.prevent="login">
+        <form @submit.prevent="onLogin">
           <div class="w-73">
             <div>
               <div class="d-block d-md-none mt-4">
@@ -50,37 +49,37 @@
               </div>
               <div>
                 <div class="grid grid-cols-3 gap-3">
-                  <v-btn @click="numpad_click('1')" size="x-large">
+                  <v-btn @click="onNumPressed('1')" size="x-large">
                   1
                   </v-btn>
-                  <v-btn @click="numpad_click('2')" size="x-large">
+                  <v-btn @click="onNumPressed('2')" size="x-large">
                     2
                   </v-btn>
-                  <v-btn @click="numpad_click('3')" size="x-large">
+                  <v-btn @click="onNumPressed('3')" size="x-large">
                     3
                   </v-btn>
-                  <v-btn @click="numpad_click('4')" size="x-large">
+                  <v-btn @click="onNumPressed('4')" size="x-large">
                     4
                   </v-btn>
-                  <v-btn @click="numpad_click('5')" size="x-large">
+                  <v-btn @click="onNumPressed('5')" size="x-large">
                     5
                   </v-btn>
-                  <v-btn @click="numpad_click('6')" size="x-large">
+                  <v-btn @click="onNumPressed('6')" size="x-large">
                     6
                   </v-btn>
-                  <v-btn @click="numpad_click('7')" size="x-large">
+                  <v-btn @click="onNumPressed('7')" size="x-large">
                     7
                   </v-btn>
-                  <v-btn @click="numpad_click('8')" size="x-large">
+                  <v-btn @click="onNumPressed('8')" size="x-large">
                     8
                   </v-btn>
-                  <v-btn @click="numpad_click('9')" size="x-large">
+                  <v-btn @click="onNumPressed('9')" size="x-large">
                     9
                   </v-btn>
-                  <v-btn @click="numpad_click('0')" size="x-large">
+                  <v-btn @click="onNumPressed('0')" size="x-large">
                     0
                   </v-btn>
-                  <v-btn class="col-span-2" color="error" @click="clear_password" size="x-large">
+                  <v-btn class="col-span-2" color="error" @click="onClearPressed" size="x-large">
                     {{ $t("Clear") }}
                   </v-btn>
 
@@ -102,7 +101,6 @@
             </div>
           </div>
         </form>
- 
 
         <div class="fixed bottom-8 " v-if="isWindow()">
           <v-btn block  class="w-full" prepend-icon="mdi-window-close"  size="x-large" color="error" @click="onExitWindow()"> {{ $t("Exit") }}</v-btn>
@@ -113,17 +111,16 @@
 
 </template>
 <script setup>
-import { reactive, inject, computed, useStore, useRouter, createResource, createToaster,i18n } from '@/plugin'
+import { reactive, inject, computed, useStore, useRouter, createResource, createToaster,i18n } from '@/plugin';
 import { onMounted } from 'vue';
 import { useDisplay } from 'vuetify'; 
 
-const { t: $t } = i18n.global;  
+const { t: $t } = i18n.global; 
 
-const auth = inject("$auth")
-const moment = inject('$moment')
-const gv = inject('$gv')
-const sale = inject('$sale')
-const { mobile } = useDisplay()
+const auth = inject("$auth");
+const gv = inject('$gv');
+const sale = inject('$sale');
+const { mobile } = useDisplay();
 const toast = createToaster()
 const router = useRouter();
 const store = useStore();
@@ -137,38 +134,35 @@ let state = reactive({
 })
 
 const setting = computed(() => {
-  return JSON.parse(localStorage.getItem('setting'))
+  return JSON.parse(localStorage.getItem('setting'));
 })
 const isLoading = computed(() => {
-  return store.state.isLoading
+  return store.state.isLoading;
 })
 
 
+//on init
 onMounted(()=>{
-console.log("Login")
-
+  localStorage.removeItem('current_user');
+  localStorage.removeItem('make_order_auth');
 })
+
 
 
 function onChangeLang(code){
-  localStorage.setItem('lang', code)
- 
-    location.reload()
- 
+  localStorage.setItem('lang', code);
+  location.reload(); 
 }
- 
 
-
-
-
-
-function numpad_click(n) {
+function onNumPressed(n) {
   if (state.password == undefined) {
     state.password = "";
   }
   state.password = state.password + n;
 }
-function clear_password() {
+
+
+function onClearPressed() {
   state.password = "";
 
 }
@@ -180,9 +174,9 @@ function isWindow() {
 function onDeleteBack() {
   state.password = state.password.substring(0, state.password.length - 1);
 }
-const login = async () => {
+const onLogin = async () => {
   if (!state.password) {
-    toast.warning($t('msg.Invalid PIN Codex'), { position: 'top' })
+    toast.warning($t('msg.Invalid PIN Codex'), { position: 'top' });
     return
   }
   store.dispatch('startLoading');
@@ -197,7 +191,7 @@ const login = async () => {
     async onSuccess(doc) {
       store.dispatch('startLoading');
       state.username = doc.username;
-
+      
       if (state.username && state.password) {
         let res = await auth.login(state.username, state.password);
         if (res) {
@@ -213,7 +207,7 @@ const login = async () => {
       if(!is_error){
         is_error = true;
         store.dispatch('endLoading');
-        toast.warning($t('msg.Invalid PIN Code'), { position: 'top' })
+        toast.warning($t('msg.Invalid PIN Code'), { position: 'top' });
       } 
     }
   })
@@ -226,9 +220,9 @@ function getCurrentUserInfo(user) {
     auto: true,
     async onSuccess(doc) {
       doc.permission = user.permission;
-      localStorage.setItem('current_user', JSON.stringify(doc))
+      localStorage.setItem('current_user', JSON.stringify(doc));
       router.push({ name: "Home" });
-      store.dispatch('endLoading')
+      store.dispatch('endLoading');
     },
     onError(x) {
       store.dispatch('endLoading');

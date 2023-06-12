@@ -61,51 +61,52 @@ const tableLayout = inject("$tableLayout");
 const gv = inject("$gv");
 const sale = inject("$sale");
 const router = useRouter()
-function onTableClick(table, guest_cover) {
-    
+function onTableClick(table, guest_cover) {    
     gv.authorize("open_order_required_password", "make_order").then(async (v) => {
-        if (v) {
-            sale.orderBy = v.user;
-            if (table.sales.length == 0) {
-                newSale(table);
+        if (v) {             
+            const make_order_auth = {"username":v.username,"name":v.user,discount_codes:v.discount_codes };          
 
-            } else if (table.sales.length == 1) {
-             
+            sale.orderBy = v.user; 
+            if (table.sales.length == 0) {
+                localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
+                newSale(table);
+            } 
+            else if (table.sales.length == 1) {             
                 if(mobile.value){
                     await sale.LoadSaleData( table.sales[0].name).then(async (v)=>{
                         const result =  await smallViewSaleProductListModel ({title: sale.sale.name ? sale.sale.name : $t('New Sale'), data: {from_table: true}});
                         if(result){
-                            tableLayout.saleListResource.fetch();
-                        }
-                      
-                    })
-                }else{
-                    
-                    router.push({
-                    name: "AddSale", params: {
-                        name: table.sales[0].name
-                    }
-                });
-            
-                } 
-            
-               
 
-            } else {
+                            localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
+
+                            tableLayout.saleListResource.fetch();
+                        }                      
+                    });
+                } 
+                else{
+                        localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
+                        router.push({ 
+                            name: "AddSale", 
+                            params: {
+                                name: table.sales[0].name
+                            }
+                        });
+                }
+            } 
+            else {
                 sale.sale.table_id = table.id;
                 sale.sale.tbl_number = table.tbl_no;
                 const result = await selectSaleOrderDialog({ data: table.sales, table: table });
                 if (result) { 
                     if (result.action == "new_sale") {
+                        localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
                         newSale(table);
                     }
                 }
             }
             return;
         }
-    })
-
-
+    });
 }
 
 async function newSale(table) {

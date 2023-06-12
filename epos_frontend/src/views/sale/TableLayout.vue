@@ -18,25 +18,43 @@
 </template>
 <script setup>
 import PageLayout from '../../components/layout/PageLayout.vue';
-import { inject, createResource, useRouter,createToaster,onMounted , onUnmounted,ref} from "@/plugin"
+import { inject, createResource, useRouter,createToaster,onMounted , onUnmounted,ref,i18n} from "@/plugin";
 import ComTableGroupTabHeader from './components/table_layouts/ComTableGroupTabHeader.vue';
 import ComSaleStatusInformation from './components/ComSaleStatusInformation.vue';
  
 import ComTableLayoutActionButton from './components/table_layouts/ComTableLayoutActionButton.vue';
 import ComArrangeTable from './components/table_layouts/ComArrangeTable.vue';
 import ComRenderTableNumber from './components/table_layouts/ComRenderTableNumber.vue';
-const toaster = createToaster({position:"top"})
+
+const { t: $t } = i18n.global; 
+
+const toaster = createToaster({position:"top"});
 const tableLayout = inject("$tableLayout");
 const socket = inject("$socket");
 
 const table_status_color = ref(false);
-
-const router = useRouter()
+const router = useRouter();
 
 socket.on("RefreshTable", () => {
+  tableLayout.getSaleList(); 
+})
 
-  tableLayout.getSaleList();
- 
+//on init
+onMounted(async ()=>{
+    localStorage.removeItem('make_order_auth');
+    const cashierShiftResource = createResource({
+        url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
+        params: {
+            pos_profile: localStorage.getItem("pos_profile")
+        }
+    });
+
+    await cashierShiftResource.fetch().then(async (v) => {
+        if (v==null) {
+            toaster.warning($t('msg.Please start shift first'))
+            router.push({ name: "Home" });
+        }
+    });
 })
 
 function onTableStatusHidden (value) { 
@@ -65,13 +83,6 @@ tableLayout.getSaleList()
 showHiddentTable();
  
 
-function onOpenSaleScreen(table, guest_cover) {
-    router.push({ name: "AddSale", "table_number": table.tbl_number })
-}
-
-
-
-
 function showHiddentTable() {
 
     const container = document.getElementsByClassName("v-window__container");
@@ -91,29 +102,10 @@ function showHiddentTable() {
     })
 }
 
-onMounted(async ()=>{
-    const cashierShiftResource = createResource({
-        url: "epos_restaurant_2023.api.api.get_current_cashier_shift",
-        params: {
-            pos_profile: localStorage.getItem("pos_profile")
-        }
-    });
 
-await cashierShiftResource.fetch().then(async (v) => {
-    if (v==null) {
-        toaster.warning("Please start cashier shift first.")
-        router.push({ name: "Home" });
-    }
-
-})
-
-
-
-})
 
 onUnmounted(()=>{
-    socket.off('RefreshTable')
-      
+    socket.off('RefreshTable');      
 });
  
 if(localStorage.getItem('redirect_sale_type')){

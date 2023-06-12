@@ -9,6 +9,7 @@ from frappe import _
 from frappe.utils.data import fmt_money
 from py_linq import Enumerable
 from frappe.model.document import Document
+import datetime
 
 class Sale(Document):
 	def validate(self):
@@ -149,6 +150,7 @@ class Sale(Document):
 
 		if not self.closed_by and self.docstatus==1:
 			self.closed_by = frappe.get_doc("User",self.modified_by).full_name
+			self.closed_date = datetime.datetime.now()
 
 
 		if self.sale_status:
