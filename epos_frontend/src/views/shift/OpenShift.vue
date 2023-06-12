@@ -96,7 +96,7 @@ const addCashierShiftResource = createResource({
 
     },
     onSuccess(data) {
-        toaster.success($t("Open Shift successfully"), { position: "top" });
+        toaster.success($t("msg.Open Shift successfully"), { position: "top" });
         router.push({ name: "Home" });
     }
 })

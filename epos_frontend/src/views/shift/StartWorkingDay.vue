@@ -1,25 +1,28 @@
 <template>
-    <PageLayout title="Start Working Day" icon="mdi-calendar-clock" class="p-4">
+    <PageLayout :title="$t('Start Working Day')" icon="mdi-calendar-clock" class="p-4">
         <div class="mb-3">
             <v-row>
                 <v-col cols="12" sm="6">
-                    <v-text-field label="Working Date" v-model="current_date" variant="solo" readonly :hide-details="true"></v-text-field>
+                    <v-text-field :label="$t('Working Date')" v-model="current_date" variant="solo" readonly :hide-details="true"></v-text-field>
                 </v-col>
             <v-col cols="12" sm="6">
-                    <v-text-field label="POS Profile" v-model="pos_profile" variant="solo" readonly :hide-details="true"></v-text-field>
+                    <v-text-field :label="$t('POS Profile')" v-model="pos_profile" variant="solo" readonly :hide-details="true"></v-text-field>
                 </v-col>
             </v-row>
             <div class="mt-4">
-                <ComInput title="Enter Note" keyboard label="Open Note" v-model="note" type="textarea"></ComInput>
+                <ComInput :title="$t('Enter Note')" keyboard :label="$t('Note')" v-model="note" type="textarea"></ComInput>
             </div>
         </div>
-        <v-btn @click="onStartWorking" color="primary" class="mt-4">Start Working Day</v-btn>
+        <div class="flex items-center justify-between mt-8 mb-3">
+        <v-btn @click="onStartWorking" color="primary" class="mt-4">{{ $t('Start Working Day') }}</v-btn>
+        <v-btn @click="router.push({ name: 'Home' })" color="error" class="ml-4">{{ $t('Cancel') }}</v-btn>
+        </div>
     </PageLayout>
 </template>
  
 <script setup>
 import moment from '@/utils/moment.js'
-import { ref, createResource,useRouter,createToaster,inject,confirm } from '@/plugin'
+import { ref, createResource,useRouter,createToaster,inject,confirm ,i18n} from '@/plugin'
 import PageLayout from '../../components/layout/PageLayout.vue';
 import ComInput from '../../components/form/ComInput.vue';
 const gv = inject("$gv")
@@ -28,6 +31,8 @@ const pos_profile = localStorage.getItem("pos_profile");
 const note = ref("")
 const current_date = moment(new Date).format('DD-MM-YYYY');
 const toaster = createToaster({ /* options */ });
+
+const { t: $t } = i18n.global; 
 
  
 createResource({
@@ -38,7 +43,7 @@ createResource({
     auto: true,
     onSuccess(data){
         if(data){
-            toaster.warning("Working day is already started",{position:"top"});
+            toaster.warning($t('msg.Working day is already started'),{position:"top"});
             router.push({name:"Home"});
         }
     }
@@ -47,7 +52,7 @@ createResource({
 
 async function onStartWorking() {
     
-    if(await confirm({title:"Start Working Day", text:"Are sure you want to start working day?"})){
+    if(await confirm({title:$t('Start Working Day'), text:$t('msg.are you sure to start working day')})){
         createResource({
             url:"frappe.client.insert",
             params:{
@@ -59,7 +64,7 @@ async function onStartWorking() {
                 }
             },
             onSuccess(data) {
-                toaster.success("Start working day successfully",{position:"top"});
+                toaster.success($t('msg.Open Working Day successfully'),{position:"top"});
                 router.push({name:"Home"});
             },
 

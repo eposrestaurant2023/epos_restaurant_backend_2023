@@ -38,12 +38,16 @@ export default class Gv {
 		return new Promise(async (resolve,reject) => {
 			if (this.setting.pos_setting[settingKey] == 1) {
 				const result = await authorizeDialog({ permissionCode: permissionCode });				
-				if (result) {
+				if (result) {	
+							
 					if(requiredNoteKey && categoryNoteName){						
 						//check if require note 
 						if(this.setting.pos_setting[requiredNoteKey] == 1){
 							
 							if(inlineNote){
+
+								
+
 								resolve({category_note_name: categoryNoteName,discount_codes:result.discount_codes})
 							}else{
 								const resultNote = await noteDialog({name:categoryNoteName,data:{product_code:product_code}}) ;

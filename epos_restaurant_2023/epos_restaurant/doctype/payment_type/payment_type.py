@@ -9,7 +9,13 @@ class PaymentType(Document):
 		if self.currency == frappe.db.get_default("currency"):
 			self.exchange_rate = 1
 		else: 
-			data = frappe.db.sql("select exchange_rate from `tabCurrency Exchange` where to_currency='{}' order by posting_date desc limit 1".format(self.currency))
+			main_exchange_currency = frappe.db.get_default("exchange_rate_main_currency")
+			sql = "select exchange_rate from `tabCurrency Exchange` where to_currency='{}' order by posting_date desc limit 1".format(self.currency)
+			if self.currency == main_exchange_currency:
+				sql = "select exchange_rate from `tabCurrency Exchange` where from_currency='{}' and to_currency = '{}'  order by posting_date desc limit 1".format(self.currency, frappe.db.get_default("currency"))
+
+			data = frappe.db.sql(sql)
+
 			if data:
 				self.exchange_rate = data[0][0] or 1
 			else:

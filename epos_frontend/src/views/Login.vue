@@ -114,23 +114,28 @@
 </template>
 <script setup>
 import { reactive, inject, computed, useStore, useRouter, createResource, createToaster,i18n } from '@/plugin'
+import { onMounted } from 'vue';
 import { useDisplay } from 'vuetify'; 
 
 const { t: $t } = i18n.global;  
 
+const auth = inject("$auth")
 const moment = inject('$moment')
 const gv = inject('$gv')
 const sale = inject('$sale')
 const { mobile } = useDisplay()
 const toast = createToaster()
-const router = useRouter()
+const router = useRouter();
+const store = useStore();
 
- 
+store.state.isLoading = false;
+
+
 let state = reactive({
   username: "",
   password: "",
 })
-const store = useStore()
+
 const setting = computed(() => {
   return JSON.parse(localStorage.getItem('setting'))
 })
@@ -138,16 +143,24 @@ const isLoading = computed(() => {
   return store.state.isLoading
 })
 
+
+onMounted(()=>{
+console.log("Login")
+
+})
+
+
 function onChangeLang(code){
   localStorage.setItem('lang', code)
  
     location.reload()
  
 }
+ 
 
 
-const auth = inject("$auth")
-store.state.isLoading = false;
+
+
 
 function numpad_click(n) {
   if (state.password == undefined) {
@@ -169,7 +182,7 @@ function onDeleteBack() {
 }
 const login = async () => {
   if (!state.password) {
-    toast.warning($t('msg.Invalid PIN Code'), { position: 'top' })
+    toast.warning($t('msg.Invalid PIN Codex'), { position: 'top' })
     return
   }
   store.dispatch('startLoading');
@@ -194,7 +207,6 @@ const login = async () => {
           toast.warning(`msg.Login fail Invalid username or password`);
           store.dispatch('endLoading');
         }
-
       }
     },
     onError(x) {  

@@ -122,8 +122,7 @@ export function frappeRequest(options) {
         
 
         if (options.onError || error_text) {
-          if(error_text[0]=="Not permitted"){
-           
+          if(error_text[0]=="Not permitted"){           
             localStorage.removeItem("current_user");
             location.reload("/epos_frontend/login");
           } 
@@ -145,6 +144,9 @@ export function frappeRequest(options) {
                 switch(r){
                   case 'Invalid PIN Code':
                     break;
+                  case 'Not permitted':
+                    break;
+
                   case 'Please start working day first' :
                     _msg = r; 
                     break;
