@@ -133,8 +133,11 @@ async function onPOS() {
                     {
                         if(v){ 
                             sale.orderBy = v.user;
-                            router.push({ name: 'AddSale' })
                             
+                            const make_order_auth = {"username":v.username,"name":v.user,discount_codes:v.discount_codes }; 
+                            localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
+
+                            router.push({ name: 'AddSale' })                            
                         }
                     })                    
                 }

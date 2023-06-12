@@ -69,6 +69,8 @@ export default class Sale {
         this.createNewSaleResource();
 
     }
+
+
    
     createNewSaleResource() {
         
@@ -126,7 +128,7 @@ export default class Sale {
             commission: 0,
             commission_note: '',
             commission_amount: 0,
-            created_by:make_order_auth.name            
+            created_by:make_order_auth.name     
         }  
         this.onSaleApplyTax(tax_rule,this.sale);    
        
@@ -232,6 +234,7 @@ export default class Sale {
             else{
                 tax_rule = JSON.parse(p.tax_rule_data);
             }
+            const now = new Date();
 
             var saleProduct = {
                 menu_product_name: p.menu_product_name,
@@ -251,7 +254,8 @@ export default class Sale {
                 modifiers_price: this.getNumber(p.modifiers_price),
                 product_photo: p.photo,
                 selected: true,
-                modified: moment(new Date()).format('yyyy-MM-DD HH:mm:ss.SSS'),
+                modified: moment(now).format('yyyy-MM-DD HH:mm:ss.SSS'),
+                creation: moment(now).format('yyyy-MM-DD HH:mm:ss.SSS'),                
                 append_quantity: p.append_quantity,
                 allow_discount: p.allow_discount,
                 allow_free: p.allow_free,
@@ -272,7 +276,8 @@ export default class Sale {
                 use_combo_group: p.use_combo_group,
                 combo_menu: p.combo_menu,
                 combo_menu_data: (p.combo_menu_data || p.combo_group_data),
-                product_tax_rule: p.tax_rule          
+                product_tax_rule: p.tax_rule          ,
+
             }       
             this.onSaleProductApplyTax(tax_rule,saleProduct); 
             this.sale.sale_products.push(saleProduct);
@@ -983,6 +988,7 @@ export default class Sale {
     generateProductPrinters() {
         this.productPrinters = [];
         this.sale.sale_products.filter(r => r.sale_product_status == 'New' && JSON.parse(r.printers).length > 0).forEach((r) => {
+          
             const pritners = JSON.parse(r.printers);
             pritners.forEach((p) => {
                 this.productPrinters.push({
@@ -998,10 +1004,14 @@ export default class Sale {
                     quantity: r.quantity,
                     is_deleted: false,
                     is_free: r.is_free == 1,
-                    combo_menu:r.combo_menu
-
+                    combo_menu:r.combo_menu,
+                    order_by:r.order_by,
+                    creation:r.creation,
+                    modified:r.modified
                 })
             });
+
+            
         });
 
         //generate deleted product to product printer list
@@ -1021,7 +1031,10 @@ export default class Sale {
                     quantity: r.quantity,
                     is_deleted: true,
                     is_free: r.is_free == 1,
-                    deleted_note: r.deleted_item_note
+                    deleted_note: r.deleted_item_note,
+                    order_by: r.order_by,
+                    creation: r.creation,
+                    modified: r.modified
                 })
             });
         });

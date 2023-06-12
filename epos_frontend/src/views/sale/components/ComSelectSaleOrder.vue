@@ -29,7 +29,7 @@
     
 </template>
 <script setup>
-import { inject, ref, useRouter, confirmDialog,  createDocumentResource ,createResource,smallViewSaleProductListModel,i18n } from '@/plugin'
+import { inject, ref, useRouter, confirmDialog,  createDocumentResource ,createResource,smallViewSaleProductListModel,i18n,onMounted } from '@/plugin'
 import { useDisplay } from 'vuetify'
 import ComSaleListItem from './ComSaleListItem.vue';
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
@@ -52,7 +52,9 @@ const props = defineProps({
         type: Object,
         require: true
     }
-})
+});
+
+
 
 
 async function onPrintAllBill(r) {
@@ -136,15 +138,9 @@ async function submitQuickPay(d,isPrint){
                 }
             if (localStorage.getItem("is_window") == "1" && isPrint) {
                 window.chrome.webview.postMessage(JSON.stringify(data));
-            }
-          
-        })
-        
-	})
-    
-
-
-    
+            }          
+        })        
+	})   
 }
 
 
@@ -174,7 +170,6 @@ async function PrintReceipt(d, r) {
 
     await resource.fetch().then(async (doc) => {
         if (doc) {
-
             const updateResource = createResource({
                 url: 'epos_restaurant_2023.api.api.update_print_bill_requested',
                 params: {
@@ -184,7 +179,6 @@ async function PrintReceipt(d, r) {
             await updateResource.fetch();
         }
     });
-
 
 }
 
@@ -202,7 +196,6 @@ async function onCancelPrintBill() {
             const promises = [];
             props.params.data.filter(r => r.sale_status == "Bill Requested").forEach(async (d) => {
                 promises.push(submitCancelPrintBill(d));
-
             });
 
             Promise.all(promises).then(() => {
@@ -234,9 +227,11 @@ async function submitCancelPrintBill(d){
 async function openOrder(s) {
     if(mobile.value){
         await sale.LoadSaleData(s.name).then(async (v)=>{
+            localStorage.setItem('make_order_auth',JSON.stringify(props.params.make_order_auth));
             const result =  await smallViewSaleProductListModel ({title: s.name ? s.name : 'New Sale', data: {from_table: true}});            
         })
-    }else{        
+    }else{       
+        localStorage.setItem('make_order_auth',JSON.stringify(props.params.make_order_auth));
         router.push({ name: "AddSale", params: { name: s.name } });
     }
     emit('resolve', false);

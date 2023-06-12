@@ -76,7 +76,6 @@ function onTableClick(table, guest_cover) {
                     await sale.LoadSaleData( table.sales[0].name).then(async (v)=>{
                         const result =  await smallViewSaleProductListModel ({title: sale.sale.name ? sale.sale.name : $t('New Sale'), data: {from_table: true}});
                         if(result){
-
                             localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
 
                             tableLayout.saleListResource.fetch();
@@ -96,13 +95,13 @@ function onTableClick(table, guest_cover) {
             else {
                 sale.sale.table_id = table.id;
                 sale.sale.tbl_number = table.tbl_no;
-                const result = await selectSaleOrderDialog({ data: table.sales, table: table });
+                const result = await selectSaleOrderDialog({ data: table.sales, table: table,make_order_auth:make_order_auth });
                 if (result) { 
+                    localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
                     if (result.action == "new_sale") {
-                        localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
                         newSale(table);
                     }
-                }
+                } 
             }
             return;
         }
