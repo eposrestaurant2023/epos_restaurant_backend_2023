@@ -78,18 +78,24 @@
   </ComModal>
 </template>
 <script setup>
-import { useRouter, defineProps, createResource, defineEmits, ref, inject, createToaster,i18n,onMounted } from "@/plugin"
+import { useRouter, defineProps, createResource, defineEmits, ref, inject, createToaster,i18n,onMounted,smallViewSaleProductListModel } from "@/plugin"
 import { Timeago } from 'vue2-timeago'
 import { saleDetailDialog } from "@/utils/dialog";
 import ComModal from "../../components/ComModal.vue";
 import ComPlaceholder from "../../components/layout/components/ComPlaceholder.vue";
+import { useDisplay } from 'vuetify';
 
 const { t: $t } = i18n.global;  
+const { mobile } = useDisplay();
+
 
 const router = useRouter();
 const emit = defineEmits(["resolve"])
-const gv = inject('$gv')
-const toaster = createToaster({ position: "top" })
+const gv = inject('$gv');
+const sale = inject("$sale");
+const tableLayout = inject("$tableLayout");
+const toaster = createToaster({ position: "top" });
+
 const props = defineProps({
   params: {
     type: Object,
@@ -121,10 +127,35 @@ function onOpenOrder(sale_id) {
           }) 
       } else {
         if(sale_id){
-          console.log('AddSale')
-          router.push({ name: "AddSale", params: { name: sale_id } }).then(()=>{
-            onClose()
-          })
+          gv.authorize("open_order_required_password", "make_order").then(async (v) => {
+              if(v){
+                const make_order_auth = {"username":v.username,"name":v.user,discount_codes:v.discount_codes }; 
+
+                if(mobile.value){
+                    await sale.LoadSaleData(sale_id).then(async (_sale)=>{
+                        localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
+                        onClose();
+                        const result =  await smallViewSaleProductListModel ({title: sale_id ? sale_id : $t('New Sale'), data: {from_table: true}});                      
+                        if(result){   
+                          tableLayout.saleListResource.fetch();
+                        }else{
+                            localStorage.removeItem('make_order_auth'); 
+                        }                                          
+                    });
+                } 
+                else{
+                    localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
+                    router.push({ 
+                        name: "AddSale", 
+                        params: {
+                            name:sale_id
+                        }
+                    }).then(()=>{
+                      onClose();
+                    });
+                }
+              }
+          });
         } 
         else{
           toaster.error($t("msg.Sale cannot get"))

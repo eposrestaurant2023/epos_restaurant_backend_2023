@@ -10,20 +10,29 @@
  "field_order": [
   "tax_rule_name",
   "section_break_2",
+  "tax_1_name",
   "tax_1_rate",
   "percentage_of_price_to_calculate_tax_1",
   "calculate_tax_1_after_discount",
+  "column_break_6",
+  "tax_1_account",
   "section_break_6",
+  "tax_2_name",
   "tax_2_rate",
   "percentage_of_price_to_calculate_tax_2",
   "calculate_tax_2_after_discount",
   "calculate_tax_2_after_adding_tax_1",
+  "column_break_13",
+  "tax_2_account",
   "section_break_12",
+  "tax_3_name",
   "tax_3_rate",
   "percentage_of_price_to_calculate_tax_3",
   "calculate_tax_3_after_discount",
   "calculate_tax_3_after_adding_tax_1",
   "calculate_tax_3_after_adding_tax_2",
+  "column_break_24",
+  "tax_3_account",
   "tax_rule_data"
  ],
  "fields": [
@@ -127,11 +136,56 @@
    "fieldtype": "JSON",
    "hidden": 1,
    "label": "Tax Rule Data"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tax_1_account",
+   "fieldtype": "Link",
+   "label": "Tax 1 Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tax_2_account",
+   "fieldtype": "Link",
+   "label": "Tax 2 Account",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "tax_1_name",
+   "fieldtype": "Data",
+   "label": "Tax 1 Name"
+  },
+  {
+   "fieldname": "tax_2_name",
+   "fieldtype": "Data",
+   "label": "Tax 2 Name"
+  },
+  {
+   "fieldname": "tax_3_name",
+   "fieldtype": "Data",
+   "label": "Tax 3 Name"
+  },
+  {
+   "fieldname": "column_break_24",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tax_3_account",
+   "fieldtype": "Link",
+   "label": "Tax 3 Account",
+   "options": "Account Code"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-08 15:37:40.604422",
+ "modified": "2023-06-12 21:03:23.319498",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Tax Rule",

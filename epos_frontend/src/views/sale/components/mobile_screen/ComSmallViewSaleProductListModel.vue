@@ -46,7 +46,7 @@ function onGoHome(){
         else {
             sale.newSale()
             router.push({ name: "AddSale" }).then(()=>{
-                emit('resolve', true)
+                emit('resolve', true);
             });
         }
     }
@@ -55,30 +55,31 @@ function onRedirectSaleType(){
     const redirect_sale_type = localStorage.getItem("redirect_sale_type") || null
     if(redirect_sale_type){
         router.push({name: 'AddSaleNoTable', params: {sale_type: redirect_sale_type}}).then(()=>{
-            onClose()
-        })
-        return false
+            emit('resolve', false)
+        });
+        return false;
     }
-    return true
+    return true;
 }
 function onSubmitAndNew(){
     onRedirectSaleType()
 }
+
 function onClose() {
     emit('resolve', false)
 }
+
 function onAddNewOrder(){
     if (!sale.isBillRequested()) {
-    sale.no_loading = true
-    
-    router.push({
-        name: "AddSale", params: {
-            name: sale.sale.name
-        }
-    }).then(()=>{
-        onClose()
-    })
-}
+        sale.no_loading = true        
+        router.push({
+            name: "AddSale", params: {
+                name: sale.sale.name
+            }
+        }).then(()=>{
+            emit('resolve', true)
+        });
+    }
 }
 
 

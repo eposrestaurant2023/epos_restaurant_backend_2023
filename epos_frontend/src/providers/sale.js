@@ -19,7 +19,6 @@ export default class Sale {
         this.working_day = "";
         this.cashier_shift = "";
         this.setting = null;
-        this.orderBy = null;
         this.tbl_number = null;
         this.table_id = null;
         this.price_rule = null;
@@ -94,8 +93,6 @@ export default class Sale {
     async newSale() {
 
         const make_order_auth = JSON.parse(localStorage.getItem('make_order_auth'));
-
-
         const tax_rule = this.setting.tax_rule;
         this.orderChanged = false;
         this.sale = {
@@ -134,7 +131,8 @@ export default class Sale {
        
     }
 
-    async LoadSaleData(name) {        
+    async LoadSaleData(name) {  
+       
         return new Promise(async (resolve) => {
             const parent = this;
             this.saleResource = createDocumentResource({
@@ -156,6 +154,8 @@ export default class Sale {
                     },
                 },
             });
+
+           
 
             await this.saleResource.get.fetch().then(async (doc) => {
                 this.sale = doc;
@@ -234,6 +234,7 @@ export default class Sale {
             else{
                 tax_rule = JSON.parse(p.tax_rule_data);
             }
+            const make_order_auth = JSON.parse(localStorage.getItem('make_order_auth'));
             const now = new Date();
 
             var saleProduct = {
@@ -268,7 +269,7 @@ export default class Sale {
                 sale_product_status: "New",
                 discount_type: "Percent",
                 discount: 0,
-                order_by: this.getOrderBy(),
+                order_by: make_order_auth.name,
                 order_time: this.getOrderTime(),
                 printers: p.printers,
                 product_variants: [],
@@ -287,14 +288,18 @@ export default class Sale {
     }
     
     cloneSaleProduct(sp, quantity) {
+        const make_order_auth = JSON.parse(localStorage.getItem('make_order_auth'));
         this.clearSelected();
         const sp_copy = JSON.parse(JSON.stringify(sp));
         sp_copy.selected = true;
         sp_copy.quantity = quantity - sp_copy.quantity;
         sp_copy.sale_product_status = "New";
         sp_copy.name = "";
-        sp_copy.order_by = this.orderBy;
+        sp_copy.order_by = make_order_auth.name;
         sp_copy.order_time = this.getOrderTime();
+        sp_copy.creation = sp_copy.order_time;
+        sp_copy.modified = sp_copy.order_time;
+
         this.updateSaleProduct(sp_copy);
         this.sale.sale_products.push(sp_copy);
         this.updateSaleSummary()
@@ -309,15 +314,7 @@ export default class Sale {
         }
     }
 
-    getOrderBy() {
-        if (!this.orderBy) {
 
-            return JSON.parse(localStorage.getItem("current_user")).full_name;
-        } else {
-            return this.orderBy
-        }
-    }
-    
     onSelectSaleProduct(sp) {
         this.clearSelected();
         sp.selected = true;

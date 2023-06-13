@@ -11,14 +11,35 @@
   "parent_account_code",
   "code",
   "account_name",
+  "data_4",
   "type",
+  "is_group",
   "lft",
   "rgt",
-  "is_group",
-  "old_parent"
+  "old_parent",
+  "discount_section",
+  "allow_discount",
+  "column_break_12",
+  "discount_account",
+  "tax_section",
+  "allow_tax",
+  "allow_user_to_change_tax",
+  "column_break_17",
+  "tax_rule",
+  "rate_include_tax",
+  "tax_rule_data",
+  "bank_fee_section",
+  "allow_bank_fee",
+  "allow_user_to_change_bank_fee",
+  "bank_fee",
+  "column_break_22",
+  "bank_fee_account",
+  "section_break_24",
+  "note"
  ],
  "fields": [
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "code",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -26,6 +47,7 @@
    "unique": 1
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "account_name",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -33,6 +55,7 @@
    "reqd": 1
   },
   {
+   "allow_in_quick_entry": 1,
    "default": "Credit",
    "fieldname": "type",
    "fieldtype": "Select",
@@ -82,12 +105,125 @@
    "in_list_view": 1,
    "label": "Parent Account Code",
    "options": "Account Code"
+  },
+  {
+   "fieldname": "data_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "discount_section",
+   "fieldtype": "Section Break",
+   "label": "Discount"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fieldname": "allow_discount",
+   "fieldtype": "Check",
+   "label": "Allow Discount"
+  },
+  {
+   "fieldname": "column_break_12",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "discount_account",
+   "fieldtype": "Link",
+   "label": "Discount Account",
+   "mandatory_depends_on": "eval:doc.allow_discount==1",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "tax_section",
+   "fieldtype": "Section Break",
+   "label": "Tax"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_tax",
+   "fieldtype": "Check",
+   "label": "Apply Tax on this Account"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_user_to_change_tax",
+   "fieldtype": "Check",
+   "label": "Allow User to Change Tax"
+  },
+  {
+   "fieldname": "column_break_17",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tax_rule",
+   "fieldtype": "Link",
+   "label": "Tax Rule",
+   "mandatory_depends_on": "eval:doc.allow_tax ==1",
+   "options": "Tax Rule"
+  },
+  {
+   "fieldname": "bank_fee_section",
+   "fieldtype": "Section Break",
+   "label": "Bank Fee"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_bank_fee",
+   "fieldtype": "Check",
+   "label": "Bank Fee"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_user_to_change_bank_fee",
+   "fieldtype": "Check",
+   "label": "Allow User to Change Bank Fee"
+  },
+  {
+   "fieldname": "column_break_22",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bank_fee_account",
+   "fieldtype": "Link",
+   "label": "Bank Fee Account",
+   "mandatory_depends_on": "eval:doc.allow_bank_fee == 1",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "section_break_24",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "default": "No",
+   "fieldname": "rate_include_tax",
+   "fieldtype": "Select",
+   "label": "Rate Include Tax",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fetch_from": "tax_rule.tax_rule_data",
+   "fieldname": "tax_rule_data",
+   "fieldtype": "JSON",
+   "hidden": 1,
+   "label": "Tax Rule Data"
+  },
+  {
+   "fieldname": "bank_fee",
+   "fieldtype": "Percent",
+   "label": "Bank Fee"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-06-10 14:53:34.023771",
+ "modified": "2023-06-13 09:30:01.115554",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Account Code",

@@ -131,12 +131,9 @@ async function onPOS() {
                 else {
                     gv.authorize("open_order_required_password","make_order").then((v)=>
                     {
-                        if(v){ 
-                            sale.orderBy = v.user;
-                            
+                        if(v){  
                             const make_order_auth = {"username":v.username,"name":v.user,discount_codes:v.discount_codes }; 
                             localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
-
                             router.push({ name: 'AddSale' })                            
                         }
                     })                    
@@ -149,8 +146,6 @@ async function onPOS() {
 function onOpenCustomerDisplay(){
     window.chrome.webview.postMessage(JSON.stringify({ action: "open_customer_display" }));
 }
-
-
 
 async function onViewPendingOrder() {
     let working_day = '';
@@ -171,7 +166,6 @@ async function onViewPendingOrder() {
 }
 
 function onLogout() {
-
     auth.logout().then((r) => {
         router.push({ name: 'Login' })
     })

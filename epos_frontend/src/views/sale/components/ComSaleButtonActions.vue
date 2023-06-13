@@ -24,7 +24,7 @@
       <v-btn v-if="setting.table_groups && setting.table_groups.length > 0 && mobile"  :height="mobile ? '35px' : undefined" :variant="mobile ? 'tonal' : 'elevated'"
         :color="mobile ? 'primary' : ''" :stacked="!mobile" size="small" class="m-0-1 grow" 
         :prepend-icon="mobile ? '' : 'mdi-plus'" @click="onSubmitAndNew">
-        {{$t('New Order')}}
+        {{$t('Submit and New')}}
       </v-btn>
 
 
@@ -131,8 +131,7 @@ sale.vue.$onKeyStroke('F11',(e)=>{
 })
 
 async function onChangeSaleType() {
-
-const result = await changeSaleTypeModalDialog({})
+  const result = await changeSaleTypeModalDialog({})
 }
 
 async function onAddCommission(){
@@ -221,8 +220,6 @@ async function onQuickPay() {
           sale.getTableSaleList();
         }
       }
-      
-
       //this code is send message to modal saleproduct list in mobile view
       //we use this below code to send signal close modal when complete task
       window.postMessage("close_modal", "*");
@@ -322,7 +319,13 @@ async function onSubmitAndNew() {
   }
 
   sale.getTableSaleList();
+
+  if(mobile){
+    window.postMessage("close_modal", "*");
+  }
   emit('onSubmitAndNew')
+
+ 
 }
 
 function newSale() {

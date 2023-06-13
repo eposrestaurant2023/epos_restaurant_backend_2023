@@ -5,6 +5,8 @@
         <v-card-title>{{ $t('Enter Your PIN Code') }}</v-card-title>
       </v-card-item>
       <v-card-text>
+        <form v-on:submit.prevent="onOk">
+
         <v-text-field type="password" :label="$t('PIN Code')" variant="solo" v-model="number" clearable
           maxlength="10"></v-text-field>
         <div>
@@ -54,6 +56,7 @@
               </div>
           </div>
         </div>
+      </form>
       </v-card-text>
 
     </v-card>
@@ -112,8 +115,10 @@ function onOk() {
       } else {
         toaster.warning($t("msg.You do not have permission to perform this action"));
       }
-
-
+    },
+   async onError(e){
+      toaster.warning($t(`msg.${$t(e.error_text[0])}`));  
+       
     }
   })
 

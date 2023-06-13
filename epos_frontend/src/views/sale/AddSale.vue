@@ -71,11 +71,7 @@ sale.vueInstance = getCurrentInstance();
 sale.vue = sale.vueInstance.appContext.config.globalProperties
 
 sale.orderTime = null;
-sale.deletedSaleProducts = []
-if (sale.orderBy == null) {
-    sale.orderBy = JSON.parse(localStorage.getItem("current_user")).full_name;
-}
-
+sale.deletedSaleProducts = [];
 
 sale.vue.$onKeyStroke('F1', (e) => {
     e.preventDefault();
@@ -83,9 +79,7 @@ sale.vue.$onKeyStroke('F1', (e) => {
     if(localStorage.getItem('dialogstate') === null){
         localStorage.setItem('dialogstate',1)
         ShortCutKeyHelpDialog()
-    }
-    
-    
+    }  
 })
 
 

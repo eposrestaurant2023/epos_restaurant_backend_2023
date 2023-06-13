@@ -90,6 +90,7 @@ async function onPayment() {
   }
   const result = await paymentDialog({})
   if (result) {
+    localStorage.removeItem('make_order_auth');
     emit('onClose')
   }
 }

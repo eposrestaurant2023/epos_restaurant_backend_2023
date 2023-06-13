@@ -76,17 +76,19 @@
   
 <script setup>
 
-import { inject, ref, computed, onUnmounted, createDocumentResource, useRouter, createResource, confirm } from '@/plugin'
-import { createToaster } from '@meforma/vue-toaster';
+import { inject, ref, computed, onUnmounted, createDocumentResource, useRouter, createResource, confirm,smallViewSaleProductListModel } from '@/plugin';
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
-
+import { useDisplay } from 'vuetify';
+const { mobile } = useDisplay();
+const router = useRouter();
 const gv = inject("$gv")
-const socket = inject("$socket")
-
+const inject_sale = inject("$sale");
+const tableLayout = inject("$tableLayout");
+const socket = inject("$socket");
+const emit = defineEmits(["resolve"])
+const triggerPrint = ref(0);
 const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + gv.setting.pos_setting.backend_port;
 
-const toaster = createToaster({ position: "top" })
-const router = useRouter();
 
 const props = defineProps({
     params: {
@@ -118,18 +120,6 @@ const cashierShiftInfo = createResource({
     auto: true
 });
 
-const salePaymentResource = createResource({
-    url: "frappe.client.get_list",
-    params: {
-        doctype: "Sale Payment",
-        filters: {
-            sale: props.params.name
-        },
-        fields: ["name"],
-    },
-
-    auto: true
-});
 
 
 const canEdit = computed(() => {
@@ -141,10 +131,6 @@ const canOpenOrder = computed(() => {
 const canDelete = computed(() => {
     return (sale.doc?.docstatus == 1 || sale.doc?.docstatus == 0) && sale.doc?.cashier_shift == cashierShiftInfo?.data?.name;
 })
-
-
-
-
 
 const printPreviewUrl = computed(() => {
     let letterhead = "";
@@ -168,9 +154,7 @@ function getDefaultLetterHead() {
     return letterhead;
 }
 
-const emit = defineEmits(["resolve"])
 
-const triggerPrint = ref(0)
 
 
 if (props.params.print) {
@@ -184,9 +168,7 @@ function onClose(isClose) {
 }
 
 function onRefresh() {
-
-    document.getElementById("report-view").contentWindow.location.replace(printPreviewUrl.value)
-
+    document.getElementById("report-view").contentWindow.location.replace(printPreviewUrl.value);
 }
 
 async function onPrint() {
@@ -200,36 +182,47 @@ async function onPrint() {
 
         if (activeReport.value.pos_receipt_file_name != "" && activeReport.value.pos_receipt_file_name != null) {
             if (await confirm({ title: 'Print Receipt', text: 'Are you sure you want to price receipt?' })) {
-
                 window.chrome.webview.postMessage(JSON.stringify(data));
             }
-
             return;
         }
-
     } else {
         if (activeReport.value.pos_receipt_file_name != "" && activeReport.value.pos_receipt_file_name != null) {
-
-
             socket.emit('PrintReceipt', JSON.stringify(data));
-            return
-
+            return;
         }
     }
-
     window.open(printPreviewUrl.value + "&trigger_print=1").print();
     window.close();
-
 }
 
-function onOpenOrder(sale_id) {
-    router.push({ name: "AddSale", params: { name: props.params.name } });
-    emit('resolve', "open_order");
+function onOpenOrder() {
+    gv.authorize("open_order_required_password", "make_order").then(async (v) => {
+        if(v){
+            const make_order_auth = {"username":v.username,"name":v.user,discount_codes:v.discount_codes }; 
+            if(mobile.value){
+                await inject_sale.LoadSaleData(props.params.name).then(async (_sale)=>{
+                    localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
+                    emit('resolve', "open_order");
+                    const result =  await smallViewSaleProductListModel ({title: props.params.name ? props.params.name : $t('New Sale'), data: {from_table: true}});                      
+                    if(result){   
+                        tableLayout.saleListResource.fetch();
+                    }else{
+                        localStorage.removeItem('make_order_auth'); 
+                    }                                          
+                });
+            } 
+            else{
+                localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));               
+                router.push({ name: "AddSale", params: { name: props.params.name } });
+                emit('resolve', "open_order");
+            }
+        }
+    });
 }
 
 function onEditOrder() {
     //check authorize and     check reason
-
     gv.authorize("edit_closed_receipt_required_password", "edit_closed_receipt", "edit_closed_receipt_required_note", "Edit Closed Receipt").then(async (v) => {
         if (v) {
             //cancel payment first
@@ -247,18 +240,16 @@ function onEditOrder() {
 
             await cancelSaleResource.fetch().then((v) => {
                 router.push({ name: "AddSale", params: { name: props.params.name } });
-
                 isLoading.value = false;
                 emit('resolve', "open_order");
             })
         }
-    })
+    });
 
 }
 
 function OnDeleteOrder() {
     //check authorize and     check reason
-
     gv.authorize("delete_bill_required_password", "delete_bill", "delete_bill_required_note", "Delete Bill Note").then(async (v) => {
         if (v) {
             if (v.show_confirm == 1) {
@@ -266,12 +257,10 @@ function OnDeleteOrder() {
                     return;
                 }
             }
-
             //cancel payment first
             isLoading.value = true;
             const _sale = JSON.parse(JSON.stringify(sale.sale));
             generateSaleProductPrintToKitchen(_sale,v.note);
-
             const deleteSaleResource = createResource({
                 url: "epos_restaurant_2023.api.api.delete_sale",
                 params: {
@@ -288,11 +277,7 @@ function OnDeleteOrder() {
                 onProcessPrintToKitchen(_sale);
 
                 emit('resolve', "delete_order");
-
             })
-
-
-
         }
     })
 
@@ -325,7 +310,10 @@ function generateSaleProductPrintToKitchen(doc,note){
                     quantity: r.quantity,
                     is_deleted: true,
                     is_free: r.is_free == 1,
-                    deleted_note: r.deleted_item_note
+                    deleted_note: r.deleted_item_note,
+                    order_by: r.order_by,
+                    creation: r.creation,
+                    modified: r.modified
                 })
             });
         });
