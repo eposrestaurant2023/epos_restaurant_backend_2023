@@ -168,7 +168,6 @@ function onSaleProductDiscount(discount_type) {
                     );
                 }
             });
-
         }
     }
     else{

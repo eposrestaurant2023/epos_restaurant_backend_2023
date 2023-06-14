@@ -83,28 +83,31 @@ const cashierShiftResource = createResource({
 });
 
 function onOpenOrder(sale_id) {
-
     gv.authorize("open_order_required_password", "make_order").then(async (v) => {
         if (v) {
+            const make_order_auth = {"username":v.username,"name":v.user,discount_codes:v.discount_codes }; 
             if(mobile.value){
                     await sale.LoadSaleData(sale_id).then(async (v)=>{
-                        localStorage.setItem('redirect_sale_type', selected.value)
+                        localStorage.setItem('redirect_sale_type', selected.value);
+                        localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
                         const result =  await smallViewSaleProductListModel ({title: sale.sale.name ? sale.sale.name : 'New Sale', data: {from_table: true}});
                         if(result){
                             //
+                        }else{
+                            localStorage.removeItem('make_order_auth'); 
                         }
                       
                     })
             }else{
                 if (sale_id) {
+                    localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
                     router.push({ name: "AddSale", params: { name: sale_id } }).then(()=>{
                         localStorage.setItem('redirect_sale_type', selected.value)
                     })
                 }
                 else {
-                    toaster.error($t("msg.System can not get sale name"))
-                }
-        
+                    toaster.error($t("msg.System can not get sale name"));
+                }        
             } 
             return;
         }
@@ -153,21 +156,29 @@ onMounted(() => {
 
  
  
-async function newSale() {
-    let guest_cover = 0;
-    if (gv.setting.use_guest_cover == 1) {
-        const result = await keyboardDialog({ title: $t('Guest Cover'), type: 'number', value: guest_cover });
-        if (typeof result == 'number') {
+async function newSale() { 
+    gv.authorize("open_order_required_password", "make_order").then(async (v) => {
+            if (v) {
+                const make_order_auth = {"username":v.username,"name":v.user,discount_codes:v.discount_codes };                 
+                   
+                localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
+                if(!_onNewSale()){
+                    return;
+                }
 
-            guest_cover = parseInt(result);
-            if (guest_cover == undefined || isNaN(guest_cover)) {
-                guest_cover = 0;
+                router.push({ name: "AddSale" }).then(()=>{
+                    localStorage.setItem('redirect_sale_type', selected.value)
+                });           
+               
+                return;
             }
+        })
 
-        } else {
-            return;
-        }
-    }
+}
+
+
+function _onNewSale(){
+    let guest_cover = 0;
     sale.newSale();
     sale.sale.guest_cover = guest_cover;
     sale.sale.table_id = '';
@@ -175,9 +186,8 @@ async function newSale() {
     sale.sale.sale_type = route.params.sale_type
     if (gv.setting.price_rule != sale.sale.price_rule) {
         toaster.info($t('msg.Your current price rule is',[sale.sale.price_rule]));
+        return false;
     }
-    router.push({ name: "AddSale" }).then(()=>{
-        localStorage.setItem('redirect_sale_type', selected.value)
-    });
+    return true;
 }
 </script> 
