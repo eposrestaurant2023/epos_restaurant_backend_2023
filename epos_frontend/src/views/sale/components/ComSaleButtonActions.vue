@@ -253,15 +253,18 @@ async function onCancelPrintBill() {
     if (v) {
       sale.sale.sale_status = "Submitted";
       sale.sale.sale_status_color = setting.sale_status.find(r => r.name == 'Submitted').background_color;
+
+      let msg = `User ${v.user} was Cancelled Print Bill`; 
+      msg += `${v.note==""?'':', Reason: '+v.note }`;
       sale.auditTrailLogs.push({
-        doctype: "Comment",
-        subject: "Cancel Print Bill",
-        comment_type: "Comment",
-        reference_doctype: "Sale",
-        reference_name: "New",
-        comment_by: "cashier@mail.com",
-        content: ``
-      });
+          doctype:"Comment",
+          subject:"Cancel Print Bill",
+          comment_type:"Comment",
+          reference_doctype:"Sale",
+          reference_name:"New",
+          comment_by:v.user,
+          content:msg
+      })  ; 
     }
   })
 

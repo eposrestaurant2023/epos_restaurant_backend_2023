@@ -60,6 +60,14 @@ export default class Sale {
             this.updateSaleProduct(sp);
         } else {
             this.clearSelected(); 
+            let tax_rule ="";    
+            if((p.tax_rule||"")==""){
+                tax_rule = JSON.parse(JSON.stringify(this.setting.tax_rule)) ;
+            }
+            else{
+                tax_rule = JSON.parse(p.tax_rule_data);
+            }
+
             var saleProduct = {
                 menu_product_name: p.menu_product_name,
                 product_code: p.name,
@@ -92,9 +100,16 @@ export default class Sale {
                 discount: 0,
                 // order_by : this.getOrderBy(),
                 // order_time : this.getOrderTime()
-            }
-            this.sale.sale_products.push(saleProduct);
 
+                product_variants: [],
+                is_combo_menu: p.is_combo_menu,
+                use_combo_group: p.use_combo_group,
+                combo_menu: p.combo_menu,
+                combo_menu_data: (p.combo_menu_data || p.combo_group_data),
+                product_tax_rule: p.tax_rule
+            }
+            this.onSaleProductApplyTax(tax_rule,saleProduct); 
+            this.sale.sale_products.push(saleProduct);
             this.updateSaleProduct(saleProduct);
         }
         this.updateSaleSummary()
@@ -105,43 +120,29 @@ export default class Sale {
     
     cloneSaleProduct(sp,quantity){
         this.clearSelected();
+
+        const u = JSON.parse(localStorage.getItem('make_order_auth'));
         const sp_copy = JSON.parse(JSON.stringify(sp));
         sp_copy.selected = true;
         sp_copy.quantity = quantity - sp_copy.quantity;
         sp_copy.sale_product_status = "New";
         sp_copy.name = "";
-        sp_copy.order_by = this.orderBy;
+        sp_copy.order_by = u.name;
         sp_copy.order_time = this.getOrderTime();
         this.updateSaleProduct(sp_copy);
         this.sale.sale_products.push(sp_copy);
-        this.updateSaleSummary()
-  
-        
+        this.updateSaleSummary();
 
     }
 
-    // getOrderTime(){
-    //     if(!this.orderTime){   
-    //         this.orderTime=  moment(new Date()).format('yyyy-MM-DD HH:mm:ss.SSS');
-    //         return this.orderTime;
-    //     }else {
-    //         return this.orderTime
-    //     }
-        
-    // }
-
-    
-    // getOrderBy(){
-    //     if(!this.orderBy){   
-            
-    //         return JSON.parse( localStorage.getItem("current_user")).full_name;
-    //     }else {
-    //         return this.orderBy
-    //     }
-        
-    // }
-
-
+    getOrderTime(){
+        if(!this.orderTime){   
+            this.orderTime=  moment(new Date()).format('yyyy-MM-DD HH:mm:ss.SSS');
+            return this.orderTime;
+        }else {
+            return this.orderTime;
+        }        
+    }
 
 
     onSelectSaleProduct(sp) {
@@ -152,32 +153,139 @@ export default class Sale {
     clearSelected() {
         Enumerable.from(this.sale.sale_products).where(`$.selected==true`).forEach("$.selected=false");
     }
+    
+    
     updateSaleProduct(sp) {
+        //set property for re render comhappyhour check
+        sp.is_render = false; 
+        //end
         sp.sub_total = sp.quantity * sp.price + sp.quantity * sp.modifiers_price;
         sp.discount = parseFloat(sp.discount)
-        if(sp.discount){ 
-            if (sp.discount_type=="Percent"){
-                sp.discount_amount = (sp.sub_total * sp.discount/100); 
-            }else {
+        if (sp.discount) {
+            if (sp.discount_type == "Percent") {
+                sp.discount_amount = (sp.sub_total * sp.discount / 100);
+            } else {
                 sp.discount_amount = sp.discount;
             }
             sp.sale_discount_percent = 0;
             sp.sale_discount_amount = 0;
-        }else {
+        } else {
             sp.discount_amount = 0;
             //check if sale have discount then add discount to sale
-            
         }
-        if(sp.sale_discount_percent){
-            sp.sale_discount_amount = (sp.sub_total * sp.sale_discount_percent/100); 
-             
+        if (sp.sale_discount_percent) {
+            sp.sale_discount_amount = (sp.sub_total * sp.sale_discount_percent / 100);
         }
         sp.total_discount = sp.discount_amount + sp.sale_discount_amount;
-        sp.total_tax = 0
+
+        this.onCalculateTax(sp);
         sp.amount = sp.sub_total - sp.total_discount + sp.total_tax;
+
+        //set property for re render comhappyhour check
+        sp.is_render = true;
     }
 
-    updateSaleSummary() {
+     //on sale product apply tax setting
+     onSaleProductApplyTax(tax_rule, sp){
+        sp.tax_rule = tax_rule.name||"";
+        sp.tax_1_rate = tax_rule.tax_1_rate||0;
+        sp.percentage_of_price_to_calculate_tax_1 = tax_rule.percentage_of_price_to_calculate_tax_1||100;
+        sp.calculate_tax_1_after_discount = tax_rule.calculate_tax_1_after_discount||false;
+
+        sp.tax_2_rate = tax_rule.tax_2_rate||0;
+        sp.percentage_of_price_to_calculate_tax_2 = tax_rule.percentage_of_price_to_calculate_tax_2||100;
+        sp.calculate_tax_2_after_discount = tax_rule.calculate_tax_2_after_discount||false;
+        sp.calculate_tax_2_after_adding_tax_1 = tax_rule.calculate_tax_2_after_adding_tax_1||false;
+
+        sp.tax_3_rate = tax_rule.tax_3_rate||0;
+        sp.percentage_of_price_to_calculate_tax_3 = tax_rule.percentage_of_price_to_calculate_tax_3||100;
+        sp.calculate_tax_3_after_discount = tax_rule.calculate_tax_3_after_discount||false;
+        sp.calculate_tax_3_after_adding_tax_1 = tax_rule.calculate_tax_3_after_adding_tax_1||false;
+        sp.calculate_tax_3_after_adding_tax_2 = tax_rule.calculate_tax_3_after_adding_tax_2||false;
+        this.updateSaleProduct(sp);
+    }
+
+    //on calculate tax
+    onCalculateTax(sp){        
+
+        //tax 1
+        sp.taxable_amount_1 = sp.sub_total;     
+        //tax 1 taxable amount
+        //if cal tax1 taxable after disc.
+        if(sp.calculate_tax_1_after_discount){
+            sp.taxable_amount_1 = (sp.sub_total - sp.total_discount);
+        }
+        sp.taxable_amount_1 *= ((sp.percentage_of_price_to_calculate_tax_1 || 0)/100);
+
+        //cal tax 1 amount
+        sp.tax_1_amount = sp.taxable_amount_1 * ((sp.tax_1_rate ||0)/100);
+
+        
+        //tax 2
+        //tax 2 taxable amount
+        sp.taxable_amount_2 = sp.sub_total;
+        //if cal tax2 taxable after disc.
+        if(sp.calculate_tax_2_after_discount){
+            sp.taxable_amount_2 = (sp.sub_total - sp.total_discount);
+        }
+
+        //if cal tax2 taxable after add tax1
+        if(sp.calculate_tax_2_after_adding_tax_1){
+            sp.taxable_amount_2 += sp.tax_1_amount;
+        }
+        sp.taxable_amount_2 *= ((sp.percentage_of_price_to_calculate_tax_2 || 0)/100);       
+
+        //cal tax2 amount
+        sp.tax_2_amount = sp.taxable_amount_2 * ((sp.tax_2_rate ||0)/100);
+
+
+        //tax 3
+        //tax 3 taxable amount
+        sp.taxable_amount_3 = sp.sub_total;
+        //if cal tax3 taxable after disc.
+        if(sp.calculate_tax_3_after_discount){
+            sp.taxable_amount_3 = (sp.sub_total - sp.total_discount);
+        }
+       
+        //if cal tax3 taxable after add tax1
+        if(sp.calculate_tax_3_after_adding_tax_1){
+            sp.taxable_amount_3 += sp.tax_1_amount;
+        }
+
+        //if cal tax3 taxable after add tax2
+        if(sp.calculate_tax_3_after_adding_tax_2){
+            sp.taxable_amount_3 += sp.tax_2_amount;
+        }
+        sp.taxable_amount_3 *= ((sp.percentage_of_price_to_calculate_tax_3 ||0)/100);    
+
+        //cal tax3 amount
+        sp.tax_3_amount = sp.taxable_amount_3 * ((sp.tax_3_rate||0) /100);
+
+
+        sp.total_tax = sp.tax_1_amount + sp.tax_2_amount + sp.tax_3_amount;
+
+    }
+    
+    //on sale apply  tax setting
+    onSaleApplyTax(tax_rule,s){
+        s.tax_rule = tax_rule.name||"";
+        s.tax_1_rate = tax_rule.tax_1_rate||0;
+        s.percentage_of_price_to_calculate_tax_1 = tax_rule.percentage_of_price_to_calculate_tax_1||100;
+        s.tax_2_rate  = tax_rule.tax_2_rate||0;
+        s.percentage_of_price_to_calculate_tax_2 = tax_rule.percentage_of_price_to_calculate_tax_2||100;
+        s.tax_3_rate = tax_rule.tax_3_rate||0;
+        s.percentage_of_price_to_calculate_tax_3 = tax_rule.percentage_of_price_to_calculate_tax_3||100;
+
+        //update tax setting of sale product
+        (s.sale_products||[]).forEach((sp)=>{
+            if((sp.product_tax_rule||"")==""){
+                this.onSaleProductApplyTax(tax_rule,sp);
+            }
+        });        
+    }
+
+    //update sale summary
+    updateSaleSummary(sale_status = '') {
         const sp = Enumerable.from(this.sale.sale_products);
         this.sale.total_quantity = this.getNumber(sp.sum("$.quantity"));
         this.sale.sub_total = this.getNumber(sp.sum("$.sub_total"));
@@ -185,15 +293,38 @@ export default class Sale {
         this.sale.sale_discountable_amount = this.getNumber(sp.where("$.allow_discount==1 && $.discount==0").sum("$.sub_total"));
         this.sale.discount = this.getNumber(this.sale.discount);
         this.sale.sale_discount = 0;
-        if (this.sale.discount_type=="Percent"){  
+        if (this.sale.discount_type == "Percent") {
             this.sale.sale_discount = this.sale.sale_discountable_amount * (this.sale.discount / 100);
-        }else {
+        } else {
             this.sale.sale_discount = this.sale.discount;
         }
-        
+
         this.sale.product_discount = this.getNumber(sp.sum("$.discount_amount"));
         this.sale.total_discount = this.sale.product_discount + this.sale.sale_discount;
+
+        //tax
+        this.sale.tax_1_amount = this.getNumber(sp.sum("$.tax_1_amount"));
+        this.sale.tax_2_amount = this.getNumber(sp.sum("$.tax_2_amount"));
+        this.sale.tax_3_amount = this.getNumber(sp.sum("$.tax_3_amount"));
+        this.sale.total_tax = this.getNumber(sp.sum("$.total_tax"));
+
+        //grand_total
+        this.sale.grand_total = (this.sale.sub_total - this.sale.total_discount) + this.sale.total_tax
+        this.sale.balance = this.sale.grand_total;
+       
+        // commission
+        if (this.sale.commission_type == "Percent") {
+            this.sale.commission_amount = (this.sale.grand_total * this.sale.commission / 100);
+        } else {
+            this.sale.commission_amount = this.sale.commission;
+        }
+
+        this.orderChanged = true;
+
+        socket.emit("ShowOrderInCustomerDisplay", this.sale, sale_status);
     }
+
+
 
     updateQuantity(sp, n) {
         sp.quantity = n;
@@ -204,37 +335,21 @@ export default class Sale {
     onRemoveSaleProduct(sp, quantity) { 
         if (sp.quantity == quantity) {
             if(sp.sale_product_status=='Submitted'){
-                this.deletedSaleProducts.push(sp)
-                // this.auditTrailLogs.push({
-                //     doctype:"Comment",
-                //     subject:"Delete Sale Product",
-                //     comment_type:"Comment",
-                //     reference_doctype:"Sale",
-                //     reference_name:"New",
-                //     comment_by:"cashier@mail.com",
-                //     content:`User sengho delete sale prodcut. Product Name: ABC 001, Qty:1, Amount:15.50, Reason:Wrong Order`
-                // })
-            }
-            
+                this.deletedSaleProducts.push(sp);
+            }            
             this.sale.sale_products.splice(this.sale.sale_products.indexOf(sp), 1);
         } else {
             sp.quantity = sp.quantity - quantity;
 
             if(sp.sale_product_status=='Submitted'){
                 let deletedRecord = JSON.parse(JSON.stringify(sp))
-               
-             
-
                 deletedRecord.quantity = quantity;
-            
                 this.deletedSaleProducts.push(deletedRecord)
             }
-           
-            
         }
-        this.updateSaleSummary();
-        
+        this.updateSaleSummary();        
     }
+
     updatePaymentAmount(){
         const payments = Enumerable.from(this.sale.payment);
         const total_payment  = payments.sum("$.amount") ;

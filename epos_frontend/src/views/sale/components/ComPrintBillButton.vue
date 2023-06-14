@@ -57,8 +57,10 @@ const props = defineProps({
     default: false
   }
 });
-const emit = defineEmits(["onPrint"])
-const toaster = createToaster({ position: 'top' })
+const emit = defineEmits(["onPrint"]);
+const toaster = createToaster({ position: 'top' });
+
+
 async function onPrintReport(r) {
   if (sale.sale.sale_products?.length == 0) {
     toaster.warning($t("msg.Please select a menu item to submit order"));
@@ -72,21 +74,20 @@ async function onPrintReport(r) {
     sale.action = "print_bill";
     sale.pos_receipt = r;
 
-    //add to auddit trail
+    const u = JSON.parse(localStorage.getItem('make_order_auth'));
+    let msg = `User ${u.name} was Printed Bill`; 
     sale.auditTrailLogs.push({
-      doctype: "Comment",
-      subject: "Print Bill",
-      comment_type: "Comment",
-      reference_doctype: "Sale",
-      reference_name: "New",
-      comment_by: "cashier@mail.com",
-      content: `Print request bill`
-
-    });
+        doctype:"Comment",
+        subject:"Print Bill",
+        comment_type:"Comment",
+        reference_doctype:"Sale",
+        reference_name:"New",
+        comment_by:u.name,
+        content:msg
+    })  ; 
 
     await sale.onSubmit().then(async (value) => {
       if (value) {
-
         router.push({ name: "TableLayout" });
         window.postMessage("close_modal", "*");
       }
@@ -98,17 +99,19 @@ async function onCancelPrintBill() {
     if (v) {
       sale.sale.sale_status = "Submitted";
       sale.sale.sale_status_color = setting.sale_status.find(r => r.name == 'Submitted').background_color;
-      sale.auditTrailLogs.push({
-        doctype: "Comment",
-        subject: "Cancel Print Bill",
-        comment_type: "Comment",
-        reference_doctype: "Sale",
-        reference_name: "New",
-        comment_by: "cashier@mail.com",
-        content: ``
-      });
-    }
-  })
 
+      let msg = `User ${v.user} was Cancelled Print Bill`; 
+      msg += `${v.note==""?'':', Reason: '+v.note }`;
+      sale.auditTrailLogs.push({
+          doctype:"Comment",
+          subject:"Cancel Print Bill",
+          comment_type:"Comment",
+          reference_doctype:"Sale",
+          reference_name:"New",
+          comment_by:v.user,
+          content:msg
+      }); 
+    }
+  });
 }
 </script>

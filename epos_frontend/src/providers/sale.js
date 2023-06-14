@@ -371,8 +371,6 @@ export default class Sale {
         sp.calculate_tax_3_after_discount = tax_rule.calculate_tax_3_after_discount||false;
         sp.calculate_tax_3_after_adding_tax_1 = tax_rule.calculate_tax_3_after_adding_tax_1||false;
         sp.calculate_tax_3_after_adding_tax_2 = tax_rule.calculate_tax_3_after_adding_tax_2||false;
-
-
         this.updateSaleProduct(sp);
     }
 

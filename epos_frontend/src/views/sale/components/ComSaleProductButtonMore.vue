@@ -55,11 +55,7 @@
 <script setup>
 import { defineProps, inject,keypadWithNoteDialog,i18n } from '@/plugin'
 import {createToaster} from '@meforma/vue-toaster';
-
-
-
 const { t: $t } = i18n.global;  
-
 const sale = inject('$sale')
 const numberFormat = inject('$numberFormat')
 const gv = inject("$gv")
@@ -68,10 +64,7 @@ const props = defineProps({
     saleProduct: Object
 })
 
-const toaster = createToaster({ position: "top" })
-
-
-
+const toaster = createToaster({ position: "top" });
 function onRemoveNote() {
     props.saleProduct.note = "";
 }
@@ -89,17 +82,13 @@ function onSaleProductFree() {
 }
 sale.vue.$onKeyStroke('F8', (e) => {
     e.preventDefault()
-    console.log("F8")
     if(sale.dialogActiveState==false && props.saleProduct.selected == true){
         sale.onSaleProductNote(props.saleProduct)
     } 
 })
 
-function onRemoveSaleProduct() {
- 
-    if (!sale.isBillRequested()) {
-
-        
+function onRemoveSaleProduct() { 
+    if (!sale.isBillRequested()) {        
         if (props.saleProduct.sale_product_status == 'Submitted') {
             gv.authorize("delete_item_required_password", "delete_item","delete_item_required_note", "Delete Item Note", props.saleProduct.product_code, true).then(async (v) => {
                 if (v) {
@@ -116,8 +105,6 @@ function onRemoveSaleProduct() {
                     });
                   
                     if(result){
-                       
-                           
                         if(props.saleProduct.quantity < result.number){
                             result.number = props.saleProduct.quantity;
                         }                       
@@ -126,7 +113,7 @@ function onRemoveSaleProduct() {
                         sale.onRemoveSaleProduct(props.saleProduct, result.number);  
 
                         let msg = `User ${v.user} delete Item: ${props.saleProduct.product_code}-${props.saleProduct.product_name}.${props.saleProduct.portion} ${props.saleProduct.modifiers}`; 
-                        msg += `, Qty: ${props.saleProduct.quantity}`;
+                        msg += `, Qty: ${result.number}`;
                         msg += `, Amount: ${ numberFormat(gv.getCurrnecyFormat,props.saleProduct.amount)}`;
                         msg += `${result.note==""?'':', Reason: '+result.note }`;
                         sale.auditTrailLogs.push({
@@ -135,17 +122,19 @@ function onRemoveSaleProduct() {
                             comment_type:"Comment",
                             reference_doctype:"Sale",
                             reference_name:"New",
-                            comment_by:v.username,
+                            comment_by:v.user,
                             content:msg
-                        })                       
+                        })  ;                    
 
                     } 
                 }
             });
         } else {
+
+            const u = JSON.parse(localStorage.getItem('make_order_auth')); 
             sale.onRemoveSaleProduct(props.saleProduct, props.saleProduct.quantity);
 
-            let msg = `User ${v.user} delete Item: ${props.saleProduct.product_code}-${props.saleProduct.product_name}.${props.saleProduct.portion} ${props.saleProduct.modifiers}`; 
+            let msg = `User ${u.name} delete Item: ${props.saleProduct.product_code}-${props.saleProduct.product_name}.${props.saleProduct.portion} ${props.saleProduct.modifiers}`; 
             msg += `, Qty: ${props.saleProduct.quantity}`;
             msg += `, Amount: ${ numberFormat(gv.getCurrnecyFormat,props.saleProduct.amount)}`;
             sale.auditTrailLogs.push({
@@ -154,10 +143,9 @@ function onRemoveSaleProduct() {
                 comment_type:"Comment",
                 reference_doctype:"Sale",
                 reference_name:"New",
-                comment_by:v.username,
+                comment_by: u.name,
                 content:msg
-            })                       
-
+            }) ;
         }
 
     }
