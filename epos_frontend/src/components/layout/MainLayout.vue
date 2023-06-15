@@ -3,7 +3,10 @@
         <v-app-bar :elevation="2" color="error">
             <v-app-bar-title>{{ appTitle }}</v-app-bar-title>
             <template #prepend>
-                <v-app-bar-nav-icon variant="text" @click.stop="onDrawer()"></v-app-bar-nav-icon>
+                <v-app-bar-nav-icon variant="text" @click.stop="onDrawer"></v-app-bar-nav-icon>
+                <v-btn icon  @click="onHome" >
+                    <v-icon >mdi-home-outline</v-icon> 
+                </v-btn>
             </template>
             <template #append>
                 <ComTimeUpdate />
@@ -63,6 +66,10 @@ import MainLayoutDrawer from './MainLayoutDrawer.vue';
 import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue';
 import ComToolbar from '../ComToolbar.vue';
 import ComTimeUpdate from './components/ComTimeUpdate.vue';
+
+
+
+
 export default {
     inject: ["$auth","$gv"],
     name: "MainLayout",
@@ -91,6 +98,11 @@ export default {
         ComTimeUpdate
     },
     methods: {
+
+        onHome(){
+            this.$router.push({name: 'Home'})
+        },
+
         onDrawer() {
             this.drawer = !this.drawer;
         },

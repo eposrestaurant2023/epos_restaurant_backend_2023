@@ -65,11 +65,12 @@ async function onPrintReport(r) {
   if (sale.sale.sale_products?.length == 0) {
     toaster.warning($t("msg.Please select a menu item to submit order"));
   } else {
-    if (gv.setting.reports.filter(r => r.doc_type == props.doctype && r.show_in_pos == 1).length == 1) {
-      if (await confirm({ title:$t('Print Bill'), text:$t('msg.are you sure to print bill')}) == false) {
-        return;
-      }
-    }
+     
+    // if (gv.setting.reports.filter(r => r.doc_type == props.doctype && r.show_in_pos == 1).length == 1) {
+    //   if (await confirm({ title:$t('Print Bill'), text:$t('msg.are you sure to print bill')}) == false) {
+    //     return;
+    //   }
+    // }
     sale.sale.sale_status = "Bill Requested";
     sale.action = "print_bill";
     sale.pos_receipt = r;

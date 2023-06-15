@@ -352,7 +352,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "POS Setting",
-   "link_count": 6,
+   "link_count": 7,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -415,9 +415,19 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Menu",
+   "link_count": 0,
+   "link_to": "POS Menu",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-06-05 15:08:51.074301",
+ "modified": "2023-06-14 17:43:31.876283",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Configuration",

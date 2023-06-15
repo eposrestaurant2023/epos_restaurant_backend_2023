@@ -117,8 +117,9 @@ function onOk() {
       }
     },
    async onError(e){
-      toaster.warning($t(`msg.${$t(e.error_text[0])}`));  
-       
+      if(e.error_text !=undefined){
+        toaster.warning($t(`msg.${$t(e.error_text[0])}`)); 
+      } 
     }
   })
 

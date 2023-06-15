@@ -32,16 +32,7 @@
         :prepend-icon="mobile ? '' : 'mdi-currency-usd'" @click="onQuickPay">
         {{ $t('Quick Pay') }}
       </v-btn>
-      <template v-if="!mobile">
-        <v-btn stacked size="small" color="error" class="m-0-1 grow" prepend-icon="mdi-note-outline" v-if="sale.sale.note"
-          @click="sale.sale.note = ''">
-          {{ $t('Remove Note') }}
-        </v-btn>
-        <v-btn stacked size="small" class="m-0-1 grow" prepend-icon="mdi-note-outline" @click="sale.onSaleNote(sale.sale)"
-          v-else>
-          {{ $t('Note') }}
-        </v-btn>
-      </template>
+    
       <ComSaleButtonMore />
     </div>
   </div>

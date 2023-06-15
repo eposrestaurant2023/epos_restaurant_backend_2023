@@ -28,6 +28,7 @@
   "column_break_9",
   "working_day",
   "cashier_shift",
+  "shift_name",
   "price_rule",
   "sale_quotation",
   "section_break_6",
@@ -775,6 +776,11 @@
    "fieldname": "closed_date",
    "fieldtype": "Datetime",
    "label": "Closed Date"
+  },
+  {
+   "fieldname": "shift_name",
+   "fieldtype": "Data",
+   "label": "Shift Name"
   }
  ],
  "image_field": "photo",
@@ -787,7 +793,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-06-12 11:31:21.329855",
+ "modified": "2023-06-15 11:25:43.746584",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

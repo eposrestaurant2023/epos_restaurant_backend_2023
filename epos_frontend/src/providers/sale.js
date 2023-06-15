@@ -18,6 +18,7 @@ export default class Sale {
         this.promotion = null;
         this.working_day = "";
         this.cashier_shift = "";
+        this.shift_name="";
         this.setting = null;
         this.tbl_number = null;
         this.table_id = null;
@@ -99,6 +100,7 @@ export default class Sale {
             doctype: "Sale",
             sale_status: "New",
             cashier_shift: this.cashier_shift,
+            shift_name:this.shift_name,
             working_day: this.working_day,
             exchange_rate: this.exchange_rate,
             table_id: this.table_id,
@@ -127,8 +129,7 @@ export default class Sale {
             commission_amount: 0,
             created_by:make_order_auth.name     
         }  
-        this.onSaleApplyTax(tax_rule,this.sale);    
-       
+        this.onSaleApplyTax(tax_rule,this.sale); 
     }
 
     async LoadSaleData(name) {  
@@ -277,7 +278,7 @@ export default class Sale {
                 use_combo_group: p.use_combo_group,
                 combo_menu: p.combo_menu,
                 combo_menu_data: (p.combo_menu_data || p.combo_group_data),
-                product_tax_rule: p.tax_rule          ,
+                product_tax_rule: p.tax_rule,
 
             }       
             this.onSaleProductApplyTax(tax_rule,saleProduct); 
@@ -295,6 +296,7 @@ export default class Sale {
         sp_copy.quantity = quantity - sp_copy.quantity;
         sp_copy.sale_product_status = "New";
         sp_copy.name = "";
+        sp_copy.deleted_quantity = 0;
         sp_copy.order_by = make_order_auth.name;
         sp_copy.order_time = this.getOrderTime();
         sp_copy.creation = sp_copy.order_time;
@@ -729,7 +731,6 @@ export default class Sale {
             }
             this.sale.sale_products.splice(this.sale.sale_products.indexOf(sp), 1);
 
-
         } else {
             sp.quantity = sp.quantity - quantity;
             if (sp.sale_product_status == 'Submitted') {
@@ -738,7 +739,9 @@ export default class Sale {
                 this.deletedSaleProducts.push(deletedRecord)
             }
         }
-       
+
+        
+        this.updateSaleProduct(sp);       
         this.updateSaleSummary();
     }
 

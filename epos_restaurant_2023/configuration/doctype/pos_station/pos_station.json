@@ -13,9 +13,9 @@
   "show_start_close_working_day",
   "show_start_close_cashier_shift",
   "show_option_payment",
-  "is_used",
   "show_sale_more_action_menu",
-  "show_reference_button_in_more_menu"
+  "show_reference_button_in_more_menu",
+  "is_used"
  ],
  "fields": [
   {
@@ -71,7 +71,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-02 10:45:23.114051",
+ "modified": "2023-06-15 17:22:03.446365",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Station",

@@ -3,15 +3,16 @@
     <v-list-item v-if="device_setting.show_reference_button_in_more_menu ==1" prepend-icon="mdi-format-list-bulleted" :title="($t('Reference') + ' #')" @click="onReferenceNumber()" />
     <v-list-item prepend-icon="mdi-eye-outline" :title="$t('View Bill')" @click="onViewBill()"
         v-if="sale.sale.sale_products.length > 0" />
-    <template v-if="mobile">
-        <v-list-item @click="onRemoveSaleNote()" v-if="sale.sale.note">
-            <template v-slot:prepend>
-                <v-icon icon="mdi-note-outline" color="error"></v-icon>
-            </template>
-            <v-list-item-title class="text-red-700">{{ $t('Remove Note') }}</v-list-item-title>
-        </v-list-item>
-        <v-list-item prepend-icon="mdi-note-outline" :title="$t('Note')" @click="sale.onSaleNote(sale.sale)" v-else />
-    </template>
+    
+    <v-list-item @click="onRemoveSaleNote()" v-if="sale.sale.note">
+        <template v-slot:prepend>
+            <v-icon icon="mdi-note-outline" color="error"></v-icon>
+        </template>
+        <v-list-item-title class="text-red-700">{{ $t('Remove Note') }}</v-list-item-title>
+    </v-list-item>
+    <v-list-item prepend-icon="mdi-note-outline" :title="$t('Note')" @click="sale.onSaleNote(sale.sale)" v-else />
+
+    
     <v-list-item prepend-icon="mdi-currency-usd" :title="$t('Commission')" @click="onAddCommission()" />
     <v-list-item prepend-icon="mdi-bulletin-board" :title="$t('Change Price Rule')" @click="onChangePriceRule()" />
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-silverware"

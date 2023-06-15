@@ -125,7 +125,8 @@ export default class Sale {
         const sp_copy = JSON.parse(JSON.stringify(sp));
         sp_copy.selected = true;
         sp_copy.quantity = quantity - sp_copy.quantity;
-        sp_copy.sale_product_status = "New";
+        sp_copy.sale_product_status = "New";        
+        sp_copy.deleted_quantity = 0;
         sp_copy.name = "";
         sp_copy.order_by = u.name;
         sp_copy.order_time = this.getOrderTime();

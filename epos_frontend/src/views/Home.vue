@@ -21,28 +21,27 @@
                 <div class="mx-auto mt-4 mb-0 md:w-[600px]">
                     <ComMessagePromotion />
                     <div class="grid xs:grid-cols-2 md:grid-cols-4 grid-cols-2" style="grid-gap: 20px;">
-                        <WorkingDayButton  v-if="device_setting?.show_start_close_working_day==1"/>
-                        <OpenShiftButton  v-if="device_setting?.show_start_close_cashier_shift==1"/>
+                        <WorkingDayButton  v-if="device_setting?.show_start_close_working_day==1 && device_setting?.is_order_station==0"/>
+                        <OpenShiftButton  v-if="device_setting?.show_start_close_cashier_shift==1 && device_setting?.is_order_station==0"/>
                         
-                        <ComButton @click="onPOS()" :title="$t('POS')" icon="mdi-cart" class="bg-green-600 text-white"
-                            icon-color="#fff" />
-                        <ComButton @click="onViewPendingOrder()" :title="$t('Pending Order')" icon="mdi-receipt"
-                            icon-color="#e99417" />
-                        <ComButton @click="onRoute('ClosedSaleList')" :title="$t('Closed Receipt')" icon="mdi-receipt"
-                            icon-color="#e99417" />
-                        <ComButton @click="onRoute('Customer')" :title="$t('Customer')" icon-color="#e99417"
-                            icon="mdi-account-multiple-outline" />
-                        <ComButton @click="onCashInCashOut" :title="$t('Cash Drawer')" icon-color="#e99417"
-                            icon="mdi-currency-usd" />
-                        <ComButton @click="onRoute('Report')" :title="$t('Report')" icon="mdi-chart-bar" icon-color="#e99417" />
+                        <ComButton @click="onPOS()" :title="$t('POS')" icon="mdi-cart-outline" class="bg-green-600 text-white" icon-color="#fff" />
+                        <ComButton @click="onViewPendingOrder()" :title="$t('Pending Order')" icon="mdi-arrange-send-backward"  icon-color="#e99417" />
 
+
+                        <ComButton @click="onRoute('ClosedSaleList')" :title="$t('Closed Receipt')" v-if="device_setting?.is_order_station==0" icon="mdi-file-document"  icon-color="#e99417" />
+                        <ComButton @click="onRoute('ReceiptList')" :title="$t('Receipt List')" v-if="device_setting?.is_order_station==0" icon="mdi-file-chart"  icon-color="#e99417" />
+
+                        <ComButton @click="onRoute('Customer')" :title="$t('Customer')" v-if="device_setting?.is_order_station==0" icon-color="#e99417"  icon="mdi-account-multiple-outline" />
+                        <ComButton @click="onCashInCashOut" :title="$t('Cash Drawer')" v-if="device_setting?.is_order_station==0" icon-color="#e99417" icon="mdi-currency-usd" />
+                        <ComButton v-if="isWindow() && device_setting?.is_order_station==0"  @click="onOpenCashDrawer" :title="$t('Open Cash Drawer')" icon="mdi-cash-multiple" icon-color="#e99417" />
+                        
+                        <ComButton @click="onRoute('Report')" :title="$t('Report')" v-if="device_setting?.is_order_station==0" icon="mdi-chart-bar" icon-color="#e99417" />
+                
                         <ComButton v-if="isWindow()"  @click="onOpenCustomerDisplay" :title="$t('Customer Display')" icon="mdi-monitor" icon-color="#e99417" />
 
                         <ComButton v-if="isWindow()"  @click="onPrintWifiPassword" :title="$t('Wifi Password')" icon="mdi-wifi" icon-color="#e99417" /> 
-
                         
-                        <ComButton @click="onLogout()" text-color="#fff" icon-color="#fff" :title="$t('Logout')" icon="mdi-logout"
-                            background-color="#b00020" />
+                        <ComButton @click="onLogout()" text-color="#fff" icon-color="#fff" :title="$t('Logout')" icon="mdi-logout" background-color="#b00020" />
                     </div>
                 </div>
             </div>
@@ -177,6 +176,14 @@ function onLogout() {
 async function onPrintWifiPassword(){
     await printWifiPasswordModal({})
 }
+
+
+
+//open cashdrawer
+function onOpenCashDrawer(){
+    window.chrome.webview.postMessage(JSON.stringify({action:"open_cashdrawer"}));
+} 
+
 </script>
 <style scoped>
 .wrap-overlay {

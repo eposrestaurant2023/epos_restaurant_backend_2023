@@ -18,6 +18,18 @@ class Customer(Document):
 			self.customer_name_kh = self.customer_name_en
    
 		self.customer_code_name = "{} - {}".format(self.name,self.customer_name_en)
+	def on_update(self):
+		if hasattr(self,'attach'):
+			if self.attach:
+				file = frappe.get_doc('File', self.attach)
+				file.attached_to_name = self.name
+				file.attached_to_field = ''
+				file = file.save()
+				frappe.db.set_value('Customer', self.name,{'photo':file.file_url})
+				frappe.db.commit()
+			else:
+				# remove profile
+				frappe.db.set_value('Customer', self.name,{'photo':''})
   
 @frappe.whitelist()
 def get_customer_order_summary(customer):

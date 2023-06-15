@@ -1,13 +1,18 @@
 <template>
     <div>
+ 
+        <v-chip class="ml-1 mb-1" size="small" color="error" v-if="saleProduct.deleted_quantity > 0" variant="outlined">{{ `${$t('QTY Deleted')}: ${saleProduct.deleted_quantity}` }} </v-chip>
+        
 
         <v-btn
             v-if="saleProduct.sale_product_status == 'New' || sale.setting.pos_setting.allow_change_quantity_after_submit == 1"
             color="error" size="x-small" variant="tonal" icon="mdi-arrow-down"
             @click="sale.updateQuantity(saleProduct, saleProduct.quantity - 1)"
-            :disabled="saleProduct.quantity == 1"></v-btn>
-        <v-btn class="mx-1" size="small" variant="tonal" @click="sale.onChangeQuantity(saleProduct, gv)">{{
+            :disabled="saleProduct.quantity == 1"></v-btn>        
+            
+        <v-btn class="mx-1" size="small" variant="tonal" @click="onChangeQuantity">{{
             saleProduct.quantity }}</v-btn>
+
         <v-btn
             v-if="saleProduct.sale_product_status == 'New' || sale.setting.pos_setting.allow_change_quantity_after_submit == 1"
             color="success" size="x-small" variant="tonal" icon="mdi-arrow-up"
@@ -132,6 +137,13 @@ function onSaleProductFree() {
     }
 }
 
+
+function onChangeQuantity(){
+    if(sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == 'Submitted'){
+        return;
+    }
+    sale.onChangeQuantity(saleProduct, gv);
+}
 
 </script>
 <style lang="">

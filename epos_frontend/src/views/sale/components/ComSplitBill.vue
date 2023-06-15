@@ -213,6 +213,7 @@ function onSave() {
 
     //update parent id of sale product 
     (a.sale.sale_products||[]).forEach((sp)=>{
+        sp.deleted_quantity = 0;
         if(sp.parent != a.sale.name){
           sp.name = ""
         } 

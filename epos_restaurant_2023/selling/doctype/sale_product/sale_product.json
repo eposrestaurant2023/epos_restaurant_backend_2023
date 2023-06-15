@@ -22,6 +22,7 @@
   "product_tax_rule",
   "section_break_9",
   "quantity",
+  "deleted_quantity",
   "column_break_11",
   "price",
   "modifiers_price",
@@ -676,12 +677,19 @@
    "fieldname": "change_tax_setting_note",
    "fieldtype": "Data",
    "label": "Change Tax Setting Note"
+  },
+  {
+   "default": "0",
+   "fieldname": "deleted_quantity",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "Deleted Quantity"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-05-06 09:34:54.152012",
+ "modified": "2023-06-15 10:28:55.686954",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Product",

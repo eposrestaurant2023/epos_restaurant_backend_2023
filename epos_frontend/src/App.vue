@@ -104,7 +104,7 @@ if (!localStorage.getItem("pos_profile")) {
 					},
 					onSuccess(data) {
 						gv.workingDay = data.wroking_day;
-						gv.cashier_shift = data.cashier_shift;
+						gv.cashierShift = data.cashier_shift;
 					},
 					auto: true,
 				})

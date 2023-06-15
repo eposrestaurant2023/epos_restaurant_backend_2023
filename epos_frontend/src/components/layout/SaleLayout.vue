@@ -8,7 +8,7 @@
                         <v-icon >mdi-arrow-left</v-icon> 
                     </v-btn>
                     <v-btn icon  @click="onBack('Home')" v-else >
-                        <v-icon >mdi-home</v-icon> 
+                        <v-icon >mdi-home-outline</v-icon> 
                     </v-btn>
                 </template>
                 <v-app-bar-title>

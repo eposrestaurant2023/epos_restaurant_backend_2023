@@ -1,5 +1,5 @@
 <template>
-    <PageLayout :title="$t('Closed Receipt')" icon="mdi-note-outline" full>
+    <PageLayout :title="$t('Closed Receipt')" icon="mdi-file-document" full>
         <template #action>
             <v-btn v-if="mobile" icon="mdi-filter-outline" @click="onOpenDrawer"></v-btn>
         </template>

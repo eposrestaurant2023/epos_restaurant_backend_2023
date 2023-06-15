@@ -5,8 +5,12 @@
                 size="small">{{ $t('More') }}</v-chip>
         </template>
         <v-list>
+            <v-list-item prepend-icon="mdi-pencil" :title="$t('Edit')" v-if="!(sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || saleProduct.sale_product_status == 'Submitted')"
+                @click="onEditSaleProduct(saleProduct)"></v-list-item>
+
             <v-list-item prepend-icon="mdi-currency-usd-off" :title="$t('Free')" v-if="!saleProduct.is_free"
                 @click="onSaleProductFree()"></v-list-item>
+
             <v-list-item v-else @click="sale.onSaleProductCancelFree(saleProduct)">
                 <template v-slot:prepend>
                     <v-icon icon="mdi-currency-usd-off" color="error"></v-icon>
@@ -42,12 +46,12 @@
             <v-list-item prepend-icon="mdi-cash-100" :title="$t('Tax Setting')" v-if="saleProduct.product_tax_rule"  @click="sale.onSaleProductChangeTaxSetting(saleProduct,gv)">
             </v-list-item>
 
-            <v-list-item @click="onRemoveSaleProduct()">
+            <!-- <v-list-item @click="onRemoveSaleProduct()">
                 <template v-slot:prepend>
                     <v-icon icon="mdi-delete" color="error"></v-icon>
                 </template>
                 <v-list-item-title class="text-red-700">{{ $t('Delete') }}</v-list-item-title>
-            </v-list-item>
+            </v-list-item> -->
         </v-list>
     </v-menu>
 </template>
@@ -56,13 +60,15 @@
 import { defineProps, inject,keypadWithNoteDialog,i18n } from '@/plugin'
 import {createToaster} from '@meforma/vue-toaster';
 const { t: $t } = i18n.global;  
-const sale = inject('$sale')
-const numberFormat = inject('$numberFormat')
-const gv = inject("$gv")
-const tableLayout = inject("$tableLayout")
+
+const product = inject('$product');
+const sale = inject('$sale');
+const numberFormat = inject('$numberFormat');
+const gv = inject("$gv");
+const tableLayout = inject("$tableLayout");
 const props = defineProps({
     saleProduct: Object
-})
+});
 
 const toaster = createToaster({ position: "top" });
 function onRemoveNote() {
@@ -110,6 +116,7 @@ function onRemoveSaleProduct() {
                         }                       
                             
                         props.saleProduct.deleted_item_note = result.note;
+                        props.saleProduct.deleted_quantity = (props.saleProduct.deleted_quantity||0) + result.number;
                         sale.onRemoveSaleProduct(props.saleProduct, result.number);  
 
                         let msg = `User ${v.user} delete Item: ${props.saleProduct.product_code}-${props.saleProduct.product_name}.${props.saleProduct.portion} ${props.saleProduct.modifiers}`; 
@@ -150,6 +157,30 @@ function onRemoveSaleProduct() {
 
     }
 }
+
+function onEditSaleProduct(sp) { 
+    if (!sale.isBillRequested()) {
+        if (sp.sale_product_status == "New" || sale.setting.pos_setting.allow_change_quantity_after_submit == 1) {
+            const is_has_product = product.setSelectedProductByMenuID(sp.menu_product_name);
+            if(is_has_product){                 
+                product.setModifierSelection(sp);
+                if(sp.is_combo_menu && sp.use_combo_group){
+                    product.setComboGroupSelection(sp)
+                }
+
+                if ((sp.is_combo_menu && sp.use_combo_group) || product.modifiers.length > 0 || product.prices.filter(r => r.price_rule == sale.setting.price_rule && (r.branch == sale.setting.business_branch || r.branch == '')).length > 1){
+                    sale.OnEditSaleProduct(sp)
+                }
+                else{
+                    toaster.warning("msg.This item has no option to edit")
+                }
+            }
+        } else {
+            toaster.warning("msg.Submitted order is not allow to edit");
+        }
+    }
+}
+
 
 function onSaleProductDiscount(discount_type) {
     if(props.saleProduct.allow_discount){     

@@ -18,6 +18,8 @@
                         <v-btn class="m-1" color="success" @click="onCash('Cash In')" :size="mobile ? 'small' : 'default'">{{$t('Cash In')}}</v-btn>
                         <v-btn class="m-1" color="error" @click="onCash('Cash Out')" :size="mobile ? 'small' : 'default'">{{$t('Cash Out')}}</v-btn>
                         <v-btn class="m-1" color="primary" @click="onOpenCashDrawer" :size="mobile ? 'small' : 'default'" v-if="isWindow">{{$t('Open Cash Drawer')}}</v-btn>
+
+                        <v-btn class="m-1" color="error" @click="onClose" :size="mobile ? 'small' : 'default'">{{$t('Close')}}</v-btn>
                     </div>
                 </div>
             </div>
@@ -47,7 +49,7 @@
                                     </div>
                                 </div>
                                 <div class="text-right text-sm">
-                                    <div><v-icon icon="mdi-account" size="x-small"/> {{t.owner}}</div>
+                                    <div><v-icon icon="mdi-account" size="x-small"/> {{t.created_by}}</div>
                                     <div>
                                         <v-chip size="x-small" v-if="t.transaction_status == 'Cash Out'" color="error">{{$t('Cash Out')}}</v-chip>
                                         <v-chip size="x-small" v-else-if="t.transaction_status == 'Cash In'" color="success">{{$t('Cash In')}}</v-chip>
@@ -74,7 +76,8 @@ import moment from '@/utils/moment.js';
 import PageLayout from '@/components/layout/PageLayout.vue';
 import ComCashDrawerKPI from './components/ComCashDrawerKPI.vue';
 import { addCashDrawerModalDialog, createResource, ref, onMounted, inject, createDocumentResource, createToaster, useRouter } from '@/plugin'
-import { useDisplay } from 'vuetify'
+import { useDisplay } from 'vuetify';
+
 const { mobile } = useDisplay()
 const toaster = createToaster({ position: 'top' })
 let transactions = ref({})
@@ -154,6 +157,10 @@ function onLoadTrancation(cashier_shift) {
         },
 
     })
+}
+
+function onClose(){
+    router.push({name:"Home"});
 }
 
 //open cashdrawer
