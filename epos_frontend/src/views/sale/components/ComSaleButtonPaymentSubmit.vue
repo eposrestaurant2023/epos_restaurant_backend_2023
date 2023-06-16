@@ -51,7 +51,11 @@ const toaster = createToaster({ position: 'top' });
 const device_setting = JSON.parse(localStorage.getItem("device_setting"))
 
 sale.vue.$onKeyStroke('F12', (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    if(gv.device_setting.show_option_payment==0){
+        return;
+    }
+    
     if(sale.dialogActiveState==false){
       onPayment();
     } 

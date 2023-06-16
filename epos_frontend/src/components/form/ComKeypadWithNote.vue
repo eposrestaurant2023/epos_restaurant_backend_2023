@@ -6,17 +6,22 @@
         <template #content>
             <div class="p-2">
             <v-row>
-                <v-col cols="12" :md="params.data.category_note_name ? 5 : 12">
-                    <div class="mb-2">
+
+                <template v-if="params.data.hide_keypad==undefined">
+                    <v-col cols="12" :md="params.data.category_note_name ? 5 : 12">
                         <div class="mb-2">
-                            <ComInput v-model="price" type="number" keyboard class="mb-2" :label="params.data.label_input || 'Enter Number'"
-                                :required-autofocus="true" />
-                            <ComInlineInputNumber :hide-input="true" v-model="price" :disabled="isDeleteNote"
-                                v-if="!mobile" />
+                            <div class="mb-2">
+                                <ComInput v-model="price" type="number" keyboard class="mb-2" :label="params.data.label_input || 'Enter Number'"
+                                    :required-autofocus="true" />
+                                <ComInlineInputNumber :hide-input="true" v-model="price" :disabled="isDeleteNote"
+                                    v-if="!mobile" />
+                            </div>
                         </div>
-                    </div>
-                </v-col>
-                <v-col cols="12" md="7" v-if="params.data.category_note_name">
+                    </v-col>
+                </template>                
+
+
+                <v-col cols="12" :md="params.data.hide_keypad==undefined?'7':'12'" v-if="params.data.category_note_name">
                     <v-card title="Note">
                         <v-card-text>
                             <ComInput :autofocus="!mobile" keyboard v-model="search" v-debounce="onSearch"

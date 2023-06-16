@@ -109,13 +109,27 @@ const { ctrl_t } = useMagicKeys({
 
 whenever(ctrl_p, () => onChangePriceRule())
 whenever(ctrl_r, () => onChangeTaxSetting())
-whenever(ctrl_u, () => onAddCommission())
-whenever(ctrl_q, () => onQuickPay())
+whenever(ctrl_u, () => {
+  if(gv.device_setting.show_button_commission==0){
+    return;
+  }
+  onAddCommission();
+})
+whenever(ctrl_q, () =>{
+  if(gv.device_setting.show_option_payment==0){
+    return;
+  }
+  onQuickPay();
+})
 
 
 
-sale.vue.$onKeyStroke('F10',(e)=>{
-  e.preventDefault()
+sale.vue.$onKeyStroke('F10',(e)=>{ 
+  e.preventDefault();
+    if(gv.device_setting.is_order_station==1){
+        return;
+    }
+
   if(sale.dialogActiveState==false){
     onSaleDiscount('Percent')
   }
@@ -123,7 +137,11 @@ sale.vue.$onKeyStroke('F10',(e)=>{
 })
 
 sale.vue.$onKeyStroke('F11',(e)=>{
-  e.preventDefault()
+  e.preventDefault();
+    if(gv.device_setting.is_order_station==1){
+        return;
+    }
+
   if(sale.dialogActiveState==false){
     onSaleDiscount('Amount')
   }

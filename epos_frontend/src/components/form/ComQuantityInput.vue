@@ -20,9 +20,10 @@
     </div>
 </template>
 <script setup>
-import { inject,i18n } from '@/plugin'
+import { inject,i18n,computed } from '@/plugin'
 import {createToaster} from '@meforma/vue-toaster';
 
+const numberFormat = inject('$numberFormat');
 const { t: $t } = i18n.global;  
 const toaster = createToaster({ position: "top" })
 const props = defineProps({
@@ -54,35 +55,57 @@ if (props.saleProduct.selected) {
         }
     })
 }
-sale.vue.$onKeyStroke('F4', (e) => {
-    e.preventDefault()
-    if (props.saleProduct.selected && sale.dialogActiveState == false) {
-        if (!sale.isBillRequested()) {
-            gv.authorize("change_item_price_required_password", "change_item_price", "change_item_price_required_note", "Change Item Price Note", props.saleProduct.product_code).then((v) => {
-                if (v) {
-                    props.saleProduct.change_price_note = v.note
-                    sale.dialogActiveState = true;
-                    sale.onChangePrice(props.saleProduct)
-                }
-            });
-        }
 
+const allow_change_price = computed(()=>{
+    if(gv.device_setting.is_order_station == 1 && gv.device_setting.show_button_change_price_on_order_station==1)
+    {
+        return true;
+    }
+    else if(gv.device_setting.is_order_station==0 ){
+        return true;
+    }
+
+    return false;
+});
+
+sale.vue.$onKeyStroke('F4', (e) => {
+    e.preventDefault();
+    if(!allow_change_price){
+        return;
+    }    
+   
+    if (props.saleProduct.selected && sale.dialogActiveState == false) {
+        sale.dialogActiveState = true;
+        sale.onChangePrice(props.saleProduct,gv, numberFormat);
     }
 })
 
 sale.vue.$onKeyStroke('F5', (e) => {
-    e.preventDefault()
+    e.preventDefault();
+
+    if(gv.device_setting.is_order_station==1){
+        return;
+    }
+    
     onDiscountClick("Percent")
 })
 
 
 sale.vue.$onKeyStroke('F6', (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    if(gv.device_setting.is_order_station==1){
+        return;
+    }
+
     onDiscountClick("Amount")
 })
 
 sale.vue.$onKeyStroke('F7', (e) => {
-    e.preventDefault();
+    e.preventDefault();  
+    if(gv.device_setting.is_order_station==1){
+        return;
+    }
+    
     if(props.saleProduct.selected && sale.dialogActiveState == false){
         
         if(!props.saleProduct.is_free){

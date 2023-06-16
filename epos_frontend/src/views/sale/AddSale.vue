@@ -28,6 +28,7 @@
                     <div class="mt-auto">
                         <div class="-mx-1 bg-blue-100 rounded-tl-md rounded-tr-md text-xs">
                             <ComSaleSummaryList />
+                            <ComSaleKeyPad/>
                             <ComSaleButtonPaymentSubmit />
                         </div>
                     </div>
@@ -47,6 +48,7 @@ import ComSmallAddSale from './components/mobile_screen/ComSmallAddSale.vue';
 import ComGroupSaleProductList from './components/ComGroupSaleProductList.vue';
 import ComSaleSummaryList from './components/ComSaleSummaryList.vue';
 import ComSaleButtonPaymentSubmit from './components/ComSaleButtonPaymentSubmit.vue';
+import ComSaleKeyPad from './components/ComSaleKeypad.vue';
 import { createToaster } from '@meforma/vue-toaster';
 import { useDisplay } from 'vuetify';
 

@@ -1,13 +1,12 @@
 import Enumerable from 'linq'
 import moment from '@/utils/moment.js';
-import { noteDialog, printPreviewDialog,changeTaxSettingModal,SaleProductComboMenuGroupModal, keyboardDialog, createResource, 
+import { noteDialog, printPreviewDialog,changeTaxSettingModal,SaleProductComboMenuGroupModal, keyboardDialog,keypadWithNoteDialog, createResource,
     createDocumentResource, addModifierDialog, useRouter, confirmDialog, saleProductDiscountDialog,i18n } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
 import { webserver_port } from "../../../../../sites/common_site_config.json"
 import socket from '@/utils/socketio';
 
 const { t: $t } = i18n.global;
-
 
 const toaster = createToaster({ position: "top" });
 
@@ -323,6 +322,7 @@ export default class Sale {
     }
 
     clearSelected() {
+       
         Enumerable.from(this.sale.sale_products).where(`$.selected==true`).forEach("$.selected=false");
     }
 
@@ -350,7 +350,8 @@ export default class Sale {
         sp.total_discount = sp.discount_amount + sp.sale_discount_amount;
 
         this.onCalculateTax(sp);
-        sp.amount = sp.sub_total - sp.total_discount + sp.total_tax;
+        sp.amount = sp.sub_total - sp.discount_amount + sp.total_tax;
+        sp.total_revenue = (sp.sub_total - sp.total_discount) + sp.total_tax;
 
         //set property for re render comhappyhour check
         sp.is_render = true;
@@ -501,18 +502,122 @@ export default class Sale {
         this.updateSaleSummary();
     }
 
-    async onChangePrice(sp) {
-        const result = await keyboardDialog({ title:$t("Change Price"), type: 'number', value: sp.price });
-        if (result != false) {
-            
-            sp.price = parseFloat(this.getNumber(result));
-            this.updateSaleProduct(sp);
-            this.updateSaleSummary();
+
+    async onRemoveItem(sp,gv,numberFormat, input=(-99999)){
+        if (!this.isBillRequested()) {        
+            if (sp.sale_product_status == 'Submitted') {
+                gv.authorize("delete_item_required_password", "delete_item","delete_item_required_note", "Delete Item Note", sp.product_code, true).then(async (v) => {
+                    if (v) {
+                        //props.saleProduct.delete_item_note = v.note 
+                        let result = false;                     
+                        result = await keypadWithNoteDialog({ 
+                            data: { 
+                                hide_keypad:input==(-99999)?undefined:true,
+                                title: `${$t('Delete Item')} ${sp.product_name}`,
+                                label_input: $t('Enter Quantity'),
+                                note: "Delete Item Note",
+                                category_note_name: v.category_note_name,
+                                number: input==(-99999)? sp.quantity:input,
+                                product_code: sp.product_code
+                            } 
+                        });                            
+                      
+                       
+                      
+                        if(result){
+                            if(sp.quantity < result.number){
+                                result.number = sp.quantity;
+                            } 
+                              
+                            sp.deleted_item_note = result.note;
+                            sp.deleted_quantity = (sp.deleted_quantity||0) + result.number;
+                            this.onRemoveSaleProduct(sp, result.number);  
+    
+                            let msg = `User ${v.user} delete Item: ${sp.product_code}-${sp.product_name}.${sp.portion} ${sp.modifiers}`; 
+                            msg += `, Qty: ${result.number}`;
+                            msg += `, Amount: ${ numberFormat(gv.getCurrnecyFormat,sp.amount)}`;
+                            msg += `${result.note==""?'':', Reason: '+result.note }`;
+                            this.auditTrailLogs.push({
+                                doctype:"Comment",
+                                subject:"Delete Sale Product",
+                                comment_type:"Comment",
+                                reference_doctype:"Sale",
+                                reference_name:"New",
+                                comment_by:v.user,
+                                content:msg
+                            })  ;                    
+    
+                        } 
+                    }
+                });
+            } else {
+    
+                const u = JSON.parse(localStorage.getItem('make_order_auth')); 
+                sale.onRemoveSaleProduct(sp, sp.quantity);
+    
+                let msg = `User ${u.name} delete Item: ${sp.product_code}-${sp.product_name}.${sp.portion} ${sp.modifiers}`; 
+                msg += `, Qty: ${sp.quantity}`;
+                msg += `, Amount: ${ numberFormat(gv.getCurrnecyFormat,sp.amount)}`;
+                this.auditTrailLogs.push({
+                    doctype:"Comment",
+                    subject:"Delete Sale Product",
+                    comment_type:"Comment",
+                    reference_doctype:"Sale",
+                    reference_name:"New",
+                    comment_by: u.name,
+                    content:msg
+                }) ;
+            }
+    
         }
-        this.dialogActiveState=false;
+    }
+
+    async onChangePrice(sp,gv,numberFormat, input=(-99999)) {
+        if (!this.isBillRequested()) {
+            gv.authorize("change_item_price_required_password", "change_item_price", "change_item_price_required_note", "Change Item Price Note", sp.product_code).then(async(v) => {
+                if (v) {
+                    let result = false;
+                    if(input==(-99999)){
+                        input = await keyboardDialog({ title:$t("Change Price"), type: 'number', value: sp.price });
+                    }
+                    else{
+                        result = input;
+                    }
+                    
+                    if (result != false) {  
+                        const price = sp.price;
+                        sp.change_price_note = v.note
+                        sp.price = parseFloat(this.getNumber(result));  
+
+                        this.updateSaleProduct(sp);
+                        this.updateSaleSummary();
+
+                        let msg = `User ${v.user} Change Price on Item: ${sp.product_code}-${sp.product_name}.${sp.portion} ${sp.modifiers}`; 
+                        msg += `, from: ${numberFormat(gv.getCurrnecyFormat,price)} to ${numberFormat(gv.getCurrnecyFormat,sp.price)}`;
+                        msg += `${v.note==""?'':', Reason: '+v.note }`;
+                        this.auditTrailLogs.push({
+                            doctype:"Comment",
+                            subject:"Delete Sale Product",
+                            comment_type:"Comment",
+                            reference_doctype:"Sale",
+                            reference_name:"New",
+                            comment_by:v.user,
+                            content:msg
+                        }) ;                        
+
+                    }
+                    this.dialogActiveState=false; 
+                   
+                }
+            });
+        } 
     }
     
     async onChangeQuantity(sp, gv) {
+        if(this.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == 'Submitted'){
+            return;
+        }
+
         if (!this.isBillRequested()) {
             const result = await keyboardDialog({ title:$t("Change Quantity"), type: 'number', value: sp.quantity });
             if (result) {

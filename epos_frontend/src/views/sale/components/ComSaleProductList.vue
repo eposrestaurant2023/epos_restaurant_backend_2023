@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div v-if="sp.selected && !readonly" class="-mx-1 flex pt-1"> 
-                        <v-chip v-if="show_button_change_price()"  color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"  @click="onChangePrice(sp)">{{ $t('Price') }}</v-chip>
+                        <v-chip v-if="show_button_change_price"  color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"  @click="sale.onChangePrice(sp,gv,numberFormat)">{{ $t('Price') }}</v-chip>
                        
                         <v-chip
                             :disabled="sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == 'Submitted'"
@@ -81,7 +81,7 @@
                             @click="onReorder(sp)">{{ $t('Re-Order') }}</v-chip>   
                         
                             <v-chip color="red" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
-                            @click="onRemoveSaleProduct(sp)">{{ $t('Delete') }}</v-chip>
+                            @click="sale.onRemoveItem(sp,gv,numberFormat)">{{ $t('Delete') }}</v-chip>
 
 
 
@@ -93,7 +93,7 @@
     </v-list>
 </template>
 <script setup>
-import { inject, defineProps, createToaster,keypadWithNoteDialog,i18n } from '@/plugin'
+import {computed, inject, defineProps, createToaster,keypadWithNoteDialog,i18n } from '@/plugin'
 
 import ComSaleProductButtonMore from './ComSaleProductButtonMore.vue';
 import ComQuantityInput from '../../../components/form/ComQuantityInput.vue';
@@ -139,7 +139,7 @@ function onEditSaleProduct(sp) {
 }
 
 
-function show_button_change_price(){
+const show_button_change_price = computed(()=>{
     if(gv.device_setting.is_order_station == 1 && gv.device_setting.show_button_change_price_on_order_station==1)
     {
         return true;
@@ -149,87 +149,7 @@ function show_button_change_price(){
     }
 
     return false;
-}
-
-//remove sale product
-
-function onRemoveSaleProduct(sp) { 
-    if (!sale.isBillRequested()) {        
-        if (sp.sale_product_status == 'Submitted') {
-            gv.authorize("delete_item_required_password", "delete_item","delete_item_required_note", "Delete Item Note", sp.product_code, true).then(async (v) => {
-                if (v) {
-                    //props.saleProduct.delete_item_note = v.note 
-                    const result = await keypadWithNoteDialog({ 
-                        data: { 
-                            title: `${$t('Delete Item')} ${sp.product_name}`,
-                            label_input: $t('Enter Quantity'),
-                            note: "Delete Item Note",
-                            category_note_name: v.category_note_name,
-                            number: sp.quantity,
-                            product_code: sp.product_code
-                        } 
-                    });
-                  
-                    if(result){
-                        if(sp.quantity < result.number){
-                            result.number = sp.quantity;
-                        } 
-                          
-                        sp.deleted_item_note = result.note;
-                        sp.deleted_quantity = (sp.deleted_quantity||0) + result.number;
-                        sale.onRemoveSaleProduct(sp, result.number);  
-
-                        let msg = `User ${v.user} delete Item: ${sp.product_code}-${sp.product_name}.${sp.portion} ${sp.modifiers}`; 
-                        msg += `, Qty: ${result.number}`;
-                        msg += `, Amount: ${ numberFormat(gv.getCurrnecyFormat,sp.amount)}`;
-                        msg += `${result.note==""?'':', Reason: '+result.note }`;
-                        sale.auditTrailLogs.push({
-                            doctype:"Comment",
-                            subject:"Delete Sale Product",
-                            comment_type:"Comment",
-                            reference_doctype:"Sale",
-                            reference_name:"New",
-                            comment_by:v.user,
-                            content:msg
-                        })  ;                    
-
-                    } 
-                }
-            });
-        } else {
-
-            const u = JSON.parse(localStorage.getItem('make_order_auth')); 
-            sale.onRemoveSaleProduct(sp, sp.quantity);
-
-            let msg = `User ${u.name} delete Item: ${sp.product_code}-${sp.product_name}.${sp.portion} ${sp.modifiers}`; 
-            msg += `, Qty: ${sp.quantity}`;
-            msg += `, Amount: ${ numberFormat(gv.getCurrnecyFormat,sp.amount)}`;
-            sale.auditTrailLogs.push({
-                doctype:"Comment",
-                subject:"Delete Sale Product",
-                comment_type:"Comment",
-                reference_doctype:"Sale",
-                reference_name:"New",
-                comment_by: u.name,
-                content:msg
-            }) ;
-        }
-
-    }
-}
-
-//end remove sale product
-
-function onChangePrice(sp) {
-    if (!sale.isBillRequested()) {
-        gv.authorize("change_item_price_required_password", "change_item_price", "change_item_price_required_note", "Change Item Price Note", sp.product_code).then((v) => {
-            if (v) {
-                sp.change_price_note = v.note
-                sale.onChangePrice(sp);
-            }
-        });
-    }
-}
+});  
 
 function onReorder(sp) {
     if (!sale.isBillRequested()) {
