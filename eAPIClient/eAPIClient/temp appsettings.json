@@ -1,20 +1,20 @@
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Data Source=192.168.10.13,1437;Initial Catalog=epos_restaurant_client_2021_db;Persist Security Info=True;User ID=sa;Password=admin@eSoftix; MultipleActiveResultSets=true;"
+    "DefaultConnection": "Data Source=36.37.155.101,1444;Initial Catalog=epos_osmach_food_court_client_db;Persist Security Info=True;User ID=sa;Password=@dmin$ESTC#; MultipleActiveResultSets=true;"
   },
-  "server_api_url": "http://192.168.10.13:9697/restaurant_api/api/",
+  "server_api_url": "http://36.37.155.101:2222/admin_api/api/",
   "autherize_key": "c3luYzpXWFNrZ2M1ajJwM3Q=",
-  "business_branch_id": "4E573138-30BB-428C-9E32-08D99EA13C0F",
-  "business_branch_name": "ePOS - Dev",
+  "business_branch_id": "97D993D5-A10C-4337-2F91-08DAF769C317",
+  "business_branch_name": "O'smach Food Court",
   "print_request_path": "C:\\Program Files\\ESTC\\ePOS\\watcher",
-  "terminal_pos_receipt_path": "C:\\Projects\\ePOSRetaurant2021\\eAPIClient\\Reporting\\RDLC",
+  "terminal_pos_receipt_path": "C:\\www\\client_api\\terminal-pos-rdlc",
   "terminal_pos_receipt_setting": [
     {
       "receipt_name": "Invoice En",
       "invoice_file_name": "rpt_invoice_en",
       "receipt_file_name": "rpt_receipt_en",
-      "invoice_copies": 1,
-      "receipt_copies": 1,
+      "invoice_copies": 2,
+      "receipt_copies": 2,
       "feed_papper": 3
     },
     {

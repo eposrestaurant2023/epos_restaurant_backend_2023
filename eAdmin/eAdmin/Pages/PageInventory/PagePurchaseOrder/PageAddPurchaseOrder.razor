@@ -46,7 +46,7 @@
                         <span class="title">@lang["PO Products"]</span>
                     </h3>
                     <Spacing Number="10" /> 
-                    <ComPurchaseOrderProductInformation @bind-model="@model" @bind-model:event="modelChanged" />
+                    <ComPurchaseOrderProductInformation model="@model" modelChanged="@OnModelChanged"/>
                     <hr />
                     <Spacing Number="10" />
                     <ComPurchaseOrderSummary is_allow_discount="true" @bind-model="@model" OnTotalPaymentClick="(() => is_show_add_payment = true)" />
@@ -55,11 +55,11 @@
         </PageBody>
         <PageFooter>
             <FooterCenter>
-                <ComSavingFormButton is_loading="@is_saving" disabled_save_button="@(model.active_purchase_order_products.Count()<=0)" is_show_save_action="true" OnSave="@OnSaveClick"/>
-            </FooterCenter>
-            <FooterRight>
+                <ComSavingFormButton is_loading="@is_saving" disabled_save_button="@(model.active_purchase_order_products.Count()<=0)" is_show_save_action="true" OnSave="@OnSaveClick" />
+                <Spacing Number="10" />
                 <strong class="uk-margin-small-right">@lang["Total Amount"]</strong> <span class="grand-total">@model.total_amount.ToString(gv.currency_format)</span>
-            </FooterRight>
+            </FooterCenter>
+           
         </PageFooter>
     </PageContainer>
 </Com>

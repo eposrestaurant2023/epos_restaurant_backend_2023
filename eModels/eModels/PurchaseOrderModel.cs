@@ -158,7 +158,7 @@ namespace eModels
         {
             get
             {
-                if (active_purchase_order_products.Count() > 0)
+                if (active_purchase_order_products.Any())
                 {
                     _total_amount = sub_total - grand_total_discount;
                 }

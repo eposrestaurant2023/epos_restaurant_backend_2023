@@ -133,6 +133,7 @@ inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.busines
 left join tbl_customer c on c.id = s.customer_id 
 where 
 	s.is_deleted = 0 and 
+sp.is_deleted = 0 and
 	s.working_date between @start_date and @end_date and 
 	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
 	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 

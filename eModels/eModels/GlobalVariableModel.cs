@@ -294,6 +294,11 @@ namespace eModels
             }
         }
 
+        public CurrencyModel get_currency_by_id(int id)
+        { 
+            return currencies.Where(r =>r.id ==id).FirstOrDefault();
+        }
+
         public string second_currency_format
         {
             get

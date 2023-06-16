@@ -12,7 +12,7 @@
     <TargetDatasetFolder>LifeSnookerReport/Datasets</TargetDatasetFolder>
     <TargetDatasourceFolder>LifeSnookerReport/DataSources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
-    <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
+    <TargetServerURL>http://192.168.10.20:31401/reportserver</TargetServerURL>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
     <FullPath>DebugLocal</FullPath>
@@ -85,7 +85,9 @@
     <Report Include="rptCashierShift_SaleTransaction.rdl" />
     <Report Include="rptClosedDaySaleItem.rdl" />
     <Report Include="rptCustomerList.rdl" />
+    <Report Include="rptDailySaleCouponTransaction.rdl" />
     <Report Include="rptDailySaleSummary.rdl" />
+    <Report Include="rptDailySaleTaxReverseByRevenueGroup.rdl" />
     <Report Include="rptExpenseList.rdl" />
     <Report Include="rptFOCSaleSummaryByCustomer.rdl" />
     <Report Include="rptFOCSaleTransaction.rdl" />
@@ -122,6 +124,7 @@
     <Report Include="rptSaleSummaryByPaymentType.rdl" />
     <Report Include="rptSaleSummaryByProductCategory.rdl" />
     <Report Include="rptSaleSummaryByProductGroup.rdl" />
+    <Report Include="rptSaleTaxReverseSummary.rdl" />
     <Report Include="rptSaleTaxSummary.rdl" />
     <Report Include="rptSaleTransaction.rdl" />
     <Report Include="rptStockTakeList.rdl" />

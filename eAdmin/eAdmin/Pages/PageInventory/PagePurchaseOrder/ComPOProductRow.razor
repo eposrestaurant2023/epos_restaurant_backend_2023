@@ -44,10 +44,8 @@
     else
     {
         <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@purchase_order_product.quantity" textChanged="@QuantityChange" text_format="@gv.quantity_format" width="100px" />
+        
     }
-
-
-
 </TdCenter>
 
 <TdCenter>
@@ -55,6 +53,20 @@
 </TdCenter>
 <TdRight>
     <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@purchase_order_product.cost" textChanged="@CostChange" text_format="@gv.currency_format" width="100px" />
+
+    @if (model.business_branch_id != Guid.Empty)
+    { 
+        foreach (var c in business_branch_currencies)
+        {
+            <div  style="margin-top: 10px">
+                <span style="margin-right: 10px">
+                    @(gv.get_currency_by_id(c.currency_id).symbol)
+                </span>
+                <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@c.purchase_order_cost" textChanged="@((v)=>onOtherCurrencyPriceChange(c, v))"  text_format="@(gv.get_currency_by_id(c.currency_id).currency_format)" width="100px" />
+      
+            </div>
+        }
+    }
 </TdRight>
 <TdCenter>
     <Com is_visible="@(purchase_order_product.is_allow_discount)">
@@ -72,9 +84,47 @@
     </Com>
 </TdCenter> 
 <TdRight>
-    @purchase_order_product.total_amount.ToString(gv.currency_format)
+    <div class="uk-flex uk-flex-middle">
+        @if (purchase_order_product.is_fulfilled)
+        {
+            @purchase_order_product.total_amount.ToString(gv.currency_format)
+        }
+        else
+        {
+
+            @if (purchase_order_product.is_input_total_amount)
+            {
+                <div>
+                    <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@purchase_order_product.temp_total_amount" textChanged="@tempAmountChange" text_format="@gv.currency_format" width="100px" />
+                    @if (model.business_branch_id != Guid.Empty)
+                    {
+                        foreach (var c in business_branch_currencies)
+                        {
+                            <div style="margin-top: 10px">
+                                <span style="margin-right: 10px">
+                                    @(gv.get_currency_by_id(c.currency_id).symbol)
+                                </span>
+                                <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@c.purchase_order_total_cost" textChanged="@((v)=>tempOtherCurrencyAmountChange(c, v))" text_format="@(gv.get_currency_by_id(c.currency_id).currency_format)" width="100px" />
+
+                            </div>
+                        }
+                    }
+                </div>
+            }
+            else
+            {
+                @purchase_order_product.total_amount.ToString(gv.currency_format)
+                <div style="margin-left: 20px">
+                    <Icon OnClick="@onEditAmount" icon="edit" />
+                </div>
+            }
+        }
+    </div>
 </TdRight>
-<td><Icon icon="copy" OnClick="@OnClone" className="icon-clone-product" title="@lang["Clone Product"]" /> <Icon icon="delete" OnClick="@OnRemove" className="icon-remove-product" title="@lang["Remove Product"]" /></td>
+<td>
+    <Icon icon="copy" OnClick="@OnClone" className="icon-clone-product" title="@lang["Clone Product"]" /> 
+    <Icon icon="delete" OnClick="@OnRemove" className="icon-remove-product" title="@lang["Remove Product"]" />
+</td>
 
 
 @code{
@@ -86,25 +136,108 @@
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
 
 
+    public List<BusinessBranchCurrencyModel> business_branch_currencies
+    {
+        get
+        {
+            var val = gv.currencies.Where((r => !r.is_main)).ToList().SelectMany(x => x.business_branch_currencies.Where(r => r.business_branch_id == model.business_branch_id)).ToList();
+            var data = JsonSerializer.Deserialize<List<BusinessBranchCurrencyModel>>(JsonSerializer.Serialize(val));
+
+            data.ForEach((x) =>
+            {
+                x.purchase_order_cost = Convert.ToDecimal(Convert.ToDouble(purchase_order_product.cost) * x.exchange_rate);
+                x.purchase_order_total_cost = (x.purchase_order_cost * purchase_order_product.quantity) - Convert.ToDecimal(Convert.ToDouble(purchase_order_product.total_discount) * x.exchange_rate);
+            });
+
+            return data;
+        }
+    }
+
+
+    protected override void OnInitialized()
+    {
+        _onOtherCurrencyChanged();
+        base.OnInitialized();
+    }
+
     async Task QuantityChange(decimal qty)
     {
         purchase_order_product.quantity = qty;
+        purchase_order_product.temp_total_amount = purchase_order_product.sub_total - purchase_order_product.total_discount;
+        _onOtherCurrencyChanged();
         await purchase_order_productChanged.InvokeAsync(purchase_order_product);
     }
     async Task CostChange(decimal _cost)
     {
         purchase_order_product.cost = _cost;
+        purchase_order_product.temp_total_amount = purchase_order_product.sub_total - purchase_order_product.total_discount;
+
+        _onOtherCurrencyChanged();
         await purchase_order_productChanged.InvokeAsync(purchase_order_product);
     }
     async Task DiscountChange(decimal discount)
     {
         purchase_order_product.discount = discount;
+
+        purchase_order_product.temp_total_amount = purchase_order_product.sub_total - purchase_order_product.total_discount;
+
+        _onOtherCurrencyChanged();
+
         await purchase_order_productChanged.InvokeAsync(purchase_order_product);
     }
 
     async Task DiscountTypeChange(string discount_type)
     {
         purchase_order_product.discount_type = discount_type;
+        purchase_order_product.temp_total_amount = purchase_order_product.sub_total - purchase_order_product.total_discount;
+
+        _onOtherCurrencyChanged();
         await purchase_order_productChanged.InvokeAsync(purchase_order_product);
+    }
+    async Task tempAmountChange(decimal amount)
+    {
+        purchase_order_product.temp_total_amount = amount;
+        purchase_order_product.cost = (amount / purchase_order_product.quantity) / (purchase_order_product.discount_type == "Percent" ? 1 - (purchase_order_product.discount / 100) : purchase_order_product.discount);
+
+        _onOtherCurrencyChanged();
+        await purchase_order_productChanged.InvokeAsync(purchase_order_product);
+    }
+
+    async Task onEditAmount()
+    {
+        purchase_order_product.is_input_total_amount = !purchase_order_product.is_input_total_amount;
+        purchase_order_product.temp_total_amount = purchase_order_product.sub_total - purchase_order_product.total_discount;
+        _onOtherCurrencyChanged();
+    }
+
+
+    async Task onOtherCurrencyPriceChange(BusinessBranchCurrencyModel curr, decimal amount)
+    {
+        purchase_order_product.cost = Convert.ToDecimal( Convert.ToDouble(amount)  /(curr.exchange_rate==0?1: curr.exchange_rate));
+        purchase_order_product.temp_total_amount = purchase_order_product.total_amount;
+        curr.purchase_order_cost = amount;
+
+        _onOtherCurrencyChanged();
+        await purchase_order_productChanged.InvokeAsync(purchase_order_product);
+    }
+
+    async Task tempOtherCurrencyAmountChange(BusinessBranchCurrencyModel curr, decimal amount)
+    {
+        var _amount = Convert.ToDecimal(Convert.ToDouble(amount) / (curr.exchange_rate == 0 ? 1 : curr.exchange_rate));
+        purchase_order_product.temp_total_amount = _amount;
+        purchase_order_product.cost = (_amount / purchase_order_product.quantity) / (purchase_order_product.discount_type == "Percent" ? 1 - (purchase_order_product.discount / 100) : purchase_order_product.discount);
+
+        _onOtherCurrencyChanged();
+
+        await purchase_order_productChanged.InvokeAsync(purchase_order_product);
+    }
+
+    private void _onOtherCurrencyChanged()
+    {
+        business_branch_currencies.ForEach((x) =>
+        {
+            x.purchase_order_cost = Convert.ToDecimal(Convert.ToDouble(purchase_order_product.cost) * x.exchange_rate);
+            x.purchase_order_total_cost = (x.purchase_order_cost * purchase_order_product.quantity) - Convert.ToDecimal(Convert.ToDouble(purchase_order_product.total_discount) * x.exchange_rate);
+        });
     }
 }

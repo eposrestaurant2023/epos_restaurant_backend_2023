@@ -132,7 +132,7 @@ namespace eAdmin.Shared
                     api_url = api_url + "product_categories,";
                     api_url = api_url + "customer_groups,";
                     api_url = api_url + "settings,";
-                    api_url = api_url + "currencies,";
+                    api_url = api_url + "currencies($expand=business_branch_currencies),";
                     api_url = api_url + "business_info,";
                     api_url = api_url + "bussiness_branches($expand=business_branch_prices;$filter=is_deleted eq false and status eq true),";
                     api_url = api_url + "roles,";

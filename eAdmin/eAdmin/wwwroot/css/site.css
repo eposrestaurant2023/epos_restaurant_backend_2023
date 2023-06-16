@@ -1385,10 +1385,28 @@ a, a:hover {
     padding: 20px;
     color: #fff;
 }
-
-    .bg_kpi.bg_today_Order_mtd {
-        background: #dfaa66;
-    }
+.coupon-kpi { 
+    padding: 8px;
+    color: #fff;
+}
+.kpi-sc {
+    background-color: #5899dc
+}
+.total-coupon {
+    background-color: #ffb444
+}
+.kpi-suc {
+    background-color: cornflowerblue
+}
+.kpi-refund {
+    background-color: #ff7b48
+}
+.kpi-bc {
+    background-color: #ff2c2c
+}
+.bg_kpi.bg_today_Order_mtd {
+    background: #dfaa66;
+}
     .bg_kpi.bg_today_order {
         background: #7bb288;
     }

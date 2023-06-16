@@ -42,7 +42,7 @@ namespace eAPIClient.Controllers
             return (from r in db.Sales
                     where EF.Functions.Like(
                               ((r.document_number ?? " ") + (r.customer.customer_name_en ?? " ") + (r.sale_number ?? " ") +
-                               (r.customer.customer_name_kh ?? " ") + (r.sale_note ?? " ")
+                              (r.coupon_number??" ")+ (r.customer.customer_name_kh ?? " ") + (r.sale_note ?? " ")
                               ).ToLower().Trim(), $"%{(keyword ?? "")}%".ToLower().Trim()) 
                              
                     select r);

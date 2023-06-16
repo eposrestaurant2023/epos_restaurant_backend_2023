@@ -32,7 +32,7 @@
                         <div class="uk-width-expand" uk-leader>@lang["Discountable Amount"]</div>
                         <div>@model.discountable_amount.ToString(gv.main_currency_format)</div>
                     </div>
-                    <hr />  
+                    <hr />
                     <UkFlex class_name="uk-width-1-1">
                         <FlexItem class_name="uk-text-left">
                             @lang["Discount"]
@@ -82,11 +82,12 @@
                     </div>
                 }
 
+
                 @if ((model.total_amount > 0 && model.paid_amount > 0) || model.balance != 0)
                 {
                     <hr />
                     <div class="uk-grid-small" uk-grid>
-                        <div class="uk-width-expand" uk-leader>"@lang["Balance"]</div>
+                        <div class="uk-width-expand" uk-leader>@lang["Balance"]</div>
                         <div>@model.balance.ToString(gv.main_currency_format)</div>
                     </div>
                 }

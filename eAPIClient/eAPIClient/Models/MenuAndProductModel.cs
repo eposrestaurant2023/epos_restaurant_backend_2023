@@ -93,6 +93,7 @@ namespace eAPIClient.Models
 
         public bool is_open_product { get; set; } = false;
         public string revenue_group_name { get; set; }
+        public string block_to_business_branch_ids { get; set; } = "";
 
         public bool allow_append_quantity { get; set; } = true;
         public List<ProductPrinterModel> product_printers { get; set; }

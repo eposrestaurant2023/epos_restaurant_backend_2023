@@ -141,9 +141,10 @@ namespace eModels
                 _total_amount = sub_total - total_discount;
                 return _total_amount;
             }
-            set { _total_amount = value; }
+            set {
+                _total_amount = value; 
+            }
         }
-
 
 
         private bool _is_add_note;
@@ -160,6 +161,11 @@ namespace eModels
 
         [NotMapped, JsonIgnore]
         public bool is_can_delete { get; set; } = true;
+
+        [NotMapped, JsonIgnore]
+        public bool is_input_total_amount { get; set; } = false;
+        [NotMapped, JsonIgnore]
+        public decimal temp_total_amount { get; set; }
     }
 
 }
