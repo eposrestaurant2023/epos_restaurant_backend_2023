@@ -1212,13 +1212,13 @@
   "title": "Sale Inventory Transaction"
  },
  {
-  "data": "{\r\n    \"docstatus\": 0,\r\n    \"station_name\": \"Cashier Station\",\r\n    \"is_order_station\": 0,\r\n    \"doctype\": \"POS Station\"\r\n}",
+  "data": "{\r\n    \"docstatus\": 0,\r\n    \"station_name\": \"Cashier Station\",\r\n    \"is_order_station\": 0,\r\n    \"show_button_print_bill\": 1,\r\n    \"show_button_cancel_print_bill\": 1,\r\n    \"show_start_close_working_day\": 1,\r\n    \"show_start_close_cashier_shift\": 1,\r\n    \"show_option_payment\": 1,\r\n    \"show_sale_more_action_menu\": 1,\r\n    \"show_reference_button_in_more_menu\": 0,\r\n    \"show_button_customer_display\": 1,\r\n    \"show_button_commission\": 0,\r\n    \"show_button_change_price_on_order_station\": 0,\r\n    \"is_used\": 0,\r\n    \"doctype\": \"POS Station\"\r\n}",
   "doc_name": "Cashier Station",
   "doc_type": "POS Station",
   "docstatus": 0,
   "doctype": "Predefine Data",
   "is_single": 0,
-  "modified": "2023-05-19 14:57:28.048836",
+  "modified": "2023-06-16 10:46:55.871804",
   "name": "cfbe14cb56",
   "sort": 2,
   "title": "Cashier Station"

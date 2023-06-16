@@ -35,7 +35,10 @@
   "column_break_22",
   "bank_fee_account",
   "section_break_24",
-  "note"
+  "require_city_ledger_account",
+  "section_break_29",
+  "note",
+  "account_code_name"
  ],
  "fields": [
   {
@@ -193,7 +196,8 @@
   },
   {
    "fieldname": "section_break_24",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "City Ledger"
   },
   {
    "fieldname": "note",
@@ -218,12 +222,28 @@
    "fieldname": "bank_fee",
    "fieldtype": "Percent",
    "label": "Bank Fee"
+  },
+  {
+   "fieldname": "account_code_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Account Code Name"
+  },
+  {
+   "fieldname": "require_city_ledger_account",
+   "fieldtype": "Link",
+   "label": "Require select a city ledger account",
+   "options": "City Ledger"
+  },
+  {
+   "fieldname": "section_break_29",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-06-13 09:30:01.115554",
+ "modified": "2023-06-16 08:37:06.580024",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Account Code",
@@ -244,8 +264,9 @@
    "write": 1
   }
  ],
+ "search_fields": "code,account_name",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "account_name"
+ "title_field": "account_code_name"
 }

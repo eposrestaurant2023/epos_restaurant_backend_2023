@@ -13,22 +13,31 @@
     <v-list-item prepend-icon="mdi-note-outline" :title="$t('Note')" @click="sale.onSaleNote(sale.sale)" v-else />
 
     
-    <v-list-item prepend-icon="mdi-currency-usd" :title="$t('Commission')" @click="onAddCommission()" />
+    <v-list-item prepend-icon="mdi-currency-usd" :title="$t('Commission')" v-if="gv.device_setting.show_button_commission==1" @click="onAddCommission()" />
+
+
     <v-list-item prepend-icon="mdi-bulletin-board" :title="$t('Change Price Rule')" @click="onChangePriceRule()" />
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-silverware"
         :title="$t('Change POS Menu')" @click="onChangePOSMenu()" />
-    <v-list-item v-if="isWindow" prepend-icon="mdi-cash-100" :title="$t('Open Cash Drawer')" @click="onOpenCashDrawer()" />
+
+    <v-list-item v-if="isWindow && gv.device_setting.is_order_station == 0" prepend-icon="mdi-cash-100"  :title="$t('Open Cash Drawer')" @click="onOpenCashDrawer()" />
+
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-grid-large"
         :title="$t('Change or Merge Table')" @click="onChangeTable()" />
+
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-cash-100"
         :title="$t('Split Bill')" @click="onSplitBill()" />
+
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0 && setting.use_guest_cover == 1"
         prepend-icon="mdi-account-multiple-outline" :title="`${$t('Change Guest Cover')} (${sale.sale.guest_cover})`"
         @click="onUpdateGuestCover()" />
+
     <v-list-item v-if="true" prepend-icon="mdi-cart" :title="$t('Change Sale Type')"
         @click="onChangeSaleType()" />
+
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-chair-school"
         :title="$t('Seat') + '#'" @click="onSeatNumber()" />
+
     <v-list-item prepend-icon="mdi-cash-100" :title="$t('Tax Setting')" @click="onChangeTaxSetting()"
         v-if="sale.setting.tax_rules.length > 0" />
     <v-list-item v-if="sale.sale.sale_products?.filter(r => r.name == undefined).length > 0" @click="onClearOrder()">

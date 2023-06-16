@@ -34,6 +34,41 @@ frappe.listview_settings['Product'] = {
 
            
     });
+    
+        me.page.add_action_item('Assign Menu', function() {
+            let d = new frappe.ui.Dialog({
+                title: 'Assign Menu',
+                fields: [
+                    {'fieldname': 'pos_menu', 'fieldtype': 'Link', 'options': 'POS Menu'},
+                ],
+                primary_action_label: 'Save',
+                primary_action(values) {
+                    const selected =  me.get_checked_items() ;
+                    const result = selected.map(item => item.name).join(',');
+                    d.freeze= true;
+                    frappe.call({
+                        method: "epos_restaurant_2023.inventory.doctype.product.product.assign_menu",
+                        args: {
+                            "products": result,
+                            "printer": values.printer
+                        },
+                        callback: function(r) {
+
+                            frappe.msgprint("Update printer to product sucessfully")
+                            
+                        }
+                    });
+                    d.freeze= false;
+                    d.hide();
+                },
+              
+            })
+            d.show();
+
+
+
+           
+    });
 
     
     me.page.add_action_item('Remove Printer', function() {

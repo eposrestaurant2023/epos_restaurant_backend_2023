@@ -1,8 +1,8 @@
 <template>
     <div v-if="!current_working_day.loading">
         <ComButton icon-class="text-white" class="bg-red-600 text-gray-100" v-if="current_working_day.data"
-            :title="$t('Close Working Day')" icon="mdi-calendar" @click="onCloseWorkingDay" />
-        <ComButton v-else :title="$t('Start Working Day')" icon="mdi-calendar" @click="onStartWorkingDay" />
+            :title="$t('Close Working Day')" icon="mdi-calendar"  @click="onCloseWorkingDay" />
+        <ComButton v-else :title="$t('Start Working Day')" icon-color="#e99417" icon="mdi-calendar" @click="onStartWorkingDay" />
     </div>
     <div v-else
         class="shadow-md text-center bg-white p-4 rounded-md cursor-pointer flex items-center justify-center h-full">

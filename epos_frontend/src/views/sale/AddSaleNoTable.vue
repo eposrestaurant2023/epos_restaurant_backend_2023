@@ -33,7 +33,7 @@
 </template>
 <script setup>
 import PageLayout from '../../components/layout/PageLayout.vue';
-import { useRouter, useRoute, createResource, ref, inject, createToaster,onMounted,smallViewSaleProductListModel,i18n } from "@/plugin"
+import { useRouter, useRoute, createResource, ref, inject, createToaster,onMounted,smallViewSaleProductListModal,i18n } from "@/plugin"
 import { saleDetailDialog } from "@/utils/dialog";
 import ComPlaceholder from "@/components/layout/components/ComPlaceholder.vue";
 import ComSaleCardItem from './components/ComSaleCardItem.vue';
@@ -90,7 +90,7 @@ function onOpenOrder(sale_id) {
                     await sale.LoadSaleData(sale_id).then(async (v)=>{
                         localStorage.setItem('redirect_sale_type', selected.value);
                         localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
-                        const result =  await smallViewSaleProductListModel ({title: sale.sale.name ? sale.sale.name : 'New Sale', data: {from_table: true}});
+                        const result =  await smallViewSaleProductListModal ({title: sale.sale.name ? sale.sale.name : 'New Sale', data: {from_table: true}});
                         if(result){
                             //
                         }else{

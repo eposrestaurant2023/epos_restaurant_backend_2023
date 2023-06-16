@@ -20,6 +20,8 @@ export default class Gv {
 		this.cashierShift= "";
 		this.isFullscreen = true;
 		this.shortcut_keys = [];
+		this.device_setting = null;
+		
 	}
 
 	

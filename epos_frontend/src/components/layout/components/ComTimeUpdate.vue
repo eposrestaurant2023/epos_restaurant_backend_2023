@@ -1,5 +1,5 @@
 <template>
-    <div class="mr-2 d-none d-md-block">
+    <div class="mr-2 d-none d-md-block" style="font-size: 14px;">
         {{ moment(time).format('DD-MM-YYYY HH:mm:ss A') }}
     </div>
 </template>

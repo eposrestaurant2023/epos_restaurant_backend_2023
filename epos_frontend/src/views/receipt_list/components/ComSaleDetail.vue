@@ -76,7 +76,7 @@
   
 <script setup>
 
-import { inject, ref, computed, onUnmounted, createDocumentResource, useRouter, createResource, confirm,smallViewSaleProductListModel } from '@/plugin';
+import { inject, ref, computed, onUnmounted, createDocumentResource, useRouter, createResource, confirm,smallViewSaleProductListModal } from '@/plugin';
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
 import { useDisplay } from 'vuetify';
 const { mobile } = useDisplay();
@@ -204,7 +204,7 @@ function onOpenOrder() {
                 await inject_sale.LoadSaleData(props.params.name).then(async (_sale)=>{
                     localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
                     emit('resolve', "open_order");
-                    const result =  await smallViewSaleProductListModel ({title: props.params.name ? props.params.name : $t('New Sale'), data: {from_table: true}});                      
+                    const result =  await smallViewSaleProductListModal ({title: props.params.name ? props.params.name : $t('New Sale'), data: {from_table: true}});                      
                     if(result){   
                         tableLayout.saleListResource.fetch();
                     }else{

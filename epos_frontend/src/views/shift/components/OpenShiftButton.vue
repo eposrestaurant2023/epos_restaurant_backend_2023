@@ -2,7 +2,7 @@
     <div v-if="!current_open_shift.loading">
         <ComButton icon-class="text-white" class="bg-red-600 text-gray-100" v-if="current_open_shift.data"
             :title="$t('Close Shift')" icon="mdi-calendar-clock" @click="onCloseShift" />
-        <ComButton v-else :title="$t('Start Shift')" icon="mdi-calendar-clock" @click="onOpenShift" />
+        <ComButton v-else :title="$t('Start Shift')"  icon-color="#e99417" icon="mdi-calendar-clock" @click="onOpenShift" />
     </div>
     <div v-else
         class="shadow-md text-center p-4 rounded-md cursor-pointer flex items-center justify-center h-full bg-white">

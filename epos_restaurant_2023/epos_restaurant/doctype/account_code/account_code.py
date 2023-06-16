@@ -5,4 +5,5 @@
 from frappe.model.document import Document
 
 class AccountCode(Document):
-	pass
+	def validate(self):
+		self.account_code_name = self.code + ' - ' + self.account_name

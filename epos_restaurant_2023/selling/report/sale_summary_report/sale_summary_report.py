@@ -505,7 +505,7 @@ def get_row_groups():
 			"fieldname":"date_format(b.posting_date,'%%d/%%m/%%Y')",
 			"label":"Date",
 			"parent_row_group_filter_field":"row_group",
-			"show_commission":False
+			"show_commission":True
 		},
 		{
 			"fieldname":"date_format(b.posting_date,'%%m/%%Y')",

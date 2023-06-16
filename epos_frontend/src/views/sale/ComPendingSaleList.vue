@@ -78,7 +78,7 @@
   </ComModal>
 </template>
 <script setup>
-import { useRouter, defineProps, createResource, defineEmits, ref, inject, createToaster,i18n,onMounted,smallViewSaleProductListModel } from "@/plugin"
+import { useRouter, defineProps, createResource, defineEmits, ref, inject, createToaster,i18n,onMounted,smallViewSaleProductListModal } from "@/plugin"
 import { Timeago } from 'vue2-timeago'
 import { saleDetailDialog } from "@/utils/dialog";
 import ComModal from "../../components/ComModal.vue";
@@ -135,7 +135,7 @@ function onOpenOrder(sale_id) {
                     await sale.LoadSaleData(sale_id).then(async (_sale)=>{
                         localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
                         onClose();
-                        const result =  await smallViewSaleProductListModel ({title: sale_id ? sale_id : $t('New Sale'), data: {from_table: true}});                      
+                        const result =  await smallViewSaleProductListModal ({title: sale_id ? sale_id : $t('New Sale'), data: {from_table: true}});                      
                         if(result){   
                           tableLayout.saleListResource.fetch();
                         }else{

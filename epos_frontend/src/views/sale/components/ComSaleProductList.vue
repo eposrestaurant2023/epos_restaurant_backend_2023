@@ -64,9 +64,9 @@
                           
                         </div>
                     </div>
-                    <div v-if="sp.selected && !readonly" class="-mx-1 flex pt-1">
-                        <v-chip color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
-                            @click="onChangePrice(sp)">{{ $t('Price') }}</v-chip>
+                    <div v-if="sp.selected && !readonly" class="-mx-1 flex pt-1"> 
+                        <v-chip v-if="show_button_change_price()"  color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"  @click="onChangePrice(sp)">{{ $t('Price') }}</v-chip>
+                       
                         <v-chip
                             :disabled="sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == 'Submitted'"
                             color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
@@ -139,6 +139,17 @@ function onEditSaleProduct(sp) {
 }
 
 
+function show_button_change_price(){
+    if(gv.device_setting.is_order_station == 1 && gv.device_setting.show_button_change_price_on_order_station==1)
+    {
+        return true;
+    }
+    else if(gv.device_setting.is_order_station==0 ){
+        return true;
+    }
+
+    return false;
+}
 
 //remove sale product
 

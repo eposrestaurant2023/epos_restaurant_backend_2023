@@ -31,9 +31,9 @@
             </template>
             <template #append>
                 <ComTimeUpdate />
-                <v-btn icon="mdi-fullscreen" @click="onFullScreen()" v-if="!gv.isFullscreen && isWindow"></v-btn>
-                <v-btn icon="mdi-fullscreen-exit" @click="onFullScreen()" v-if="gv.isFullscreen && isWindow"></v-btn>
-
+                <template v-if="isWindow">
+                    <v-btn :icon="(!gv.isFullscreen?'mdi-fullscreen':'mdi-fullscreen-exit')" @click="onFullScreen()"></v-btn>
+                </template>
                 <ComSaleNotivication />
 
 

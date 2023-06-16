@@ -41,9 +41,7 @@ let state = reactive({
 })
 
  
-socket.on("PrintReceipt", (arg) => {
-	
- 
+socket.on("PrintReceipt", (arg) => {	
 	if(localStorage.getItem("is_window")=="1"){
 		const data = JSON.parse(arg) ;
 	
@@ -52,6 +50,7 @@ socket.on("PrintReceipt", (arg) => {
 		}
 	}
 })
+
  
 
 
@@ -193,6 +192,8 @@ function onResize() {
 	screen.onResizeHandle()
 }
 onMounted(() => {
+
+	gv.device_setting  = JSON.parse(localStorage.getItem("device_setting"));
 	onResize()
 })
 </script>

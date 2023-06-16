@@ -20,7 +20,7 @@ import ComSaleProductDiscountModal from '@/views/sale/components/ComSaleProductD
 import ComPayment from '@/views/sale/components/ComPayment.vue';
 import ComKeypadWithNote from '@/components/form/ComKeypadWithNote.vue';
 import ComViewBillModal from '@/views/sale/components/ComViewBillModal.vue';
-import ComSmallViewSaleProductListModel from '@/views/sale/components/mobile_screen/ComSmallViewSaleProductListModel.vue';
+import ComSmallViewSaleProductListModal from '@/views/sale/components/mobile_screen/ComSmallViewSaleProductListModal.vue';
 import ComSmallCurrencyPrefineModel from '@/views/sale/components/mobile_screen/ComSmallCurrencyPrefineModel.vue';
 import ComChangeTable from '@/views/sale/components/ComChangeTable.vue';
 import ComChangePriceRuleModal from '@/views/sale/components/ComChangePriceRuleModal.vue';
@@ -79,7 +79,7 @@ export  const saleProductDiscountDialog = createPromiseDialog<params, object>(Co
 export  const paymentDialog = createPromiseDialog<params, object>(ComPayment);
 export  const keypadWithNoteDialog = createPromiseDialog<params, object>(ComKeypadWithNote);
 export  const viewBillModelModel = createPromiseDialog<params, object>(ComViewBillModal);
-export  const smallViewSaleProductListModel = createPromiseDialog<params, object>(ComSmallViewSaleProductListModel);
+export  const smallViewSaleProductListModal = createPromiseDialog<params, object>(ComSmallViewSaleProductListModal);
 export  const smallCurrencyPrefineModel = createPromiseDialog<params, object>(ComSmallCurrencyPrefineModel);
 export  const changeTableDialog = createPromiseDialog<params, object>(ComChangeTable);
 export  const changePriceRuleDialog = createPromiseDialog<params, object>(ComChangePriceRuleModal);

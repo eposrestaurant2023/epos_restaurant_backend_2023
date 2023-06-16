@@ -28,7 +28,7 @@
     </div>
 </template>
 <script setup>
-import { inject,computed, smallViewSaleProductListModel,i18n  } from '@/plugin'
+import { inject,computed, smallViewSaleProductListModal,i18n  } from '@/plugin'
 import { createToaster } from "@meforma/vue-toaster";
 
 import ComMenu from '../ComMenu.vue';
@@ -57,6 +57,6 @@ async function onViewDetail(){
        
         return;
     }
-    const result = await smallViewSaleProductListModel ({title: sale.sale.name, value:  ''});
+    const result = await smallViewSaleProductListModal ({title: sale.sale.name, value:  ''});
 }
 </script> 

@@ -50,7 +50,7 @@
             <v-list-item-title>{{$t('POS')}}</v-list-item-title>
           </v-list-item>
 
-          <v-list-item active-color="primary" v-if="device_setting?.is_order_station==0" @click="onRoute('ClosedSaleList')">
+          <v-list-item active-color="primary" v-if="device_setting?.is_order_station==0 && (gv.workingDay || gv.cashierShift)" @click="onRoute('ClosedSaleList')">
             <template v-slot:prepend>
               <v-icon>mdi-file-document</v-icon>
             </template>

@@ -8,29 +8,35 @@
             <v-list-item prepend-icon="mdi-pencil" :title="$t('Edit')" v-if="!(sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || saleProduct.sale_product_status == 'Submitted')"
                 @click="onEditSaleProduct(saleProduct)"></v-list-item>
 
-            <v-list-item prepend-icon="mdi-currency-usd-off" :title="$t('Free')" v-if="!saleProduct.is_free"
-                @click="onSaleProductFree()"></v-list-item>
+            <template v-if="gv.device_setting.is_order_station==0">
+                <v-list-item prepend-icon="mdi-currency-usd-off" :title="$t('Free')" v-if="!saleProduct.is_free"
+                    @click="onSaleProductFree()"></v-list-item>
 
-            <v-list-item v-else @click="sale.onSaleProductCancelFree(saleProduct)">
-                <template v-slot:prepend>
-                    <v-icon icon="mdi-currency-usd-off" color="error"></v-icon>
-                </template>
-                <v-list-item-title class="text-red-700">{{ $t('Cancel Free') }}</v-list-item-title>
-            </v-list-item>
-            <template v-if="!saleProduct.is_free">
-                <template v-if="!saleProduct.happy_hour_promotion">
-                    <v-list-item prepend-icon="mdi-percent" :title="$t('Discount Percent')"
-                        @click="onSaleProductDiscount('Percent')"></v-list-item>
-                    <v-list-item prepend-icon="mdi-currency-usd" :title="$t('Discount Amount')"
-                        @click="onSaleProductDiscount('Amount')"></v-list-item>
-                </template>
-                <v-list-item v-if="saleProduct.discount > 0" @click="onSaleProductCancelDiscount()">
+                <v-list-item v-else @click="sale.onSaleProductCancelFree(saleProduct)">
                     <template v-slot:prepend>
-                        <v-icon icon="mdi-tag-multiple" color="error"></v-icon>
+                        <v-icon icon="mdi-currency-usd-off" color="error"></v-icon>
                     </template>
-                    <v-list-item-title class="text-red-700">{{ $t('Cancel Discount') }}</v-list-item-title>
+                    <v-list-item-title class="text-red-700">{{ $t('Cancel Free') }}</v-list-item-title>
                 </v-list-item>
+
+                <template v-if="!saleProduct.is_free">
+                    <template v-if="!saleProduct.happy_hour_promotion">
+                        <v-list-item prepend-icon="mdi-percent" :title="$t('Discount Percent')"
+                            @click="onSaleProductDiscount('Percent')"></v-list-item>
+                        <v-list-item prepend-icon="mdi-currency-usd" :title="$t('Discount Amount')"
+                            @click="onSaleProductDiscount('Amount')"></v-list-item>
+                    </template>
+                    <v-list-item v-if="saleProduct.discount > 0" @click="onSaleProductCancelDiscount()">
+                        <template v-slot:prepend>
+                            <v-icon icon="mdi-tag-multiple" color="error"></v-icon>
+                        </template>
+                        <v-list-item-title class="text-red-700">{{ $t('Cancel Discount') }}</v-list-item-title>
+                    </v-list-item>
+                </template>
+                
             </template>
+
+         
             <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-chair-school" :title="($t('Seat')+'#')"
                 @click="sale.onSaleProductSetSeatNumber(saleProduct)"></v-list-item>
             <v-list-item prepend-icon="mdi-note-outline" :title="$t('Note')" v-if="!saleProduct.note"

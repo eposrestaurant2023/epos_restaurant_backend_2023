@@ -29,7 +29,7 @@
     
 </template>
 <script setup>
-import { inject, ref, useRouter, confirmDialog,  createDocumentResource ,createResource,smallViewSaleProductListModel,i18n,onMounted } from '@/plugin'
+import { inject, ref, useRouter, confirmDialog,  createDocumentResource ,createResource,smallViewSaleProductListModal,i18n,onMounted } from '@/plugin'
 import { useDisplay } from 'vuetify'
 import ComSaleListItem from './ComSaleListItem.vue';
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
@@ -228,7 +228,7 @@ async function openOrder(s) {
     if(mobile.value){
         await sale.LoadSaleData(s.name).then(async (v)=>{
             localStorage.setItem('make_order_auth',JSON.stringify(props.params.make_order_auth));
-            const result =  await smallViewSaleProductListModel ({title: s.name ? s.name : 'New Sale', data: {from_table: true}});            
+            const result =  await smallViewSaleProductListModal ({title: s.name ? s.name : 'New Sale', data: {from_table: true}});            
         })
     }else{       
         localStorage.setItem('make_order_auth',JSON.stringify(props.params.make_order_auth));

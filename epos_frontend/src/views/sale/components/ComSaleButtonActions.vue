@@ -3,17 +3,25 @@
 
     <div class="flex flex-wrap w-full">
       <ComButtonToTableLayout :is-mobile="false" @closeModel="closeModel()" />
-      <template v-if="setting.table_groups && setting.table_groups.length > 0">
-        <ComPrintBillButton v-if="sale.sale.sale_status != 'Bill Requested' && !mobile"
-          :variant="mobile ? 'tonal' : 'elevated'" :stacked="!mobile" doctype="Sale" :title="$t('Print Bill')" />
-        <template v-else>
-          <v-btn v-if="!mobile" color="error" size="small" class="m-0-1 grow" :variant="mobile ? 'tonal' : 'elevated'"
-            :stacked="!mobile" :prepend-icon="mobile ? '' : 'mdi-printer'" @click="onCancelPrintBill">
-            {{ $t('Cancel Print Bill') }}
-          </v-btn>
+        <template v-if="setting.table_groups && setting.table_groups.length > 0 ">
+
+          <template v-if="sale.sale.sale_status != 'Bill Requested' && !mobile">
+            <ComPrintBillButton  v-if="gv.device_setting.show_button_print_bill==1"  :variant="mobile ? 'tonal' : 'elevated'" :stacked="!mobile" doctype="Sale" :title="$t('Print Bill')" />
+            
+          </template>
+
+          <template v-else>
+
+            <template v-if="!mobile">
+              <v-btn  v-if="gv.device_setting.show_button_cancel_print_bill==1" color="error" size="small" class="m-0-1 grow" :variant="mobile ? 'tonal' : 'elevated'"  :stacked="!mobile" :prepend-icon="mobile ? '' : 'mdi-printer'" @click="onCancelPrintBill">
+                {{ $t('Cancel Print Bill') }}
+              </v-btn> 
+              
+          </template>
+          </template>
         </template>
-      </template>
-      <ComDiscountButton/>
+
+      <ComDiscountButton v-if="gv.device_setting.is_order_station==0"/>
       
       <v-btn v-if="setting.table_groups && setting.table_groups.length > 0 && !mobile" :variant="mobile ? 'tonal' : 'elevated'"
         :color="mobile ? 'primary' : ''" :stacked="!mobile" size="small" class="m-0-1 grow"

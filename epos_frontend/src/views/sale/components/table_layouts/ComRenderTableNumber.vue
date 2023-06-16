@@ -49,7 +49,7 @@
     </template>
 </template>
 <script setup>
-import { inject, useRouter, createToaster, selectSaleOrderDialog, keyboardDialog,smallViewSaleProductListModel,i18n } from '@/plugin';
+import { inject, useRouter, createToaster, selectSaleOrderDialog, keyboardDialog,smallViewSaleProductListModal,i18n } from '@/plugin';
 import { Timeago } from 'vue2-timeago'
 import { useDisplay } from 'vuetify';
 
@@ -73,7 +73,7 @@ function onTableClick(table, guest_cover) {
                 if(mobile.value){
                     await sale.LoadSaleData( table.sales[0].name).then(async (_sale)=>{
                         localStorage.setItem('make_order_auth',JSON.stringify(make_order_auth));
-                        const result =  await smallViewSaleProductListModel ({title: sale.sale.name ? sale.sale.name : $t('New Sale'), data: {from_table: true}});                      
+                        const result =  await smallViewSaleProductListModal ({title: sale.sale.name ? sale.sale.name : $t('New Sale'), data: {from_table: true}});                      
                         if(result){   
                             tableLayout.saleListResource.fetch();
                         }else{
