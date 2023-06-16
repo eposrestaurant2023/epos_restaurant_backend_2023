@@ -125,6 +125,9 @@
           <QueryParameter Name="@keyword">
             <Value>=Parameters!keyword.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@station_id">
+            <Value>=Parameters!station_id.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@top">
             <Value>=Parameters!top.Value</Value>
           </QueryParameter>
@@ -169,7 +172,8 @@ where
 	sp.product_category_id in (@product_category_id) and 
 	sp.product_group_id  = iif(@product_group_id = 0, sp.product_group_id,@product_group_id) and 
 	cast(s.outlet_id as nvarchar(50))= iif(@outlet_id = '', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
-	lower(coalesce(product_code,'')+' ' + coalesce(product_name_en,'') + ' ' + coalesce(product_name_kh,'')) like N'%'+ LOWER(@keyword)+'%'	 
+	lower(coalesce(product_code,'')+' ' + coalesce(product_name_en,'') + ' ' + coalesce(product_name_kh,'')) like N'%'+ LOWER(@keyword)+'%' and 
+s.station_id = iif(@station_id ='All Station', s.station_id,@station_id)
 group by
 	sp.product_category_en,
 	sp.product_code,
@@ -599,6 +603,24 @@ end</CommandText>
         <Field Name="sort_order">
           <DataField>sort_order</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Station">
+      <Query>
+        <DataSourceName>Datasource</DataSourceName>
+        <CommandText>select 'All Station'  id,'All Station' station_name_en
+union
+select cast(id as nvarchar(50)),station_name_en from tbl_station</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="id">
+          <DataField>id</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="station_name_en">
+          <DataField>station_name_en</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -2746,11 +2768,27 @@ end</CommandText>
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="station_id">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>All Station</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Station</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Station</DataSetName>
+          <ValueField>id</ValueField>
+          <LabelField>station_name_en</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>2</NumberOfColumns>
-      <NumberOfRows>8</NumberOfRows>
+      <NumberOfRows>9</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -2831,6 +2869,11 @@ end</CommandText>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>shift_name</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>8</RowIndex>
+          <ParameterName>station_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

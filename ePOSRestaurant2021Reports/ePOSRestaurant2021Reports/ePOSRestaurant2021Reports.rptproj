@@ -8,9 +8,9 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>ePOSChangKranKhmer/Reports</TargetReportFolder>
-    <TargetDatasetFolder>ePOSChangKranKhmer/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>ePOSChangKranKhmer/DataSources</TargetDatasourceFolder>
+    <TargetReportFolder>LifeSnookerReport/Reports</TargetReportFolder>
+    <TargetDatasetFolder>LifeSnookerReport/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>LifeSnookerReport/DataSources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
     <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
   </PropertyGroup>
@@ -77,6 +77,7 @@
     <DataSource Include="DataSource.rds" />
   </ItemGroup>
   <ItemGroup>
+    <Report Include="Report1.rdl" />
     <Report Include="rptAuditTrailTransaction.rdl" />
     <Report Include="rptCashierShiftDetailA4.rdl" />
     <Report Include="rptCashierShiftList.rdl" />
