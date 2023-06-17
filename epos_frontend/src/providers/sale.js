@@ -817,6 +817,7 @@ export default class Sale {
             this.updateSaleSummary()
         }
     }
+
     getNumber(val) {
         val = (val = val == null ? 0 : val)
         if (isNaN(val)) {
@@ -824,6 +825,7 @@ export default class Sale {
         }
         return parseFloat(val);
     }
+
     getString(val) {
         val = (val = val == null ? "" : val)
         return val;
@@ -1206,6 +1208,7 @@ export default class Sale {
             return false;
         }
     }
+    
     onAddPayment(paymentType, amount) {
         const single_payment_type = this.sale.payment.find(r => r.is_single_payment_type == 1);
         if (single_payment_type) {
