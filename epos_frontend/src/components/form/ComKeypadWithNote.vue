@@ -1,5 +1,5 @@
 <template>
-    <ComModal :mobileFullscreen="true" :width="params.data.category_note_name ? '1200px' : '400px'" @onClose="onClose()" @onOk="onOK()">
+    <ComModal :titleOKButton="$t('Ok')" :mobileFullscreen="true" :width="params.data.category_note_name ? '1200px' : '400px'" @onClose="onClose()" @onOk="onOK()">
         <template #title>
             {{ params.data.title }}
         </template>

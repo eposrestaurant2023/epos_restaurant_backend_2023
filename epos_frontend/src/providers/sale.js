@@ -197,6 +197,18 @@ export default class Sale {
         }
     }
 
+    getSaleProductDeletedGroupByKey() {
+        if (!this.deletedSaleProducts) {
+            return []
+        } else {
+
+            const sale_products = this.deletedSaleProducts;
+            const group = Enumerable.from(sale_products).groupBy("{order_by:$.order_by,order_time:$.order_time}", "", "{order_by:$.order_by,order_time:$.order_time}", "$.order_by+','+$.order_time");
+            return group.orderByDescending("$.order_time").toArray();
+        }
+    }
+    
+
     getSaleProducts(groupByKey) {
         if (groupByKey) {
             return Enumerable.from(this.sale.sale_products).where(`$.order_by=='${groupByKey.order_by}' && $.order_time=='${groupByKey.order_time}'`).orderByDescending("$.modified").toArray()
@@ -507,23 +519,43 @@ export default class Sale {
         if (!this.isBillRequested()) {        
             if (sp.sale_product_status == 'Submitted') {
                 gv.authorize("delete_item_required_password", "delete_item","delete_item_required_note", "Delete Item Note", sp.product_code, true).then(async (v) => {
-                    if (v) {
-                        //props.saleProduct.delete_item_note = v.note 
-                        let result = false;                     
-                        result = await keypadWithNoteDialog({ 
-                            data: { 
-                                hide_keypad:input==(-99999)?undefined:true,
-                                title: `${$t('Delete Item')} ${sp.product_name}`,
-                                label_input: $t('Enter Quantity'),
-                                note: "Delete Item Note",
-                                category_note_name: v.category_note_name,
-                                number: input==(-99999)? sp.quantity:input,
-                                product_code: sp.product_code
-                            } 
-                        });                            
-                      
-                       
-                      
+                    if (v) {   
+                        let result = false;                           
+                        if(input==(-99999)){
+                            result = await keypadWithNoteDialog({ 
+                                data: { 
+                                    hide_keypad:input==(-99999)?undefined:true,
+                                    title: `${$t('Delete Item')} ${sp.product_name}`,
+                                    label_input: $t('Enter Quantity'),
+                                    note: "Delete Item Note",
+                                    category_note_name: v.category_note_name,
+                                    number: input==(-99999)? sp.quantity:input,
+                                    product_code: sp.product_code
+                                } 
+                            });  
+                        }
+                        else{
+                            if(gv.setting.pos_setting['delete_item_required_note'] == 1){
+                                result = await keypadWithNoteDialog({ 
+                                    data: { 
+                                        hide_keypad:true,
+                                        title: `${$t('Delete Item')} ${sp.product_name}`,
+                                        label_input: $t('Enter Quantity'),
+                                        note: "Delete Item Note",
+                                        category_note_name: v.category_note_name,
+                                        number:input,
+                                        product_code: sp.product_code
+                                    } 
+                                }); 
+                            }else{
+                                 result = {            
+                                    number: input,
+                                    note:'',
+                                } 
+                            }
+                           
+                        }
+
                         if(result){
                             if(sp.quantity < result.number){
                                 result.number = sp.quantity;
@@ -834,11 +866,13 @@ export default class Sale {
     onRemoveSaleProduct(sp, quantity) {
         if (sp.quantity == quantity) {
             if (sp.sale_product_status == 'Submitted') {
+                sp.show_in_list = true;
                 this.deletedSaleProducts.push(sp) 
             }
             this.sale.sale_products.splice(this.sale.sale_products.indexOf(sp), 1);
 
         } else {
+            sp.show_in_list = false;
             sp.quantity = sp.quantity - quantity;
             if (sp.sale_product_status == 'Submitted') {
                 let deletedRecord = JSON.parse(JSON.stringify(sp))

@@ -37,6 +37,7 @@ export default class Gv {
 
 	async authorize(settingKey, permissionCode,requiredNoteKey="",categoryNoteName="", product_code = "", inlineNote = false) {
 		return new Promise(async (resolve,reject) => {
+
 			if (this.setting.pos_setting[settingKey] == 1) {
 				const result = await authorizeDialog({ permissionCode: permissionCode });				
 				if (result) {	
@@ -69,11 +70,13 @@ export default class Gv {
 			}
 			else {				
 			 	const currentUser = JSON.parse(localStorage.getItem("current_user"));	
-
-			 	if (JSON.parse(localStorage.getItem("current_user")).permission[permissionCode] == 1) {					
+			 	if (JSON.parse(localStorage.getItem("current_user")).permission[permissionCode] == 1) {		
+					
 					if(requiredNoteKey && categoryNoteName){						
 						//check if require note 
+						
 						if(this.setting.pos_setting[requiredNoteKey] == 1){ 
+							
 							if(inlineNote){ 
 								resolve({user:currentUser.full_name, discount_codes:currentUser.permission.discount_codes,note:'',username:currentUser.name,category_note_name: categoryNoteName})
 							}else{
@@ -84,10 +87,12 @@ export default class Gv {
 									resolve(false);
 								}
 							}
-						}else{
+						}
+						else{
 							resolve({user:currentUser.full_name, discount_codes:currentUser.permission.discount_codes,note:"",show_confirm:1,username:currentUser.name});
 						}
-					}else{
+					}
+					else{						
 						resolve({user:currentUser.full_name, discount_codes:currentUser.permission.discount_codes,note:"",username:currentUser.name});
 					}				
 					

@@ -21,6 +21,7 @@
   "show_button_commission",
   "show_button_change_price_on_order_station",
   "show_keypad_in_sale_screen",
+  "show_deleted_sale_product_in_sale_screen",
   "is_used"
  ],
  "fields": [
@@ -109,11 +110,17 @@
    "fieldname": "show_keypad_in_sale_screen",
    "fieldtype": "Check",
    "label": "Show Keypad in Sale Screen"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_deleted_sale_product_in_sale_screen",
+   "fieldtype": "Check",
+   "label": "Show Deleted Sale Product In Sale Screen"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-16 16:29:33.136675",
+ "modified": "2023-06-17 16:17:30.572587",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Station",

@@ -4,6 +4,7 @@
             :key="index" @click="!readonly ? { click: sale.onSelectSaleProduct(sp) } : {}"
             class="!border-t !border-gray-300 !mb-0 !p-2"
             :class="{ 'selected': (sp.selected && !readonly), 'submitted relative': sp.sale_product_status == 'Submitted', 'item-list': !readonly }">
+
             <template v-slot:prepend> 
                 <v-avatar v-if="sp.product_photo">
                     <v-img :src="sp.product_photo"></v-img>
@@ -60,10 +61,11 @@
                                 {{ $t('Tax') }}: 
                                 <CurrencyFormat :value="sp.total_tax" />
                             </span> 
-                                <ComQuantityInput v-if="!readonly" :sale-product="sp" />
-                          
+                                <ComQuantityInput v-if="!readonly" :sale-product="sp" />                          
                         </div>
                     </div>
+
+
                     <div v-if="sp.selected && !readonly" class="-mx-1 flex pt-1"> 
                         <v-chip v-if="show_button_change_price"  color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"  @click="sale.onChangePrice(sp,gv,numberFormat)">{{ $t('Price') }}</v-chip>
                        
@@ -83,10 +85,9 @@
                             <v-chip color="red" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
                             @click="sale.onRemoveItem(sp,gv,numberFormat)">{{ $t('Delete') }}</v-chip>
 
-
-
                         <ComSaleProductButtonMore :sale-product="sp" />
                     </div>
+
                 </div>
             </template>
         </v-list-item>
@@ -184,8 +185,7 @@ function getSaleProducts(groupByKey) {
         }
     }
     return [];
-}
-
+} 
 
 </script>
 
