@@ -75,7 +75,7 @@ const vuetify = createVuetify({
 		defaultSet: 'mdi',
 	},
 	display: {
-		mobileBreakpoint: 'sm',
+		mobileBreakpoint: 'md',
 		 
 	  },	
   });

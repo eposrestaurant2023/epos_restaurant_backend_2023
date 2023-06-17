@@ -127,6 +127,7 @@ async function onClickProduct() {
         const p = JSON.parse(JSON.stringify(props.data));
         
         if (p.is_open_product == 1) {
+         
             let productPrices = await keypadWithNoteDialog({
                 data: {
                     title: `${p.name_en}`,
@@ -139,10 +140,12 @@ async function onClickProduct() {
             });
            
             if (productPrices) {
+                
                 p.name_en = productPrices.note;
                 p.price = productPrices.number;
                 p.modifiers = '';
                 sale.addSaleProduct(p);
+                return
             }else{
                 return
             }

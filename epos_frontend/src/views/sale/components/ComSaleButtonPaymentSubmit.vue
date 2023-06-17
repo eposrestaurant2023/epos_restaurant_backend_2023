@@ -2,7 +2,7 @@
   <div>
     <div>
       <div class="flex">
-        <div class="w-4/5 cursor-pointer bg-green-600 text-white px-2 py-0  hover:bg-green-700" @click="onPayment()">
+        <div class="flex-grow cursor-pointer bg-green-600 text-white px-2 py-0  hover:bg-green-700" @click="onPayment()">
           <div style="margin-bottom: 0px!important;" class="flex justify-between mb-2 text-lg">
             <div>{{ $t("Payment") }}</div>
             <div style="margin: 0px; padding: 0px; font-size: 26px; font-weight: bold;">
@@ -18,7 +18,7 @@
             </div>
           </div>
         </div>
-        <div class="w-1/5">
+        <div style="width: 120px;">
           <div
             class="w-full h-full cursor-pointer flex justify-center items-center bg-blue-600 text-white p-3 hover:bg-blue-700 text-center"
             @click="onSubmit()">

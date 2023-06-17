@@ -553,7 +553,7 @@ export default class Sale {
             } else {
     
                 const u = JSON.parse(localStorage.getItem('make_order_auth')); 
-                sale.onRemoveSaleProduct(sp, sp.quantity);
+                this.onRemoveSaleProduct(sp, sp.quantity);
     
                 let msg = `User ${u.name} delete Item: ${sp.product_code}-${sp.product_name}.${sp.portion} ${sp.modifiers}`; 
                 msg += `, Qty: ${sp.quantity}`;

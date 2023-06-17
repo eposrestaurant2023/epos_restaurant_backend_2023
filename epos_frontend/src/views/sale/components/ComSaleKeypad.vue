@@ -1,76 +1,70 @@
 <template>
-    <v-card>
-     
-      <v-card-text>
-        <v-text-field readonly="true" :label="$t('Enter Number')" variant="solo" v-model="input" clearable
-          maxlength="10">
-        </v-text-field>
-        <div>
-          <div class="grid grid-cols-4 gap-4">
-            <v-btn @click="onKeyPressed('7')" size="large">
-              7
-            </v-btn>
+    <div class="bg-white"> 
+        <!-- <v-text-field readonly :size="12"  :label="$t('Enter Number')" variant="solo" v-model="input" clearable maxlength="10"></v-text-field> -->
+        <div class="p-1">
+          <v-text-field elevation="0" type="text" readonly :placeholder="$t('Enter Number')" density="compact" variant="solo" single-line hide-details v-model="input"> </v-text-field>
+        </div> 
+          <div class="flex">
+            <div class="flex-grow">
+              <div class="grid grid-cols-3 sale-keypad-btn-number">
+                <v-btn  elevation="0" rounded="0" @click="onKeyPressed('7')" size="large">
+                  7
+                </v-btn>
 
-            <v-btn @click="onKeyPressed('8')" size="large">
-              8
-            </v-btn>
+                <v-btn  elevation="0" rounded="0" @click="onKeyPressed('8')" size="large">
+                  8
+                </v-btn>
 
-            <v-btn @click="onKeyPressed('9')" size="large">
-              9
-            </v-btn> 
-
-            <v-btn :disabled="!is_allow_reorder" @click="onReOrderPressed()" size="large">
-              {{ $t('Re-Order') }}
-            </v-btn>
-
-            <v-btn @click="onKeyPressed('4')" size="large">
-              4
-            </v-btn>
-            <v-btn @click="onKeyPressed('5')" size="large">
-              5
-            </v-btn>
-            <v-btn @click="onKeyPressed('6')" size="large">
-              6
-            </v-btn>
-
-            <v-btn :disabled="!is_allow_append_qty" @click="onChangeQuantityPressed()" size="large">
-              {{ $t('Qty') }}
-            </v-btn>
-          
-
-            <v-btn @click="onKeyPressed('1')" size="large">
-              1
-            </v-btn>
-            <v-btn @click="onKeyPressed('2')" size="large">
-              2
-            </v-btn>
-            <v-btn @click="onKeyPressed('3')" size="large">
-              3
-            </v-btn>
-            <v-btn :disabled="!allow_change_price" @click="onChangePricePressed()" size="large">
-              {{ $t('Price') }}
-            </v-btn>
-          
-            <v-btn @click="onKeyPressed('0')" size="large">
-              0
-            </v-btn> 
-            <v-btn @click="onKeyPressed('.')" size="large">
-              .
-            </v-btn> 
-
-            <v-btn @click="onKeyPressed('clear')" size="large">
-              {{ $t('Clear') }}
-            </v-btn> 
-            
-            <v-btn :disabled="!allow_delete_item" @click="onDeleteItemPressed()" size="large">
-              {{ $t('Delete') }}
-            </v-btn>
-
-          </div> 
-        </div>
-      
-      </v-card-text>
-    </v-card>
+                <v-btn  elevation="0" rounded="0" @click="onKeyPressed('9')" size="large">
+                  9
+                </v-btn>  
+                <v-btn elevation="0" rounded="0" @click="onKeyPressed('4')" size="large">
+                  4
+                </v-btn>
+                <v-btn elevation="0" rounded="0" @click="onKeyPressed('5')" size="large">
+                  5
+                </v-btn>
+                <v-btn elevation="0" rounded="0" @click="onKeyPressed('6')" size="large">
+                  6
+                </v-btn> 
+                <v-btn  elevation="0" rounded="0" @click="onKeyPressed('1')" size="large">
+                  1
+                </v-btn>
+                <v-btn elevation="0" rounded="0" @click="onKeyPressed('2')" size="large">
+                  2
+                </v-btn>
+                <v-btn elevation="0" rounded="0" @click="onKeyPressed('3')" size="large">
+                  3
+                </v-btn> 
+                <v-btn  elevation="0" rounded="0" @click="onKeyPressed('0')" size="large">
+                  0
+                </v-btn> 
+                <v-btn elevation="0" rounded="0" @click="onKeyPressed('.')" size="large">
+                  .
+                </v-btn> 
+                <v-btn class=" btn-clear text-white" color="#fe1c45" elevation="0" rounded="0"  @click="onKeyPressed('clear')" size="large">
+                  {{ $t('Clear') }}
+                </v-btn>
+              </div>
+            </div>
+            <div  style="width: 120px;">
+              <div class="grid grid-cols-1 sale-keypad-btn">
+                <v-btn color="primary" class="text-sm" elevation="0" rounded="0" :disabled="!is_allow_reorder" @click="onReOrderPressed()" size="large">
+                  {{ $t('Re-Order') }}
+                </v-btn>
+                <v-btn color="primary" class="text-sm" elevation="0" rounded="0" :disabled="!is_allow_append_qty" @click="onChangeQuantityPressed()" size="large">
+                  {{ $t('Qty') }}
+                </v-btn>
+                <v-btn color="primary" class="text-sm" elevation="0" rounded="0" :disabled="!allow_change_price" @click="onChangePricePressed()" size="large">
+                  {{ $t('Price') }}
+                </v-btn>
+                <v-btn color="error" class="text-sm" elevation="0" rounded="0" :disabled="!allow_delete_item" @click="onDeleteItemPressed()" size="large">
+                  {{ $t('Delete') }}
+                </v-btn>
+              </div>
+            </div>
+          </div>
+    </div>
 </template>
 
 <script setup>
@@ -260,3 +254,12 @@ function onDeleteItemPressed(){
 
 
 </script>
+<style>
+  .sale-keypad-btn button ,.sale-keypad-btn-number button.btn-clear{
+      font-size: 14px !important;
+  }
+  .sale-keypad-btn-number button {
+    font-size: 20px !important;
+  }
+  
+</style>

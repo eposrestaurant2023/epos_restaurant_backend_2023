@@ -20,6 +20,7 @@
   "show_button_customer_display",
   "show_button_commission",
   "show_button_change_price_on_order_station",
+  "show_keypad_in_sale_screen",
   "is_used"
  ],
  "fields": [
@@ -102,11 +103,17 @@
    "fieldname": "show_button_change_price_on_order_station",
    "fieldtype": "Check",
    "label": "Show Button Change Price on Order Station"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_keypad_in_sale_screen",
+   "fieldtype": "Check",
+   "label": "Show Keypad in Sale Screen"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-16 10:27:27.388258",
+ "modified": "2023-06-16 16:29:33.136675",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Station",

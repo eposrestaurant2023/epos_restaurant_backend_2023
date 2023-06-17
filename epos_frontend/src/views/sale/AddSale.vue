@@ -3,11 +3,11 @@
         v-if="sale.newSaleResource?.loading || (sale.saleResource != null && sale.saleResource?.get.loading) || (sale.saleResource != null && sale.saleResource?.setValue.loading)" />
     <ComSmallAddSale v-if="mobile" />
     <div v-else style="height: calc(100vh - 64px)" id="tst">
-        <v-row class="h-full ma-0">
-            <v-col cols="12" sm="7" md="7" lg="8" class="pa-0 h-full d-none d-sm-block">
+        <div class="h-full ma-0 flex w-full">
+            <div class="flex-auto pa-0 h-full d-none d-sm-block">
                 <ComMenu :background-image="gv.setting.pos_sale_order_background_image" />
-            </v-col>
-            <v-col cols="12" sm="5" md="5" lg="4" class="h-full pa-0">
+            </div>
+            <div style="width: 450px;" class="h-full pa-0">
                 <div class="h-full flex-col flex px-1">
                     <div class="mb-1">
                         <div class="flex justify-between items-center">
@@ -28,13 +28,14 @@
                     <div class="mt-auto">
                         <div class="-mx-1 bg-blue-100 rounded-tl-md rounded-tr-md text-xs">
                             <ComSaleSummaryList />
-                            <ComSaleKeyPad/>
+                        
+                            <ComSaleKeyPad v-if="gv.device_setting.show_keypad_in_sale_screen==1"/>
                             <ComSaleButtonPaymentSubmit />
                         </div>
                     </div>
                 </div>
-            </v-col>
-        </v-row>
+            </div>
+        </div>
     </div>
 </template>
 <script setup>
