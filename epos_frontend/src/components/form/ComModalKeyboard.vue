@@ -22,10 +22,10 @@
                 <div>
                     <div class="text-right pt-4">
                         <v-btn class="mr-2" variant="flat" @click="onClose(false)" color="error" size="large">
-                            Close
+                            {{$t('Close')}}
                         </v-btn>
                         <v-btn variant="flat" @click="onKeyPress('{enter}')" color="primary" size="large">
-                            OK
+                            {{$t('Ok')}}
                         </v-btn>
                     </div>
                 </div>

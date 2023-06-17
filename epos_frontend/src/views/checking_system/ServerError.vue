@@ -5,7 +5,7 @@
                 <h1 class="text-5xl font-bold text-gray-900">500</h1>
                 <h2 class="text-xl font-semibold text-gray-600">Internal Server Error</h2>
                 <p class="text-gray-500 py-3">Oops! Something went wrong. Please contact to our system administartor.</p>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" @click="onRefresh()">Try Again</button>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" @click="onRefresh()">{{$t('Try again')}}</button>
             </div>
         </div>        
     </div>

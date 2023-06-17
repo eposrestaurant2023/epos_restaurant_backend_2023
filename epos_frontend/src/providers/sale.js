@@ -1208,7 +1208,7 @@ export default class Sale {
             return false;
         }
     }
-    
+
     onAddPayment(paymentType, amount) {
         const single_payment_type = this.sale.payment.find(r => r.is_single_payment_type == 1);
         if (single_payment_type) {
@@ -1240,6 +1240,7 @@ export default class Sale {
         }
 
     }
+
     updatePaymentAmount() {
         const payments = Enumerable.from(this.sale.payment);
         const total_payment = payments.sum("$.amount");
@@ -1258,6 +1259,7 @@ export default class Sale {
 
         this.action
     } 
+
     isOrdered(message = $t('msg.please save or submit your current order first',[ $t( 'Submit') +" "+$t('or') +" "+ $t('Save')])){
         if((this.sale.sale_products || []).length > 0 ){
             const sp = Enumerable.from(this.sale.sale_products);
@@ -1268,6 +1270,7 @@ export default class Sale {
         }
         return false
     }
+    
     getShortCutKey(name){
         let key =  this.setting.shortcut_key.filter(item => item.name == name).map(item => item.key)
         return key[0];

@@ -55,7 +55,7 @@
                                 </div>
                             </div>
                             <div class="flex-none">
-                                <v-btn prepend-icon="mdi-filter" color="primary" @click="onFilter">Filter</v-btn>
+                                <v-btn prepend-icon="mdi-filter" color="primary" @click="onFilter">{{$t('Filter')}}</v-btn>
                             </div>
                         </div>
                     </div>

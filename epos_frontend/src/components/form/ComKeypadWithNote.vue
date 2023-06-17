@@ -11,7 +11,7 @@
                     <v-col cols="12" :md="params.data.category_note_name ? 5 : 12">
                         <div class="mb-2">
                             <div class="mb-2">
-                                <ComInput v-model="price" type="number" keyboard class="mb-2" :label="params.data.label_input || 'Enter Number'"
+                                <ComInput v-model="price" type="number" keyboard class="mb-2" :label="params.data.label_input || $t('Enter Number')"
                                     :required-autofocus="true" />
                                 <ComInlineInputNumber :hide-input="true" v-model="price" :disabled="isDeleteNote"
                                     v-if="!mobile" />
@@ -22,10 +22,10 @@
 
 
                 <v-col cols="12" :md="params.data.hide_keypad==undefined?'7':'12'" v-if="params.data.category_note_name">
-                    <v-card title="Note">
+                    <v-card :title="$t('Note')">
                         <v-card-text>
                             <ComInput :autofocus="!mobile" keyboard v-model="search" v-debounce="onSearch"
-                                label="Search or Add Note" />
+                                :label="$t('Search or Add Note')" />
                             <v-alert class="mt-4" v-if="getSelectedNote() != ''" :text="getSelectedNote()"></v-alert>
                             <div class="-mx-1">
                                 <template v-for="(item, index) in getNote()" :key="index">
@@ -42,19 +42,19 @@
                         </v-card-text>
                         <v-card-actions class="justify-end">
                             <v-btn size="small" v-if="search && !isDeleteNote" variant="flat" @click="onSaveNote" color="success">
-                                Save
+                                {{$t('Save')}}
                             </v-btn>
                             <template v-if="isDeleteNote">
                                 <v-btn size="small" variant="flat" @click="onCancelDeleteNote" color="warning">
-                                    Cancel
+                                    {{$t('Cancel')}}
                                 </v-btn>
                                 <v-btn size="small" v-if="noteResource.doc.notes.filter(r => r.chip == false).length > 0" variant="flat"
                                     @click="onDeleteNote" color="primary">
-                                    Confirm
+                                    {{$t('Confirm')}}
                                 </v-btn>
                             </template>
                             <v-btn size="small" v-else class="mr-2" variant="flat" @click="onEnableDeleteNote" color="error">
-                                Delete
+                                {{$t('Delete')}}
                             </v-btn>
                         </v-card-actions>
                     </v-card>
@@ -65,11 +65,14 @@
     </ComModal>
 </template>
 <script setup>
-import { defineEmits, ref, createDocumentResource, confirmDialog } from '@/plugin'
+import { defineEmits, ref, createDocumentResource, confirmDialog,i18n } from '@/plugin'
 import { createToaster } from '@meforma/vue-toaster';
 import ComInlineInputNumber from '../ComInlineInputNumber.vue';
-import Enumerable from 'linq'
-import { useDisplay } from 'vuetify'
+import Enumerable from 'linq';
+import { useDisplay } from 'vuetify';
+const { t: $t } = i18n.global;
+
+
 const { mobile } = useDisplay()
 const emit = defineEmits(['resolve'])
 const props = defineProps({
@@ -91,8 +94,7 @@ if(props.params.data.category_note_name){
     cache: ['category_note', props.params.data.note],//"Open Menu Note"
     setValue: {
         onSuccess() {
-            toast.success("Success");
-
+            toast.success($t('msg.Successful'));
         },
     },
     transform(doc) {
@@ -156,7 +158,7 @@ function onOK() {
         selectedNote = search.value;
     }
     if (props.params.data.category_note_name && (selectedNote == "" || selectedNote == undefined)) {
-        toast.warning("Please select or enter note");
+        toast.warning($t('msg.Please select or enter note'));
         return;
     }
     emit('resolve', { note: selectedNote, number: parseFloat(price.value) })
@@ -188,7 +190,7 @@ function onCancelDeleteNote() {
 
 }
 async function onDeleteNote() {
-    if (await confirmDialog({ title: "Delete Note", text: "Are you sure you want to delete note?" })) {
+    if (await confirmDialog({ title:$t('Delete Note'), text: $t('msg.are you sure to delete note')})) {
         const notes = noteResource.doc.notes.filter(r => r.chip == true);
         noteResource.doc.notes = notes
         noteResource.setValue.submit({ notes: notes });

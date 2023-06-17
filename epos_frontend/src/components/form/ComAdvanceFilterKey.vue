@@ -70,7 +70,7 @@
              </div>
         </div>
         <div class="text-sm text-gray-400 w-[330px] mx-1" v-if="!item.fieldname">
-            Please select fieldname first
+            {{$t('Please select fieldname first')}}
         </div>
         <div class="mx-1">
             <v-icon size="large" @click="$emit('onRemove',item)" color="error">mdi-close</v-icon>

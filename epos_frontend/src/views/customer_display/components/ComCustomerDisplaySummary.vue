@@ -3,7 +3,7 @@
       <template v-if="(data.total_discount + data.total_tax) > 0">
         <div class="flex justify-between my-1">
           <div>
-            Sub Total
+           {{$t('Sub Total')}}
           </div>
           <div class="font-bold">
             <CurrencyFormat :value="data.sub_total" />
@@ -12,7 +12,7 @@
         
         <div class="flex justify-between my-1" v-if="data.sale_discount>0">
           <div>
-            Discountable Amount
+            {{$t('Discountable Amount')}}
           </div>
           <div class="font-bold">
             <CurrencyFormat :value="data.sale_discountable_amount" />
@@ -20,13 +20,13 @@
         </div>
   
         <div class="flex justify-between mb-1" v-if="data.product_discount > 0">
-          <div>Product Discount</div>
+          <div>{{$t('Items Discount')}}</div>
           <div class="font-bold">
             <CurrencyFormat :value="data.product_discount" />
           </div>
         </div>
         <div class="flex justify-between mb-1" v-if="data.sale_discount > 0">
-          <div>Sale Discount
+          <div>{{$t('Sale Discount')}}
             <span v-if="data.discount && data.discount_type == 'Percent'"> - {{ data.discount }}%</span>
           </div>
           <div class="font-bold">
@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="flex justify-between mb-1" v-if="data.sale_discount > 0 && data.product_discount > 0">
-          <div>Total Discount</div>
+          <div>{{$t('Total Discount')}}</div>
           <div class="font-bold">
             <CurrencyFormat :value="data.total_discount" />
           </div>
@@ -62,7 +62,7 @@
           </div>
         </div>
         <div class="flex justify-between" v-if="data.total_tax > 0">
-          <div>Total Tax</div>
+          <div>{{$t('Total Tax')}}</div>
           <div class="font-bold">
             <CurrencyFormat :value="data.total_tax" />
           </div>
@@ -71,7 +71,7 @@
    
         <div class="flex justify-between my-1" v-if="data.note">
           <div>
-            Note
+            {{$t('Note')}}
           </div>
           <div>
             {{data.note}}
@@ -79,7 +79,7 @@
         </div>
         <div class="flex justify-between my-1" v-if="(data.commission_amount || 0) >0">
           <div>
-            Commission
+            {{$t('Commission')}}
           </div>
           <div>
             <CurrencyFormat :value="data.commission_amount" />

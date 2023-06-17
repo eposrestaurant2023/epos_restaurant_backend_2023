@@ -39,7 +39,7 @@
             .
           </v-btn>
           <v-btn color="error" @click="onClear()" size="large" :disabled="disabled">
-            Clear
+            {{$t('Clear')}}
           </v-btn>
 
         </div>

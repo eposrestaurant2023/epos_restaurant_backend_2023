@@ -11,8 +11,8 @@
                 </v-col>
                 <v-col class="h-100vh !p-0" cols="12" xs="12" sm="4" md="5" lg="5" xl="4">
                     <div class="te-xt text-center text-4xl mt-6 mb-6">
-                        <div>THANK YOU </div>
-                        <div>SEE YOU AGAIN!</div>
+                        <div>{{$t('THANK YOU')}}</div>
+                        <div>{{$t('SEE YOU AGAIN')}}!</div>
                     </div>
                     <div class="h-40 w-40 border-4 border-green-600 m-auto rounded-full sqare">
                         <div class="customer-profile">
@@ -33,7 +33,7 @@
                                             :currency="gv.setting.pos_setting.second_currency_name" />
                                     </div>
                                 </div>
-                                <div class="text-xs text-gray-500">Bill amount</div>
+                                <div class="text-xs text-gray-500">{{$t('Bill Amount')}}</div>
                             </div>
                             <div class="border-l-2"></div>
                             <div>
@@ -46,11 +46,11 @@
                                             :currency="gv.setting.pos_setting.second_currency_name" />
                                     </div>
                                 </div>
-                                <div class="text-xs text-gray-500">Change</div>
+                                <div class="text-xs text-gray-500">{{$t('Change Amount')}}</div>
                             </div>
                         </div>
                     </div>
-                    <div class="text-center text-gray-500">Paid amount:
+                    <div class="text-center text-gray-500">{{$t('Paid Amount')}}:
                         <CurrencyFormat :value="data.total_paid" /> /
                         <CurrencyFormat :value="(data.total_paid || 0) * (data.exchange_rate || 0)"
                             :currency="gv.setting.pos_setting.second_currency_name" />
