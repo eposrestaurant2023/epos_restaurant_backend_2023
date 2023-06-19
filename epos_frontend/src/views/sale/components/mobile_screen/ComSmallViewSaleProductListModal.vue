@@ -10,9 +10,11 @@
             <ComPrintBillButton doctype="Sale" :title="$t('Print Bill')" :isMobile="true" />
         </template>
         <template #content>
-            <div class="m-1">
-                <ComSelectCustomer/>
-            </div>
+            <template v-if="!gv.device_setting.is_order_station"> 
+                <div class="m-1">
+                    <ComSelectCustomer/>
+                </div>
+            </template>
             <ComGroupSaleProductList/>
         </template>
         <template #action>
