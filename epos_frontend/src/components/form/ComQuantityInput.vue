@@ -1,7 +1,7 @@
 <template>
     <div>
  
-        <v-chip class="ml-1 mb-1" size="small" color="error" v-if="saleProduct.deleted_quantity > 0" variant="outlined">{{ `${$t('QTY Deleted')}: ${saleProduct.deleted_quantity}` }} </v-chip>
+        <v-chip class="ml-1 mb-1" size="small" color="error" v-if="saleProduct.deleted_quantity > 0 && gv.device_setting.show_deleted_sale_product_in_sale_screen==1" variant="outlined">{{ `${$t('QTY Deleted')}: ${saleProduct.deleted_quantity}` }} </v-chip>
         
 
         <v-btn
