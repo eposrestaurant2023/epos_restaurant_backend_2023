@@ -38,7 +38,12 @@
   "require_city_ledger_account",
   "section_break_29",
   "note",
-  "account_code_name"
+  "account_code_name",
+  "account_group",
+  "other_setting_tab",
+  "allow_enter_quantity",
+  "column_break_35",
+  "set_default_amount_from_folio_balance"
  ],
  "fields": [
   {
@@ -115,6 +120,7 @@
   },
   {
    "allow_in_quick_entry": 1,
+   "collapsible": 1,
    "fieldname": "discount_section",
    "fieldtype": "Section Break",
    "label": "Discount"
@@ -139,6 +145,7 @@
    "options": "Account Code"
   },
   {
+   "collapsible": 1,
    "fieldname": "tax_section",
    "fieldtype": "Section Break",
    "label": "Tax"
@@ -167,6 +174,7 @@
    "options": "Tax Rule"
   },
   {
+   "collapsible": 1,
    "fieldname": "bank_fee_section",
    "fieldtype": "Section Break",
    "label": "Bank Fee"
@@ -195,6 +203,7 @@
    "options": "Account Code"
   },
   {
+   "collapsible": 1,
    "fieldname": "section_break_24",
    "fieldtype": "Section Break",
    "label": "City Ledger"
@@ -230,20 +239,48 @@
    "label": "Account Code Name"
   },
   {
+   "default": "0",
    "fieldname": "require_city_ledger_account",
-   "fieldtype": "Link",
-   "label": "Require select a city ledger account",
-   "options": "City Ledger"
+   "fieldtype": "Check",
+   "label": "Require select a city ledger account"
   },
   {
    "fieldname": "section_break_29",
    "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "parent_account_code.parent_account_code",
+   "fieldname": "account_group",
+   "fieldtype": "Link",
+   "label": "Account Group",
+   "options": "Account Code"
+  },
+  {
+   "fieldname": "other_setting_tab",
+   "fieldtype": "Tab Break",
+   "label": "Other Setting"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_enter_quantity",
+   "fieldtype": "Check",
+   "label": "Allow Enter Quantity"
+  },
+  {
+   "fieldname": "column_break_35",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "set_default_amount_from_folio_balance",
+   "fieldtype": "Check",
+   "label": "Set Default Amount from Folio Balance"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-06-16 08:37:06.580024",
+ "modified": "2023-06-18 22:59:48.885718",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Account Code",
@@ -264,7 +301,6 @@
    "write": 1
   }
  ],
- "search_fields": "code,account_name",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

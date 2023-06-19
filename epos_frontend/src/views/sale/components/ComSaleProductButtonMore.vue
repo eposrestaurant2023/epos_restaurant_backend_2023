@@ -47,17 +47,8 @@
                 </template>
                 <v-list-item-title class="text-red-700">{{ $t('Remove Note') }}</v-list-item-title>
             </v-list-item>
-   
-
             <v-list-item prepend-icon="mdi-cash-100" :title="$t('Tax Setting')" v-if="saleProduct.product_tax_rule"  @click="sale.onSaleProductChangeTaxSetting(saleProduct,gv)">
             </v-list-item>
-
-            <!-- <v-list-item @click="onRemoveSaleProduct()">
-                <template v-slot:prepend>
-                    <v-icon icon="mdi-delete" color="error"></v-icon>
-                </template>
-                <v-list-item-title class="text-red-700">{{ $t('Delete') }}</v-list-item-title>
-            </v-list-item> -->
         </v-list>
     </v-menu>
 </template>
@@ -98,71 +89,6 @@ sale.vue.$onKeyStroke('F8', (e) => {
         sale.onSaleProductNote(props.saleProduct)
     } 
 })
-
-function onRemoveSaleProduct() { 
-    if (!sale.isBillRequested()) {        
-        if (props.saleProduct.sale_product_status == 'Submitted') {
-            gv.authorize("delete_item_required_password", "delete_item","delete_item_required_note", "Delete Item Note", props.saleProduct.product_code, true).then(async (v) => {
-                if (v) {
-                    //props.saleProduct.delete_item_note = v.note 
-                    const result = await keypadWithNoteDialog({ 
-                        data: { 
-                            title: `${$t('Delete Item')} ${props.saleProduct.product_name}`,
-                            label_input: $t('Enter Quantity'),
-                            note: "Delete Item Note",
-                            category_note_name: v.category_note_name,
-                            number: props.saleProduct.quantity,
-                            product_code: props.saleProduct.product_code
-                        } 
-                    });
-                  
-                    if(result){
-                        if(props.saleProduct.quantity < result.number){
-                            result.number = props.saleProduct.quantity;
-                        }                       
-                            
-                        props.saleProduct.deleted_item_note = result.note;
-                        props.saleProduct.deleted_quantity = (props.saleProduct.deleted_quantity||0) + result.number;
-                        sale.onRemoveSaleProduct(props.saleProduct, result.number);  
-
-                        let msg = `User ${v.user} delete Item: ${props.saleProduct.product_code}-${props.saleProduct.product_name}.${props.saleProduct.portion} ${props.saleProduct.modifiers}`; 
-                        msg += `, Qty: ${result.number}`;
-                        msg += `, Amount: ${ numberFormat(gv.getCurrnecyFormat,props.saleProduct.amount)}`;
-                        msg += `${result.note==""?'':', Reason: '+result.note }`;
-                        sale.auditTrailLogs.push({
-                            doctype:"Comment",
-                            subject:"Delete Sale Product",
-                            comment_type:"Comment",
-                            reference_doctype:"Sale",
-                            reference_name:"New",
-                            comment_by:v.user,
-                            content:msg
-                        })  ;                    
-
-                    } 
-                }
-            });
-        } else {
-
-            const u = JSON.parse(localStorage.getItem('make_order_auth')); 
-            sale.onRemoveSaleProduct(props.saleProduct, props.saleProduct.quantity);
-
-            let msg = `User ${u.name} delete Item: ${props.saleProduct.product_code}-${props.saleProduct.product_name}.${props.saleProduct.portion} ${props.saleProduct.modifiers}`; 
-            msg += `, Qty: ${props.saleProduct.quantity}`;
-            msg += `, Amount: ${ numberFormat(gv.getCurrnecyFormat,props.saleProduct.amount)}`;
-            sale.auditTrailLogs.push({
-                doctype:"Comment",
-                subject:"Delete Sale Product",
-                comment_type:"Comment",
-                reference_doctype:"Sale",
-                reference_name:"New",
-                comment_by: u.name,
-                content:msg
-            }) ;
-        }
-
-    }
-}
 
 function onEditSaleProduct(sp) { 
     if (!sale.isBillRequested()) {

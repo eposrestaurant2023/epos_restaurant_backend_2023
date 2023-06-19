@@ -1,8 +1,9 @@
 <template>
     <ComPlaceholder :is-not-empty="sale.getSaleProducts().length > 0 || (gv.device_setting.show_deleted_sale_product_in_sale_screen==1 && sale.deletedSaleProducts.length>0)" 
         icon="mdi-cart-outline" :text="$t('Empty Data')">
-        <div>  
+        <div>   
             <template v-if="gv.device_setting.show_deleted_sale_product_in_sale_screen==1">
+             
                 <span v-for="(g, index) in sale.getSaleProductDeletedGroupByKey()" :key="index">       
                         <div class="bg-red-700 text-white flex items-center justify-between" style="font-size: 10px; padding: 2px;">
                             <div><v-icon icon="mdi-clock" size="small" class="mr-1"></v-icon>{{

@@ -13,7 +13,9 @@
   "is_active_reservation",
   "show_in_reservation_list",
   "show_in_room_chart",
-  "sort_order"
+  "sort_order",
+  "show_folio_in_reservation_stay_detail",
+  "show_folio_in_reservation_detail"
  ],
  "fields": [
   {
@@ -49,11 +51,23 @@
    "fieldname": "sort_order",
    "fieldtype": "Int",
    "label": "Sort Order"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_folio_in_reservation_stay_detail",
+   "fieldtype": "Check",
+   "label": "Show Folio Tab In Reservation Stay Detail"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_folio_in_reservation_detail",
+   "fieldtype": "Check",
+   "label": "Show Folio Tab in Reservation Detail"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-02 14:32:24.030905",
+ "modified": "2023-06-19 15:32:53.065355",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Reservation Status",

@@ -5,9 +5,10 @@ import { noteDialog, printPreviewDialog,changeTaxSettingModal,SaleProductComboMe
 import { createToaster } from "@meforma/vue-toaster";
 import { webserver_port } from "../../../../../sites/common_site_config.json"
 import socket from '@/utils/socketio';
+import { FrappeApp } from 'frappe-js-sdk';
 
+const frappe = new FrappeApp();
 const { t: $t } = i18n.global;
-
 const toaster = createToaster({ position: "top" });
 
 export default class Sale {
@@ -54,6 +55,12 @@ export default class Sale {
 
         //temporary all deleted sale product, we use this for send data to kitchen printers
         this.deletedSaleProducts = []
+
+
+
+        //sale product deleted show in screen sale item list
+        this.deletedSaleProductsDisplay = [];
+
         //tempporary store autditrail list and will submit to database after submit
         //auditrail login is store in tabComment
         this.auditTrailLogs = [];
@@ -65,7 +72,7 @@ export default class Sale {
         this.tableSaleListResource = null;
         this.orderChanged = false;
         this.printWaitingOrderAfterPayment = false;
-        this.createNewSaleResource();
+        this.createNewSaleResource(); 
 
     }
 
@@ -158,6 +165,9 @@ export default class Sale {
            
 
             await this.saleResource.get.fetch().then(async (doc) => {
+
+                this.onLoadDeleteSaleProducts(doc.name);
+
                 this.sale = doc;
                 this.action = "";
                 //check if current table dont hanve any sale list data then load it
@@ -198,11 +208,11 @@ export default class Sale {
     }
 
     getSaleProductDeletedGroupByKey() {
-        if (!this.deletedSaleProducts) {
+        if (!this.deletedSaleProductsDisplay) {
             return []
         } else {
 
-            const sale_products = this.deletedSaleProducts;
+            const sale_products = this.deletedSaleProductsDisplay.filter((r)=>r.show_in_list);
             const group = Enumerable.from(sale_products).groupBy("{order_by:$.order_by,order_time:$.order_time}", "", "{order_by:$.order_by,order_time:$.order_time}", "$.order_by+','+$.order_time");
             return group.orderByDescending("$.order_time").toArray();
         }
@@ -563,7 +573,7 @@ export default class Sale {
                               
                             sp.deleted_item_note = result.note;
                             sp.deleted_quantity = (sp.deleted_quantity||0) + result.number;
-                            this.onRemoveSaleProduct(sp, result.number);  
+                            this.onRemoveSaleProduct(sp, result.number, v.user);  
     
                             let msg = `User ${v.user} delete Item: ${sp.product_code}-${sp.product_name}.${sp.portion} ${sp.modifiers}`; 
                             msg += `, Qty: ${result.number}`;
@@ -585,7 +595,7 @@ export default class Sale {
             } else {
     
                 const u = JSON.parse(localStorage.getItem('make_order_auth')); 
-                this.onRemoveSaleProduct(sp, sp.quantity);
+                this.onRemoveSaleProduct(sp, sp.quantity,u.name);
     
                 let msg = `User ${u.name} delete Item: ${sp.product_code}-${sp.product_name}.${sp.portion} ${sp.modifiers}`; 
                 msg += `, Qty: ${sp.quantity}`;
@@ -671,7 +681,7 @@ export default class Sale {
                             gv.authorize("delete_item_required_password", "delete_item", "delete_item_required_note", "Delete Item Note", "", false).then(async (v) => {
                                 if (v) {
                                     sp.deleted_item_note = v.note;
-                                    this.onRemoveSaleProduct(sp, sp.quantity - quantity);
+                                    this.onRemoveSaleProduct(sp, sp.quantity - quantity, v.user);
                                 }
 
                             });
@@ -863,11 +873,17 @@ export default class Sale {
         return val;
     }
 
-    onRemoveSaleProduct(sp, quantity) {
+    onRemoveSaleProduct(sp, quantity,username) {
         if (sp.quantity == quantity) {
             if (sp.sale_product_status == 'Submitted') {
                 sp.show_in_list = true;
-                this.deletedSaleProducts.push(sp) 
+
+                const sp_data = JSON.parse(JSON.stringify(sp));
+                sp_data.created_by = username;
+                this.deletedSaleProducts.push(sp_data) ;
+
+                this.deletedSaleProductsDisplay.push(sp_data);
+                
             }
             this.sale.sale_products.splice(this.sale.sale_products.indexOf(sp), 1);
 
@@ -877,10 +893,12 @@ export default class Sale {
             if (sp.sale_product_status == 'Submitted') {
                 let deletedRecord = JSON.parse(JSON.stringify(sp))
                 deletedRecord.quantity = quantity;
-                this.deletedSaleProducts.push(deletedRecord)
-            }
-        }
+                deletedRecord.created_by = username;
+                this.deletedSaleProducts.push(deletedRecord);
 
+                this.deletedSaleProductsDisplay.push(deletedRecord);
+            }
+        } 
         
         this.updateSaleProduct(sp);       
         this.updateSaleSummary();
@@ -1013,6 +1031,9 @@ export default class Sale {
                     } else {
                         await this.saleResource.setValue.submit(this.sale);
                     }
+
+                    this.submitToAuditTrail(this.sale);
+
                     resolve(true);
                 }
             }
@@ -1044,10 +1065,12 @@ export default class Sale {
                     } else {
                         await this.saleResource.setValue.submit(this.sale);
                     }
+
+                    this.submitToAuditTrail(this.sale);
                     resolve(true);
                 }
             }
-        })
+        });
     }
 
     onProcessTaskAfterSubmit(doc) {
@@ -1090,6 +1113,13 @@ export default class Sale {
             }
 
         }
+
+        //create deleted sale product to database;
+
+        this.deletedSaleProducts.forEach((r) =>{
+            this.onCreateDeletedSaleProduct(r);
+        });
+        
 
         this.submitToAuditTrail(doc);
         this.sale = {};
@@ -1307,7 +1337,60 @@ export default class Sale {
     
     getShortCutKey(name){
         let key =  this.setting.shortcut_key.filter(item => item.name == name).map(item => item.key)
-        return key[0];
+        return key[0];    
+    }
+
+
+
+    //
+   async onLoadDeleteSaleProducts(sale_id){
+       //frappe db
+        const db = frappe.db();
+        await  db.getDocList('Sale Product Deleted', {
+            fields: ['*'],
+            filters: [['sale_doc', '=', sale_id]],
+            limit: 100
+          }).then((docs) => {
+            this.deletedSaleProductsDisplay = [];
+            if((this.sale.sale_products||[]).length > 0){
+                (this.sale.sale_products||[]).forEach((sp)=>{
+                  const  doc = docs.filter((d)=>d.sale_product_id == sp.name);
+                    if(doc.length > 0){
+                        sp.deleted_quantity = doc.reduce((a, i) => a + i.quantity, 0);
+                        doc[0].removed = true;
+                    }   
+                });               
+            } 
+
+            docs.forEach((d)=>{
+                if(d.removed == undefined){
+                    const _sp = JSON.parse(d.sale_product);
+                    _sp.show_in_list = true;
+                    this.deletedSaleProductsDisplay.push(_sp);
+                }
+            });
+          }).catch((error) =>{});
+    }
+
+
+    
+    onCreateDeletedSaleProduct(data){
+        if((this.sale.name||"") != ""){
+            const db = frappe.db();
+            data.deleted_quantity = data.quantity;
+            this.updateSaleProduct(data)
+            db.createDoc('Sale Product Deleted', {
+                sale_product_id:data.name,
+                product_name:`${data.product_name }${data.portion?'.'+data.portion:''}${data.modifiers?' '+data.modifiers:''}`,
+                sale_doc:this.sale.name,
+                sale_product:data,
+                quantity: data.quantity,
+                amount: data.total_revenue,
+                deleted_by: data.created_by            
+            })
+                .then((doc) => console.log(doc))
+                .catch((error) => console.error(error));
+            }
     }
 
 }

@@ -43,7 +43,7 @@ const props = defineProps({
 })
 
 
-//frappe db
+//frappe api call
 const call = frappe.call();
 
 

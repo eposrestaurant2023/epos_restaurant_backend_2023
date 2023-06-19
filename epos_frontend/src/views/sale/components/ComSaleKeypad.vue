@@ -218,7 +218,7 @@ function onChangeQuantityPressed(){
               gv.authorize("delete_item_required_password", "delete_item", "delete_item_required_note", "Delete Item Note", "", false).then(async (v) => {
                 if (v) {
                     sp.deleted_item_note = v.note;
-                    sale.onRemoveSaleProduct(sp, sp.quantity - quantity);
+                    sale.onRemoveSaleProduct(sp, sp.quantity - quantity, v.user);
                     input.value = "";
                 }
               });
