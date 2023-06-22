@@ -14,12 +14,10 @@
                     </div>
                     <div>
                         <div>
-                            <v-chip :size="mobile ? 'large' : 'x-large'" closable  
-                            @click:close="onRemoveModifier(item)" 
-                            class="m-1" 
-                             v-for="(item, index) in product.getSelectedModierList()" 
-                             :key="index">
-                            {{item.prefix}} {{item.modifier}} - <CurrencyFormat :value="item.price"/>
+
+                            <v-chip class="m-1" :size="mobile ? 'large' : 'x-large'" v-for="(item, index) in getItemsSeleted"  :key="index" >
+                                {{item.prefix}} {{item.modifier}} - <CurrencyFormat :value="item.price"/> 
+                                <v-icon end icon="mdi-close-circle-outline"  color="red" @click="onRemoveModifier(item)"></v-icon>
                             </v-chip>
                         </div> 
                         <v-expansion-panels v-model="panelPortion" multiple variant="accordion">
@@ -55,11 +53,12 @@
   
 <script setup>
 import { ref,defineEmits,inject } from '@/plugin'
-import ComToolbar from '@/components/ComToolbar.vue';
+import Enumerable from 'linq'
 import ComModifierItem from './ComModifierItem.vue';
 import ComInput from '../../../components/form/ComInput.vue';
 import ComPortionItem from './ComPortionItem.vue';
 import { useDisplay } from 'vuetify'
+import { computed } from 'vue';
 const { mobile } = useDisplay()
 const props = defineProps({
     params: {
@@ -86,6 +85,12 @@ function onConfirm(){
     })
     
 }
+
+const getItemsSeleted = computed(()=>{
+    const data =  (Enumerable.from(product.modifiers).selectMany("$.items").where("$.selected==true").orderBy("$.modifier")).toArray();      
+    return data;
+});
+
 
 function onRemoveModifier(d){
     d.selected = false;

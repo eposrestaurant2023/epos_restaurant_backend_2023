@@ -296,9 +296,12 @@ export default class Product {
         }
         return selected;
     }
-    getSelectedModierList() {
-        return (Enumerable.from(this.modifiers).selectMany("$.items").where("$.selected==true").orderBy("$.modifier")).toArray();
+    getSelectedModifierList() {
+        const data = (Enumerable.from(this.modifiers).selectMany("$.items").where("$.selected==true").orderBy("$.modifier")).toArray();
+        return data;
     }
+
+    
 
     getSelectedModifier() {
 

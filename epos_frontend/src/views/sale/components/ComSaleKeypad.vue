@@ -7,58 +7,58 @@
           <div class="flex">
             <div class="flex-grow">
               <div class="grid grid-cols-3 sale-keypad-btn-number">
-                <v-btn  elevation="0" rounded="0" @click="onKeyPressed('7')" size="large">
+                <v-btn  elevation="0" class="button-border-left" rounded="0" @click="onKeyPressed('7')" size="large">
                   7
                 </v-btn>
 
-                <v-btn  elevation="0" rounded="0" @click="onKeyPressed('8')" size="large">
+                <v-btn  elevation="0" class="button-border-left-right" rounded="0" @click="onKeyPressed('8')" size="large">
                   8
                 </v-btn>
 
-                <v-btn  elevation="0" rounded="0" @click="onKeyPressed('9')" size="large">
+                <v-btn  elevation="0" class="button-border-right" rounded="0" @click="onKeyPressed('9')" size="large">
                   9
                 </v-btn>  
-                <v-btn elevation="0" rounded="0" @click="onKeyPressed('4')" size="large">
+                <v-btn elevation="0" class="button-border-left" rounded="0" @click="onKeyPressed('4')" size="large">
                   4
                 </v-btn>
-                <v-btn elevation="0" rounded="0" @click="onKeyPressed('5')" size="large">
+                <v-btn elevation="0" class="button-border-left-right" rounded="0" @click="onKeyPressed('5')" size="large">
                   5
                 </v-btn>
-                <v-btn elevation="0" rounded="0" @click="onKeyPressed('6')" size="large">
+                <v-btn elevation="0" class="button-border-right" rounded="0" @click="onKeyPressed('6')" size="large">
                   6
                 </v-btn> 
-                <v-btn  elevation="0" rounded="0" @click="onKeyPressed('1')" size="large">
+                <v-btn  elevation="0" class="button-border-left" rounded="0" @click="onKeyPressed('1')" size="large">
                   1
                 </v-btn>
-                <v-btn elevation="0" rounded="0" @click="onKeyPressed('2')" size="large">
+                <v-btn elevation="0" class="button-border-left-right" rounded="0" @click="onKeyPressed('2')" size="large">
                   2
                 </v-btn>
-                <v-btn elevation="0" rounded="0" @click="onKeyPressed('3')" size="large">
+                <v-btn elevation="0" class="button-border-right" rounded="0" @click="onKeyPressed('3')" size="large">
                   3
                 </v-btn> 
-                <v-btn  elevation="0" rounded="0" @click="onKeyPressed('0')" size="large">
+                <v-btn  elevation="0" class="button-border-left" rounded="0" @click="onKeyPressed('0')" size="large">
                   0
                 </v-btn> 
-                <v-btn elevation="0" rounded="0" @click="onKeyPressed('.')" size="large">
+                <v-btn elevation="0" class="button-border-left" rounded="0" @click="onKeyPressed('.')" size="large">
                   .
                 </v-btn> 
-                <v-btn class=" btn-clear text-white" color="#fe1c45" elevation="0" rounded="0"  @click="onKeyPressed('clear')" size="large">
+                <v-btn class=" btn-clear text-white button-border-right" color="#fe1c45" elevation="0" rounded="0"  @click="onKeyPressed('clear')" size="large">
                   {{ $t('Clear') }}
                 </v-btn>
               </div>
             </div>
             <div  style="width: 120px;">
               <div class="grid grid-cols-1 sale-keypad-btn">
-                <v-btn color="primary" class="text-sm" elevation="0" rounded="0" :disabled="!is_allow_reorder" @click="onReOrderPressed()" size="large">
+                <v-btn color="primary" class="text-sm button-border-right" elevation="0" rounded="0" :disabled="!is_allow_reorder" @click="onReOrderPressed()" size="large">
                   {{ $t('Re-Order') }}
                 </v-btn>
-                <v-btn color="primary" class="text-sm" elevation="0" rounded="0" :disabled="!is_allow_append_qty" @click="onChangeQuantityPressed()" size="large">
+                <v-btn color="primary" class="text-sm button-border-right" elevation="0" rounded="0" :disabled="!is_allow_append_qty" @click="onChangeQuantityPressed()" size="large">
                   {{ $t('Qty') }}
                 </v-btn>
-                <v-btn color="primary" class="text-sm" elevation="0" rounded="0" :disabled="!allow_change_price" @click="onChangePricePressed()" size="large">
+                <v-btn color="primary" class="text-sm button-border-right" elevation="0" rounded="0" :disabled="!allow_change_price" @click="onChangePricePressed()" size="large">
                   {{ $t('Price') }}
                 </v-btn>
-                <v-btn color="error" class="text-sm" elevation="0" rounded="0" :disabled="!allow_delete_item" @click="onDeleteItemPressed()" size="large">
+                <v-btn color="error" class="text-sm button-border-right" elevation="0" rounded="0" :disabled="!allow_delete_item" @click="onDeleteItemPressed()" size="large">
                   {{ $t('Delete') }}
                 </v-btn>
               </div>
@@ -146,10 +146,10 @@ const allow_change_price = computed(()=>{
 
 
 const allow_delete_item = computed(()=>{
-  let value = parseFloat((input.value||"0"));
-    if(value<=0){
-      return;
-    }
+    // let value = parseFloat((input.value||"0"));
+    // if(value<=0){
+    //   return;
+    // }
     const sale_products = (sale.sale.sale_products??[]).filter((r)=>r.selected==true);
     if(sale_products.length<=0){
       return false;
@@ -245,7 +245,8 @@ function onDeleteItemPressed(){
       return;
   }  
   let sp = validate.sale_product;
-  const value = validate.inupt<=0?0:validate.inupt;
+
+  const value = validate.inupt<=0?sp.quantity :validate.inupt;
   input.value = "";
   sale.onRemoveItem(sp,gv,numberFormat,value);
 }
@@ -259,7 +260,21 @@ function onDeleteItemPressed(){
       font-size: 14px !important;
   }
   .sale-keypad-btn-number button {
-    font-size: 20px !important;
+    font-size: 18px !important;
+  }
+
+  .button-border-right{
+    border-bottom: 1px rgb(155, 155, 155) solid !important;
+    border-right: 1px rgb(155, 155, 155) solid !important;
+  }
+  .button-border-left{
+    border-bottom: 1px rgb(155, 155, 155) solid !important;
+    border-left: 1px rgb(155, 155, 155) solid !important;
+  }
+  .button-border-left-right{
+    border-bottom: 1px rgb(155, 155, 155) solid !important;
+    border-left: 1px rgb(155, 155, 155) solid !important;
+    border-right: 1px rgb(155, 155, 155) solid !important;
   }
   
 </style>
