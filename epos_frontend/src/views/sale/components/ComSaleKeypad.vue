@@ -51,13 +51,14 @@
               <div class="grid grid-cols-1 sale-keypad-btn">
                 <v-btn color="primary" class="text-sm button-border-right" elevation="0" rounded="0" :disabled="!is_allow_reorder" @click="onReOrderPressed()" size="large">
                   {{ $t('Re-Order') }}
+                </v-btn> 
+                <v-btn color="primary" class="text-sm button-border-right" elevation="0" rounded="0" :disabled="!allow_change_price" @click="onChangePricePressed()" size="large">
+                  {{ $t('Price') }}
                 </v-btn>
                 <v-btn color="primary" class="text-sm button-border-right" elevation="0" rounded="0" :disabled="!is_allow_append_qty" @click="onChangeQuantityPressed()" size="large">
                   {{ $t('Qty') }}
                 </v-btn>
-                <v-btn color="primary" class="text-sm button-border-right" elevation="0" rounded="0" :disabled="!allow_change_price" @click="onChangePricePressed()" size="large">
-                  {{ $t('Price') }}
-                </v-btn>
+               
                 <v-btn color="error" class="text-sm button-border-right" elevation="0" rounded="0" :disabled="!allow_delete_item" @click="onDeleteItemPressed()" size="large">
                   {{ $t('Delete') }}
                 </v-btn>
