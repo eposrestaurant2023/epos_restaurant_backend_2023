@@ -211,6 +211,8 @@ fixtures = [
     {"dt": "Dates"},
     {"dt": "Numbers"},
     {"dt": "Predefine Data"},
+    {"dt": "Help Category"},
+    {"dt": "Help Article"},
     {"dt": "POS Translation","filters": [["is_standard", "=", "1"]]},
 ]
 

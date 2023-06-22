@@ -94,7 +94,9 @@ class Product(Document):
 					"price":m.price,
 					"photo":m.photo
 				})
+				
 			self.combo_menu_data = json.dumps(combo_menus)
+
 		if self.is_combo_menu and self.combo_groups and self.use_combo_group==1:
 			combo_groups = []
 			for m in self.combo_groups:
@@ -336,25 +338,88 @@ def add_product_to_temp_menu(self):
 					  'unit':p.unit, 
 					  'price_rule' : p.price_rule
 					})
-		modifier_categories = Enumerable(self.product_modifiers).select(lambda x: x.modifier_category).distinct()
-		
-		modifiers = []
-		for c in modifier_categories:
-			doc_category = frappe.get_doc("Modifier Category",c)
-			modifier_items = []
-			for m in self.product_modifiers:
-				if m.modifier_category == c:
-					modifier_items.append({"name":m.name,"branch":m.business_branch or "" , "prefix":m.prefix, "modifier":m.modifier_code, "price":m.price })
 			
+		#get product modifier
+		mc0 = []
+		mc1 = Enumerable(self.product_modifiers).select(lambda x: x.modifier_category).distinct()
+		mc2 = [] #global modifier category
+
+
+
+		# #get global modifier category
+		global_modifier_product_categorie = frappe.get_list('Modifier Group Product Category',
+								filters=[['product_category','=',self.product_category]],
+								fields=['parent','name'],
+								limit=200
+							 )
+		global_modifiers = []
+		for gmpc in global_modifier_product_categorie:
+			gmodifiers = frappe.get_doc('Modifier Group',gmpc.parent)
+			for g in gmodifiers.modifiers:
+				global_modifiers.append(g)
+		
+		if global_modifiers != []:
+			mc2 = Enumerable(global_modifiers).select(lambda x: x.modifier_category).distinct()
+		
+		for mc in mc1:
+			mc0.append(mc)
+		for mc in mc2:
+			mc0.append(mc)
+
+		
+		modifier_categories = Enumerable(mc0).select(lambda x: x).distinct()	
+		modifiers = []
+
+
+		## get modifier data
+		for mc in modifier_categories:
+			doc_category = frappe.get_doc("Modifier Category",mc)
+			modifier_items = []	
+			items = []			
+			#global modifier group
+			for m in global_modifiers:
+				if m.modifier_category == mc:
+					items.append({
+						"name":m.name,
+						"branch":m.business_branch or "" , 
+						"prefix":m.prefix, 
+						"modifier":m.modifier_code, 
+						"value": str(m.business_branch or "") + str(m.prefix) + ''+str( m.modifier_code), 
+						"price":m.price 
+						})	
+			
+			#product modifier
+			for m in self.product_modifiers:
+				if m.modifier_category == mc:							
+					items.append({
+						"name":m.name,
+						"branch":m.business_branch or "" , 
+						"prefix":m.prefix, 
+						"modifier":m.modifier_code, 
+						"value":  str(m.business_branch or "") + str(m.prefix) + ''+str( m.modifier_code), 
+						"price":m.price 
+					})
+			
+			for i in items:	
+				modifier_items.append({
+					"name":i['name'],
+					"branch":i['branch'], 
+					"prefix":i['prefix'], 
+					"modifier":i['modifier'], 
+					"price": i['price'] 
+				})
+
 			modifiers.append({
-				"category":c,
+				"category":mc,
 				"is_required":doc_category.is_required,
 				"is_multiple":doc_category.is_multiple,
 				"items":modifier_items
 			})
-	
-		for m in self.pos_menus:
 			
+		## end get modifier data
+
+
+		for m in self.pos_menus:			
 			doc = frappe.get_doc({
 							"pos_menu_id":m.name,
 							'doctype': 'Temp Product Menu',
@@ -377,6 +442,11 @@ def update_product_to_temp_product_menu():
 		add_product_to_temp_menu(doc)
 	frappe.db.commit()
 	return "Done"
+
+
+@frappe.whitelist()
+def assign_menu(products,menu):
+	frappe.msgprint("Coming soon")
 
 @frappe.whitelist()
 def assign_printer(products,printer):

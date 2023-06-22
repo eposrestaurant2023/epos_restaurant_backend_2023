@@ -52,6 +52,7 @@
   },
   {
    "fetch_from": "product_code.product_name_en",
+   "fetch_if_empty": 1,
    "fieldname": "product_name_en",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -60,6 +61,7 @@
   },
   {
    "fetch_from": "product_code.product_name_kh",
+   "fetch_if_empty": 1,
    "fieldname": "product_name_kh",
    "fieldtype": "Data",
    "in_standard_filter": 1,
@@ -67,6 +69,7 @@
   },
   {
    "fetch_from": "product_code.unit",
+   "fetch_if_empty": 1,
    "fieldname": "unit",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -179,12 +182,14 @@
   },
   {
    "fetch_from": "product_code.combo_menu_data",
+   "fetch_if_empty": 1,
    "fieldname": "combo_menu_data",
    "fieldtype": "JSON",
    "label": "Combo Menu Data"
   },
   {
    "fetch_from": "product_code.combo_group_data",
+   "fetch_if_empty": 1,
    "fieldname": "combo_group_data",
    "fieldtype": "JSON",
    "label": "Combo Group Data"
@@ -209,7 +214,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-09 08:49:44.115444",
+ "modified": "2023-06-20 11:14:07.348485",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Temp Product Menu",

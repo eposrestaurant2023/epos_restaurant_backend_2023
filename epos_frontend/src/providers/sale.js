@@ -1387,10 +1387,9 @@ export default class Sale {
                 quantity: data.quantity,
                 amount: data.total_revenue,
                 deleted_by: data.created_by            
-            })
-                .then((doc) => console.log(doc))
-                .catch((error) => console.error(error));
-            }
+            }).then((doc) => {})
+            .catch((error) => {});
+        }
     }
 
 }

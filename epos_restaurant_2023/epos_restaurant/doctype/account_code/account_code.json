@@ -11,9 +11,12 @@
   "parent_account_code",
   "code",
   "account_name",
+  "is_group",
   "data_4",
   "type",
-  "is_group",
+  "use_folio_balance_as_default_amount",
+  "allow_enter_quantity",
+  "sort_order",
   "lft",
   "rgt",
   "old_parent",
@@ -28,6 +31,8 @@
   "tax_rule",
   "rate_include_tax",
   "tax_rule_data",
+  "payment_information_section",
+  "show_payment_information",
   "bank_fee_section",
   "allow_bank_fee",
   "allow_user_to_change_bank_fee",
@@ -39,11 +44,7 @@
   "section_break_29",
   "note",
   "account_code_name",
-  "account_group",
-  "other_setting_tab",
-  "allow_enter_quantity",
-  "column_break_35",
-  "set_default_amount_from_folio_balance"
+  "account_group"
  ],
  "fields": [
   {
@@ -256,31 +257,41 @@
    "options": "Account Code"
   },
   {
-   "fieldname": "other_setting_tab",
-   "fieldtype": "Tab Break",
-   "label": "Other Setting"
-  },
-  {
    "default": "0",
    "fieldname": "allow_enter_quantity",
    "fieldtype": "Check",
    "label": "Allow Enter Quantity"
   },
   {
-   "fieldname": "column_break_35",
-   "fieldtype": "Column Break"
+   "default": "0",
+   "fieldname": "use_folio_balance_as_default_amount",
+   "fieldtype": "Check",
+   "label": "Use folio balance as default amount"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "payment_information_section",
+   "fieldtype": "Section Break",
+   "label": "Payment Information"
   },
   {
    "default": "0",
-   "fieldname": "set_default_amount_from_folio_balance",
+   "description": "Show option to add payment information such as credit card info, card holder name and bank information...",
+   "fieldname": "show_payment_information",
    "fieldtype": "Check",
-   "label": "Set Default Amount from Folio Balance"
+   "label": "Show payment information"
+  },
+  {
+   "default": "0",
+   "fieldname": "sort_order",
+   "fieldtype": "Int",
+   "label": "Sort Order"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-06-18 22:59:48.885718",
+ "modified": "2023-06-21 08:57:48.770929",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Account Code",

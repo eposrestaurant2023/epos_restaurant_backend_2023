@@ -124,8 +124,26 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "Promotion",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Happy Hours Promotion",
+   "link_count": 0,
+   "link_to": "Happy Hours Promotion",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "Products",
-   "link_count": 7,
+   "link_count": 8,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -202,23 +220,15 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Promotion",
-   "link_count": 1,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Happy Hours Promotion",
+   "label": "Modifier Group",
    "link_count": 0,
-   "link_to": "Happy Hours Promotion",
+   "link_to": "Modifier Group",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
   }
  ],
- "modified": "2023-06-05 15:08:50.623320",
+ "modified": "2023-06-20 12:09:01.157081",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Selling",
