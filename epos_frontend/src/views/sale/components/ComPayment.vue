@@ -97,6 +97,8 @@ const toaster = createToaster({ position: "top" })
 const props = defineProps({
     params: Object
 })
+
+
 let backup = ref({})
 const selectedReceipt = ref({})
 selectedReceipt.value = gv.setting.default_pos_receipt;
@@ -107,12 +109,13 @@ function onSelectedReceipt(r) {
     selectedReceipt.value = r;
 }
 
-onMounted(() => {
-    backup.value = JSON.parse(JSON.stringify(sale.sale))    
+
+
+onMounted(() => { 
+    backup.value = JSON.parse(JSON.stringify(sale.sale));
 })
 
-function onClose() {
-    
+function onClose() {    
     sale.sale.total_paid = backup.value.total_paid
     sale.sale.balance = backup.value.balance
     sale.sale.changed_amount = backup.value.changed_amount

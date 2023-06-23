@@ -6,7 +6,7 @@
                         <Vue3DraggableResizable v-for="(t, index) in g.tables" :key="index" v-model:x="t.x" v-model:y="t.y" :w="t.w" :h="t.h"
         :draggable="true" :resizable="true" @resize-end="tableLayout.onResizeEnd(t)($event)">
 
-        <div class="h-full" v-bind:style="{ 'background-color': 'blue', 'color': '#fff', 'overflow': 'hidden' }">
+        <div  class="flex items-center justify-center h-full" v-bind:style="{ 'background-color': '#002ac1', 'color': '#fff', 'overflow': 'hidden' }">
             {{ t.tbl_no }}
         </div>
     </Vue3DraggableResizable>
