@@ -2,10 +2,19 @@
 # For license information, please see license.txt
 
 import frappe
+from frappe import _
 from frappe.model.document import Document
 
 class PurchaseOrderPayment(Document):
 	def validate(self):
+		if (self.exchange_rate or 0) ==0 or self.currency == frappe.db.get_default("currency"):
+			self.exchange_rate = 1
+   
+		self.payment_amount = self.input_amount /self.exchange_rate 
+   		
+		if (self.payment_amount or 0) ==0:
+			frappe.throw(_("Please enter payment amount"))
+
 		#validate expense if is a submitted expense
 		purchase_order_status = frappe.db.get_value("Purchase Order",self.purchase_order,"docstatus")
 		
