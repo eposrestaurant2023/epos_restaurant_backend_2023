@@ -11,10 +11,10 @@
   "sale_doc",
   "sale_product_id",
   "product_name",
-  "sale_product",
   "quantity",
   "amount",
-  "deleted_by"
+  "deleted_by",
+  "sale_product"
  ],
  "fields": [
   {
@@ -26,7 +26,6 @@
   {
    "fieldname": "sale_product_id",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Sale Product Id"
   },
   {
@@ -61,7 +60,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-19 16:26:31.651512",
+ "modified": "2023-06-23 17:47:21.676229",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Product Deleted",

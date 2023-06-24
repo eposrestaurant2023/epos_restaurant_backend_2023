@@ -1,17 +1,6 @@
 [
  {
   "category_description": null,
-  "category_name": "Sale",
-  "docstatus": 0,
-  "doctype": "Help Category",
-  "help_articles": 1,
-  "modified": "2023-04-17 09:42:36.122832",
-  "name": "Sale",
-  "published": 1,
-  "route": "kb/sale"
- },
- {
-  "category_description": null,
   "category_name": "General",
   "docstatus": 0,
   "doctype": "Help Category",
@@ -20,5 +9,16 @@
   "name": "General",
   "published": 1,
   "route": "kb/general"
+ },
+ {
+  "category_description": "ePOS User Manual",
+  "category_name": "ePOS User Manual",
+  "docstatus": 0,
+  "doctype": "Help Category",
+  "help_articles": 1,
+  "modified": "2023-06-24 09:02:38.620142",
+  "name": "ePOS User Manual",
+  "published": 1,
+  "route": "kb/epos-user-manual"
  }
 ]
