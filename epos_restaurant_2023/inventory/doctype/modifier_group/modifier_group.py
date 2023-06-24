@@ -24,7 +24,6 @@ class ModifierGroup(Document):
 			value = Enumerable(old_product_categories).where(lambda z:z.product_category == x.product_category)
 			if value:
 				old_product_categories.remove(value[0])	
-				
 		
 	 	#update modifier that removed product categories	
 		if old_product_categories:	
@@ -37,8 +36,8 @@ class ModifierGroup(Document):
 
 ## custom method
 def on_update_modifier_to_temm_product_menu(self, product_categories, remove = False):
-	for pc in product_categories:
-		
+
+	for pc in product_categories:		
 		products =	frappe.db.get_list('Product',
 						filters=[['product_category','=',pc.product_category]],
 						fields=['name'],
@@ -46,6 +45,7 @@ def on_update_modifier_to_temm_product_menu(self, product_categories, remove = F
 					)		
 		
 		for p in products:
+			
 			modifiers = []
 			product = frappe.get_doc('Product',p.name)
 			if product.pos_menus and not product.disabled and product.allow_sale:
@@ -93,13 +93,14 @@ def on_update_modifier_to_temm_product_menu(self, product_categories, remove = F
 							})	
 							
 					for i in items:	
-						modifier_items.append({
+						data ={
 							"name":i['name'],
 							"branch":i['branch'], 
 							"prefix":i['prefix'], 
 							"modifier":i['modifier'], 
 							"price": i['price'] 
-						})
+						}
+						modifier_items.append(data)
 
 					modifiers.append({
 						"category":mc,
@@ -108,11 +109,12 @@ def on_update_modifier_to_temm_product_menu(self, product_categories, remove = F
 						"items":modifier_items
 					})
 				
-				
-					for m in product.pos_menus:
-						doc = frappe.get_doc('Temp Product Menu',m.name) 
-						doc.modifiers = json.dumps(modifiers)						 
-						doc.save()
+				# frappe.msgprint( p.name +" =====> "+json.dumps(modifiers))
+
+				for m in product.pos_menus:
+					doc = frappe.get_doc('Temp Product Menu',m.name) 
+					doc.modifiers = json.dumps(modifiers)						 
+					doc.save()
 
 
 		

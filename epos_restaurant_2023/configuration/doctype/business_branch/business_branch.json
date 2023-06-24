@@ -29,7 +29,8 @@
   "bank_account_number",
   "swift_code",
   "edoor_setting_tab",
-  "default_pos_profile"
+  "default_pos_profile",
+  "default_letter_head"
  ],
  "fields": [
   {
@@ -154,12 +155,18 @@
    "fieldtype": "Link",
    "label": "Default POS Profile",
    "options": "POS Profile"
+  },
+  {
+   "fieldname": "default_letter_head",
+   "fieldtype": "Link",
+   "label": "Default Letter Head",
+   "options": "Letter Head"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-01 14:59:53.211539",
+ "modified": "2023-06-24 15:50:23.186794",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Business Branch",
