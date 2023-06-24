@@ -191,6 +191,8 @@ after_migrate = "epos_restaurant_2023.migrate.after_migrate"
 
 
 fixtures = [
+    {"dt": "Help Category"},
+    {"dt": "Help Article"},
     # {"dt": "Print Format", "filters": [["standard", "=", "Yes"]]},
     # {"dt": "Payment Type", "filters": [["is_standard", "=", "1"]]},
     # {"dt": "Payment Type Group", "filters": [["is_standard", "=", "1"]]},
@@ -211,8 +213,6 @@ fixtures = [
     {"dt": "Dates"},
     {"dt": "Numbers"},
     {"dt": "Predefine Data"},
-    {"dt": "Help Category"},
-    {"dt": "Help Article"},
     {"dt": "POS Translation","filters": [["is_standard", "=", "1"]]},
 ]
 
