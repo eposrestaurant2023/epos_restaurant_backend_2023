@@ -22,7 +22,8 @@
   "show_button_change_price_on_order_station",
   "show_keypad_in_sale_screen",
   "show_deleted_sale_product_in_sale_screen",
-  "is_used"
+  "is_used",
+  "show_button_change_sale_type"
  ],
  "fields": [
   {
@@ -116,11 +117,17 @@
    "fieldname": "show_deleted_sale_product_in_sale_screen",
    "fieldtype": "Check",
    "label": "Show Deleted Sale Product In Sale Screen"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_button_change_sale_type",
+   "fieldtype": "Check",
+   "label": "Show button change sale type"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-17 16:17:30.572587",
+ "modified": "2023-06-24 18:17:23.304841",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Station",

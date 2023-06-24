@@ -32,7 +32,7 @@
         prepend-icon="mdi-account-multiple-outline" :title="`${$t('Change Guest Cover')} (${sale.sale.guest_cover})`"
         @click="onUpdateGuestCover()" />
 
-    <v-list-item v-if="true" prepend-icon="mdi-cart" :title="$t('Change Sale Type')"
+    <v-list-item v-if="gv.device_setting.show_button_change_sale_type==1" prepend-icon="mdi-cart" :title="$t('Change Sale Type')"
         @click="onChangeSaleType()" />
 
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-chair-school"
