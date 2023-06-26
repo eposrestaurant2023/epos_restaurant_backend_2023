@@ -85,9 +85,6 @@ class Sale(Document):
 		
 		if Enumerable(self.payment).where(lambda x: (x.is_foc or 0) ==1).count()>=1:
 			self.is_foc = 1
-  
-  
-
 
 		total_quantity = Enumerable(self.sale_products).sum(lambda x: x.quantity or 0)
 		sub_total = Enumerable(self.sale_products).sum(lambda x: (x.quantity or 0)* (x.price or  0) + ((x.quantity or 0)*(x.modifiers_price or 0)))
@@ -105,13 +102,9 @@ class Sale(Document):
 				self.sale_discount = self.discount or 0
 				if self.discount > self.sale_discountable_amount:
 					frappe.throw("Discount amount cannot greater than discountable amount")
-
-
 		
-		self.product_discount = Enumerable(self.sale_products).where(lambda x:x.allow_discount ==1).sum(lambda x: x.discount_amount)
-		
-		self.total_discount = (self.product_discount or 0) + (self.sale_discount or 0)
-  
+		self.product_discount = Enumerable(self.sale_products).where(lambda x:x.allow_discount ==1).sum(lambda x: x.discount_amount)		
+		self.total_discount = (self.product_discount or 0) + (self.sale_discount or 0)  
 		#tax 
 		self.taxable_amount_1  = Enumerable(self.sale_products).where(lambda x:x.tax_rule).sum(lambda x: x.taxable_amount_1)
 		self.taxable_amount_2  = Enumerable(self.sale_products).where(lambda x:x.tax_rule).sum(lambda x: x.taxable_amount_2)
@@ -181,8 +174,8 @@ class Sale(Document):
 
 	
 	def on_submit(self):
-		update_inventory_on_submit(self)
-		# frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_submit", queue='short', self=self)
+		# update_inventory_on_submit(self)
+		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_submit", queue='short', self=self)
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.add_payment_to_sale_payment", queue='short', self=self)
 		
 	
