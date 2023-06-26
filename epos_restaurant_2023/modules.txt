@@ -7,3 +7,4 @@ Configuration
 Inventory
 ePOS Report
 Tour Managements
+Product Manager

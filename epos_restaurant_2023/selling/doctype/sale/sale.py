@@ -178,8 +178,8 @@ class Sale(Document):
 
 	
 	def on_submit(self):
-		# update_inventory_on_submit(self)
-		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_submit", queue='short', self=self)
+		update_inventory_on_submit(self)
+		# frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_submit", queue='short', self=self)
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.add_payment_to_sale_payment", queue='short', self=self)
 		
 	

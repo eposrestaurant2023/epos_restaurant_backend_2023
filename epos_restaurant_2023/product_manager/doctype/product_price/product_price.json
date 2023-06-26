@@ -25,6 +25,12 @@
    "options": "Business Branch"
   },
   {
+   "fieldname": "barcode",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Barcode"
+  },
+  {
    "fieldname": "price_rule",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -64,27 +70,21 @@
    "label": "Price"
   },
   {
-   "fieldname": "barcode",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Barcode"
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
   },
   {
    "fieldname": "barcode_preview",
    "fieldtype": "HTML",
    "label": "Barcode Preview"
-  },
-  {
-   "fieldname": "column_break_8",
-   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-06-26 16:06:17.285851",
+ "modified": "2023-06-26 16:11:17.180409",
  "modified_by": "Administrator",
- "module": "Configuration",
+ "module": "Product Manager",
  "name": "Product Price",
  "naming_rule": "Autoincrement",
  "owner": "Administrator",
