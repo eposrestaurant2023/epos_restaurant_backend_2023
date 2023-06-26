@@ -18,6 +18,7 @@
   "use_folio_balance_as_default_amount",
   "allow_enter_quantity",
   "show_in_shortcut_menu",
+  "icon",
   "sort_order",
   "lft",
   "rgt",
@@ -318,12 +319,17 @@
    "fieldname": "price",
    "fieldtype": "Currency",
    "label": "Price"
+  },
+  {
+   "fieldname": "icon",
+   "fieldtype": "Data",
+   "label": "Icon"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-06-25 22:23:07.932479",
+ "modified": "2023-06-26 09:23:03.598843",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Account Code",

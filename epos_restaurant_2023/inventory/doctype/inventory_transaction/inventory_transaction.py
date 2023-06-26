@@ -44,11 +44,8 @@ class InventoryTransaction(Document):
 	def after_insert(self):
 		
 		if self.product_has_in_stock_location==0:
-			 
 			add_stock_location_product(self)
 		else:
-		 
-
 			update_stock_location_product(self)
         
 
