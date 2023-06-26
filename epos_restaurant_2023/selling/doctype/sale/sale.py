@@ -13,6 +13,10 @@ import datetime
 
 class Sale(Document):
 	def validate(self):
+		if not frappe.db.get_default('exchange_rate_main_currency'):
+			frappe.throw('Main Exchange Currency not yet config. Please contact to system administrator to solve')
+
+
 			#frappe.throw(_("Please select your working day"))
 		if self.pos_profile:
 			if not self.working_day:
