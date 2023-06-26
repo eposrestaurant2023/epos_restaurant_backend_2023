@@ -11,15 +11,19 @@
   "parent_account_code",
   "code",
   "account_name",
+  "account_category",
   "is_group",
   "data_4",
   "type",
   "use_folio_balance_as_default_amount",
   "allow_enter_quantity",
+  "show_in_shortcut_menu",
   "sort_order",
   "lft",
   "rgt",
   "old_parent",
+  "price_section",
+  "price",
   "discount_section",
   "allow_discount",
   "column_break_12",
@@ -112,6 +116,7 @@
    "fieldname": "parent_account_code",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Parent Account Code",
    "options": "Account Code"
   },
@@ -286,12 +291,39 @@
    "fieldname": "sort_order",
    "fieldtype": "Int",
    "label": "Sort Order"
+  },
+  {
+   "fieldname": "account_category",
+   "fieldtype": "Link",
+   "label": "Account Category",
+   "mandatory_depends_on": "eval:doc.is_group==0",
+   "options": "Account Category"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.parent_account_code==\"All Account Code\"",
+   "fieldname": "show_in_shortcut_menu",
+   "fieldtype": "Check",
+   "label": "Show in Shortcut Menu"
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "eval:doc.price> 0",
+   "fieldname": "price_section",
+   "fieldtype": "Section Break",
+   "label": "Price"
+  },
+  {
+   "description": "Default price of account code. We recommend this option for item charge account code.",
+   "fieldname": "price",
+   "fieldtype": "Currency",
+   "label": "Price"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-06-22 18:21:34.490792",
+ "modified": "2023-06-25 22:23:07.932479",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Account Code",
