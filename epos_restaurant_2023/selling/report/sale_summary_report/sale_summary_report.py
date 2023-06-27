@@ -60,8 +60,7 @@ def validate(filters):
 
 				
 
-def get_columns(filters):
-	
+def get_columns(filters):	
 	columns = []
 	row_group = [d for d in get_row_groups() if d["label"]==filters.row_group][0]
  

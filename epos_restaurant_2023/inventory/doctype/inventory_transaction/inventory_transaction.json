@@ -12,6 +12,8 @@
   "transaction_type",
   "transaction_number",
   "column_break_4",
+  "product_group",
+  "product_category",
   "product_code",
   "product_name",
   "stock_unit",
@@ -202,11 +204,25 @@
    "fieldtype": "Data",
    "label": "Action",
    "read_only": 1
+  },
+  {
+   "fetch_from": "product_code.product_category",
+   "fieldname": "product_category",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Product Category"
+  },
+  {
+   "fetch_from": "product_code.product_group",
+   "fieldname": "product_group",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Product Group"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-26 10:19:51.728508",
+ "modified": "2023-06-27 10:44:57.663792",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Inventory Transaction",

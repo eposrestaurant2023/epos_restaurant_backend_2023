@@ -347,7 +347,7 @@ def add_product_to_temp_menu(self):
 
 
 		# #get global modifier category
-		global_modifier_product_categorie = frappe.get_list('Modifier Group Product Category',
+		global_modifier_product_categorie = frappe.get_all('Modifier Group Product Category',
 								filters=[['product_category','=',self.product_category]],
 								fields=['parent','name'],
 								limit=200
