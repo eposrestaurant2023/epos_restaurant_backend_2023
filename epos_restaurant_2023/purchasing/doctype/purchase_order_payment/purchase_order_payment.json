@@ -153,11 +153,11 @@
    "read_only": 1
   },
   {
-   "allow_in_quick_entry": 1,
    "default": "0",
    "fetch_from": "purchase_order.total_paid",
    "fieldname": "total_paid",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Total Paid",
    "read_only": 1
   },
@@ -242,7 +242,7 @@
   {
    "default": "0",
    "fieldname": "input_amount",
-   "fieldtype": "Data",
+   "fieldtype": "Float",
    "label": "Input Amount"
   },
   {
@@ -265,7 +265,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-06-23 10:05:07.044034",
+ "modified": "2023-06-28 11:07:38.794702",
  "modified_by": "Administrator",
  "module": "Purchasing",
  "name": "Purchase Order Payment",
