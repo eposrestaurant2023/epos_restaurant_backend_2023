@@ -156,14 +156,10 @@ def get_dynamic_columns(filters):
 def get_report_field(filters):
 	fields = []
 	fields.append({"label":"Unit","short_label":"Unit", "fieldname":"stock_unit","fieldtype":"Data","indicator":"Grey","precision":2, "align":"left","chart_color":"#FF8A65","sql_expression":"a.stock_unit"})
-	# fields.append({"label":"Sub Total", "short_label":"Sub To.", "fieldname":"sub_total","fieldtype":"Currency","indicator":"Grey","precision":None, "align":"right","chart_color":"#dd5574","sql_expression":"SUM(a.sub_total)"})
-	# fields.append({"label":"Discount", "short_label":"Disc.", "fieldname":"discount_amount","fieldtype":"Currency","indicator":"Grey","precision":None, "align":"right","chart_color":"#dd5574","sql_expression":"SUM(a.total_discount)"})
-	# fields.append({"label":"Tax", "short_label":"Tax", "fieldname":"total_tax","fieldtype":"Currency","indicator":"Grey","precision":None, "align":"right","chart_color":"#dd5574","sql_expression":"SUM(a.total_tax)"})
-	# fields.append({"label":"Amount", "short_label":"Amt", "fieldname":"amount","fieldtype":"Currency","indicator":"Red","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"SUM(a.total_revenue)"})
-	# fields.append({"label":"Cost", "short_label":"Cost", "fieldname":"cost","fieldtype":"Currency","indicator":"Red","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"SUM(a.cost)"})
-
-	# fields.append({"label":"Net Sale", "short_label":"net_sale", "fieldname":"net_sale","fieldtype":"Currency","indicator":"Red","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"SUM(a.total_revenue)"})
-	# fields.append({"label":"Profit", "short_label":"Profit", "fieldname":"profit","fieldtype":"Currency","indicator":"Green","precision":None, "align":"right","chart_color":"#2E7D32","sql_expression":"SUM(a.total_revenue - a.cost)"})
+	fields.append({"label":"Quantity on Hand","short_label":"QOH", "fieldname":"quantity_on_hand","fieldtype":"Float","indicator":"Grey","precision":2, "align":"right","chart_color":"#FF8A65","sql_expression":"SUM(a.quantity_on_hand)"})
+	fields.append({"label":"In Quantity","short_label":"In Qty", "fieldname":"in_quantity","fieldtype":"Float","indicator":"Grey","precision":2, "align":"right","chart_color":"#FF8A65","sql_expression":"SUM(a.in_quantity)"})
+	fields.append({"label":"Out Quantity","short_label":"Out Qty", "fieldname":"out_quantity","fieldtype":"Float","indicator":"Red","precision":2, "align":"right","chart_color":"#2E7D32","sql_expression":"SUM(a.out_quantity)"})
+	fields.append({"label":"Balance","short_label":"Balance", "fieldname":"balance","fieldtype":"Float","indicator":"Grey","precision":2, "align":"right","chart_color":"#FF8A65","sql_expression":"SUM(a.balance)"})
 	
 	return fields
 
@@ -216,8 +212,9 @@ def get_report_data(filters,parent_row_group=None,indent=0,group_filter=None):
 		{1} {2} {3}
 	""".format(get_conditions(filters,group_filter), row_group,item_code,groupdocstatus,normal_filter)
 
-	
-	data = frappe.db.sql(sql,filters, as_dict=1)
+	data = get_sql_data(filters)
+
+	# data = frappe.db.sql(sql,filters, as_dict=1)
 
 	return data
 
@@ -254,23 +251,23 @@ def get_report_chart(filters,data):
 	colors = []
 	report_fields = get_report_field(filters)
 
-	for d in data:
-			if d["indent"] ==0:
-				columns.append(d["row_group"])
+	# for d in data:
+	# 		if d["indent"] ==0:
+	# 			columns.append(d["row_group"])
 
 	
-	for rf in report_fields:	 
-		fieldname = 'total_'+rf["fieldname"]
-		if(fieldname=="total_qty"):
-			dataset.append({'name':rf["label"],'values':(d["total_qty"] for d in data if d["indent"]==0)})
-		elif(fieldname=="total_sub_total"):
-			dataset.append({'name':rf["label"],'values':(d["total_sub_total"] for d in data if d["indent"]==0)})
-		elif(fieldname=="total_cost"):
-			dataset.append({'name':rf["label"],'values':(d["total_cost"] for d in data if d["indent"]==0)})
-		elif(fieldname=="total_amount"):
-			dataset.append({'name':rf["label"],'values':(d["total_amount"] for d in data if d["indent"]==0)})
-		elif(fieldname=="total_profit"):
-			dataset.append({'name':rf["label"],'values':(d["total_profit"] for d in data if d["indent"]==0)})		 
+	# for rf in report_fields:	 
+	# 	fieldname = 'total_'+rf["fieldname"]
+	# 	if(fieldname=="total_qty"):
+	# 		dataset.append({'name':rf["label"],'values':(d["total_qty"] for d in data if d["indent"]==0)})
+	# 	elif(fieldname=="total_sub_total"):
+	# 		dataset.append({'name':rf["label"],'values':(d["total_sub_total"] for d in data if d["indent"]==0)})
+	# 	elif(fieldname=="total_cost"):
+	# 		dataset.append({'name':rf["label"],'values':(d["total_cost"] for d in data if d["indent"]==0)})
+	# 	elif(fieldname=="total_amount"):
+	# 		dataset.append({'name':rf["label"],'values':(d["total_amount"] for d in data if d["indent"]==0)})
+	# 	elif(fieldname=="total_profit"):
+	# 		dataset.append({'name':rf["label"],'values':(d["total_profit"] for d in data if d["indent"]==0)})		 
 
 	chart = {
 		'data':{
@@ -286,10 +283,117 @@ def get_report_chart(filters,data):
 
 	return chart
 
+
+# on get sql data	
+def get_sql_data(filters):
+	sql = """select 	
+				concat(a.product_code,'-',a.product_name) as product_name, 
+				a.product_category,
+				a.product_group,
+				a.business_branch,
+				a.stock_location,
+				a.transaction_type,
+				a.transaction_date,
+				a.creation,
+				a.stock_unit ,
+				a.unit, 
+				a.uom_conversion,
+				a.quantity_on_hand,
+				a.in_quantity,
+				a.out_quantity,
+				a.balance
+				
+			FROM `tabInventory Transaction` AS a 
+			WHERE {0} """.format(get_filter_condition(filters)) 
+	data = frappe.db.sql(sql,filters, as_dict=1)
+
+	# sum group by
+	groups = {}
+	for row in data:
+		group = {
+			"business_branch":row["business_branch"],
+			"stock_location": row["stock_location"],
+			"stock_unit":row["stock_unit"],
+			"product_group":row["product_group"],
+			"product_category":row["product_category"],
+			"product_name":row["product_name"]
+			}
+		g = (row["business_branch"])
+	 
+		in_quantity = row['in_quantity']
+		out_quantity = row['out_quantity']
+
+		g = json.dumps(group)
+		 
+		if g not in groups:
+			groups[g] = {'in_quantity': [],'out_quantity' : []}
+	 
+
+		groups[g]['in_quantity'].append(in_quantity)
+		groups[g]['out_quantity'].append(out_quantity)
+	 
+	inventory_movement = []
+	for group, total in groups.items():
+		total_in_quantity = sum(total['in_quantity'] )
+		total_out_quantity = sum(total['out_quantity'])
+
+		row = json.loads(group)
+		_data = list(filter(lambda x: x['business_branch'] ==row["business_branch"] 
+		      and x['stock_location'] == row['stock_location'] 
+		      and x['stock_unit'] == row['stock_unit'] 
+			  and x['product_group'] == row['product_group']
+			  and x['product_category']==row['product_category']
+			  and x['product_name'] == row['product_name'], data))
+		
+		quantity_on_hand = 0
+		balance = 0
+		for m in _data:
+			if m['creation'] == min([row['creation'] for row in _data]):
+				quantity_on_hand = m['quantity_on_hand']
+			
+			if m['creation'] == max([row['creation'] for row in _data]):
+				balance = m['balance']
+
+		
+		inventory_movement.append({
+			"business_branch":row["business_branch"],
+			"stock_location": row["stock_location"],
+			"stock_unit":row["stock_unit"],
+			"product_group":row["product_group"],
+			"product_category":row["product_category"],
+			"product_name":row["product_name"],
+			"indent":0,
+			"row_group":row["product_name"],
+			"quantity_on_hand":quantity_on_hand,
+			"in_quantity":total_in_quantity,
+			"out_quantity":total_out_quantity,
+			"balance":balance
+		})
+
+
+	return inventory_movement
+
+
+# get sql filter condition
+def get_filter_condition(filters):
+	conditions = " 1 = 1 "
+	start_date = filters.start_date
+	end_date = filters.end_date
+
+	conditions += " AND a.transaction_date between '{}' AND '{}'".format(start_date,end_date)
+
+	if filters.get("product_group"):
+		conditions += " AND a.product_group in %(product_group)s"
+
+	if filters.get("product_category"):
+		conditions += " AND a.product_category in %(product_category)s"
+ 
 	
+	conditions += " AND a.business_branch in %(business_branch)s"
 
-
-
+	conditions += " AND a.stock_location in %(stock_location)s"
+	
+	return conditions
 
 
 
