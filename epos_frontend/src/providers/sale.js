@@ -769,7 +769,8 @@ export default class Sale {
                             category_note_name: v.category_note_name
                         }
                     })
-                    sale.dialogActiveState=false
+                    this.sale.dialogActiveState=false 
+                    
                     if(resp != false){ 
                         const _tax_rule = JSON.parse(resp.tax_rule.tax_rule_data);   
                         if(sale_product){ 
