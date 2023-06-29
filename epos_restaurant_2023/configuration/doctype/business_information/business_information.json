@@ -17,7 +17,8 @@
   "contact_number",
   "contact_email",
   "photo",
-  "address"
+  "address",
+  "vattin_number"
  ],
  "fields": [
   {
@@ -76,13 +77,18 @@
    "fieldname": "address",
    "fieldtype": "Small Text",
    "label": "Address"
+  },
+  {
+   "fieldname": "vattin_number",
+   "fieldtype": "Data",
+   "label": "Vattin Number"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-12-14 09:37:59.052160",
+ "modified": "2023-06-29 17:54:10.391651",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Business Information",
