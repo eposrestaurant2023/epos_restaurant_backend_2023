@@ -127,13 +127,13 @@ frappe.query_reports["Inventory Movement Report"] = {
 			"fieldname": "parent_row_group",
 			"label": __("Parent Group By"),
 			"fieldtype": "Select",
-			"options": "\nBusiness Branch\nStock Location\nProduct Group\nProduct Category\nDate\nMonth\nYear",
+			"options": "\nBusiness Branch\nStock Location\nProduct Group\nProduct Category",
 		},
 		{
 			"fieldname": "row_group",
 			"label": __("Row Group By"),
 			"fieldtype": "Select",
-			"options": "Product\nProduct Category\nProduct Group\nBusiness Branch\nStock Location\nDate\nMonth\nYear",
+			"options": "Product\nProduct Category\nProduct Group\nBusiness Branch\nStock Location",
 			"default":"Product"
 		},
 		{

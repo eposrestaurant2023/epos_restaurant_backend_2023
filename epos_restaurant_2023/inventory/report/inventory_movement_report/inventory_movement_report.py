@@ -94,42 +94,27 @@ def get_columns(filters):
 def get_row_groups():
 	return [
 		{
-			"fieldname":"concat(a.product_code,'-',a.product_name)",
+			"fieldname":"product_name",
 			"label":"Product"
 		},
 		{
-			"fieldname":"a.product_category",
+			"fieldname":"product_category",
 			"label":"Product Category",
 			"parent_row_group_filter_field":"row_group"
 		},
 		{
-			"fieldname":"if(ifnull(a.product_group,'')='','Not Set',a.product_group)",
+			"fieldname":"product_group",
 			"label":"Product Group",
 			"parent_row_group_filter_field":"row_group"
 		},
 		{
-			"fieldname":"a.business_branch",
+			"fieldname":"business_branch",
 			"label":"Business Branch",
 			"parent_row_group_filter_field":"row_group"
 		},
 		{
-			"fieldname":"ifnull(a.stock_location,'Not Set')",
+			"fieldname":"stock_location",
 			"label":"Stock Location",
-			"parent_row_group_filter_field":"row_group"
-		},
-		{
-			"fieldname":"date_format(a.transaction_date,'%%d/%%m/%%Y')",
-			"label":"Date",
-			"parent_row_group_filter_field":"row_group"
-		},
-		{
-			"fieldname":"date_format(a.transaction_date,'%%m/%%Y')",
-			"label":"Month",
-			"parent_row_group_filter_field":"row_group"
-		},
-		{
-			"fieldname":"date_format(a.transaction_date,'%%Y')",
-			"label":"Year",
 			"parent_row_group_filter_field":"row_group"
 		}
 	]
@@ -154,7 +139,18 @@ def get_dynamic_columns(filters):
 
 ## on get report field
 def get_report_field(filters):
+
+	# frappe.msgprint(json.dumps(filters))
 	fields = []
+	if filters.row_group != "Product Category" and filters.row_group != "Product Group" and filters.row_group != "Stock Location":
+		fields.append({"label":"Product Category","short_label":"Product Category", "fieldname":"product_category","fieldtype":"Data","indicator":"Grey","precision":2, "align":"left","chart_color":"#FF8A65","sql_expression":"product_category"})
+	
+	if filters.row_group != "Business Branch":
+		fields.append({"label":"Business Branch","short_label":"Business Branch", "fieldname":"business_branch","fieldtype":"Data","indicator":"Grey","precision":2, "align":"left","chart_color":"#FF8A65","sql_expression":"business_branch"})
+	
+	if filters.row_group != "Stock Location":
+		fields.append({"label":"Stock Location","short_label":"Stock Location", "fieldname":"stock_location","fieldtype":"Data","indicator":"Grey","precision":2, "align":"left","chart_color":"#FF8A65","sql_expression":"stock_location"})
+	
 	fields.append({"label":"Unit","short_label":"Unit", "fieldname":"stock_unit","fieldtype":"Data","indicator":"Grey","precision":2, "align":"left","chart_color":"#FF8A65","sql_expression":"a.stock_unit"})
 	fields.append({"label":"Quantity on Hand","short_label":"QOH", "fieldname":"quantity_on_hand","fieldtype":"Float","indicator":"Grey","precision":2, "align":"right","chart_color":"#FF8A65","sql_expression":"SUM(a.quantity_on_hand)"})
 	fields.append({"label":"In Quantity","short_label":"In Qty", "fieldname":"in_quantity","fieldtype":"Float","indicator":"Grey","precision":2, "align":"right","chart_color":"#FF8A65","sql_expression":"SUM(a.in_quantity)"})
@@ -168,7 +164,8 @@ def get_report_field(filters):
 def get_report_group_data(filters):
 	parent = get_report_data(filters, filters.parent_row_group, 0)
 	data=[] 
-	for p in parent:
+
+	for p in parent:		 
 		p["is_group"] = 1
 		data.append(p)
 
@@ -183,38 +180,10 @@ def get_report_group_data(filters):
 def get_report_data(filters,parent_row_group=None,indent=0,group_filter=None):
 	row_group = [d["fieldname"] for d in get_row_groups() if d["label"]==filters.row_group][0]
 
-	if(parent_row_group!=None):
-		row_group = [d["fieldname"] for d in get_row_groups() if d["label"]==parent_row_group][0]
+	# if(parent_row_group!=None):
+		# row_group = [d["fieldname"] for d in get_row_groups() if d["label"]==parent_row_group][0]
 
-	
-	report_fields = get_report_field(filters)
-	sql = "select {} as row_group, {} as indent ".format(row_group, indent)	
-	
-	# total last column
-	item_code = ""
-	groupdocstatus = ""
-	normal_filter = " " 
-	
-	for rf in report_fields:
-		#check sql variable if last character is , then remove it
-		sql = strip(sql)
-		if sql[-1]==",":
-			sql = sql[0:len(sql)-1]	
-		sql = sql + " ,{} AS '{}' ".format(rf["sql_expression"],rf["fieldname"])
-
-
-	sql = sql + """ {2}
-		FROM `tabInventory Transaction` AS a
-		WHERE
-			{4}
-			{0}
-		GROUP BY 
-		{1} {2} {3}
-	""".format(get_conditions(filters,group_filter), row_group,item_code,groupdocstatus,normal_filter)
-
-	data = get_sql_data(filters)
-
-	# data = frappe.db.sql(sql,filters, as_dict=1)
+	data = get_sql_data(filters,row_group)
 
 	return data
 
@@ -285,7 +254,7 @@ def get_report_chart(filters,data):
 
 
 # on get sql data	
-def get_sql_data(filters):
+def get_sql_data(filters,row_group):
 	sql = """select 	
 				concat(a.product_code,'-',a.product_name) as product_name, 
 				a.product_category,
@@ -318,8 +287,7 @@ def get_sql_data(filters):
 			"product_category":row["product_category"],
 			"product_name":row["product_name"]
 			}
-		g = (row["business_branch"])
-	 
+ 
 		in_quantity = row['in_quantity']
 		out_quantity = row['out_quantity']
 
@@ -369,10 +337,8 @@ def get_sql_data(filters):
 			"out_quantity":total_out_quantity,
 			"balance":balance
 		})
-
-
-	return inventory_movement
-
+	
+	return get_data_group_by_row(inventory_movement,row_group )
 
 # get sql filter condition
 def get_filter_condition(filters):
@@ -395,12 +361,146 @@ def get_filter_condition(filters):
 	
 	return conditions
 
+# get data with group by row
+def get_data_group_by_row(data, row_group):
+ 	 
+	if row_group == "product_name":
+		return sorted(data, key=lambda x: x['product_name'])
+	
+	elif row_group == "product_category":
+		return get_data_group_by(data, row_group)
+	
+	elif row_group == "product_group":
+		return get_data_group_by(data, row_group)
+	
+	elif row_group == "business_branch":
+		return get_data_group_by(data, row_group)
+
+	elif row_group == "stock_location":
+		return get_data_group_by(data, row_group)
+	
+	
+	return []
+
+ 
+#get data group by 
+def get_data_group_by(data, row_group):
+	result = []
+
+	groups = {}
+	for row in data:
+		group = {}
+		_row_group ={}
+		if row_group == "business_branch":
+			_row_group.update({
+				"business_branch":row["business_branch"],
+				"stock_unit":row["stock_unit"]
+			})
+		elif row_group == "stock_location":
+			_row_group.update({
+				"business_branch":row["business_branch"],
+				"stock_location": row["stock_location"],
+				"stock_unit":row["stock_unit"]
+			})
+		elif row_group == "product_group":
+			_row_group.update({
+				"business_branch":row["business_branch"],
+				"stock_location": row["stock_location"],
+				"stock_unit":row["stock_unit"],
+				"product_group":row["product_group"]
+			})
+		elif row_group == "product_category":
+			_row_group.update({
+				"business_branch":row["business_branch"],
+				"stock_location": row["stock_location"],
+				"stock_unit":row["stock_unit"],
+				"product_group":row["product_group"],
+				"product_category":row["product_category"]
+			})
+		elif row_group == "product_name":
+			_row_group.update({
+				"business_branch":row["business_branch"],
+				"stock_location": row["stock_location"],
+				"stock_unit":row["stock_unit"],
+				"product_group":row["product_group"],
+				"product_category":row["product_category"],
+				"product_name": row["product_name"]
+			})  
+
+		group.update(_row_group)
+
+		in_quantity = row['in_quantity']
+		out_quantity = row['out_quantity']
+		quantity_on_hand = row['quantity_on_hand']
+		balance = row['balance']
+
+		g = json.dumps(group)	  
+		if g not in groups:
+			groups[g] = {'in_quantity': [],'out_quantity' : [],'quantity_on_hand':[],'balance':[]}
+	 
+
+		groups[g]['in_quantity'].append(in_quantity)
+		groups[g]['out_quantity'].append(out_quantity)
+		groups[g]['quantity_on_hand'].append(quantity_on_hand)
+		groups[g]['balance'].append(balance)
+
+	 
+	for group, total in groups.items():	 
+		total_in_quantity = sum(total['in_quantity'])
+		total_out_quantity = sum(total['out_quantity'])
+		quantity_on_hand = sum(total['quantity_on_hand'])		 
+		balance = sum(total['balance'])		 
+		row = json.loads(group)	
+		_result = {}
+		_result.update({
+			"indent":0,
+			"row_group":row[str(row_group)],
+			"quantity_on_hand":quantity_on_hand,
+			"in_quantity":total_in_quantity,
+			"out_quantity":total_out_quantity,
+			"balance":balance
+		})	
+
+		## check row group
+		if row_group == "business_branch":
+			_result.update({
+				"business_branch":row["business_branch"],
+				"stock_unit":row["stock_unit"]
+			})
+		elif row_group == "stock_location":
+			_result.update({
+				"business_branch":row["business_branch"],
+				"stock_location": row["stock_location"],
+				"stock_unit":row["stock_unit"]
+			})
+		elif row_group == "product_group":
+			_result.update({
+				"business_branch":row["business_branch"],
+				"stock_location": row["stock_location"],
+				"stock_unit":row["stock_unit"],
+				"product_group":row["product_group"]
+			})
+		elif row_group == "product_category":
+			_result.update({
+				"business_branch":row["business_branch"],
+				"stock_location": row["stock_location"],
+				"stock_unit":row["stock_unit"],
+				"product_group":row["product_group"],
+				"product_category":row["product_category"]
+			})
+		elif row_group == "product_name":
+			_result.update({
+				"business_branch":row["business_branch"],
+				"stock_location": row["stock_location"],
+				"stock_unit":row["stock_unit"],
+				"product_group":row["product_group"],
+				"product_category":row["product_category"],
+				"product_name": row["product_name"]
+			}) 
+		result.append(_result)	 
 
 
-
-
-
-
-
+	result_sort = sorted( list(result), key=lambda x: x[str(row_group)])
+	return result_sort
 
 
