@@ -621,10 +621,11 @@ export default class Sale {
                     let result = false;
                     if(input==(-99999)){
                         input = await keyboardDialog({ title:$t("Change Price"), type: 'number', value: sp.price });
+                        result = input;
                     }
                     else{
                         result = input;
-                    }
+                    } 
                     
                     if (result != false) {  
                         const price = sp.price;
@@ -770,7 +771,7 @@ export default class Sale {
                         }
                     })
                     this.sale.dialogActiveState=false 
-                    
+
                     if(resp != false){ 
                         const _tax_rule = JSON.parse(resp.tax_rule.tax_rule_data);   
                         if(sale_product){ 
@@ -878,11 +879,9 @@ export default class Sale {
         if (sp.quantity == quantity) {
             if (sp.sale_product_status == 'Submitted') {
                 sp.show_in_list = true;
-
                 const sp_data = JSON.parse(JSON.stringify(sp));
                 sp_data.created_by = username;
                 this.deletedSaleProducts.push(sp_data) ;
-
                 this.deletedSaleProductsDisplay.push(sp_data);
                 
             }
