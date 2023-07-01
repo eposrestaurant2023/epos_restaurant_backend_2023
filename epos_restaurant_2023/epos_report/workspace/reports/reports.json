@@ -193,7 +193,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Stock Take &amp; Stock Transfer",
-   "link_count": 5,
+   "link_count": 6,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -246,9 +246,19 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Inventory Movement",
+   "link_count": 0,
+   "link_to": "Inventory Movement Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-06-17 09:49:50.592392",
+ "modified": "2023-06-30 10:28:23.328699",
  "modified_by": "Administrator",
  "module": "ePOS Report",
  "name": "Reports",

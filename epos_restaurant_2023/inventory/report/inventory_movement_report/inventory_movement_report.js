@@ -136,13 +136,13 @@ frappe.query_reports["Inventory Movement Report"] = {
 			"options": "Product\nProduct Category\nProduct Group\nBusiness Branch\nStock Location",
 			"default":"Product"
 		},
-		{
-			"fieldname": "chart_type",
-			"label": __("Chart Type"),
-			"fieldtype": "Select",
-			"options": "None\nbar\nline\npie",
-			"default":"bar"
-		}
+		// {
+		// 	"fieldname": "chart_type",
+		// 	"label": __("Chart Type"),
+		// 	"fieldtype": "Select",
+		// 	"options": "None\nbar\nline\npie",
+		// 	"default":"bar"
+		// }
 
 	],
 	"formatter": function(value, row, column, data, default_formatter) {	

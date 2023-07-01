@@ -30,7 +30,9 @@
   "swift_code",
   "edoor_setting_tab",
   "default_pos_profile",
-  "default_letter_head"
+  "default_letter_head",
+  "column_break_24",
+  "room_tax_rule"
  ],
  "fields": [
   {
@@ -161,12 +163,22 @@
    "fieldtype": "Link",
    "label": "Default Letter Head",
    "options": "Letter Head"
+  },
+  {
+   "fieldname": "column_break_24",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "room_tax_rule",
+   "fieldtype": "Link",
+   "label": "Room Tax Rule",
+   "options": "Tax Rule"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-24 15:50:23.186794",
+ "modified": "2023-07-01 02:33:12.235363",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Business Branch",

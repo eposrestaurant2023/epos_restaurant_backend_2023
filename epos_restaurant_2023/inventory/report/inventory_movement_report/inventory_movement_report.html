@@ -1,0 +1,119 @@
+<h2 class="text-center report-title">{%= __("Inventory Movement Report") %}</h2>
+<h5 class="text-left">
+    {% 
+        if (filters.filter_based_on == "Date Range") { %}
+        <span class="text-right text-muted">
+            Date:
+        </span>
+        {%= frappe.datetime.str_to_user(filters.start_date)  %} to {%= frappe.datetime.str_to_user(filters.end_date) %}
+        {% }
+    %} 
+	{% 
+        if (filters.business_branch != "") { %}
+        <span class="text-right text-muted">
+            Branch:
+        </span>
+             {%= filters.business_branch %}
+        {% }
+    %} 
+    {% 
+        if (filters.stock_location != "") { %}
+        <span class="text-right text-muted">
+            Stock Location:
+        </span>
+             {%= filters.stock_location %}
+        {% }
+    %} 
+    {% 
+        if (filters.product_group != "") { %}
+        <span class="text-right text-muted">
+            Product Group:
+        </span>
+             {%= filters.product_group %}
+        {% }
+    %} 
+    {% 
+        if (filters.product_category != "") { %}
+        <span class="text-right text-muted">
+            Product Category:
+        </span>
+             {%= filters.product_category %}
+        {% }
+    %} 
+    {% 
+        if (filters.row_group != "") { %}
+        <span class="text-right text-muted">
+            Group By:
+        </span>
+             {%= filters.row_group %}
+        {% }
+    %} 
+
+    
+</h5>
+<hr/>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-center" style="width: 30px;">Nº</th>
+            {% for(var i=0, l=report.columns.length; i<l; i++) { %}
+                <th class="text-{%= report.columns[i].align %}">{%= __(report.columns[i].label) %}</th>
+            {% } %}
+        </tr>
+    </thead>
+    <tbody>
+        
+            {% for(var i=0, l=data.length; i<l; i++) { %}
+                {% var style = ``%} 
+                <tr {%= style %}>
+                        
+                        <td class="text-center">
+                            {% if(!filters["parent_row_group"]) { %}
+                                {%= i + 1 %}
+                            {% }%}
+                            
+                        </td>
+                        {% for(var c=0, cl=report.columns.length; c<cl; c++) { %}
+                            
+                                <td class="text-{%= report.columns[c]['align'] %}">
+                                    {% if(report.columns[c]["fieldname"] ==  "row_group") { %}
+                                        
+                                        <!-- Put Total Label -->
+                                        {% if(!data[i]["is_total_row"]) { %}
+                                            {%= __(data[i][report.columns[c]["fieldname"]])%}
+                                        {% } else { %}
+                                            {%= __("Total")%}
+                                        {% } %}
+                                    {% } else { %}
+                                        {% if(report.columns[c]["fieldtype"] ==  "Float") { %}
+                                            {%= __(format_number(data[i][report.columns[c]["fieldname"]],"",frappe.defaults.get_default("float_precision_in_report"))) %}
+                                            
+                                        {% } else { %}
+                                            {%= __(data[i][report.columns[c]["fieldname"]]) %}
+                                        {% } %}
+                                    {% } %}
+                                </td>
+                        {% } %}
+                </tr>
+            {% } %}
+    </tbody>
+</table>
+
+ 
+<p class="text-right text-muted">
+    Printed by: {%= frappe.user.name%} on {%= frappe.datetime.str_to_user(frappe.datetime.get_datetime_as_string()) %} 
+</p>
+
+<style media="print">
+    .print-format {
+        padding: 2mm;
+        font-size: 8.0pt !important;
+    }
+    .print-format .table-bordered td, .print-format .table-bordered th{
+        border: 1px solid #c3c3c3!important;
+    }
+    .report-title{
+        font-weight: 600!important;
+    }
+    
+</style>

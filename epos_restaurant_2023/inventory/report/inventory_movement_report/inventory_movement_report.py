@@ -11,16 +11,18 @@ import datetime
 def execute(filters=None):
 
 	if filters.filter_based_on =="Fiscal Year":
-		if not filters.from_fiscal_year:
+		# if not filters.from_fiscal_year:
 			filters.from_fiscal_year = datetime.date.today().year
 			
 			filters.start_date = '{}-01-01'.format(filters.from_fiscal_year)
 			filters.end_date = '{}-12-31'.format(filters.from_fiscal_year) 
 
+
 	elif filters.filter_based_on =="This Month":
 		filters.start_date = datetime.date.today().replace(day=1)
 		filters.end_date =add_days(  add_months(filters.start_date ,1),-1)
-
+	
+	 
 	validate(filters)
 
 

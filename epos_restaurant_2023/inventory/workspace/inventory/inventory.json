@@ -125,7 +125,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Reports",
-   "link_count": 4,
+   "link_count": 5,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -168,9 +168,19 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Inventory Movement",
+   "link_count": 0,
+   "link_to": "Inventory Movement Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-06-20 12:04:25.742075",
+ "modified": "2023-06-30 10:27:51.027052",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Inventory",

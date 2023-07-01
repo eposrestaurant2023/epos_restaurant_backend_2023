@@ -9,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "tax_rule_name",
+  "is_rate_include_tax",
   "section_break_2",
   "tax_1_name",
   "tax_1_rate",
@@ -181,11 +182,17 @@
    "fieldtype": "Link",
    "label": "Tax 3 Account",
    "options": "Account Code"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_rate_include_tax",
+   "fieldtype": "Check",
+   "label": "Is Rate Include Tax"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-12 21:03:23.319498",
+ "modified": "2023-07-01 02:58:53.105561",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Tax Rule",

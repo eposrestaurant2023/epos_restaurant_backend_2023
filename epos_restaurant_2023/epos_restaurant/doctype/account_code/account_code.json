@@ -46,6 +46,10 @@
   "bank_fee_account",
   "section_break_24",
   "require_city_ledger_account",
+  "printing_section",
+  "show_print_preview",
+  "column_break_41",
+  "print_format",
   "section_break_29",
   "note",
   "account_code_name",
@@ -324,12 +328,33 @@
    "fieldname": "icon",
    "fieldtype": "Data",
    "label": "Icon"
+  },
+  {
+   "fieldname": "printing_section",
+   "fieldtype": "Section Break",
+   "label": "Printing"
+  },
+  {
+   "fieldname": "show_print_preview",
+   "fieldtype": "Data",
+   "label": "Show print preview after add transaction"
+  },
+  {
+   "fieldname": "column_break_41",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "print_format",
+   "fieldtype": "Link",
+   "label": "Print Format",
+   "mandatory_depends_on": "eval:doc.show_print_preview ==1",
+   "options": "Print Format"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-06-26 09:23:03.598843",
+ "modified": "2023-06-30 15:15:05.580722",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Account Code",
