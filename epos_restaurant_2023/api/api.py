@@ -57,7 +57,20 @@ def get_system_settings(pos_profile="", device_name=''):
 
     payment_types=[]
     for p in pos_config.payment_type:
-        payment_types.append({ "payment_method":p.payment_type,"currency":p.currency,"is_single_payment_type":p.is_single_payment_type,"allow_cash_float":p.allow_cash_float, "input_amount":0,"exchange_rate":p.exchange_rate if p.currency != main_currency.name else 1,"required_customer":p.required_customer,"is_foc":p.is_foc})
+        payment_types.append({ 
+            "account_code":p.account_code,
+            "payment_method":p.payment_type,
+            "payment_type_group":p.payment_type_group,
+            "currency":p.currency,
+            "is_single_payment_type":p.is_single_payment_type,
+            "allow_cash_float":p.allow_cash_float, 
+            "input_amount":0,
+            "exchange_rate":p.exchange_rate if p.currency != main_currency.name else 1,
+            "required_customer":p.required_customer,
+            "is_foc":p.is_foc,
+            "use_room_offline":p.use_room_offline,
+            "rooms":p.rooms
+            })
     
     #get currency
     currencies = frappe.db.sql("select name,symbol,currency_precision,symbol_on_right,pos_currency_format from `tabCurrency` where enabled=1", as_dict=1)
@@ -651,6 +664,39 @@ def get_emenu_product(menu):
         for d in pos_menu:
             product = frappe.get_doc("Product", d.product_code)
             data.append(product)
+    return data
+
+
+# get reservation folio
+@frappe.whitelist()
+def get_reservation_folio(property):
+    room_types = frappe.db.get_list("Room Type",
+                             filters=[["property",'=',property]],
+                             limit=100,
+                             fields=['name', 'room_type','sort_order'],
+                            )
+
+
+    folio = frappe.db.get_list("Reservation Folio",
+                             filters=[['status','=', 'Open'], 
+                                      ['reservation_status','=','In-house'] , 
+                                      ["property",'=',property]],
+                             limit=500,
+                             fields=[
+                                 'name', 
+                                 'room_types',
+                                 'rooms',
+                                 'reservation',
+                                 'guest_name',
+                                 'phone_number'
+                                 ],
+                            )
+
+    data = {
+        "folio_data":folio,
+        "room_types":room_types
+        }
+
     return data
 
 

@@ -10,7 +10,7 @@
     </div>
 </template>
 <script setup>
-import { inject,onMounted } from '@/plugin';
+import { inject,onMounted , payToRoomDialog } from '@/plugin';
 import { useDisplay } from 'vuetify'
 const {mobile} = useDisplay()
 const gv = inject("$gv")
@@ -25,7 +25,24 @@ onMounted(()=>{
     is_first_input_amount = true;
 });
 
-function onPaymentTypeClick(pt) { 
+async function onPaymentTypeClick(pt)  { 
+    let room = null;
+    let folio = null;
+
+    // if(pt.payment_type_group=="Pay to Room" ){ 
+    //     const result = await payToRoomDialog({
+    //         data : pt
+    //     });
+
+    //     //
+    //     if(result == false){
+    //         return
+    //     }
+    //     room = result.room;
+    //     folio = result.folio;      
+    // } 
+
+   
     if( payment_input_number == sale.paymentInputNumber){
         is_first_input_amount = true;
     }
@@ -33,7 +50,7 @@ function onPaymentTypeClick(pt) {
     if(is_first_input_amount){
         sale.paymentInputNumber = sale.paymentInputNumber * pt.exchange_rate;
     }
-    sale.onAddPayment(pt, sale.paymentInputNumber);
+    sale.onAddPayment(pt, sale.paymentInputNumber,room,folio);
     is_first_input_amount = false;
 }
 </script>

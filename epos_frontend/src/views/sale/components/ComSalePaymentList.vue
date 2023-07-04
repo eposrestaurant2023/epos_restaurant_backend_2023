@@ -5,6 +5,9 @@
                 <div class="flex items-center p-1 bg-white rounded-sm mb-1 border border-gray-600">
                     <div class="flex-grow">
                         <div class="font-bold">{{ p.payment_type }} </div>
+                        <div class="text-xs text-gray-500" v-if="((p.room_number||'') !='')">{{ $t('Room') }}#:   {{ p.room_number }}
+
+                        </div>
                      
                         <div class="text-xs text-gray-500" v-if="p.currency != sale.setting.pos_setting.main_currency_name">{{ $t('Exchange Rate') }}: 
                             <CurrencyFormat :value="p.exchange_rate" :currency="p.currency" v-if="sale.setting.pos_setting.main_currency_name == sale.setting.pos_setting.exchange_rate_main_currency"/>

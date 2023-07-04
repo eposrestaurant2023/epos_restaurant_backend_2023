@@ -44,7 +44,10 @@
   "amended_from",
   "pos_profile",
   "check_valid_payment_amount",
-  "is_foc"
+  "is_foc",
+  "room_number",
+  "folio_number",
+  "use_room_offline"
  ],
  "fields": [
   {
@@ -292,12 +295,29 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Symbol"
+  },
+  {
+   "fieldname": "room_number",
+   "fieldtype": "Data",
+   "label": "Room Number"
+  },
+  {
+   "fieldname": "folio_number",
+   "fieldtype": "Data",
+   "label": "Folio Number"
+  },
+  {
+   "default": "0",
+   "fieldname": "use_room_offline",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Use Room Offline"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-03-30 17:50:56.027148",
+ "modified": "2023-07-03 17:15:31.119721",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Payment",

@@ -18,6 +18,7 @@ import ComSearchCustomer from '@/views/sale/components/ComSearchCustomer.vue';
 import ComScanCustomerCode from '@/views/sale/components/ComScanCustomerCode.vue';
 import ComSaleProductDiscountModal from '@/views/sale/components/ComSaleProductDiscountModal.vue';
 import ComPayment from '@/views/sale/components/ComPayment.vue';
+import ComPayToRoomModal from '@/views/sale/components/ComPayToRoomModal.vue';
 import ComKeypadWithNote from '@/components/form/ComKeypadWithNote.vue';
 import ComViewBillModal from '@/views/sale/components/ComViewBillModal.vue';
 import ComSmallViewSaleProductListModal from '@/views/sale/components/mobile_screen/ComSmallViewSaleProductListModal.vue';
@@ -77,6 +78,7 @@ export  const authorizeDialog= createPromiseDialog<params, object>(ComAuthorize)
 export  const noteDialog= createPromiseDialog<params, object>(ComNote);
 export  const saleProductDiscountDialog = createPromiseDialog<params, object>(ComSaleProductDiscountModal);
 export  const paymentDialog = createPromiseDialog<params, object>(ComPayment);
+export  const payToRoomDialog = createPromiseDialog<params, object>(ComPayToRoomModal);
 export  const keypadWithNoteDialog = createPromiseDialog<params, object>(ComKeypadWithNote);
 export  const viewBillModelModel = createPromiseDialog<params, object>(ComViewBillModal);
 export  const smallViewSaleProductListModal = createPromiseDialog<params, object>(ComSmallViewSaleProductListModal);

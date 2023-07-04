@@ -179,6 +179,7 @@ class Sale(Document):
 	
 	def on_submit(self):
 		# update_inventory_on_submit(self)
+		# add_payment_to_sale_payment(self)
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_submit", queue='short', self=self)
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.add_payment_to_sale_payment", queue='short', self=self)
 		
@@ -211,8 +212,7 @@ def update_inventory_on_submit(self):
 			doc = frappe.get_doc("Product",p.product_code)
 			#check if product has receipt and loop update from product receip
 
-			update_product_recipe_to_inventory(self,doc, p.quantity, "Submit")
-			
+			update_product_recipe_to_inventory(self,doc, p.quantity, "Submit")		
 
 			#udpate cost for none stock product
 			
@@ -387,8 +387,7 @@ def update_inventory_on_cancel(self):
 
 def add_payment_to_sale_payment(self):
 	if self.payment:
-		for p in self.payment:
-			 
+		for p in self.payment:		 
 			if p.payment_type_group !='On Account':
 				if p.input_amount>0:
 					doc = frappe.get_doc({
@@ -404,7 +403,10 @@ def add_payment_to_sale_payment(self):
 							"check_valid_payment_amount":0,
 							"pos_profile":self.pos_profile,
 							"working_day":self.working_day,
-							"cashier_shift":self.cashier_shift
+							"cashier_shift":self.cashier_shift,
+							"room_number":p.room_number,
+							"folio_number":p.folio_number,
+							"use_room_offline":p.use_room_offline
 						})
 					doc.insert()
    

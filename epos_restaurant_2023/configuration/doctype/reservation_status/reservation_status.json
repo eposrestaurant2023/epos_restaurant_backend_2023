@@ -14,8 +14,7 @@
   "show_in_reservation_list",
   "show_in_room_chart",
   "sort_order",
-  "show_folio_in_reservation_stay_detail",
-  "show_folio_in_reservation_detail"
+  "allow_user_to_edit_information"
  ],
  "fields": [
   {
@@ -54,20 +53,14 @@
   },
   {
    "default": "0",
-   "fieldname": "show_folio_in_reservation_stay_detail",
+   "fieldname": "allow_user_to_edit_information",
    "fieldtype": "Check",
-   "label": "Show Folio Tab In Reservation Stay Detail"
-  },
-  {
-   "default": "0",
-   "fieldname": "show_folio_in_reservation_detail",
-   "fieldtype": "Check",
-   "label": "Show Folio Tab in Reservation Detail"
+   "label": "Allow user to edit information"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-22 18:18:10.014649",
+ "modified": "2023-07-03 10:06:55.170197",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Reservation Status",

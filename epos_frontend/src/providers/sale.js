@@ -98,7 +98,7 @@ export default class Sale {
     }
 
     async newSale() {
-
+        this.deletedSaleProductsDisplay=[]
         const make_order_auth = JSON.parse(localStorage.getItem('make_order_auth'));
         const tax_rule = this.setting.tax_rule;
         this.orderChanged = false;
@@ -1273,7 +1273,7 @@ export default class Sale {
         }
     }
 
-    onAddPayment(paymentType, amount) {
+    onAddPayment(paymentType, amount,room=null, folio=null) {
         const single_payment_type = this.sale.payment.find(r => r.is_single_payment_type == 1);
         if (single_payment_type) {
             toaster.warning($t('msg.You cannot add other payment type with',[ single_payment_type.payment_type]));
@@ -1285,17 +1285,19 @@ export default class Sale {
             }
             if (!this.getNumber(amount) == 0) {
                 this.sale.payment.push({
-
                     payment_type: paymentType.payment_method,
                     input_amount: parseFloat(amount),
                     amount: parseFloat(amount / paymentType.exchange_rate),
                     exchange_rate: paymentType.exchange_rate,
                     currency: paymentType.currency,
                     is_single_payment_type: paymentType.is_single_payment_type,
-                    required_customer: paymentType.required_customer
+                    required_customer: paymentType.required_customer,                    
+                    use_room_offline:paymentType.use_room_offline,
+                    room_number:room,
+                    folio_number:folio
                 });
-                this.updatePaymentAmount();
 
+                this.updatePaymentAmount();
                 this.paymentInputNumber = this.sale.balance.toFixed(this.setting.pos_setting.main_currency_precision);
 
             } else {

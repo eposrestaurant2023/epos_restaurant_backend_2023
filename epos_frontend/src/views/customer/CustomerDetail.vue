@@ -195,7 +195,6 @@ let orderSummary =  {
 };
 
 onMounted(()=>{
-console.log( props.params.name)
       orderSummary = createResource( {
         url: 'epos_restaurant_2023.selling.doctype.customer.customer.get_customer_order_summary',
         params: {

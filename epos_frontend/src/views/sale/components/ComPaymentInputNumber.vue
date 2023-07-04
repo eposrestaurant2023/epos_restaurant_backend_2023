@@ -45,7 +45,7 @@
             <v-btn @click="numpad_click('.')" size="large">
               .
             </v-btn>
-            <v-btn color="error" @click="sale.paymentInputNumber = ''" size="large">
+            <v-btn color="error" @click="onClear" size="large">
               Clear
             </v-btn>
           </div>
@@ -57,9 +57,10 @@
   </div>
 </template>
 <script setup>
-import { inject,computed } from "@/plugin"
+import { inject,onMounted } from "@/plugin"
 import ComPaymentCurrencyPrefine from "./ComPaymentCurrencyPrefine.vue";
-const sale = inject("$sale")
+const sale = inject("$sale") 
+
 function numpad_click(n) {
   if (n == "." && sale.paymentInputNumber.includes(".")) {
     return;
@@ -68,6 +69,10 @@ function numpad_click(n) {
     sale.paymentInputNumber = "";
   }
   sale.paymentInputNumber = sale.paymentInputNumber + n;
+}
+
+function onClear(){
+  sale.paymentInputNumber = '';
 }
 
 

@@ -63,9 +63,7 @@ let customerPromotion = computed({
     set(newValue){
         return newValue
     }
-})
-// console.log(mobile)
-
+}) 
     const { ctrl_m } = useMagicKeys({
     passive: false,
     onEventFired(e) {
@@ -175,6 +173,7 @@ function updateProductAfterSelectCustomer(pro){
                                 s.happy_hours_promotion_title =  r.promotion_title
                                 s.happy_hour_promotion = r.promotion_name
                             }
+                            sale.updateSaleProduct(s)
                         }) 
                     })
 
@@ -194,6 +193,7 @@ function updateProductAfterSelectCustomer(pro){
                     gv.promotion = null
                     sale.promotion = null
                 }
+                sale.updateSaleSummary();
             }
         });
     }
@@ -238,13 +238,16 @@ async function onAddCustomer() {
 function onClearPromotionProduct(){
     // remove old promotion
     sale.sale.sale_products.forEach((s) => { 
+        console.log(s.happy_hour_promotion)
         if(s.happy_hour_promotion){
             s.discount_type = ''
             s.discount = 0
             s.happy_hours_promotion_title =  ''
             s.happy_hour_promotion = ''
         }
+        sale.updateSaleProduct(s)
     });
+    sale.updateSaleSummary()
 }
 onMounted(() => {
     if(!sale.sale.customer){
