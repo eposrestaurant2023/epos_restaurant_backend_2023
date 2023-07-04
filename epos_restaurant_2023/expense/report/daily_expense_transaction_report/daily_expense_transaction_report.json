@@ -9,7 +9,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Defualt Letter Head",
- "modified": "2022-12-28 18:09:49.163852",
+ "modified": "2023-07-04 15:17:14.315456",
  "modified_by": "Administrator",
  "module": "Expense",
  "name": "Daily Expense Transaction Report",
@@ -21,6 +21,9 @@
  "roles": [
   {
    "role": "System Manager"
+  },
+  {
+   "role": "Sales Manager"
   }
  ]
 }
