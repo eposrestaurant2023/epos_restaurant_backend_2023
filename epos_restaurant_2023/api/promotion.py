@@ -25,7 +25,7 @@ def check_promotion(business_branch = '', check_time = False):
                                 filters=filters,
                                 order_by="priority")
     
-    frappe.throw(str(promotions))
+   
     
     data =  Enumerable(promotions).where(lambda x:x.business_branch == business_branch or x.business_branch == None or x.business_branch == '')
     
