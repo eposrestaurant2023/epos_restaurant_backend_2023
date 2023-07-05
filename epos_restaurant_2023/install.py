@@ -140,6 +140,9 @@ def reset_sale_transaction():
             frappe.db.sql("delete from `tabCashier Shift Cash Float`")
             frappe.db.sql("delete from `tabCashier Shift`")
             frappe.db.sql("delete from `tabWorking Day`")
+            frappe.db.sql("delete from `tabPromotion Products`")
+            frappe.db.sql("delete from `tabPromotion Customer Group`")
+            frappe.db.sql("delete from `tabHappy Hours Promotion`")
             frappe.db.sql("delete from `tabComment` where reference_doctype in ('Sale','POS Sale Payment','Sale Payment','Sale Product','Cashier Shift Cash Float','Cashier Shift','Working Day')")
 
             #reset sale transaction 

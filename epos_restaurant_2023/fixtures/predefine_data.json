@@ -1246,5 +1246,29 @@
   "name": "af8d94a1f7",
   "sort": 200,
   "title": "Close Sale Transaction - UI"
+ },
+ {
+  "data": "{\r\n    \"payment_type_group\": \"Pay to Room\",\r\n    \"doctype\": \"Payment Type Group\"\r\n}",
+  "doc_name": "Pay to Room",
+  "doc_type": "Payment Type Group",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 0,
+  "modified": "2023-07-03 10:01:44.081179",
+  "name": "4d21244d87",
+  "sort": 20,
+  "title": "Pay to Room"
+ },
+ {
+  "data": "{\n    \"payment_type\": \"Pay to Room\",\n    \"payment_type_group\": \"Pay to Room\",\n    \"currency\": \"USD\",\n    \"exchange_rate\": 1,\n    \"sort_order\": 10,\n    \"is_foc\": 0,\n    \"doctype\": \"Payment Type\"\n}",
+  "doc_name": "Pay to Room",
+  "doc_type": "Payment Type",
+  "docstatus": 0,
+  "doctype": "Predefine Data",
+  "is_single": 0,
+  "modified": "2023-07-03 10:04:17.199043",
+  "name": "2f12e7b820",
+  "sort": 30,
+  "title": "Pay to Room"
  }
 ]
