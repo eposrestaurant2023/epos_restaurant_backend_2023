@@ -47,6 +47,7 @@
   "is_foc",
   "room_number",
   "folio_number",
+  "account_code",
   "use_room_offline"
  ],
  "fields": [
@@ -312,12 +313,18 @@
    "fieldtype": "Check",
    "hidden": 1,
    "label": "Use Room Offline"
+  },
+  {
+   "fieldname": "account_code",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Account Code"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-07-03 17:15:31.119721",
+ "modified": "2023-07-04 15:46:33.680570",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Payment",

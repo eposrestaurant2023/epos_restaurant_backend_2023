@@ -165,9 +165,7 @@ export default class Sale {
            
 
             await this.saleResource.get.fetch().then(async (doc) => {
-
                 this.onLoadDeleteSaleProducts(doc.name);
-
                 this.sale = doc;
                 this.action = "";
                 //check if current table dont hanve any sale list data then load it
@@ -1294,7 +1292,8 @@ export default class Sale {
                     required_customer: paymentType.required_customer,                    
                     use_room_offline:paymentType.use_room_offline,
                     room_number:room,
-                    folio_number:folio
+                    folio_number:folio,
+                    account_code:paymentType.account_code
                 });
 
                 this.updatePaymentAmount();

@@ -19,6 +19,7 @@
   "payment_type_group",
   "room_number",
   "folio_number",
+  "account_code",
   "use_room_offline"
  ],
  "fields": [
@@ -110,12 +111,18 @@
    "fieldtype": "Check",
    "hidden": 1,
    "label": "Use Room Offline"
+  },
+  {
+   "fieldname": "account_code",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Account Code"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-07-03 17:13:33.934059",
+ "modified": "2023-07-04 15:54:46.285931",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "POS Sale Payment",

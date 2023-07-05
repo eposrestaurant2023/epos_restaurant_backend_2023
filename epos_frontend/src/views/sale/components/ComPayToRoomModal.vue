@@ -1,6 +1,6 @@
 <template>
     <ComModal :fullscreen="false" :persistent="true" @onClose="onClose" :titleOKButton="$t('Ok')" @onOk="onConfirm"
-        :fill="true" contentClass="h-full">
+        :fill="false" contentClass="h-full">
         <template #title>
             {{ $t('Payment') }}
         </template>
@@ -10,6 +10,7 @@
                     {{ r.room_name }} {{ r.selected?'Selected':'' }}
                 </div>
             </template>
+
             <template v-else>
                 <v-select :label="$t('Room Type')" 
                 item-title="type"
@@ -19,20 +20,26 @@
                 variant="solo"               
                 density="compact"
                 :items="room_types"></v-select> 
-                <hr/>
-       
-                <div v-for="(r, index) in get_folio_data" :key="index">
-                    <div>
-                       <span>Folio: #{{ r.name }}</span>
-                    </div>
-                    <div>
-                        <span>Room Type: #{{ r.room_type }}</span>
-                     </div>
-                     <div>
-                        <span>Room: {{ r.rooms }}</span>
-                     </div>
-                     <hr/>                     
-                </div>
+                <template v-if="get_folio_data.length>0">
+                    <v-row no-gutters>
+                        <v-col cols="12" class="pa-2" sm="6" v-for="(r, index) in get_folio_data" :key="index" @click="(()=>onOnlineFolioPressed(r))">
+                            <v-btn :class="r.selected ? 'bg-deep-purple-accent-4 pa-2 rounded-sm' : 'pa-2 rounded-sm'" class="btn-post-to-room">
+                                <div>
+                                    <span>Folio: #{{ r.name }}</span>
+                                </div>
+                                <div>
+                                    <span>Room Type: #{{ r.room_types }}</span>
+                                </div>
+                                <div>
+                                    <span>Room: {{ r.rooms }}</span>
+                                </div>  
+                            </v-btn>                  
+                        </v-col>
+                    </v-row>
+                </template>
+                <template v-else>
+                    <p>{{$t("Empty Data")}}</p>
+                </template>
                
             </template>
         </template> 
@@ -127,20 +134,45 @@ function onOfflineRoomPressed(room){
     })
 }
 
+function onOnlineFolioPressed(folio){  
+    
+    folio_data.value.forEach((f)=>{
+        if(f.name==folio.name){
+            f.selected = !f.selected;
+        }else{
+            f.selected = false
+        }
+    })
+   
+}
+
  
-function onConfirm(){
- 
-    const room = rooms.value.filter((r)=>r.selected)
+function onConfirm(){ 
+    let room = [] 
+    if(props.params.data.use_room_offline){
+        room = rooms.value.filter((r)=>r.selected)
+    }else{
+        room =folio_data.value.filter((r)=>r.selected||false)
+    }
+  
     if(room.length <=0){
         toaster.warning($t("msg.Please select a room to continue"))
         return
     } 
     const r = room[0];
-    emit("resolve", {
-        "room":r.room_name,
-        "folio":null,
-        "use_room_offline":true,
-    });
+    if(props.params.data.use_room_offline){
+            emit("resolve", {
+            "room":r.room_name,
+            "folio":null,
+        });
+    }
+    else{
+         emit("resolve", {
+            "room":r.rooms,
+            "folio":r.name
+        });
+    }
+    
 }
 
 function onClose() {    
@@ -156,3 +188,16 @@ function uuidv4() {
 
 
 </script>
+<style>
+.btn-post-to-room{
+    width: 100%;
+    height: 14vh !important;
+    text-align: start; 
+    display: block !important;
+}
+.btn-post-to-room .v-btn__content{
+    white-space: normal !important;
+    display: block !important;
+    line-height: 1.5;
+}
+</style>

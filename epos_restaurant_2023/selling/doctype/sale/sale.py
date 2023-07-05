@@ -180,7 +180,9 @@ class Sale(Document):
 	def on_submit(self):
 		# update_inventory_on_submit(self)
 		# add_payment_to_sale_payment(self)
+		create_folio_transaction_from_pos_trnasfer(self)
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_submit", queue='short', self=self)
+		# frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.create_folio_transaction_from_pos_trnasfer", queue='short', self=self)
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.add_payment_to_sale_payment", queue='short', self=self)
 		
 	
@@ -320,8 +322,6 @@ def update_combo_menu_to_inventor_transaction(self,product,action,combo_menu_dat
 			# base qty here is = sale product quantity * combo product quantity
 			update_product_recipe_to_inventory(self,doc,product.quantity * p["quantity"], action)
 					
-
-
 def update_inventory_on_cancel(self):
 	for p in self.sale_products:
 		if p.is_inventory_product:
@@ -384,7 +384,6 @@ def update_inventory_on_cancel(self):
 		if p.is_combo_menu:
 			update_combo_menu_to_inventory(self,p,"Cancel")
 		
-
 def add_payment_to_sale_payment(self):
 	if self.payment:
 		for p in self.payment:		 
@@ -406,7 +405,8 @@ def add_payment_to_sale_payment(self):
 							"cashier_shift":self.cashier_shift,
 							"room_number":p.room_number,
 							"folio_number":p.folio_number,
-							"use_room_offline":p.use_room_offline
+							"use_room_offline":p.use_room_offline,
+							"account_code":p.account_code
 						})
 					doc.insert()
    
@@ -426,7 +426,6 @@ def add_payment_to_sale_payment(self):
 					"note": "Changed amount in sale order {}".format(self.name)
 				})
 			doc.insert()
-		
 
 def validate_sale_product(self):
 	sale_discount = self.discount  
@@ -464,6 +463,21 @@ def validate_sale_product(self):
 		validate_tax(d)
 		d.amount = (d.sub_total - d.discount_amount) + d.total_tax
 		d.total_revenue = (d.sub_total - d.total_discount) + d.total_tax
+
+def create_folio_transaction_from_pos_trnasfer(self):
+	for p in self.payment:
+		if p.folio_number and not p.use_room_offline:
+			data = {
+					'doctype': 'Folio Transaction',
+					'folio_number':p.folio_number,
+					'posting_date':self.posting_date,
+					'reference_type': "Sale",
+					'reference_number':self.name,
+					"input_amount":p.amount,
+					"account_code":p.account_code
+				} 
+			doc = frappe.get_doc(data)
+			doc.insert()	
 
 def validate_pos_payment(self):
 	currency = frappe.db.get_default("currency")

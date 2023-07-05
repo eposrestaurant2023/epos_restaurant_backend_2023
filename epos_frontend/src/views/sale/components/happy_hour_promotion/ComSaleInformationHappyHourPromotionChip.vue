@@ -1,8 +1,8 @@
 <template>
-    <ComChip v-if="gv.promotion && gv.promotion.length == 1" tooltip="Happy Hour Promotion" prepend-icon="mdi-tag-multiple">{{ gv.promotion[0].promotion_name }}</ComChip>
+    <ComChip v-if="gv.promotion && gv.promotion.length == 1" :tooltip="$t('Happy Hour Promotion')" prepend-icon="mdi-tag-multiple">{{ gv.promotion[0].promotion_name }}</ComChip>
     <template v-else-if="gv.promotion && gv.promotion.length > 1">
         <v-badge :content="gv.promotion?.length" color="orange">
-            <ComChip @onClick="onClick()" tooltip="Happy Hour Promotions" prepend-icon="mdi-tag-multiple">Happy Hour Promotions</ComChip>
+            <ComChip @onClick="onClick()" :tooltip="$t('Happy Hour Promotion')" prepend-icon="mdi-tag-multiple">{{$t('Happy Hour Promotion')}}</ComChip>
         </v-badge>
     </template>
 </template>
@@ -12,4 +12,6 @@
     function onClick(){
         const r = viewHappyHourPromotionModal({})
     }
+
+    console.log(gv)
 </script> 

@@ -10,11 +10,13 @@
     </div>
 </template>
 <script setup>
-import { inject,onMounted , payToRoomDialog } from '@/plugin';
+import { inject,onMounted , payToRoomDialog,createToaster,i18n } from '@/plugin';
 import { useDisplay } from 'vuetify'
 const {mobile} = useDisplay()
 const gv = inject("$gv")
 const sale = inject("$sale")
+const { t: $t } = i18n.global;  
+const toaster = createToaster({ position: "top" });
 
 let is_first_input_amount = true;
 let payment_input_number = 0;
@@ -29,19 +31,24 @@ async function onPaymentTypeClick(pt)  {
     let room = null;
     let folio = null;
 
-    // if(pt.payment_type_group=="Pay to Room" ){ 
-    //     const result = await payToRoomDialog({
-    //         data : pt
-    //     });
+    if(pt.payment_type_group=="Pay to Room" ){ 
 
-    //     //
-    //     if(result == false){
-    //         return
-    //     }
-    //     room = result.room;
-    //     folio = result.folio;      
-    // } 
+        if(sale.paymentInputNumber<=0){
+            toaster.warning($t("msg.Please enter payment amount"));
+            return
+        }
 
+        const result = await payToRoomDialog({
+            data : pt
+        });
+
+        //
+        if(result == false){
+            return
+        }
+        room = result.room;
+        folio = result.folio;      
+    } 
    
     if( payment_input_number == sale.paymentInputNumber){
         is_first_input_amount = true;
