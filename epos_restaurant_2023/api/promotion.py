@@ -23,12 +23,10 @@ def check_promotion(business_branch = '', check_time = False):
     promotions = frappe.get_list("Happy Hours Promotion", 
                                 fields=['name', 'promotion_name','priority','business_branch','start_date','end_date','start_time','end_time','percentage_discount','note','number_discount'], 
                                 filters=filters,
-                                order_by="priority")
-    
+                                order_by="priority")  
    
     
-    data =  Enumerable(promotions).where(lambda x:x.business_branch == business_branch or x.business_branch == None or x.business_branch == '')
-    
+    data =  Enumerable(promotions).where(lambda x:x.business_branch == business_branch or x.business_branch == None or x.business_branch == '')    
     if len(data) > 0:
         # check availible on customer
         promotions = []
