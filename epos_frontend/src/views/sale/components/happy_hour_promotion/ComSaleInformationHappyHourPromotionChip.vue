@@ -12,6 +12,4 @@
     function onClick(){
         const r = viewHappyHourPromotionModal({})
     }
-
-    console.log(gv)
 </script> 
