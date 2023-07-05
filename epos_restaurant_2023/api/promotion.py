@@ -19,6 +19,7 @@ def check_promotion(business_branch = '', check_time = False):
     if str2bool(check_time): 
         filters.append(['start_time','<=', format_time(date,'HH:mm:ss')])
         filters.append(['end_time','>=', format_time(date,'HH:mm:ss')])
+    
   
     promotions = frappe.get_list("Happy Hours Promotion", 
                                 fields=['name', 'promotion_name','priority','business_branch','start_date','end_date','start_time','end_time','percentage_discount','note','number_discount'], 
