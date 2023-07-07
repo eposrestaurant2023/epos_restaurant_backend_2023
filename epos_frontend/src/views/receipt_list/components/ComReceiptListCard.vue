@@ -28,8 +28,13 @@
                             </div>
 
                           </template>
-                          <template v-slot:default>
+                          <template v-slot:default> 
                                 <table class="text-sm text-gray-500"> 
+                                    <tr>
+                                        <td>{{ $t('Table') }}</td>
+                                        <td class=" px-2">:</td>
+                                        <td>{{ s.tbl_number }}</td>
+                                    </tr>
                                     <tr>
                                         <td>{{ $t('Date') }}</td>
                                         <td class=" px-2">:</td>
@@ -171,6 +176,7 @@ let countResource = createResource({
         totalPage.value = Math.ceil(r/pagerOption.itemPerPage)
         dataResource.params =   getDataResourceParams()
         dataResource.fetch()
+
     }
 })
 

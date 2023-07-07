@@ -41,6 +41,7 @@ const headers = ref([
     callback: true
   },
   { title: $t('Customer Name'), align: 'start', key: 'customer', template: '{customer}-{customer_name}', callback: true },
+  { title: $t('Table'), align: 'start', key: 'tbl_number' },
   { title: $t('Date'), align: 'center', key: 'posting_date', fieldtype: "Date" },
   { title: $t('Qty'), align: 'center', key: 'total_quantity', },
   { title: $t('Grand Total'), align: 'end', key: 'grand_total', fieldtype: "Currency" },

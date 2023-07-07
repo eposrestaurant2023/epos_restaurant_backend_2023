@@ -2,45 +2,54 @@
     <ComModal :fullscreen="false" :persistent="true" @onClose="onClose" :titleOKButton="$t('Ok')" @onOk="onConfirm"
         :fill="false" contentClass="h-full">
         <template #title>
-            {{ $t('Payment') }}
+            {{ $t('Payment') }} {{ get_room_selected==""?"":(": #" + get_room_selected) }}
         </template>
         <template #content>
-            <template v-if="params.data.use_room_offline" > 
-                <div  v-for="(r, index) in rooms" :key="index" @click="(()=>onOfflineRoomPressed(r))">
-                    {{ r.room_name }} {{ r.selected?'Selected':'' }}
-                </div>
-            </template>
+            <template v-if="params.data.use_room_offline" >  
+                <v-row no-gutters>
+                    <v-col cols="12" class="pa-1" sm="3"  v-for="(r, index) in rooms" :key="index" @click="(()=>onOfflineRoomPressed(r))">
+                        <div :class="r.selected ? 'bg-indigo-lighten-2' : ''" class="cursor-pointer border border-stone-500 pa-3 rounded-sm">
+                            <div>
+                                <span>{{$t("Room")}}: {{ r.room_name }}</span>
+                            </div>
+                        </div>                  
+                    </v-col>
+                </v-row>
 
+            </template>
             <template v-else>
-                <v-select :label="$t('Room Type')" 
-                item-title="type"
-                :item-value="room_type"
-                v-model="room_type" 
-                return-object
-                variant="solo"               
-                density="compact"
-                :items="room_types"></v-select> 
+                <div class="grid mb-2 -m-1 border rounded-sm p-1 grid-cols-4">
+                    <div  class="flex items-center justify-center cursor-pointer border border-stone-500 rounded-sm text-center hover:bg-slate-300 p-3"
+                        :class="(t.selected?'bg-pink-lighten-4':'')"
+                    
+                        style="margin: 1px;"
+                        :key="index"
+                        v-for="(t, index) in room_types" @click="onRoomTypeSelected(t)">
+                        {{ t.type }}
+                    </div>
+                </div> 
+
+                <hr/>
                 <template v-if="get_folio_data.length>0">
                     <v-row no-gutters>
-                        <v-col cols="12" class="pa-2" sm="6" v-for="(r, index) in get_folio_data" :key="index" @click="(()=>onOnlineFolioPressed(r))">
-                            <v-btn :class="r.selected ? 'bg-deep-purple-accent-4 pa-2 rounded-sm' : 'pa-2 rounded-sm'" class="btn-post-to-room">
+                        <v-col cols="12" class="pa-1" sm="6" v-for="(r, index) in get_folio_data" :key="index" @click="(()=>onOnlineFolioPressed(r))">
+                            <div :class="r.selected ? 'bg-indigo-lighten-2' : ''" class="btn-post-to-room cursor-pointer border border-stone-500 pa-1 rounded-sm">
                                 <div>
-                                    <span>Folio: #{{ r.name }}</span>
+                                    <span>{{ $t('Folio') }}: #{{ r.name }}</span>
                                 </div>
                                 <div>
-                                    <span>Room Type: #{{ r.room_types }}</span>
+                                    <span>{{ $t("Room Type") }}: #{{ r.room_types }}</span>
                                 </div>
                                 <div>
-                                    <span>Room: {{ r.rooms }}</span>
+                                    <span>{{$t("Room")}}: {{ r.rooms }}</span>
                                 </div>  
-                            </v-btn>                  
+                            </div>                  
                         </v-col>
                     </v-row>
                 </template>
                 <template v-else>
-                    <p>{{$t("Empty Data")}}</p>
-                </template>
-               
+                    <div class="flex items-center justify-center">{{$t("Empty Data")}}</div>
+                </template>               
             </template>
         </template> 
     </ComModal>
@@ -64,7 +73,6 @@ const call = frappe.call();
 
 const rooms = ref([]);
 const folio_data = ref([]);
-const room_type = ref({ "name":"all","type":$t("All"), "sort_order":-9999})
 const reservation_folio = ref({});
 const room_types = ref([]);
 
@@ -82,11 +90,21 @@ onMounted(()=>{
         room_types.value.push({
             "name":"all",
             "type":$t("All"),
-            "sort_order":-9999
+            "sort_order":-9999,
+            "selected":true
         })
         onGetReservationFolio();
     }
 }) 
+
+function onRoomTypeSelected(type) {
+    room_types.value.forEach((r)=>{    
+        r.selected =false;   
+        if(r.name==type.name){
+            r.selected = true;
+        }
+    })
+}
 
 function onGetReservationFolio(){
     call.get('epos_restaurant_2023.api.api.get_reservation_folio', {
@@ -98,7 +116,8 @@ function onGetReservationFolio(){
                 room_types.value.push({
                     "name":t.name,
                     "type": t.room_type,
-                    "sort_order":t.sort_order
+                    "sort_order":t.sort_order,
+                    "selected":false
                 })
             })
 
@@ -113,12 +132,35 @@ function onGetReservationFolio(){
 } 
 
 const get_folio_data = computed(()=>{
-    if(room_type.value.name=="all"){
-        return folio_data.value;
+    const check =  room_types.value.filter((r)=>r.selected);
+    if(check.length >0){
+        if(check[0].name=="all"){
+            return folio_data.value;
+        }else{
+            const data = folio_data.value.filter((r)=>r.room_types.includes(check[0].type));
+            return data;
+        }
     }
-    const data = folio_data.value.filter((r)=>r.room_types.includes(room_type.value.type));
-    return data
+    return folio_data.value; 
 })
+
+const get_room_selected = computed(()=>{
+    let room = []
+    if(props.params.data.use_room_offline){
+        room = rooms.value.filter((r)=>r.selected)
+        if(room.length>0){
+            return room[0].room_name;
+        }
+    }else{
+        room = folio_data.value.filter((r)=>r.selected)
+        if(room.length>0){
+            return room[0].rooms;
+        }
+    }  
+    
+    return "";
+})
+
 
 
 
@@ -142,8 +184,7 @@ function onOnlineFolioPressed(folio){
         }else{
             f.selected = false
         }
-    })
-   
+    })   
 }
 
  
@@ -191,7 +232,7 @@ function uuidv4() {
 <style>
 .btn-post-to-room{
     width: 100%;
-    height: 14vh !important;
+    height: 11vh !important;
     text-align: start; 
     display: block !important;
 }
