@@ -13,6 +13,7 @@ const toaster = createToaster({ position: "top" });
 
 export default class Sale {
     constructor() {
+        this.load_menu_lang = false,
         this.mobile = false;
         this.platform = {};
         this.promotion = null;

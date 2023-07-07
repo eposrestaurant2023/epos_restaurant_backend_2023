@@ -36,10 +36,14 @@
                             <div :class="r.selected ? 'bg-indigo-lighten-2' : ''" class="btn-post-to-room cursor-pointer border border-stone-500 pa-1 rounded-sm">
                                 <div>
                                     <span>{{ $t('Folio') }}: #{{ r.name }}</span>
-                                </div>
+                                </div> 
+                                <div>
+                                    <span>{{$t("Guest")}}: {{ r.guest_name }}</span>
+                                </div>  
                                 <div>
                                     <span>{{ $t("Room Type") }}: #{{ r.room_types }}</span>
                                 </div>
+                               
                                 <div>
                                     <span>{{$t("Room")}}: {{ r.rooms }}</span>
                                 </div>  
@@ -232,7 +236,7 @@ function uuidv4() {
 <style>
 .btn-post-to-room{
     width: 100%;
-    height: 11vh !important;
+    height: 14vh !important;
     text-align: start; 
     display: block !important;
 }

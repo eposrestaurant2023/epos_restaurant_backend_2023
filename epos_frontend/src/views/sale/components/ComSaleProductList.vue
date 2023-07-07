@@ -9,13 +9,13 @@
                 <v-avatar v-if="sp.product_photo">
                     <v-img :src="sp.product_photo"></v-img>
                 </v-avatar>
-                <avatar v-else :name="sp.product_name" class="mr-4" size="40"></avatar>
+                <avatar v-else :name="getMenuName(sp)" class="mr-4" size="40"></avatar>
             </template>
             <template v-slot:default>
                 <div class="text-sm">
                     <div class="flex">
                         <div class="grow">
-                            <div> {{ sp.product_name }}<v-chip class="ml-1" size="x-small" color="error" variant="outlined" v-if="sp.portion">{{ sp.portion }}</v-chip>
+                            <div v-if="!sale.load_menu_lang"> {{ getMenuName(sp) }}<v-chip class="ml-1" size="x-small" color="error" variant="outlined" v-if="sp.portion">{{ sp.portion }}</v-chip>
                                 <v-chip v-if="sp.is_free" size="x-small" color="success" variant="outlined">{{ $t('Free') }}</v-chip> 
                                 <ComChip :tooltip="sp.happy_hours_promotion_title" v-if="sp.happy_hour_promotion && sp.discount > 0" size="x-small" variant="outlined" color="orange" text-color="white" prepend-icon="mdi-tag-multiple">
                                     <span>{{ sp.discount }}%</span>        
@@ -72,12 +72,7 @@
                         <v-chip
                             :disabled="sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == 'Submitted'"
                             color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
-                            @click="sale.onChangeQuantity(sp)">{{ $t('Qty') }}</v-chip>
-
-                        <!-- <v-chip
-                            :disabled="sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == 'Submitted'"
-                            color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
-                            @click="onEditSaleProduct(sp)">{{ $t('Edit') }}</v-chip> -->
+                            @click="sale.onChangeQuantity(sp)">{{ $t('Qty') }}</v-chip> 
                         
                         <v-chip color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
                             @click="onReorder(sp)">{{ $t('Re-Order') }}</v-chip>   
@@ -116,29 +111,21 @@ const props = defineProps({
     saleCustomerDisplay: Object
 });
 
-function onEditSaleProduct(sp) { 
-    if (!sale.isBillRequested()) {
-        if (sp.sale_product_status == "New" || sale.setting.pos_setting.allow_change_quantity_after_submit == 1) {
-            const is_has_product = product.setSelectedProductByMenuID(sp.menu_product_name);
-            if(is_has_product){                 
-                product.setModifierSelection(sp);
-                if(sp.is_combo_menu && sp.use_combo_group){
-                    product.setComboGroupSelection(sp)
-                }
 
-                if ((sp.is_combo_menu && sp.use_combo_group) || product.modifiers.length > 0 || product.prices.filter(r => r.price_rule == sale.setting.price_rule && (r.branch == sale.setting.business_branch || r.branch == '')).length > 1){
-                    sale.OnEditSaleProduct(sp)
-                }
-                else{
-                    toaster.warning("msg.This item has no option to edit")
-                }
-            }
-        } else {
-            toaster.warning("msg.Submitted order is not allow to edit");
+function getMenuName(sp) {
+    const mlang = localStorage.getItem('mLang');
+    if(mlang != null){
+        if(mlang=="en"){
+            return sp.product_name;
+        }else{
+            return sp.product_name_kh;
         }
+        
+    }else{
+        localStorage.setItem('mLang','en');
+        return sp.product_name;
     }
 }
-
 
 const show_button_change_price = computed(()=>{
     if(gv.device_setting.is_order_station == 1 && gv.device_setting.show_button_change_price_on_order_station==1)

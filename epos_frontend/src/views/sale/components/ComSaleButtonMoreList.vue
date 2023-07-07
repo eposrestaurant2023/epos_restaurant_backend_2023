@@ -35,6 +35,8 @@
     <v-list-item v-if="gv.device_setting.show_button_change_sale_type==1" prepend-icon="mdi-cart" :title="$t('Change Sale Type')"
         @click="onChangeSaleType()" />
 
+    <v-list-item prepend-icon="mdi-translate" :title="($t('Menu Language') +'('+ onLoadMenuLabel +')') "  @click="onChangeMenuLanguage()" />
+
     <v-list-item v-if="setting.table_groups && setting.table_groups.length > 0" prepend-icon="mdi-chair-school"
         :title="$t('Seat') + '#'" @click="onSeatNumber()" />
 
@@ -55,7 +57,7 @@
     </v-list-item>
 </template>
 <script setup>
-import {
+import { computed,
     useRouter,onMounted, splitBillDialog, addCommissionDialog, ComSaleReferenceNumberDialog, viewBillModelModel, ref, inject, confirm, createResource,
     keyboardDialog, changeTableDialog, changePriceRuleDialog, changeSaleTypeModalDialog, createToaster, changePOSMenuDialog, i18n
 } from "@/plugin"
@@ -81,13 +83,27 @@ const device_setting = JSON.parse(localStorage.getItem("device_setting"))
 let deletedSaleProducts = [];
 let productPrinters = [];
 
-let count_sale_type = ref({})
+let count_sale_type = ref({}) 
+
 
 onMounted(() => {
     db.getCount('Sale Type').then((count) => {
         count_sale_type.value = count;
     })
 });
+
+const onLoadMenuLabel = computed(()=>{
+    const mlang = localStorage.getItem('mLang');   
+    if(mlang!=null){
+        if(mlang=="kh"){
+            return $t("Default");
+        }else{
+           return  $t("Second");
+        }
+    }else{
+        return $t("Second");
+    }
+})
 
 
 
@@ -108,6 +124,25 @@ async function onUpdateGuestCover() {
             return;
         }
     }
+}
+
+async function onChangeMenuLanguage(){
+    const mlang = localStorage.getItem('mLang');   
+    sale.load_menu_lang = true;
+    if(mlang !=null){
+        if(mlang=="en"){
+            localStorage.setItem('mLang',"kh");
+        }else{
+            localStorage.setItem('mLang',"en");
+        }
+    }else{
+        localStorage.setItem('mLang',"en");
+    }
+
+    await  setTimeout(function() {
+        sale.load_menu_lang = false;
+    }, 1)
+    
 }
 
 async function onChangeTable() {

@@ -24,7 +24,7 @@
             </div>
 
             <div class="p-1 rounded-md absolute bottom-1 right-1 left-1 bg-gray-50 bg-opacity-70 text-sm text-center">
-                <span class="text-black">{{ data.name_en }}</span>
+                <span class="text-black">{{getMenuName(data) }}</span>
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@
                 </span>
             </div>
             <div class="p-1 rounded-md absolute bottom-1 right-1 left-1 bg-gray-50 bg-opacity-90 text-sm text-center">
-                {{ data.name }} - {{ data.name_en }}
+                {{ data.name }} - {{ getMenuName(data) }}
             </div>
         </div>
     </div>
@@ -101,6 +101,22 @@ const minPrice = computed(() => {
     }
     return 0
 })
+
+function getMenuName(menu) {
+    const mlang = localStorage.getItem('mLang');
+    if(mlang != null){
+        if(mlang=="en"){
+            return menu.name_en;
+        }else{
+            return menu.name_kh;
+        }
+        
+    }else{
+        localStorage.setItem('mLang','en');
+        return menu.name_en;
+    }
+}
+
 
 // end price menu
 
