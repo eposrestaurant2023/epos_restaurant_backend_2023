@@ -25,6 +25,7 @@
   "table_id",
   "tbl_number",
   "tbl_group",
+  "card",
   "column_break_9",
   "working_day",
   "cashier_shift",
@@ -781,6 +782,12 @@
    "fieldname": "shift_name",
    "fieldtype": "Data",
    "label": "Shift Name"
+  },
+  {
+   "fieldname": "card",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Card"
   }
  ],
  "image_field": "photo",
@@ -793,7 +800,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-06-26 11:43:53.138724",
+ "modified": "2023-07-07 15:55:11.255298",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

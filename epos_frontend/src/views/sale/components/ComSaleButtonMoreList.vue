@@ -127,22 +127,10 @@ async function onUpdateGuestCover() {
 }
 
 async function onChangeMenuLanguage(){
-    const mlang = localStorage.getItem('mLang');   
-    sale.load_menu_lang = true;
-    if(mlang !=null){
-        if(mlang=="en"){
-            localStorage.setItem('mLang',"kh");
-        }else{
-            localStorage.setItem('mLang',"en");
-        }
-    }else{
-        localStorage.setItem('mLang',"en");
-    }
-
-    await  setTimeout(function() {
-        sale.load_menu_lang = false;
-    }, 1)
-    
+    sale.onChangeMenuLanguage()   ;
+  await  setTimeout(function() {
+            sale.load_menu_lang = false;
+    },1);      
 }
 
 async function onChangeTable() {

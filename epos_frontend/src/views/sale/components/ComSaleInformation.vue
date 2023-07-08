@@ -1,6 +1,7 @@
 <template>
     <div class="py-2 flex flex-wrap">
         <ComSaleTypeChip v-if="product.setting.pos_menus.length>0"/>
+        <ComChip v-if="!sale.load_menu_lang" :tooltip="$t('Menu Language')" prepend-icon="mdi-translate"   @onClick="onChangeMenuLanguage()"></ComChip>
         <ComChip :tooltip="$t('POS Profile')" prepend-icon="mdi-desktop-classic">{{ sale.sale.pos_profile }}</ComChip>
         <ComChip v-if="sale.working_day_resource?.loading" :tooltip="$t('Working Day')" prepend-icon="mdi-spin mdi-loading">{{ $t('Loading') }}...</ComChip>
         <ComChip v-else :tooltip="$t('Working Day')" prepend-icon="mdi-calendar">{{ sale.sale.working_day }}</ComChip>
@@ -15,15 +16,25 @@
 <script setup>
 import ComSaleTypeChip from './ComSaleTypeChip.vue';
 import ComSaleInformationHappyHourPromotionChip from './happy_hour_promotion/ComSaleInformationHappyHourPromotionChip.vue';
-import { inject,keyboardDialog,changePriceRuleDialog, createToaster,i18n  } from '@/plugin';
+import { inject,keyboardDialog,changePriceRuleDialog, createToaster,i18n ,computed } from '@/plugin';
+ 
 
-const { t: $t } = i18n.global;  
+const { t: $t } = i18n.global;   
 
 
 const toaster = createToaster({position: 'top'})
 const sale = inject("$sale")
 const product = inject("$product")
 const setting = JSON.parse(localStorage.getItem("setting"))
+
+
+
+async function onChangeMenuLanguage(){
+  sale.onChangeMenuLanguage()   ;
+  await  setTimeout(function() {
+            sale.load_menu_lang = false;
+    },1);        
+}
 
 async function onUpdateGuestCover(){
     if (setting.use_guest_cover == 1) {

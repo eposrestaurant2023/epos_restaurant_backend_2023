@@ -1,0 +1,60 @@
+{
+ "actions": [],
+ "autoname": "field:card_code",
+ "creation": "2023-07-07 15:29:04.079880",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "card_name",
+  "card_code",
+  "discount_type",
+  "discount",
+  "expiry"
+ ],
+ "fields": [
+  {
+   "fieldname": "card_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Card Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "discount_type",
+   "fieldtype": "Select",
+   "label": "Discount Type",
+   "options": "Percent\nAmount"
+  },
+  {
+   "fieldname": "discount",
+   "fieldtype": "Data",
+   "label": "Discount"
+  },
+  {
+   "fieldname": "expiry",
+   "fieldtype": "Date",
+   "label": "Expiry"
+  },
+  {
+   "fieldname": "card_name",
+   "fieldtype": "Data",
+   "label": "Card Name",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-07-07 15:44:59.302121",
+ "modified_by": "Administrator",
+ "module": "Selling",
+ "name": "Customer Card",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

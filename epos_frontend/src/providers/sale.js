@@ -1394,4 +1394,19 @@ export default class Sale {
         }
     }
 
+
+    onChangeMenuLanguage(){
+        this.load_menu_lang = true;
+        const mlang = localStorage.getItem('mLang');   
+        if(mlang !=null){
+            if(mlang=="en"){
+                localStorage.setItem('mLang',"kh");
+            }else{
+                localStorage.setItem('mLang',"en");
+            }
+        }else{
+            localStorage.setItem('mLang',"en");
+        } 
+    }
+
 }

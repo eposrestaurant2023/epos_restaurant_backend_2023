@@ -145,7 +145,7 @@ async function newSale(table) {
         sale.sale.price_rule = table.price_rule;
     }
     if (gv.setting.price_rule != sale.sale.price_rule) {
-        toaster.info($t('Your current price rule is',[sale.sale.price_rule]));
+        toaster.info($t('msg.Your current price rule is',[sale.sale.price_rule]));
     }
     router.push({ name: "AddSale" });
 }

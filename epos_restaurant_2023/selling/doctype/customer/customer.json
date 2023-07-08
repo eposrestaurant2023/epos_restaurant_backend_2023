@@ -38,7 +38,9 @@
   "photo",
   "address",
   "column_break_18",
-  "note"
+  "note",
+  "tab_break_32",
+  "card"
  ],
  "fields": [
   {
@@ -235,13 +237,24 @@
    "fieldname": "expired_date",
    "fieldtype": "Date",
    "label": "Expired Date"
+  },
+  {
+   "fieldname": "tab_break_32",
+   "fieldtype": "Tab Break",
+   "label": "Card"
+  },
+  {
+   "fieldname": "card",
+   "fieldtype": "Table",
+   "label": "Card",
+   "options": "Customer Card"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-06-19 15:17:12.622658",
+ "modified": "2023-07-07 15:30:54.435960",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Customer",

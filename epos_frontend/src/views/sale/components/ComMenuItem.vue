@@ -24,7 +24,7 @@
             </div>
 
             <div class="p-1 rounded-md absolute bottom-1 right-1 left-1 bg-gray-50 bg-opacity-70 text-sm text-center">
-                <span class="text-black">{{getMenuName(data) }}</span>
+                <span class="text-black" v-if="!sale.load_menu_lang">{{ getMenuName(data) }}</span>
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@
                 </span>
             </div>
             <div class="p-1 rounded-md absolute bottom-1 right-1 left-1 bg-gray-50 bg-opacity-90 text-sm text-center">
-                {{ data.name }} - {{ getMenuName(data) }}
+                <span v-if="!sale.load_menu_lang">{{ data.name }} - {{ getMenuName(data) }}</span>                
             </div>
         </div>
     </div>
