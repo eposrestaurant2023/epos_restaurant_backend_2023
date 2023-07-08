@@ -446,7 +446,28 @@ def update_product_to_temp_product_menu():
 
 @frappe.whitelist()
 def assign_menu(products,menu):
-	frappe.msgprint("Coming soon")
+	pos_menu_doc = frappe.get_doc("POS Menu",menu)
+	for p in products.split(","):
+		product = frappe.get_doc("Product",p)	 
+		if len(product.pos_menus) ==0:
+			# Create a new child document
+			child_doc = frappe.new_doc("Product Menu")
+			child_doc.pos_menu =menu 
+			child_doc.pos_menu_name_kh= pos_menu_doc.pos_menu_name_kh
+			# Add the child document to the parent document
+			product.append("pos_menus", child_doc)
+		else:
+			result = [d for d in product.pos_menus if d.pos_menu== menu]
+			
+			if not result:				
+				child_doc = frappe.new_doc("Product Menu")
+				child_doc.pos_menu =menu 
+				child_doc.pos_menu_name_kh= pos_menu_doc.pos_menu_name_kh
+				# Add the child document to the parent document
+				product.append("pos_menus", child_doc)	
+		product.save()
+
+	frappe.db.commit()
 
 @frappe.whitelist()
 def assign_printer(products,printer):

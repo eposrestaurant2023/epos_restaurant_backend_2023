@@ -123,8 +123,7 @@ function getMenuName(menu) {
 function onClickMenu(menu) {
     if(sale.setting.pos_menus.length>0){
         product.parentMenu = menu;
-    } else{
-    
+    } else{    
         product.getProductMenuByProductCategory(db,menu)
     }
     
