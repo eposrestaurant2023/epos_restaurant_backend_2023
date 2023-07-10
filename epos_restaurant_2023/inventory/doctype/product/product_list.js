@@ -20,7 +20,7 @@ frappe.listview_settings['Product'] = {
                             "menu": values.pos_menu
                         },
                         callback: function(r) {
-                            frappe.msgprint("Update printer to product sucessfully")                            
+                            frappe.msgprint("Products were assigned to menu")                            
                         }
                     });
                     d.freeze= false;

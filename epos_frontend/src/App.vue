@@ -191,9 +191,27 @@ function checkPromotionDay(business_branch){
 function onResize() {
 	screen.onResizeHandle()
 }
-onMounted(() => {
 
-	gv.device_setting  = JSON.parse(localStorage.getItem("device_setting"));
+
+function onLogout() {
+    auth.logout().then((r) => {
+        router.push({ name: 'Login' })
+    })
+}
+ 
+
+onMounted(() => {
+	//check if NN user 
+	const current_user =  localStorage.getItem('current_user');
+    if(current_user==null || current_user == undefined){
+        onLogout();
+    }else{
+		const pos_user =JSON.parse(current_user)
+		if(auth.cookie.user_id != pos_user.name){
+			onLogout();
+		}		 
+	}
+	gv.device_setting  = JSON.parse(localStorage.getItem("device_setting"));	
 	onResize()
 })
 </script>

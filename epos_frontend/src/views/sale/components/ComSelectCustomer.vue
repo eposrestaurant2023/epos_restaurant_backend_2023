@@ -91,37 +91,46 @@ async function onSearchCustomer() {
     }
 }
 
-function assignCustomerToOrder(result) {
+function assignCustomerToOrder(result,is_membership=false) {
+    sale.sale.card ="";
     sale.sale.customer = result.name;
     sale.sale.customer_name = result.customer_name_en;
     sale.sale.customer_photo = result.photo;
     sale.sale.phone_number = result.phone_number;
     sale.sale.customer_group = result.customer_group;
-    sale.sale.customer_default_discount = result.default_discount;
+    sale.sale.customer_default_discount = 0;
 
+    if(!is_membership){
+        sale.sale.customer_default_discount = result.default_discount;
 
-    if(sale.promotion){
-        customerPromotion.value = gv.getPromotionByCustomerGroup(sale.sale.customer_group)
-        //sale.promotion.customer_groups.filter(r=>r.customer_group_name_en == result.customer_group).length > 0
-        if(customerPromotion.value && customerPromotion.value.length > 0){
-            customerPromotion.value.forEach((r)=>{
-                toaster.info(`${$t('msg.This customer has happy hour promotion')} ${r.promotion_name} : ${(( r.percentage_discount || 0))}%`);
-            })
-            updateProductAfterSelectCustomer(customerPromotion.value)
+        if(sale.promotion){
+            customerPromotion.value = gv.getPromotionByCustomerGroup(sale.sale.customer_group)
+            //sale.promotion.customer_groups.filter(r=>r.customer_group_name_en == result.customer_group).length > 0
+            if(customerPromotion.value && customerPromotion.value.length > 0){
+                customerPromotion.value.forEach((r)=>{
+                    toaster.info(`${$t('msg.This customer has happy hour promotion')} ${r.promotion_name} : ${(( r.percentage_discount || 0))}%`);
+                })
+                updateProductAfterSelectCustomer(customerPromotion.value)
+            }
+            else{
+                onClearPromotionProduct()
+            }
+            
+        } 
+        if (parseFloat(result.default_discount) && (customerPromotion.value||[]).length<=0) {
+            sale.sale.discount_type="Percent";
+            sale.sale.discount = parseFloat(result.default_discount);       
+            toaster.info($t('msg.This customer has default discount')+" " + sale.sale.discount + '%');
         }
-        else{
-            onClearPromotionProduct()
-        }
-        
-    } 
 
-    if (parseFloat(result.default_discount) && (customerPromotion.value||[]).length<=0) {
-
-        sale.sale.discount_type="Percent";
-        sale.sale.discount = parseFloat(result.default_discount);
-        sale.updateSaleSummary();
+    }else{
+        sale.sale.card = result.card.card_code;
+        sale.sale.discount_type = result.card.discount_type;
+        sale.sale.discount = parseFloat(result.card.discount);
         toaster.info($t('msg.This customer has default discount')+" " + sale.sale.discount + '%');
     }
+   
+    sale.updateSaleSummary();
 
     socket.emit("ShowOrderInCustomerDisplay",sale.sale);
 }
@@ -131,9 +140,14 @@ const setting = computed(() => {
 })
 const subTitle = computed(() => {
     let title = sale.sale.customer;
+    if((sale.sale.card || "") !=""){
+        title = title + "("+sale.sale.card+")";
+    }
     if (sale.sale.phone_number != "" && sale.sale.phone_number != undefined) {
         title = title + " / " + sale.sale.phone_number
     }
+
+
 
     return title;
 })
@@ -201,9 +215,8 @@ function updateProductAfterSelectCustomer(pro){
 async function onScanCustomerCode() {
     if (!sale.isBillRequested()) {
         const result = await scanCustomerCodeDialog({});
-        if (result) {
-
-            assignCustomerToOrder(result);
+        if (result) { 
+            assignCustomerToOrder(result,true);
         }
     }
 }
@@ -211,12 +224,12 @@ async function onScanCustomerCode() {
 async function onRemove() {
     if (!sale.isBillRequested()) {
         if (sale.sale.discount > 0) {
-            if (await confirmDialog({ title:$t('Remove Discount') , text: $t('msg.are you sure to remove discount from bill')})) {
-                
+            if (await confirmDialog({ title:$t('Remove Discount') , text: $t('msg.are you sure to remove discount from bill')})) {                
                 sale.sale.discount = 0;
                 sale.updateSaleSummary();
             }
-        } 
+        }
+        sale.sale.card = ""; 
         sale.sale.customer = setting.value.customer
         sale.sale.customer_name = setting.value.customer_name
         sale.sale.customer_photo = setting.value.customer_photo

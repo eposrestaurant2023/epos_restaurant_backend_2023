@@ -646,7 +646,6 @@ def get_emenu_settings(business_branch = ''):
             "height_banner": emenu.height_banner,
             "background_color_banner": emenu.background_color_banner,
             "background_image_banner": emenu.background_image_banner,
-
         }
     }
 
@@ -671,6 +670,25 @@ def get_emenu_product(menu):
             product = frappe.get_doc("Product", d.product_code)
             data.append(product)
     return data
+
+
+# get reservation folio
+@frappe.whitelist()
+def get_customer_on_membership_scan(card):
+    membership = frappe.get_all('Customer Card',
+								filters=[
+                                    ['card_code','=',card]
+                                ],
+								fields=['parent','card_name','card_code','discount_type','discount','expiry'],
+								limit=1
+							 )
+    if membership:
+        ms = membership[0]
+        customer = frappe.get_doc("Customer",ms["parent"]) 
+        if customer:
+            customer.card = customer.card
+            return customer
+    return {"Invalid Card"}
 
 
 # get reservation folio
