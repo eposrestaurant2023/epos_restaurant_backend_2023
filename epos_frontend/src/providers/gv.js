@@ -107,17 +107,22 @@ export default class Gv {
 	}
 
 	async confirm_close_working_day(working_day){		 
-	 
-		let check_date = "";
-		if(this.setting.close_business_day_on=="Current Day"){
-			check_date =  moment(working_day).format('yyyy-MM-DD') + " " + this.setting.alert_close_working_day_after;
-		}else{ 
-			check_date = moment(working_day).add(1, 'days').format('yyyy-MM-DD') + " " + this.setting.alert_close_working_day_after;
+		const current_user =     localStorage.getItem('current_user');
+		if(current_user==null || current_user == undefined){
+			// Home Logout 
 		}
- 
-		if(new Date() > new Date(check_date)){
-			await confirm({title:$t('Close Working Day'), text:$t('msg.Your working day is to long please close your working day'),hide_cancel:true});		
-			 
+		else{
+			let check_date = "";
+			if(this.setting.close_business_day_on=="Current Day"){
+				check_date =  moment(working_day).format('yyyy-MM-DD') + " " + this.setting.alert_close_working_day_after;
+			}else{ 
+				check_date = moment(working_day).add(1, 'days').format('yyyy-MM-DD') + " " + this.setting.alert_close_working_day_after;
+			}
+	
+			if(new Date() > new Date(check_date)){
+				await confirm({title:$t('Close Working Day'), text:$t('msg.Your working day is to long please close your working day'),hide_cancel:true});		
+				
+			}
 		}
 	}
 

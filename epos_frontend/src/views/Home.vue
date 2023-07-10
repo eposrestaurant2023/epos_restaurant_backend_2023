@@ -101,7 +101,15 @@ const workingDayResource = createResource({
 
 //on init
 onMounted(async () => {
+    //check if NN user 
+    const current_user =     localStorage.getItem('current_user');
+    if(current_user==null || current_user == undefined){
+        onLogout();
+    }
+
     localStorage.removeItem('make_order_auth');
+
+    
     await workingDayResource.fetch();
 })
 
