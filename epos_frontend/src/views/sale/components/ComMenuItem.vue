@@ -12,7 +12,7 @@
         class="relative h-full bg-cover bg-no-repeat rounded-lg shadow-lg cursor-pointer overflow-auto" v-bind:style="{
                 'background-color': data.background_color,
                 'color': data.text_color,
-                'background-image': 'url(' + data.photo + ')'
+                'background-image': 'url(' + encodeURIComponent(data.photo).replace(/%2F/g, '/') + ')'
             }" @click="onClickMenu(data.name)">
         <div class="absolute top-0 bottom-0 right-0 left-0">
             <avatar class="!h-full !w-full" :name="data.name_en" :rounded="false" :color="data.background_color"
@@ -31,7 +31,7 @@
     <!-- Product -->
     <div v-else-if="data.type == 'product'" v-ripple
         class="relative overflow-hidden h-full bg-cover bg-no-repeat rounded-lg shadow-lg cursor-pointer bg-gray-300 "
-        v-bind:style="{ 'background-image': 'url(' + image + ')' }" @click="onClickProduct()">
+        v-bind:style="{ 'background-image': 'url(' +  encodeURIComponent(image).replace(/%2F/g, '/') + ')' }" @click="onClickProduct()">
         <div class="absolute top-0 bottom-0 right-0 left-0" v-if="!image">
             <avatar class="!h-full !w-full" :name="data.name_en" :rounded="false" background="#f1f1f1"></avatar>
         </div> 
