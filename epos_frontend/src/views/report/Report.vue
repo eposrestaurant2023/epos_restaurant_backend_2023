@@ -209,11 +209,12 @@ const cashierShiftReports = createResource({
  
 
 function onCashierShift(data){
+    console.log(data)
     activeReport.value.name = 'Cashier Shift'
-    activeReport.value.report_id = data.name
-    activeReport.value.preview_report = cashierShiftReports.data[0].name
-    activeReport.value.doc_type = cashierShiftReports.data[0].doc_type 
-    activeReport.value.print_report_name = cashierShiftReports.data[0].print_report_name || cashierShiftReports.data[0].name
+    activeReport.value.report_id = data?.name
+    activeReport.value.preview_report = cashierShiftReports?.data[0]?.name
+    activeReport.value.doc_type = cashierShiftReports?.data[0]?.doc_type 
+    activeReport.value.print_report_name = cashierShiftReports?.data[0]?.print_report_name || cashierShiftReports?.data[0]?.name
 }
 function onPrintFormat(value){
     activeReport.value.preview_report = value.name;
