@@ -95,9 +95,6 @@
           <QueryParameter Name="@end_date">
             <Value>=Parameters!end_date.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@printed_by">
-            <Value>=Parameters!printed_by.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@business_branch_id">
             <Value>=Parameters!business_branch_id.Value</Value>
           </QueryParameter>
@@ -119,8 +116,12 @@
           <QueryParameter Name="@table_group_id">
             <Value>=Parameters!table_group_id.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@payment_type">
+            <Value>=Parameters!payment_type.Value</Value>
+          </QueryParameter>
         </QueryParameters>
-        <CommandText>
+        <CommandText>declare @printed_by nvarchar(50)='admin'
+
 if OBJECT_ID('tempdb..#tbl_sale') is not null drop table #tbl_sale
 
 select 
@@ -142,15 +143,32 @@ select
 	s.customer_name,
 	s.sale_type,
 	s.shift_name,
-s.guest_cover
+	s.guest_cover,
+	(
+	   STUFF((select '|- '+
+			sp.payment_type_name_en + iif(coalesce(sp.payment_note,'')='', '' , '('+coalesce(sp.payment_note,'')+')')  + ': ' + format((sp.payment_amount - sp.change_amount), sp.currency_format)	
+			from tbl_sale_payment sp 
+			where
+			sp.is_deleted = 0 and
+			sp.sale_id = s.id
+        FOR XML PATH('')), 1, 1, '')
+	)as sale_payments,
 
+	(
+	   STUFF((select ' | '+
+			sp.payment_type_name_en + iif(coalesce(sp.payment_note,'')='', '' , '('+coalesce(sp.payment_note,'')+')')	
+			from tbl_sale_payment sp 
+			where
+			sp.is_deleted = 0 and
+			sp.sale_id = s.id
+        FOR XML PATH('')), 1, 1, '')
+	) as sale_payments_filter
 	into #tbl_sale
 from tbl_sale s 
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
 	left join tbl_customer c on c.id = s.customer_id
-	left join tbl_table t on t.id = s.table_id
-	
-where
+	left join tbl_table t on t.id = s.table_id	
+where	
 	s.is_deleted = 0 and 
 	s.is_closed = 1 and 
 	working_date between @start_date and @end_date and 
@@ -162,9 +180,9 @@ where
  	s.sale_type in(@sale_type) and 
 	lower(s.shift_name) =LOWER( iif(@shift_name = '',s.shift_name,@shift_name)) and 
 	isnull(t.table_group_id,0) = iif(@table_group_id=0,isnull(t.table_group_id,0),@table_group_id)
- 
 
- select * from #tbl_sale order by document_number</CommandText>
+
+ select * from #tbl_sale  where sale_payments_filter like + N'%'+ @payment_type + '%' order by document_number</CommandText>
       </Query>
       <Fields>
         <Field Name="id">
@@ -242,6 +260,14 @@ where
         <Field Name="guest_cover">
           <DataField>guest_cover</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="sale_payments">
+          <DataField>sale_payments</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="sale_payments_filter">
+          <DataField>sale_payments_filter</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -569,6 +595,31 @@ where
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="PaymentType">
+      <Query>
+        <DataSourceName>Datasource</DataSourceName>
+        <CommandText>;with a as(
+	select '' as [value], 'All Payment Type' as [label] ,-9999 as sort
+	union all
+	select payment_type_name_en as [value] , payment_type_name_en as [label], sort_order as sort from tbl_payment_type
+)
+select * from a order by sort</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="value">
+          <DataField>value</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="label">
+          <DataField>label</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="sort">
+          <DataField>sort</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -608,10 +659,10 @@ where
                   <Width>0.71767in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.5421in</Width>
+                  <Width>0.71918in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.82335in</Width>
+                  <Width>0.64627in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.81379in</Width>
@@ -1065,7 +1116,7 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Cost.Value, "translate")</Value>
+                                  <Value>=First(Fields!Total_Amount.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1105,7 +1156,7 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!Total_Amount.Value, "translate")</Value>
+                                  <Value>=First(Fields!Cost.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1194,7 +1245,7 @@ where
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Left</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1329,22 +1380,6 @@ where
                                 <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!shift_name.Value</Value>
-                                  <Style>
-                                    <FontStyle>Italic</FontStyle>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>7.5pt</FontSize>
-                                    <Color>Gray</Color>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>working_date</rd:DefaultName>
                           <Style>
@@ -1373,22 +1408,6 @@ where
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
                                     <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!outlet_name_en.Value</Value>
-                                  <Style>
-                                    <FontStyle>Italic</FontStyle>
-                                    <FontFamily>Kh System</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <Color>Gray</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1431,20 +1450,6 @@ where
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!sale_type.Value</Value>
-                                  <Style>
-                                    <FontStyle>Italic</FontStyle>
-                                    <FontFamily>kh system</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <Color>DimGray</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1649,9 +1654,8 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!total_cost.Value,First(Fields!currency_format.Value, "Setting"))</Value>
+                                  <Value>=format(Fields!total_amount.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -1684,9 +1688,8 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!total_amount.Value,First(Fields!currency_format.Value, "Setting"))</Value>
+                                  <Value>=format(Fields!total_cost.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -1762,7 +1765,7 @@ where
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Left</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1776,6 +1779,532 @@ where
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.21875in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox82">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox82</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>0.25pt</PaddingTop>
+                            <PaddingBottom>0.25pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox83">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox83</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>0.25pt</PaddingTop>
+                            <PaddingBottom>0.25pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox84">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!shift_name.Value</Value>
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>7.5pt</FontSize>
+                                    <Color>Gray</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox84</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>0.25pt</PaddingTop>
+                            <PaddingBottom>0.25pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox85">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!outlet_name_en.Value</Value>
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontFamily>Kh System</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Color>Gray</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox85</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>0.25pt</PaddingTop>
+                            <PaddingBottom>0.25pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="sale_payments">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!sale_type.Value</Value>
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Color>DimGray</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>sale_payments</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>0.25pt</PaddingTop>
+                            <PaddingBottom>0.25pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox87">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox87</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>0.25pt</PaddingTop>
+                            <PaddingBottom>0.25pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox88">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox88</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>0.25pt</PaddingTop>
+                            <PaddingBottom>0.25pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox89">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox89</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>0.25pt</PaddingTop>
+                            <PaddingBottom>0.25pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox90">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=iif(Fields!sale_payments.Value="","","Pay with:")</Value>
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Gray</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox90</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>0.25pt</PaddingTop>
+                            <PaddingBottom>0.25pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox91">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Replace(Fields!sale_payments.Value,"|",vbcrlf)</Value>
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Color>Gray</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox91</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>0.25pt</PaddingTop>
+                            <PaddingBottom>0.25pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>2</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox96">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Color>Gray</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox96</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>0.25pt</PaddingTop>
+                            <PaddingBottom>0.25pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox97">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Color>Gray</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox97</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>0.25pt</PaddingTop>
+                            <PaddingBottom>0.25pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox95">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Kh System</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox95</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>0.25pt</PaddingTop>
+                            <PaddingBottom>0.25pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -2375,6 +2904,10 @@ where
                 </TablixMember>
                 <TablixMember>
                   <Group Name="Details" />
+                  <TablixMembers>
+                    <TablixMember />
+                    <TablixMember />
+                  </TablixMembers>
                 </TablixMember>
                 <TablixMember>
                   <KeepWithGroup>Before</KeepWithGroup>
@@ -2384,7 +2917,7 @@ where
             <DataSetName>Sale</DataSetName>
             <Top>0.02778in</Top>
             <Left>0.00003cm</Left>
-            <Height>0.72917in</Height>
+            <Height>0.94792in</Height>
             <Width>11.07999in</Width>
             <Style>
               <Border>
@@ -2393,7 +2926,7 @@ where
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>0.80903in</Height>
+        <Height>1.00695in</Height>
         <Style />
       </Body>
       <Width>11.08084in</Width>
@@ -3056,6 +3589,24 @@ where
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="payment_type">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>PaymentType</DataSetName>
+          <ValueField>value</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Payment Type</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>PaymentType</DataSetName>
+          <ValueField>value</ValueField>
+          <LabelField>label</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
     <ReportParameter Name="lang">
       <DataType>String</DataType>
       <DefaultValue>
@@ -3076,7 +3627,7 @@ where
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>2</NumberOfColumns>
-      <NumberOfRows>6</NumberOfRows>
+      <NumberOfRows>7</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -3119,8 +3670,8 @@ where
           <ParameterName>customer_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>5</RowIndex>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>6</RowIndex>
           <ParameterName>lang</ParameterName>
         </CellDefinition>
         <CellDefinition>
@@ -3137,6 +3688,11 @@ where
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>shift_name</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>5</RowIndex>
+          <ParameterName>payment_type</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

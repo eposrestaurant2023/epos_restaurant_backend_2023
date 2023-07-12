@@ -8,11 +8,11 @@
     <OverwriteDataSources>False</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
-    <TargetReportFolder>POS/SoupMares/2023/Reports</TargetReportFolder>
-    <TargetDatasetFolder>POS/SoupMares/2023/Datasets</TargetDatasetFolder>
-    <TargetDatasourceFolder>POS/SoupMares/2023/DataSources</TargetDatasourceFolder>
+    <TargetReportFolder>ePOSDev/Reports</TargetReportFolder>
+    <TargetDatasetFolder>ePOSDev/Datasets</TargetDatasetFolder>
+    <TargetDatasourceFolder>ePOSDev/DataSources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
-    <TargetServerURL>http://192.168.10.20:31401/reportserver</TargetServerURL>
+    <TargetServerURL>http://192.168.10.13:3344/reportserver</TargetServerURL>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
     <FullPath>DebugLocal</FullPath>
