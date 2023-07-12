@@ -77,6 +77,7 @@
     <DataSource Include="DataSource.rds" />
   </ItemGroup>
   <ItemGroup>
+    <Report Include="Report1.rdl" />
     <Report Include="rptAuditTrailTransaction.rdl" />
     <Report Include="rptCashierShiftDetailA4.rdl" />
     <Report Include="rptCashierShiftList.rdl" />
