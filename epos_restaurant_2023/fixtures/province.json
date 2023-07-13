@@ -10,17 +10,17 @@
  {
   "docstatus": 0,
   "doctype": "Province",
-  "modified": "2022-12-05 20:47:21.564060",
-  "name": "Siem Reap",
-  "note": null,
-  "province": "Siem Reap"
- },
- {
-  "docstatus": 0,
-  "doctype": "Province",
   "modified": "2023-03-26 16:48:58.237585",
   "name": "Battambong",
   "note": null,
   "province": "Battambong"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Province",
+  "modified": "2022-12-05 20:47:21.564060",
+  "name": "Siem Reap",
+  "note": null,
+  "province": "Siem Reap"
  }
 ]

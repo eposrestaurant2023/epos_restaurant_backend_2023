@@ -80,10 +80,7 @@ import ComSalePaymentGrandTotalInformation from './ComSalePaymentGrandTotalInfor
 import ComSalePaymentList from './ComSalePaymentList.vue';
 import ComSelectPaymentPrinter from './ComSelectPaymentPrinter.vue';
 import ComPaymentSummaryInformation from './ComPaymentSummaryInformation.vue';
-
-
 import { createToaster } from '@meforma/vue-toaster';
-import router from '../../../router';
 
 const { t: $t } = i18n.global;  
 

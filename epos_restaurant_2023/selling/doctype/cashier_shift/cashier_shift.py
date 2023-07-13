@@ -1,5 +1,6 @@
 # Copyright (c) 2022, Tes Pheakdey and contributors
 # For license information, please see license.txt
+import json
 from py_linq import Enumerable
 import frappe
 from frappe.model.document import Document
@@ -11,9 +12,10 @@ class CashierShift(Document):
 		# 	pending_orders = frappe.db.sql("select name from `tabSale` where docstatus = 0 and cashier_shift = '{}'".format(self.name), as_dict=1)
 		# 	if pending_orders:
 		# 		frappe.throw("Please close all pending order before close cashier shift.")
-
+		
 		if self.is_new():
 			data = frappe.get_list("Cashier Shift",filters={"pos_profile":self.pos_profile,"business_branch":self.business_branch, "is_closed":0})
+			
 			if data:
 				frappe.throw("Cashier shift is already opened")
 				

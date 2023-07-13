@@ -39,6 +39,7 @@
   },
   {
    "fetch_from": "working_day.pos_profile",
+   "fetch_if_empty": 1,
    "fieldname": "pos_profile",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -156,7 +157,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-01 18:48:47.714732",
+ "modified": "2023-07-13 16:34:46.104681",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Cashier Shift",

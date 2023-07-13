@@ -120,10 +120,12 @@ onMounted(()=>{
 
 async function onOpenShift() {
     if (await confirm({ title: $t("Start Shift"), text: $t("msg.are you sure to start shift") })) {
+
         addCashierShiftResource.params = {
             doc: {
                 doctype: "Cashier Shift",
                 working_day: working_day.data.name,
+                pos_profile: pos_profile,
                 opened_note: opened_note.value,
                 shift_name: shift_type.value,
                 cash_float: payment_types.filter(r => parseFloat(r.input_amount) > 0)
