@@ -124,9 +124,7 @@ function onClose() {
 
 async function onPayment() {
     if (sale.sale.payment.filter(r => r.required_customer == 1).length > 0) {
-
         if (sale.sale.customer == sale.setting.customer) {
-
             toaster.warning($t("msg.Please select customer for payment type")+" " + sale.sale.payment.filter(r => r.required_customer == 1)[0].payment_type);
             return;
         }
@@ -134,8 +132,7 @@ async function onPayment() {
     sale.pos_receipt = selectedReceipt.value;
     sale.message = $t("msg.Payment successfully");
     sale.onSubmitPayment(true).then((v) => {
-        if (v) {
-            
+        if (v) {            
             emit("resolve", true);
         }
     })

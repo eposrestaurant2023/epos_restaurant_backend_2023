@@ -1,6 +1,6 @@
 import Enumerable from 'linq'
 import moment from '@/utils/moment.js';
-import { noteDialog, printPreviewDialog,changeTaxSettingModal,SaleProductComboMenuGroupModal, keyboardDialog,keypadWithNoteDialog, createResource,
+import { noteDialog,changeTaxSettingModal,SaleProductComboMenuGroupModal, keyboardDialog,keypadWithNoteDialog, createResource,
     createDocumentResource, addModifierDialog, useRouter, confirmDialog, saleProductDiscountDialog,i18n } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
 import { webserver_port } from "../../../../../sites/common_site_config.json"
@@ -74,13 +74,9 @@ export default class Sale {
         this.orderChanged = false;
         this.printWaitingOrderAfterPayment = false;
         this.createNewSaleResource(); 
-
     }
-
-
    
-    createNewSaleResource() {
-        
+    createNewSaleResource() {        
         const parent = this;
         this.newSaleResource = createResource({
             url: "frappe.client.insert",
@@ -139,8 +135,7 @@ export default class Sale {
         this.onSaleApplyTax(tax_rule,this.sale); 
     }
 
-    async LoadSaleData(name) {  
-       
+    async LoadSaleData(name) {         
         return new Promise(async (resolve) => {
             const parent = this;
             this.saleResource = createDocumentResource({
@@ -161,9 +156,7 @@ export default class Sale {
                         }
                     },
                 },
-            });
-
-           
+            });           
 
             await this.saleResource.get.fetch().then(async (doc) => {
                 this.onLoadDeleteSaleProducts(doc.name);
@@ -215,8 +208,7 @@ export default class Sale {
             const group = Enumerable.from(sale_products).groupBy("{order_by:$.order_by,order_time:$.order_time}", "", "{order_by:$.order_by,order_time:$.order_time}", "$.order_by+','+$.order_time");
             return group.orderByDescending("$.order_time").toArray();
         }
-    }
-    
+    }    
 
     getSaleProducts(groupByKey) {
         if (groupByKey) {
@@ -230,7 +222,7 @@ export default class Sale {
         //check for append quantity rule
         //product code, allow_append_qty,price, unit,modifier, portion, is_free,sale_product_status
         //and check system have feature to send to kitchen
-        let strFilter = `$.product_code=='${p.name}' && $.append_quantity ==1 && $.price==${p.price} && $.portion=='${this.getString(p.portion)}'  && $.modifiers=='${p.modifiers}'  && $.unit=='${p.unit}' && $.is_free==0`
+        let strFilter = `$.product_code=='${p.name}' && $.append_quantity ==1 && $.price==${p.price} && $.portion=='${this.getString(p.portion)}'  && $.modifiers=='${p.modifiers}'  && $.unit=='${p.unit}' && $.is_free==0 && $.note==''`
 
         if (!this.setting?.pos_setting?.allow_change_quantity_after_submit) {
             strFilter = strFilter + ` && $.sale_product_status == 'New'`
@@ -336,14 +328,12 @@ export default class Sale {
         }
     }
 
-
     onSelectSaleProduct(sp) {
         this.clearSelected();
         sp.selected = true;
     }
 
-    clearSelected() {
-       
+    clearSelected() {       
         Enumerable.from(this.sale.sale_products).where(`$.selected==true`).forEach("$.selected=false");
     }
 
@@ -454,7 +444,6 @@ export default class Sale {
         //cal tax3 amount
         sp.tax_3_amount = sp.taxable_amount_3 * ((sp.tax_3_rate||0) /100);
 
-
         sp.total_tax = sp.tax_1_amount + sp.tax_2_amount + sp.tax_3_amount;
 
     }
@@ -522,7 +511,6 @@ export default class Sale {
         this.updateSaleProduct(sp)
         this.updateSaleSummary();
     }
-
 
     async onRemoveItem(sp,gv,numberFormat, input=(-99999)){
         if (!this.isBillRequested()) {        
@@ -1342,8 +1330,6 @@ export default class Sale {
         return key[0];    
     }
 
-
-
     //
    async onLoadDeleteSaleProducts(sale_id){
        //frappe db
@@ -1373,8 +1359,6 @@ export default class Sale {
             });
           }).catch((error) =>{});
     }
-
-
     
     onCreateDeletedSaleProduct(data){
         if((this.sale.name||"") != ""){
@@ -1393,7 +1377,6 @@ export default class Sale {
             .catch((error) => {});
         }
     }
-
 
     onChangeMenuLanguage(){
         this.load_menu_lang = true;
