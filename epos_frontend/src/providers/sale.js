@@ -1199,7 +1199,8 @@ export default class Sale {
 
     getPrintReportPath(doctype, name, reportName, isPrint = 0) {
         let url = "";
-        const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + webserver_port;
+         
+        const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + this.setting?.pos_setting?.backend_port;
         url = serverUrl + "/printview?doctype=" + doctype + "&name=" + name + "&format=" + reportName + "&no_letterhead=0&letterhead=Defualt%20Letter%20Head&settings=%7B%7D&_lang=en&d=" + new Date()
         if (isPrint) {
             url = url + "&trigger_print=" + isPrint
