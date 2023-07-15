@@ -187,12 +187,12 @@ export function frappeRequest(options) {
               }
             });
           }
-            options.onError({
-              error_text:error_text,
-              response: errorResponse,
-              status: errorResponse.status,
-              error: e,
-            })
+            // options.onError({
+            //   error_text:error_text,
+            //   response: errorResponse,
+            //   status: errorResponse.status,
+            //   error: e,
+            // })
         }
         throw e
       }

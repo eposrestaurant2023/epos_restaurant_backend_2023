@@ -3,7 +3,6 @@ import moment from '@/utils/moment.js';
 import { noteDialog,changeTaxSettingModal,SaleProductComboMenuGroupModal, keyboardDialog,keypadWithNoteDialog, createResource,
     createDocumentResource, addModifierDialog, useRouter, confirmDialog, saleProductDiscountDialog,i18n } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
-import { webserver_port } from "../../../../../sites/common_site_config.json"
 import socket from '@/utils/socketio';
 import { FrappeApp } from 'frappe-js-sdk';
 
@@ -1218,6 +1217,8 @@ export default class Sale {
         if (receipt.pos_receipt_file_name && localStorage.getItem("is_window")) {
             window.chrome.webview.postMessage(JSON.stringify(data));
         } else {
+
+           
             if (receipt.pos_receipt_file_name) {
                 socket.emit('PrintReceipt', JSON.stringify(data));
             }
@@ -1248,7 +1249,8 @@ export default class Sale {
     }
 
     onOpenBrowserPrint(doctype, docname, filename) {
-        window.open(this.getPrintReportPath(doctype, docname, filename, 1)).print();
+        const url = this.getPrintReportPath(doctype, docname, filename, 1)        
+        window.open(url).print();
         window.close();
     }
 
