@@ -31,7 +31,9 @@
   "edoor_setting_tab",
   "default_pos_profile",
   "default_letter_head",
-  "column_break_24"
+  "column_break_24",
+  "cancellation_policy_section",
+  "cancellation_policy"
  ],
  "fields": [
   {
@@ -166,12 +168,22 @@
   {
    "fieldname": "column_break_24",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cancellation_policy_section",
+   "fieldtype": "Section Break",
+   "label": "Cancellation Policy"
+  },
+  {
+   "fieldname": "cancellation_policy",
+   "fieldtype": "Text Editor",
+   "label": "Cancellation Policy"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-03 14:38:48.572083",
+ "modified": "2023-07-15 15:28:11.317730",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Business Branch",
