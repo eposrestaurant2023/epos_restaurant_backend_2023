@@ -9,7 +9,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Defualt Letter Head",
- "modified": "2023-04-05 17:26:23.643322",
+ "modified": "2023-07-15 08:49:31.498402",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Payment Type Breakdown Report",
@@ -24,6 +24,9 @@
   },
   {
    "role": "Sales Manager"
+  },
+  {
+   "role": "Sales User"
   }
  ]
 }

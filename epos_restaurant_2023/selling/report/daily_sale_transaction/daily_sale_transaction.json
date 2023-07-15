@@ -62,7 +62,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Defualt Letter Head",
- "modified": "2023-04-05 17:25:36.857836",
+ "modified": "2023-07-15 08:44:07.467303",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Daily Sale Transaction",
@@ -78,6 +78,9 @@
   },
   {
    "role": "Sales Manager"
+  },
+  {
+   "role": "Sales User"
   }
  ]
 }

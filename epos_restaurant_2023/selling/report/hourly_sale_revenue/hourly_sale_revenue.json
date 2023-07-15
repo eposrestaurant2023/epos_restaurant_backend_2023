@@ -9,12 +9,13 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Defualt Letter Head",
- "modified": "2023-04-05 17:26:33.370613",
+ "modified": "2023-07-15 08:48:21.571144",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Hourly Sale Revenue",
  "owner": "Administrator",
  "prepared_report": 0,
+ "query": "",
  "ref_doctype": "Sale",
  "report_name": "Hourly Sale Revenue",
  "report_type": "Script Report",
@@ -24,6 +25,9 @@
   },
   {
    "role": "Sales Manager"
+  },
+  {
+   "role": "Sales User"
   }
  ]
 }

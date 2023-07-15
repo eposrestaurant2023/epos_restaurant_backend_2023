@@ -9,7 +9,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Defualt Letter Head",
- "modified": "2023-04-05 17:26:15.414386",
+ "modified": "2023-07-15 08:49:46.364203",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Tax Summary Report",
@@ -25,6 +25,9 @@
   },
   {
    "role": "Sales Manager"
+  },
+  {
+   "role": "Sales User"
   }
  ]
 }
