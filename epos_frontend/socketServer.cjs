@@ -35,6 +35,9 @@ io.on('connection', (socket) => {
   socket.on("RefresheDoorDashboard",(arg)=>{
     io.emit("RefresheDoorDashboard",arg)
   })
+  socket.on("RefreshNightAuditStep",(arg)=>{
+    io.emit("RefreshNightAuditStep",arg)
+  })
 
   socket.on("RefreshReservationDetail",(reservation)=>{
  

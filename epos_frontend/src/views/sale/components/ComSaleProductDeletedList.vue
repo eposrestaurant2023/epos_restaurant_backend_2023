@@ -91,6 +91,7 @@
 
     function getDeletedSaleProducts(groupByKey) {    
         const sale_products = sale.deletedSaleProductsDisplay.filter((x)=>x.show_in_list==true);
+         
         if (groupByKey) {
             return Enumerable.from(sale_products).where(`$.order_by=='${groupByKey.order_by}' && $.order_time=='${groupByKey.order_time}'`).orderByDescending("$.modified").toArray()
         } else {

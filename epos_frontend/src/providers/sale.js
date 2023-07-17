@@ -204,6 +204,7 @@ export default class Sale {
         } else {
 
             const sale_products = this.deletedSaleProductsDisplay.filter((r)=>r.show_in_list);
+          
             const group = Enumerable.from(sale_products).groupBy("{order_by:$.order_by,order_time:$.order_time}", "", "{order_by:$.order_by,order_time:$.order_time}", "$.order_by+','+$.order_time");
             return group.orderByDescending("$.order_time").toArray();
         }
@@ -1167,7 +1168,7 @@ export default class Sale {
             });
 
             
-        });
+        });  
 
         //generate deleted product to product printer list
         this.deletedSaleProducts.filter(r => JSON.parse(r.printers).length > 0).forEach((r) => {
@@ -1360,7 +1361,7 @@ export default class Sale {
                     this.deletedSaleProductsDisplay.push(_sp);
                 }
             });
-          }).catch((error) =>{});
+          }).catch((error) =>{});      
     }
     
     onCreateDeletedSaleProduct(data){

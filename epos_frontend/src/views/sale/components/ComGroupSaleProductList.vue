@@ -1,5 +1,5 @@
-<template>
-    <ComPlaceholder :is-not-empty="sale.getSaleProducts().length > 0 || (gv.device_setting.show_deleted_sale_product_in_sale_screen==1 && sale.deletedSaleProducts.length>0)" 
+<template> 
+    <ComPlaceholder :is-not-empty="sale.getSaleProducts().length > 0 || (gv.device_setting.show_deleted_sale_product_in_sale_screen==1 && sale.deletedSaleProductsDisplay.length>0)" 
         icon="mdi-cart-outline" :text="$t('Empty Data')">
         <div>   
             <template v-if="gv.device_setting.show_deleted_sale_product_in_sale_screen==1">
