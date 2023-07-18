@@ -236,7 +236,6 @@ function uuidv4() {
 <style>
 .btn-post-to-room{
     width: 100%;
-    height: 14vh !important;
     text-align: start; 
     display: block !important;
 }

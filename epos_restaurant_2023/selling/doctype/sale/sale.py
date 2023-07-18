@@ -180,9 +180,9 @@ class Sale(Document):
 	def on_submit(self):
 		# update_inventory_on_submit(self)
 		# add_payment_to_sale_payment(self)
-		create_folio_transaction_from_pos_trnasfer(self)
+		# create_folio_transaction_from_pos_trnasfer(self)
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_submit", queue='short', self=self)
-		# frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.create_folio_transaction_from_pos_trnasfer", queue='short', self=self)
+		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.create_folio_transaction_from_pos_trnasfer", queue='short', self=self)
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.add_payment_to_sale_payment", queue='short', self=self)
 		
 	
