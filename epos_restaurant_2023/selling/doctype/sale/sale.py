@@ -168,6 +168,7 @@ class Sale(Document):
 		pass
 
 	def before_submit(self):
+		on_get_revenue_account_code(self)
 		self.append_quantity = None
 		self.scan_barcode = None
 		for d in self.sale_products:
@@ -180,10 +181,11 @@ class Sale(Document):
 	def on_submit(self):
 		# update_inventory_on_submit(self)
 		# add_payment_to_sale_payment(self)
-		# create_folio_transaction_from_pos_trnasfer(self)
+		# create_folio_transaction_from_pos_trnasfer(self) 
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_submit", queue='short', self=self)
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.create_folio_transaction_from_pos_trnasfer", queue='short', self=self)
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.add_payment_to_sale_payment", queue='short', self=self)
+ 
 		
 	
 	def on_cancel(self):
@@ -478,6 +480,36 @@ def create_folio_transaction_from_pos_trnasfer(self):
 				} 
 			doc = frappe.get_doc(data)
 			doc.insert()	
+
+def on_get_revenue_account_code(self):
+
+	for sp in self.sale_products:
+		values = {
+			'outlet': self.outlet,
+			'shift': self.shift_name,
+			'revenue_group': sp.revenue_group
+			}
+		data = frappe.db.sql("""
+				select 
+					name,
+					code,
+					account_code,
+					discount_account,
+					tax_1_account,
+					tax_2_account,
+					tax_3_account
+				from `tabRevenue Code` 
+				where outlet=%(outlet)s
+				and shift = %(shift)s
+				and revenue_group=%(revenue_group)s
+			""",values=values, as_dict=1)
+		if data:
+			sp.revenue_code = data[0].code
+			sp.account_code = data[0].account_code
+			sp.discount_account = data[0].discount_account
+			sp.tax_1_account = data[0].tax_1_account
+			sp.tax_2_account = data[0].tax_2_account
+			sp.tax_3_account = data[0].tax_3_account
 
 def validate_pos_payment(self):
 	currency = frappe.db.get_default("currency")

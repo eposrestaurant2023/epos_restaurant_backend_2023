@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Configuration</span>\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Business Information\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"POS Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Table &amp; Group\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Payment Type &amp; Currency\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Sale Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Inventory Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Other Setting\",\"col\":4}}]",
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Configuration</span>\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Business Information\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Payment Type &amp; Currency\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Table &amp; Group\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"POS Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Sale Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Inventory Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Other Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Revenue Setting\",\"col\":4}}]",
  "creation": "2022-12-05 00:50:50.260305",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -425,9 +425,27 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Revenue Setting",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Revenue Code",
+   "link_count": 0,
+   "link_to": "Sale",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-06-14 17:43:31.876283",
+ "modified": "2023-07-19 09:27:12.811085",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Configuration",

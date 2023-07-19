@@ -70,7 +70,7 @@
                         <v-chip v-if="show_button_change_price"  color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"  @click="sale.onChangePrice(sp,gv,numberFormat)">{{ $t('Price') }}</v-chip>
                        
                         <v-chip
-                            :disabled="sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == 'Submitted'"
+                            :disabled="sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == 'Submitted' || sp.append_quantity==0"
                             color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
                             @click="sale.onChangeQuantity(sp)">{{ $t('Qty') }}</v-chip> 
                         
@@ -140,15 +140,15 @@ const show_button_change_price = computed(()=>{
 });  
 
 function onReorder(sp) {
-    if (!sale.isBillRequested()) {
-        if (sp.sale_product_status == "New" || sale.setting.pos_setting.allow_change_quantity_after_submit == 1) {
+    if (!sale.isBillRequested()) { 
+        if ((sp.sale_product_status == "New" && sp.append_quantity ==1) || sale.setting.pos_setting.allow_change_quantity_after_submit == 1 ) {
             sale.updateQuantity(sp, sp.quantity + 1)
         } else {
             let strFilter = `$.product_code=='${sp.product_code}' && $.append_quantity ==1 && $.price==${sp.price} && $.portion=='${sp.portion}'  && $.modifiers=='${sp.modifiers}'  && $.unit=='${sp.unit}'  && $.is_free==0`
 
             if (!gv.setting?.pos_setting?.allow_change_quantity_after_submit) {
                 strFilter = strFilter + ` && $.sale_product_status == 'New'`
-            }
+            } 
             const sale_product = Enumerable.from(sale.sale.sale_products).where(strFilter).firstOrDefault();
             if (sale_product != undefined) {
                 sale_product.quantity = parseFloat(sale_product.quantity) + 1;

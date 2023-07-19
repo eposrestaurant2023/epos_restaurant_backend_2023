@@ -13,6 +13,7 @@
   "outlet",
   "stock_location",
   "max_cashier_shift",
+  "is_edoor_profile",
   "column_break_5",
   "price_rule",
   "tax_rule",
@@ -196,11 +197,17 @@
    "fieldname": "max_cashier_shift",
    "fieldtype": "Int",
    "label": "Max Cashier Shift"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_edoor_profile",
+   "fieldtype": "Check",
+   "label": "Is eDoor Profile"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-01 18:57:35.861354",
+ "modified": "2023-07-19 11:27:09.996733",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Profile",

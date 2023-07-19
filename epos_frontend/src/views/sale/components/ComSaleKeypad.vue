@@ -123,7 +123,8 @@ const is_allow_append_qty = computed(() => {
     return false;
   }
 
-  if(sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sale_products[0].sale_product_status == 'Submitted'){
+
+  if(sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sale_products[0].append_quantity == 0 || sale_products[0].sale_product_status == 'Submitted'){
     return false;
   }
   return true;
