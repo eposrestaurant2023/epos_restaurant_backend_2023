@@ -13,6 +13,7 @@
   "code",
   "account_name",
   "account_category",
+  "is_group",
   "data_4",
   "type",
   "use_folio_balance_as_default_amount",
@@ -54,8 +55,7 @@
   "section_break_29",
   "note",
   "account_code_name",
-  "account_group",
-  "is_group"
+  "account_group"
  ],
  "fields": [
   {
@@ -358,7 +358,7 @@
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-07-20 15:36:27.000119",
+ "modified": "2023-07-20 15:42:46.751969",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Account Code",
