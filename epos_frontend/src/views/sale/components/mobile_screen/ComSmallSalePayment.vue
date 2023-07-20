@@ -28,7 +28,6 @@ const gv = inject('$gv')
 async function onShowCurrencyPrefine(){
     if(gv.setting.pos_setting.main_currency_predefine_payment_amount){
         const result = await smallCurrencyPrefineModel({})
-    }
-        
+    }        
 }
 </script> 
