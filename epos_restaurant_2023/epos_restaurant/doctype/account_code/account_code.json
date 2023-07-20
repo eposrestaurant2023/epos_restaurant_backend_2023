@@ -13,7 +13,6 @@
   "code",
   "account_name",
   "account_category",
-  "is_group",
   "data_4",
   "type",
   "use_folio_balance_as_default_amount",
@@ -85,12 +84,6 @@
    "reqd": 1
   },
   {
-   "default": "0",
-   "fieldname": "is_group",
-   "fieldtype": "Check",
-   "label": "Is Group"
-  },
-  {
    "fieldname": "lft",
    "fieldtype": "Int",
    "hidden": 1,
@@ -105,12 +98,6 @@
    "label": "Right",
    "no_copy": 1,
    "read_only": 1
-  },
-  {
-   "default": "0",
-   "fieldname": "is_group",
-   "fieldtype": "Check",
-   "label": "Is Group"
   },
   {
    "fieldname": "old_parent",
@@ -364,7 +351,7 @@
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-07-20 15:06:34.432008",
+ "modified": "2023-07-20 15:19:46.140581",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Account Code",
