@@ -6,7 +6,7 @@
         label="Enter number"
         variant="solo"
         v-model="sale.paymentInputNumber"
-        clearable 
+        readonly
         maxlength="10"
         autofocus
         ></v-text-field>
@@ -57,11 +57,15 @@
   </div>
 </template>
 <script setup>
-import { inject,onMounted } from "@/plugin"
+import { inject } from "@/plugin"
 import ComPaymentCurrencyPrefine from "./ComPaymentCurrencyPrefine.vue";
 const sale = inject("$sale") 
 
 function numpad_click(n) {
+  if(sale.is_payment_first_load){
+    onClear()
+  }
+  
   if (n == "." && sale.paymentInputNumber.includes(".")) {
     return;
   }
@@ -73,6 +77,7 @@ function numpad_click(n) {
 
 function onClear(){
   sale.paymentInputNumber = '';
+  sale.is_payment_first_load = false;
 }
 
 

@@ -278,7 +278,7 @@ def check_pos_profile(pos_profile_name, device_name):
     if not frappe.db.exists("POS Station", device_name):
         frappe.throw("Invalid POS Station")    
     station =  frappe.get_doc("POS Station",device_name)
-    if station.is_used:
+    if station.is_used and not device_name=="Demo":
         frappe.throw("This station is already used")
     frappe.db.sql("update `tabPOS Station` set is_used = 1 where name = '{}'".format(device_name))
     

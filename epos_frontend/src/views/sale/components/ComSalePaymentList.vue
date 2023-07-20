@@ -35,5 +35,9 @@ function onRemovePayment(p) {
     sale.sale.payment.splice(sale.sale.payment.indexOf(p), 1);
     sale.updatePaymentAmount();
     sale.paymentInputNumber = sale.sale.balance.toFixed(sale.setting.pos_setting.main_currency_precision);
+
+    if( sale.sale.payment.length<=0){
+        sale.is_payment_first_load = true;
+    }
 }
 </script> 

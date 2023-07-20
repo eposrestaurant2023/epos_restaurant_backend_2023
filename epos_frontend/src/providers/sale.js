@@ -12,7 +12,8 @@ const toaster = createToaster({ position: "top" });
 
 export default class Sale {
     constructor() {
-        this.load_menu_lang = false,
+        this.is_payment_first_load = false;
+        this.load_menu_lang = false;
         this.mobile = false;
         this.platform = {};
         this.promotion = null;
@@ -39,6 +40,8 @@ export default class Sale {
         this.sale = {
             sale_products: []
         };
+
+
         this.vueInstance=null;
         this.vue=null;
         this.newSaleResource = null;

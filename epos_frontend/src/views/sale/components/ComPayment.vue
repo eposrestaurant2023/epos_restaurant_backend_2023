@@ -109,6 +109,7 @@ function onSelectedReceipt(r) {
 
 
 onMounted(() => { 
+    sale.is_payment_first_load = true;
     backup.value = JSON.parse(JSON.stringify(sale.sale));
 })
 
@@ -156,6 +157,7 @@ async function onPaymentWithoutPrint() {
 
 onUnmounted(() => {
     sale.sale.payment = [];
+    sale.is_payment_first_load = false;
 })
 
 </script>
