@@ -1,0 +1,407 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "field:code",
+ "creation": "2023-06-10 13:57:23.289724",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "parent_account_code",
+  "code",
+  "account_name",
+  "account_category",
+  "data_4",
+  "type",
+  "use_folio_balance_as_default_amount",
+  "allow_enter_quantity",
+  "show_in_shortcut_menu",
+  "icon",
+  "sort_order",
+  "lft",
+  "rgt",
+  "old_parent",
+  "price_section",
+  "price",
+  "discount_section",
+  "allow_discount",
+  "column_break_12",
+  "discount_account",
+  "tax_section",
+  "allow_tax",
+  "allow_user_to_change_tax",
+  "column_break_17",
+  "tax_rule",
+  "rate_include_tax",
+  "tax_rule_data",
+  "payment_information_section",
+  "show_payment_information",
+  "payment_type_group",
+  "bank_fee_section",
+  "allow_bank_fee",
+  "allow_user_to_change_bank_fee",
+  "bank_fee",
+  "column_break_22",
+  "bank_fee_account",
+  "section_break_24",
+  "require_city_ledger_account",
+  "printing_section",
+  "show_print_preview",
+  "column_break_41",
+  "print_format",
+  "section_break_29",
+  "note",
+  "account_code_name",
+  "account_group",
+  "is_group"
+ ],
+ "fields": [
+  {
+   "fieldname": "parent_account_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Parent Account Code",
+   "options": "Account Code"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Code",
+   "unique": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "account_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Account Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "account_category",
+   "fieldtype": "Link",
+   "label": "Account Category",
+   "mandatory_depends_on": "eval:doc.is_group==0",
+   "options": "Account Category"
+  },
+  {
+   "fieldname": "data_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "Credit",
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "Credit\nDebit",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "use_folio_balance_as_default_amount",
+   "fieldtype": "Check",
+   "label": "Use folio balance as default amount"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_enter_quantity",
+   "fieldtype": "Check",
+   "label": "Allow Enter Quantity"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.parent_account_code==\"All Account Code\"",
+   "fieldname": "show_in_shortcut_menu",
+   "fieldtype": "Check",
+   "label": "Show in Shortcut Menu"
+  },
+  {
+   "fieldname": "icon",
+   "fieldtype": "Data",
+   "label": "Icon"
+  },
+  {
+   "default": "0",
+   "fieldname": "sort_order",
+   "fieldtype": "Int",
+   "label": "Sort Order"
+  },
+  {
+   "fieldname": "lft",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Left",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "rgt",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Right",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "old_parent",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Old Parent",
+   "options": "Account Code"
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "eval:doc.price> 0",
+   "fieldname": "price_section",
+   "fieldtype": "Section Break",
+   "label": "Price"
+  },
+  {
+   "description": "Default price of account code. We recommend this option for item charge account code.",
+   "fieldname": "price",
+   "fieldtype": "Currency",
+   "label": "Price"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "collapsible": 1,
+   "fieldname": "discount_section",
+   "fieldtype": "Section Break",
+   "label": "Discount"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fieldname": "allow_discount",
+   "fieldtype": "Check",
+   "label": "Allow Discount"
+  },
+  {
+   "fieldname": "column_break_12",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "discount_account",
+   "fieldtype": "Link",
+   "label": "Discount Account",
+   "mandatory_depends_on": "eval:doc.allow_discount==1",
+   "options": "Account Code"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "tax_section",
+   "fieldtype": "Section Break",
+   "label": "Tax"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_tax",
+   "fieldtype": "Check",
+   "label": "Apply Tax on this Account"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_user_to_change_tax",
+   "fieldtype": "Check",
+   "label": "Allow User to Change Tax"
+  },
+  {
+   "fieldname": "column_break_17",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tax_rule",
+   "fieldtype": "Link",
+   "label": "Tax Rule",
+   "mandatory_depends_on": "eval:doc.allow_tax ==1",
+   "options": "Tax Rule"
+  },
+  {
+   "default": "No",
+   "fieldname": "rate_include_tax",
+   "fieldtype": "Select",
+   "label": "Rate Include Tax",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fetch_from": "tax_rule.tax_rule_data",
+   "fieldname": "tax_rule_data",
+   "fieldtype": "JSON",
+   "hidden": 1,
+   "label": "Tax Rule Data"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "payment_information_section",
+   "fieldtype": "Section Break",
+   "label": "Payment Information"
+  },
+  {
+   "default": "0",
+   "description": "Show option to add payment information such as credit card info, card holder name and bank information...",
+   "fieldname": "show_payment_information",
+   "fieldtype": "Check",
+   "label": "Show payment information"
+  },
+  {
+   "fieldname": "payment_type_group",
+   "fieldtype": "Link",
+   "label": "Payment Type Group",
+   "options": "Payment Type Group"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "bank_fee_section",
+   "fieldtype": "Section Break",
+   "label": "Bank Fee"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_bank_fee",
+   "fieldtype": "Check",
+   "label": "Bank Fee"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_user_to_change_bank_fee",
+   "fieldtype": "Check",
+   "label": "Allow User to Change Bank Fee"
+  },
+  {
+   "fieldname": "bank_fee",
+   "fieldtype": "Percent",
+   "label": "Bank Fee"
+  },
+  {
+   "fieldname": "column_break_22",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bank_fee_account",
+   "fieldtype": "Link",
+   "label": "Bank Fee Account",
+   "mandatory_depends_on": "eval:doc.allow_bank_fee == 1",
+   "options": "Account Code"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_24",
+   "fieldtype": "Section Break",
+   "label": "City Ledger"
+  },
+  {
+   "default": "0",
+   "fieldname": "require_city_ledger_account",
+   "fieldtype": "Check",
+   "label": "Require select a city ledger account"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "printing_section",
+   "fieldtype": "Section Break",
+   "label": "Printing"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_print_preview",
+   "fieldtype": "Check",
+   "label": "Show print preview after add transaction"
+  },
+  {
+   "fieldname": "column_break_41",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "print_format",
+   "fieldtype": "Link",
+   "label": "Print Format",
+   "mandatory_depends_on": "eval:doc.show_print_preview ==1",
+   "options": "Print Format"
+  },
+  {
+   "fieldname": "section_break_29",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "account_code_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Account Code Name"
+  },
+  {
+   "fetch_from": "parent_account_code.parent_account_code",
+   "fieldname": "account_group",
+   "fieldtype": "Link",
+   "label": "Account Group",
+   "options": "Account Code"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_group",
+   "fieldtype": "Check",
+   "label": "Is Group"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_tree": 1,
+ "links": [],
+ "modified": "2023-07-20 15:36:27.000119",
+ "modified_by": "Administrator",
+ "module": "Configuration",
+ "name": "Account Code",
+ "naming_rule": "By fieldname",
+ "nsm_parent_field": "parent_account_code",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "eDoor Admin",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "account_code_name"
+}
