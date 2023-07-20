@@ -36,8 +36,11 @@ function onRemovePayment(p) {
     sale.updatePaymentAmount();
     sale.paymentInputNumber = sale.sale.balance.toFixed(sale.setting.pos_setting.main_currency_precision);
 
+   
+
     if( sale.sale.payment.length<=0){
         sale.is_payment_first_load = true;
     }
+    console.log( sale.is_payment_first_load)
 }
 </script> 

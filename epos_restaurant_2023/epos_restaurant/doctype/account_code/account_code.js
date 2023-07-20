@@ -3,6 +3,11 @@
 
 // frappe.ui.form.on("Account Code", {
 // 	refresh(frm) {
-
+//         alert(123)
+//         // frm.set_query("discount_account", function() {
+//         //     return {
+//         //         filters: [["is_group","=",0]]
+//         //     }
+//         // });
 // 	},
 // });
