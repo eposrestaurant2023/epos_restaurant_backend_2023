@@ -183,7 +183,7 @@
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-15 15:28:11.317730",
+ "modified": "2023-07-20 23:55:09.862105",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Business Branch",
@@ -263,6 +263,24 @@
    "read": 1,
    "report": 1,
    "role": "Purchase User",
+   "share": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Guest",
+   "share": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
    "share": 1
   }
  ],
