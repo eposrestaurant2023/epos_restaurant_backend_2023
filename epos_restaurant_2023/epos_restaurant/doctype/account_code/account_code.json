@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:code",
  "creation": "2023-06-10 13:57:23.289724",
@@ -38,6 +39,7 @@
   "tax_rule_data",
   "payment_information_section",
   "show_payment_information",
+  "payment_type_group",
   "bank_fee_section",
   "allow_bank_fee",
   "allow_user_to_change_bank_fee",
@@ -330,13 +332,15 @@
    "label": "Icon"
   },
   {
+   "collapsible": 1,
    "fieldname": "printing_section",
    "fieldtype": "Section Break",
    "label": "Printing"
   },
   {
+   "default": "0",
    "fieldname": "show_print_preview",
-   "fieldtype": "Data",
+   "fieldtype": "Check",
    "label": "Show print preview after add transaction"
   },
   {
@@ -349,12 +353,18 @@
    "label": "Print Format",
    "mandatory_depends_on": "eval:doc.show_print_preview ==1",
    "options": "Print Format"
+  },
+  {
+   "fieldname": "payment_type_group",
+   "fieldtype": "Link",
+   "label": "Payment Type Group",
+   "options": "Payment Type Group"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-06-30 15:15:05.580722",
+ "modified": "2023-07-20 15:06:34.432008",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Account Code",

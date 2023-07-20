@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:account_category",
  "creation": "2023-06-25 12:07:08.292190",
@@ -33,7 +34,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-20 14:46:49.387886",
+ "modified": "2023-07-20 15:06:07.538244",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Account Category",
