@@ -57,6 +57,7 @@ class CashierShift(Document):
 											],
 											fields=["name"])
 				sale_products = []
+				sale_payments =[]
 				for s in sales:
 					sale  = frappe.get_doc('Sale',s['name'])
 					for sp in sale.sale_products:
@@ -77,7 +78,9 @@ class CashierShift(Document):
 							"tax_3_account":sp.tax_3_account,
 							"tax_3_amount":sp.tax_3_amount,
 						})
-				
+					
+					
+
 				#create folio transaction buy account code transaction
 
 			

@@ -476,7 +476,8 @@ def create_folio_transaction_from_pos_trnasfer(self):
 					'reference_type': "Sale",
 					'reference_number':self.name,
 					"input_amount":p.amount,
-					"account_code":p.account_code
+					"account_code":p.account_code,
+					"type":"Debit"
 				} 
 			doc = frappe.get_doc(data)
 			doc.insert()	
