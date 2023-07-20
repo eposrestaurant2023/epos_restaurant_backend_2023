@@ -21,7 +21,6 @@ const toaster = createToaster({ position: "top" });
 async function onPaymentTypeClick(pt)  { 
     let room = null;
     let folio = null;
-    console.log(mobile.value)
     if(mobile.value){
         sale.is_payment_first_load = false;
     }
@@ -44,9 +43,7 @@ async function onPaymentTypeClick(pt)  {
         room = result.room;
         folio = result.folio;      
     }  
-
-    console.log(sale.is_payment_first_load)
-
+    
     if(sale.is_payment_first_load){
         sale.paymentInputNumber = sale.paymentInputNumber * pt.exchange_rate;
     }

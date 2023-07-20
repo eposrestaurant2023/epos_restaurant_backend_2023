@@ -16,7 +16,7 @@
                         </div>
                     </div>
                     <div class="flex-none text-right">
-                        <CurrencyFormat :value="p.input_amount" :currency="p.currency" />
+                        <CurrencyFormat v-if="!is_removing" :value="p.input_amount" :currency="p.currency" />
                     </div>
                     <div class="flex-none">
                         <v-btn size="small" variant="text" color="error" icon="mdi-delete"
@@ -29,18 +29,23 @@
     </div>
 </template>
 <script setup>
-import { inject } from 'vue'
+import { inject, ref } from '@/plugin';
 const sale = inject('$sale')
-function onRemovePayment(p) {
+
+const is_removing = ref(false);
+
+async function  onRemovePayment(p) {
+    is_removing.value = true;
     sale.sale.payment.splice(sale.sale.payment.indexOf(p), 1);
     sale.updatePaymentAmount();
-    sale.paymentInputNumber = sale.sale.balance.toFixed(sale.setting.pos_setting.main_currency_precision);
-
-   
+    sale.paymentInputNumber = sale.sale.balance.toFixed(sale.setting.pos_setting.main_currency_precision);  
 
     if( sale.sale.payment.length<=0){
         sale.is_payment_first_load = true;
-    }
-    console.log( sale.is_payment_first_load)
+    } 
+    await  setTimeout(function() {
+        is_removing.value = false;
+    },1);  
+    
 }
 </script> 

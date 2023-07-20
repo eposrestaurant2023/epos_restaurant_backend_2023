@@ -27,8 +27,10 @@ if (currency_name == "") {
 }
 const currency = gv.setting?.currencies.find(r => r.name == currency_name)
 
-if (currency) {
 
+
+
+if (currency) {
     format.value = currency.pos_currency_format
 }
 
