@@ -54,7 +54,8 @@
   "section_break_29",
   "note",
   "account_code_name",
-  "account_group"
+  "account_group",
+  "is_group"
  ],
  "fields": [
   {
@@ -346,12 +347,18 @@
    "fieldtype": "Link",
    "label": "Payment Type Group",
    "options": "Payment Type Group"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_group",
+   "fieldtype": "Check",
+   "label": "Is Group"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-07-20 15:19:46.140581",
+ "modified": "2023-07-20 15:34:48.051587",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "Account Code",
