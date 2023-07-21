@@ -137,7 +137,6 @@ async function onPayment() {
 }
 async function onPaymentWithoutPrint() {
     if (sale.sale.payment.filter(r => r.required_customer == 1).length > 0) {
-
         if (sale.sale.customer == sale.setting.customer) {
 
             toaster.warning($t('msg.Please select customer for payment type')+" " + sale.sale.payment.filter(r => r.required_customer == 1)[0].payment_type);

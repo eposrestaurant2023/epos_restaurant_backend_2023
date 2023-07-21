@@ -7,10 +7,6 @@ from frappe.model.document import Document
 from frappe.model.naming import NamingSeries
 class CashierShift(Document):
 	def validate(self):
-		
-
-
-		 
 		# #if close shift check current bill open 
 		# if self.is_closed==1:
 		# 	pending_orders = frappe.db.sql("select name from `tabSale` where docstatus = 0 and cashier_shift = '{}'".format(self.name), as_dict=1)
@@ -55,10 +51,12 @@ class CashierShift(Document):
 												{"shift_name":self.shift_name},
 												{"docstatus":1}
 											],
+											limit=500,
 											fields=["name"])
 				sale_products = []
 				sale_payments =[]
 				for s in sales:
+					# get sale product by sale
 					sale  = frappe.get_doc('Sale',s['name'])
 					for sp in sale.sale_products:
 						sale_products.append({
@@ -67,6 +65,7 @@ class CashierShift(Document):
 							"outlet":sale.outlet,
 							"shift_name":sale.shift_name,
 							"revenue_group":sp.revenue_group,
+							"revenue_code":sp.revenue_code,
 							"account_code":sp.account_code,
 							"revenue_amount":sp.total_revenue,
 							"discount_account":sp.discount_account,
@@ -78,16 +77,44 @@ class CashierShift(Document):
 							"tax_3_account":sp.tax_3_account,
 							"tax_3_amount":sp.tax_3_amount,
 						})
-					
+
+					#get sale payment data
+					payments = frappe.db.get_list("Sale Payment",
+								filters={"sale":s['name']},
+								fields=["account_code","payment_type_group","payment_type","payment_amount"],
+								as_list=False)
+					#assign data to temp
+					for p in payments:
+						sale_payments.append({
+							"sale_name":sale.name,
+							"cashier_shift":sale.cashier_shift,
+							"outlet":sale.outlet,
+							"shift_name":sale.shift_name,
+							"account_code":p.account_code,
+							"payment_type_group":p.payment_type_group,
+							"payment_type":p.payment_type,
+							"payment_amount":p.payment_amount
+						})
 					
 
 				#create folio transaction buy account code transaction
+				## revenue sale
+				# revenue = get_sale_product_revenue(sale_products)
+				# for g in revenue.revenue_group:
+				# 	data = {
+				# 			'doctype': 'Folio Transaction',
+				# 			'posting_date':self.posting_date,
+				# 			'reference_type': "Sale",
+				# 			'reference_number':self.name,
+				# 			"input_amount":g.amount,
+				# 			"account_code":g.account,
+				# 			"type":"Debit"
+				# 		} 
+				# 	doc = frappe.get_doc(data)
+				# 	doc.insert()
+				# 	pass
 
-			
-
-
-			
-
+				## revenue payment
 
 
 
@@ -100,4 +127,54 @@ class CashierShift(Document):
 		frappe.db.sql(query)
 
 
+
+def get_sale_product_revenue(sale_products):
+	sale_product_revenue ={
+		"revenue_group":sum_by_field(sale_products,field_account="account_code",field_amount="revenue_amount"),
+		"tax_1_revenue":sum_by_field(sale_products,field_account="discount_account",field_amount="discount_amount"),
+		"tax_1_revenue":sum_by_field(sale_products,field_account="tax_1_account",field_amount="tax_1_amount"),
+		"tax_2_revenue":sum_by_field(sale_products,field_account="tax_2_account",field_amount="tax_2_amount"),
+		"tax_3_revenue":sum_by_field(sale_products,field_account="tax_3_account",field_amount="tax_3_amount")
+	}
+
+	return sale_product_revenue
+ 
+
+def sum_by_field(sale_products,field_amount,field_account):
+	result = []
+	groups = {}
+	for row in sale_products:
+		group = {
+				"cashier_shift":row["cashier_shift"],
+				"outlet": row["outlet"],
+				"shift_name":row["shift_name"],
+				"revenue_group":row["revenue_group"],
+				"revenue_code":row["revenue_code"],
+				field_account:row[field_account]
+			}
 		
+		_field_amount = row[field_amount]
+		g = json.dumps(group)	  
+		if g not in groups:
+			groups[g] = {field_amount: []} 
+
+		groups[g][field_amount].append(_field_amount)
+
+
+	for group, total in groups.items():	 
+		total_amount = sum(total[field_amount])
+		g = json.loads(group)	
+		
+		_result = {}
+		_result.update({
+			"revenue_code":g["revenue_code"],
+			"account":(g[field_account] or ""),
+			"amount":(total_amount or 0)
+			})	
+
+		result.append(_result)	
+
+	return result
+
+
+ 
