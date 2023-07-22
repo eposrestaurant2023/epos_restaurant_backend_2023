@@ -130,17 +130,17 @@ class CashierShift(Document):
 
 def get_sale_product_revenue(sale_products):
 	sale_product_revenue ={
-		"revenue_group":sum_by_field(sale_products,field_account="account_code",field_amount="revenue_amount"),
-		"tax_1_revenue":sum_by_field(sale_products,field_account="discount_account",field_amount="discount_amount"),
-		"tax_1_revenue":sum_by_field(sale_products,field_account="tax_1_account",field_amount="tax_1_amount"),
-		"tax_2_revenue":sum_by_field(sale_products,field_account="tax_2_account",field_amount="tax_2_amount"),
-		"tax_3_revenue":sum_by_field(sale_products,field_account="tax_3_account",field_amount="tax_3_amount")
+		"revenue_group":sum_revenue_by_field(sale_products,field_account="account_code",field_amount="revenue_amount"),
+		"discount":sum_revenue_by_field(sale_products,field_account="discount_account",field_amount="discount_amount"),
+		"tax_1":sum_revenue_by_field(sale_products,field_account="tax_1_account",field_amount="tax_1_amount"),
+		"tax_2":sum_revenue_by_field(sale_products,field_account="tax_2_account",field_amount="tax_2_amount"),
+		"tax_3":sum_revenue_by_field(sale_products,field_account="tax_3_account",field_amount="tax_3_amount")
 	}
 
 	return sale_product_revenue
  
 
-def sum_by_field(sale_products,field_amount,field_account):
+def sum_revenue_by_field(sale_products,field_amount,field_account):
 	result = []
 	groups = {}
 	for row in sale_products:

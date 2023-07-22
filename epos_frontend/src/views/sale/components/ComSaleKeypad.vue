@@ -1,8 +1,9 @@
 <template>
     <div class="bg-white"> 
-        <!-- <v-text-field readonly :size="12"  :label="$t('Enter Number')" variant="solo" v-model="input" clearable maxlength="10"></v-text-field> -->
+  
         <div class="p-1">
-          <v-text-field elevation="0" type="text" readonly :placeholder="$t('Enter Number')" density="compact" variant="solo" single-line hide-details v-model="input"> </v-text-field>
+          <v-text-field elevation="0" type="text"  :placeholder="$t('Enter Number')" density="compact" variant="solo" single-line hide-details 
+          v-model="input" @input="onInput"> </v-text-field>
         </div> 
           <div class="flex">
             <div class="flex-grow">
@@ -97,6 +98,10 @@ function onKeyPressed(num){
     }
     
     input.value += num;
+}
+
+function onInput(){
+  input.value = input.value
 }
 
 function onValidate(){

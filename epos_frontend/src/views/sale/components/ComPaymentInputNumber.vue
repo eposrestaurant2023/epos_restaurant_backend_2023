@@ -2,14 +2,11 @@
   <div class="h-full">
     <div class="overflow-auto h-full p-2">
       <div class="mb-4">
-        <v-text-field 
-        label="Enter number"
-        variant="solo"
-        v-model="sale.paymentInputNumber"
-        readonly
-        maxlength="10"
-        autofocus
-        ></v-text-field>
+     
+
+                <v-text-field :readonly="mobile" type="text" class="mb-2" density="compact" variant="solo" autofocus 
+                    append-inner-icon="mdi-arrow-left" single-line hide-details v-model="sale.paymentInputNumber " @input="onInput"
+                    @click:append-inner="onBackspace()"></v-text-field>
         <div>
           <div class="grid grid-cols-3 gap-2">
             <v-btn @click="numpad_click('1')" size="large">
@@ -57,9 +54,11 @@
   </div>
 </template>
 <script setup>
-import { inject } from "@/plugin"
+import { inject ,reactive} from "@/plugin"
 import ComPaymentCurrencyPrefine from "./ComPaymentCurrencyPrefine.vue";
 const sale = inject("$sale") 
+
+
 
 function numpad_click(n) {
   if(sale.is_payment_first_load){
@@ -79,6 +78,18 @@ function onClear(){
   sale.paymentInputNumber = '';
   sale.is_payment_first_load = false;
 }
+
+function onInput(){
+ sale.is_payment_first_load = false;
+  sale.paymentInputNumber = state.payment_amount
+}
+
+
+function onBackspace() {
+  sale.is_payment_first_load = false;
+  sale.paymentInputNumber =  sale.paymentInputNumber.substring(0, sale.paymentInputNumber.length - 1);
+}
+
 
 
 
