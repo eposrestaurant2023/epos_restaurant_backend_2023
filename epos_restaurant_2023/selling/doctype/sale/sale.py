@@ -36,15 +36,13 @@ class Sale(Document):
 				from frappe.model.naming import make_autoname
 				self.waiting_number = make_autoname(self.waiting_number_prefix)
  
-			if not self.bill_number:
-			 
+			if not self.custom_bill_number:
 				if self.pos_profile:
 					pos_config = frappe.db.get_value("POS Profile",self.pos_profile,"pos_config")
 					bill_number_prefix = frappe.db.get_value("POS Config",pos_config,"pos_bill_number_prefix")
 					if bill_number_prefix:
 						from frappe.model.naming import make_autoname
-						self.bill_number = make_autoname(bill_number_prefix)
-
+						self.custom_bill_number = make_autoname(bill_number_prefix)
 
 
 		if self.discount_type =="Percent" and self.discount> 100:
