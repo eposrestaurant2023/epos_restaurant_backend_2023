@@ -12,6 +12,13 @@ frappe.treeview_settings['Account Code'] = {
             label: 'New Account Name', reqd: true
         },
         {
+            "fieldname": "account_category",
+            "fieldtype": "Link",
+            "label": "Account Category",
+            "mandatory_depends_on": "eval:doc.is_group==0",
+            "options": "Account Category"
+           },
+        {
             fieldtype: 'Column Break',
         },
         {

@@ -55,7 +55,10 @@
   "section_break_29",
   "note",
   "account_code_name",
-  "account_group"
+  "account_group",
+  "system_setting_tab",
+  "show_in_folio_tab",
+  "show_in_deposit_tab"
  ],
  "fields": [
   {
@@ -338,7 +341,7 @@
   {
    "fieldname": "account_code_name",
    "fieldtype": "Data",
-   "hidden": 1,
+   "in_list_view": 1,
    "label": "Account Code Name"
   },
   {
@@ -353,12 +356,29 @@
    "fieldname": "is_group",
    "fieldtype": "Check",
    "label": "Is Group"
+  },
+  {
+   "fieldname": "system_setting_tab",
+   "fieldtype": "Tab Break",
+   "label": "System Setting"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_in_folio_tab",
+   "fieldtype": "Check",
+   "label": "Show In Folio Tab"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_in_deposit_tab",
+   "fieldtype": "Check",
+   "label": "Show In Deposit Tab"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-07-20 23:56:30.081966",
+ "modified": "2023-07-24 15:44:38.185140",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Account Code",
@@ -409,6 +429,8 @@
    "share": 1
   }
  ],
+ "search_fields": "account_code_name",
+ "show_preview_popup": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

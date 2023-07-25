@@ -10,6 +10,7 @@
  "field_order": [
   "photo",
   "naming_series",
+  "bill_number",
   "posting_date",
   "reference_number",
   "pos_profile",
@@ -788,6 +789,11 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Card"
+  },
+  {
+   "fieldname": "bill_number",
+   "fieldtype": "Data",
+   "label": "Bill Number"
   }
  ],
  "image_field": "photo",
@@ -800,7 +806,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-07-07 15:55:11.255298",
+ "modified": "2023-07-25 09:46:33.174377",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

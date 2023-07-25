@@ -16,6 +16,7 @@ import os
 
 class Product(Document):
 	def validate(self):
+		 
 		if self.is_combo_menu==1:
 			self.is_recipe=0
 			if self.is_inventory_product:

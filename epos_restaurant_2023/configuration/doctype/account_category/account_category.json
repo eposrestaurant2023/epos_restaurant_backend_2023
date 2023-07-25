@@ -24,6 +24,7 @@
    "bold": 1,
    "fieldname": "sort_order",
    "fieldtype": "Int",
+   "in_list_view": 1,
    "label": "Sort Order"
   },
   {
@@ -34,7 +35,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-20 15:06:07.538244",
+ "modified": "2023-07-24 10:40:55.031552",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Account Category",
