@@ -28,9 +28,6 @@ class HotelBooking(Document):
 		self.total_payment = Enumerable(self.payments).sum(lambda x:(x.payment_amount or 0))
 		self.balance = (self.total_amount or 0) - (self.discount_amount or 0) - (self.total_payment or 0)
 
-		
-		
-
 @frappe.whitelist()
 def get_rate(hotel_name, room_type):
 	return get_room_rate(hotel_name,room_type)
