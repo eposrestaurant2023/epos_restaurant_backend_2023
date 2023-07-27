@@ -31,13 +31,13 @@
                                                 class="font-bold">{{ c.modified_by }}</span>
                                         </div>
                                         <div><v-icon icon="mdi-note-text" size="x-small"></v-icon> {{ $t('Total Shift') }}: <span
-                                                class="font-bold">{{ c.cashier_shifts.length }}</span></div>
+                                                class="font-bold">{{getCashierShifts(c).length }}</span></div>
                                     </div>
                                 </template>
                             </v-card>
-                            <div v-if="activeReport.report_id == c.name || c.cashier_shifts.find(r=>r.name == activeReport.report_id)">
+                            <div v-if="activeReport.report_id == c.name || getCashierShifts(c).find(r=>r.name == activeReport.report_id)">
                                 <div class="-m-1">
-                                    <v-btn :color="item.name == activeReport.report_id ? 'info' : 'default'" variant="tonal" stacked class="m-1" v-for="(item, index) in c.cashier_shifts" :key="index" @click="onCashierShift(item)">
+                                    <v-btn :color="item.name == activeReport.report_id ? 'info' : 'default'" variant="tonal" stacked class="m-1" v-for="(item, index) in getCashierShifts(c)" :key="index" @click="onCashierShift(item)">
                                         <div>{{ moment(item.creation).format('h:mm:ss A') }}</div>
                                         <div class="text-xs">#{{ item.name }}</div>
                                     </v-btn>
@@ -122,11 +122,11 @@ import Enumerable from 'linq'
 import PageLayout from '@/components/layout/PageLayout.vue';
 import { createToaster } from '@meforma/vue-toaster';
 import { onMounted } from 'vue';
-const gv = inject('$gv')
-const moment = inject('$moment')
-
+const gv = inject('$gv');
+const moment = inject('$moment');
+const pos_profile = localStorage.getItem("pos_profile");
 const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + gv.setting.pos_setting.backend_port;
-const toaster = createToaster({position:"top"})
+const toaster = createToaster({position:"top"});
  
 let filter = reactive({
     product_category: 'All Product Categories',
@@ -204,6 +204,11 @@ const cashierShiftReports = createResource({
     auto: true,
     
 })
+
+
+function getCashierShifts(working_day){   
+    return working_day.cashier_shifts.filter((r)=>r.pos_profile==pos_profile);
+}
  
  
  

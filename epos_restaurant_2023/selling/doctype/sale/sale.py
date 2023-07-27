@@ -187,11 +187,12 @@ class Sale(Document):
 
 	
 	def on_submit(self):
-		# update_inventory_on_submit(self)
+		create_folio_transaction_from_pos_trnasfer(self) 
+		# update_inventory_on_submit(self)			
 		# add_payment_to_sale_payment(self)
-		# create_folio_transaction_from_pos_trnasfer(self) 
+		
+		# frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.create_folio_transaction_from_pos_trnasfer", queue='short', self=self)
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_submit", queue='short', self=self)
-		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.create_folio_transaction_from_pos_trnasfer", queue='short', self=self)
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.add_payment_to_sale_payment", queue='short', self=self)
  
 		
@@ -421,11 +422,18 @@ def add_payment_to_sale_payment(self):
 					doc.insert()
    
 		if (self.changed_amount or 0)>0:
+			pos_config = frappe.db.get_value('POS Profile', self.pos_profile, 'pos_config')			
+			payment_type = frappe.db.get_default("changed_payment_type")			
+			pos_config_data = frappe.get_doc('POS Config', pos_config)
+			pos_config_payment_type = Enumerable(pos_config_data.payment_type).where(lambda x:x.payment_type==payment_type)
+			account_code = ""
+			if pos_config_payment_type:
+				account_code = pos_config_payment_type[0].account_code
 			doc = frappe.get_doc({
 					'doctype': 'Sale Payment',
 					"transaction_type":"Changed",
 					'posting_date':self.posting_date,
-					'payment_type': frappe.db.get_default("changed_payment_type"),
+					'payment_type': payment_type,
 					'sale':self.name,
 					'input_amount':self.changed_amount * -1,
 					"docstatus":1,
@@ -433,7 +441,8 @@ def add_payment_to_sale_payment(self):
 					"pos_profile":self.pos_profile,
 					"working_day":self.working_day,
 					"cashier_shift":self.cashier_shift,
-					"note": "Changed amount in sale order {}".format(self.name)
+					"note": "Changed amount in sale order {}".format(self.name),
+					"account_code":account_code
 				})
 			doc.insert()
 
@@ -479,12 +488,13 @@ def create_folio_transaction_from_pos_trnasfer(self):
 		if p.folio_number and not p.use_room_offline:
 			data = {
 					'doctype': 'Folio Transaction',
-					'folio_number':p.folio_number,
 					'posting_date':self.posting_date,
-					'reference_type': "Sale",
+					'transaction_type': 'Reservation Folio',
+					'transaction_number':p.folio_number,
 					'reference_number':self.name,
 					"input_amount":p.amount,
 					"account_code":p.account_code,
+					"property":self.business_branch,
 					"type":"Debit"
 				} 
 			doc = frappe.get_doc(data)

@@ -77,12 +77,22 @@ class CashierShift(Document):
 							"tax_3_account":sp.tax_3_account,
 							"tax_3_amount":sp.tax_3_amount,
 						})
-
+					
 					#get sale payment data
 					payments = frappe.db.get_list("Sale Payment",
 								filters={"sale":s['name']},
 								fields=["account_code","payment_type_group","payment_type","payment_amount"],
 								as_list=False)
+					
+					#get pos sale payment data
+					pos_payments = frappe.db.get_all("POS Sale Payment",
+								filters={
+									'parent':s['name'],
+									'payment_type_group':'On Account'
+									},
+								fields=["account_code","payment_type_group","payment_type","amount"],
+								as_list=False)
+					
 					#assign data to temp
 					for p in payments:
 						sale_payments.append({
@@ -96,27 +106,141 @@ class CashierShift(Document):
 							"payment_amount":p.payment_amount
 						})
 					
-
+					#assign data to temp get from pos sale payment  (on account pay transaction)
+					for p in pos_payments:
+						sale_payments.append({
+							"sale_name":sale.name,
+							"cashier_shift":sale.cashier_shift,
+							"outlet":sale.outlet,
+							"shift_name":sale.shift_name,
+							"account_code":p.account_code,
+							"payment_type_group":p.payment_type_group,
+							"payment_type":p.payment_type,
+							"payment_amount":p.amount
+						})
+					
+				
 				#create folio transaction buy account code transaction
-				## revenue sale
-				# revenue = get_sale_product_revenue(sale_products)
-				# for g in revenue.revenue_group:
-				# 	data = {
-				# 			'doctype': 'Folio Transaction',
-				# 			'posting_date':self.posting_date,
-				# 			'reference_type': "Sale",
-				# 			'reference_number':self.name,
-				# 			"input_amount":g.amount,
-				# 			"account_code":g.account,
-				# 			"type":"Debit"
-				# 		} 
-				# 	doc = frappe.get_doc(data)
-				# 	doc.insert()
-				# 	pass
+				## revenue sale revenue
+				revenue = get_sale_product_revenue(sale_products)				 
+				for g in revenue['revenue_group']:
+					if g['account'] !="" and g['amount'] > 0:	
+						data = {
+								'doctype': 'Folio Transaction',
+								'property':self.business_branch,
+								'working_day':self.working_day,
+								'posting_date':self.posting_date,
+								'transaction_type': "Cashier Shift",
+								'transaction_number': self.name,
+								'reference_number':self.name,
+								"input_amount":g['amount'],
+								"account_code":g['account'],
+								"type":"Debit"
+							} 
+						doc = frappe.get_doc(data)
+						doc.insert()
+						
+						
+							 
+				## get discount
+				for g in revenue['discount']:
+					if g['account'] !="" and g['amount'] > 0:						
+						data = {
+								'doctype': 'Folio Transaction',
+								'property':self.business_branch,
+								'working_day':self.working_day,
+								'posting_date':self.posting_date,
+								'transaction_type': "Cashier Shift",
+								'transaction_number': self.name,
+								'reference_number':self.name,
+								"input_amount":g['amount'],
+								"account_code":g['account'],
+								"type":"Debit"
+							} 
+						doc = frappe.get_doc(data)
+						doc.insert()
+				
+				## get tax 
+				for g in revenue['tax_1']:
+					if g['account'] !="" and g['amount'] > 0:	
+						data = {
+								'doctype': 'Folio Transaction',
+								'property':self.business_branch,
+								'working_day':self.working_day,
+								'posting_date':self.posting_date,
+								'transaction_type': "Cashier Shift",
+								'transaction_number': self.name,
+								'reference_number':self.name,
+								"input_amount":g['amount'],
+								"account_code":g['account'],
+								"type":"Debit"
+							} 
+						doc = frappe.get_doc(data)
+						doc.insert()
 
+				## get tax 2
+				for g in revenue['tax_2']:
+					if g['account'] !="" and g['amount'] > 0:
+						data = {
+								'doctype': 'Folio Transaction',
+								'property':self.business_branch,
+								'working_day':self.working_day,
+								'posting_date':self.posting_date,
+								'transaction_type': "Cashier Shift",
+								'transaction_number': self.name,
+								'reference_number':self.name,
+								"input_amount":g['amount'],
+								"account_code":g['account'],
+								"type":"Debit"
+							} 
+						doc = frappe.get_doc(data)
+						doc.insert()
+				
+				## get tax 3
+				for g in revenue['tax_3']:
+					if g['account'] !="" and g['amount'] > 0:	
+						data = {
+								'doctype': 'Folio Transaction',
+								'property':self.business_branch,
+								'working_day':self.working_day,
+								'posting_date':self.posting_date,
+								'transaction_type': "Cashier Shift",
+								'transaction_number': self.name,
+								'reference_number':self.name,
+								"input_amount":g['amount'],
+								"account_code":g['account'],
+								"type":"Debit"
+							} 
+						doc = frappe.get_doc(data)
+						doc.insert()
+				
+				
 				## revenue payment
+				payment_revenue = get_sale_payment(sale_payments)
+				for g in payment_revenue:
+					if g['account'] !="" and g['amount'] > 0:	
+						tran_type = "Debit" 
+						if g['payment_type_group'] =="Pay to Room":
+							tran_type = "Credit"						
+						data = {
+								'doctype': 'Folio Transaction',
+								'property':self.business_branch,
+								'working_day':self.working_day,
+								'posting_date':self.posting_date,
+								'transaction_type': "Cashier Shift",
+								'transaction_number': self.name,
+								'reference_number':self.name,
+								"input_amount":g['amount'],
+								"account_code":g['account'],
+								"type":tran_type
+							} 
+						
+						doc = frappe.get_doc(data)
+						doc.insert()
+						
 
-
+				#commit data
+				frappe.db.commit()		
 
 	def after_insert(self):	
 		query ="update `tabSale` set working_day='{}', cashier_shift='{}', shift_name='{}' "
@@ -126,8 +250,7 @@ class CashierShift(Document):
 
 		frappe.db.sql(query)
 
-
-
+# get sale product revenue sum group by
 def get_sale_product_revenue(sale_products):
 	sale_product_revenue ={
 		"revenue_group":sum_revenue_by_field(sale_products,field_account="account_code",field_amount="revenue_amount"),
@@ -139,7 +262,7 @@ def get_sale_product_revenue(sale_products):
 
 	return sale_product_revenue
  
-
+# sale prduct sum group by with field
 def sum_revenue_by_field(sale_products,field_amount,field_account):
 	result = []
 	groups = {}
@@ -177,4 +300,33 @@ def sum_revenue_by_field(sale_products,field_amount,field_account):
 	return result
 
 
- 
+def get_sale_payment(sale_payments):
+	result = []
+	groups = {}
+	for row in sale_payments:
+		group = {				
+				"payment_type_group": row["payment_type_group"],
+				"account_code":row["account_code"]
+			}
+		
+		payment_amount = row['payment_amount']
+		g = json.dumps(group)	  
+		if g not in groups:
+			groups[g] = {'payment_amount': []} 
+
+		groups[g]['payment_amount'].append(payment_amount)
+
+
+	for group, total in groups.items():	 
+		total_amount = sum(total['payment_amount'])
+		g = json.loads(group)	
+		
+		_result = {}
+		_result.update({
+			"payment_type_group":(g['payment_type_group'] or ""),
+			"account":(g['account_code'] or ""),
+			"amount":(total_amount or 0)
+			})	
+		result.append(_result)	
+	
+	return result

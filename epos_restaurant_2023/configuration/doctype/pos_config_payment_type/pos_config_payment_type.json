@@ -15,6 +15,7 @@
   "currency",
   "currency_symbol",
   "currency_precision",
+  "allow_change",
   "is_single_payment_type",
   "is_foc",
   "required_customer",
@@ -106,12 +107,18 @@
    "fieldname": "use_room_offline",
    "fieldtype": "Check",
    "label": "Use Room Offline"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_change",
+   "fieldtype": "Check",
+   "label": "Allow Change"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-07-03 10:32:20.074985",
+ "modified": "2023-07-27 09:59:09.948863",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Config Payment Type",

@@ -1265,7 +1265,7 @@ export default class Sale {
         }
     }
 
-    onAddPayment(paymentType, amount,room=null, folio=null) {
+    onAddPayment(paymentType, amount,room=null, folio=null) {       
         const single_payment_type = this.sale.payment.find(r => r.is_single_payment_type == 1);
         if (single_payment_type) {
             toaster.warning($t('msg.You cannot add other payment type with',[ single_payment_type.payment_type]));
@@ -1273,9 +1273,10 @@ export default class Sale {
             if (paymentType.is_single_payment_type == 1) {
                 this.sale.payment = [];
                 amount = parseFloat(this.sale.grand_total);
-
             }
             if (!this.getNumber(amount) == 0) {
+
+
                 this.sale.payment.push({
                     payment_type: paymentType.payment_method,
                     input_amount: parseFloat(amount),
@@ -1296,6 +1297,7 @@ export default class Sale {
             } else {
                 toaster.warning($t("msg.Please enter payment amount"));
             }
+
         }
 
     }

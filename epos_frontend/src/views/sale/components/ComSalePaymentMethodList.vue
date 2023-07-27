@@ -10,7 +10,7 @@
     </div>
 </template>
 <script setup>
-import { inject , payToRoomDialog,createToaster,i18n } from '@/plugin';
+import { inject , payToRoomDialog,createToaster,i18n ,computed} from '@/plugin';
 import { useDisplay } from 'vuetify'
 const {mobile} = useDisplay()
 const gv = inject("$gv")
@@ -43,11 +43,29 @@ async function onPaymentTypeClick(pt)  {
         room = result.room;
         folio = result.folio;      
     }  
+
+  
+    if(pt.allow_change==0 &&  parseFloat(sale.paymentInputNumber) > balance.value  ){
+        sale.paymentInputNumber = balance.value;
+    }
     
     if(sale.is_payment_first_load){
         sale.paymentInputNumber = sale.paymentInputNumber * pt.exchange_rate;
-    }
+    }   
+
     sale.onAddPayment(pt, sale.paymentInputNumber,room,folio);
    
 }
+
+const balance = computed(()=>{
+    if(sale.sale?.balance>0){ 
+    return Number(sale.sale.balance.toFixed(gv.setting.pos_setting.main_currency_precision));
+    }else {
+        return 0;
+    }
+})
+
+ 
+
+
 </script>

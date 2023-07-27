@@ -68,6 +68,7 @@ def get_system_settings(pos_profile="", device_name=''):
             "payment_method":p.payment_type,
             "payment_type_group":p.payment_type_group,
             "currency":p.currency,
+            "allow_change":p.allow_change,
             "is_single_payment_type":p.is_single_payment_type,
             "allow_cash_float":p.allow_cash_float, 
             "input_amount":0,
@@ -474,45 +475,37 @@ def update_print_bill_requested(name):
     doc.save()
 
 @frappe.whitelist()
-def get_working_day_list_report(business_branch = '', pos_profile = ''):
-
-     
-    days = int(frappe.db.get_default("number_of_day_cashier_can_view_report"))
+def get_working_day_list_report(business_branch = '', pos_profile = ''): 
+    days = int(frappe.db.get_default("number_of_day_cashier_can_view_report")) 
     
-   
     date = datetime.today()
-    new_date = date + timedelta(days=days*-1)
- 
-
-    filters = {
-        "posting_date":["<=", date]
-    }
-
+    new_date = date + timedelta(days=days*-1)    
+    filters = {}
     if business_branch and not pos_profile:
-        filters = {
-            "posting_date":["<=", date],
-            "business_branch":["=", business_branch]
-        }
-    elif pos_profile:
-        filters = {
-            "posting_date":["<=", date],
-            "pos_profile":["=", pos_profile]
-        }
- 
+        filters.update({"business_branch":["=", business_branch]})
+
+    elif pos_profile:        
+        filters.update({"pos_profile":["=", pos_profile] }) 
+    
+    wd = frappe.get_last_doc('Working Day',filters=filters)  
+    filters.update({
+        "posting_date":[">=", new_date],
+        "posting_date":["<=", wd.posting_date]
+    })    
+        
     working_day =frappe.db.get_list('Working Day',
         filters = filters,
         fields=["name","posting_date","creation","modified_by","owner","is_closed","closed_date"],
         order_by='posting_date desc',
-        page_length=100,
-        
+        page_length=100,        
     )
+
     for w in working_day:
         cashier_shift =frappe.db.get_list('Cashier Shift',
             filters={
                 "working_day": w.name
             },
-            fields=["name","posting_date","creation","modified_by","is_closed"]
-            
+            fields=["name","pos_profile","posting_date","creation","modified_by","is_closed"]            
         )
         w.cashier_shifts = cashier_shift
     
