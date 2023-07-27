@@ -1,6 +1,6 @@
 frappe.listview_settings['Sale'] = {
     add_fields: ['balance', 'total_amount','total_paid','is_foc'],
-    hide_name_column: false, // hide the last column which shows the `name`
+    hide_name_column: true, // hide the last column which shows the `name`
     // set this to true to apply indicator function on draft documents too
     has_indicator_for_draft: false,
 
