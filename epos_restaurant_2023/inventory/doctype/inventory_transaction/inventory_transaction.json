@@ -16,6 +16,7 @@
   "product_category",
   "product_code",
   "product_name",
+  "portion",
   "stock_unit",
   "unit",
   "uom_conversion",
@@ -218,11 +219,17 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Product Group"
+  },
+  {
+   "fieldname": "portion",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Portion"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-27 10:44:57.663792",
+ "modified": "2023-07-28 17:03:26.526561",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Inventory Transaction",

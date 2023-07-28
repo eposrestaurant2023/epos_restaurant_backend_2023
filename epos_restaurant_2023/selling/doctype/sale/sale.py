@@ -214,6 +214,7 @@ def update_inventory_on_submit(self):
 				'transaction_date':self.posting_date,
 				'transaction_number':self.name,
 				'product_code': p.product_code,
+				'portion':p.portion,
 				'unit':p.unit,
 				'stock_location':self.stock_location,
 				'out_quantity':p.quantity / uom_conversion,
