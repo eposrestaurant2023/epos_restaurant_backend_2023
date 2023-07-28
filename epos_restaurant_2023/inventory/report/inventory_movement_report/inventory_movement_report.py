@@ -310,7 +310,7 @@ def get_sql_data(filters,row_group):
 		row = json.loads(group)
 		_data = list(filter(lambda x: x['business_branch'] ==row["business_branch"] 
 		      and x['stock_location'] == row['stock_location'] 
-		      and x['stock_unit'] == row['stock_unit'] 
+		      and x['stock_unit'] == row['stock_unit']
 			  and x['product_group'] == row['product_group']
 			  and x['product_category']==row['product_category']
 			  and x['product_name'] == row['product_name'], data))
@@ -402,13 +402,14 @@ def get_data_group_by(data, row_group):
 			_row_group.update({
 				"business_branch":row["business_branch"],
 				"stock_location": row["stock_location"],
-				"stock_unit":row["stock_unit"]
+				"stock_unit":row["stock_unit"],
+				"unit":row["unit"]
 			})
 		elif row_group == "product_group":
 			_row_group.update({
 				"business_branch":row["business_branch"],
 				"stock_location": row["stock_location"],
-				"stock_unit":row["stock_unit"],
+				"unit":row["unit"],
 				"product_group":row["product_group"]
 			})
 		elif row_group == "product_category":

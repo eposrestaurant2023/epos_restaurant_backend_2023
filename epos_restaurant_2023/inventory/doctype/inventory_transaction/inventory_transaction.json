@@ -41,7 +41,6 @@
   {
    "fieldname": "product_code",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Product Code",
    "options": "Product",
@@ -116,7 +115,6 @@
   {
    "fieldname": "transaction_type",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Transaction Type",
    "options": "DocType",
    "set_only_once": 1
@@ -147,6 +145,7 @@
    "fetch_from": "product_code.unit",
    "fieldname": "stock_unit",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Stock Unit",
    "set_only_once": 1
   },
@@ -229,7 +228,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-28 17:03:26.526561",
+ "modified": "2023-07-28 17:27:00.126592",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Inventory Transaction",
