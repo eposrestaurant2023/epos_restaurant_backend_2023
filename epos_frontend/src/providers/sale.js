@@ -1153,6 +1153,7 @@ export default class Sale {
                 this.productPrinters.push({
                     printer: p.printer,
                     group_item_type: p.group_item_type,
+                    is_label_printer: p.is_label_printer==1,
                     product_code: r.product_code,
                     product_name_en: r.product_name,
                     product_name_kh: r.product_name_kh,
@@ -1180,6 +1181,7 @@ export default class Sale {
                 this.productPrinters.push({
                     printer: p.printer,
                     group_item_type: p.group_item_type,
+                    is_label_printer: p.is_label_printer==1,
                     product_code: r.product_code,
                     product_name_en: r.product_name,
                     product_name_kh: r.product_name_kh,

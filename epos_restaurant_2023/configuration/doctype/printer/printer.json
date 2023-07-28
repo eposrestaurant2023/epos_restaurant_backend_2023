@@ -14,6 +14,7 @@
   "ip_address",
   "port",
   "business_branch_printer",
+  "is_label_printer",
   "is_standard"
  ],
  "fields": [
@@ -69,11 +70,17 @@
    "fieldname": "is_standard",
    "fieldtype": "Check",
    "label": "Is Standard"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_label_printer",
+   "fieldtype": "Check",
+   "label": "Is Label Printer"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-09 08:58:18.989282",
+ "modified": "2023-07-28 08:46:13.870017",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Printer",

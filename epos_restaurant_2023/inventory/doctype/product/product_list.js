@@ -20,7 +20,7 @@ frappe.listview_settings['Product'] = {
                             "menu": values.pos_menu
                         },
                         callback: function(r) {
-                            frappe.msgprint("Products were assigned to menu")                            
+                            frappe.msgprint("Products were assigned to menu successfully")                            
                         }
                     });
                     d.freeze= false;
@@ -49,7 +49,7 @@ frappe.listview_settings['Product'] = {
                             "printer": values.printer
                         },
                         callback: function(r) {
-                            frappe.msgprint("Update printer to product sucessfully")                            
+                            frappe.msgprint("Update printer to product successfully")                            
                         }
                     });
                     d.freeze= false;
@@ -79,7 +79,7 @@ frappe.listview_settings['Product'] = {
                             "printer": values.printer
                         },
                         callback: function(r) {
-                            frappe.msgprint("Remove printer sucessfully")                            
+                            frappe.msgprint("Remove printer successfully")                            
                         }
                     });
                     d.freeze= false;
@@ -100,7 +100,7 @@ frappe.listview_settings['Product'] = {
                             "products": result,
                         },
                         callback: function(r) {
-                            frappe.msgprint("Remove all printers sucessfully")                    
+                            frappe.msgprint("Remove all printers successfully")                    
                         }
                     });
                 }
