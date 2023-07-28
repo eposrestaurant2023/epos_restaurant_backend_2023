@@ -18,6 +18,7 @@ frappe.listview_settings['Dates'] = {
                 ],
                 primary_action_label: 'Save',
                     primary_action(values) {
+                        alert(123)
                         frappe.call({
                             method: "epos_restaurant_2023.configuration.doctype.dates.dates.generate_date",
                             

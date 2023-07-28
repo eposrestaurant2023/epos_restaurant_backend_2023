@@ -115,6 +115,10 @@ class Product(Document):
 		# if price:
 		# 	frappe.msgprint(str(price["cost"]))
 
+		#check if portion price exists 
+		if	len(self.product_price) > 0:
+			self.price = Enumerable(self.product_price).min(lambda x: x.price)
+
 	def autoname(self):
 		from frappe.model.naming import set_name_by_naming_series, get_default_naming_series,make_autoname
 

@@ -22,6 +22,7 @@
   "is_inventory_product",
   "is_open_product",
   "append_quantity",
+  "is_require_employee",
   "sort_order",
   "printers",
   "prices",
@@ -210,11 +211,18 @@
    "fieldname": "revenue_group",
    "fieldtype": "Data",
    "label": "Revenue Group"
+  },
+  {
+   "default": "0",
+   "fetch_from": "product_code.is_require_employee",
+   "fieldname": "is_require_employee",
+   "fieldtype": "Check",
+   "label": "Is Require Employee"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-20 11:14:07.348485",
+ "modified": "2023-07-28 15:34:25.558855",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Temp Product Menu",

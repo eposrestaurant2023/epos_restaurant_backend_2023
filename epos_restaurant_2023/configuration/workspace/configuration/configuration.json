@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Configuration</span>\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Business Information\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Payment Type &amp; Currency\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Table &amp; Group\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"POS Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Sale Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Inventory Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Other Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Revenue Setting\",\"col\":4}}]",
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Configuration</span>\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Business Information\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Payment Type &amp; Currency\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Table &amp; Group\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"POS Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Sale Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Inventory Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"SPA Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Other Setting\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Revenue Setting\",\"col\":4}}]",
  "creation": "2022-12-05 00:50:50.260305",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -443,9 +443,37 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "SPA Setting",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Commission Code",
+   "link_count": 0,
+   "link_to": "Predefine SPA Commission Code",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Duration Code",
+   "link_count": 0,
+   "link_to": "Predefine SPA Duration Code",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-07-19 09:27:12.811085",
+ "modified": "2023-07-28 15:58:41.564266",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Configuration",

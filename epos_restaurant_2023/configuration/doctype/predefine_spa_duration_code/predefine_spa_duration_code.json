@@ -1,55 +1,53 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2023-01-03 15:49:01.813322",
+ "autoname": "hash",
+ "creation": "2023-07-28 14:55:52.345400",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "employee",
-  "employee_id",
-  "log_type",
-  "log_time",
-  "device_id"
+  "duration_title",
+  "duration_value",
+  "commission_value",
+  "is_overtime"
  ],
  "fields": [
   {
-   "fieldname": "employee",
+   "fieldname": "duration_title",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Employee"
+   "label": "Duration Title"
   },
   {
-   "fieldname": "employee_id",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Employee ID"
-  },
-  {
-   "fieldname": "log_type",
+   "default": "0",
+   "fieldname": "duration_value",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Log Type"
+   "label": "Duration Value"
   },
   {
-   "fieldname": "log_time",
-   "fieldtype": "Datetime",
+   "default": "0",
+   "fieldname": "commission_value",
+   "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Log Time"
+   "label": "Commission Value"
   },
   {
-   "fieldname": "device_id",
-   "fieldtype": "Data",
-   "label": "Device ID"
+   "default": "0",
+   "fieldname": "is_overtime",
+   "fieldtype": "Check",
+   "label": "Is Overtime"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-28 16:11:11.473312",
+ "modified": "2023-07-28 16:08:31.246525",
  "modified_by": "Administrator",
- "module": "Employee Management",
- "name": "Check In Out",
+ "module": "Configuration",
+ "name": "Predefine SPA Duration Code",
+ "naming_rule": "Random",
  "owner": "Administrator",
  "permissions": [
   {
@@ -77,6 +75,7 @@
    "write": 1
   }
  ],
+ "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

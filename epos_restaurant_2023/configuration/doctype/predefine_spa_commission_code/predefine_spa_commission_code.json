@@ -1,55 +1,31 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2023-01-03 15:49:01.813322",
+ "autoname": "hash",
+ "creation": "2023-07-28 14:04:43.315916",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "employee",
-  "employee_id",
-  "log_type",
-  "log_time",
-  "device_id"
+  "commission_value"
  ],
  "fields": [
   {
-   "fieldname": "employee",
-   "fieldtype": "Data",
+   "default": "0",
+   "fieldname": "commission_value",
+   "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Employee"
-  },
-  {
-   "fieldname": "employee_id",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Employee ID"
-  },
-  {
-   "fieldname": "log_type",
-   "fieldtype": "Int",
-   "in_list_view": 1,
-   "label": "Log Type"
-  },
-  {
-   "fieldname": "log_time",
-   "fieldtype": "Datetime",
-   "in_list_view": 1,
-   "label": "Log Time"
-  },
-  {
-   "fieldname": "device_id",
-   "fieldtype": "Data",
-   "label": "Device ID"
+   "label": "Commission Value"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-28 16:11:11.473312",
+ "modified": "2023-07-28 14:50:20.127610",
  "modified_by": "Administrator",
- "module": "Employee Management",
- "name": "Check In Out",
+ "module": "Configuration",
+ "name": "Predefine SPA Commission Code",
+ "naming_rule": "Random",
  "owner": "Administrator",
  "permissions": [
   {
@@ -77,6 +53,7 @@
    "write": 1
   }
  ],
+ "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
