@@ -109,7 +109,8 @@
   "discount_account",
   "tax_2_account",
   "tax_3_account",
-  "is_require_employee"
+  "is_require_employee",
+  "employees"
  ],
  "fields": [
   {
@@ -742,12 +743,17 @@
    "fieldtype": "Check",
    "hidden": 1,
    "label": "Is Require Employee"
+  },
+  {
+   "fieldname": "employees",
+   "fieldtype": "JSON",
+   "label": "Employees"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-07-29 09:28:52.746916",
+ "modified": "2023-07-29 16:51:10.696875",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Product",

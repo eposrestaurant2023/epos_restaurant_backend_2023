@@ -66,8 +66,7 @@ function onKeyDown(event) {
 
         searchProductResource.fetch().then(async (doc)=>{
 
-            const p = JSON.parse(JSON.stringify(doc));
-            console.log("pxxx", p)
+            const p = JSON.parse(JSON.stringify(doc));   
          
             const portions = JSON.parse(p.prices)?.filter(r => (r.branch == sale.sale.business_branch || r.branch == '') && r.price_rule == sale.sale.price_rule);
             const check_modifiers = product.onCheckModifier(JSON.parse(p.modifiers));
