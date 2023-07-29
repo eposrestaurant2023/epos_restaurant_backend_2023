@@ -1,7 +1,7 @@
 import Enumerable from 'linq'
 import moment from '@/utils/moment.js';
 import { noteDialog,changeTaxSettingModal,SaleProductComboMenuGroupModal, keyboardDialog,keypadWithNoteDialog, createResource,
-    createDocumentResource, addModifierDialog, useRouter, confirmDialog, saleProductDiscountDialog,i18n } from "@/plugin"
+    createDocumentResource, addModifierDialog, useRouter, confirmDialog,selectEmployeeDialog, saleProductDiscountDialog,i18n } from "@/plugin"
 import { createToaster } from "@meforma/vue-toaster";
 import socket from '@/utils/socketio';
 import { FrappeApp } from 'frappe-js-sdk';
@@ -257,9 +257,8 @@ export default class Sale {
                            const _tax_rules = this.setting.tax_rules.filter((r)=>r.tax_rule==(this.sale.tax_rule||""));
                            if(_tax_rules.length>0){
                                 tax_rule = JSON.parse(JSON.stringify( _tax_rules[0].tax_rule_data));
-                           }
-                           else{
-                                tax_rule = (this.sale.tax_rule||"");
+                           }else{
+                                tax_rule ={}
                            }
                         }
                     }
@@ -1418,6 +1417,11 @@ export default class Sale {
         }else{
             localStorage.setItem('mLang',"en");
         } 
+    }
+
+
+    async onAssignEmployee(sp) {
+        const res = await selectEmployeeDialog({})
     }
 
 }

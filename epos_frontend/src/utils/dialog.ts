@@ -40,7 +40,7 @@ import ComViewHappyHourPromotionModal from '@/views/sale/components/happy_hour_p
 
 import ComSplitBill from "@/views/sale/components/ComSplitBill.vue"
 import ComChangeTaxSettingModal from "@/views/sale/components/ComChangeTaxSettingModal.vue"
-
+import ComSelectEmployeeModal from "@/views/sale/employee/ComSelectEmployeeModal.vue"
 
 interface params {
     doctype?:String,
@@ -100,4 +100,4 @@ export  const changeTaxSettingModal = createPromiseDialog<params, object>(ComCha
 export  const ComSaleReferenceNumberDialog = createPromiseDialog<params, object>(ComSaleReferenceNumberModal);
 export  const viewHappyHourPromotionModal = createPromiseDialog<params, object>(ComViewHappyHourPromotionModal);
 export  const ShortCutKeyHelpDialog = createPromiseDialog<params, object>(ComShortcutKeyHelp);
-
+export  const selectEmployeeDialog = createPromiseDialog<params, object>(ComSelectEmployeeModal);

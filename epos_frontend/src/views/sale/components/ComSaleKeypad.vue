@@ -119,12 +119,20 @@ const is_allow_reorder = computed(() => {
   if(sale_products.length<=0){
     return false;
   } 
+  
+  if(sale_products[0].is_require_employee){
+    return false;
+  }
   return true;
 });
 
 const is_allow_append_qty = computed(() => {
   const sale_products = (sale.sale.sale_products??[]).filter((r)=>r.selected==true);
   if(sale_products.length<=0){
+    return false;
+  }
+
+  if(sale_products[0].is_require_employee){
     return false;
   }
 

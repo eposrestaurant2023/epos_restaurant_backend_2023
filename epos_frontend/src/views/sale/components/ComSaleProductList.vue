@@ -80,7 +80,7 @@
                         </template>
                         <template v-else>
                             <v-chip  color="primary" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
-                            @click="sale.onChangeQuantity(sp)">{{ $t('Employee') }}</v-chip> 
+                            @click="sale.onAssignEmployee(sp)">{{ $t('Employee') }}</v-chip> 
                         </template>
                         
                         <v-chip color="red" class="mx-1 grow text-center justify-center" variant="elevated" size="small"

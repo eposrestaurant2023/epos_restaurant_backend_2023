@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-app-bar :elevation="2" color="error">
+        <v-app-bar :elevation="2" color="error" >
             <v-app-bar-title>{{ appTitle }}</v-app-bar-title>
             <template #prepend>
                 <v-app-bar-nav-icon variant="text" @click.stop="onDrawer"></v-app-bar-nav-icon>

@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-app-bar :elevation="2" color="error">
+        <v-app-bar :elevation="2" color="error" >
             <template #prepend>
                 <v-app-bar-nav-icon size="small" variant="text" @click.stop="onDrawer()"></v-app-bar-nav-icon>
                 <template v-if="mobile"> 
