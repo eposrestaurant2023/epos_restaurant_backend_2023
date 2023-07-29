@@ -1421,6 +1421,8 @@ export default class Sale {
 
 
     async onAssignEmployee(sp) {
+        toaster.warning("Comming Soon")
+        return
         const res = await selectEmployeeDialog({})
     }
 
