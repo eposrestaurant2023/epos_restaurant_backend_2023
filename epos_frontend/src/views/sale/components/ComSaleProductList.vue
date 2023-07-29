@@ -69,16 +69,22 @@
                     <div v-if="sp.selected && !readonly" class="-mx-1 flex pt-1"> 
                         <v-chip v-if="show_button_change_price"  color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"  @click="sale.onChangePrice(sp,gv,numberFormat)">{{ $t('Price') }}</v-chip>
                        
-                        <v-chip
-                            :disabled="sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == 'Submitted' || sp.append_quantity==0"
-                            color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
-                            @click="sale.onChangeQuantity(sp)">{{ $t('Qty') }}</v-chip> 
+                        <template v-if="!(sp.is_require_employee||false)">
+                            <v-chip
+                                :disabled="sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == 'Submitted' || sp.append_quantity==0"
+                                color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
+                                @click="sale.onChangeQuantity(sp)">{{ $t('Qty') }}</v-chip> 
+                            
+                            <v-chip color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
+                                @click="onReorder(sp)">{{ $t('Re-Order') }}</v-chip>   
+                        </template>
+                        <template v-else>
+                            <v-chip  color="primary" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
+                            @click="sale.onChangeQuantity(sp)">{{ $t('Employee') }}</v-chip> 
+                        </template>
                         
-                        <v-chip color="teal" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
-                            @click="onReorder(sp)">{{ $t('Re-Order') }}</v-chip>   
-                        
-                            <v-chip color="red" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
-                            @click="sale.onRemoveItem(sp,gv,numberFormat)">{{ $t('Delete') }}</v-chip>
+                        <v-chip color="red" class="mx-1 grow text-center justify-center" variant="elevated" size="small"
+                        @click="sale.onRemoveItem(sp,gv,numberFormat)">{{ $t('Delete') }}</v-chip>
 
                         <ComSaleProductButtonMore :sale-product="sp" />
                     </div>

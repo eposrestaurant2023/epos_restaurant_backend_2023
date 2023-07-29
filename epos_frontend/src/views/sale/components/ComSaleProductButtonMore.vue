@@ -36,9 +36,11 @@
                 
             </template>
 
-         
-            <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-chair-school" :title="($t('Seat')+'#')"
-                @click="sale.onSaleProductSetSeatNumber(saleProduct)"></v-list-item>
+            <template v-if="!(saleProduct.is_require_employee||false)">
+                <v-list-item v-if="tableLayout.table_groups && tableLayout.table_groups.length > 0" prepend-icon="mdi-chair-school" :title="($t('Seat')+'#')"
+                    @click="sale.onSaleProductSetSeatNumber(saleProduct)"></v-list-item>
+            </template>
+
             <v-list-item prepend-icon="mdi-note-outline" :title="$t('Note')" v-if="!saleProduct.note"
                 @click="sale.onSaleProductNote(saleProduct)"></v-list-item>
             <v-list-item v-else @click="onRemoveNote">
@@ -104,11 +106,11 @@ function onEditSaleProduct(sp) {
                     sale.OnEditSaleProduct(sp)
                 }
                 else{
-                    toaster.warning("msg.This item has no option to edit")
+                    toaster.warning($t("msg.This item has no option to edit"))
                 }
             }
         } else {
-            toaster.warning("msg.Submitted order is not allow to edit");
+            toaster.warning($t("msg.Submitted order is not allow to edit"));
         }
     }
 }

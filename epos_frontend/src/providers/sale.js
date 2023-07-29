@@ -243,13 +243,32 @@ export default class Sale {
             this.updateSaleProduct(sp);
         } else {
             this.clearSelected();
-            let tax_rule ="";    
+            let tax_rule ="";   
             if((p.tax_rule||"")==""){
-                tax_rule = JSON.parse(JSON.stringify(this.setting.tax_rule)) ;
+                if(this.sale.name==undefined){
+                    tax_rule = JSON.parse(JSON.stringify(this.setting.tax_rule)) ;
+                }
+                else{
+                    tax_rule = JSON.parse(JSON.stringify(this.setting.tax_rule));
+                    if(tax_rule.name==undefined){
+                        //
+                    }else{
+                        if((this.sale.tax_rule||"")!=tax_rule.name){
+                           const _tax_rules = this.setting.tax_rules.filter((r)=>r.tax_rule==(this.sale.tax_rule||""));
+                           if(_tax_rules.length>0){
+                                tax_rule = JSON.parse(JSON.stringify( _tax_rules[0].tax_rule_data));
+                           }
+                           else{
+                                tax_rule = (this.sale.tax_rule||"");
+                           }
+                        }
+                    }
+                }                 
             }
             else{
                 tax_rule = JSON.parse(p.tax_rule_data);
-            }
+            }            
+
             const make_order_auth = JSON.parse(localStorage.getItem('make_order_auth'));
             const now = new Date();
 
@@ -294,7 +313,7 @@ export default class Sale {
                 combo_menu: p.combo_menu,
                 combo_menu_data: (p.combo_menu_data || p.combo_group_data),
                 product_tax_rule: p.tax_rule,
-
+                is_require_employee:p.is_require_employee
             }       
             this.onSaleProductApplyTax(tax_rule,saleProduct); 
             this.sale.sale_products.push(saleProduct);

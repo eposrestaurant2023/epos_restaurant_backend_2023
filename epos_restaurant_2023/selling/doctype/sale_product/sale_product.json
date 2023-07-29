@@ -108,7 +108,8 @@
   "tax_1_account",
   "discount_account",
   "tax_2_account",
-  "tax_3_account"
+  "tax_3_account",
+  "is_require_employee"
  ],
  "fields": [
   {
@@ -734,12 +735,19 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Discount Account"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_require_employee",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Is Require Employee"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-07-19 11:41:37.032592",
+ "modified": "2023-07-29 09:28:52.746916",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Product",

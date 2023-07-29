@@ -91,6 +91,7 @@ def get_products(parent_menu):
                 allow_free,
                 is_open_product,
                 is_inventory_product,
+                is_require_employee,
                 prices,
                 printers,
                 modifiers,
@@ -158,6 +159,7 @@ def get_product_by_barcode(barcode):
                     "type": "product",
                     "revenue_group":p.revenue_group,
                     "append_quantity": 1,
+                    "is_require_employee":p.is_require_employee,
                     "modifiers_data": json.dumps(([pr.business_branch,pr.modifier_category,pr.prefix,pr.modifier_code,pr.price] for pr in p.product_modifiers),default=json_handler),
                     "sort_order":p.sort_order
                 }
@@ -187,6 +189,7 @@ def get_product_by_barcode(barcode):
                     "photo": product.photo,
                     "type": "product",
                     "append_quantity": 1,
+                    "is_require_employee":product.is_require_employee,
                     "revenue_group":p.revenue_group,
                     "modifiers_data": json.dumps(([pr.business_branch,pr.modifier_category,pr.prefix,pr.modifier_code,pr.price] for pr in product.product_modifiers),default=json_handler),
                     "sort_order":product.sort_order
