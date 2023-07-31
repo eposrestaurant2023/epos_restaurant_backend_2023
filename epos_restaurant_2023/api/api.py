@@ -572,15 +572,16 @@ def delete_sale(name,auth):
     sale_doc.payment=[]
     if sale_doc.docstatus ==1:
         sale_doc.cancel()
-    else:
-        
+    else:        
         frappe.db.sql("update `tabSale` set docstatus = 2  where name='{0}'".format(name))
         frappe.db.sql("update `tabSale Product` set docstatus = 2 where parent='{}'".format(name))
+    
+    #update sale product spa deleted
+    query = "update `tabSale Product SPA Commission` set is_deleted = 1  where sale = '{}'".format(name)
+    frappe.db.sql(query)
 
 
     #add to comment
- 
-   
     doc = frappe.get_doc({
         'doctype': 'Comment',
         'subject': 'Delete sale order',

@@ -87,6 +87,9 @@ class Sale(Document):
  
 		#validate sale product 
 		validate_sale_product(self)
+
+		#add sale product spa commission
+		add_sale_product_spa_commission(self)
   
 		validate_pos_payment(self)
 		#validate sale summary
@@ -198,6 +201,8 @@ class Sale(Document):
 		
 	
 	def on_cancel(self):
+		query = "update `tabSale Product SPA Commission` set is_deleted = 1  where sale = '{}'".format(self.name)			
+		frappe.db.sql(query)
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_cancel", queue='short', self=self)
 
 
@@ -455,9 +460,7 @@ def validate_sale_product(self):
 			if discountable_amount>0:
 				sale_discount=(sale_discount / discountable_amount ) * 100
 			sale_discount = sale_discount or 0
-
-			
- 
+		
 	for d in self.sale_products:
 		# validate product free
 		if(d.is_free and d.price > 0):
@@ -484,6 +487,29 @@ def validate_sale_product(self):
 		d.amount = (d.sub_total - d.discount_amount) + d.total_tax
 		d.total_revenue = (d.sub_total - d.total_discount) + d.total_tax
 
+def add_sale_product_spa_commission(self):	
+	query = "delete from `tabSale Product SPA Commission` where sale = '{}'".format(self.name)			
+	frappe.db.sql(query)
+	for sp in self.sale_products:		 
+		if sp.is_require_employee:
+			if sp.employees: 
+				for em in json.loads(sp.employees): 
+					data ={
+						'doctype': 'Sale Product SPA Commission',
+						'sale':self.name,
+						'sale_product': sp.name,
+						'product_name':sp.product_name,
+						'product_name_kh':sp.product_name_kh,
+						"employee":em['employee_id'],
+						"employee_name":em['employee_name'],
+						"duration_title":em['duration_title'],
+						"duration":em['duration'],
+						"commission_amount":em['commission_amount'],
+						"is_overtime":em['is_overtime']
+					} 
+					doc = frappe.get_doc(data)
+					doc.insert() 
+	
 def create_folio_transaction_from_pos_trnasfer(self):
 	for p in self.payment:
 		if p.folio_number and not p.use_room_offline:
@@ -502,7 +528,6 @@ def create_folio_transaction_from_pos_trnasfer(self):
 			doc.insert()	
 
 def on_get_revenue_account_code(self):
-
 	for sp in self.sale_products:
 		values = {
 			'outlet': self.outlet,

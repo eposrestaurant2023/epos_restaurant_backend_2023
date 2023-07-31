@@ -1411,14 +1411,11 @@ export default class Sale {
 
 
     async onAssignEmployee(sp) {
-        toaster.warning("Comming Soon")
-        return
         if(!this.isBillRequested()){
             const res = await selectEmployeeDialog({"data":sp})
             if(res){
-                sp.employees = JSON.stringify(res);         
+                sp.employees = JSON.stringify(res); 
             }
         }
     }
-
 }

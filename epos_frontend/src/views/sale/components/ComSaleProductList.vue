@@ -32,21 +32,29 @@
                                         <CurrencyFormat :value="sp.modifiers_price * sp.quantity" />)
                                     </span>
                                 </div>
-                                    <div v-if="sp.is_combo_menu">
-                                        <div v-if="sp.use_combo_group && sp.combo_menu_data">
-                                            <ComSaleProductComboMenuGroupItemDisplay :combo-menu-data="sp.combo_menu_data"/>
-                                        </div>
-                                        <span v-else>{{ sp.combo_menu }}</span>
-                                    </div>  
-                                    <div v-if="sp.discount > 0 && !sp.is_free">
-                                        <span  class="text-red-500">
-                                            {{ $t('Discount') }} :
-                                            <span v-if="sp.discount_type == 'Percent'">{{ sp.discount }}%</span>
-                                            <CurrencyFormat v-else :value="parseFloat(sp.discount)" />
-                                        </span>
+                                <div v-if="sp.is_combo_menu">
+                                    <div v-if="sp.use_combo_group && sp.combo_menu_data">
+                                        <ComSaleProductComboMenuGroupItemDisplay :combo-menu-data="sp.combo_menu_data"/>
                                     </div>
+                                    <span v-else>{{ sp.combo_menu }}</span>
+                                </div>  
+                                <div v-if="sp.discount > 0 && !sp.is_free">
+                                    <span  class="text-red-500">
+                                        {{ $t('Discount') }} :
+                                        <span v-if="sp.discount_type == 'Percent'">{{ sp.discount }}%</span>
+                                        <CurrencyFormat v-else :value="parseFloat(sp.discount)" />
+                                    </span>
+                                </div>
+
+                                <div v-if="(sp.is_require_employee||false)" >
+                                    <span v-for="emp, idx in getEmployees(sp.employees)" :key="idx" class="text-gray-500">
+                                        <v-chip class="m-0.5" size="x-small" variant="outlined" color="primary" text-color="white">
+                                         {{emp.employee_display_name}}
+                                        </v-chip>
+                                    </span>
+                                    
+                                </div>
                                 <v-chip color="blue" size="x-small" v-if="sp.seat_number"> {{$t('Seat')+"# "+ sp.seat_number  }}</v-chip>
-                                
                                 <div class="text-gray-500" v-if="sp.note">
                                 {{ $t('Note') }}: <span>{{ sp.note }}</span>
                                 </div>
@@ -179,6 +187,21 @@ function getSaleProducts(groupByKey) {
     }
     return [];
 } 
+
+function getEmployees(data){
+    if((data||"")!=""){
+        const result = JSON.parse(data);
+        if(result){
+            if(result.length>0){
+                result.forEach((e)=>{
+                    e.employee_display_name = e.employee_name + '('+e.duration_title+')';
+                })
+            }
+        }
+        return  result;
+    }
+    return []
+}
 
 </script>
 

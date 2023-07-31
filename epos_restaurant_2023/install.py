@@ -133,6 +133,7 @@ def reset_sale_transaction():
         if frappe.session.user == 'Administrator':
             frappe.db.sql("delete from `tabCash Transaction`")
             frappe.db.sql("delete from `tabSale Product Deleted`")
+            frappe.db.sql("delete from `tabSale Product SPA Commission`")
             frappe.db.sql("delete from `tabPOS Sale Payment`")
             frappe.db.sql("delete from `tabSale Payment`")
             frappe.db.sql("delete from `tabSale Product`")

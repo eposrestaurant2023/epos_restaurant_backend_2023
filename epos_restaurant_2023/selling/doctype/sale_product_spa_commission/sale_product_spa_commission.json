@@ -8,6 +8,7 @@
  "engine": "InnoDB",
  "field_order": [
   "sale",
+  "posting_date",
   "sale_product",
   "product_name",
   "product_name_kh",
@@ -17,9 +18,10 @@
   "employee_name",
   "duration_title",
   "duration",
-  "commission_title",
   "commission_amount",
-  "is_overtime"
+  "is_overtime",
+  "shift_name",
+  "is_deleted"
  ],
  "fields": [
   {
@@ -81,24 +83,39 @@
    "label": "Duration"
   },
   {
-   "fieldname": "commission_title",
-   "fieldtype": "Data",
-   "label": "Commission Title"
-  },
-  {
+   "default": "0",
    "fieldname": "commission_amount",
-   "fieldtype": "Data",
+   "fieldtype": "Currency",
    "label": "Commission Amount"
   },
   {
    "fieldname": "is_overtime",
    "fieldtype": "Data",
    "label": "Is Overtime"
+  },
+  {
+   "fetch_from": "sale.posting_date",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date"
+  },
+  {
+   "fetch_from": "sale.shift_name",
+   "fieldname": "shift_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Shift Name"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_deleted",
+   "fieldtype": "Check",
+   "label": "Is Deleted"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-28 16:15:01.041820",
+ "modified": "2023-07-31 14:35:36.283892",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Product SPA Commission",
