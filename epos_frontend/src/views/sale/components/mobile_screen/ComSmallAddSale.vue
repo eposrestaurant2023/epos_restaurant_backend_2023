@@ -20,7 +20,9 @@
                     </div> 
                     <div class="flex items-center justify-between">
                         <div>{{ $t('Total Amount') }}</div>
-                        <div style="font-size: 24px;"><CurrencyFormat :value="sale.sale.grand_total" /></div>
+                        <div style="font-size: 24px;">
+                            <CurrencyFormat :value="sale.sale.grand_total" />
+                        </div>
                     </div>
                 </div>
             </div>

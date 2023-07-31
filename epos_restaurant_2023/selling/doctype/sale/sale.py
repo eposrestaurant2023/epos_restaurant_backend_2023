@@ -509,7 +509,8 @@ def add_sale_product_spa_commission(self):
 					} 
 					doc = frappe.get_doc(data)
 					doc.insert() 
-	
+			
+				
 def create_folio_transaction_from_pos_trnasfer(self):
 	for p in self.payment:
 		if p.folio_number and not p.use_room_offline:

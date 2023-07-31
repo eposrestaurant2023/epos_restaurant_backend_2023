@@ -173,7 +173,6 @@ function onLogout() {
  
 
 onMounted(() => {
-	console.log(router.currentRoute)
 	//check if NN user 
 	const current_user =  localStorage.getItem('current_user');
     if(current_user==null || current_user == undefined){

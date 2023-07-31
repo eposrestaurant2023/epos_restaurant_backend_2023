@@ -150,7 +150,7 @@ onMounted(async ()=>{
 
     //
     
-    employees_selected.value = JSON.parse(props.params?.data.employees||"");
+    employees_selected.value = JSON.parse(props.params?.data.employees||"[]");
     is_load.value = false;
 
 })

@@ -5,7 +5,7 @@
         
 
         <v-btn
-            v-if="(saleProduct.sale_product_status == 'New' && saleProduct.append_quantity==1) || sale.setting.pos_setting.allow_change_quantity_after_submit == 1"
+            v-if="(saleProduct.sale_product_status == 'New' && saleProduct.append_quantity==1 && saleProduct.is_require_employee==0) || sale.setting.pos_setting.allow_change_quantity_after_submit == 1"
             color="error" size="x-small" variant="tonal" icon="mdi-arrow-down"
             @click="sale.updateQuantity(saleProduct, saleProduct.quantity - 1)"
             :disabled="saleProduct.quantity == 1 "></v-btn>        
@@ -14,7 +14,7 @@
             saleProduct.quantity }}</v-btn>
 
         <v-btn
-            v-if="(saleProduct.sale_product_status == 'New' && saleProduct.append_quantity==1 )|| sale.setting.pos_setting.allow_change_quantity_after_submit == 1"
+            v-if="(saleProduct.sale_product_status == 'New' && saleProduct.append_quantity==1 && saleProduct.is_require_employee==0 )|| sale.setting.pos_setting.allow_change_quantity_after_submit == 1"
             color="success" size="x-small" variant="tonal" icon="mdi-arrow-up"
             @click="sale.updateQuantity(saleProduct, saleProduct.quantity + 1)"></v-btn>
     </div>
@@ -35,13 +35,13 @@ const gv = inject("$gv");
 //Add Key stroke
 sale.vue.$onKeyStroke('PageUp', (e) => {
     e.preventDefault()
-    if (props.saleProduct.selected) {
+    if (props.saleProduct.selected && props.saleProduct.is_require_employee==0) {
         sale.updateQuantity(props.saleProduct, props.saleProduct.quantity + 1)
     }
 })
 sale.vue.$onKeyStroke('PageDown', (e) => {
     e.preventDefault()
-    if (props.saleProduct.selected && props.saleProduct.quantity > 1) {
+    if (props.saleProduct.selected && props.saleProduct.quantity > 1 && props.saleProduct.is_require_employee==0) {
         sale.updateQuantity(props.saleProduct, props.saleProduct.quantity - 1)
     }
 })
@@ -162,11 +162,12 @@ function onSaleProductFree() {
 
 
 function onChangeQuantity(){ 
-    if(props.saleProduct.append_quantity==1){
-        if(sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || props.saleProduct.sale_product_status == 'Submitted'){
+    const sp = props.saleProduct;
+    if(sp.append_quantity==1){
+        if(sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == 'Submitted' || sp.is_require_employee==1){
             return;
         }
-        sale.onChangeQuantity(props.saleProduct, gv);
+        sale.onChangeQuantity(sp, gv);
     }
 }
 

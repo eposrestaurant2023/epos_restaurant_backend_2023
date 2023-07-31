@@ -88,6 +88,13 @@ async function onPayment() {
   else if (sale.onCheckPriceSmallerThanZero()) {
     return;
   }
+
+  const check_employee = sale.sale.sale_products.filter((sp)=>sp.is_require_employee && (JSON.parse(sp.employees||"[]")).length <=0)
+  if(check_employee.length> 0){
+      toaster.warning($t('msg.Please assign employee to items'));
+      return;
+  }
+
   const result = await paymentDialog({})
   if (result) {
     localStorage.removeItem('make_order_auth');

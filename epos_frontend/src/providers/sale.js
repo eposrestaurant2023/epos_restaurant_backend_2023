@@ -225,7 +225,7 @@ export default class Sale {
         //check for append quantity rule
         //product code, allow_append_qty,price, unit,modifier, portion, is_free,sale_product_status
         //and check system have feature to send to kitchen
-        let strFilter = `$.product_code=='${p.name}' && $.append_quantity ==1 && $.price==${p.price} && $.portion=='${this.getString(p.portion)}'  && $.modifiers=='${p.modifiers}'  && $.unit=='${p.unit}' && $.is_free==0 && $.note==''`
+        let strFilter = `$.is_require_employee==0 && $.product_code=='${p.name}' && $.append_quantity ==1 && $.price==${p.price} && $.portion=='${this.getString(p.portion)}'  && $.modifiers=='${p.modifiers}'  && $.unit=='${p.unit}' && $.is_free==0 && $.note==''`
 
         if (!this.setting?.pos_setting?.allow_change_quantity_after_submit) {
             strFilter = strFilter + ` && $.sale_product_status == 'New'`
@@ -1015,31 +1015,37 @@ export default class Sale {
                 toaster.warning($t('msg.Please select a menu item to process payment'));
                 resolve(false);
             } else {
-
-                if (await confirmDialog({ title: $t("Quick Pay"), text:$t('msg.are you sure to process quick pay and close order')  })) {
-                    this.sale.payment = [];
-                    this.sale.payment.push({
-                        payment_type: this.setting?.default_payment_type,
-                        input_amount: this.sale.grand_total,
-                        amount: this.sale.grand_total
-                    })
-                    this.sale.sale_status = "Submitted";
-                    this.sale.docstatus = 1;
-                    this.action = "quick_pay";
-                    this.generateProductPrinters();
-                    if (this.getString(this.sale.name) == "") {
-                        if (this.newSaleResource == null) {
-                            this.createNewSaleResource();
+               const check_employee = this.sale.sale_products.filter((sp)=>sp.is_require_employee && (JSON.parse(sp.employees||"[]")).length <=0)
+               if(check_employee.length> 0){
+                    toaster.warning($t('msg.Please assign employee to items'));
+                    resolve(false);
+               }
+               else{
+                    if (await confirmDialog({ title: $t("Quick Pay"), text:$t('msg.are you sure to process quick pay and close order')  })) {
+                        this.sale.payment = [];
+                        this.sale.payment.push({
+                            payment_type: this.setting?.default_payment_type,
+                            input_amount: this.sale.grand_total,
+                            amount: this.sale.grand_total
+                        })
+                        this.sale.sale_status = "Submitted";
+                        this.sale.docstatus = 1;
+                        this.action = "quick_pay";
+                        this.generateProductPrinters();
+                        if (this.getString(this.sale.name) == "") {
+                            if (this.newSaleResource == null) {
+                                this.createNewSaleResource();
+                            }
+                            this.printWaitingOrderAfterPayment = true;
+                            await this.newSaleResource.submit({ doc: this.sale })
+                        } else {
+                            await this.saleResource.setValue.submit(this.sale);
                         }
-                        this.printWaitingOrderAfterPayment = true;
-                        await this.newSaleResource.submit({ doc: this.sale })
-                    } else {
-                        await this.saleResource.setValue.submit(this.sale);
+
+                        this.submitToAuditTrail(this.sale);
+
+                        resolve(true);
                     }
-
-                    this.submitToAuditTrail(this.sale);
-
-                    resolve(true);
                 }
             }
         })
