@@ -148,7 +148,8 @@ def get_system_settings(pos_profile="", device_name=''):
         "start_cashier_shift_required_password":pos_config.start_cashier_shift_required_password,
         "close_cashier_shift_required_password":pos_config.close_cashier_shift_required_password,
         "cash_in_check_out_required_password":pos_config.cash_in_check_out_required_password,
-        "print_waiting_order_after_submit_order":pos_config.print_waiting_order_after_submit_order
+        "print_waiting_order_after_submit_order":pos_config.print_waiting_order_after_submit_order,
+        "print_new_deleted_sale_product":pos_config.print_new_deleted_sale_product,
         
         }
     
@@ -220,6 +221,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "print_cashier_shift_sale_product_summary_after_close_shift":pos_config.print_cashier_shift_sale_product_summary_after_close_shift,
         "print_working_day_summary_after_close_working_day":pos_config.print_working_day_summary_after_close_working_day,
         "print_working_day_sale_product_summary_after_close_working_day":pos_config.print_working_day_sale_product_summary_after_close_working_day,
+        "print_new_deleted_sale_product":pos_config.print_new_deleted_sale_product,
         "pos_sale_order_background_image":pos_branding.pos_sale_order_background_image,
         "shift_types":shift_types,
         "currencies":currencies,

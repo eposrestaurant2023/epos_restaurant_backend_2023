@@ -528,7 +528,7 @@
    "label": "POS Bill Number Prefix"
   },
   {
-   "default": "0",
+   "default": "1",
    "fieldname": "print_new_deleted_sale_product",
    "fieldtype": "Check",
    "label": "Print New Deleted Sale Product"
@@ -537,7 +537,7 @@
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-31 09:41:59.983132",
+ "modified": "2023-07-31 09:42:33.118373",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Config",

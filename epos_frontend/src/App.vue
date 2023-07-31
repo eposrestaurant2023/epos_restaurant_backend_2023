@@ -38,8 +38,7 @@ let state = reactive({
  
 socket.on("PrintReceipt", (arg) => {	
 	if(localStorage.getItem("is_window")=="1"){
-		const data = JSON.parse(arg) ;
-	
+		const data = JSON.parse(arg) ;	
 		if(data.sale.pos_profile == localStorage.getItem("pos_profile")){
 			window.chrome.webview.postMessage(arg);
 		}
@@ -114,25 +113,12 @@ if (!localStorage.getItem("pos_profile")) {
 				}
 			}
 			state.isLoading = false;
-
 		}
 	});
-
 }
 
-// async function onViewCloseOrder(){
-//     await cashierShiftResource.fetch().then((doc)=>{
-//         if(doc.working_day == null){
-//             toaster.warning("Please start your working day and cashier shift")
-//         }else {
-//             router.push({name:"ClosedSaleList"})
-//         }
-//     });
-// }
 
 //get user info 
-
-
 let current_user = localStorage.getItem('current_user')
 if(current_user!=null){
 	const frappe = new FrappeApp();
@@ -153,10 +139,7 @@ if(current_user!=null){
 				}
 			})
 		}
-
-	}).catch((error) => console.error(error));
-
-	
+	}).catch((error) => console.error(error));	
 }
 
 function checkPromotionDay(business_branch){
@@ -184,12 +167,13 @@ function onResize() {
 
 function onLogout() {
     auth.logout().then((r) => {
-        router.push({ name: 'Login' })
+        router.push({ name: 'Login' });
     })
 }
  
 
 onMounted(() => {
+	console.log(router.currentRoute)
 	//check if NN user 
 	const current_user =  localStorage.getItem('current_user');
     if(current_user==null || current_user == undefined){

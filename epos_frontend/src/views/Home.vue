@@ -59,21 +59,22 @@ import OpenShiftButton from './shift/components/OpenShiftButton.vue';
 import ComMessagePromotion from '../components/ComMessagePromotion.vue';
 
 const { t: $t } = i18n.global; 
-
 const toaster = createToaster({ position: "top" });
 const auth = inject('$auth')
 const gv = inject('$gv');
 const sale = inject('$sale');
 const router = useRouter();
-const device_setting = JSON.parse(localStorage.getItem("device_setting"))
-
+const device_setting = JSON.parse(localStorage.getItem("device_setting"));
 let already_load_confirm_close_working_day = false;
+
 function isWindow(){
     return localStorage.getItem('is_window') == 1;
 }
+
 const device_name = computed(() => {
     return localStorage.getItem('device_name')
 })
+
 const cashierShiftResource = createResource({
     url: "epos_restaurant_2023.api.api.get_current_shift_information",
     params: {

@@ -997,19 +997,16 @@ export default class Sale {
                     if (this.newSaleResource == null) {
                         this.createNewSaleResource();
                     }
-                    await this.newSaleResource.submit({ doc: doc })
-
-                } else {
+                    await this.newSaleResource.submit({ doc: doc });
+                } 
+                else {
                     await this.saleResource.setValue.submit(doc);
                 }
-
                 this.submitToAuditTrail(doc);
                 //refresh tabl 
                 resolve(doc);
             }
-
         })
-
     }
 
     async onSubmitQuickPay() {
@@ -1088,9 +1085,8 @@ export default class Sale {
             if (this.setting.pos_setting.print_waiting_order_after_submit_order) {
                 this.onPrintWaitingOrder(doc);
             }
-
-        } else if (this.action == "print_bill") {
-
+        } 
+        else if (this.action == "print_bill") {
             if (this.pos_receipt == undefined || this.pos_receipt == null) {
                 this.pos_receipt = this.setting?.default_pos_receipt;
             }
@@ -1100,13 +1096,11 @@ export default class Sale {
         else if (this.action == "quick_pay") {
             this.onPrintReceipt(this.setting?.default_pos_receipt, "print_receipt", doc);
             this.onPrintToKitchen(doc);
-
             if (this.printWaitingOrderAfterPayment) {
-
                 this.onPrintWaitingOrder(doc);
             }
-
-        } else if (this.action == "payment") {
+        } 
+        else if (this.action == "payment") {
             if (this.isPrintReceipt == true) {
                 this.onPrintReceipt(this.pos_receipt, "print_receipt", doc);
             }
@@ -1115,25 +1109,19 @@ export default class Sale {
                 window.chrome.webview.postMessage(JSON.stringify({ action: "open_cashdrawer" }));
             }
             this.onPrintToKitchen(doc);
-
             if (this.printWaitingOrderAfterPayment) {
                 this.onPrintWaitingOrder(doc);
             }
-
         }
 
         //create deleted sale product to database;
-
         this.deletedSaleProducts.forEach((r) =>{
             this.onCreateDeletedSaleProduct(r);
-        });
-        
+        });        
 
         this.submitToAuditTrail(doc);
         this.sale = {};
-
         this.orderTime = "";
-
         socket.emit("RefreshTable");
 
     }
@@ -1164,8 +1152,7 @@ export default class Sale {
 
     generateProductPrinters() {
         this.productPrinters = [];
-        this.sale.sale_products.filter(r => r.sale_product_status == 'New' && JSON.parse(r.printers).length > 0).forEach((r) => {
-          
+        this.sale.sale_products.filter(r => r.sale_product_status == 'New' && JSON.parse(r.printers).length > 0).forEach((r) => {          
             const pritners = JSON.parse(r.printers);
             pritners.forEach((p) => {
                 this.productPrinters.push({
@@ -1188,35 +1175,38 @@ export default class Sale {
                     modified:r.modified
                 })
             });
-
-            
         });  
 
-        //generate deleted product to product printer list
-        this.deletedSaleProducts.filter(r => JSON.parse(r.printers).length > 0).forEach((r) => {
-            const pritners = JSON.parse(r.printers);
-            pritners.forEach((p) => {
-                this.productPrinters.push({
-                    printer: p.printer,
-                    group_item_type: p.group_item_type,
-                    is_label_printer: p.is_label_printer==1,
-                    product_code: r.product_code,
-                    product_name_en: r.product_name,
-                    product_name_kh: r.product_name_kh,
-                    portion: r.portion,
-                    unit: r.unit,
-                    modifiers: r.modifiers,
-                    note: r.note,
-                    quantity: r.quantity,
-                    is_deleted: true,
-                    is_free: r.is_free == 1,
-                    deleted_note: r.deleted_item_note,
-                    order_by: r.order_by,
-                    creation: r.creation,
-                    modified: r.modified
-                })
+
+        if(this.setting.pos_setting.print_new_deleted_sale_product){
+            //generate deleted product to product printer list
+            this.deletedSaleProducts.filter(r => JSON.parse(r.printers).length > 0).forEach((r) => {
+                const pritners = JSON.parse(r.printers);
+                pritners.forEach((p) => {
+                    this.productPrinters.push({
+                        printer: p.printer,
+                        group_item_type: p.group_item_type,
+                        is_label_printer: p.is_label_printer==1,
+                        product_code: r.product_code,
+                        product_name_en: r.product_name,
+                        product_name_kh: r.product_name_kh,
+                        portion: r.portion,
+                        unit: r.unit,
+                        modifiers: r.modifiers,
+                        note: r.note,
+                        quantity: r.quantity,
+                        is_deleted: true,
+                        is_free: r.is_free == 1,
+                        deleted_note: r.deleted_item_note,
+                        order_by: r.order_by,
+                        creation: r.creation,
+                        modified: r.modified
+                    })
+                });
             });
-        });
+        }
+
+
     }
 
 
