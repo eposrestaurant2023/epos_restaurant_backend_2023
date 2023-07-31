@@ -2,7 +2,7 @@
     <div>
         <v-toolbar color="transparent" elevation="0">
             <v-toolbar-title :class="mobile?'!text-sm':''">
-                <v-icon :size="mobile ?'small' : 'default'">{{ icon }}</v-icon>
+                <v-icon :size="mobile ?'small' : 'default'" v-if="icon!=''">{{ icon }}</v-icon>
                 {{ title }}
                 <slot name="title"></slot>
             </v-toolbar-title>

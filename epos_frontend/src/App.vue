@@ -5,9 +5,7 @@
 		<MainLayout v-if="isMainLayout" />
 		<SaleLayout v-else-if="isSaleLayout" />
 		<BlankLayout v-else />
-
 		<PromiseDialogsWrapper />
-
 	</v-sheet>
 </template>
 <script setup>
@@ -25,9 +23,6 @@ import { FrappeApp } from 'frappe-js-sdk';
 
 
 const toaster = createToaster({position:'top'});
-
-
-
 const gv = inject("$gv");
 const sale = inject("$sale");
 const product = inject("$product");
@@ -51,10 +46,6 @@ socket.on("PrintReceipt", (arg) => {
 	}
 })
 
- 
-
-
-
 const router = useRouter()
 const route = useRoute()
 const isMainLayout = computed(() => {
@@ -66,11 +57,11 @@ const isSaleLayout = computed(() => {
 const isLoading = computed(() => {
 	return store.state.isLoading
 })
+
 if (!localStorage.getItem("pos_profile")) {
 	state.isLoading = false
 	router.push({ name: 'StartupConfig' })
 } else {
-
 	state.isLoading = true;
 	createResource({
 		url: 'epos_restaurant_2023.api.api.get_system_settings',
@@ -89,10 +80,8 @@ if (!localStorage.getItem("pos_profile")) {
 			tableLayout.setting = doc;
 			tableLayout.table_groups = doc.table_groups || '';
 			localStorage.setItem("device_setting",JSON.stringify(  doc.device_setting))
-			localStorage.setItem("table_groups", JSON.stringify(doc.table_groups || null))
-			
+			localStorage.setItem("table_groups", JSON.stringify(doc.table_groups || null))			
 			checkPromotionDay(gv.setting.business_branch)
-
 			let current_user = localStorage.getItem("current_user");
 			if (current_user) {
 				createResource({

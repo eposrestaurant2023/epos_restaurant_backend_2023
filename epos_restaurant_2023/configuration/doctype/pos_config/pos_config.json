@@ -33,10 +33,11 @@
   "print_cashier_shift_sale_product_summary_after_close_shift",
   "print_working_day_summary_after_close_working_day",
   "print_working_day_sale_product_summary_after_close_working_day",
+  "print_waiting_order_after_submit_order",
+  "print_new_deleted_sale_product",
   "number_of_day_cashier_can_view_report",
   "close_business_day_on",
   "alert_close_working_day_after",
-  "print_waiting_order_after_submit_order",
   "permission_and_note_tab",
   "delete_bill_required_password",
   "column_break_17",
@@ -525,12 +526,18 @@
    "fieldname": "pos_bill_number_prefix",
    "fieldtype": "Data",
    "label": "POS Bill Number Prefix"
+  },
+  {
+   "default": "0",
+   "fieldname": "print_new_deleted_sale_product",
+   "fieldtype": "Check",
+   "label": "Print New Deleted Sale Product"
   }
  ],
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-25 09:49:46.160897",
+ "modified": "2023-07-31 09:41:59.983132",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Config",

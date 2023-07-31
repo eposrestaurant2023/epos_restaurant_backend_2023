@@ -13,6 +13,7 @@ import CustomerDetail from "../views/customer/CustomerDetail.vue";
 import Customer from "../views/customer/Customer.vue";
 import TestPage from "../views/TestPage.vue";
 import ToDo from "../views/ToDo.vue";
+import Landing from "../views/Landing.vue";
 import ReceiptList from "@/views/receipt_list/ReceiptList.vue"
 import StartupConfig from "@/views/checking_system/StartupConfig.vue"
 import CashDrawer from "@/views/cash_drawer/CashDrawer.vue"
@@ -26,6 +27,7 @@ const routes = [
   { path: "/server-error", redirect: '/epos_frontend/server-error' },
   { path: "/epos_frontend", name: "Home", component: Home, meta: { layout: 'main_layout' } },
   { path: '/epos_frontend/startup-config', name: 'StartupConfig', component: StartupConfig, meta: { isStartupConfig: true }, props: true },
+  { path: '/epos_frontend/landing:name?', name: 'Landing', component: Landing, meta: { isStartupConfig: true }, props: true },
   { path: "/epos_frontend/add-sale/:name?", name: "AddSale", component: AddSale, meta: { layout: 'sale_layout' } },
   { path: "/epos_frontend/customer-detail/:name?", name: "CustomerDetail", component: CustomerDetail, },
   { path: "/epos_frontend/customer", name: "Customer", component: Customer, meta: { layout: 'main_layout' } },
