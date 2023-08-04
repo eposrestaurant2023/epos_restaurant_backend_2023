@@ -36,6 +36,7 @@
   "is_require_employee",
   "column_break_15",
   "allow_change_price",
+  "delete_from_pos_require_password",
   "column_break_17",
   "is_open_product",
   "pochasing_section",
@@ -86,8 +87,7 @@
   "produce_tab",
   "produce_products",
   "emenu_section",
-  "description",
-  "delete_from_pos_require_password"
+  "description"
  ],
  "fields": [
   {
@@ -553,6 +553,7 @@
    "default": "0",
    "fieldname": "delete_from_pos_require_password",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Delete from POS Require Password"
   }
  ],
@@ -560,7 +561,7 @@
  "index_web_pages_for_search": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-08-04 16:53:34.208655",
+ "modified": "2023-08-04 17:32:29.191309",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Product",
