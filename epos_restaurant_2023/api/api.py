@@ -150,6 +150,7 @@ def get_system_settings(pos_profile="", device_name=''):
         "cash_in_check_out_required_password":pos_config.cash_in_check_out_required_password,
         "print_waiting_order_after_submit_order":pos_config.print_waiting_order_after_submit_order,
         "print_new_deleted_sale_product":pos_config.print_new_deleted_sale_product,
+        "check_delete_item_require_passord_from_product":pos_config.check_delete_item_require_passord_from_product,
         
         }
     

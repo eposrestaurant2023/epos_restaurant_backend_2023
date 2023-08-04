@@ -27,7 +27,7 @@
                             <div class="h-full rounded-lg shadow-lg cursor-pointer border" :class="e.is_selected?'bg-red':'bg-white'">
                                 <div v-ripple class="relative p-2 w-full h-full inline-flex" @click="onEmployeeSelected(e)">
                                     <span class="pr-3">
-                                        <img class="rounded-full border" :src="avatarProfile"/>
+                                        <img class="rounded-full border" :src="avatarProfile" width="40"/>
                                     </span>
                                     <span class="flex items-center">
                                         <div>
@@ -57,7 +57,7 @@
                     
                         <div class="grid gap-2 mt-4" :class="mobile ? 'grid-cols-2' : 'sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 2xl:grid-cols-3'">          
                             <div v-for="(e, index) in get_duration_commission_list" :key="index" class="h-10">
-                                <div class="h-full rounded-lg shadow-lg cursor-pointer " :class="e.is_selected?'bg-red':'bg-gray-500'">
+                                <div class="h-full rounded-lg shadow-lg cursor-pointer" :class="e.is_selected?'bg-red':'bg-gray-500'">
                                     <div v-ripple class="relative p-2 w-full h-full flex justify-center items-center" @click="onDurationSelected(e)">
                                         <div class="text-white">{{`${e.duration_title}${e.is_overtime?'-OT':''}` }}</div>
                                     </div>
@@ -85,22 +85,25 @@
                     <div>Selected Employees</div>
                     <ul v-for="(e, index) in employees_selected" :key="index">
                         <li class="w-full py-2">
-                            <div class="inline-flex box-panel-custom w-full p-4">
+                            <div class="inline-flex box-panel-custom w-full p-4 rounded">
                                 <div class="pr-3">
                                     <img class="rounded-full border" :src="avatarProfile" width="100"/>
                                 </div>
                                 <div class="w-full">
                                     <div class="flex justify-between">
                                         <div>
-                                            <span>{{e.employee_name }}</span><br/>
-                                            <small>Therapy</small><br/>
-                                            <small><v-icon icon="md:home"></v-icon>{{e.duration_title}}</small>
+                                            <span>{{e.employee_name }}</span>
+                                            <p>Therapy</p>
+                                            <p>
+                                                <v-icon icon="mdi-clock-outline"></v-icon>
+                                                {{e.duration_title}}
+                                            </p>
                                         </div>
                                         <div>
                                             <strong>${{e.commission_amount}}</strong>
                                         </div>
                                     </div>
-                                    <v-btn @click="onRemoveSelectedEmployee(e)" class="w-full bg-red dl">
+                                    <v-btn @click="onRemoveSelectedEmployee(e)" class="w-full bg-red dl mt-3">
                                         {{$t('Delete')}}
                                     </v-btn>
                                 </div>
@@ -113,13 +116,14 @@
 
         </template>
         <template #action>
-            
-            <v-btn @click="onChooseEmployee">
-                {{$t('Choose Employee')}}
-              </v-btn> 
-              <v-btn @click="onConfirm">
-                {{$t('Confirm')}}
-              </v-btn>
+            <div class="mx-3">
+                <v-btn @click="onChooseEmployee" class="bg-zinc-200 border">
+                    {{$t('Choose Employee')}}
+                </v-btn> 
+                <v-btn @click="onConfirm" class="bg-zinc-200 border">
+                    {{$t('Confirm')}}
+                </v-btn>
+            </div>
         </template>
     </ComModal>
 </template>

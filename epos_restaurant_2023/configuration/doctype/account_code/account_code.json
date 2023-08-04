@@ -48,6 +48,8 @@
   "bank_fee_account",
   "section_break_24",
   "require_city_ledger_account",
+  "transfers_section",
+  "require_select_a_folio",
   "printing_section",
   "show_print_preview",
   "column_break_41",
@@ -373,12 +375,24 @@
    "fieldname": "show_in_deposit_tab",
    "fieldtype": "Check",
    "label": "Show In Deposit Tab"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "transfers_section",
+   "fieldtype": "Section Break",
+   "label": "Transfers"
+  },
+  {
+   "default": "0",
+   "fieldname": "require_select_a_folio",
+   "fieldtype": "Check",
+   "label": "Require Select a Folio"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-07-24 15:44:38.185140",
+ "modified": "2023-08-04 14:44:08.231965",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Account Code",

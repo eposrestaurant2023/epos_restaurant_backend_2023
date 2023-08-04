@@ -314,6 +314,7 @@ export default class Sale {
                 product_tax_rule: p.tax_rule,
                 is_require_employee:p.is_require_employee
             }       
+            
             this.onSaleProductApplyTax(tax_rule,saleProduct); 
             this.sale.sale_products.push(saleProduct);
             this.updateSaleProduct(saleProduct);
@@ -534,9 +535,17 @@ export default class Sale {
     }
 
     async onRemoveItem(sp,gv,numberFormat, input=(-99999)){
+ 
         if (!this.isBillRequested()) {        
             if (sp.sale_product_status == 'Submitted') {
-                gv.authorize("delete_item_required_password", "delete_item","delete_item_required_note", "Delete Item Note", sp.product_code, true).then(async (v) => {
+               
+                let authorize_key = "delete_item_required_password"
+                if(gv.setting.pos_setting['check_delete_item_require_passord_from_product'] ==1 && sp.delete_from_pos_require_password==0 ){
+                    authorize_key = "delete_item_required_password_dont_check" //we change this authorize key is just for when delete item do not show popup password
+                }
+                
+
+                gv.authorize(authorize_key, "delete_item","delete_item_required_note", "Delete Item Note", sp.product_code, true).then(async (v) => {
                     if (v) {   
                         let result = false;                           
                         if(input==(-99999)){
