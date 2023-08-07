@@ -41,11 +41,11 @@
                                     <span>{{$t("Guest")}}: {{ r.guest_name }}</span>
                                 </div>  
                                 <div>
-                                    <span>{{ $t("Room Type") }}: #{{ r.room_types }}</span>
+                                    <span>{{ $t("Room Type") }}: {{ r.room_types }}</span>
                                 </div>
                                
                                 <div>
-                                    <span>{{$t("Room")}}: {{ r.rooms }}</span>
+                                    <span>{{$t("Room")}}: #{{ r.rooms }}</span>
                                 </div>  
                             </div>                  
                         </v-col>

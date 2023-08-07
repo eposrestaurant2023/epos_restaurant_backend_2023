@@ -1290,7 +1290,7 @@ export default class Sale {
         }
     }
 
-    onAddPayment(paymentType, amount,room=null, folio=null) {       
+    onAddPayment(paymentType, amount,fee_amount=0,room=null, folio=null) {       
         const single_payment_type = this.sale.payment.find(r => r.is_single_payment_type == 1);
         if (single_payment_type) {
             toaster.warning($t('msg.You cannot add other payment type with',[ single_payment_type.payment_type]));
@@ -1300,7 +1300,9 @@ export default class Sale {
                 amount = parseFloat(this.sale.grand_total);
             }
             if (!this.getNumber(amount) == 0) {
-
+                if((fee_amount||0)==0){
+                    fee_amount = parseFloat(amount / paymentType.exchange_rate) * (paymentType.fee_percentage/100);
+                }
 
                 this.sale.payment.push({
                     payment_type: paymentType.payment_method,
@@ -1313,7 +1315,9 @@ export default class Sale {
                     use_room_offline:paymentType.use_room_offline,
                     room_number:room,
                     folio_number:folio,
-                    account_code:paymentType.account_code
+                    account_code:paymentType.account_code,
+                    fee_percentage:paymentType.fee_percentage,
+                    fee_amount:fee_amount
                 });
 
                 this.updatePaymentAmount();
@@ -1330,7 +1334,9 @@ export default class Sale {
     updatePaymentAmount() {
         const payments = Enumerable.from(this.sale.payment);
         const total_payment = payments.sum("$.amount");
+        const total_fee = payments.sum("$.fee_amount");
         this.sale.total_paid = total_payment;
+        this.sale.total_fee = total_fee;
         this.sale.balance = this.sale.grand_total - total_payment;
 
         if (this.sale.balance < 0) {

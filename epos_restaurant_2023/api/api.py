@@ -68,6 +68,8 @@ def get_system_settings(pos_profile="", device_name=''):
             "payment_method":p.payment_type,
             "payment_type_group":p.payment_type_group,
             "currency":p.currency,
+            "currency_symbol":p.currency_symbol,
+            "currency_precision":p.currency_precision,
             "allow_change":p.allow_change,
             "is_single_payment_type":p.is_single_payment_type,
             "allow_cash_float":p.allow_cash_float, 
@@ -76,7 +78,9 @@ def get_system_settings(pos_profile="", device_name=''):
             "required_customer":p.required_customer,
             "is_foc":p.is_foc,
             "use_room_offline":p.use_room_offline,
-            "rooms":p.rooms
+            "rooms":p.rooms,
+            "is_manual_fee":p.is_manual_fee,
+            "fee_percentage":p.fee_percentage
             })
     
     #get currency

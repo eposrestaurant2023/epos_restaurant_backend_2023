@@ -10,11 +10,13 @@
   "account_code",
   "payment_type",
   "payment_type_group",
-  "allow_cash_float",
+  "is_manual_fee",
+  "fee_percentage",
   "exchange_rate",
   "currency",
   "currency_symbol",
   "currency_precision",
+  "allow_cash_float",
   "allow_change",
   "is_single_payment_type",
   "is_foc",
@@ -113,12 +115,24 @@
    "fieldname": "allow_change",
    "fieldtype": "Check",
    "label": "Allow Change"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_manual_fee",
+   "fieldtype": "Check",
+   "label": "Is Manual Fee "
+  },
+  {
+   "default": "0",
+   "fieldname": "fee_percentage",
+   "fieldtype": "Percent",
+   "label": "Fee Percentage"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-07-27 09:59:09.948863",
+ "modified": "2023-08-07 09:11:00.041036",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Config Payment Type",

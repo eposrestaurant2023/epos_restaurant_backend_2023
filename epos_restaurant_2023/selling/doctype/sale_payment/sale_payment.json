@@ -38,6 +38,7 @@
   "exchange_rate",
   "column_break_20",
   "payment_amount",
+  "fee_amount",
   "section_break_13",
   "note",
   "attach_receipt",
@@ -48,7 +49,9 @@
   "room_number",
   "folio_number",
   "account_code",
-  "use_room_offline"
+  "use_room_offline",
+  "fee_percentage",
+  "currency_precision"
  ],
  "fields": [
   {
@@ -319,12 +322,30 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Account Code"
+  },
+  {
+   "fieldname": "fee_percentage",
+   "fieldtype": "Percent",
+   "hidden": 1,
+   "label": "Fee Percentage"
+  },
+  {
+   "fieldname": "fee_amount",
+   "fieldtype": "Currency",
+   "label": "Fee Amount"
+  },
+  {
+   "fetch_from": "currency.currency_precision",
+   "fieldname": "currency_precision",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Currency Precision"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-07-20 10:34:42.776433",
+ "modified": "2023-08-07 15:05:06.230086",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Payment",

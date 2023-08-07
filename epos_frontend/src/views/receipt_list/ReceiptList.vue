@@ -34,19 +34,14 @@ async function onCallback(data) {
   }
 }
 const headers = ref([
-  {
-    title: $t('No'),
-    align: 'start',
-    key: 'name',
-    callback: true
-  },
+  { title: $t('No'), align: 'start',key: 'name',callback: true},
   { title: $t('Customer Name'), align: 'start', key: 'customer', template: '{customer}-{customer_name}', callback: true },
   { title: $t('Table'), align: 'start', key: 'tbl_number' },
   { title: $t('Date'), align: 'center', key: 'posting_date', fieldtype: "Date" },
   { title: $t('Qty'), align: 'center', key: 'total_quantity', },
   { title: $t('Grand Total'), align: 'end', key: 'grand_total', fieldtype: "Currency" },
   { title: $t('Total Discount'), align: 'end', key: 'total_discount', fieldtype: "Currency" },
-  { title: $t('Total Paid'), align: 'end', key: 'total_paid', fieldtype: "Currency" },
+  { title: $t('Total Paid'), align: 'end', key: 'total_paid_with_fee', fieldtype: "Currency" },
   { title: $t('Balance'), align: 'end', key: 'balance', fieldtype: "Currency" },
   { title: $t('Status'), align: 'center', key: 'sale_status', fieldtype: "Status", color_field:"sale_status_color" },
 ])

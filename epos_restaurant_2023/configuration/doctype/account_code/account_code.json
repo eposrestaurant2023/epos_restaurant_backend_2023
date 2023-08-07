@@ -392,7 +392,7 @@
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-08-04 14:44:08.231965",
+ "modified": "2023-08-07 11:49:06.553346",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Account Code",
@@ -443,10 +443,9 @@
    "share": 1
   }
  ],
- "search_fields": "account_code_name",
  "show_preview_popup": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "account_code_name"
+ "title_field": "account_name"
 }

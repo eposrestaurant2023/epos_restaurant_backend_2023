@@ -81,7 +81,7 @@ class CashierShift(Document):
 					#get sale payment data
 					payments = frappe.db.get_list("Sale Payment",
 								filters={"sale":s['name']},
-								fields=["account_code","payment_type_group","payment_type","payment_amount"],
+								fields=["account_code","payment_type_group","payment_type","payment_amount","fee_amount"],
 								as_list=False)
 					
 					#get pos sale payment data
@@ -90,7 +90,7 @@ class CashierShift(Document):
 									'parent':s['name'],
 									'payment_type_group':'On Account'
 									},
-								fields=["account_code","payment_type_group","payment_type","amount"],
+								fields=["account_code","payment_type_group","payment_type","amount","fee_amount"],
 								as_list=False)
 					
 					#assign data to temp
@@ -103,7 +103,8 @@ class CashierShift(Document):
 							"account_code":p.account_code,
 							"payment_type_group":p.payment_type_group,
 							"payment_type":p.payment_type,
-							"payment_amount":p.payment_amount
+							"payment_amount":p.payment_amount + (p.fee_amount or 0),
+							"fee_amount":p.fee_amount or 0
 						})
 					
 					#assign data to temp get from pos sale payment  (on account pay transaction)
@@ -116,7 +117,8 @@ class CashierShift(Document):
 							"account_code":p.account_code,
 							"payment_type_group":p.payment_type_group,
 							"payment_type":p.payment_type,
-							"payment_amount":p.amount
+							"payment_amount":p.amount + (p.fee_amount or 0),
+							"fee_amount":p.fee_amount or 0
 						})
 					
 				
@@ -139,8 +141,7 @@ class CashierShift(Document):
 							} 
 						doc = frappe.get_doc(data)
 						doc.insert()
-						
-						
+		
 							 
 				## get discount
 				for g in revenue['discount']:
@@ -218,7 +219,28 @@ class CashierShift(Document):
 				## revenue payment
 				payment_revenue = get_sale_payment(sale_payments)
 				for g in payment_revenue:
-					if g['account'] !="" and g['amount'] > 0:	
+					if g['account'] !="" and g['amount'] > 0:
+						## create folio transaction bank fee 
+						if g['fee_amount'] > 0:
+							account_code = frappe.get_doc("Account Code",str(g['account']))					
+
+							if account_code.allow_bank_fee==1:
+								if  account_code.bank_fee_account != "":
+									doc_fee = frappe.get_doc({
+											'doctype': 'Folio Transaction',
+											'property':self.business_branch,
+											'working_day':self.working_day,
+											'posting_date':self.posting_date,
+											'transaction_type': "Cashier Shift",
+											'transaction_number': self.name,
+											'reference_number':self.name,
+											"input_amount":g['fee_amount'],
+											"account_code":account_code.bank_fee_account
+										})
+									doc_fee.insert()
+
+						##end create folio transaction bank fee
+
 						tran_type = "Debit" 
 						if g['payment_type_group'] =="Pay to Room":
 							tran_type = "Credit"						
@@ -310,22 +332,26 @@ def get_sale_payment(sale_payments):
 			}
 		
 		payment_amount = row['payment_amount']
+		fee_amount = row['fee_amount']
 		g = json.dumps(group)	  
 		if g not in groups:
-			groups[g] = {'payment_amount': []} 
+			groups[g] = {'payment_amount': [],'fee_amount':[]} 
 
 		groups[g]['payment_amount'].append(payment_amount)
+		groups[g]['fee_amount'].append(fee_amount)
 
 
 	for group, total in groups.items():	 
 		total_amount = sum(total['payment_amount'])
+		total_fee = sum(total['fee_amount'])
 		g = json.loads(group)	
 		
 		_result = {}
 		_result.update({
 			"payment_type_group":(g['payment_type_group'] or ""),
 			"account":(g['account_code'] or ""),
-			"amount":(total_amount or 0)
+			"amount":(total_amount or 0),
+			"fee_amount":(total_fee or 0),
 			})	
 		result.append(_result)	
 	

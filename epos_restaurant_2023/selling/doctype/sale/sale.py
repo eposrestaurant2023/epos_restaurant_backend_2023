@@ -136,6 +136,8 @@ class Sale(Document):
 		self.grand_total =( sub_total - (self.total_discount or 0))  + self.total_tax 
 	  
 		self.total_paid =  Enumerable(self.payment).where(lambda x: x.payment_type_group !='On Account').sum(lambda x: x.amount or 0)
+		self.total_fee =  Enumerable(self.payment).sum(lambda x: x.fee_amount or 0)
+		self.total_paid_with_fee = self.total_paid + (self.total_fee or 0)
 	
 		self.balance = self.grand_total  - (self.total_paid or 0)
 		
@@ -423,7 +425,9 @@ def add_payment_to_sale_payment(self):
 							"room_number":p.room_number,
 							"folio_number":p.folio_number,
 							"use_room_offline":p.use_room_offline,
-							"account_code":p.account_code
+							"account_code":p.account_code,
+							"fee_amount":p.fee_amount,
+							"fee_percentage":p.fee_percentage
 						})
 					doc.insert()
    

@@ -55,10 +55,10 @@
                                         <td class=" px-2">:</td>
                                         <td><CurrencyFormat :value="s.total_discount"></CurrencyFormat></td>
                                     </tr>
-                                    <tr class="text-green-600" v-if="s.total_paid">
+                                    <tr class="text-green-600" v-if="s.total_paid_with_fee">
                                         <td>{{ $t('Total Paid') }}</td>
                                         <td class=" px-2">:</td>
-                                        <td><CurrencyFormat :value="s.total_paid"></CurrencyFormat></td>
+                                        <td><CurrencyFormat :value="s.total_paid_with_fee"></CurrencyFormat></td>
                                     </tr>
                                     <tr class="text-red-500" v-if="s.balance">
                                         <td>{{ $t('Balance') }}</td>
