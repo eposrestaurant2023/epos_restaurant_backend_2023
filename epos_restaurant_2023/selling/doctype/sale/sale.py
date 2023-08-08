@@ -13,6 +13,7 @@ import datetime
 
 class Sale(Document):
 	def validate(self):
+ 
 		if not frappe.db.get_default('exchange_rate_main_currency'):
 			frappe.throw('Main Exchange Currency not yet config. Please contact to system administrator for solve')
 
@@ -138,8 +139,11 @@ class Sale(Document):
 		self.total_paid =  Enumerable(self.payment).where(lambda x: x.payment_type_group !='On Account').sum(lambda x: x.amount or 0)
 		self.total_fee =  Enumerable(self.payment).sum(lambda x: x.fee_amount or 0)
 		self.total_paid_with_fee = self.total_paid + (self.total_fee or 0)
+
+
 	
-		self.balance = self.grand_total  - (self.total_paid or 0)
+		self.balance = round(self.grand_total  , int(currency_precision))-  round((self.total_paid or 0)  , int(currency_precision))
+		#self.balance =self.grand_total -(self.total_paid or 0) 
 		
 		if self.pos_profile:
 			self.changed_amount = self.total_paid - self.grand_total

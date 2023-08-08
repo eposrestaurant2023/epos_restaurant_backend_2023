@@ -36,9 +36,14 @@ class SalePayment(Document):
 def update_sale(self):
 	data = frappe.db.sql("select  ifnull(sum(payment_amount),0)  as total_paid from `tabSale Payment` where docstatus=1 and sale='{}' and payment_amount>0".format(self.sale))
 	sale_amount = frappe.db.get_value('Sale', self.sale, 'grand_total')
+	currency_precision = frappe.db.get_single_value('System Settings', 'currency_precision')
+	if currency_precision=='':
+		currency_precision = "2"
+
 	
 	if data and sale_amount:
-		balance = sale_amount -data[0][0]  
+		balance =round(sale_amount  , int(currency_precision))-  round(data[0][0]    , int(currency_precision))  
+
 		if balance<0:
 			balance = 0
 		frappe.db.set_value('Sale', self.sale,  {
