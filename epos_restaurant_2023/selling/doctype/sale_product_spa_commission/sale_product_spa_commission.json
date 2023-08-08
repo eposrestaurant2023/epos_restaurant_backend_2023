@@ -21,7 +21,8 @@
   "commission_amount",
   "is_overtime",
   "shift_name",
-  "is_deleted"
+  "is_deleted",
+  "business_branch"
  ],
  "fields": [
   {
@@ -111,11 +112,18 @@
    "fieldname": "is_deleted",
    "fieldtype": "Check",
    "label": "Is Deleted"
+  },
+  {
+   "fetch_from": "sale.business_branch",
+   "fieldname": "business_branch",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Business Branch"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-31 14:35:36.283892",
+ "modified": "2023-08-08 15:20:54.283896",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale Product SPA Commission",

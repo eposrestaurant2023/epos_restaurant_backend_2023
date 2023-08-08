@@ -5,7 +5,7 @@
    "label": "Sale Revenue"
   }
  ],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Reports</span>\",\"col\":12}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"Sale Revenue\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Sales Report\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Purchase Order\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Stock Take &amp; Stock Transfer\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Expense\",\"col\":4}}]",
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Reports</span>\",\"col\":12}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"Sale Revenue\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Sales Report\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Purchase Order\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Stock Take &amp; Stock Transfer\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Expense\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"SPA Reports\",\"col\":4}}]",
  "creation": "2022-12-17 18:04:27.765490",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -256,9 +256,27 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "SPA Reports",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Employee Time Sheet Summary",
+   "link_count": 0,
+   "link_to": "Employee Time Sheet Summary",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-06-30 10:28:23.328699",
+ "modified": "2023-08-08 16:41:05.688602",
  "modified_by": "Administrator",
  "module": "ePOS Report",
  "name": "Reports",

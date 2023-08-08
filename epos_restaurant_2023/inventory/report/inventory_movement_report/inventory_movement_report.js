@@ -4,13 +4,20 @@
 
 frappe.query_reports["Inventory Movement Report"] = {
 	onload: function() {
-		if(frappe.query_report.get_filter_value('filter_based_on')=="This Month"){
-
-		
-			frappe.query_report.toggle_filter_display('from_fiscal_year', true);
-			frappe.query_report.toggle_filter_display('start_date', true  );
-			frappe.query_report.toggle_filter_display('end_date', true );
-		}
+		switch(frappe.query_report.get_filter_value('filter_based_on')){
+			case 'This Month':
+				frappe.query_report.toggle_filter_display('from_fiscal_year', true);
+				frappe.query_report.toggle_filter_display('start_date', true  );
+				frappe.query_report.toggle_filter_display('end_date', true );
+				break;
+			case 'Fiscal Year':
+				frappe.query_report.toggle_filter_display('start_date', true  );
+				frappe.query_report.toggle_filter_display('end_date', true );
+				break
+			default:
+				frappe.query_report.toggle_filter_display('from_fiscal_year', true);
+				break;
+		} 
 	},
 	"filters": [
 		// Business Branch
