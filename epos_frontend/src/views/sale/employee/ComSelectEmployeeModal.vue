@@ -7,8 +7,7 @@
         <template #content>
             <div class="container mx-auto grid grid-cols-3 gap-4 mt-4" :class="mobile ? 'grid-cols-1' : 'sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3'">
                 <div class="box-panel-custom p-4">
-                    <label>Employee</label>
-                    <!-- <div class="search-box my-0 mx-auto" :class="small ? 'w-full' : 'max-w-[350px]'"> -->
+                    <label>{{$t('Employee')}}</label>
                     <div class="search-box my-0 mx-auto w-full py-2">
                     <ComInput
                         autofocus
@@ -22,7 +21,7 @@
                         />
                     </div>
 
-                    <div class="grid grid-cols-2 gap-2" :class="mobile ? 'grid-cols-2' : 'sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2'">          
+                    <div class="grid grid-cols-2 gap-2" :class="mobile ? 'grid-cols-2' : 'sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-1'">          
                         <div v-for="(e, index) in getEmployessList(keyword)" :key="index">
                             <div class="h-full rounded-lg shadow-lg cursor-pointer border" :class="e.is_selected?'bg-red':'bg-white'">
                                 <div v-ripple class="relative p-2 w-full h-full inline-flex" @click="onEmployeeSelected(e)">
@@ -31,10 +30,8 @@
                                     </span>
                                     <span class="flex items-center">
                                         <div>
-                                            {{`${e.name} - ${e.employee_name}` }}<br/>
-                                            <small>Therapies</small>
-                                        </div>
-                                        
+                                            {{`${e.name} - ${e.employee_name}` }}
+                                        </div>                                        
                                     </span>
                                 </div>
                             </div>
@@ -44,7 +41,7 @@
 
                 <div class="box-panel-custom p-4">
                     <div class="box-panel-custom p-4 rounded">
-                        <label>Duration</label>
+                        <label>{{$t('Duration')}}</label>
                         <div class="w-full py-2">
                             <v-btn @click="onDurationTypePressed()" class="rounded-t-lg" :class="!is_overtime?'bg-red':'bg-gray-500'">
                                 {{$t('General')}}
@@ -55,11 +52,11 @@
                             <hr/>
                         </div>
                     
-                        <div class="grid gap-2 mt-4" :class="mobile ? 'grid-cols-2' : 'sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 2xl:grid-cols-3'">          
+                        <div class="grid gap-2 mt-4" :class="mobile ? 'grid-cols-2' : 'sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-2'">          
                             <div v-for="(e, index) in get_duration_commission_list" :key="index" class="h-10">
                                 <div class="h-full rounded-lg shadow-lg cursor-pointer" :class="e.is_selected?'bg-red':'bg-gray-500'">
                                     <div v-ripple class="relative p-2 w-full h-full flex justify-center items-center" @click="onDurationSelected(e)">
-                                        <div class="text-white">{{`${e.duration_title}${e.is_overtime?'-OT':''}` }}</div>
+                                        <div class="text-white">{{`${e.duration_title}` }}</div>
                                     </div>
                                 </div>
                             </div> 
@@ -67,12 +64,14 @@
                     </div>
 
                     <div class="box-panel-custom p-4 mt-4 rounded">
-                        <div>Commission</div>
-                        <div class="grid gap-2 py-2" :class="mobile ? 'grid-cols-2' : 'sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-6'">          
+                        <div>{{$t('Commission')}}</div>
+                        <div class="grid gap-2 py-2" :class="mobile ? 'grid-cols-2' : 'sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4'">          
                             <div v-for="(e, index) in get_commission_list" :key="index" class="h-10">
                                 <div class="h-full rounded-lg shadow-lg cursor-pointer " :class="e.is_selected?'bg-red':'bg-gray-500'">
                                     <div v-ripple class="relative p-2 w-full h-full flex justify-center items-center" @click="onCommissionSelected(e)">
-                                        <div class="text-white">{{`${e.commission_value}` }}</div>
+                                        <div class="text-white"> 
+                                            <CurrencyFormat :value="parseFloat(e.commission_value)" />
+                                        </div>
                                     </div>
                                 </div>
                             </div> 
@@ -82,30 +81,34 @@
 
 
                 <div class="box-panel-custom p-4">
-                    <div>Selected Employees</div>
-                    <ul v-for="(e, index) in employees_selected" :key="index">
+                    <div>{{$t('Selected Employees')}}</div>
+
+                    <hr/>
+
+                    <small v-if="employees_selected.length<=0">{{$t('Empty Data')}}</small>
+                    <ul v-else v-for="(e, index) in employees_selected" :key="index">
                         <li class="w-full py-2">
                             <div class="inline-flex box-panel-custom w-full p-4 rounded">
                                 <div class="pr-3">
-                                    <img class="rounded-full border" :src="avatarProfile" width="100"/>
+                                    <img class="rounded-full border" :src="avatarProfile" width="60"/>
                                 </div>
                                 <div class="w-full">
                                     <div class="flex justify-between">
                                         <div>
                                             <span>{{e.employee_name }}</span>
-                                            <p>Therapy</p>
                                             <p>
-                                                <v-icon icon="mdi-clock-outline"></v-icon>
-                                                {{e.duration_title}}
+                                                <v-icon icon="mdi-clock-outline"></v-icon> {{e.duration_title}} = 
+                                                <CurrencyFormat :value="parseFloat(e.commission_amount)" />
                                             </p>
                                         </div>
                                         <div>
-                                            <strong>${{e.commission_amount}}</strong>
+                                            <v-btn @click="onRemoveSelectedEmployee(e)" class="w-full bg-red dl mt-3">
+                                                {{$t('Delete')}}
+                                            </v-btn>
+                                            <!-- <CurrencyFormat :value="parseFloat(e.commission_amount)" /> -->
                                         </div>
                                     </div>
-                                    <v-btn @click="onRemoveSelectedEmployee(e)" class="w-full bg-red dl mt-3">
-                                        {{$t('Delete')}}
-                                    </v-btn>
+                                   
                                 </div>
                             </div>
                         </li>
@@ -115,13 +118,13 @@
 
 
         </template>
-        <template #action>
+        <template #action> 
             <div class="mx-3">
                 <v-btn @click="onChooseEmployee" class="bg-zinc-200 border">
                     {{$t('Choose Employee')}}
                 </v-btn> 
                 <v-btn @click="onConfirm" class="bg-zinc-200 border">
-                    {{$t('Confirm')}}
+                    {{$t('Accept')}}
                 </v-btn>
             </div>
         </template>
@@ -181,7 +184,7 @@ onMounted(async ()=>{
     })   
 
     duration_commission_list.value.forEach((d)=>{
-        if((props.params?.data.portion==d.duration_title && !d.is_overtime)){
+        if((props.params?.data.portion.toLowerCase()==d.duration_title.toLowerCase() && !d.is_overtime)){
             d.is_selected = true;
             const com = commission_list.value.filter((r)=>r.commission_value==d.commission_value);
             if(com.length > 0){
@@ -236,14 +239,17 @@ function getEmployessList(text){
 function onChooseEmployee(){
     const emp = employee_list.value.filter((r)=>r.is_selected||false);
     if(emp.length<=0){
+        toaster.warning($t('msg.Please select employee'))
         return ;
     }
     const dur = duration_commission_list.value.filter((r)=>r.is_selected||false);
     if(dur.length<=0){
+        toaster.warning($t('msg.Please select duration'))
         return ;
     }
     const com = commission_list.value.filter((r)=>r.is_selected||false);
     if(com.length<=0){
+        toaster.warning($t('msg.Please select commission'))
         return ;
     }
 
@@ -264,12 +270,12 @@ function onChooseEmployee(){
                 r.is_selected = false;
         }) 
         
-        duration_commission_list.value.forEach((r)=>{
-            r.is_selected = false;
-        }) 
-        commission_list.value.forEach((r)=>{
-            r.is_selected = false;
-        }) 
+        // duration_commission_list.value.forEach((r)=>{
+        //     r.is_selected = false;
+        // }) 
+        // commission_list.value.forEach((r)=>{
+        //     r.is_selected = false;
+        // }) 
 
     }
     else{
@@ -293,7 +299,10 @@ function onDurationTypePressed(overtime=false){
 }
 
 function onConfirm(){
-    onChooseEmployee()
+    if(employees_selected.value.length<=0){
+        toaster.warning($t('msg.Please choose an employee to continue'));
+        return;
+    }
     emit("resolve", employees_selected.value);
     
 }

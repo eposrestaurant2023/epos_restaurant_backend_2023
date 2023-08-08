@@ -388,23 +388,35 @@ def get_pos_letter_head(doctype):
 
 @frappe.whitelist()
 def get_close_shift_summary(cashier_shift):
+    
     data = []
     doc = frappe.get_doc("Cashier Shift",cashier_shift)
     
     #get close amount by payment type
-    sql = "select payment_type, currency,sum(input_amount) as input_amount, sum(payment_amount) as payment_amount from `tabSale Payment` where cashier_shift='{}' and docstatus=1 group by payment_type, currency".format(cashier_shift)
+    sql = "select payment_type, currency,sum(input_amount + (fee_amount * exchange_rate)) as input_amount, sum(payment_amount + fee_amount) as payment_amount from `tabSale Payment` where cashier_shift='{}' and docstatus=1 group by payment_type, currency".format(cashier_shift)
     
     payments = frappe.db.sql(sql, as_dict=1)
 
     
     #get cash in out 
-    sql = "select  payment_type,sum(if(transaction_status='Cash Out',input_amount*-1,input_amount)) as total_input_amount, sum(if(transaction_status='Cash Out',amount*-1,amount)) as total_amount from `tabCash Transaction`   where cashier_shift='{}'    group by  payment_type".format(cashier_shift)
+    sql = """select  
+                payment_type,
+                exchange_currency,
+                currency,
+                sum(if(transaction_status='Cash Out',input_amount*-1,input_amount)) as total_input_amount, 
+                sum(if(transaction_status='Cash Out',amount*-1,amount)) as total_amount 
+            from `tabCash Transaction`   
+            where cashier_shift='{}'    
+            group by  
+                payment_type,
+                currency,
+                exchange_currency""".format(cashier_shift)
+ 
     cash_transactions = frappe.db.sql(sql, as_dict=1)
     
 
+    #get cash float
     for d in doc.cash_float:
-        cash_transaction = Enumerable( cash_transactions).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.total_amount or 0 )
-        input_cash_transaction = Enumerable( cash_transactions).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.total_input_amount or 0 )
         data.append({
             "name":d.name,
             "payment_method":d.payment_method,
@@ -412,17 +424,30 @@ def get_close_shift_summary(cashier_shift):
             "input_amount":d.input_amount,
             "opening_amount":d.opening_amount,
             "input_close_amount":0,
-            "input_system_close_amount":d.input_amount +  Enumerable(payments).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.input_amount or 0 ) + input_cash_transaction,
-            "system_close_amount": d.opening_amount +  Enumerable(payments).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.payment_amount or 0 ) + cash_transaction,
+            "input_system_close_amount":d.input_amount +  Enumerable(payments).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.input_amount or 0 ), 
+            "system_close_amount": d.opening_amount +  Enumerable(payments).where(lambda x:x.payment_type == d.payment_method).sum(lambda x: x.payment_amount or 0 ),
             "different_amount":0,
             "currency":d.currency
         })
     
+    #get cash transaction
+    for c in cash_transactions:        
+        data.append({
+            "payment_method":c.payment_type,
+            "exchange_rate":c.exchange_currency,
+            "input_amount":0,
+            "opening_amount":0,
+            "input_close_amount":0,
+            "input_system_close_amount":c.total_input_amount,
+            "system_close_amount": c.total_amount,
+            "different_amount":0,
+            "currency":c.currency
+        })
     
+ 
     for p in payments:
         if not p.payment_type  in [d.payment_method for d in doc.cash_float]:
-            exchange_rate =  frappe.db.get_value("Payment Type", p.payment_type, "exchange_rate")
-           
+            exchange_rate =  frappe.db.get_value("Payment Type", p.payment_type, "exchange_rate")           
             data.append({
                 "payment_method":p.payment_type,
                 "exchange_rate":exchange_rate,
@@ -437,8 +462,70 @@ def get_close_shift_summary(cashier_shift):
             
     
         
-    return data
+    return get_cash_float(data)
 
+#get cash float sum group by
+def get_cash_float(data):
+	result = []
+	groups = {}
+	for row in data:
+		group = {
+            "payment_method": row["payment_method"], 
+            "exchange_rate":row["exchange_rate"],
+            "currency":row["currency"]
+            }
+		
+		input_amount = row['input_amount']
+		opening_amount = row['opening_amount']
+		input_close_amount = row['input_close_amount']
+		input_system_close_amount = row['input_system_close_amount']
+		system_close_amount = row['system_close_amount']
+		different_amount = row['different_amount']
+		g = json.dumps(group)	  
+		if g not in groups:
+			groups[g] = {
+                'input_amount': [],
+                'opening_amount':[],
+                'input_close_amount':[],
+                'input_system_close_amount':[],
+                'system_close_amount':[],
+                'different_amount':[],
+                } 
+
+		groups[g]['input_amount'].append(input_amount)
+		groups[g]['opening_amount'].append(opening_amount)
+		groups[g]['input_close_amount'].append(input_close_amount)
+		groups[g]['input_system_close_amount'].append(input_system_close_amount)
+		groups[g]['system_close_amount'].append(system_close_amount)
+		groups[g]['different_amount'].append(different_amount)
+
+
+	for group, total in groups.items():	 
+		total_input_amount = sum(total['input_amount'])
+		total_opening_amount = sum(total['opening_amount'])
+		total_input_close_amount = sum(total['input_close_amount'])
+		total_input_system_close_amount = sum(total['input_system_close_amount'])
+		total_system_close_amount = sum(total['system_close_amount'])
+		total_different_amount = sum(total['different_amount'])
+		
+		g = json.loads(group)	
+		
+		_result = {}
+		_result.update({
+                "payment_method":g['payment_method'],
+                "exchange_rate":g['exchange_rate'],
+                "currency":g['currency'],
+                "input_amount":total_input_amount or 0,
+                "opening_amount":total_opening_amount or 0,
+                "input_close_amount": total_input_close_amount or 0,
+                "input_system_close_amount": total_input_system_close_amount or 0,
+                "system_close_amount": total_system_close_amount or 0,
+                "different_amount": total_different_amount or 0
+            })	
+            
+		result.append(_result)	
+	
+	return result
 
 
 @frappe.whitelist()

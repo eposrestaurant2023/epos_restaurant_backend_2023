@@ -58,10 +58,7 @@ const toaster = createToaster({ position: 'top' })
 const payment_types = JSON.parse(localStorage.getItem('setting')).payment_types;
 const default_payment_type = JSON.parse(localStorage.getItem('setting')).default_payment_type;
 const current_date = moment(new Date).format('DD-MM-YYYY');
-
 const setting  = JSON.parse( localStorage.getItem("setting"));
-
-
 const paymentTypeCash =computed(()=>  {
     return setting.payment_types.filter(r=>r.allow_cash_float == 1);
 });
