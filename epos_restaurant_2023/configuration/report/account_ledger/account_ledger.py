@@ -110,9 +110,10 @@ def get_report_data(filters):
 	where {}""".format(get_opening_filter_condition(filters)) 
 
 	
-	sql ="""select 
+	sql ="""select
 				account_code,
-				if(type='Credit',-1,1) * amount as amount 
+				if(type='Credit',0,1) * amount as debit,
+				if(type='Credit',-1,0) * amount as credit
 			from `tabFolio Transaction`
 			where {}
 		""".format(get_filter_condition(filters)) 
@@ -126,12 +127,6 @@ def get_report_data(filters):
 	
 	#get data folio transation
 	data_sql = frappe.db.sql(sql,as_dict=1) 
-
-	# for d in data_acc:
-	# 	d.sort = 0
-	# 	d.debit = 0
-	# 	d.credit = 0
-	# 	d.balance = 0 
 		
 	
 	if Enumerable(data_opening).count()>0:	
@@ -156,14 +151,27 @@ def get_report_data(filters):
 	
 	#data transaction
 	for r in data_acc:
+		value = Enumerable(data_sql).where(lambda x:x.account_code == r.code)
+		debit,credit,balance = 0,0,0
+		 
+		if value.count()>0:
+			debit = value[0].debit
+			credit = value[0].credit
+			balance = value[0].balance
+
 		if r.parent_account_code != None:
 			result.append({
 				"code":r.code,
 				"parent_account_code":r.parent_account_code,
 				"account_name":r.account_name,
 				"account_code_name":"{}-{}".format(r.code,r.account_name),
-				"sort": 0
+				"sort": 0,
+				"debit":debit or 0,
+				"credit":credit or 0,
+				"balance":balance or 0
 			})
+
+	
  
 	data = sorted(list(Enumerable(result)), key=lambda x: x['sort'])
 	return data
