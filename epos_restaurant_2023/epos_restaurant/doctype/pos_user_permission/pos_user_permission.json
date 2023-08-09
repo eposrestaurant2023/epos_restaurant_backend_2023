@@ -21,6 +21,7 @@
   "delete_item",
   "discount_item",
   "change_tax_setting",
+  "reset_custom_bill_number_counter",
   "column_break_13",
   "open_cashdrawer",
   "start_working_day",
@@ -155,11 +156,17 @@
    "fieldname": "change_tax_setting",
    "fieldtype": "Check",
    "label": "Change Tax Setting"
+  },
+  {
+   "default": "0",
+   "fieldname": "reset_custom_bill_number_counter",
+   "fieldtype": "Check",
+   "label": "Reset Custom Bill Number Counter"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-05-05 09:28:50.305250",
+ "modified": "2023-08-09 11:20:28.744964",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "POS User Permission",

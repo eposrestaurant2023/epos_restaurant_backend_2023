@@ -1,0 +1,84 @@
+{
+ "add_total_row": 1,
+ "columns": [
+  {
+   "fieldname": "name",
+   "fieldtype": "Link",
+   "label": "Name",
+   "options": "Sale",
+   "width": 0
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "width": 0
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "width": 0
+  },
+  {
+   "fieldname": "grand_total",
+   "fieldtype": "Currency",
+   "label": "Grand Total",
+   "width": 0
+  },
+  {
+   "fieldname": "food_discount",
+   "fieldtype": "Currency",
+   "label": "Food Discount",
+   "width": 0
+  },
+  {
+   "fieldname": "drink_discount",
+   "fieldtype": "Currency",
+   "label": "Drink Discount",
+   "width": 0
+  }
+ ],
+ "creation": "2023-08-09 11:56:03.192105",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "Defualt Letter Head",
+ "modified": "2023-08-09 14:32:19.650017",
+ "modified_by": "Administrator",
+ "module": "Selling",
+ "name": "Daily Sale Transaction with Discount Breakdown",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "select \n    name,\n    posting_date,\n    customer,\n    grand_total,\n    (select sum(total_discount) from `tabSale Product` where parent=s.name and revenue_group='Food') as food_discount,\n    (select sum(total_discount) from `tabSale Product` where parent=s.name and revenue_group='Drink') as drink_discount\nfrom `tabSale`   s \nwhere \n    posting_date between %(start_date)s and  %(end_date)s",
+ "ref_doctype": "Sale",
+ "report_name": "Daily Sale Transaction with Discount Breakdown",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Sales User"
+  }
+ ]
+}

@@ -811,5 +811,32 @@ def get_reservation_folio(property):
 
     return data
 
+@frappe.whitelist()
+def get_current_customer_bill_counter(pos_profile):
+    pos_config = frappe.db.get_value("POS Profile",pos_profile,"pos_config" )
+    prefix =  frappe.db.get_value("POS Config",pos_config,"pos_bill_number_prefix" )
+    prefix = prefix.replace(".","").replace("#","")
+    data = frappe.db.sql("select * from `tabSeries` where name='{}'".format(prefix),as_dict=1)
+    if data:
+        return data[0]["current"]
+    return 0
+
+@frappe.whitelist(methods="POST")
+def update_customer_bill_counter(pos_profile, counter):
+    user= (frappe.session.data.user)
+    pos_user_permission = frappe.db.get_value("User", user, "pos_user_permission")
+    if pos_user_permission:
+        has_permission = frappe.db.get_value("POS User Permission",pos_user_permission,"reset_custom_bill_number_counter" )
+        if has_permission ==0:
+            frappe.throw("You don't permission to reset counter")
+
+    pos_config = frappe.db.get_value("POS Profile",pos_profile,"pos_config" )
+    prefix =  frappe.db.get_value("POS Config",pos_config,"pos_bill_number_prefix" )
+    prefix = prefix.replace(".","").replace("#","")
+    frappe.db.sql("update  `tabSeries` set current={} where name='{}'".format(counter, prefix))
+    frappe.db.commit()
+
+   
+
 
 

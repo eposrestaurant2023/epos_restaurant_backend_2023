@@ -93,6 +93,13 @@
             <v-list-item-title>{{$t('Report')}}</v-list-item-title>
           </v-list-item>
           
+          <v-list-item active-color="primary" @click="onRoute('Setting')" v-if="device_setting?.is_order_station==0">
+            <template v-slot:prepend>
+              <v-icon>mdi-wrench</v-icon>
+            </template>
+            <v-list-item-title>{{$t('Setting')}}</v-list-item-title>
+          </v-list-item>
+          
           <v-divider class="my-4"></v-divider>
 
           <v-list-item color="error" @click="onLogout()">

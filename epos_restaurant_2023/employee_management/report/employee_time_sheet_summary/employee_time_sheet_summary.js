@@ -1,6 +1,14 @@
 // Copyright (c) 2023, Tes Pheakdey and contributors
 // For license information, please see license.txt
 /* eslint-disable */
+frappe.provide("epos_restaurant_2023.employee_time_sheet_summary");
+
+epos_restaurant_2023.employee_time_sheet_summary = {
+  "open_report": function(data) {
+    // frappe.msgprint((data))
+  }
+}
+
 
 frappe.query_reports["Employee Time Sheet Summary"] = {
 	onload: function() {
@@ -84,12 +92,14 @@ frappe.query_reports["Employee Time Sheet Summary"] = {
 	],
 	"formatter": function(value, row, column, data, default_formatter) {	
 		value = default_formatter(value, row, column, data);
-		if (data && data.is_group==1) {
-			value = $(`<span>${value}</span>`);
+		if (column.fieldname=="employee_name") {
+			value = $(`<span><a onclick="epos_restaurant_2023.employee_time_sheet_summary.open_report('${value}')">${value}</a></span>`);
+
 			var $value = $(value).css("font-weight", "bold");
+			
+
 			value = $value.wrap("<p></p>").parent().html();
 		}
-		
 		return value;
 	},
 };

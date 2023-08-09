@@ -115,9 +115,7 @@ def get_report_data(filters):
 	data = frappe.db.sql(data_query,filters, as_dict=1)
 
 	for e in employees:
-		d = Enumerable(data).where(lambda x:x.employee_code == e.employee_code)
-
-		
+		d = Enumerable(data).where(lambda x:x.employee_code == e.employee_code)	
  
 		if d.count() > 0:
 			e.duration = d[0].duration
@@ -132,9 +130,7 @@ def get_report_data(filters):
 
 			e.commission_amount = d[0].commission_amount
 			e.total_amount += d[0].commission_amount
-		 
-		
-		 
+
 	return employees
 
 

@@ -21,6 +21,7 @@ import Report from "@/views/report/Report.vue"
 import ServerError from "@/views/checking_system/ServerError.vue"
 import CustomerDisplay from "@/views/customer_display/CustomerDisplay.vue"
 import authRoutes from './auth';
+import Setting from '@/views/setting/Setting.vue';
 
 const routes = [
   { path: "/", redirect: '/epos_frontend' },
@@ -39,6 +40,7 @@ const routes = [
   { path: "/epos_frontend/start-working-day", name: "StartWorkingDay", component: StartWorkingDay, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/close-working-day", name: "CloseWorkingDay", component: CloseWorkingDay, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/cash-drawer", name: "CashDrawer", component: CashDrawer, meta: { layout: "main_layout" } },
+  { path: "/epos_frontend/setting", name: "Setting", component: Setting, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/test-page", name: "TestPage", component: TestPage, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/todo", name: "ToDo", component: ToDo, meta: { layout: "main_layout" } },
   { path: "/epos_frontend/report", name: "Report", component: Report, meta: { layout: "main_layout" } },
