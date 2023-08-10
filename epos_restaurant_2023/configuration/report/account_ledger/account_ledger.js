@@ -83,8 +83,9 @@ frappe.query_reports["Account Ledger"] = {
 			},
 	],
 	
-	"formatter": function(value, row, column, data, default_formatter) {	
+	"formatter": function(value, row, column, data, default_formatter) {		
 		value = default_formatter(value, row, column, data);
+		
 		if (data && (data.account_code_name=="Opening Balance" || data.level ==0) ) {			
 			value = $(`<span>${value}</span>`);					
 			var $value = $(value).css("font-weight", "bold");
@@ -92,11 +93,10 @@ frappe.query_reports["Account Ledger"] = {
 		}  
 		else if (data && data.level>=1){ 
 			value = $(`<span>${value}</span>`);				 
-			var $value = $(value).css("font-weight", data.level==1?"600":"normal");
-			value = $value.wrap("<p></p>").parent().html();			
-			console.log(value)
+			var $value = $(value).css("font-weight", data.level==1?"500":"normal");
+			value = $value.wrap("<p></p>").parent().html();	
 		}
+
 		return value;
-	},
-	
+	}, 	 
 };

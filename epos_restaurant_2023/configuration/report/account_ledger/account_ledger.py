@@ -134,10 +134,10 @@ def get_report_data(filters):
 	
 	sql ="""select
 				account_code,
-				if(type='Credit',0,1) * amount as debit,
-				if(type='Credit',-1,0) * amount as credit
+				sum(if(type='Credit',0,1) * amount) as debit,
+				sum(if(type='Credit',-1,0) * amount) as credit
 			from `tabFolio Transaction`
-			where {}
+			where {} group by account_code
 		""".format(get_filter_condition(filters)) 
 
 
