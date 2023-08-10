@@ -19,6 +19,21 @@
                 Reset Counter
               </v-btn>
             </v-card-actions>
+            <v-card-item>
+              <div>
+               
+                <div class="text-h6 mb-1">
+                  Reset Invoice Number All Station
+                </div>
+                <div class="text-caption">To reset counter, click on button <strong>Reset Counter</strong> below </div>
+              </div>
+            </v-card-item>
+        
+            <v-card-actions>
+              <v-btn variant="outlined" color="error" @click="onResetCounterAllStation">
+                Reset Counter
+              </v-btn>
+            </v-card-actions>
           </v-card>
           
         </v-container>
@@ -68,6 +83,38 @@ async function onResetCounter() {
             })
 
     }
+}
+async function onResetCounterAllStation() {
+
+
+
+const result = await keyboardDialog({ title: $t('Reset Counter'), type: 'number', value: 0 });
+if (result) {
+
+    call
+        .post('epos_restaurant_2023.api.api.update_customer_bill_counter', {
+             pos_profile: localStorage.getItem("pos_profile"),
+             counter:result
+            })
+        .then((d) => {
+             console.log(d)
+            toaster.success($t('msg.Reset counter successfully'));
+        }).catch((err)=>{
+         
+            let message = err._server_messages
+      
+            if (message){
+                message = JSON.parse(message)
+                
+                message.forEach(r => {
+                    const error = JSON.parse(r)
+                    toaster.warning($t(error.message));        
+                });
+            }
+            
+        })
+
+}
 }
 
 onMounted(() => {

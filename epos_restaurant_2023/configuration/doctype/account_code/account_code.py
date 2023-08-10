@@ -8,6 +8,19 @@ from frappe.model.document import Document
 class AccountCode(Document):
 	def validate(self):
 		self.account_code_name = self.code + ' - ' + self.account_name
+		#check if account code have tax rule
+		if self.tax_rule:
+			tax_rule = frappe.get_doc("Tax Rule", self.tax_rule)
+			if not tax_rule.tax_1_account and tax_rule.tax_1_rate>0:
+				frappe.throw("{} don't have account code.".format(tax_rule.tax_1_name))
+			
+			if not tax_rule.tax_2_account and tax_rule.tax_2_rate>0:
+				frappe.throw("{} don't have account code.".format(tax_rule.tax_2_name))
+			
+			
+			if not tax_rule.tax_3_account and tax_rule.tax_3_rate>0:
+				frappe.throw("{} don't have account code.".format(tax_rule.tax_3_name))
+			
 	def on_update(self):
 		apps = frappe.get_installed_apps()
 		if "edoor" in apps:

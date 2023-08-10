@@ -92,6 +92,28 @@ def get_columns():
 
 	return columns
 
+
+# get sql filter condition
+def get_filter_condition(filters):
+	business_branchs = str(filters.business_branch).replace('[','').replace(']','') or ''
+	conditions = " 1 = 1 "
+	start_date = filters.start_date
+	end_date = filters.end_date
+	conditions += " AND (posting_date between '{}' AND '{}')".format(start_date,end_date)
+	conditions += " AND property in ({})".format(business_branchs)
+
+	return conditions
+
+# # get sql filter condition
+def get_opening_filter_condition(filters):
+	business_branchs = str(filters.business_branch).replace('[','').replace(']','') or ''
+	conditions = " 1 = 1 "
+	start_date = filters.start_date
+	conditions += " AND (posting_date < '{}')".format(start_date)
+	conditions += " AND property in ({})".format(business_branchs)
+
+	return conditions
+
 #get data
 def get_report_data(filters):
 	query = """select 
@@ -139,8 +161,8 @@ def get_report_data(filters):
 	result = []
 	#opening balance
 	result.append({
-			"code":"",
-			"parent_account_code":"",
+			"code":"Opening Balance",
+			"parent_account_code":"Opening Balance",
 			"account_name":"",
 			"account_code_name":"Opening Balance",
 			"sort": -99999,
@@ -156,44 +178,95 @@ def get_report_data(filters):
 		 
 		if value.count()>0:
 			debit = value[0].debit
-			credit = value[0].credit
-			balance = value[0].balance
+			credit = value[0].credit or 0
+			balance =  (debit or 0) + (credit or 0) 
 
 		if r.parent_account_code != None:
 			result.append({
 				"code":r.code,
 				"parent_account_code":r.parent_account_code,
 				"account_name":r.account_name,
-				"account_code_name":"{}-{}".format(r.code,r.account_name),
+				"account_code_name":"{}-{}".format(r.code,r.account_name),				
 				"sort": 0,
 				"debit":debit or 0,
 				"credit":credit or 0,
 				"balance":balance or 0
 			})
 
-	
+	result = Enumerable(result)
+	result = get_tree(result)
+
  
-	data = sorted(list(Enumerable(result)), key=lambda x: x['sort'])
+
+
+	data = sorted(list(result), key=lambda x: x['sort'])
 	return data
 
 
-# get sql filter condition
-def get_filter_condition(filters):
-	business_branchs = str(filters.business_branch).replace('[','').replace(']','') or ''
-	conditions = " 1 = 1 "
-	start_date = filters.start_date
-	end_date = filters.end_date
-	conditions += " AND (posting_date between '{}' AND '{}')".format(start_date,end_date)
-	conditions += " AND property in ({})".format(business_branchs)
+#get group account
+def get_group_account(data):
+	result = data.where(lambda x:x['parent_account_code'] == "All Account Code" or x['parent_account_code'] == "Opening Balance" )
+	for r in result:
+		r['level'] = 0
+	return result
 
-	return conditions
 
-# # get sql filter condition
-def get_opening_filter_condition(filters):
-	business_branchs = str(filters.business_branch).replace('[','').replace(']','') or ''
-	conditions = " 1 = 1 "
-	start_date = filters.start_date
-	conditions += " AND (posting_date < '{}')".format(start_date)
-	conditions += " AND property in ({})".format(business_branchs)
+def get_tree(data):
+	result = [] 
+	sort = 0
+	for l0 in get_group_account(data):
+		l0["sort"] = sort	
+			
+		sort +=1
+		if l0["code"] is not "Opening Balance":
+			## get level 1
+			l0["indent"] = 0
+			l0_debit = 0
+			l0_credit = 0
+			level1 = data.where(lambda x:x['parent_account_code']==l0["code"])			
+			for l1 in level1:
+				l1["account_code_name"]="{}-{}".format(l1["code"],l1["account_name"])
+				l1["level"] =  1
+				l1["indent"] = 1
+				l1["sort"] = sort
+				
+				sort +=1				
+				
+				## get level 2
+				l1_debit = 0
+				l1_credit = 0
+				level2 = data.where(lambda x:x['parent_account_code']==l1["code"])
+				for l2 in level2:
+					l2["account_code_name"]="{}-{}".format(l2["code"],l2["account_name"])
+					l2["level"] = 2
+					l2["indent"] = 2
+					l2["sort"]=sort
+					sort +=1
+					l1_debit += (l2["debit"] or 0)
+					l1_credit += (l2["credit"] or 0)
+					## level 2
+					result.append(l2)
+					
+				l1["debit"] = l1_debit
+				l1["credit"] = l1_credit
+				l1["balance"] = l1_debit + l1_credit
+				result.append(l1)
 
-	return conditions
+				## level 1
+				l0_debit += l1_debit
+				l0_credit += l1_credit
+				
+
+			## level 0
+			l0["debit"] = l0_debit
+			l0["credit"] = l0_credit
+			l0["balance"] = l0_debit + l0_credit
+
+		
+		result.append(l0)	 
+
+			
+	# get_tree(Enumerable(result))
+	return result
+
+
