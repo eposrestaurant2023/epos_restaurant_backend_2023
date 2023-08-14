@@ -85,9 +85,6 @@ async function onResetCounter() {
     }
 }
 async function onResetCounterAllStation() {
-
-
-
 const result = await keyboardDialog({ title: $t('Reset Counter'), type: 'number', value: 0 });
 if (result) {
 

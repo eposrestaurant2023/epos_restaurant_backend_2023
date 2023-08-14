@@ -46,7 +46,7 @@ app.provide("$gv", gv);
 // execute code
 /* get global data */
 const call = frappe.call()
-await call.get('epos_restaurant_2023.api.api.get_emenu_settings')
+await call.get('epos_restaurant_2023.api.emenu.get_emenu_settings')
 .then((r)=> {
 	gv.setting = r.message 
 }).catch(er=> console.log(er))

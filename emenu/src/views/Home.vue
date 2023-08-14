@@ -24,7 +24,7 @@ const call = frappe.call()
 let categories = ref([])
 
 async function onSelected(shortcut){
-  await call.get('epos_restaurant_2023.api.api.get_emenu_category',{
+  await call.get('epos_restaurant_2023.api.emenu.get_emenu_category',{
     shortcut: shortcut.name,
     is_main_emenu: shortcut.is_main_emenu
   })

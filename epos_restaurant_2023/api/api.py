@@ -708,56 +708,6 @@ def get_filter_for_close_sale_list(business_branch,pos_profile):
     }
 
 
-@frappe.whitelist(allow_guest=True)
-def get_emenu_settings(business_branch = ''):
-    doc = frappe.get_doc('ePOS Settings')
-    emenus = Enumerable(doc.emenu).where(lambda x:x.business_branch == business_branch or '')
-    emenu = frappe.get_doc('eMenu', emenus[0].emenu)
-  
-    pos_menu = frappe.db.sql("SELECT `name`, pos_menu_name_en, pos_menu_name_kh,parent_pos_menu, is_main_emenu FROM `tabPOS Menu` WHERE parent_pos_menu = '{}' ORDER BY sort_order".format(emenu.pos_menu), as_dict=1)
-    return { 
-        "title": emenu.title,
-        "welcome_title": emenu.welcome_title,
-        "welcome_description": emenu.welcome_description,
-        "slideshow": emenu.slideshow,
-        "pos_menu": pos_menu,
-        "template_style": {
-            "title_color": emenu.title_color,
-            "title_class": emenu.title_class,
-            "subtitle_color": emenu.subtitle_color,
-            "text_color": emenu.text_color,
-            "text_class": emenu.text_class,
-            "shortcut_color": emenu.shortcut_color,
-            "shortcut_active_color": emenu.shortcut_active_color,
-            "shortcut_background": emenu.shortcut_background,
-            "shortcut_active_background": emenu.shortcut_active_background,
-            "height_banner": emenu.height_banner,
-            "background_color_banner": emenu.background_color_banner,
-            "background_image_banner": emenu.background_image_banner,
-        }
-    }
-
-@frappe.whitelist(allow_guest=True)
-def get_emenu_category(shortcut,is_main_emenu = False):
-    filter_main_emenu = ""
-    if is_main_emenu:
-        filter_main_emenu = "or position_main_menu = 1"
-    return frappe.db.sql("SELECT `name`, title_en,title_kh,description,show_description, parent_pos_menu,background_image FROM `tabPOS Menu` WHERE parent_pos_menu = '{0}' {1} ORDER BY sort_order".format(shortcut,filter_main_emenu), as_dict=1)
-
-@frappe.whitelist(allow_guest=True)
-def get_emenu_product(menu):
-    pos_menu = frappe.db.sql("""
-        SELECT p.product_code  FROM `tabProduct Menu` AS pm
-        INNER JOIN `tabProduct` AS p
-        ON pm.parent = p.name
-        WHERE pm.pos_menu = '{}'
-    """.format(menu), as_dict=1)
-    data = []
-    if pos_menu:
-        for d in pos_menu:
-            product = frappe.get_doc("Product", d.product_code)
-            data.append(product)
-    return data
 
 
 # get reservation folio
