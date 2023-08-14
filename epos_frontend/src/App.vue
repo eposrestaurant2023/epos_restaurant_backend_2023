@@ -35,12 +35,13 @@ let state = reactive({
 	isLoading: false
 })
 
-const device_setting = JSON.parse(localStorage.getItem("device_setting"));
-const station_device_printing = device_setting?.station_device_printing||"";
+
 
  
 socket.on("PrintReceipt", (arg) => {	
 	if(localStorage.getItem("is_window")=="1"){
+		const device_setting = JSON.parse(localStorage.getItem("device_setting"));
+		const station_device_printing = device_setting?.station_device_printing||"";
 		const data = JSON.parse(arg) ;	
 		if(data.sale.pos_profile == localStorage.getItem("pos_profile") && station_device_printing == data.station_device_printing){
 			window.chrome.webview.postMessage(arg);
