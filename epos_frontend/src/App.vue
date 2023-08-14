@@ -37,6 +37,7 @@ let state = reactive({
 
 const device_setting = JSON.parse(localStorage.getItem("device_setting"));
 const station_device_printing = device_setting?.station_device_printing||"";
+
  
 socket.on("PrintReceipt", (arg) => {	
 	if(localStorage.getItem("is_window")=="1"){
