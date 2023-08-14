@@ -47,7 +47,7 @@
     const router = useRouter()
     const drawer = ref( false)
     const isFullscreen = ref( true)
-    const appTitle = ref('ePOS')
+    const appTitle = ref('ePOS Menu QR')
     function onRoute(page) {
         router.push({name:page})
     }

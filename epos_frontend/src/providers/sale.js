@@ -1037,6 +1037,9 @@ export default class Sale {
                             input_amount: this.sale.grand_total,
                             amount: this.sale.grand_total
                         })
+                        
+                        socket.emit("ShowOrderInCustomerDisplay", this.sale, "paid");
+
                         this.sale.sale_status = "Submitted";
                         this.sale.docstatus = 1;
                         this.action = "quick_pay";

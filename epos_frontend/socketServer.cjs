@@ -48,7 +48,10 @@ io.on('connection', (socket) => {
     io.emit("UpdateCashierShift",arg)
   })
 
-
+  socket.on("RefreshData",(arg)=>{
+    //arg data sould be json format {property:"Property name","action":"refersh_city_ledger"}
+    io.emit("RefreshData",arg)
+  })
 
 });
 

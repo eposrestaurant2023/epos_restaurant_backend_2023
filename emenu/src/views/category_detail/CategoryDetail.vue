@@ -37,7 +37,7 @@ db.getDoc('POS Menu', route.params.category)
   .then(async (doc) => {
     category.value = doc
     banner.value = (category.value.banner || gv.setting?.template_style?.background_image_banner)
-    await call.get('epos_restaurant_2023.api.api.get_emenu_product',{
+    await call.get('epos_restaurant_2023.api.emenu.get_emenu_product',{
         menu: category.value.name
     })
     .then((r)=> {
