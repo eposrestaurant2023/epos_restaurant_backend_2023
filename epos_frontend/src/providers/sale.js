@@ -1154,7 +1154,8 @@ export default class Sale {
             action: "print_to_kitchen",
             setting: this.setting?.pos_setting,
             sale: doc,
-            product_printers: this.productPrinters
+            product_printers: this.productPrinters,
+            station_device_printing:(this.setting?.device_setting?.station_device_printing)||"",
         }
 
         if (localStorage.getItem("is_window") == 1) {
@@ -1241,7 +1242,8 @@ export default class Sale {
             action: action,
             print_setting: receipt,
             setting: this.setting?.pos_setting,
-            sale: doc
+            sale: doc,
+            station_device_printing:(this.setting?.device_setting?.station_device_printing)||"",
         }
         if (receipt.pos_receipt_file_name && localStorage.getItem("is_window")) {
             window.chrome.webview.postMessage(JSON.stringify(data));
@@ -1261,7 +1263,8 @@ export default class Sale {
                 const data = {
                     action: "print_waiting_order",
                     setting: this.setting?.pos_setting,
-                    sale: doc
+                    sale: doc,
+                    station_device_printing:(this.setting?.device_setting?.station_device_printing)||"",
                 }
 
                 if (localStorage.getItem("is_window") == "1") {

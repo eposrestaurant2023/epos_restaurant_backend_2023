@@ -45,8 +45,8 @@ def validate(filters):
 def get_columns():
 	columns = []
 	columns.append({
-		"label":"Transaction",
-		"short_label":"Transaction",
+		"label":"Account",
+		"short_label":"Account",
 		"fieldname":"account_code_name",
 		"fieldtype":"Data",
 		"indicator":"Grey",
@@ -127,7 +127,7 @@ def get_report_data(filters):
 	
 	opening_query ="""select
 		sum(if(type='Credit',0,1) * amount) as debit,
-		sum(if(type='Credit',-1,0) * amount) as credit
+		sum(if(type='Credit',1,0) * amount) as credit
 	from `tabFolio Transaction`
 	where {}""".format(get_opening_filter_condition(filters)) 
 
@@ -135,7 +135,7 @@ def get_report_data(filters):
 	sql ="""select
 				account_code,
 				sum(if(type='Credit',0,1) * amount) as debit,
-				sum(if(type='Credit',-1,0) * amount) as credit
+				sum(if(type='Credit',1,0) * amount) as credit
 			from `tabFolio Transaction`
 			where {} group by account_code
 		""".format(get_filter_condition(filters)) 
@@ -179,7 +179,7 @@ def get_report_data(filters):
 		if value.count()>0:
 			debit = value[0].debit
 			credit = value[0].credit or 0
-			balance =  (debit or 0) + (credit or 0) 
+			balance =  (debit or 0) - (credit or 0) 
 
 		if r.parent_account_code != None:
 			result.append({
@@ -214,12 +214,14 @@ def get_group_account(data):
 def get_tree(data):
 	result = [] 
 	sort = 0
+	ob ={}
 	for l0 in get_group_account(data):
 		l0["sort"] = sort	
 			
 		sort +=1
 		if l0["code"] is not "Opening Balance":
 			## get level 1
+			l0["level"] =  0
 			l0["indent"] = 0
 			l0_debit = 0
 			l0_credit = 0
@@ -249,7 +251,7 @@ def get_tree(data):
 					
 				l1["debit"] = l1_debit
 				l1["credit"] = l1_credit
-				l1["balance"] = l1_debit + l1_credit
+				l1["balance"] = l1_debit - l1_credit
 				result.append(l1)
 
 				## level 1
@@ -260,11 +262,23 @@ def get_tree(data):
 			## level 0
 			l0["debit"] = l0_debit
 			l0["credit"] = l0_credit
-			l0["balance"] = l0_debit + l0_credit
+			l0["balance"] = l0_debit - l0_credit
 
-		
+		else:
+			ob.update(l0)
 		result.append(l0)	 
 
+	# total row
+
+	total = Enumerable(result).where(lambda x:x["level"] == 0)
+	ob["code"] = "Total"
+	ob["account_code_name"] = "Total"
+	ob["account_name"] = "Total"
+	ob["debit"] = total.sum(lambda x:x["debit"])
+	ob["credit"] = total.sum(lambda x:x["credit"])
+	ob["balance"] = (ob["debit"] or 0) - (ob["credit"] or 0)
+	ob["sort"] = sort
+	result.append(ob)
 			
 	# get_tree(Enumerable(result))
 	return result

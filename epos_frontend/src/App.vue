@@ -34,12 +34,12 @@ const screen = inject('$screen')
 let state = reactive({
 	isLoading: false
 })
-
  
 socket.on("PrintReceipt", (arg) => {	
 	if(localStorage.getItem("is_window")=="1"){
 		const data = JSON.parse(arg) ;	
-		if(data.sale.pos_profile == localStorage.getItem("pos_profile")){
+		const station_device_printing = (gv.device_setting?.station_device_printing)||""
+		if(data.sale.pos_profile == localStorage.getItem("pos_profile") && station_device_printing == data.station_device_printing){
 			window.chrome.webview.postMessage(arg);
 		}
 	}

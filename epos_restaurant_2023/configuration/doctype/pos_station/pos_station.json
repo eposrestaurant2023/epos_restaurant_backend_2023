@@ -9,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "station_name",
+  "station_device_printing",
   "is_order_station",
   "show_button_print_bill",
   "show_button_cancel_print_bill",
@@ -123,11 +124,16 @@
    "fieldname": "show_button_change_sale_type",
    "fieldtype": "Check",
    "label": "Show button change sale type"
+  },
+  {
+   "fieldname": "station_device_printing",
+   "fieldtype": "Data",
+   "label": "Station Device Printing"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-24 18:17:23.304841",
+ "modified": "2023-08-14 09:05:19.406379",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Station",
