@@ -113,7 +113,7 @@ export default class Product {
                     order: 'asc',
                   },
                 filters: [["product_category", "=", product_category]],
-                limit: 70,
+                limit: 100,
             }).then((res) => {
                 res.forEach(d => {
                     d.price_rule = ""

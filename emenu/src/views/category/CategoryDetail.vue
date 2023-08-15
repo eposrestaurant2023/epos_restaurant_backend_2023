@@ -33,17 +33,21 @@ const category = ref({})
 let banner = ref('')
 const products = ref([])
 const selected = ref({})
-const open = ref(false)
+const open = ref(false) 
 
 onMounted(()=>{
-    // console.log(route.params)
+    
+   
+    banner.value = (category.value.banner || gv.setting?.template_style?.background_image_banner)
+    if (route.params.category.is_group ==1 ){
+        banner.value =  (gv.setting?.template_style?.background_image_banner)
+    }
 })
 
 
 db.getDoc('POS Menu', route.params.category)
   .then(async (doc) => {
-    category.value = doc
-    banner.value = (category.value.banner || gv.setting?.template_style?.background_image_banner)
+    category.value = doc 
     await call.get('epos_restaurant_2023.api.emenu.get_emenu_product',{
         menu: category.value.name
     })
