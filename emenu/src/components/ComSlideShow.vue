@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-carousel v-if="gv.setting?.slideshow" show-arrows="hover" hide-delimiters cycle :height="mobile ? 300 : 400">
+        <v-carousel v-if="gv.setting?.slideshow" show-arrows="hover" hide-delimiters cycle :height="mobile ? 250 :300">
             <v-carousel-item
                 v-for="(item, index) in gv.setting?.slideshow" :key="index"
                 :src="item.photo"

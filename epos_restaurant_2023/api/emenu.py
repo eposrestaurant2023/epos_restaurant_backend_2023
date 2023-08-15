@@ -11,21 +11,39 @@ from frappe import _
 def get_emenu_category(shortcut,is_main_emenu = False):
     filter_main_emenu = ""
     if is_main_emenu:
+        data = get_loop_menu(shortcut)
+        return data
+    
+    return []
+
+@frappe.whitelist(allow_guest=True)
+def get_loop_menu(parent,is_child=False):
+    data = get_parent_menu(parent,is_child)
+    for d in data:
+        if d.is_group :
+            d.child = get_loop_menu(d.name, True) 
+    return data
+
+@frappe.whitelist(allow_guest=True)
+def get_parent_menu(parent,is_child=False):
+
+    filter_main_emenu =  ""
+    if not is_child:
         filter_main_emenu = "or position_main_menu = 1"
-        query = """SELECT `name`, 
-            title_en,
-            title_kh,
-            description,
-            show_description, 
-            parent_pos_menu,
-            background_image 
-        FROM `tabPOS Menu` 
-        WHERE is_emenu = 1 and (parent_pos_menu = '{0}' {1}) 
-        ORDER BY sort_order""".format(shortcut,filter_main_emenu)
 
-    return frappe.db.sql(query, as_dict=1)
-
-
+    query = """SELECT `name`, 
+        title_en,
+        title_kh,
+        description,
+        show_description, 
+        parent_pos_menu,
+        background_image ,
+        is_group
+    FROM `tabPOS Menu` 
+    WHERE is_emenu = 1 and (parent_pos_menu = '{0}' {1}) 
+    ORDER BY sort_order""".format(parent,filter_main_emenu)
+    data = frappe.db.sql(query, as_dict=1)
+    return data
 
 @frappe.whitelist(allow_guest=True)
 def get_emenu_settings(business_branch = ''):

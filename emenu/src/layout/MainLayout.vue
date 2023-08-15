@@ -43,7 +43,7 @@
 <script setup>
     import {ref} from 'vue'
     import {useRouter} from 'vue-router'
-    import ComCurrentUserAvatar from './components/ComCurrentUserAvatar.vue'
+    import ComCurrentUserAvatar from '../views/components/ComCurrentUserAvatar.vue'
     const router = useRouter()
     const drawer = ref( false)
     const isFullscreen = ref( true)

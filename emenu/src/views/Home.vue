@@ -6,8 +6,8 @@
       <div class="pb-2">
         <ComShortcutMenu @on-selected="onSelected($event)"/>
       </div>
-      <div>
-        <ComCategoryCard :categories="categories"/>
+      <div> 
+          <ComCategoryCard :categories="categories"/> 
       </div>
     </div>
   </div>
@@ -16,9 +16,9 @@
 <script setup>
 import {inject,ref} from 'vue'
 import ComSlideShow from '../components/ComSlideShow.vue';
-import ComWelcome from '../components/layout/components/ComWelcome.vue';
-import ComShortcutMenu from '../components/layout/components/ComShortcutMenu.vue';
-import ComCategoryCard from '../components/layout/components/ComCategoryCard.vue';
+import ComWelcome from './components/ComWelcome.vue';
+import ComShortcutMenu from './components/ComShortcutMenu.vue';
+import ComCategoryCard from './category/components/ComCategoryCard.vue';
 const frappe = inject('$frappe')
 const call = frappe.call()
 let categories = ref([])
@@ -28,7 +28,7 @@ async function onSelected(shortcut){
     shortcut: shortcut.name,
     is_main_emenu: shortcut.is_main_emenu
   })
-  .then((r)=> {
+  .then((r)=> { 
     categories.value = r.message 
   }).catch(er=> console.log(er))
 }

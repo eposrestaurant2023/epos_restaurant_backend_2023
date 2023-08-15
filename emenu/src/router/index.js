@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
-import CategoryDetail from "../views/category_detail/CategoryDetail.vue";
+import CategoryDetail from "../views/category/CategoryDetail.vue";
 import TestPage from "../views/TestPage.vue";
 // import authRoutes from './auth';
 

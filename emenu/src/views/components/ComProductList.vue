@@ -22,7 +22,7 @@
 </template>
 <script setup>
     import { inject,ref } from 'vue' 
-    import ComButtonAddOn from '../../form/ComButtonAddOn.vue';
+    import ComButtonAddOn from '../../components/form/ComButtonAddOn.vue';
     const gv = inject('$gv')
     const props = defineProps({
         product: Object

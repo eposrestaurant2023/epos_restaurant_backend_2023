@@ -19,10 +19,11 @@
     </div>
 </template>
 <script setup>
-import { inject, ref } from 'vue'
+import { inject, ref,onMounted } from 'vue'
 import { useRoute } from 'vue-router' 
-import ComProductList from '../../components/layout/components/ComProductList.vue';
+import ComProductList from '../components/ComProductList.vue';
 import ProductDetail from './ProductDetail.vue';
+
 const gv = inject('$gv')
 const frappe = inject('$frappe')
 const db = frappe.db()
@@ -33,6 +34,12 @@ let banner = ref('')
 const products = ref([])
 const selected = ref({})
 const open = ref(false)
+
+onMounted(()=>{
+    // console.log(route.params)
+})
+
+
 db.getDoc('POS Menu', route.params.category)
   .then(async (doc) => {
     category.value = doc
