@@ -29,7 +29,7 @@ class POSMenu(NestedSet):
                     
             if self.is_new():
                 if not self.background_image:
-                    placeholder = "/assets/frappe/images/placeholder.jpg"
+                    placeholder = "/assets/frappe/images/emenu_placeholder.jpg"
                     self.background_image = placeholder
                     self.banner = placeholder
                 else:

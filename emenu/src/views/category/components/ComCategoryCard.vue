@@ -3,7 +3,7 @@
 
         <v-col cols="12" sm="6" v-for="(c, index) in categories" :key="index">
             <v-card @click="onClick(c)">
-                <v-img :src="c.background_image"  class="align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                <v-img :src="(c.background_image==''?'/assets/frappe/images/emenu_placeholder.jpg':c.background_image)"  class="align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="150px" cover >
                     <v-card-title class="text-white" v-text="c.title_en"></v-card-title>
                 </v-img>
@@ -23,7 +23,6 @@
     })
 
     function onClick(category) {
-        console.log(category)
         router.push({name: 'CategoryDetail', params:{category: category.name}})
     }
 </script>

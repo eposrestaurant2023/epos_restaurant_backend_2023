@@ -2,7 +2,7 @@
     <v-card elevation="0" @click="onView()" rounded="0">
         <div class="flex p-2 border-b">
             <v-avatar 
-            size="80px"
+            size="90px"
             rounded="lg">
                 <div class="h-full w-full bg-cover bg-center" v-bind:style="{ 'background-image': 'url(' + (product.photo || 'https://th.bing.com/th/id/R.86d14ad8fcdcd57a60db73f08bf7decd?rik=%2bZC5AvgTB0HOpA&riu=http%3a%2f%2fwww.foodista.com%2fsites%2fdefault%2ffiles%2fdefault_images%2fplaceholder_rev.png&ehk=MaPzc0Tw0%2b0a9CX200TtE46nENEFJD7YY33iWfp0oV8%3d&risl=&pid=ImgRaw&r=0') + ')' }"></div>
             </v-avatar>

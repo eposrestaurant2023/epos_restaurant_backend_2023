@@ -20,12 +20,19 @@
     const emit = defineEmits(['onSelected'])
     const gv = inject('$gv')
     let active = ref(gv.setting.pos_menu && gv.setting.pos_menu.length > 0 ? gv.setting.pos_menu[0] : {})
+
     function onSelect(shortcut){
         active.value = shortcut 
         emit('onSelected',active.value)
     }
     onMounted(() => { 
-        onSelect(active.value)
+        const act = JSON.parse(localStorage.getItem("_d"))
+ 
+        if(act == null){
+            onSelect(active.value)
+        }else{
+            onSelect(act)
+        }        
     })
 </script>
  

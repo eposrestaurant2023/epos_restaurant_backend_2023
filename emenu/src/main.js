@@ -38,7 +38,6 @@ app.use(resourceManager);
 // Global Properties,
 // components can inject this
 app.provide("$auth", auth);
-// app.provide("$call", call);
 app.provide("$socket", socket);
 app.provide("$frappe", frappe);
 app.provide("$gv", gv);
