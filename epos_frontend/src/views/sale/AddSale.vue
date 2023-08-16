@@ -4,7 +4,7 @@
     <ComSmallAddSale v-if="mobile" />
     <div v-else style="height: calc(100vh - 64px)" id="tst">
         <div class="h-full ma-0 flex w-full">
-            <div class="flex-auto pa-0 h-full d-none d-sm-block"> 
+            <div class="flex-auto pa-0 h-full d-none d-sm-block" style="width: calc(100vw - 450px);"> 
                 <ComMenu :background-image="gv.setting.pos_sale_order_background_image" />
             </div>
             <div style="width: 450px;" class="h-full pa-0">

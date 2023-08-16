@@ -7,12 +7,15 @@ import resourceManager from "../../../doppio/libs/resourceManager";
 import socket from "../../../doppio/libs/controllers/socket";
 import Auth from "../../../doppio/libs/controllers/auth";
 import Gv from "./providers/gv";
+import Sale from './providers/sale';
+
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import '@mdi/font/css/materialdesignicons.css'
 import { FrappeApp } from 'frappe-js-sdk';
+
 const frappe = new FrappeApp()
 const vuetify = createVuetify({
 		components,
@@ -29,6 +32,7 @@ const vuetify = createVuetify({
 const app = createApp(App);
 const auth = reactive(new Auth());
 const gv = reactive(new Gv());
+const sale = reactive(new Sale());
 
 // Plugins
 app.use(vuetify);
@@ -41,6 +45,7 @@ app.provide("$auth", auth);
 app.provide("$socket", socket);
 app.provide("$frappe", frappe);
 app.provide("$gv", gv);
+app.provide("$sale", sale);
 
 // execute code
 /* get global data */

@@ -41,19 +41,23 @@
     </v-app>
 </template>
 <script setup>
-    import {ref} from 'vue'
-    import {useRouter} from 'vue-router'
-    import ComCurrentUserAvatar from '../views/components/ComCurrentUserAvatar.vue'
+    import {ref,inject} from 'vue';
+    import {useRouter} from 'vue-router';
+    import ComCurrentUserAvatar from '../views/components/ComCurrentUserAvatar.vue';
+
     const router = useRouter()
     const drawer = ref( false)
     const isFullscreen = ref( true)
     const appTitle = ref('ePOS Menu QR')
+    const sale = inject("$sale")
     function onRoute(page) {
         router.push({name:page})
     }
+
     function onDrawer() {
         drawer.value = !drawer.value;
     }
+    
 </script>
 <style lang="">
     

@@ -103,7 +103,7 @@ async function onLoadProducts(cat){
     category.value = doc ;  
     banner.value = ((category.value.banner || category.value.background_image) || gv.setting?.template_style?.background_image_banner)
     const res = await call.get('epos_restaurant_2023.api.emenu.get_emenu_product',{
-        menu: category.value.name
+        menu: doc.name
     })
     products.value = res.message ; 
      

@@ -60,7 +60,8 @@
   "account_group",
   "system_setting_tab",
   "show_in_folio_tab",
-  "show_in_deposit_tab"
+  "show_in_deposit_tab",
+  "show_in_city_ledger"
  ],
  "fields": [
   {
@@ -387,12 +388,18 @@
    "fieldname": "require_select_a_folio",
    "fieldtype": "Check",
    "label": "Require Select a Folio"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_in_city_ledger",
+   "fieldtype": "Check",
+   "label": "Show in City Ledger"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-08-07 11:49:06.553346",
+ "modified": "2023-08-16 10:00:41.519605",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Account Code",
