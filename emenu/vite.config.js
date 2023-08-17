@@ -18,6 +18,7 @@ export default defineConfig({
 	build: {
 		outDir: '../epos_restaurant_2023/public/emenu',
 		emptyOutDir: true,
-		target: 'es2015',
+		// target: 'es2015',
+		target: 'esnext'
 	},
 });
