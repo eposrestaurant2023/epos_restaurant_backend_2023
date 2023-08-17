@@ -10,10 +10,10 @@
                 <div class="flex justify-between">
                     <div>
                         <h3 class="font-bold">{{ product?.name }} - {{ product.name_en }}</h3>
-                        <small v-if="product.name_en != product.name_kh">{{ product.name_kh }}</small>
+                        <h4 v-if="product.name_en != product.name_kh">{{ product.name_kh }}</h4>
                     </div>
                     <div class="text-lg font-bold text-right"  :style="{color:gv.setting?.template_style?.title_color}" :class="gv.setting?.template_style?.title_class">
-                        <CurrencyFormat :value="product.price" />
+                        <CurrencyFormat :value="getPrice(product)" />
                     </div>
                 </div>
                 <div>
@@ -55,15 +55,23 @@
         } 
         const portions = JSON.parse(p.prices)?.filter(r => (r.branch ==gv.pos_profile.business_branch || r.branch == '') && r.price_rule == gv.pos_profile.price_rule);        
         const check_modifiers = onCheckModifier(JSON.parse(p.modifiers));
-        if (portions?.length == 1) {             
-           return false;
 
-        } 
         if (check_modifiers || portions?.length > 1) {
             return true;            
         } else {
             return false
         }
+    }
+
+    function getPrice(p){ 
+        const portions = JSON.parse(p.prices)?.filter(r => (r.branch ==gv.pos_profile.business_branch || r.branch == '') && r.price_rule == gv.pos_profile.price_rule); 
+        if(portions.length>0){
+            return portions[0].price;
+        }
+        if(JSON.parse(p.prices).length>0){
+            return 0
+        }
+        return p.price
     }
 
 
