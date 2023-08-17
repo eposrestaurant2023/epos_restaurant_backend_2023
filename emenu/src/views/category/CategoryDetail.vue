@@ -37,7 +37,7 @@
            
               
                 <v-col class="!p-0" v-for="(p, index) in products" :key="index" cols="12" md="6">
-                    <ComProductList :product="p" @on-view="onView($event)"/>
+                    <ComProductList :product="p" @on-item-click="onItemClick($event)"/>
                 </v-col>
             </v-row>
         </div>
@@ -74,9 +74,7 @@ const menus = ref([]);
 onMounted(async ()=>{ 
     const menu = JSON.parse(localStorage.getItem("_d"))
     //get categories
-    onLoadSubCategories(menu.name, menu.is_main_emenu)
-
-    //
+    onLoadSubCategories(menu.name, menu.is_main_emenu) 
     localStorage.removeItem("_m")
     menus.value =[];
 })
@@ -84,7 +82,7 @@ onMounted(async ()=>{
 
 
 async function onLoadSubCategories(menu,main_emenu) {
-   const res =  await call.get('epos_restaurant_2023.api.emenu.get_emenu_category',{
+   const res =  await call.get('epos_restaurant_2023.api.emenu.get_emenu_menu',{
         shortcut: menu,
         is_main_emenu: main_emenu
     })
@@ -104,7 +102,7 @@ async function onLoadProducts(cat){
     banner.value = ((category.value.banner || category.value.background_image) || gv.setting?.template_style?.background_image_banner)
     const res = await call.get('epos_restaurant_2023.api.emenu.get_emenu_product',{
         menu: doc.name
-    })
+    }) 
     products.value = res.message ; 
      
 }
@@ -163,7 +161,7 @@ async function onCategoryClick(cat){
     localStorage.setItem("_m",JSON.stringify(menus.value))
 }
 
-function onView($event){
+function onItemClick($event){
     selected.value = $event
     open.value = true
 }

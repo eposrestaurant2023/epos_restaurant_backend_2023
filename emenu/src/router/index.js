@@ -1,16 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import CategoryDetail from "../views/category/CategoryDetail.vue";
-import TestPage from "../views/TestPage.vue";
+ 
 // import authRoutes from './auth';
-
-const routes = [
-  { path: "/", redirect: '/emenu/dashboard'},
-  { path: "/emenu", redirect: '/emenu/dashboard'},
-  { path: "/emenu/:branch?/dashboard", name: "Home", component: Home },
-  { path: "/emenu/category/:category?", name: "CategoryDetail", component: CategoryDetail },
-  { path: "/emenu/test-page", name: "TestPage", component: TestPage},
-  // ...authRoutes,
+const pos_profile = "UE9TX1Byb2ZpbGU=";
+const category = "Q2F0ZWdvcnk=";  
+const table ="VGFibGU="
+const routes = [ 
+  { path: "/emenu", redirect: `/emenu/${pos_profile}= /${table}= `}, 
+  { path: `/emenu/${pos_profile}=:pos_profile/${table}=:table_name/`, name: "Home", component: Home },
+  { path: `/emenu/${pos_profile}=:pos_profile/${table}=:table_name/category/${category}=:category?`, name: "CategoryDetail", component: CategoryDetail },
 ];
 
 const router = createRouter({

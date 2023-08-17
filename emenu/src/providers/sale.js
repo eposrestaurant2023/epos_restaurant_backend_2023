@@ -16,5 +16,10 @@ export default class Sale {
             sale_products: []
         };
     } 
+
+
+    onSaleOrderClick(){
+        console.log("Sale Order Click ")
+    }
    
 }

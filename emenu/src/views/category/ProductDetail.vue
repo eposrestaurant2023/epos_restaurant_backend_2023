@@ -3,22 +3,26 @@
         actionClass="flex justify-between">
         <template #content>
             <div class="-mt-2 -mx-2 h-48 bg-cover bg-no-repeat bg-center"
-                v-bind:style="{ 'background-image': 'url(' + (product.photo || 'https://th.bing.com/th/id/R.86d14ad8fcdcd57a60db73f08bf7decd?rik=%2bZC5AvgTB0HOpA&riu=http%3a%2f%2fwww.foodista.com%2fsites%2fdefault%2ffiles%2fdefault_images%2fplaceholder_rev.png&ehk=MaPzc0Tw0%2b0a9CX200TtE46nENEFJD7YY33iWfp0oV8%3d&risl=&pid=ImgRaw&r=0') + ')' }">
+                v-bind:style="{ 'background-image': 'url(' + (product.photo || '/assets/frappe/images/emenu_placeholder.jpg') + ')' }">
             </div>
             <div class="flex justify-between items-center">
-                <h2 class="pt-3 font-bold">{{ product.product_name_en }}</h2>
-                <div class="pt-3">
-                    <span class="pr-1 text-xs">From</span>
-                <span class="text-lg font-bold text-right" :style="{ color: gv.setting?.template_style?.title_color }"
-                    :class="gv.setting?.template_style?.title_class">12$</span>
+                <div>
+                    <h2 class="pt-3 font-bold">{{product.name}} - {{ product.name_en }}</h2>
+                    <small v-if="product.name_en!=product.name_kh">{{ product.name_kh }}</small>
+                </div>
+                <div class="pt-3">     
+                    <span class="text-lg font-bold text-right" :style="{ color: gv.setting?.template_style?.title_color }"
+                    :class="gv.setting?.template_style?.title_class">
+                    <CurrencyFormat :value="getPortionPriceSelected()" />
+                </span>              
                 </div>
             </div>
             <div class="py-3">
                 <hr />
             </div>
             <div v-html="product.description"></div>
-            <ComCheckPortion v-if="product.product_price.length > 0" :portions="product.product_price"/>
-            <ComCheckModifier v-if="product.product_modifiers.length > 0" :modifier="product.product_modifiers"/>
+            <ComCheckPortion v-if="product_prices.length > 0" :portions="product_prices" :title_color="gv.setting?.template_style?.title_color"/>
+            <ComCheckModifier v-if="product_modifiers.length > 0" :modifier="product_modifiers"/>
         </template>
         <template #action>
             <div class="flex justify-between grow border-t pt-2">
@@ -39,19 +43,60 @@
     </ComModal>
 </template>
 <script setup>
-import { inject, ref } from 'vue'
-import ComModal from '../../components/ComModal.vue';
-import ComCheckPortion from './components/ComCheckPortion.vue';
-import ComCheckModifier from './components/ComCheckModifier.vue';
-const props = defineProps({
-    product: Object
-})
-let qty = ref(12330)
-const gv = inject("$gv")
-const emit = defineEmits(['onCloseModal'])
-function onClose() {
-    emit('onCloseModal')
-}
+    import { inject, ref,onMounted } from 'vue'
+    import ComModal from '../../components/ComModal.vue';
+    import ComCheckPortion from './components/ComCheckPortion.vue';
+    import ComCheckModifier from './components/ComCheckModifier.vue';
+    import CurrencyFormat from '../components/CurrencyFormat.vue';
+ 
+    const props = defineProps({
+        product: Object
+    })
+    let qty = ref(0)
+
+    const product_prices = ref([]);
+    const product_modifiers = ref([]);
+    const gv = inject("$gv")
+    const emit = defineEmits(['onCloseModal'])
+    function onClose() {
+        emit('onCloseModal')
+    }
+
+    onMounted(()=>{
+        getProductPrices(props.product)
+        getProductModifiers(props.product)
+    })
+
+    function getProductPrices(p){
+        const prices = JSON.parse(p.prices);
+        prices.forEach(_p => {
+           _p.selected = false; 
+           product_prices.value.push(_p)
+        });
+
+        if(product_prices.value.length>0)
+        { 
+            product_prices.value[0].selected = true;
+        } 
+    }
+
+    function getProductModifiers(p){
+        const modifiers = JSON.parse(p.modifiers);
+        modifiers.forEach((_m)=>{
+            product_modifiers.value.push(_m)
+        }) 
+    }
+
+    function getPortionPriceSelected(){
+
+        const prices =  product_prices.value.filter((r)=>(r.selected||false));
+        if(prices.length>0){
+            return prices[0].price;
+        }
+        return 0;
+    }
+
+
 </script> 
 <style>
 .v-list-item--variant-text .v-list-item__overlay {

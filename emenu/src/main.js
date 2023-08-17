@@ -4,6 +4,7 @@ import App from "./App.vue";
 import router from './router';
 import resourceManager from "../../../doppio/libs/resourceManager";
 // import call from "../../../doppio/libs/controllers/call";
+import NumberFormat from 'number-format.js'
 import socket from "../../../doppio/libs/controllers/socket";
 import Auth from "../../../doppio/libs/controllers/auth";
 import Gv from "./providers/gv";
@@ -46,7 +47,7 @@ app.provide("$socket", socket);
 app.provide("$frappe", frappe);
 app.provide("$gv", gv);
 app.provide("$sale", sale);
-
+app.provide("$numberFormat",NumberFormat)
 // execute code
 /* get global data */
 const call = frappe.call()

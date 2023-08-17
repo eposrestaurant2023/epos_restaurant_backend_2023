@@ -15,7 +15,8 @@
   "rgt",
   "is_group",
   "old_parent",
-  "parent_system_report"
+  "parent_system_report",
+  "sort_order"
  ],
  "fields": [
   {
@@ -70,12 +71,17 @@
    "fieldname": "report_title",
    "fieldtype": "Data",
    "label": "Report Title"
+  },
+  {
+   "fieldname": "sort_order",
+   "fieldtype": "Int",
+   "label": "Sort Order"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-08-16 14:29:29.008100",
+ "modified": "2023-08-17 12:13:37.423493",
  "modified_by": "Administrator",
  "module": "ePOS Restaurant",
  "name": "System Report",
