@@ -37,12 +37,13 @@
     
     const props = defineProps({
         modifiers: Array,
-        title_color:String
+        title_color:String,
+        business_branch:String
     }) 
 
     function getModifierItem(category){
         return category.items.filter((r) => {
-                return (r.branch == this.setting?.business_branch || r.branch == '');
+                return (r.branch == props.business_branch || r.branch == '');
             });
     }
 

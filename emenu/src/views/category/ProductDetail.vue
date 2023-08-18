@@ -22,7 +22,7 @@
             </div>
             <div v-html="product.description"></div>
             <ComCheckPortion v-if="product_prices.length > 0" :portions="product_prices" :title_color="gv.setting?.template_style?.title_color"/>
-            <ComCheckModifier v-if="product_modifiers.length > 0" :modifiers="product_modifiers" :title_color="gv.setting?.template_style?.title_color"/>
+            <ComCheckModifier v-if="product_modifiers.length > 0" :modifiers="product_modifiers" :title_color="gv.setting?.template_style?.title_color" :business_branch="gv.pos_profile.business_branch"/>
         </template>
         <template #action>
             <div class="flex justify-between grow border-t pt-2">
