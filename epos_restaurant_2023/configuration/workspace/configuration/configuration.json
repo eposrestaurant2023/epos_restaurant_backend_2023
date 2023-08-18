@@ -429,24 +429,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Revenue Setting",
-   "link_count": 1,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Revenue Code",
-   "link_count": 0,
-   "link_to": "Sale",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "SPA Setting",
    "link_count": 2,
    "onboard": 0,
@@ -471,9 +453,37 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Revenue Setting",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Revenue Code",
+   "link_count": 0,
+   "link_to": "Revenue Code",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Revenue Group",
+   "link_count": 0,
+   "link_to": "Revenue Group",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-07-28 15:58:41.564266",
+ "modified": "2023-08-18 16:28:58.196114",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Configuration",
