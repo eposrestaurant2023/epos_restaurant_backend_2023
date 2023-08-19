@@ -48,6 +48,9 @@
     import ComCheckPortion from './components/ComCheckPortion.vue';
     import ComCheckModifier from './components/ComCheckModifier.vue';
     import CurrencyFormat from '../components/CurrencyFormat.vue';
+    import { createToaster } from '@meforma/vue-toaster';
+	
+	const toaster = createToaster({position:'top'});
  
     const props = defineProps({
         product: Object
@@ -56,7 +59,9 @@
 
     const product_prices = ref([]);
     const product_modifiers = ref([]);
-    const gv = inject("$gv")
+    const gv = inject("$gv");
+    const sale = inject("$sale");
+
     const emit = defineEmits(['onCloseModal'])
     function onClose() {
         emit('onCloseModal')
@@ -96,24 +101,28 @@
     }
 
     function onModifierValidate(p){
+
+        let is_required = false;
         product_modifiers.value.forEach((c) => {
             const countItem = c.items.filter(r => r.branch == gv.pos_profile.business_branch || r.branch == '').length
             if (countItem > 0) {
                 if (c.is_required == 1) { 
                     if (c.items.filter(r => (r.selected??false)).length == 0) {
-                        // toaster.warning("Please select a modifier of " + c.category);
-                        console.log("Please select a modifier of " + c.category);
-                        return false
+                        toaster.warning("Please select a modifier of " + c.category); 
+                        is_required =  true
                     }
                 }
             } 
         });
-        return true;
+
+
+        return !is_required;
     }
 
-
-    function onAddtoCart(p){
-        onModifierValidate(p)
+    function onAddtoCart(p){ 
+      if( onModifierValidate(p)){
+        sale.onAddtoCart(p)
+      }
     }
 
     function onQtyChanged(symbol){

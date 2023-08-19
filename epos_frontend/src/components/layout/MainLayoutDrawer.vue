@@ -93,7 +93,7 @@
             <v-list-item-title>{{$t('Report')}}</v-list-item-title>
           </v-list-item>
           
-          <v-list-item active-color="primary" @click="onRoute('Setting')" v-if="device_setting?.is_order_station==0">
+          <v-list-item active-color="primary" @click="onRoute('Setting')" v-if="(device_setting?.show_setting_menu??0)==1">
             <template v-slot:prepend>
               <v-icon>mdi-wrench</v-icon>
             </template>

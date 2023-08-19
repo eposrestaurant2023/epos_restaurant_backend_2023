@@ -21,5 +21,9 @@ export default class Sale {
     onSaleOrderClick(){
         console.log("Sale Order Click ")
     }
+
+    onAddtoCart(p){
+        console.log(p)
+    }
    
 }

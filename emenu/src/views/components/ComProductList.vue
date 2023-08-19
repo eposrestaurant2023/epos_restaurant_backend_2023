@@ -23,8 +23,11 @@
                                 Customize
                             </button>
                         </template>
+                        
                         <template v-else>
-                            <ComButtonAddOn/>
+                            <button type="button" class="h-8 px-4 rounded-sm text-white" @click.stop="onAddtoCart(product)"
+                            :style="{ 'background-color': gv.setting?.template_style?.title_color }"><v-icon>mdi-cart-outline</v-icon>
+                            Add to card</button> 
                         </template>
                     </div>
                 </div>
@@ -33,10 +36,10 @@
     </v-card>
 </template>
 <script setup>
-    import { inject,ref,onMounted } from 'vue' 
-    import ComButtonAddOn from '../../components/form/ComButtonAddOn.vue';
+    import { inject,ref,onMounted } from 'vue'  
     import CurrencyFormat from './CurrencyFormat.vue';
     const gv = inject('$gv')
+    const sale = inject('$sale')
     const props = defineProps({
         product: Object
     })
@@ -83,6 +86,10 @@
             return data.length > 0;
         }
         return false
+    }
+
+    function onAddtoCart(p){
+        sale.onAddtoCart(p)
     }
 
 

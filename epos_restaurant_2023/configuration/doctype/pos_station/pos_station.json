@@ -24,7 +24,8 @@
   "show_keypad_in_sale_screen",
   "show_deleted_sale_product_in_sale_screen",
   "is_used",
-  "show_button_change_sale_type"
+  "show_button_change_sale_type",
+  "show_setting_menu"
  ],
  "fields": [
   {
@@ -129,11 +130,17 @@
    "fieldname": "station_device_printing",
    "fieldtype": "Data",
    "label": "Station Device Printing"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_setting_menu",
+   "fieldtype": "Check",
+   "label": "Show Setting Menu"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-08-14 09:05:19.406379",
+ "modified": "2023-08-19 14:43:18.717551",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Station",

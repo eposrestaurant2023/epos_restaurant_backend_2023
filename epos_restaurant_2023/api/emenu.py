@@ -92,19 +92,6 @@ def get_parent_menu(parent,is_child=False):
 
 @frappe.whitelist(allow_guest=True)
 def get_emenu_product(menu):
-    # pos_menu = frappe.db.sql("""
-    #     SELECT p.product_code  FROM `tabProduct Menu` AS pm
-    #     INNER JOIN `tabProduct` AS p
-    #     ON pm.parent = p.name
-    #     WHERE pm.pos_menu = '{}'
-    #     AND p.is_open_product = 0
-    # """.format(menu), as_dict=1)
-    # data = []
-    # if pos_menu:
-    #     for d in pos_menu:
-    #         product = frappe.get_doc("Product", d.product_code)
-    #         data.append(product)
-
     sql = """select 
                 name as menu_product_name,
                 product_code as name,
@@ -142,3 +129,34 @@ def get_emenu_product(menu):
     data = frappe.db.sql(sql,as_dict=1)
 
     return data
+
+
+
+
+@frappe.whitelist(allow_guest=True)
+def get_current_working_day(business_branch):
+   
+    sql = "select name, posting_date, pos_profile, note from `tabWorking Day` where business_branch = '{}' and is_closed = 0 order by creation limit 1".format(business_branch)
+    data =  frappe.db.sql(sql, as_dict=1) 
+    if data:
+        return data [0]
+    return
+
+@frappe.whitelist(allow_guest=True)
+def get_current_shift_information(business_branch, pos_profile):
+    return {
+        "working_day":get_current_working_day(business_branch),
+        "cashier_shift":get_current_cashier_shift(pos_profile)
+    }
+
+@frappe.whitelist(allow_guest=True)
+def get_current_cashier_shift(pos_profile):   
+    sql = "select name,working_day, posting_date,shift_name, pos_profile, opened_note,business_branch,total_opening_amount from `tabCashier Shift` where pos_profile = '{}' and is_closed = 0 order by creation desc limit 1".format(pos_profile)
+ 
+    data =  frappe.db.sql(sql, as_dict=1) 
+    if data:
+        return data [0]
+    return
+
+
+
