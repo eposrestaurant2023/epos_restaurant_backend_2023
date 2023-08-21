@@ -2,9 +2,9 @@
     <v-app>
         <v-app-bar :elevation="2" height="50">
             <v-app-bar-title class="text-center">{{ appTitle }}</v-app-bar-title>
-            <template #prepend>
+            <!-- <template #prepend>
                 <v-app-bar-nav-icon variant="text" @click.stop="onDrawer()"></v-app-bar-nav-icon>
-            </template>
+            </template> -->
             <template #append>
                 <v-btn class="text-none" stacked :disabled="total_items<=0" @click.stop="onSaleOrderClick()">
                     <v-badge v-if="total_items>0" :content="total_items" color="error">

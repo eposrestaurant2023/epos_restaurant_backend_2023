@@ -48,6 +48,7 @@ app.provide("$frappe", frappe);
 app.provide("$gv", gv);
 app.provide("$sale", sale);
 app.provide("$numberFormat",NumberFormat)
+
 // execute code
 /* get global data */
 const call = frappe.call()

@@ -9,15 +9,30 @@ from frappe import _
 @frappe.whitelist(allow_guest=True)
 def get_emenu_settings(business_branch = ''):
     doc = frappe.get_doc('ePOS Settings')
-    emenus = Enumerable(doc.emenu).where(lambda x:x.business_branch == business_branch or '')
+    emenus = Enumerable(doc.emenu).where(lambda x:x.business_branch == (business_branch or ""))
+  
     emenu = frappe.get_doc('eMenu', emenus[0].emenu)
   
     pos_menu = frappe.db.sql("SELECT `name`, pos_menu_name_en, pos_menu_name_kh,parent_pos_menu, is_main_emenu FROM `tabPOS Menu` WHERE parent_pos_menu = '{}' ORDER BY sort_order".format(emenu.pos_menu), as_dict=1)
    
     #get currency
     currencies = frappe.db.sql("select name,symbol,currency_precision,symbol_on_right,pos_currency_format from `tabCurrency` where enabled=1", as_dict=1)
-   
-   
+ 
+    main_currency = frappe.get_doc("Currency",frappe.db.get_default("currency"))
+    second_currency = frappe.get_doc("Currency",frappe.db.get_default("second_currency"))
+
+    exchange_rate_main_currency = frappe.db.get_default("exchange_rate_main_currency")
+
+    to_currency = second_currency.name
+    if exchange_rate_main_currency != main_currency.name:
+        to_currency = main_currency.name   
+
+    
+    _query = "select exchange_rate from `tabCurrency Exchange` where from_currency = '{}' and to_currency = '{}' limit 1".format(exchange_rate_main_currency,to_currency) 
+    _exchange_rate = frappe.db.sql(_query, as_dict=1)
+    exchange_rate = 1
+    if _exchange_rate:
+        exchange_rate = _exchange_rate[0].exchange_rate
    
     return { 
         "title": emenu.title,
@@ -25,7 +40,8 @@ def get_emenu_settings(business_branch = ''):
         "welcome_description": emenu.welcome_description,
         "slideshow": emenu.slideshow,
         "pos_menu": pos_menu,
-        "currencies":currencies,
+        "exchange_rate":exchange_rate,
+        "currencies":currencies, 
         "default_currency":frappe.db.get_default("currency"),
         "template_style": {
             "title_color": emenu.title_color,
@@ -50,7 +66,14 @@ def get_pos_profile(name):
 
     return frappe.get_doc("POS Profile",name)
 
+@frappe.whitelist(allow_guest=True)
+def get_pos_table(name,groups):
+    sql = "SELECT `name`,tbl_number FROM `tabTables Number` where tbl_number = '{}' and tbl_group in ({}) limit 1".format(name,groups)
+    table  = frappe.db.sql(sql, as_dict=1)
+    if table:
+        return table[0]
 
+    return
 
 @frappe.whitelist(allow_guest=True)
 def get_emenu_menu(shortcut,is_main_emenu = False):
@@ -59,6 +82,8 @@ def get_emenu_menu(shortcut,is_main_emenu = False):
         return data
     
     return []
+
+
 
 @frappe.whitelist(allow_guest=True)
 def get_loop_menu(parent,is_child=False):
@@ -143,10 +168,13 @@ def get_current_working_day(business_branch):
     return
 
 @frappe.whitelist(allow_guest=True)
-def get_current_shift_information(business_branch, pos_profile):
+def get_current_shift_information(business_branch, pos_profile,customer):
+
+    default_customer = frappe.get_doc("Customer", customer)
     return {
         "working_day":get_current_working_day(business_branch),
-        "cashier_shift":get_current_cashier_shift(pos_profile)
+        "cashier_shift":get_current_cashier_shift(pos_profile),
+        "default_customer":default_customer
     }
 
 @frappe.whitelist(allow_guest=True)

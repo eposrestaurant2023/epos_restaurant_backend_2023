@@ -23,9 +23,10 @@ class POSMenu(NestedSet):
                 if self.emenu_business_branch:
                     filter_emenu_business_branch = '= ' + "'{}'".format(self.emenu_business_branch)
 
-                main_emnu = frappe.db.sql("SELECT count(`name`) AS total FROM `tabPOS Menu` WHERE is_main_emenu = 1 and emenu_business_branch {}".format(filter_emenu_business_branch), as_dict=1)
-                if main_emnu[0].total > 0:
-                    frappe.throw(_("Main eMenu has already."))
+                if self.is_new():
+                    main_emnu = frappe.db.sql("SELECT count(`name`) AS total FROM `tabPOS Menu` WHERE is_main_emenu = 1 and emenu_business_branch {}".format(filter_emenu_business_branch), as_dict=1)
+                    if main_emnu[0].total > 0:
+                        frappe.throw(_("Main eMenu has already."))
                     
             if self.is_new():
                 if not self.background_image:
