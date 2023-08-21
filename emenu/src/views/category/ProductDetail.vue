@@ -24,7 +24,7 @@
             <ComCheckPortion v-if="product_prices.length > 0" :portions="product_prices" :title_color="gv.setting?.template_style?.title_color"/>
             <ComCheckModifier v-if="product_modifiers.length > 0" :modifiers="product_modifiers" :title_color="gv.setting?.template_style?.title_color" :business_branch="gv.pos_profile.business_branch"/>
         </template>
-        <template #action>
+        <template #action v-if="gv.setting.allow_make_order==1">
             <div class="flex justify-between grow border-t pt-2">
                 <div class="grow flex items-center">
                     <button class="bg-black w-8 h-8 rounded-sm" type="button" @click.stop="onQtyChanged(-1)" :disabled="qty<=1">

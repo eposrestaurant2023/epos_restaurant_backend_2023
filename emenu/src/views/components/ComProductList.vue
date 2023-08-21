@@ -17,21 +17,21 @@
                     </div>
                 </div>
                 <div>
-                    <template v-if="gv.setting.allow_make_order==1">
+                
                     <div class="flex justify-end"> 
-                        <template v-if="checkProductHaveOptions(product) && gv.setting.allow_make_order==1">
+                        <template v-if="checkProductHaveOptions(product)">
                             <button type="button" class="btn-item-customize h-7 w-20 rounded-sm" @click.stop="onItemClick()">
                                 Customize
                             </button>
                         </template>
 
-                        <template v-else>
+                        <template v-else-if="gv.setting.allow_make_order==1">
                             <button type="button" class="h-8 px-4 rounded-sm text-white" @click.stop="onAddtoCart(product)"
                             :style="{ 'background-color': gv.setting?.template_style?.title_color }"><v-icon>mdi-cart-outline</v-icon>
                             Add to card</button> 
                         </template>
                     </div>
-                </template>
+                
                 </div>
             </div>
         </div> 
