@@ -98,7 +98,6 @@
   {
    "fieldname": "emenu",
    "fieldtype": "Table",
-   "label": "eMenu",
    "options": "POS eMenu"
   },
   {
@@ -113,7 +112,7 @@
  "issingle": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-04-19 12:29:00.106069",
+ "modified": "2023-08-21 13:48:54.990316",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "ePOS Settings",

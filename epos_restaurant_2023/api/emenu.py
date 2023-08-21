@@ -43,7 +43,9 @@ def get_emenu_settings(business_branch = ''):
         "exchange_rate":exchange_rate,
         "currencies":currencies, 
         "default_currency":frappe.db.get_default("currency"),
+        "allow_make_order":emenus[0].allow_make_order,
         "template_style": {
+
             "title_color": emenu.title_color,
             "title_class": emenu.title_class,
             "subtitle_color": emenu.subtitle_color,
