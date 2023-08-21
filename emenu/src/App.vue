@@ -18,6 +18,7 @@
 	import NoFoundLayout from './layout/NoFoundLayout.vue';
 
 	const gv = inject('$gv');
+	const sale = inject('$sale');
 	const frappe = inject('$frappe');
 	const call = frappe.call();
 	const route = useRoute();
@@ -42,6 +43,11 @@
 					not_found.value = false; 
 					gv.cashier_shift = res.message.cashier_shift;
 					gv.working_day = res.message.working_day;
+
+
+					//create new sale
+
+					console.log(sale)
 				} 
 
 			})

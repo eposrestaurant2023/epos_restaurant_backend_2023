@@ -1,4 +1,5 @@
- 
+import { createToaster } from '@meforma/vue-toaster';	
+const toaster = createToaster({position:'top'});
 export default class Sale {
     constructor() {   
         this.tbl_number = null;
@@ -22,8 +23,9 @@ export default class Sale {
         console.log("Sale Order Click ")
     }
 
-    onAddtoCart(p){
-        console.log(p)
+    onAddtoCart(p,qty = 1, portion=null,modifiers=null){
+        toaster.warning(p.name_en)
+        console.log({"product":p,"portion":portion,"modifiers":modifiers})
     }
    
 }

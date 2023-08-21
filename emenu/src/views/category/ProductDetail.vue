@@ -49,6 +49,7 @@
     import ComCheckModifier from './components/ComCheckModifier.vue';
     import CurrencyFormat from '../components/CurrencyFormat.vue';
     import { createToaster } from '@meforma/vue-toaster';
+    import Enumerable from 'linq';
 	
 	const toaster = createToaster({position:'top'});
  
@@ -121,7 +122,31 @@
 
     function onAddtoCart(p){ 
       if( onModifierValidate(p)){
-        sale.onAddtoCart(p)
+        let _portion = {}
+        if(product_prices.value.length>0){
+            const pp = product_prices.value.filter((r)=>(r.selected??false));
+            if(pp.length>0){
+                _portion = pp[0]
+            }
+        }
+
+        let _modifiers = {}
+        if(product_modifiers.value.length>0){
+
+            const selected = (Enumerable.from(product_modifiers.value).selectMany("$.items").where("$.selected==true").orderBy("$.modifier"));
+            let modifiers = selected.select("r=>(r.prefix || '') + ' ' + r.modifier").toJoinedString(", ");
+            if (modifiers == "[]" || modifiers == undefined) {
+                modifiers = "";
+            }
+
+            _modifiers = {
+                modifiers_data: selected.select("x => {name:x['name'], modifier: x['modifier'], price: x['price'] }").toJSONString(),
+                modifiers: modifiers,
+                price: selected.sum("$.price")
+            }
+        }
+        
+        sale.onAddtoCart(p,qty.value,_portion,_modifiers)
       }
     }
 

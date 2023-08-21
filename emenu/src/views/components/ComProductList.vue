@@ -19,11 +19,11 @@
                 <div>
                     <div class="flex justify-end"> 
                         <template v-if="checkProductHaveOptions(product)">
-                            <button type="button" class="btn-item-customize h-7 w-40 rounded-sm" @click.stop="onItemClick()">
+                            <button type="button" class="btn-item-customize h-7 w-20 rounded-sm" @click.stop="onItemClick()">
                                 Customize
                             </button>
                         </template>
-                        
+
                         <template v-else>
                             <button type="button" class="h-8 px-4 rounded-sm text-white" @click.stop="onAddtoCart(product)"
                             :style="{ 'background-color': gv.setting?.template_style?.title_color }"><v-icon>mdi-cart-outline</v-icon>
