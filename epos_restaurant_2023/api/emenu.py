@@ -9,9 +9,9 @@ from frappe import _
 @frappe.whitelist(allow_guest=True)
 def get_emenu_settings(business_branch = ''):
     doc = frappe.get_doc('ePOS Settings')
-    frappe.msgprint(str( doc.emenu))
+   
     emenus = Enumerable(doc.emenu).where(lambda x:x.business_branch == (business_branch or ""))
-  
+    frappe.msgprint(str(emenus[0]))
     emenu = frappe.get_doc('eMenu', emenus[0].emenu)
   
     pos_menu = frappe.db.sql("SELECT `name`, pos_menu_name_en, pos_menu_name_kh,parent_pos_menu, is_main_emenu FROM `tabPOS Menu` WHERE parent_pos_menu = '{}' ORDER BY sort_order".format(emenu.pos_menu), as_dict=1)
