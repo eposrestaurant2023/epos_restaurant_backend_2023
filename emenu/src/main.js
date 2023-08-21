@@ -29,7 +29,6 @@ const vuetify = createVuetify({
 	});
 
 const app = createApp(App);
-const auth = reactive(new Auth());
 const gv = reactive(new Gv());
 const sale = reactive(new Sale());
 
@@ -58,23 +57,7 @@ await call.get('epos_restaurant_2023.api.emenu.get_emenu_settings')
 
 // Configure route gaurds
 router.beforeEach(async (to, from, next) => {
-	next()
-	// if (to.matched.some((record) => !record.meta.isLoginPage)) {
-	// 	// this route requires auth, check if logged in
-	// 	// if not, redirect to login page.
-	// 	if (!auth.isLoggedIn) {
-	// 		next({ name: 'Login', query: { route: to.path } });
-	// 	} else {
-	// 		next();
-	// 	}
-	// 	next();
-	// } else {
-	// 	if (auth.isLoggedIn) {
-	// 		next({ name: 'Home' });
-	// 	} else {
-	// 		next();
-	// 	}
-	// }
+	next() 
 });
 
 app.mount("#app");
