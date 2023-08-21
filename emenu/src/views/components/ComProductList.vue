@@ -17,8 +17,9 @@
                     </div>
                 </div>
                 <div>
+                    <template v-if="gv.setting.allow_make_order==1">
                     <div class="flex justify-end"> 
-                        <template v-if="checkProductHaveOptions(product)">
+                        <template v-if="checkProductHaveOptions(product) && gv.setting.allow_make_order==1">
                             <button type="button" class="btn-item-customize h-7 w-20 rounded-sm" @click.stop="onItemClick()">
                                 Customize
                             </button>
@@ -30,6 +31,7 @@
                             Add to card</button> 
                         </template>
                     </div>
+                </template>
                 </div>
             </div>
         </div> 
