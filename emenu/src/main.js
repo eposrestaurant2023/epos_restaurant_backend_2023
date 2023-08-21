@@ -4,8 +4,7 @@ import App from "./App.vue";
 import router from './router'; 
 // import call from "../../../doppio/libs/controllers/call";
 import NumberFormat from 'number-format.js'
-import socket from "../../../doppio/libs/controllers/socket";
-import Auth from "../../../doppio/libs/controllers/auth";
+
 import Gv from "./providers/gv";
 import Sale from './providers/sale';
 
@@ -40,8 +39,7 @@ app.use(router);
 
 // Global Properties,
 // components can inject this
-app.provide("$auth", auth);
-app.provide("$socket", socket);
+
 app.provide("$frappe", frappe);
 app.provide("$gv", gv);
 app.provide("$sale", sale);
