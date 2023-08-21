@@ -1,8 +1,7 @@
 import './index.css';
 import { createApp, reactive } from "vue";
 import App from "./App.vue";
-import router from './router';
-import resourceManager from "../../../doppio/libs/resourceManager";
+import router from './router'; 
 // import call from "../../../doppio/libs/controllers/call";
 import NumberFormat from 'number-format.js'
 import socket from "../../../doppio/libs/controllers/socket";
@@ -37,8 +36,7 @@ const sale = reactive(new Sale());
 
 // Plugins
 app.use(vuetify);
-app.use(router);
-app.use(resourceManager);
+app.use(router); 
 
 // Global Properties,
 // components can inject this
