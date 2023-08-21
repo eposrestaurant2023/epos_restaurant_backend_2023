@@ -11,7 +11,7 @@ def get_emenu_settings(business_branch = ''):
     sql ="select emenu from `tabPOS eMenu` where business_branch = if('{}'='',business_branch,'{}')".format(business_branch,business_branch)   
     doc = frappe.db.sql(sql, as_dict=1) 
     emenus = doc  
-    emenu = frappe.get_doc('eMenu', emenus[0].emenu)
+    emenu = frappe.db.sql("select * from tabeMenu where `name`='{}'".format(emenus[0].emenu), as_dict=1)[0] 
   
     pos_menu = frappe.db.sql("SELECT `name`, pos_menu_name_en, pos_menu_name_kh,parent_pos_menu, is_main_emenu FROM `tabPOS Menu` WHERE parent_pos_menu = '{}' ORDER BY sort_order".format(emenu.pos_menu), as_dict=1)
    
