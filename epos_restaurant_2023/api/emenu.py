@@ -9,8 +9,10 @@ from frappe import _
 @frappe.whitelist(allow_guest=True)
 def get_emenu_settings(business_branch = ''):
     doc = frappe.get_doc('ePOS Settings')
+    
     emenus = Enumerable(doc.emenu).where(lambda x:x.business_branch == (business_branch or ""))
-    frappe.throw(str(emenus[0].emenu))
+    if emenus:
+        frappe.throw(str(emenus[0].emenu))
   
     emenu = frappe.get_doc('eMenu', emenus[0].emenu)
   
