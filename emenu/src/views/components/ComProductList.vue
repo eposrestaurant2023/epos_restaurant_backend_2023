@@ -12,7 +12,7 @@
                         <h3 class="font-bold">{{ product?.name }} - {{ product.name_en }}</h3>
                         <h4 v-if="product.name_en != product.name_kh">{{ product.name_kh }}</h4>
                     </div>
-                    <div class="text-lg font-bold text-right"  :style="{color:gv.setting?.template_style?.title_color}" :class="gv.setting?.template_style?.title_class">
+                    <div class="text-lg font-bold text-right w-20"  :style="{color:gv.setting?.template_style?.title_color}" :class="gv.setting?.template_style?.title_class">
                         <CurrencyFormat :value="getPrice(product)" />
                     </div>
                 </div>
@@ -26,9 +26,14 @@
                         </template>
 
                         <template v-else-if="gv.setting.allow_make_order==1">
-                            <button type="button" class="h-8 px-4 rounded-sm text-white" @click.stop="onAddtoCart(product)"
-                            :style="{ 'background-color': gv.setting?.template_style?.title_color }"><v-icon>mdi-cart-outline</v-icon>
-                            Add to card</button> 
+                            <button type="button" class="h-8 px-4 rounded-sm text-white" @click.stop="onAddtoCart(product)" :style="{ 'background-color': gv.setting?.template_style?.title_color }">
+                                <v-icon>mdi-cart-outline</v-icon> Add to card
+                            </button> 
+                        </template>
+                        <template v-else-if="gv.setting.allow_make_order==0">
+                            <button type="button" class="btn-details-customize h-7 w-20 rounded-sm" @click.stop="onItemClick()">
+                                Details
+                            </button>
                         </template>
                     </div>
                 
@@ -103,5 +108,9 @@
 .btn-item-customize {
     border: 1px solid rgb(6, 180, 6);
     color: rgb(6, 180, 6);
+} 
+.btn-details-customize {
+    border: 1px solid rgb(18, 117, 247);
+    color: rgb(9, 75, 173);
 } 
 </style>

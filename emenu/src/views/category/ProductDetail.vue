@@ -2,7 +2,7 @@
     <ComModal mobileFullscreen persistent @onClose="onClose()" hideOkButton hideCloseButton
         actionClass="flex justify-between">
         <template #content>
-            <div class="-mt-2 -mx-2 h-48 bg-cover bg-no-repeat bg-center"
+            <div class="-mt-2 -mx-2 h-60 bg-cover bg-no-repeat bg-center"
                 v-bind:style="{ 'background-image': 'url(' + (product.photo || '/assets/frappe/images/emenu_placeholder.jpg') + ')' }">
             </div>
             <div class="flex justify-between items-center">
@@ -94,11 +94,22 @@
     }
 
     function getPortionPriceSelected(){
-        const prices =  product_prices.value.filter((r)=>(r.selected||false));
+        const prices =  product_prices.value.filter((r)=>(r.selected||false)); 
+        let _modifier_amount = 0;
+        product_modifiers.value.forEach((c)=>{
+            c.items.filter((r)=>(r.selected??false)).forEach(e=>{ 
+                _modifier_amount += e.price;
+            })
+        })
+   
         if(prices.length>0){
-            return prices[0].price;
+            return prices[0].price + _modifier_amount;
         }
-        return 0;
+
+        if(product_prices.value.length<=0){
+            return (props.product?.price??0) + _modifier_amount;
+        }
+        return _modifier_amount;
     }
 
     function onModifierValidate(p){

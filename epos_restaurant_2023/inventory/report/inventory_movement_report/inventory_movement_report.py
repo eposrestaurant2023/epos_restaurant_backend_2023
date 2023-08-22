@@ -402,14 +402,13 @@ def get_data_group_by(data, row_group):
 			_row_group.update({
 				"business_branch":row["business_branch"],
 				"stock_location": row["stock_location"],
-				"stock_unit":row["stock_unit"],
-				"unit":row["unit"]
+				"stock_unit":row["stock_unit"]
 			})
 		elif row_group == "product_group":
 			_row_group.update({
 				"business_branch":row["business_branch"],
 				"stock_location": row["stock_location"],
-				"unit":row["unit"],
+				"stock_unit":row["stock_unit"],
 				"product_group":row["product_group"]
 			})
 		elif row_group == "product_category":
