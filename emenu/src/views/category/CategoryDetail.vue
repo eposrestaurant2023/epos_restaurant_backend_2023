@@ -25,13 +25,12 @@
                                 </v-avatar>
                                 <div class="grow pl-2">
                                     <div class="flex justify-between">
-                                        <h2 class="font-bold">{{ c.title_en }}</h2>                                         
+                                        <h2 class="font-bold ">{{ c.title_en }}</h2>                                         
                                     </div> 
                                     <small v-html="c.description" ></small> 
                                 </div>
                             </div> 
                         </v-img>
-                        
                     </v-card>
                 </v-col>
            
