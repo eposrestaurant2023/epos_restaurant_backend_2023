@@ -1,7 +1,7 @@
 import './index.css';
 import { createApp, reactive } from "vue";
 import App from "./App.vue";
-import router from './router'; 
+import router from './router';
 // import call from "../../../doppio/libs/controllers/call";
 import NumberFormat from 'number-format.js'
 
@@ -14,6 +14,7 @@ import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import '@mdi/font/css/materialdesignicons.css'
 import { FrappeApp } from 'frappe-js-sdk';
+import './registerServiceWorker'
 
 const frappe = new FrappeApp()
 const vuetify = createVuetify({
@@ -34,7 +35,7 @@ const sale = reactive(new Sale());
 
 // Plugins
 app.use(vuetify);
-app.use(router); 
+app.use(router);
 
 // Global Properties,
 // components can inject this

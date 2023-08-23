@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/assets/epos_restaurant_2023/emenu/sw.js', { scope: '/assets/epos_restaurant_2023/emenu/' })})}
