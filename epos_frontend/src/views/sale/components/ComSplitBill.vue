@@ -127,8 +127,13 @@ function onCreateNew(){
     _sale = JSON.parse(JSON.stringify(_deleted[0].sale));
     _deleted[0].sale.name = "";
   }
- 
+
   _sale.sale_products =[]; 
+  _sale.commission_type= "Percent";
+  _sale.commission= 0;
+  _sale.commission_note= '';
+  _sale.commission_amount= 0;
+
   const _newGroup = {
     deleted:false,
     is_current:false,
@@ -138,6 +143,8 @@ function onCreateNew(){
     no:groupSales.value.length + 1,
     sale: _sale
   }
+
+
   groupSales.value.push(_newGroup);
 
   onDownloadPressed(_newGroup);

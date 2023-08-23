@@ -13,12 +13,15 @@ export default defineConfig({
 			manifest: { 
 			  icons: [
 				{
-				  src: "/icons/512.png",
+				  src: "/emenu.png",
 				  sizes: "512x512",
 				  type: "image/png",
 				  purpose: "any maskable"
 				}
 			  ]
+			},
+			devOptions: {
+				enabled: true
 			}
 		  })
 	],
