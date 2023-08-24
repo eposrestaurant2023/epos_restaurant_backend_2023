@@ -98,6 +98,13 @@ class Sale(Document):
 		#set is foc by check payment pyment if have is_foc payment type
 		self.is_foc = 0
 
+		## check table if have make foc to sale when discount 100%
+		if self.table_id:
+			_table = frappe.get_doc("Tables Number",self.table_id)
+			if _table.is_foc and self.discount==100 and self.discount_type =="Percent":
+				self.is_foc = 1
+
+
 		
 		if Enumerable(self.payment).where(lambda x: (x.is_foc or 0) ==1).count()>=1:
 			self.is_foc = 1

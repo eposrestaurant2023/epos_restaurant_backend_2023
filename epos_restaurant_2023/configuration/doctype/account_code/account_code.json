@@ -62,7 +62,8 @@
   "show_in_folio_tab",
   "show_in_deposit_tab",
   "show_in_city_ledger",
-  "is_housekeeping_account"
+  "is_housekeeping_account",
+  "is_city_ledger_account"
  ],
  "fields": [
   {
@@ -401,12 +402,18 @@
    "fieldname": "is_housekeeping_account",
    "fieldtype": "Check",
    "label": "Is Housekeeping Account"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_city_ledger_account",
+   "fieldtype": "Check",
+   "label": "Is City Ledger Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2023-08-21 14:48:25.587678",
+ "modified": "2023-08-24 15:41:37.136957",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Account Code",

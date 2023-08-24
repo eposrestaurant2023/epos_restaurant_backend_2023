@@ -13,12 +13,13 @@
   "photo",
   "width",
   "height",
+  "sale_type",
+  "is_foc",
   "column_break_6",
   "shape",
   "discount_type",
   "default_discount",
   "price_rule",
-  "sale_type",
   "require_check_in",
   "sort_order"
  ],
@@ -107,12 +108,18 @@
    "fieldname": "sort_order",
    "fieldtype": "Int",
    "label": "Sort Order"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_foc",
+   "fieldtype": "Check",
+   "label": "Make FOC when Sale Discount 100%"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-08-21 09:23:10.344818",
+ "modified": "2023-08-24 14:35:13.458620",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Tables Number",

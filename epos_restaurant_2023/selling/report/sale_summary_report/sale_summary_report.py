@@ -217,7 +217,7 @@ def get_fields(filters):
 	return fields
  
 def get_conditions(filters,group_filter=None):
-	conditions = " 1 = 1 "
+	conditions = " 1 = 1 and b.is_foc = 0"
 
 	start_date = filters.start_date
 	end_date = filters.end_date
