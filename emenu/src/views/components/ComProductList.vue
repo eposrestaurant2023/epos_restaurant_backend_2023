@@ -1,5 +1,5 @@
 <template>
-    <v-card elevation="0"  rounded="0">
+    <v-card elevation="0"  rounded="0" @click="onItemClick()">
         <div class="flex p-2 border-b">
             <v-avatar 
             size="90px"
@@ -25,16 +25,11 @@
                             </button>
                         </template>
 
-                        <template v-else-if="gv.setting.allow_make_order==1">
-                            <button type="button" class="h-8 px-4 rounded-sm text-white" @click.stop="onAddtoCart(product)" :style="{ 'background-color': gv.setting?.template_style?.title_color }">
+                        <template v-else-if="gv.setting.allow_make_order==1">  
+                            <button type="button" class="btn-add-to-cart h-7 w-40 mr-1 rounded-sm" @click.stop="onAddtoCart(product)">
                                 <v-icon>mdi-cart-outline</v-icon> Add to card
-                            </button> 
-                        </template>
-                        <template v-else-if="gv.setting.allow_make_order==0">
-                            <button type="button" class="btn-details-customize h-7 w-20 rounded-sm" @click.stop="onItemClick()">
-                                Details
-                            </button>
-                        </template>
+                            </button>   
+                        </template> 
                     </div>
                 
                 </div>
@@ -112,5 +107,10 @@
 .btn-details-customize {
     border: 1px solid rgb(18, 117, 247);
     color: rgb(9, 75, 173);
+} 
+
+.btn-add-to-cart {
+    border: 1px solid rgb(255, 19, 11);
+    color: rgb(255, 18, 18);
 } 
 </style>
