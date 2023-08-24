@@ -11,15 +11,18 @@ export default defineConfig({
 		vue(),
 		VitePWA({      
 			manifest: { 
+				name:"emenu",
+				short_name:"ePOS Menu QR",
 			  icons: [
 				{
 				  src: "/emenu.png",
-				  sizes: "512x512",
+				  sizes: "16x16",
 				  type: "image/png",
 				  purpose: "any maskable"
 				}
 			  ]
 			},
+			 
 			devOptions: {
 				enabled: true
 			}
