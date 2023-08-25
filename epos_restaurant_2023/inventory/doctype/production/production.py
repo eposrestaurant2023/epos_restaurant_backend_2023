@@ -87,21 +87,22 @@ def update_inventory_on_cancel(self):
     			"action": "Cancel"
 			})
 def update_production_on_submit(self):
-	if self.is_inventory_product:
-			uom_conversion = get_uom_conversion(self.base_unit, self.unit)			
-			add_to_inventory_transaction({
-				'doctype': 'Inventory Transaction',
-				'transaction_type':"Production",
-				'transaction_date':self.posting_date,
-				'transaction_number':self.name,
-				'product_code': self.product,
-				'unit':self.unit,
-				'stock_location':self.stock_location,
-				'in_quantity':self.quantity / uom_conversion,
-				"price":0,
-				'note': 'New Production submitted.',
-				"action": "Submit"
-			})
+	for p in self.end_products:
+		if p.is_inventory_product:
+				uom_conversion = get_uom_conversion(p.base_unit, p.unit)			
+				add_to_inventory_transaction({
+					'doctype': 'Inventory Transaction',
+					'transaction_type':"Production",
+					'transaction_date':self.posting_date,
+					'transaction_number':self.name,
+					'product_code': p.product_code,
+					'unit':p.unit,
+					'stock_location':self.stock_location,
+					'in_quantity':p.quantity / uom_conversion,
+					"price":0,
+					'note': 'New Production submitted.',
+					"action": "Submit"
+				})
 def update_production_on_cancel(self):
 
 	if self.is_inventory_product:

@@ -18,84 +18,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Sales Report",
-   "link_count": 7,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Sale Summary Report",
-   "link_count": 0,
-   "link_to": "Sale Summary Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Hourly Sale Transaction",
-   "link_count": 0,
-   "link_to": "Hourly Sale Revenue",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Sale Transaction Report",
-   "link_count": 0,
-   "link_to": "Daily Sale Transaction",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Sale Payment Type Breakdown",
-   "link_count": 0,
-   "link_to": "Sale Payment Type Breakdown Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Sale Tax Report",
-   "link_count": 0,
-   "link_to": "Sale Tax Summary Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Customer Credit Balance Report",
-   "link_count": 0,
-   "link_to": "Customer Credit Balance Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Hourly Sale Revenue",
-   "link_count": 0,
-   "link_to": "Hourly Sale Revenue",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Purchase Order",
    "link_count": 5,
    "onboard": 0,
@@ -274,9 +196,97 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Report",
+   "link_count": 8,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Sale Summary Report",
+   "link_count": 0,
+   "link_to": "Sale Summary Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Hourly Sale Transaction",
+   "link_count": 0,
+   "link_to": "Hourly Sale Revenue",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Sale Transaction Report",
+   "link_count": 0,
+   "link_to": "Daily Sale Transaction",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Sale Payment Type Breakdown",
+   "link_count": 0,
+   "link_to": "Sale Payment Type Breakdown Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Sale Tax Report",
+   "link_count": 0,
+   "link_to": "Sale Tax Summary Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Customer Credit Balance Report",
+   "link_count": 0,
+   "link_to": "Customer Credit Balance Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Hourly Sale Revenue",
+   "link_count": 0,
+   "link_to": "Hourly Sale Revenue",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Sale FOC Summary Report",
+   "link_count": 0,
+   "link_to": "Sale FOC Summary Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-08-08 16:41:05.688602",
+ "modified": "2023-08-25 09:10:56.695304",
  "modified_by": "Administrator",
  "module": "ePOS Report",
  "name": "Reports",

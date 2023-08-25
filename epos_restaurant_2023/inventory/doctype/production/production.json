@@ -11,28 +11,23 @@
   "naming_series",
   "posting_date",
   "column_break_3",
+  "batch_no",
   "referance",
   "column_break_5",
   "stock_location",
   "section_break_7",
-  "product",
-  "column_break_9",
-  "product_name",
-  "column_break_11",
-  "quantity",
-  "column_break_13",
-  "unit",
   "section_break_15",
   "produce_products",
   "section_break_5",
   "total_quantity",
   "column_break_6",
   "total_amount",
-  "section_break_8",
-  "note",
-  "amended_from",
   "base_unit",
-  "is_inventory_product"
+  "is_inventory_product",
+  "section_break_17",
+  "end_products",
+  "note",
+  "amended_from"
  ],
  "fields": [
   {
@@ -49,18 +44,9 @@
    "label": "Posting Date"
   },
   {
-   "description": "Before add produce products please select product first.",
-   "fieldname": "product",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Product Code",
-   "options": "Product",
-   "reqd": 1
-  },
-  {
    "fieldname": "produce_products",
    "fieldtype": "Table",
-   "label": "Production Ingredients",
+   "label": "Raw Products",
    "options": "Production Ingredients",
    "reqd": 1
   },
@@ -87,10 +73,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "section_break_8",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "note",
    "fieldtype": "Small Text",
    "label": "Note"
@@ -114,6 +96,7 @@
   {
    "fieldname": "referance",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Referance"
   },
   {
@@ -127,38 +110,6 @@
   {
    "fieldname": "section_break_7",
    "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_9",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fetch_from": "product.product_name_en",
-   "fieldname": "product_name",
-   "fieldtype": "Data",
-   "label": "Product Name"
-  },
-  {
-   "fieldname": "column_break_11",
-   "fieldtype": "Section Break"
-  },
-  {
-   "default": "1",
-   "fieldname": "quantity",
-   "fieldtype": "Float",
-   "label": "Quantity"
-  },
-  {
-   "fieldname": "column_break_13",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fetch_from": "product.unit",
-   "fetch_if_empty": 1,
-   "fieldname": "unit",
-   "fieldtype": "Link",
-   "label": "Unit",
-   "options": "Unit Of Measurement"
   },
   {
    "fieldname": "section_break_15",
@@ -178,12 +129,28 @@
    "fieldname": "is_inventory_product",
    "fieldtype": "Check",
    "label": " Is Inventory Product"
+  },
+  {
+   "fieldname": "end_products",
+   "fieldtype": "Table",
+   "label": "End Products",
+   "options": "Production Products",
+   "reqd": 1
+  },
+  {
+   "fieldname": "batch_no",
+   "fieldtype": "Data",
+   "label": "Batch No"
+  },
+  {
+   "fieldname": "section_break_17",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-05-09 09:32:54.435995",
+ "modified": "2023-08-25 09:04:49.721538",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Production",
