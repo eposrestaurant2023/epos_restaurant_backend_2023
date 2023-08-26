@@ -189,11 +189,15 @@ def get_current_cashier_shift(pos_profile):
 
 
 @frappe.whitelist(allow_guest=True)
-def on_emenu_initialize():
-    _business_branches = frappe.get_list("Business Branch",fields=["name","disabled"],filters=[{"disabled":0}])
+def on_emenu_initialize(business_branch):    
+    _business_branches = frappe.get_list("Business Branch",fields=["name"],filters=[{"disabled":0}])
+    for b in _business_branches:
+        _pos_profiles = frappe.get_list("POS Profile",fields=["name"],filters=[{"business_branch":b.name}])
+        b.pos_profiles = []
+        b.pos_profiles = _pos_profiles
 
+    return   _business_branches
+       
    
-    pass
-    return {"branches":_business_branches,"total":_business_branches.count(_business_branches)}
 
 
