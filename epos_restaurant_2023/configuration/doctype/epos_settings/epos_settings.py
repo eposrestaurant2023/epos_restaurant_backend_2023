@@ -3,6 +3,7 @@
 from frappe.model import no_value_fields
 import frappe
 from frappe.model.document import Document
+from py_linq import Enumerable
 
 class ePOSSettings(Document):
 	def validate(self):

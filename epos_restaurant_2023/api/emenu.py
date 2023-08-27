@@ -189,15 +189,74 @@ def get_current_cashier_shift(pos_profile):
 
 
 @frappe.whitelist(allow_guest=True)
-def on_emenu_initialize(business_branch):    
-    _business_branches = frappe.get_list("Business Branch",fields=["name"],filters=[{"disabled":0}])
-    for b in _business_branches:
-        _pos_profiles = frappe.get_list("POS Profile",fields=["name"],filters=[{"business_branch":b.name}])
-        b.pos_profiles = []
-        b.pos_profiles = _pos_profiles
+def on_emenu_initialize(pos_profile=''): 
+    _sql =  """select 
+                `name`,
+                business_branch 
+                from `tabPOS Profile` 
+            where `name`= if('{0}'='',`name`,'{0}')""".format(pos_profile)
+    doc = frappe.db.sql(_sql,as_dict=1)
 
-    return   _business_branches
-       
-   
+    if len(doc) > 1:
+        return {"_error":"Plesase scan QR"}
+    
+    elif len(doc)==1:
+        pos_setting = frappe.get_doc('ePOS Settings') 
+        emenus = Enumerable(pos_setting.emenu) 
+
+        emenu_templates = emenus.where(lambda x:(x.business_branch or "") == doc[0].business_branch and x.default == 1)
+        if emenu_templates.count()>0:
+            ## get emenu template
+            return on_get_emenu_template(emenu_templates[0].emenu)
+             
+        else:
+            emenu_templates = emenus.where(lambda x:(x.business_branch or "") == doc[0].business_branch)
+            if emenu_templates.count()>0:
+                ## get emenu template
+                return on_get_emenu_template(emenu_templates[0].emenu)   
+                          
+            return {"_error":"Invalid QR"}
+
+    return {"_error":"Invalid QR"}
+
+@frappe.whitelist(allow_guest=True)
+def on_get_emenu_template(name):
+    _app_setting = frappe.get_doc('eMenu', name)  
+ 
+    _menu_tree = on_get_emenu_tree(_app_setting.pos_menu,True)
+
+    return {
+        "app_setting":_app_setting,
+        "menus":_menu_tree
+    }
 
 
+@frappe.whitelist(allow_guest=True)
+def on_get_emenu_tree(parent, is_root = False):
+    _parent = "parent_pos_menu = '{}'".format(parent)  
+    is_main_emenu = "is_main_emenu"
+    if is_root  : 
+        is_main_emenu = "1"
+        _parent ="`name` = '{}'".format(parent)  
+        
+    query = """SELECT `name`, 
+        title_en,
+        title_kh,
+        description,
+        show_description, 
+        parent_pos_menu,
+        background_image ,
+        is_group,
+        {1} as is_main_emenu,
+        {2} as is_root
+    FROM `tabPOS Menu` 
+    WHERE is_emenu = 1 and {0} 
+    ORDER BY sort_order""".format(_parent,is_main_emenu ,is_root) 
+ 
+    data = frappe.db.sql(query, as_dict=1) 
+    for c in data: 
+        c.children = on_get_emenu_tree(c.name)
+
+
+    return data
+ 

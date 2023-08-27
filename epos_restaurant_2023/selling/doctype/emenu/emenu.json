@@ -9,10 +9,15 @@
  "engine": "InnoDB",
  "field_order": [
   "title",
+  "emenu_app_name",
+  "section_break_3",
+  "slideshow",
+  "section_break_5",
   "pos_menu",
   "welcome_title",
   "welcome_description",
-  "slideshow",
+  "section_break_8",
+  "footer_description",
   "template_style_tab",
   "title_color",
   "column_break_7",
@@ -43,7 +48,8 @@
    "fieldname": "slideshow",
    "fieldtype": "Table",
    "label": "Slideshow",
-   "options": "eMenu Slideshow"
+   "options": "eMenu Slideshow",
+   "reqd": 1
   },
   {
    "fieldname": "title",
@@ -125,7 +131,7 @@
   {
    "fieldname": "pos_menu",
    "fieldtype": "Link",
-   "label": "POS Menu",
+   "label": "Default Root Menu",
    "options": "POS Menu",
    "reqd": 1
   },
@@ -189,11 +195,34 @@
    "fieldname": "background_image_banner",
    "fieldtype": "Attach Image",
    "label": "Background Image"
+  },
+  {
+   "fieldname": "footer_description",
+   "fieldtype": "Text Editor",
+   "label": "Footer Description"
+  },
+  {
+   "fieldname": "emenu_app_name",
+   "fieldtype": "Data",
+   "label": "eMenu App Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_3",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_8",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-04-22 10:46:41.606527",
+ "modified": "2023-08-26 10:46:53.761413",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "eMenu",

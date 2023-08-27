@@ -18,16 +18,7 @@ class POSMenu(NestedSet):
         
 
         if self.is_emenu:
-            if self.is_main_emenu:
-                filter_emenu_business_branch = 'IS NULL'
-                if self.emenu_business_branch:
-                    filter_emenu_business_branch = '= ' + "'{}'".format(self.emenu_business_branch)
 
-                if self.is_new():
-                    main_emnu = frappe.db.sql("SELECT count(`name`) AS total FROM `tabPOS Menu` WHERE is_main_emenu = 1 and emenu_business_branch {}".format(filter_emenu_business_branch), as_dict=1)
-                    if main_emnu[0].total > 0:
-                        frappe.throw(_("Main eMenu has already."))
-                    
             if self.is_new():
                 if not self.background_image:
                     placeholder = "/assets/frappe/images/emenu_placeholder.jpg"
@@ -41,11 +32,6 @@ class POSMenu(NestedSet):
                 self.title_en = self.pos_menu_name_kh
                 if not self.title_kh:                   
                     self.title_kh = self.title_en
-              
-
-
-            if self.is_main_emenu and self.position_main_menu:
-                frappe.throw(_("Main eMenu cannot become sub menu of itselft."))
 
     def on_trash(self):
         if self.pos_menu_name_en == "Root Menu":
