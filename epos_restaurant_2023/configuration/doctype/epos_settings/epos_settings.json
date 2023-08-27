@@ -19,6 +19,11 @@
   "specific_business_branch",
   "specific_pos_profile",
   "number_of_day_cashier_can_view_report",
+  "number_and_currency_setting_tab",
+  "currency",
+  "exchange_rate_main_currency",
+  "column_break_wqic",
+  "second_currency",
   "emenu_tab",
   "emenu"
  ],
@@ -105,6 +110,33 @@
    "fieldname": "backend_port",
    "fieldtype": "Data",
    "label": "Backend Port"
+  },
+  {
+   "fieldname": "number_and_currency_setting_tab",
+   "fieldtype": "Tab Break",
+   "label": "Currency Setting"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Default Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "exchange_rate_main_currency",
+   "fieldtype": "Link",
+   "label": "Exchange Rate Main Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "column_break_wqic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "second_currency",
+   "fieldtype": "Link",
+   "label": "Second Currency",
+   "options": "Currency"
   }
  ],
  "image_field": "epos_logo",
@@ -112,7 +144,7 @@
  "issingle": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-08-21 13:48:54.990316",
+ "modified": "2023-08-27 14:23:09.090683",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "ePOS Settings",

@@ -211,6 +211,7 @@ fixtures = [
     {"dt": "Province"},
     # {"dt": "Outlet","filters": [["is_standard", "=", "1"]]},
     {"dt": "Numbers"},
+    {"dt": "Custom Field"},
     {"dt": "Predefine Data"},
     {"dt": "POS Translation","filters": [["is_standard", "=", "1"]]},
 ]

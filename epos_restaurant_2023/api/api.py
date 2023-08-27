@@ -84,7 +84,7 @@ def get_system_settings(pos_profile="", device_name=''):
             })
     
     #get currency
-    currencies = frappe.db.sql("select name,symbol,currency_precision,symbol_on_right,pos_currency_format from `tabCurrency` where enabled=1", as_dict=1)
+    currencies = frappe.db.sql("select name,symbol,custom_currency_precision,symbol_on_right,custom_pos_currency_format from `tabCurrency` where enabled=1", as_dict=1)
     
 
     #get price rule
@@ -110,11 +110,11 @@ def get_system_settings(pos_profile="", device_name=''):
         "main_currency_name":main_currency.name,
         "exchange_rate_main_currency":frappe.db.get_default("exchange_rate_main_currency"),
         "main_currency_symbol":main_currency.symbol,
-        "main_currency_format":main_currency.pos_currency_format,
+        "main_currency_format":main_currency.custom_pos_currency_format,
         "main_currency_precision":frappe.db.get_default("currency_precision"),
         "second_currency_name":second_currency.name,
         "second_currency_symbol":second_currency.symbol,
-        "second_currency_format":second_currency.pos_currency_format,
+        "second_currency_format":second_currency.custom_pos_currency_format,
         "tax_1_name":doc.tax_1_name,
         "tax_2_name":doc.tax_2_name,
         "tax_3_name":doc.tax_3_name,
@@ -166,7 +166,24 @@ def get_system_settings(pos_profile="", device_name=''):
     default_customer = frappe.get_doc("Customer", profile.default_customer)
     
     #get default print format
-    print_format = frappe.db.sql("select name,print_invoice_copies, print_receipt_copies,pos_invoice_file_name, pos_receipt_file_name, receipt_height, receipt_width,receipt_margin_top, receipt_margin_left,receipt_margin_right,receipt_margin_bottom  from `tabPrint Format` where doc_type='Sale' and show_in_pos=1 and disabled=0 and name='{}'".format(profile.default_pos_receipt), as_dict=True)
+    print_format_query = """"select 
+        name,
+        print_invoice_copies, 
+        print_receipt_copies,
+        pos_invoice_file_name, 
+        pos_receipt_file_name, 
+        receipt_height, 
+        receipt_width,
+        receipt_margin_top, 
+        receipt_margin_left,
+        receipt_margin_right,
+    receipt_margin_bottom  
+    from `tabPrint Format` 
+    where doc_type='Sale' 
+    and show_in_pos=1 
+    and disabled=0 and name='{}'""".format(profile.default_pos_receipt)
+
+    print_format = frappe.db.sql(print_format_query, as_dict=True)
     default_pos_receipt=None
     if print_format:
         default_pos_receipt = print_format[0]
