@@ -1,0 +1,105 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-08-27 17:39:38.172099",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "print_format",
+  "pos_invoice_file_name",
+  "pos_receipt_file_name",
+  "receipt_height",
+  "receipt_width",
+  "default_pos_receipt",
+  "column_break_ozip",
+  "receipt_margin_top",
+  "receipt_margin_right",
+  "receipt_margin_bottom",
+  "receipt_margin_left",
+  "print_receipt_copies",
+  "print_invoice_copies"
+ ],
+ "fields": [
+  {
+   "fieldname": "pos_invoice_file_name",
+   "fieldtype": "Data",
+   "label": "POS Invoice File Name"
+  },
+  {
+   "fieldname": "receipt_height",
+   "fieldtype": "Float",
+   "label": "Receipt Height"
+  },
+  {
+   "fieldname": "receipt_margin_top",
+   "fieldtype": "Float",
+   "label": "Receipt Margin Top"
+  },
+  {
+   "fieldname": "receipt_margin_left",
+   "fieldtype": "Float",
+   "label": "Receipt Margin Left"
+  },
+  {
+   "fieldname": "print_invoice_copies",
+   "fieldtype": "Int",
+   "label": "Print Invoice Copies",
+   "length": 1
+  },
+  {
+   "fieldname": "column_break_ozip",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pos_receipt_file_name",
+   "fieldtype": "Data",
+   "label": "POS Receipt File Name"
+  },
+  {
+   "fieldname": "receipt_width",
+   "fieldtype": "Float",
+   "label": "Receipt Width"
+  },
+  {
+   "fieldname": "receipt_margin_bottom",
+   "fieldtype": "Float",
+   "label": "Receipt Margin Bottom"
+  },
+  {
+   "fieldname": "receipt_margin_right",
+   "fieldtype": "Float",
+   "label": "Receipt Margin Right"
+  },
+  {
+   "fieldname": "print_receipt_copies",
+   "fieldtype": "Int",
+   "label": "Print Receipt Copies",
+   "length": 1
+  },
+  {
+   "fieldname": "print_format",
+   "fieldtype": "Link",
+   "label": "Print Format",
+   "options": "Print Format"
+  },
+  {
+   "default": "0",
+   "fieldname": "default_pos_receipt",
+   "fieldtype": "Check",
+   "label": "Default POS Receipt"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-08-27 17:53:29.442231",
+ "modified_by": "Administrator",
+ "module": "Configuration",
+ "name": "POS Receipt Setting",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

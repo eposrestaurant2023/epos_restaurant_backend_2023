@@ -177,7 +177,7 @@ def get_system_settings(pos_profile="", device_name=''):
         receipt_margin_top, 
         receipt_margin_left,
         receipt_margin_right,
-    receipt_margin_bottom  
+        receipt_margin_bottom  
     from `tabPrint Format` 
     where doc_type='Sale' 
     and show_in_pos=1 

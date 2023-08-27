@@ -214,6 +214,7 @@ fixtures = [
     {"dt": "Custom Field"},
     {"dt": "Predefine Data"},
     {"dt": "POS Translation","filters": [["is_standard", "=", "1"]]},
+    {"dt": "Website Theme","filters": [["name", "=", "ESTC Theme"]]},
 ]
 
 website_route_rules = [

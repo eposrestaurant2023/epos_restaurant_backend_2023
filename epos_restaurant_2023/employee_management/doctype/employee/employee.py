@@ -5,7 +5,8 @@ import frappe
 from frappe.model.document import Document
 
 class Employee(Document):
-	def on_update(self):
-		user_doc = frappe.get_doc("User", "admin@mail.com")
-		user_doc.new_password = "HelloWorld"
-		user_doc.save()
+    pass
+	# def on_update(self):
+	# 	user_doc = frappe.get_doc("User", "admin@mail.com")
+	# 	user_doc.new_password = "HelloWorld"
+	# 	user_doc.save()

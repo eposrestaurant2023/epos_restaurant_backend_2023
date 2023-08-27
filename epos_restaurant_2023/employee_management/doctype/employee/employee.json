@@ -24,6 +24,19 @@
   "column_break_12",
   "note",
   "photo",
+  "login_information_tab",
+  "allow_login",
+  "column_break_jbjg",
+  "section_break_hsfl",
+  "username",
+  "column_break_mrdf",
+  "password",
+  "section_break_lbun",
+  "allow_login_to_epos",
+  "role_profile",
+  "column_break_cbjy",
+  "allow_login_to_edoor",
+  "moduleprofile",
   "working_information_tab",
   "department",
   "position",
@@ -225,12 +238,79 @@
    "fieldname": "device_id",
    "fieldtype": "Data",
    "label": "Device ID"
+  },
+  {
+   "fieldname": "login_information_tab",
+   "fieldtype": "Tab Break",
+   "label": "Login Information"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_login",
+   "fieldtype": "Check",
+   "label": "Allow Login"
+  },
+  {
+   "fieldname": "column_break_jbjg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_hsfl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "label": "Username",
+   "mandatory_depends_on": "eval:doc.allow_login==1"
+  },
+  {
+   "fieldname": "column_break_mrdf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "label": "Password",
+   "mandatory_depends_on": "eval:doc.allow_login==1"
+  },
+  {
+   "fieldname": "section_break_lbun",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_login_to_epos",
+   "fieldtype": "Check",
+   "label": "Allow Login to ePOS"
+  },
+  {
+   "fieldname": "role_profile",
+   "fieldtype": "Link",
+   "label": "Role Profile",
+   "options": "Role Profile"
+  },
+  {
+   "fieldname": "column_break_cbjy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_login_to_edoor",
+   "fieldtype": "Check",
+   "label": "Allow Login to eDoor"
+  },
+  {
+   "fieldname": "moduleprofile",
+   "fieldtype": "Link",
+   "label": "ModuleProfile",
+   "options": "Module Profile"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-03 17:15:59.731607",
+ "modified": "2023-08-27 17:28:02.157044",
  "modified_by": "Administrator",
  "module": "Employee Management",
  "name": "Employee",

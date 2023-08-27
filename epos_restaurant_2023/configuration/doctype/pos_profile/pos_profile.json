@@ -30,9 +30,11 @@
   "pos_menus",
   "table_groups_section",
   "table_groups",
+  "section_break_16",
+  "receipt_setting",
   "default_payment_type",
   "second_currency_payment_type",
-  "section_break_16",
+  "section_break_lxjs",
   "default_customer",
   "default_pos_receipt"
  ],
@@ -136,13 +138,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "default_pos_receipt",
-   "fieldtype": "Link",
-   "label": "Default POS Receipt",
-   "options": "Print Format",
-   "reqd": 1
-  },
-  {
    "fieldname": "second_currency_payment_type",
    "fieldtype": "Link",
    "label": "Second Currency Payment Type",
@@ -203,11 +198,28 @@
    "fieldname": "is_edoor_profile",
    "fieldtype": "Check",
    "label": "Is eDoor Profile"
+  },
+  {
+   "fieldname": "section_break_lxjs",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "receipt_setting",
+   "fieldtype": "Table",
+   "label": "Receipt Setting",
+   "options": "POS Receipt Setting"
+  },
+  {
+   "fieldname": "default_pos_receipt",
+   "fieldtype": "Link",
+   "label": "Default POS Receipt",
+   "options": "Print Format",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-08-25 10:03:57.874298",
+ "modified": "2023-08-27 17:57:20.714283",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Profile",
