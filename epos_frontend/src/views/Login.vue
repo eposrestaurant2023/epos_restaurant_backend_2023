@@ -95,6 +95,8 @@
 
                 })">{{ $i18n.locale=="en"?"ខ្មែរ":"English" }}</v-btn>
               </div> 
+
+              
               <div class="mt-4 text-center">
                 <p class="text-sm text-green-700">{{ setting?.pos_profile }}</p>
               </div> 
