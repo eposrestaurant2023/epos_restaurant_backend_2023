@@ -166,7 +166,7 @@ def get_system_settings(pos_profile="", device_name=''):
     default_customer = frappe.get_doc("Customer", profile.default_customer)
     
     #get default print format
-    print_format_query = """"select 
+    print_format_query = """select 
         name,
         print_invoice_copies, 
         print_receipt_copies,
@@ -182,8 +182,9 @@ def get_system_settings(pos_profile="", device_name=''):
     where doc_type='Sale' 
     and show_in_pos=1 
     and disabled=0 and name='{}'""".format(profile.default_pos_receipt)
+    print_format = frappe.db.sql(print_format_query, as_dict=1)
+  
 
-    print_format = frappe.db.sql(print_format_query, as_dict=True)
     default_pos_receipt=None
     if print_format:
         default_pos_receipt = print_format[0]
