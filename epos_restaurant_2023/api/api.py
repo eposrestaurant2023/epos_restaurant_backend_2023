@@ -84,7 +84,7 @@ def get_system_settings(pos_profile="", device_name=''):
             })
     
     #get currency
-    currencies = frappe.db.sql("select name,symbol,custom_currency_precision,symbol_on_right,custom_pos_currency_format from `tabCurrency` where enabled=1", as_dict=1)
+    currencies = frappe.db.sql("select name,symbol,currency_precision ,symbol_on_right,pos_currency_format from `tabCurrency` where enabled=1", as_dict=1)
     
 
     #get price rule
