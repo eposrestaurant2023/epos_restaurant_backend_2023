@@ -127,7 +127,7 @@ export default class Sale {
             discount: 0,
             sub_total: 0,
             payment: [],
-            posting_date: moment(new Date()).format('yyyy-MM-DD'),
+            // posting_date: moment(new Date()).format('yyyy-MM-DD'),
             commission_type: "Percent",
             commission: 0,
             commission_note: '',
