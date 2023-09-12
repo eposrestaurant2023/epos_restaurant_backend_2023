@@ -76,7 +76,7 @@
   
 <script setup>
 
-import { inject, ref, computed, onUnmounted, createDocumentResource, useRouter, createResource, confirm,smallViewSaleProductListModal } from '@/plugin';
+import { inject, ref, computed, onUnmounted, createDocumentResource, useRouter, createResource, confirm,smallViewSaleProductListModal,i18n } from '@/plugin';
 import ComLoadingDialog from '@/components/ComLoadingDialog.vue';
 import { useDisplay } from 'vuetify';
 const { mobile } = useDisplay();
@@ -87,6 +87,7 @@ const tableLayout = inject("$tableLayout");
 const socket = inject("$socket");
 const emit = defineEmits(["resolve"])
 const triggerPrint = ref(0);
+const { t: $t } = i18n.global;  
 const serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + gv.setting.pos_setting.backend_port;
 
 

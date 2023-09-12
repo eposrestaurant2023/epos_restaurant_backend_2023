@@ -36,6 +36,7 @@
   "print_waiting_order_after_submit_order",
   "print_new_deleted_sale_product",
   "check_delete_item_require_passord_from_product",
+  "show_button_tip",
   "number_of_day_cashier_can_view_report",
   "close_business_day_on",
   "alert_close_working_day_after",
@@ -539,12 +540,18 @@
    "fieldname": "check_delete_item_require_passord_from_product",
    "fieldtype": "Check",
    "label": "Check delete item required password from product management "
+  },
+  {
+   "default": "0",
+   "fieldname": "show_button_tip",
+   "fieldtype": "Check",
+   "label": " Show Button Tip"
   }
  ],
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-08-07 08:51:02.362741",
+ "modified": "2023-09-12 13:50:05.686202",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "POS Config",

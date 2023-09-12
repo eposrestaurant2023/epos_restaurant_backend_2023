@@ -52,6 +52,7 @@
   "total_discount",
   "discount_note",
   "total_tax",
+  "tip_amount",
   "column_break_10",
   "grand_total",
   "total_fee",
@@ -808,6 +809,12 @@
    "in_list_view": 1,
    "label": "Total Paid",
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "tip_amount",
+   "fieldtype": "Currency",
+   "label": "Tip Amount"
   }
  ],
  "image_field": "photo",
@@ -820,7 +827,7 @@
    "link_fieldname": "sale"
   }
  ],
- "modified": "2023-09-06 15:42:47.294236",
+ "modified": "2023-09-12 13:47:30.070054",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Sale",

@@ -212,7 +212,7 @@ function onChangeQuantityPressed(){
         return;
     }  
     let sp = validate.sale_product;
-    const quantity = validate.inupt<=0?1:validate.inupt;;
+    let quantity = validate.inupt<=0?1:validate.inupt;;
     
 
     if (sale.setting.pos_setting.allow_change_quantity_after_submit == 1 || sp.sale_product_status == "New") {
