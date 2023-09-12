@@ -22,7 +22,7 @@
         <div class="mb-1 flex justify-between" v-if="sale.sale.total_paid > 0">
             <div>{{ $t('Total Payment') }}:</div>
             <div>
-                <CurrencyFormat :value="(sale.sale.total_paid + (sale.sale.total_fee ||0))" />
+                <CurrencyFormat :value="(sale.sale.total_paid + (sale.sale.total_fee ||0) + (sale.sale.tip_amount ||0) )" />
             </div>
         </div>
         
