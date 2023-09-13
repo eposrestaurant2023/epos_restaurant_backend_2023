@@ -47,7 +47,8 @@
                 </v-col>
                 <v-col class="!p-0" cols="12" md="4">
                     <div  v-if="gv.setting.show_button_tip==1" class="border rounded-sm px-2 py-4 text-center cursor-pointer bg-orange-100 hover:bg-orange-300 flex justify-center items-center m-1" @click="onTipPressed">
-                         <span>{{ $t('TIP') }}</span>
+                         <span v-if="sale.sale.tip_amount<=0">{{ $t('TIP') }}</span>
+                         <span v-else>{{ $t('Remove TIP') }}</span>
                     </div>
                 </v-col>
                 <v-col class="!p-0" cols="12" md="4">
@@ -125,12 +126,17 @@ function onClose() {
     emit("resolve", false);
 }
 function onTipPressed(){ 
-    if(parseFloat(sale.paymentInputNumber)>0){
-        sale.sale.tip_amount = parseFloat(sale.paymentInputNumber);
-    }   
+    if( sale.sale.tip_amount>0){
+        sale.sale.tip_amount = 0;
+    }
     else{
-        toaster.warning($t('msg.Please input amount for TIP'));
-    }  
+        if(parseFloat(sale.paymentInputNumber)>0){
+            sale.sale.tip_amount = parseFloat(sale.paymentInputNumber);
+        }   
+        else{
+            toaster.warning($t('msg.Please input amount for TIP'));
+        }  
+    }
 }
 
 async function onPayment() {
