@@ -120,11 +120,13 @@ onMounted(() => {
 })
 
 function onClose() {    
-    sale.sale.total_paid = backup.value.total_paid
-    sale.sale.balance = backup.value.balance
-    sale.sale.changed_amount = backup.value.changed_amount
+    sale.sale.total_paid = backup.value.total_paid;
+    sale.sale.balance = backup.value.balance;
+    sale.sale.changed_amount = backup.value.changed_amount;
+    sale.sale.tip_amount = 0;
     emit("resolve", false);
 }
+
 function onTipPressed(){ 
     if( sale.sale.tip_amount>0){
         sale.sale.tip_amount = 0;
