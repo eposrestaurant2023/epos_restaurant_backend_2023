@@ -181,7 +181,7 @@ async function onPrint() {
     }
     if (localStorage.getItem("is_window") == "1") {
         if (activeReport.value.pos_receipt_file_name != "" && activeReport.value.pos_receipt_file_name != null) {
-            if (await confirm({ title: 'Print Receipt', text: 'Are you sure you want to price receipt?' })) {
+            if (await confirm({ title:$t("Print Receipt"), text: $t("msg.Are you sure to print receipt") })) {
                 window.chrome.webview.postMessage(JSON.stringify(data));
             }
             return;
@@ -359,8 +359,7 @@ const reportClickHandler = async function (e) {
 };
 
 function onPrintFormat(report) {
-    activeReport.value.name = report.name;
-    activeReport.value.print_report_name = report.print_report_name || report.name
+    activeReport.value = report;
     onRefresh()
 
 }
