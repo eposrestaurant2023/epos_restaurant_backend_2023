@@ -180,21 +180,27 @@ async function onPrint() {
         sale: sale.doc
     }
     if (localStorage.getItem("is_window") == "1") {
-
         if (activeReport.value.pos_receipt_file_name != "" && activeReport.value.pos_receipt_file_name != null) {
             if (await confirm({ title: 'Print Receipt', text: 'Are you sure you want to price receipt?' })) {
                 window.chrome.webview.postMessage(JSON.stringify(data));
             }
             return;
         }
+        else{
+            window.open(printPreviewUrl.value + "&trigger_print=1").print();
+            window.close();
+        }
+
     } else {
         if (activeReport.value.pos_receipt_file_name != "" && activeReport.value.pos_receipt_file_name != null) {
             socket.emit('PrintReceipt', JSON.stringify(data));
             return;
         }
+        else{
+            window.open(printPreviewUrl.value + "&trigger_print=1").print();
+            window.close();
+        }
     }
-    window.open(printPreviewUrl.value + "&trigger_print=1").print();
-    window.close();
 }
 
 function onOpenOrder() {
