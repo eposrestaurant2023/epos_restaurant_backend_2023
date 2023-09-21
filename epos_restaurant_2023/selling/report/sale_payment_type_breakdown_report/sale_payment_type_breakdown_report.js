@@ -103,7 +103,7 @@ frappe.query_reports["Sale Payment Type Breakdown Report"] = {
 			"fieldname": "column_group",
 			"label": __("Column Group By"),
 			"fieldtype": "Select",
-			"options": "Payment Type\nPayment Type Group\nCurrency",
+			"options": "Payment Type\nPayment Type Group",
 			"default":"Payment Type"
 		},
 		{
