@@ -10,10 +10,10 @@ from frappe.utils.data import fmt_money
 from py_linq import Enumerable
 from frappe.model.document import Document
 import datetime
-
+from decimal import Decimal
 class Sale(Document):
 	def validate(self):
- 
+		 
 		if not frappe.db.get_default('exchange_rate_main_currency'):
 			frappe.throw('Main Exchange Currency not yet config. Please contact to system administrator for solve')
 
@@ -151,10 +151,10 @@ class Sale(Document):
 	
 		self.balance = round(self.grand_total  , int(currency_precision))-  round((self.total_paid or 0)  , int(currency_precision))
 		#self.balance =self.grand_total -(self.total_paid or 0) 
-		
+
 		if self.pos_profile:
 			self.changed_amount = self.total_paid - self.grand_total
-			if self.changed_amount< 0:
+			if round(self.changed_amount,int(currency_precision)) <= generate_decimal(int(currency_precision)):
 				self.changed_amount = 0
 
 		if self.balance<0:
@@ -219,6 +219,9 @@ class Sale(Document):
 		frappe.enqueue("epos_restaurant_2023.selling.doctype.sale.sale.update_inventory_on_cancel", queue='short', self=self)
 
 
+
+def generate_decimal(precision: int) -> Decimal:
+    return Decimal('0.1') ** precision
 
 def update_inventory_on_submit(self):
 	cost = 0 
