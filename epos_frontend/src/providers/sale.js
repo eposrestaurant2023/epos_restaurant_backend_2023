@@ -243,8 +243,9 @@ export default class Sale {
             this.updateSaleProduct(sp);
         } else {
             this.clearSelected();
-            let tax_rule ="";   
-            if((p.tax_rule||"")==""){
+            let tax_rule ="";  
+            
+            if((p.tax_rule||"")=="" || p.tax_rule == "None"){
                 if(this.sale.name==undefined){
                     tax_rule = JSON.parse(JSON.stringify(this.setting.tax_rule)) ;
                 }
@@ -266,7 +267,7 @@ export default class Sale {
             }
             else{
                 tax_rule = JSON.parse(p.tax_rule_data);
-            }            
+            }          
 
             const make_order_auth = JSON.parse(localStorage.getItem('make_order_auth'));
             const now = new Date();
@@ -311,7 +312,7 @@ export default class Sale {
                 use_combo_group: p.use_combo_group,
                 combo_menu: p.combo_menu,
                 combo_menu_data: (p.combo_menu_data || p.combo_group_data),
-                product_tax_rule: p.tax_rule,
+                product_tax_rule: (p.tax_rule=="None"?"":p.tax_rule),
                 is_require_employee:p.is_require_employee
             }       
             
