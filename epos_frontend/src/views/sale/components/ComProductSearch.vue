@@ -9,6 +9,7 @@
                 prepend-inner-icon="mdi-magnify"
                 v-model="product.searchProductKeywordStore"
                 v-debounce="onSearch"
+                @onInput="onSearch"
                 @keydown="onKeyDown"
                 :ref="control"
                 />
