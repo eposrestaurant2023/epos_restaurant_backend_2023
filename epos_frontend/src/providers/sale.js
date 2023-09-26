@@ -392,21 +392,21 @@ export default class Sale {
 
     //on sale product apply tax setting
     onSaleProductApplyTax(tax_rule, sp){
-        sp.tax_rule = tax_rule.name||"";
-        sp.tax_1_rate = tax_rule.tax_1_rate||0;
-        sp.percentage_of_price_to_calculate_tax_1 = tax_rule.percentage_of_price_to_calculate_tax_1||100;
-        sp.calculate_tax_1_after_discount = tax_rule.calculate_tax_1_after_discount||false;
+        sp.tax_rule = tax_rule?.name||"";
+        sp.tax_1_rate = tax_rule?.tax_1_rate||0;
+        sp.percentage_of_price_to_calculate_tax_1 = tax_rule?.percentage_of_price_to_calculate_tax_1||100;
+        sp.calculate_tax_1_after_discount = tax_rule?.calculate_tax_1_after_discount||false;
 
-        sp.tax_2_rate = tax_rule.tax_2_rate||0;
-        sp.percentage_of_price_to_calculate_tax_2 = tax_rule.percentage_of_price_to_calculate_tax_2||100;
-        sp.calculate_tax_2_after_discount = tax_rule.calculate_tax_2_after_discount||false;
-        sp.calculate_tax_2_after_adding_tax_1 = tax_rule.calculate_tax_2_after_adding_tax_1||false;
+        sp.tax_2_rate = tax_rule?.tax_2_rate||0;
+        sp.percentage_of_price_to_calculate_tax_2 = tax_rule?.percentage_of_price_to_calculate_tax_2||100;
+        sp.calculate_tax_2_after_discount = tax_rule?.calculate_tax_2_after_discount||false;
+        sp.calculate_tax_2_after_adding_tax_1 = tax_rule?.calculate_tax_2_after_adding_tax_1||false;
 
-        sp.tax_3_rate = tax_rule.tax_3_rate||0;
-        sp.percentage_of_price_to_calculate_tax_3 = tax_rule.percentage_of_price_to_calculate_tax_3||100;
-        sp.calculate_tax_3_after_discount = tax_rule.calculate_tax_3_after_discount||false;
-        sp.calculate_tax_3_after_adding_tax_1 = tax_rule.calculate_tax_3_after_adding_tax_1||false;
-        sp.calculate_tax_3_after_adding_tax_2 = tax_rule.calculate_tax_3_after_adding_tax_2||false;
+        sp.tax_3_rate = tax_rule?.tax_3_rate||0;
+        sp.percentage_of_price_to_calculate_tax_3 = tax_rule?.percentage_of_price_to_calculate_tax_3||100;
+        sp.calculate_tax_3_after_discount = tax_rule?.calculate_tax_3_after_discount||false;
+        sp.calculate_tax_3_after_adding_tax_1 = tax_rule?.calculate_tax_3_after_adding_tax_1||false;
+        sp.calculate_tax_3_after_adding_tax_2 = tax_rule?.calculate_tax_3_after_adding_tax_2||false;
         this.updateSaleProduct(sp);
     }
 
