@@ -1,11 +1,6 @@
 {
- "charts": [
-  {
-   "chart_name": "Purchase Order Trend",
-   "label": "Purchase Order Trend"
-  }
- ],
- "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Purchasing</b></span>\",\"col\":12}},{\"type\":\"chart\",\"data\":{\"chart_name\":\"Purchase Order Trend\",\"col\":12}},{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Your Shortcut</b></span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order Payment\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Vendor\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Product\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Purchase Order\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Purchase Order Payment\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dashboard\",\"col\":3}},{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Recent Transaction</b></span>\",\"col\":12}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Recent Purchase Order\",\"col\":6}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Recent Payment\",\"col\":6}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Vendor\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Products\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Report\",\"col\":4}}]",
+ "charts": [],
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Purchasing</b></span>\",\"col\":12}},{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Your Shortcut</b></span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order Payment\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Vendor\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Product\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Purchase Order\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Purchase Order Payment\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dashboard\",\"col\":3}},{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Recent Transaction</b></span>\",\"col\":12}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Recent Purchase Order\",\"col\":6}},{\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Recent Payment\",\"col\":6}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Vendor\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Products\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Report\",\"col\":4}}]",
  "creation": "2022-12-03 16:46:43.868577",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -30,44 +25,6 @@
    "link_count": 0,
    "link_to": "Vendor",
    "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Report",
-   "link_count": 3,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Purchase Order Transaction",
-   "link_count": 0,
-   "link_to": "Purchase Order",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Purchase Order Summary",
-   "link_count": 0,
-   "link_to": "Purchase Order Summary Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Daily PO Payment Transaction",
-   "link_count": 0,
-   "link_to": "Daily PO Payment Transaction",
-   "link_type": "Report",
    "onboard": 0,
    "type": "Link"
   },
@@ -138,9 +95,67 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Report",
+   "link_count": 5,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Purchase Order Transaction",
+   "link_count": 0,
+   "link_to": "Purchase Order",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Purchase Order Summary",
+   "link_count": 0,
+   "link_to": "Purchase Order Summary Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Daily PO Payment Transaction",
+   "link_count": 0,
+   "link_to": "Daily PO Payment Transaction",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Vendor Balance Detail Report",
+   "link_count": 0,
+   "link_to": "Vendor Balance Detail Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Purchase Order Credit Balance Report",
+   "link_count": 0,
+   "link_to": "Purchase Order Credit Balance Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-08-18 16:01:17.123923",
+ "modified": "2023-09-30 10:00:47.509946",
  "modified_by": "Administrator",
  "module": "Purchasing",
  "name": "Purchasing",
