@@ -88,25 +88,40 @@ def get_opening_balance(filters):
 	return frappe.db.sql(sql,as_dict=1)
 
 def get_current_transaction(filters):
-	 
+	condition = "where docstatus=1  and posting_date between %(start_date)s and %(end_date)s"
+	if filters.get("vendor"):
+		condition += "and vendor in %(vendor)s"
 	sql = """
-			 
-				select vendor, concat(vendor, '-',vendor_name) as vendor_name, name as transaction_number, referance as reference_number,posting_date as transaction_date, 'Purchase' as transaction_type, 0 as begining_balance,grand_total as operation_balance, 0 as last_balance from `tabPurchase Order` where docstatus=1  and posting_date between '{0}' and '{1}'
+				select 
+					vendor, 
+					concat(vendor, '-',vendor_name) as vendor_name,
+					name as transaction_number,
+					referance as reference_number,
+					posting_date as transaction_date,
+					'Purchase' as transaction_type, 
+					0 as begining_balance,
+					grand_total as operation_balance,
+					0 as last_balance 
+					from `tabPurchase Order`
+						{0}
 				union
-				select vendor, concat(vendor, '-',vendor_name) as vendor_name, name as transaction_number, referance as reference_number,posting_date as transaction_date, 'Payment' as transaction_type, 0 as begining_balance,payment_amount * -1 as operation_balance, 0 as last_balance from `tabPurchase Order Payment` where docstatus=1  and posting_date between '{0}' and '{1}'
-		 
-		""".format(filters.start_date, filters.end_date)
+				select 
+					vendor,
+					concat(vendor, '-',vendor_name) as vendor_name,
+					name as transaction_number,
+					referance as reference_number,
+					posting_date as transaction_date,
+					'Payment' as transaction_type,
+					0 as begining_balance,
+					payment_amount * -1 as operation_balance,
+					0 as last_balance 
+					from `tabPurchase Order Payment`
+						{0}
+		""".format(condition)
 	
 	data = frappe.db.sql(sql,filters, as_dict=1)
 
-
-
 	return data
-
-
-
-
-
 
 def columns():
 	return  [
