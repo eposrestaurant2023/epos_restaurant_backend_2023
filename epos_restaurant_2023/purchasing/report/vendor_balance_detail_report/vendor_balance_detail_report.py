@@ -90,7 +90,7 @@ def get_opening_balance(filters):
 def get_current_transaction(filters):
 	condition = "where docstatus=1  and posting_date between %(start_date)s and %(end_date)s"
 	if filters.get("vendor"):
-		condition += "and vendor in %(vendor)s"
+		condition += " and vendor in %(vendor)s"
 	sql = """
 				select 
 					vendor, 
@@ -118,7 +118,6 @@ def get_current_transaction(filters):
 					from `tabPurchase Order Payment`
 						{0}
 		""".format(condition)
-	
 	data = frappe.db.sql(sql,filters, as_dict=1)
 
 	return data
