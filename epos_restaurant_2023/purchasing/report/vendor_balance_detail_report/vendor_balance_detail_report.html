@@ -1,0 +1,86 @@
+
+<img src="file:///C:/Drive%20D/Support_Customer/Banteay%20Sora/Logo%20Official_Banteysoray-01.jpg">
+<h1 style="text-align: center">Banteay Sora 5.0</h1>
+<p style="text-align: center;font-size: 22px;">Vendor Balance Detail Report</p>
+<h5>
+    {% 
+        if (filters.business_branch != "") { %}
+        <span class="text-right text-muted">
+            Branch:
+        </span>
+             {%= filters.business_branch %}
+        {% }
+    %}
+    {% 
+        if (filters.vendor != "") { %}
+        <span class="text-right text-muted">
+            Vendor:
+        </span>
+             {%= filters.vendor %}
+        {% }
+    %}
+    {% 
+        if (filters.start_date != "") { %}
+        <span class="text-right text-muted">
+            Date:
+        </span>
+        {%= filters.start_date  %} to {%= filters.end_date %}
+        {% }
+    %}
+</h5>
+<hr/>
+<div style="text-align: center; margin-bottom: 20px;">
+<table class="report-list" style="width: 100%;">
+    <thead>
+        <tr style="border-bottom: solid 1px black!important; background-color: rgb(216, 216, 216); font-size: 13px;">
+            {% for c in report.columns %}
+                <th class="text-{{c.align }}">{{ __(c.label) }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for d in data %}
+        <tr>
+
+            {% for c in report.columns %}
+                {% if 0 < 1 %}
+                <td style="font-weight: bold; font-size: 11px; padding-left: 15px !important;">
+                        {{d[c.fieldname]}}
+                </td>
+                {% else %}
+                <td>
+                    {{d[c.fieldname]}}
+                </td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+
+<div style="display: grid;grid-template-columns: auto auto auto;padding-top: 50px;">
+    <div style="padding: 20px;font-size: 18px;text-align: center;">Prepared By</div>
+    <div style="padding: 20px;font-size: 18px;text-align: center;">Checked By</div>
+    <div style="padding: 20px;font-size: 18px;text-align: center;">Approved By</div>
+    <div style="padding: 20px;font-size: 18px;text-align: center;">..................</div>
+    <div style="padding: 20px;font-size: 18px;text-align: center;">..................</div>
+    <div style="padding: 20px;font-size: 18px;text-align: center;">..................</div>
+  </div>
+
+<p class="text-right text-muted">
+    Printed by: {%= frappe.user.name%} on {%= frappe.datetime.str_to_user(frappe.datetime.get_datetime_as_string()) %} 
+</p>
+
+<style media="print">
+    .print-format {
+        padding: 2mm;
+        font-size: 8.0pt !important;
+    }
+    .print-format .table-bordered td, .print-format .table-bordered th{
+        border: 1px solid #c3c3c3!important;
+    }
+    .report-title{
+        font-weight: 600!important;
+    }   
+</style>

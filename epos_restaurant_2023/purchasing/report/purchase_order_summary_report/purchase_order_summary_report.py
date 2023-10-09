@@ -379,7 +379,7 @@ def get_row_groups():
 			"parent_row_group_filter_field":"row_group"
 		},
   		{
-			"fieldname":"a.product_code",
+			"fieldname":"concat(a.product_code,'-',a.product_name)",
 			"label":"Product",
 			"parent_row_group_filter_field":"row_group"
 		},

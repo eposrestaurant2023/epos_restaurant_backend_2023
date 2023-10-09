@@ -5,8 +5,8 @@ import frappe
 
 
 def execute(filters=None):
-	 
-	return columns(), get_report_data(filters)
+	 	
+	return columns(), get_report_data(filters),None,None,None,0
 
 
 def get_vendor(opening_data, current_transaction_data):
@@ -75,17 +75,19 @@ def get_report_data(filters):
 
 
 def get_opening_balance(filters):
-	 
+	condition = ""
+	if filters.get("vendor"):
+		condition += " and vendor in %(vendor)s"
 	sql = """
 			with a as (
-				select vendor, concat(vendor, '-',vendor_name) as vendor_name ,sum(grand_total) as amount   from `tabPurchase Order` where docstatus=1 and  posting_date < '{0}'    GROUP by vendor,vendor_name
+				select vendor, concat(vendor, '-',vendor_name) as vendor_name ,sum(grand_total) as amount   from `tabPurchase Order` where docstatus=1 and  posting_date < '{0}' {1} GROUP by vendor,vendor_name
 				union all 
-				select vendor,concat(vendor, '-',vendor_name) as vendor_name,sum(payment_amount*-1) as amount   from `tabPurchase Order Payment` where docstatus=1 and posting_date < '{0}'    group by vendor,vendor_name
+				select vendor,concat(vendor, '-',vendor_name) as vendor_name,sum(payment_amount*-1) as amount   from `tabPurchase Order Payment` where docstatus=1 and posting_date < '{0}' {1} group by vendor,vendor_name
 			)
 			select vendor,vendor_name, sum(amount) as amount from a group by vendor,vendor_name 
 			
-		""".format(filters.start_date)
-	return frappe.db.sql(sql,as_dict=1)
+		""".format(filters.start_date,condition)
+	return frappe.db.sql(sql,filters,as_dict=1)
 
 def get_current_transaction(filters):
 	condition = "where docstatus=1  and posting_date between %(start_date)s and %(end_date)s"
@@ -124,7 +126,6 @@ def get_current_transaction(filters):
 
 def columns():
 	return  [
-		 
 		{"fieldname":"transaction_number","label":"Transaction #","width":250 },
 		{"fieldname":"reference_number", "label":"Ref. #" },
 		{"fieldname":"transaction_date", "label":"Date","fieldtype":"Date","width": 120},

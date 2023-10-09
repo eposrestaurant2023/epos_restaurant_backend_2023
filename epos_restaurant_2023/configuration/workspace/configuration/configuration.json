@@ -483,7 +483,7 @@
    "type": "Link"
   }
  ],
- "modified": "2023-08-18 16:28:58.196114",
+ "modified": "2023-10-08 15:25:36.697656",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Configuration",
@@ -492,7 +492,7 @@
  "public": 1,
  "quick_lists": [],
  "roles": [],
- "sequence_id": 10.0,
+ "sequence_id": 6.0,
  "shortcuts": [],
  "title": "Configuration"
 }
