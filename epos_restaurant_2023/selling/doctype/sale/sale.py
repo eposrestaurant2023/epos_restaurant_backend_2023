@@ -150,7 +150,7 @@ class Sale(Document):
 
 	
 		self.balance = round(self.grand_total  , int(currency_precision))-  round((self.total_paid or 0)  , int(currency_precision))
-		#self.balance =self.grand_total -(self.total_paid or 0) 
+	
 
 		if self.pos_profile:
 			self.changed_amount = self.total_paid - self.grand_total

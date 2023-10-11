@@ -130,8 +130,9 @@ def columns():
 		{"fieldname":"reference_number", "label":"Ref. #" },
 		{"fieldname":"transaction_date", "label":"Date","fieldtype":"Date","width": 120},
 		{"fieldname":"transaction_type", "label":"Transaction Type" },
-		{"fieldname":"begining_balance", "label":"Begining Balance","fieldtype":"Currency"},
+		{"fieldname":"begining_balance", "label":"Beginning Balance","fieldtype":"Currency"},
 		{"fieldname":"operation_balance", "label":"Operation Balance","fieldtype":"Currency"},
 		{"fieldname":"last_balance", "label":"Last Balance","fieldtype":"Currency"},
 
 	]
+

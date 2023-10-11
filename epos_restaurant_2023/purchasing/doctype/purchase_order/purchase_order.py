@@ -8,6 +8,8 @@ import frappe
 from frappe import _
 from py_linq import Enumerable
 from frappe.model.document import Document
+from decimal import Decimal
+
 
 class PurchaseOrder(Document):
 	def validate(self):
@@ -30,9 +32,15 @@ class PurchaseOrder(Document):
 		self.product_discount = Enumerable(self.purchase_order_products).sum(lambda x: x.discount_amount)
 		self.total_discount = (self.product_discount or 0) + (self.po_discount or 0)
 		self.grand_total =( sub_total - (self.total_discount or 0))
-		self.balance = self.grand_total  - (self.total_paid or 0)
-		if self.balance == 0:
-			frappe.throw("Total amount is 0")
+
+		currency_precision = frappe.db.get_single_value('System Settings', 'currency_precision')
+		if currency_precision=='':
+			currency_precision = "2"
+
+		self.balance = round(self.grand_total  , int(currency_precision))-  round((self.total_paid or 0)  , int(currency_precision))
+
+		if self.balance<0:
+			self.balance = 0
 
 	def on_submit(self):
 		#update_inventory_on_submit(self)

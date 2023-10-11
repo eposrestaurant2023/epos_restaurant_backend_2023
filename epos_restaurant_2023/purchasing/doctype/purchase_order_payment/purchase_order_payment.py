@@ -4,6 +4,7 @@
 import frappe
 from frappe import _
 from frappe.model.document import Document
+from decimal import Decimal
 
 class PurchaseOrderPayment(Document):
 	def validate(self):
@@ -22,7 +23,14 @@ class PurchaseOrderPayment(Document):
 			frappe.throw("This purchase order is not submitted yet")
 
 		#check paid amount cannot over balance
-		if self.payment_amount > self.balance:
+		currency_precision = frappe.db.get_single_value('System Settings', 'currency_precision')
+		if currency_precision=='':
+			currency_precision = "2"
+
+		balance =  round(self.payment_amount  , int(currency_precision))-  round((self.balance or 0)  , int(currency_precision))
+		if balance<0:
+			balance = 0
+		if balance  > 0:
 			frappe.throw("Payment amount cannot greater than purchase balance")
 
 	def on_submit(self):

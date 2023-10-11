@@ -28,47 +28,91 @@
         {% }
     %}
 </h5>
+
+<h1>
+    {% d = frappe.db.get_single_value('Currency', 'currency_name') %}
+    {%console.log(d)%}
+</h1>
 <hr/>
-<div style="text-align: center; margin-bottom: 20px;">
+<div style="text-align: center; margin-bottom: 14px;">
 <table class="report-list" style="width: 100%;">
     <thead>
-        <tr style="border-bottom: solid 1px black!important; background-color: rgb(216, 216, 216); font-size: 13px;">
-            {% for c in report.columns %}
-                <th class="text-{{c.align }}">{{ __(c.label) }}</th>
-            {% endfor %}
+        <tr style="border-bottom: solid 1px black!important; background-color: rgb(216, 216, 216); font-size: 16px;">
+            <th class="text-left">{%= __("Transaction #") %}</th>
+            <th class="text-left">{%= __("Ref. #") %}</th>
+            <th class="text-center">{%= __("Date") %}</th>
+            <th class="text-center">{%= __("Transaction Type") %}</th>
+            <th class="text-right">{%= __("Beginning Balance") %}</th>
+            <th class="text-right">{%= __("Operation Balance") %}</th>
+            <th class="text-right">{%= __("Last Balance") %}</th>
         </tr>
     </thead>
     <tbody>
-
-        {% for d in data %}
-        <tr>
-
-            {% for c in report.columns %}
-                {% if 0 < 1 %}
-                <td style="font-weight: bold; font-size: 11px; padding-left: 15px !important;">
-                        {{d[c.fieldname]}}
-                </td>
+        {% for d in data%}
+            <tr>
+                {% if d.indent == 0%}
+                    <td class="text-left" style="font-weight: bold; font-size: 14px; padding-left: 14px !important;">
+                        {{d.transaction_number}}
+                    </td>
                 {% else %}
-                <td>
-                    {{d[c.fieldname]}}
-                </td>
+                    <td class="text-left" style="font-size: 14px; padding-left: 30px !important;">
+                        {{d.transaction_number}}
+                    </td>
                 {% endif %}
-            {% endfor %}
-        </tr>
-        {%endfor%}
+                <td class="text-left" style="font-size: 14px; padding-left: 14px !important;">
+                    {{d.reference_number}}
+                </td>
+                <td class="text-center" style="font-size: 14px; padding-left: 14px !important;">
+                    {{d.transaction_date}}
+                </td>
+                <td class="text-center" style="font-size: 14px; padding-left: 14px !important;">
+                    {{d.transaction_type}}
+                </td>
+
+                {% if d.indent == 0%}
+                    <td class="text-right" style="font-weight: bold;font-size: 14px; padding-left: 14px !important;">
+                        {{d.begining_balance}}
+                    </td>
+                {% else %}
+                    <td class="text-right" style="font-size: 14px; padding-left: 14px !important;">
+                        {{d.begining_balance}}
+                    </td>
+                {% endif %}
+
+                {% if d.indent == 0%}
+                    <td class="text-right" style="font-weight: bold;font-size: 14px; padding-left: 14px !important;">
+                        {{d.operation_balance}}
+                    </td>
+                {% else %}
+                    <td class="text-right" style="font-size: 14px; padding-left: 14px !important;">
+                        {{d.operation_balance}}
+                    </td>
+                {% endif %}
+                
+                {% if d.indent == 0%}
+                    <td class="text-right" style="font-weight: bold;font-size: 14px; padding-left: 14px !important;">
+                        {{d.last_balance}}
+                    </td>
+                {% else %}
+                    <td class="text-right" style="font-size: 14px; padding-left: 14px !important;">
+                        {{d.last_balance}}
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
     </tbody>
 </table>
 
 <div style="display: grid;grid-template-columns: auto auto auto;padding-top: 50px;">
-    <div style="padding: 20px;font-size: 18px;text-align: center;">Prepared By</div>
-    <div style="padding: 20px;font-size: 18px;text-align: center;">Checked By</div>
-    <div style="padding: 20px;font-size: 18px;text-align: center;">Approved By</div>
-    <div style="padding: 20px;font-size: 18px;text-align: center;">..................</div>
-    <div style="padding: 20px;font-size: 18px;text-align: center;">..................</div>
-    <div style="padding: 20px;font-size: 18px;text-align: center;">..................</div>
+    <div style="padding: 14px;font-size: 18px;text-align: center;">Prepared By</div>
+    <div style="padding: 14px;font-size: 18px;text-align: center;">Checked By</div>
+    <div style="padding: 14px;font-size: 18px;text-align: center;">Approved By</div>
+    <div style="padding: 14px;font-size: 18px;text-align: center;">..................</div>
+    <div style="padding: 14px;font-size: 18px;text-align: center;">..................</div>
+    <div style="padding: 14px;font-size: 18px;text-align: center;">..................</div>
   </div>
 
-<p class="text-right text-muted">
+<p style="font-size: 13px;" class="text-right text-muted">
     Printed by: {%= frappe.user.name%} on {%= frappe.datetime.str_to_user(frappe.datetime.get_datetime_as_string()) %} 
 </p>
 
