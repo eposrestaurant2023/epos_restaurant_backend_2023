@@ -48,20 +48,21 @@ class Sale(Document):
 
 		if self.discount_type =="Percent" and self.discount> 100:
 			frappe.throw(_("discount percent cannot greater than 100 percent"))
-   
-		if self.docstatus ==0:
-			if self.working_day:
-				is_closed = frappe.db.get_value('Working Day', self.working_day,"is_closed")
-				if is_closed==1:
-					# frappe.throw(_("Working day {} is already closed".format(self.working_day)))
-					frappe.throw(_("Working day was closed"))
 
+		is_allow_user_edit_sale_after_close_working_day = frappe.db.get_single_value('ePOS Settings','allow_user_edit_sale')
+		if is_allow_user_edit_sale_after_close_working_day != 1:
+			if self.docstatus ==0:
+				if self.working_day:
+					is_closed = frappe.db.get_value('Working Day', self.working_day,"is_closed")
+					if is_closed==1:
+						# frappe.throw(_("Working day {} is already closed".format(self.working_day)))
+						frappe.throw(_("Working day was closed"))
 
-			if self.cashier_shift:
-				is_closed = frappe.db.get_value('Cashier Shift', self.cashier_shift,"is_closed")
-				if is_closed==1:
-					# frappe.throw(_("Cashier shift {} is already closed".format(self.cashier_shift)))
-					frappe.throw(_("Cashier shift was closed"))
+				if self.cashier_shift:
+					is_closed = frappe.db.get_value('Cashier Shift', self.cashier_shift,"is_closed")
+					if is_closed==1:
+						# frappe.throw(_("Cashier shift {} is already closed".format(self.cashier_shift)))
+						frappe.throw(_("Cashier shift was closed"))
 
 		#validate outlet
 		if self.outlet and self.business_branch:

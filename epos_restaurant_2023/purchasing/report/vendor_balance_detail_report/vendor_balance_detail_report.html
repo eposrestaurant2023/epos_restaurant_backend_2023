@@ -1,5 +1,4 @@
 
-<img src="file:///C:/Drive%20D/Support_Customer/Banteay%20Sora/Logo%20Official_Banteysoray-01.jpg">
 <h1 style="text-align: center">Banteay Sora 5.0</h1>
 <p style="text-align: center;font-size: 22px;">Vendor Balance Detail Report</p>
 <h5>
@@ -28,11 +27,8 @@
         {% }
     %}
 </h5>
-
-<h1>
-    {% d = frappe.db.get_single_value('Currency', 'currency_name') %}
-    {%console.log(d)%}
-</h1>
+{% main_currency = frappe.db.get_single_value('ePOS Settings','currency') %}
+{%console.log(main_currency)%}
 <hr/>
 <div style="text-align: center; margin-bottom: 14px;">
 <table class="report-list" style="width: 100%;">
@@ -71,31 +67,33 @@
 
                 {% if d.indent == 0%}
                     <td class="text-right" style="font-weight: bold;font-size: 14px; padding-left: 14px !important;">
-                        {{d.begining_balance}}
+                        {{main_currency.PromiseResult}}
+                        {{ format_currency(d.begining_balance, 'USD', 2) }}
                     </td>
                 {% else %}
                     <td class="text-right" style="font-size: 14px; padding-left: 14px !important;">
-                        {{d.begining_balance}}
+                        {{main_currency.PromiseResult}}
+                        {{ format_currency(d.begining_balance, 'USD', 2) }}
                     </td>
                 {% endif %}
 
                 {% if d.indent == 0%}
                     <td class="text-right" style="font-weight: bold;font-size: 14px; padding-left: 14px !important;">
-                        {{d.operation_balance}}
+                        {{ format_currency(d.operation_balance, 'USD', 2) }}
                     </td>
                 {% else %}
                     <td class="text-right" style="font-size: 14px; padding-left: 14px !important;">
-                        {{d.operation_balance}}
+                        {{ format_currency(d.operation_balance, 'USD', 2) }}
                     </td>
                 {% endif %}
                 
                 {% if d.indent == 0%}
                     <td class="text-right" style="font-weight: bold;font-size: 14px; padding-left: 14px !important;">
-                        {{d.last_balance}}
+                        {{ format_currency(d.last_balance, 'USD', 2) }}
                     </td>
                 {% else %}
                     <td class="text-right" style="font-size: 14px; padding-left: 14px !important;">
-                        {{d.last_balance}}
+                        {{ format_currency(d.last_balance, 'USD', 2) }}
                     </td>
                 {% endif %}
             </tr>

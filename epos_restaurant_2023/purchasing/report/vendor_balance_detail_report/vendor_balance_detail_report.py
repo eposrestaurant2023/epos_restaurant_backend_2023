@@ -135,4 +135,4 @@ def columns():
 		{"fieldname":"last_balance", "label":"Last Balance","fieldtype":"Currency"},
 
 	]
-
+currency = frappe.db.get_single_value('ePOS Settings','currency')
