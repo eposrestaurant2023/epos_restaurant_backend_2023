@@ -253,6 +253,14 @@ sale.vue.$onKeyStroke('Insert', (e)=>{
         
 })
 
+sale.vue.$onKeyStroke('Insert', (e)=>{
+  e.preventDefault();
+  if (sale.dialogActiveState === false) {
+    sale.onChoosePrinter(sale.sale);
+  }
+        
+})
+
 
 function onRedirectSaleType(){
     const redirect_sale_type = localStorage.getItem("redirect_sale_type") || null

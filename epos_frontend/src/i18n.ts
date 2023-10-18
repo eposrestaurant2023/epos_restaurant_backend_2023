@@ -6,10 +6,10 @@ async function loadLocaleMessages() {
 	let messages ={};
 	const frappe = new FrappeApp();
 	const db = frappe.db();
-	await	db.getDoc('POS Translation', (localStorage.getItem('lang')||"en") )
-	.then((docs) => {		 
-		messages = JSON.parse(`{"${docs.name}":${docs.translate_text}}`);		 
-	})  
+	//await	db.getDoc('POS Translation', (localStorage.getItem('lang')||"en") )
+	//.then((docs) => {		 
+		//messages = JSON.parse(`{"${docs.name}":${docs.translate_text}}`);		 
+	//})  
 	return messages;
   }
 

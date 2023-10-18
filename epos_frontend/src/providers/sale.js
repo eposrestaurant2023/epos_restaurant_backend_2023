@@ -731,6 +731,15 @@ export default class Sale {
         }
     }
 
+    async onChoosePrinter(p) {
+        if (!this.isBillRequested()) {
+            const result = await noteDialog({ title: $t("Choose Printer"), name: 'Choose Printer', data: p });
+            if (result != false) {
+                p.note = result
+            }
+        }
+    }
+
     async onSaleProductFree(sp) {
         let freeQty = 0;
         const result = sp.quantity == 1 ? 1 : await keyboardDialog({ title: $t("Change Free Quantity"), type: 'number', value: sp.quantity });
