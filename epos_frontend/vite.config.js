@@ -7,8 +7,10 @@ import proxyOptions from './proxyOptions';
 export default defineConfig({
 	plugins: [vue()],
 	server: {
-		port: 8080,
-		proxy: proxyOptions
+		host: true,
+		port: 1234,
+		proxy: proxyOptions,
+		open: true
 	},
 	resolve: {
 		alias: {
@@ -20,5 +22,5 @@ export default defineConfig({
 		emptyOutDir: true,
 		target: 'esnext'
 		// target: 'es2015',
-	}
+	},
 });
