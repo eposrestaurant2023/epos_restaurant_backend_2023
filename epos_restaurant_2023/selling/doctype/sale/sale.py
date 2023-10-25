@@ -45,7 +45,9 @@ class Sale(Document):
 						from frappe.model.naming import make_autoname
 						self.custom_bill_number = make_autoname(bill_number_prefix)
 
-
+			#set posting date to current working date
+			if self.working_day:
+				self.posting_date = frappe.db.get_value('Working Day',self.working_day,'posting_date')
 		if self.discount_type =="Percent" and self.discount> 100:
 			frappe.throw(_("discount percent cannot greater than 100 percent"))
 

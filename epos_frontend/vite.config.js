@@ -7,10 +7,8 @@ import proxyOptions from './proxyOptions';
 export default defineConfig({
 	plugins: [vue()],
 	server: {
-		host: true,
-		port: 1234,
-		proxy: proxyOptions,
-		open: true
+		port: 8080,
+		proxy: proxyOptions
 	},
 	resolve: {
 		alias: {

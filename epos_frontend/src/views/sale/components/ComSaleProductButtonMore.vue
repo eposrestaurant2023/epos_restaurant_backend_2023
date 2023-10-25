@@ -51,7 +51,7 @@
             </v-list-item>
             <v-list-item prepend-icon="mdi-cash-100" :title="$t('Tax Setting')" v-if="saleProduct.product_tax_rule"  @click="sale.onSaleProductChangeTaxSetting(saleProduct,gv)">
             </v-list-item>
-            <v-list-item prepend-icon="mdi-cash-100" :title="$t('Printer')"    @click="onSelectPrinter()">
+            <v-list-item prepend-icon="mdi-printer-pos" :title="$t('Printer')"    @click="onSelectPrinter()">
             </v-list-item>
         </v-list>
     </v-menu>
