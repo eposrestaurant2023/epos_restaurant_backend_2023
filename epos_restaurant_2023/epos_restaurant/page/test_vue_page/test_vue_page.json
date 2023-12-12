@@ -1,0 +1,19 @@
+{
+ "content": null,
+ "creation": "2023-10-30 14:39:28.162357",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2023-10-30 14:39:28.162357",
+ "modified_by": "Administrator",
+ "module": "ePOS Restaurant",
+ "name": "test-vue-page",
+ "owner": "Administrator",
+ "page_name": "test-vue-page",
+ "roles": [],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "Test Vue Page"
+}
