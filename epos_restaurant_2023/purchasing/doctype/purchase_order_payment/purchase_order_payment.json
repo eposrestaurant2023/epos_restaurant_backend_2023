@@ -168,6 +168,7 @@
    "fieldname": "balance",
    "fieldtype": "Currency",
    "label": "Balance",
+   "precision": "5",
    "read_only": 1
   },
   {
@@ -265,7 +266,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-06-28 11:07:38.794702",
+ "modified": "2024-01-12 15:25:26.906190",
  "modified_by": "Administrator",
  "module": "Purchasing",
  "name": "Purchase Order Payment",
