@@ -10,6 +10,7 @@ export default class Product {
         this.parentMenu = "";
         this.searchProductKeyword = "";
         this.searchProductKeywordStore = "";
+        this.is_open_product=0;
         this.selectedProduct = {};
         this.prices = [];
         this.modifiers = [];
@@ -103,6 +104,7 @@ export default class Product {
                     "use_combo_group",
                     "combo_menu_data",
                     "combo_group_data",
+                    "is_open_price",
                     'tax_rule',
                     'revenue_group',
                     'prices',
