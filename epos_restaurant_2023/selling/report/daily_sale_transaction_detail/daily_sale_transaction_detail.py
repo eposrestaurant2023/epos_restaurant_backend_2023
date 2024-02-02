@@ -23,7 +23,7 @@ def validate(filters):
 def get_columns():
 	return [
 		{"label":"Date", "fieldname":"creation","fieldtype":"Datetime", "align":"center", "width":100},
-		{"label":"Closed Date", "fieldname":"creation","fieldtype":"Datetime", "align":"center","width":120},
+		{"label":"Closed Date", "fieldname":"closed_date","fieldtype":"Datetime", "align":"center","width":120},
 		{"label":"INV #", "fieldname":"name","fieldtype":"Data", "align":"center","width":75},
   		{"label":"Customer Type", "fieldname":"customer_group","fieldtype":"Link","options":"Customer Group"},
 		{"label":"Customer Name", "fieldname":"customer_name","fieldtype":"Data"},
