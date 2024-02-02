@@ -813,14 +813,24 @@ def update_customer_bill_counter(pos_profile, counter):
 
 
 @frappe.whitelist()
-def upload_all_sale_data_to_google_sheet(business_branch,start_date,end_date,cashier_shift="All Shift"):
+def upload_all_sale_data_to_google_sheet(business_branch,start_date,end_date,cashier_shift=""):
     
     cred_json = frappe.db.get_value("Business Branch",business_branch,"google_account_credentials")
-    response = run(
+    response=[]
+    if cashier_shift == "":
+         response = run(
+			"Daily Sale Transaction Detail",
+			filters={"start_date": start_date, "end_date": end_date},
+			
+		)
+    else:
+         response = run(
 			"Daily Sale Transaction Detail",
 			filters={"start_date": start_date, "end_date": end_date,"cashier_shift":cashier_shift},
 			
 		)
+    
+   
     result = response.get("result")
     columns = response.get("columns")
 
