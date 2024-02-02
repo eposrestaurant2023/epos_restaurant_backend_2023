@@ -33,7 +33,9 @@
   "default_letter_head",
   "column_break_24",
   "cancellation_policy_section",
-  "cancellation_policy"
+  "cancellation_policy",
+  "upload_sale_data_to_google_sheet",
+  "google_account_credentials"
  ],
  "fields": [
   {
@@ -178,12 +180,24 @@
    "fieldname": "cancellation_policy",
    "fieldtype": "Text Editor",
    "label": "Cancellation Policy"
+  },
+  {
+   "default": "0",
+   "fieldname": "upload_sale_data_to_google_sheet",
+   "fieldtype": "Check",
+   "label": "Upload Sale Data To Google Sheet"
+  },
+  {
+   "fieldname": "google_account_credentials",
+   "fieldtype": "Code",
+   "label": "Google Account Credenials",
+   "options": "JSON"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-20 23:55:09.862105",
+ "modified": "2024-02-01 16:40:57.822039",
  "modified_by": "Administrator",
  "module": "Configuration",
  "name": "Business Branch",
